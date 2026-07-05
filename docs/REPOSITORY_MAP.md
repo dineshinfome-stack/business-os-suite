@@ -41,7 +41,7 @@ docs/
 ├── 01-master/                      Business Blueprint       (Authoritative)
 ├── 02-architecture/                Enterprise Architecture  (Authoritative)
 ├── 03-design/                      Design Standards         (Authoritative)
-├── 04-domains/                     Domain notes → Module PRDs (Pass 7+)
+├── 04-domains/                     Legacy domain notes       (Reference)
 ├── 05-adr/                         Legacy ADRs (Superseded) (Deprecated)
 ├── 06-integrations/                Integrations             (Reference)
 ├── 07-reports/                     Reports catalog          (Reference)
@@ -53,6 +53,7 @@ docs/
 ├── 12-ui-components/               UI components            (Reference)
 ├── 13-workflows/                   Workflow catalog         (Reference)
 ├── 14-localization/                Locale packs             (Reference)
+├── 20-module-prds/                 Module PRDs (MOD-001..018) (Authoritative)
 └── 99-templates/                   Document templates       (Reference)
 ```
 
