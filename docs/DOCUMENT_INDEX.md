@@ -275,9 +275,52 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Workflow Template | Template | Approved | Reference | `docs/99-templates/workflow-template.md` |
 | Workflows — Sales, Purchase, Inventory, Payroll, AMC, Field Visit | Reference | Approved | Reference | `docs/13-workflows/` |
 
+### Module PRDs (`docs/20-module-prds/`)
+
+| Document | Layer | Status | Authority | Path |
+| --- | --- | --- | --- | --- |
+| 20 Module PRDs — Overview | Module PRDs | Approved | Authoritative | `docs/20-module-prds/README.md` |
+| MOD-001 Platform Administration — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/platform/README.md` |
+| MOD-001 Platform Administration — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/platform/MODULE_PRD.md` |
+| MOD-002 Accounting — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/accounting/README.md` |
+| MOD-002 Accounting — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/accounting/MODULE_PRD.md` |
+| MOD-003 Sales — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/sales/README.md` |
+| MOD-003 Sales — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/sales/MODULE_PRD.md` |
+| MOD-004 Purchase — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/purchase/README.md` |
+| MOD-004 Purchase — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/purchase/MODULE_PRD.md` |
+| MOD-005 Inventory — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/inventory/README.md` |
+| MOD-005 Inventory — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/inventory/MODULE_PRD.md` |
+| MOD-006 CRM — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/crm/README.md` |
+| MOD-006 CRM — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/crm/MODULE_PRD.md` |
+| MOD-007 HRMS — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/hrms/README.md` |
+| MOD-007 HRMS — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/hrms/MODULE_PRD.md` |
+| MOD-008 Payroll — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/payroll/README.md` |
+| MOD-008 Payroll — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/payroll/MODULE_PRD.md` |
+| MOD-009 Manufacturing — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/manufacturing/README.md` |
+| MOD-009 Manufacturing — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/manufacturing/MODULE_PRD.md` |
+| MOD-010 Projects — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/projects/README.md` |
+| MOD-010 Projects — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/projects/MODULE_PRD.md` |
+| MOD-011 AMC — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/amc/README.md` |
+| MOD-011 AMC — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/amc/MODULE_PRD.md` |
+| MOD-012 Field Service — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/field-service/README.md` |
+| MOD-012 Field Service — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/field-service/MODULE_PRD.md` |
+| MOD-013 Assets — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/assets/README.md` |
+| MOD-013 Assets — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/assets/MODULE_PRD.md` |
+| MOD-014 Fleet — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/fleet/README.md` |
+| MOD-014 Fleet — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/fleet/MODULE_PRD.md` |
+| MOD-015 POS — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/pos/README.md` |
+| MOD-015 POS — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/pos/MODULE_PRD.md` |
+| MOD-016 Service Desk — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/service-desk/README.md` |
+| MOD-016 Service Desk — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/service-desk/MODULE_PRD.md` |
+| MOD-017 Analytics — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/analytics/README.md` |
+| MOD-017 Analytics — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/analytics/MODULE_PRD.md` |
+| MOD-018 AI Workspace — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/ai/README.md` |
+| MOD-018 AI Workspace — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/ai/MODULE_PRD.md` |
+
 ## References
 
 - `docs/REPOSITORY_MAP.md`
 - `docs/DOCUMENT_TRACEABILITY.md`
 - `docs/DOCUMENT_OWNERSHIP_MATRIX.md`
+- `docs/20-module-prds/README.md`
 - `docs/_meta.json`
