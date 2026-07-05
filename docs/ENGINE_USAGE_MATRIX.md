@@ -26,7 +26,7 @@ The **Engine Usage Matrix** is a pre-Pass 7 planning aid: for each ERP Core Engi
 - **Optional** — modules that may consume the engine depending on configuration or scope.
 - **Notes** — rationale, caveats, or references.
 
-Planned modules (Pass 7+ will confirm the definitive list): Accounting, Sales, Inventory, HRMS, Payroll, CRM, Manufacturing, Projects, AMC, Field Service, Assets, Fleet, POS, Service Desk, Analytics, AI, Platform.
+Modules (authoritative registry in `docs/20-module-prds/README.md`): Platform Administration (MOD-001), Accounting (MOD-002), Sales (MOD-003), Purchase (MOD-004), Inventory (MOD-005), CRM (MOD-006), HRMS (MOD-007), Payroll (MOD-008), Manufacturing (MOD-009), Projects (MOD-010), AMC (MOD-011), Field Service (MOD-012), Assets (MOD-013), Fleet (MOD-014), POS (MOD-015), Service Desk (MOD-016), Analytics (MOD-017), AI Workspace (MOD-018). On first mention in each row below, module names are shorthand for these identifiers.
 
 ## Maintenance Note
 
