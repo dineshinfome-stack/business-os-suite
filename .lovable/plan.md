@@ -1,61 +1,122 @@
-## Add ERP Core Engine Catalog (Revised)
+## Pass 6 — Decision Layer (ADR Repository)
 
-Create a single, lightweight master-index document that summarizes every ERP Core Engine in one table, with stable Engine IDs and an explicit "derived index" rule. Purely additive.
+Documentation-only. No code, config, packages, or route changes. Architecture (Passes 1–5) stays frozen; all future architectural evolution flows through ADRs.
 
-### New file: `docs/10-erp-core/ENGINE_CATALOG.md`
+### Handling the existing `docs/05-adr/` folder
 
-Frontmatter:
-- `title: "ERP Core Engine Catalog"`
-- `summary: "Master index of all ERP Core Engines: stable ID, category, version, status, stability, consumers, and dependencies."`
-- `layer: platform`, `owner: Platform`, `status: approved`, `updated: 2026-07-05`
-- `tags: [erp-core, catalog, index]`
-- `document_type: "ERP Core Guide"`
+The repo already contains `docs/05-adr/` with 12 stubs (`ADR-0000` template through `ADR-0011`) and a `docs/decision-register.md` stub. Approach:
 
-Sections:
+- Create the new authoritative tree at `docs/11-adrs/`.
+- Leave the old `docs/05-adr/` files in place; mark each with `status: superseded` in frontmatter and a one-line pointer to its replacement ADR ID in `docs/11-adrs/`. No deletions.
+- Update `docs/decision-register.md` to a thin redirect to `docs/11-adrs/ADR_INDEX.md`.
+- In `docs/_meta.json`, rename the existing "05 ADRs" group to "05 ADRs (Legacy — Superseded)" and add the new "11 Architecture Decision Records" group.
 
-1. **Purpose** — single source of truth for the engine ecosystem; supports architecture reviews, dependency analysis, AI-assisted generation, impact analysis, and onboarding. Not a spec — normative content lives in each engine document and in `README.md` (Dependency Rules, Matrix, Versioning Policy).
+If you'd rather delete `docs/05-adr/` outright, say so before build mode.
 
-2. **How to Read This Catalog** — column definitions. Note that `Used By` is intentionally coarse (module families / "All modules" / "Most modules" / "TBD Pass 7+") since business modules are not yet authored; `Depends On` lists direct engine dependencies only (event-only edges live in the Matrix in `README.md`).
+### Deliverables
 
-3. **Engine ID Scheme** — permanent identifiers of the form `ENG-NNN` (zero-padded, 3 digits, monotonically assigned).
-   - IDs are **stable**: never reassigned or reused, even if an engine is renamed, moved, or deprecated.
-   - Deprecated/removed engines keep their ID with `status: deprecated` or `removed`; the ID row is retained for historical traceability.
-   - ADRs, Module PRDs, Sprint PRDs, and AI prompts SHOULD reference engines by `ENG-NNN` to survive renames.
-   - Initial allocation follows the reading order in `README.md` (Foundation → Document → Workflow → Financial → Intelligence → Integration → Data Exchange → AI), producing `ENG-001` … `ENG-028`.
+**A. Governance & template**
 
-4. **Engine Catalog Table** — one row per engine (28 engines). Columns: **ID · Engine · Category · Version · Status · Stability · Used By · Depends On**. Each engine name links to its spec. Values sourced from each engine's frontmatter (`version`, `status`, `stability`, `engine_category`) and from the Dependency Matrix in `README.md`.
+- `docs/11-adrs/README.md` — purpose, lifecycle, numbering, reading order, relationships to Canon / Architecture / ERP Core Engines / Module & Sprint PRDs, amendment process, references. Contains, in order:
 
-5. **Maintenance Rules** — normative:
-   - The catalog is a **derived index** and MUST NOT introduce information that is not present in the corresponding engine specification or the ERP Core README. On any conflict, the engine spec and the Dependency Matrix win; the catalog is corrected.
-   - Any new engine, rename, version bump, status change, stability change, or dependency edge change MUST update this catalog in the same change.
-   - New engines receive the next unused `ENG-NNN`. IDs are never reused.
-   - `Depends On` MUST stay consistent with the Engine Dependency Matrix in `docs/10-erp-core/README.md`.
-   - `Used By` is updated as Module PRDs (Pass 7+) declare engine consumption.
+  1. **ADR Categories table** (after Reading Order):
 
-6. **Documentation Hierarchy** — short note clarifying the derivation chain:
-   `FOUNDATION_FREEZE_v1` → `ERP Core README` (rules, matrix, versioning) → `ENGINE_CATALOG` (derived index) → 28 engine specifications.
+     | Category | Purpose |
+     | --- | --- |
+     | Architecture | Structural decisions |
+     | Data | Data governance decisions |
+     | Platform | API / platform decisions |
+     | Security | Security decisions |
+     | AI | AI governance |
+     | Integration | Cross-system integration |
+     | DevOps | Runtime & operations |
+     | Engineering | Development practices |
+     | UI | Design standards |
 
-7. **References** — `docs/10-erp-core/README.md`, `docs/FOUNDATION_FREEZE_v1.md`, `docs/canon.md`.
+  2. **ADR Number Ranges** subsection:
+     - `ADR-001–009` → Architecture
+     - `ADR-010–019` → Data
+     - `ADR-020–029` → Platform
+     - `ADR-030–039` → Security
+     - `ADR-040–049` → AI
+     - `ADR-050–059` → Integration
+     - `ADR-060–069` → DevOps
+     - `ADR-070–079` → Engineering
+     - `ADR-080–089` → UI
+     - `ADR-090+` reserved for future categories.
 
-### `docs/_meta.json`
+     Rule: a new ADR MUST use the next unused number within its category's range. If a range fills, allocate the next unused block of 10 and record the extension here. IDs are permanent; ranges are structural guidance, not license to renumber.
 
-Register `10-erp-core/ENGINE_CATALOG` in the ERP Core Engines group immediately after the `10-erp-core/README` entry, so it appears as the second sidebar item in that section.
+  3. **ADR Review Cadence** subsection:
 
-### `docs/10-erp-core/README.md`
+     > Accepted ADRs are not permanent by default. They SHOULD be reviewed when one or more of the following occurs: a new Foundation baseline is proposed; a major platform capability is introduced or retired; a technology limitation materially affects business goals; security, regulatory, or compliance requirements change; an Accepted ADR is proposed to be superseded. Each ADR SHOULD record its next review trigger or explicitly state that no scheduled review is required.
 
-Add one sentence in the intro / Reading Order area pointing readers to `ENGINE_CATALOG.md` as the master index and noting it is a derived view. No structural changes; Dependency Graph, Rules, Matrix, and Versioning Policy stay in `README.md`.
+  4. **Observation for Pass 7+** (closing note):
+
+     > Beginning with Pass 7 (Domain / Module PRDs), platform architecture is considered complete. Module PRDs MUST consume Canon, Architecture, ERP Core Engines, and Accepted ADRs. They MUST NOT redefine platform behavior, architectural patterns, or reusable engine capabilities. If a Module PRD requires a change to platform behavior, the change MUST first be proposed through a new or superseding ADR; only after that ADR is Accepted may the Module PRD reference the updated behavior. Dependency direction: Foundation → Architecture → ERP Core Engines → ADRs → Module PRDs → Sprint PRDs → Implementation.
+
+- `docs/11-adrs/ADR_TEMPLATE.md` — mandatory template with every field: ADR ID, Title, Status, Date, Owner, Decision Type, Related Canon Chapters, Related Architecture Documents, **Affected Documents**, Related ERP Core Engines, Related Module PRDs, Context, Problem Statement, Decision, Alternatives Considered, Trade-offs, Consequences, Migration Strategy, Backward Compatibility, Risks, Rejected Options, Implementation Notes, Future Review Trigger, References.
+
+  Frontmatter schema: `adr_id`, `status`, `owner`, `category`, `created`, `updated`, `related_docs`, `related_engines`, **`affected_documents: []`**, `supersedes`, `superseded_by`.
+
+  **Affected Documents** section (placed immediately after "Related Architecture Documents") reads:
+
+  > List the documentation expected to require updates if this ADR is Accepted (for example: Master Architecture, API Architecture, ERP Core README, specific Engine documents, Module PRDs, or Coding Standards). This is an impact-analysis aid only — it does not authorize changes; it simply records the expected documentation surface affected by the decision.
+
+  The `Future Review Trigger` field is mandatory and MUST either name a trigger from the Review Cadence list or state "No scheduled review required".
+
+**B. ADR Index (master index)**
+
+- `docs/11-adrs/ADR_INDEX.md` — mirrors `ENGINE_CATALOG.md`. Single table with columns **ADR ID | Title | Category | Status | Related Engines | Supersedes | Superseded By**, ordered by ADR ID. Sections: Purpose, How to Read, Status legend (`Draft | Proposed | Accepted | Superseded | Deprecated | Rejected`), Derived-index rule (on any conflict the ADR file wins), Maintenance rule (adding/superseding/status change requires updating this index in the same change).
+
+**C. Category folders** under `docs/11-adrs/`:
+
+```text
+architecture/  data/  platform/  security/
+ai/            integration/  devops/  engineering/  ui/
+```
+
+Each folder gets a short `README.md` describing its scope and its reserved ID range.
+
+**D. Initial ADR set** — each ADR listed below is authored from the template (not stubs): filled Context, Problem Statement, Decision, Alternatives, Trade-offs, Consequences at Pass 5-level detail. Cross-referenced to Canon, relevant Architecture docs, and ERP Core Engine IDs (`ENG-001…ENG-028`). **Every initial ADR populates `affected_documents` where applicable** (empty array only when no downstream docs are affected). All ADRs use numbers within their category's reserved range.
+
+Status assignment:
+- **Accepted** (frozen by Canon / Foundation Freeze v1): ADR-001 Modular Monolith, ADR-002 DDD, ADR-003 Event-Driven Communication, ADR-004 Plugin Extension Model, ADR-005 Clean Architecture, ADR-011 Multi-Tenant Isolation, ADR-014 Audit Strategy, ADR-032 RBAC + ABAC.
+- **Proposed** (everything else): remains Proposed until implementation validates; each such ADR sets its Future Review Trigger.
+
+Files:
+
+- `architecture/` (001–009): ADR-001..006 (Modular Monolith, DDD, Event-Driven Communication, Plugin Extension Model, Clean Architecture, CQRS Usage Guidelines)
+- `data/` (010–019): ADR-010..016 (Postgres SoR, Multi-Tenant Isolation, UUID, Money Representation, Audit, Soft Delete, Versioning)
+- `platform/` (020–029): ADR-020..026 (API Style, API Versioning, Error Envelope, Pagination, Webhooks, Feature Flags, Configuration Hierarchy)
+- `security/` (030–039): ADR-030..036 (AuthN, AuthZ, RBAC+ABAC, Secrets Mgmt, Encryption, Data Classification, Audit Integrity)
+- `ai/` (040–049): ADR-040..045 (Provider Abstraction, Tool Calling, Human Approval, Prompt Governance, RAG, Cost Governance)
+- `integration/` (050–059): ADR-050..055 (Event Bus, Outbox, Retry, Idempotency, Dead Letter, External Integration Philosophy)
+- `devops/` (060–069): ADR-060..065 (Deployment Model, Environments, Release, Testing, Observability, DR)
+- `engineering/` (070–079): ADR-070..075 (Coding Standards, Doc Standards, Module Boundaries, Dependency Rules, Tech Debt, Backward Compatibility)
+- `ui/` (080–089): ADR-080..084 (Design Tokens, Accessibility, Localization, Offline UX, Navigation Standards)
+
+**E. Numbering & lifecycle**
+
+- Permanent IDs `ADR-001`..`ADR-999`. Never reused. Deprecated/rejected/superseded ADRs keep their ID with the appropriate status.
+- New ADRs claim the next unused number **within their category range**.
+- Statuses: `Draft | Proposed | Accepted | Superseded | Deprecated | Rejected`. Superseded ADRs link to their replacement via `superseded_by`.
+
+**F. Portal registration**
+
+- Add group **"11 Architecture Decision Records"** to `docs/_meta.json` with entries: README, ADR Index, ADR Template, and one sub-entry per category folder. Rename the existing "05 ADRs" group to "05 ADRs (Legacy — Superseded)". No route/UI/code changes.
 
 ### Non-goals
 
-- No changes to any engine specification.
-- No new dependency, versioning, or governance rules beyond the derivation rule and the ID scheme.
-- No implementation, ADRs, or vendor decisions.
+No code, config, schemas, endpoints, package changes, or edits to Pass 1–5 documents beyond adding ADR cross-references where already planned. No renumbering of existing engines. No new lifecycle states beyond the six listed.
 
 ### Acceptance criteria
 
-- `docs/10-erp-core/ENGINE_CATALOG.md` exists with all 28 engines listed and linked, grouped or ordered by the 8 categories, each assigned `ENG-001` … `ENG-028`.
-- Each row's Version/Status/Stability matches the corresponding engine's frontmatter; each row's Depends On is consistent with the Engine Dependency Matrix in `README.md`.
-- The catalog contains explicit "derived index" and "stable ID" maintenance rules.
-- `_meta.json` shows the catalog directly under the ERP Core README in the sidebar.
-- `README.md` links to the catalog from its intro/reading-order area.
-- Architecture layer and all engine specs untouched.
+- `docs/11-adrs/README.md` (ADR Categories table, ADR Number Ranges, ADR Review Cadence, Observation for Pass 7+), `ADR_TEMPLATE.md`, and `ADR_INDEX.md` exist and follow the mandatory schema.
+- `ADR_TEMPLATE.md` frontmatter includes `affected_documents: []`; template body has an "Affected Documents" section immediately after "Related Architecture Documents".
+- Nine category folders exist, each with a README that names its reserved ID range.
+- Each initial ADR is authored from the template with a permanent ID inside its category range, correct status, owner, cross-references, a populated `affected_documents` value where applicable, and a Future Review Trigger value.
+- `ADR_INDEX.md` contains one row per ADR authored, in ID order.
+- Legacy `docs/05-adr/` files marked `superseded` with pointers; `docs/decision-register.md` redirects to `ADR_INDEX.md`.
+- `docs/_meta.json` registers the new group and renames the legacy one; no other structural changes.
+- No source, config, or schema files touched.
