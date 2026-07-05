@@ -1,77 +1,159 @@
-# Pass 4D — Operational Architecture
+## Foundation Freeze v1 + Pass 5 — ERP Core Engines (Revised v3)
 
-**Final architecture documentation layer before ERP Core Engines (shared reusable platform capabilities).** Author ten vendor-neutral, normative documents that complete the architectural baseline before Pass 5.
+Two-part scope: (1) freeze the architectural baseline with a formal milestone document; (2) author the ERP Core Engines catalogue as a categorized, dependency-aware, versioned set of vendor-neutral platform capability specs. Documentation only — no routing, UI, package, or code changes.
 
-## Deliverables
+---
 
-Ten documents total. Nine core operational architecture documents plus one navigational index. All replace existing stubs unless marked new. All conform to Canon and Passes 4A/4B/4C.
+### Part 1 — Foundation Freeze v1
 
-### Architecture group (`docs/02-architecture/`)
+Create `docs/FOUNDATION_FREEZE_v1.md` (informational, 2–3 pages, no `depends_on`).
 
-0. **README.md** (new) — Architecture navigation index. Sections: Architecture Overview · Reading Order (Canon → Business Blueprint → Master Architecture → DDD → Domain Map → Data Constitution → Platform Constitution → Operational Architecture → ERP Core Engines) · Architecture Layers (Enterprise, Data, Platform, Operational) · Which Document Answers Which Question (table) · Cross-Reference Map · Architecture Governance (Canon = highest authority; ADRs amend; Engines build upon; PRDs consume) · **Architecture Evolution** (architecture documents are stable; architectural changes happen through ADRs; ERP Core Engines build on architecture; Module PRDs must not redefine architecture; Sprint PRDs implement Module PRDs) · References. Informational only — introduces no new principles.
+Contents:
+- Baseline identifier `Foundation v1.0` · freeze date · rationale
+- Completed passes: 1 (Doc Infra), 2 (Canon), 3 (Business Blueprint), 4A–4D (Architecture)
+- Versioned inventory of Canon, Business Blueprint, and Architecture documents
+- Governance statement: architectural changes → ADR; business changes → Business Blueprint amendment; engineering practices → Coding Standards
+- Readiness statement: cleared to begin Pass 5
+- Cross-reference map to Canon, Architecture Index, Domain Map, Decision Register
 
-1. **deployment-architecture.md** (replace stub) — Overview · Deployment Principles · Environment Strategy · Environment Promotion · Runtime Architecture · Scaling Principles · High Availability · Disaster Recovery Philosophy · Backup Philosophy · Restore Principles · Geographic Expansion Strategy · Configuration Management · Decisions Pending · Conforms to Canon · References.
+Register under **Overview** in `docs/_meta.json`.
 
-2. **devops-architecture.md** (replace stub) — Overview · DevOps Principles · Release Strategy · Branching Philosophy · Continuous Delivery Principles · Configuration Promotion · Artifact Strategy · Environment Governance · Feature Flag Philosophy · Release Governance · Rollback Principles · Change Management · Operational Readiness Reviews · Decisions Pending · Conforms to Canon · References.
+---
 
-3. **testing-strategy.md** (replace stub) — Overview · Testing Philosophy · Testing Pyramid · Unit · Integration · Contract · E2E · Performance · Security · Accessibility · Regression · Test Data · Test Environments · Quality Gates · Decisions Pending · Conforms to Canon · References.
+### Part 2 — Pass 5: ERP Core Engines
 
-4. **observability-architecture.md** (new) — Overview · Observability Principles · Logs · Metrics · Traces · Correlation Strategy · Health Model · Telemetry Strategy · Alerting Philosophy · Diagnostics · SLOs · Decisions Pending · Conforms to Canon · References.
+#### Folder layout
 
-5. **integration-architecture.md** (new) — Overview · Integration Principles · Internal Integration · External Integration · Integration Styles · Event Choreography · Event Orchestration · Retry Philosophy · Idempotency · Circuit Breaker · Dead Letter · Data Synchronization · Version Compatibility · Integration Security · Decisions Pending · Conforms to Canon · References.
+```text
+docs/10-erp-core/
+  README.md
+  foundation/
+    identity-engine.md                (new)
+    authorization-engine.md           (new)
+    permission-management-engine.md   (renamed from permission-engine.md)
+    audit-engine.md
+    configuration-engine.md           (new)
+    localization-engine.md
+  document/
+    document-engine.md
+    attachment-engine.md
+    file-storage-engine.md            (new)
+  workflow/
+    workflow-engine.md
+    approval-engine.md
+    rules-engine.md
+    automation-engine.md
+    scheduler-engine.md
+  financial/
+    voucher-engine.md
+    posting-engine.md
+    numbering-engine.md
+    currency-engine.md
+    tax-engine.md
+  intelligence/
+    search-engine.md
+    reporting-engine.md
+    dashboard-engine.md
+  integration/
+    integration-engine.md             (new)
+    event-engine.md                   (new)
+    notification-engine.md
+  data-exchange/
+    import-engine.md
+    export-engine.md
+  ai/
+    ai-copilot-engine.md              (new)
+```
 
-6. **quality-attributes.md** (new canonical NFR reference in `02-architecture/`) — Overview · Quality Attribute Principles · Availability · Reliability · Scalability · Performance · Maintainability · Extensibility · Security · Accessibility · Localization · Offline Capability · Recoverability · DR Objectives · Supportability · Operability · Quality Trade-offs · Decisions Pending · Conforms to Canon · References.
+Total: **1 README + 27 engine documents.** New: 7. Renamed: 1. Moved into subfolders: 20 existing stubs.
 
-### Design group (`docs/03-design/`)
+#### `docs/10-erp-core/README.md`
 
-7. **ui-ux-design-system.md** (replace stub) — Design Philosophy · Design Tokens · Color Principles · Typography · Spacing · Elevation · Responsive Grid · Component Library Principles · Forms · Tables · Navigation · Dashboard Standards · Mobile Standards · Accessibility · Dark Mode · Localization · Offline UX · Decisions Pending · Conforms to Canon · References.
+Navigational index (informational, no `depends_on`). Sections:
 
-8. **ux-standards.md** (replace stub / re-author) — UX Principles · User Journey Standards · Navigation Standards · Keyboard-first · ERP Data Entry Standards · Search UX · Filter UX · Bulk Operations UX · Error UX · Notification UX · Mobile UX · Offline UX · Accessibility · Internationalization UX · Decisions Pending · Conforms to Canon · References.
+- ERP Core Overview
+- Reading Order
+- Engine Categories (foundation · document · workflow · financial · intelligence · integration · data-exchange · ai)
+- **Dependency Graph** — visual ASCII diagram
+- **Dependency Rules** — explicit rules:
+  - Foundation engines must not depend on any other category.
+  - Financial engines may depend on Foundation and Workflow.
+  - Workflow engines may depend on Foundation only.
+  - Intelligence engines may consume Foundation, Financial, Document; must not own business logic.
+  - Integration engines communicate across boundaries; must not own business logic.
+  - AI engines may consume any engine but must not bypass Authorization, Audit, or Workflow.
+  - Data Exchange engines depend on Foundation and Document only.
+- **Engine Dependency Matrix** — markdown table immediately after the Dependency Graph. Rows = Consumer engines, Columns = Provider engines. Cells use `✓` (allowed), `▲` (event-only, no direct invocation), `—` (no dependency). Must remain synchronized with Dependency Rules. Purpose: validate layering, prevent cycles, support ADR reviews, aid AI retrieval.
+- **Engine Versioning Policy** — ERP Core Engines are versioned independently of business modules. Breaking changes require an approved ADR, migration strategy, and backward-compatibility guidance where applicable. Every engine document exposes Version, Status, Stability, and Change History. Business modules reference engine versions rather than assuming latest behavior.
+- Engine Ownership
+- Engine Lifecycle (draft → stable → deprecated)
+- How Modules Consume Engines
+- How ADRs Affect Engines
 
-9. **coding-standards.md** (replace stub) — Coding Principles · Clean Architecture Rules · DDD Rules · Type Safety Principles · Naming Standards · Folder Structure · Module Boundaries · Dependency Rules · Error Handling · Logging Rules · Documentation Standards · Code Review Standards · Technical Debt Policy · Decisions Pending · Conforms to Canon · References.
+#### Standard structure per engine
 
-## Consistency Requirements
+Overview · Responsibilities · **Capability Interface (conceptual)** · Data Model (conceptual) · Events Produced · Events Consumed · Configuration · **Capability Rules** *(renamed from "Business Rules" — clarifies these are reusable platform behaviors, not module business logic)* · Extension Points · **Dependencies (Provides To / Consumes From)** · Non-Functionals · Failure Modes · **Change History** · **Conforms to Canon** · **Decisions Pending** · References.
 
-Every normative doc includes:
-- Standard frontmatter with `depends_on` citing Passes 4A/4B/4C.
-- **Conforms to Canon** section citing specific Canon rules.
-- **Decisions Pending** table (topic · why deferred · rough window · owner) with ADR placeholders.
-- Vendor-neutral verbatim clause: *"Specific frameworks, runtime versions, vendors, and implementation choices are intentionally deferred to ADRs and implementation documentation."*
-- Cross-references to Master Architecture, API/Security/AI Architecture, Data Constitution, and Quality Attributes where applicable.
+#### Frontmatter (extended)
 
-The README is the only exception — navigation-index frontmatter; omits Decisions Pending and normative clauses.
+Every engine document adds:
 
-## Portal Updates
+```yaml
+engine_category: foundation | document | workflow | financial | intelligence | integration | data-exchange | ai
+engine_type: reusable-platform-capability
+stability: core
+version: 1.0.0
+status: draft | stable | deprecated
+```
 
-Update `docs/_meta.json`:
-- Under **02-architecture**: register **README as the first entry** (landing page). Then register Quality Attributes, Observability Architecture, Integration Architecture in logical order.
-- Under **03-design**: ensure Design System, UX Standards, and Coding Standards are registered.
+These fields drive filtering, navigation, dependency visualization, versioning discipline, and AI retrieval.
 
-No routing changes. No package additions. No UI changes.
+#### Normative rules
 
-## Non-Goals
+- Vendor-neutral (no framework / SDK / library / cloud names)
+- Platform capability only — no module business logic
+- Cites the architecture layer(s) it depends on
+- Every doc ends with Conforms to Canon + Decisions Pending
+- Identity (who), Authorization (what can you do now), Permission Management (who assigns what) are three distinct engines
+- Section title inside engine docs is **Capability Rules**, never "Business Rules"
 
-Cloud providers · CI/CD products · monitoring vendors · infrastructure tooling · frameworks · SDKs · module/engine implementation · ADR decisions · source code · test frameworks · lint configuration · Figma components · CSS frameworks.
+#### `docs/_meta.json` updates
 
-## Technical Details
+- Add Foundation Freeze under Overview.
+- Replace flat "10 ERP Core Engines" group with subcategory groups in order:
+  Foundation → Document → Workflow → Financial → Intelligence → Integration → Data Exchange → AI.
+- `README.md` appears first under Foundation (or as a dedicated "ERP Core — Index" heading).
+- Update paths for the 20 moved stubs and the renamed permission-management engine.
 
-- The existing `docs/quality-attributes.md` (root-level stub) is superseded by `docs/02-architecture/quality-attributes.md` and will be removed to avoid a stale duplicate; any references get re-pointed to the new path.
-- Wording "Final architecture layer" is replaced throughout Pass 4D artifacts with **"Final architecture documentation layer before ERP Core Engines (shared reusable platform capabilities)."**
-- Frontmatter `layer` values follow existing stub conventions (`platform`).
-- All ten documents authored in parallel file writes; `_meta.json` updated in the same batch.
+#### File operations summary
 
-## Acceptance Criteria
+- Create: `FOUNDATION_FREEZE_v1.md`, `10-erp-core/README.md`, 7 new engine docs
+- Move: 20 existing engine stubs into subfolders
+- Rename: `permission-engine.md` → `foundation/permission-management-engine.md`
+- Author (fill body of): all 27 engines with the standard structure and extended frontmatter
+- Update: `docs/_meta.json`
 
-- Ten documents authored (nine core + README index).
-- Architecture README present with reading order, layer explanations, question→document table, cross-reference map, governance section, and **Architecture Evolution** section; introduces no new principles.
-- Quality Attributes located at `docs/02-architecture/quality-attributes.md`; old root stub removed.
-- Observability and Integration Architecture authored as standalone documents.
-- UX Standards authored separately from the Design System.
-- Every normative doc contains Decisions Pending with ADR placeholders and Conforms to Canon citations.
-- Wording updated to "Final architecture documentation layer before ERP Core Engines."
-- `docs/_meta.json` updated: README first under 02-architecture; new architecture entries registered; design-group entries confirmed.
-- No implementation details, vendor names, product names, or code leak into any document.
+---
 
-## Completion Gate
+### Non-goals
 
-With Pass 4D complete, Passes 4A–4D form the full architectural baseline. Pass 5 (ERP Core Engines) may then begin.
+- No module/domain business logic
+- No ADR decisions inside engine docs (only Decisions Pending)
+- No source code, schemas, or API implementations
+- No vendor, framework, or cloud selection
+- No changes to Pass 1–4D documents (architecture remains frozen)
+
+---
+
+### Acceptance Criteria
+
+- `docs/FOUNDATION_FREEZE_v1.md` created and registered under Overview.
+- `docs/10-erp-core/README.md` includes: Overview, Reading Order, Engine Categories, Dependency Graph, **Dependency Rules**, **Engine Dependency Matrix** (with ✓ / ▲ / — legend), **Engine Versioning Policy**, Ownership, Lifecycle, Consumption, ADR impact.
+- 27 engine docs present under correct subfolders with the full standard structure.
+- Every engine contains "Capability Interface (conceptual)", "Capability Rules" (not "Business Rules"), "Dependencies (Provides To / Consumes From)", "Change History", "Conforms to Canon", and "Decisions Pending".
+- Every engine frontmatter includes `engine_category`, `engine_type`, `stability`, `version`, and `status`.
+- Identity, Authorization, and Permission Management coexist as three distinct engines.
+- Engine Dependency Matrix is consistent with Dependency Rules.
+- `docs/_meta.json` reflects new subcategory grouping and Foundation Freeze entry.
+- No changes outside `docs/`, `docs/10-erp-core/`, and `docs/_meta.json`.
+- Architecture layer (Pass 4A–4D) untouched.

@@ -34,6 +34,10 @@
         {
           "title": "Decision Register",
           "path": "decision-register"
+        },
+        {
+          "title": "Foundation Freeze v1",
+          "path": "FOUNDATION_FREEZE_v1"
         }
       ]
     },
@@ -186,7 +190,7 @@
       ]
     },
     {
-      "label": "04 Domains \u2014 Foundation",
+      "label": "04 Domains — Foundation",
       "items": [
         {
           "title": "Authentication",
@@ -235,7 +239,7 @@
       ]
     },
     {
-      "label": "04 Domains \u2014 Other",
+      "label": "04 Domains — Other",
       "items": [
         {
           "title": "Accounting",
@@ -525,91 +529,163 @@
       ]
     },
     {
-      "label": "10 ERP Core Engines",
+      "label": "10 ERP Core — Index",
       "items": [
         {
-          "title": "Voucher Engine",
-          "path": "10-erp-core/voucher-engine"
+          "title": "ERP Core Engines — Index",
+          "path": "10-erp-core/README"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — Foundation",
+      "items": [
+        {
+          "title": "Identity Engine",
+          "path": "10-erp-core/foundation/identity-engine"
         },
         {
-          "title": "Posting Engine",
-          "path": "10-erp-core/posting-engine"
+          "title": "Authorization Engine",
+          "path": "10-erp-core/foundation/authorization-engine"
         },
         {
-          "title": "Workflow Engine",
-          "path": "10-erp-core/workflow-engine"
-        },
-        {
-          "title": "Approval Engine",
-          "path": "10-erp-core/approval-engine"
-        },
-        {
-          "title": "Numbering Engine",
-          "path": "10-erp-core/numbering-engine"
-        },
-        {
-          "title": "Notification Engine",
-          "path": "10-erp-core/notification-engine"
-        },
-        {
-          "title": "Document Engine",
-          "path": "10-erp-core/document-engine"
+          "title": "Permission Management Engine",
+          "path": "10-erp-core/foundation/permission-management-engine"
         },
         {
           "title": "Audit Engine",
-          "path": "10-erp-core/audit-engine"
+          "path": "10-erp-core/foundation/audit-engine"
         },
         {
-          "title": "Permission Engine",
-          "path": "10-erp-core/permission-engine"
-        },
-        {
-          "title": "Currency Engine",
-          "path": "10-erp-core/currency-engine"
-        },
-        {
-          "title": "Tax Engine",
-          "path": "10-erp-core/tax-engine"
+          "title": "Configuration Engine",
+          "path": "10-erp-core/foundation/configuration-engine"
         },
         {
           "title": "Localization Engine",
-          "path": "10-erp-core/localization-engine"
-        },
+          "path": "10-erp-core/foundation/localization-engine"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — Document",
+      "items": [
         {
-          "title": "Search Engine",
-          "path": "10-erp-core/search-engine"
-        },
-        {
-          "title": "Reporting Engine",
-          "path": "10-erp-core/reporting-engine"
-        },
-        {
-          "title": "Dashboard Engine",
-          "path": "10-erp-core/dashboard-engine"
-        },
-        {
-          "title": "Import Engine",
-          "path": "10-erp-core/import-engine"
-        },
-        {
-          "title": "Export Engine",
-          "path": "10-erp-core/export-engine"
+          "title": "Document Engine",
+          "path": "10-erp-core/document/document-engine"
         },
         {
           "title": "Attachment Engine",
-          "path": "10-erp-core/attachment-engine"
+          "path": "10-erp-core/document/attachment-engine"
         },
         {
-          "title": "Scheduler Engine",
-          "path": "10-erp-core/scheduler-engine"
+          "title": "File Storage Engine",
+          "path": "10-erp-core/document/file-storage-engine"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — Workflow",
+      "items": [
+        {
+          "title": "Workflow Engine",
+          "path": "10-erp-core/workflow/workflow-engine"
         },
         {
-          "title": "Automation Engine",
-          "path": "10-erp-core/automation-engine"
+          "title": "Approval Engine",
+          "path": "10-erp-core/workflow/approval-engine"
         },
         {
           "title": "Rules Engine",
-          "path": "10-erp-core/rules-engine"
+          "path": "10-erp-core/workflow/rules-engine"
+        },
+        {
+          "title": "Automation Engine",
+          "path": "10-erp-core/workflow/automation-engine"
+        },
+        {
+          "title": "Scheduler Engine",
+          "path": "10-erp-core/workflow/scheduler-engine"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — Financial",
+      "items": [
+        {
+          "title": "Voucher Engine",
+          "path": "10-erp-core/financial/voucher-engine"
+        },
+        {
+          "title": "Posting Engine",
+          "path": "10-erp-core/financial/posting-engine"
+        },
+        {
+          "title": "Numbering Engine",
+          "path": "10-erp-core/financial/numbering-engine"
+        },
+        {
+          "title": "Currency Engine",
+          "path": "10-erp-core/financial/currency-engine"
+        },
+        {
+          "title": "Tax Engine",
+          "path": "10-erp-core/financial/tax-engine"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — Intelligence",
+      "items": [
+        {
+          "title": "Search Engine",
+          "path": "10-erp-core/intelligence/search-engine"
+        },
+        {
+          "title": "Reporting Engine",
+          "path": "10-erp-core/intelligence/reporting-engine"
+        },
+        {
+          "title": "Dashboard Engine",
+          "path": "10-erp-core/intelligence/dashboard-engine"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — Integration",
+      "items": [
+        {
+          "title": "Integration Engine",
+          "path": "10-erp-core/integration/integration-engine"
+        },
+        {
+          "title": "Event Engine",
+          "path": "10-erp-core/integration/event-engine"
+        },
+        {
+          "title": "Notification Engine",
+          "path": "10-erp-core/integration/notification-engine"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — Data Exchange",
+      "items": [
+        {
+          "title": "Import Engine",
+          "path": "10-erp-core/data-exchange/import-engine"
+        },
+        {
+          "title": "Export Engine",
+          "path": "10-erp-core/data-exchange/export-engine"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core — AI",
+      "items": [
+        {
+          "title": "AI Copilot Engine",
+          "path": "10-erp-core/ai/ai-copilot-engine"
         }
       ]
     },
