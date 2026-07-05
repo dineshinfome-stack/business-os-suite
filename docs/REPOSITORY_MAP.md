@@ -22,6 +22,7 @@ The **Repository Map** shows every documentation layer in the repository, its fo
 ```text
 docs/
 ├── FOUNDATION_FREEZE_v1.md        Foundation Freeze         (Authoritative)
+├── PRODUCT_DOCUMENTATION_BASELINE_v1.md Product Docs Baseline (Authoritative)
 ├── canon.md                        Canon                    (Authoritative)
 ├── glossary.md                     Glossary                 (Authoritative)
 ├── governance.md                   Governance               (Authoritative)
@@ -61,7 +62,7 @@ docs/
 
 ### Foundation
 
-- **Path:** `docs/FOUNDATION_FREEZE_v1.md`, `docs/canon.md`
+- **Path:** `docs/FOUNDATION_FREEZE_v1.md`, `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md`, `docs/canon.md`
 - **Owner:** Platform
 - **Purpose:** Freezes non-negotiable architectural baselines and canonical vocabulary.
 - **Authority:** Authoritative. Only changes through a new Foundation Freeze revision.
