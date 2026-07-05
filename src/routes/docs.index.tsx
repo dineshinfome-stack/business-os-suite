@@ -80,6 +80,27 @@ function DocsIndex() {
       </section>
 
       <section>
+        <h2 className="mb-3 text-lg font-semibold">Business Blueprint</h2>
+        <p className="mb-3 max-w-2xl text-sm text-muted-foreground">
+          Eight documents that answer <em>what</em> BusinessOS is — the strategic layer between the Canon and the architecture.
+          Every document conforms to the Canon and ends with a References block.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {BUSINESS_BLUEPRINT_LINKS.map((q) => (
+            <Link
+              key={q.path}
+              to="/docs/$"
+              params={{ _splat: q.path }}
+              className="block rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary/50 hover:bg-muted/40"
+            >
+              <div className="font-medium">{q.title}</div>
+              <div className="mt-1 text-sm text-muted-foreground">{q.desc}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section>
         <h2 className="mb-3 text-lg font-semibold">Capability-layer roadmap</h2>
         <ol className="space-y-2">
           {CAPABILITY_LAYERS.map((l, i) => (
