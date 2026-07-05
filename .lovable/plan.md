@@ -1,110 +1,146 @@
-# Pass 3 (v3, final — approved) — Business Blueprint
+# Pass 4A — Enterprise Architecture Foundation (v2)
 
-Approved as written. No structural changes. Recording the follow-up guidance so it is not lost between passes.
+Authors the top of the architecture stack: **Master Architecture**, **Domain-Driven Design**, and **Domain Map**. Every document conforms to the Canon and the Business Blueprint. No database, API, security implementation, deployment, DevOps, engine, ADR, or module content.
 
-## Charter
+## Deliverables
 
-Pass 2 authored **how** BusinessOS must be built (the Canon). Pass 3 authors **what** BusinessOS is — the complete business blueprint. All eight documents ship together as one coherent strategic layer, before any architecture or module work begins.
+### 1. `docs/02-architecture/master-architecture.md`
 
-Every document in this pass:
+`document_type: "Architecture"`. The definitive architectural blueprint. Long-form (25–40 pages equivalent).
 
-- Conforms to the Canon (RFC 2119 language where normative).
-- Opens with a **"Conforms to Canon"** block citing the Canon chapters it must align with.
-- Uses the extended metadata block supported by `src/lib/docs.ts` (`document_type`, `version`, `created`, `updated`, `depends_on`, `referenced_by`, `owner`, `status`, `tags`).
+Sections:
 
-## Deliverables — eight documents
+1. **Executive Summary**
+2. **Architectural Vision**
+3. **Architectural Drivers** — Business / Technical / Quality Attribute / Regulatory.
+4. **Quality Attributes** — Availability, Scalability, Performance, Reliability, Maintainability, Extensibility, Observability, Security, Localization, Offline Capability, Disaster Recovery. Targets anchored to `performance.md` and `quality-attributes.md`, not duplicated.
+5. **Constraints** — Business / Technology / Compliance / Performance.
+6. **Architectural Style** — Cloud Native, Modular Monolith, Event-Driven, API-First, DDD, Clean Architecture, CQRS (where justified), Plugin Architecture. Each with an explicit **why chosen**.
+7. **Architecture Views** — Logical, Application, Domain, Data (high-level), Infrastructure (high-level), Integration, Security (conceptual), Deployment (conceptual). Mermaid diagrams per view.
+8. **Cross-Cutting Concerns** — Logging, Auditing, Caching, Notifications, Workflow, Localization, Configuration, Feature Flags, Scheduling, File Storage, Search, AI. Each: purpose, ownership, ERP Core Engine reference (no engine specs).
+9. **Architecture Principles Catalog** — canonical section, template per principle:
+   - Principle
+   - Motivation
+   - Implementation Direction
+   - Trade-offs
+   - Examples
+   - Related Canon Chapters
+   - Related ADR (placeholder)
+   Principles include: PostgreSQL as system of record, Modular Monolith by default, Bounded Contexts strict, Event-Driven Cross-Context, Configuration-as-Data, API-First, Mobile-First, Offline-First, AI-First with human-in-the-loop, Localization-First, Multi-Tenancy at the data-model layer, Plugin extension over core patches, Shared ERP Core Engines, Idempotent side effects, Audit everywhere, Least-Privilege by default.
+10. **Technology Overview** — vendor-neutral. Verbatim framing at the top of the section:
 
-### 1. Vision — `docs/00-vision/vision.md`
+    > *Technology capabilities and architectural roles are described. Specific frameworks, runtime versions, vendors, and implementation choices are intentionally deferred to ADRs and implementation documentation.*
 
-Why BusinessOS exists; problems solved; market positioning; 10-year vision; target industries; target customers; **competitive positioning** contrasting philosophy, UX, architectural approach, and target market vs Tally, Odoo, Zoho, SAP Business One, and Dynamics 365 (not a feature checklist); business philosophy (AI-first, mobile-first, configuration-over-customization, localization-first, unified data model); non-goals. `document_type: "Vision"`.
+    Content is capability/role only (e.g. "relational RDBMS as system of record", "event bus with at-least-once delivery", "object storage for attachments"), never library names or versions.
+11. **Risks** — cross-references Risk Register IDs (`R-###`); no duplication.
+12. **Future Evolution** — service-extraction trigger conditions per Canon 3.3; multi-region evolution; on-prem readiness path.
+13. **Architectural Decisions Pending** — new section. Lists topics that intentionally remain unresolved and MUST be addressed through future ADRs. Each entry has: **topic**, **why deferred**, **rough decision window** (roadmap layer), **owner**. Seed list:
+    - Event Bus implementation (in-process vs external broker)
+    - Search architecture (embedded vs external engine; per-tenant index policy)
+    - Cache strategy (layers, invalidation, tenant scoping)
+    - File / object storage (residency, lifecycle, signed access)
+    - AI provider abstraction (single vs multi-provider gateway; routing policy)
+    - Multi-region deployment (active-passive vs active-active; residency-aware routing)
+    - CQRS materialization strategy per high-read domain
+    - Analytics store (same OLTP vs separate OLAP)
+    - Metering and entitlement subsystem placement (from Business Model §12)
+    - Plugin runtime sandboxing model
+14. **References**.
 
-### 2. Master PRD — `docs/01-master/prd.md`
+### 2. `docs/02-architecture/domain-driven-design.md`
 
-Single largest document. Table of contents for the entire ERP. Executive Summary; Personas; User Journeys; Modules (cross-linked to `04-domains/**`); Functional Scope (by capability layer); Non-functional Requirements (anchored to `performance.md`, `quality-attributes.md`); Business Rules (`08-business-rules/**`); Constraints; Integrations (`06-integrations/**`); Reporting (`07-reports/**`); AI Surfaces (`09-ai/**`); Mobile; Security & Compliance; product-level Acceptance Criteria; Dependencies; Open Questions. Assumptions and risks live in their own registers (§7, §8). `document_type: "Master PRD"`.
+`document_type: "Architecture"`. The DDD strategy. Long-form (20–30 pages equivalent).
 
-### 3. Product Roadmap — `docs/01-master/roadmap.md`
+Sections:
 
-Organized strictly by **capability layers**:
+- **DDD Philosophy** — why DDD, how it interlocks with the Modular Monolith.
+- **Bounded Context Strategy** — definition, sizing, ownership.
+- **Domain Evolution Rules** — new subsection. Rules for how the domain map is allowed to change over time:
+  - When to **split** a bounded context (signals: aggregate contention, divergent lifecycles, distinct ubiquitous language, distinct SLAs).
+  - When to **merge** contexts (signals: perpetual cross-context transactions, shared aggregate identity, one team owning both).
+  - When to introduce a **new Shared Kernel** (strict criteria — Canon 3.R3 disallows shared entity classes across contexts; Shared Kernel is reserved for genuinely cross-cutting value objects).
+  - When to introduce an **Anti-Corruption Layer** (integrating with an external system whose model would corrupt ours; wrapping a legacy or deprecated context during migration).
+  - How **domain ownership** changes — governance path, ADR requirement, event/API compatibility obligations, deprecation windows.
+  - Change control — every split/merge/ownership change MUST be captured as an ADR before code moves.
+- **Ubiquitous Language** — per-context glossaries; deprecation and reuse policy (glossary governance itself is a deferred document).
+- **Context Mapping** — Shared Kernel, Anti-Corruption Layer, Open Host Service, Published Language, Separate Ways, Customer/Supplier, Conformist. When to use each.
+- **Building Blocks** — Aggregate Rules, Entity Rules, Value Objects, Repositories, Factories, Domain Services, Application Services, Policies, Specifications.
+- **Domain Events** — event kinds, versioning, contract stability, ordering guarantees at conceptual level.
+- **Commands vs Queries** — write model vs read model; when CQRS is justified.
+- **Consistency** — Transaction Boundaries, Aggregate Consistency, Eventual Consistency, Saga vs Process Manager (conceptual).
+- **Module and Domain Ownership** — how bounded contexts map to modules and teams.
+- **Naming Conventions** — for aggregates, events (past tense), commands (imperative), services; casing, suffixes.
+- **When NOT to use DDD** — simple reporting-only surfaces, integration adapters, throwaway automations.
+- **Cross-references**.
 
-```text
-Platform → Financial → Operations → Business → People → Intelligence
-```
+Mermaid diagrams: aggregate-inside-context, context-map legend, event-driven cross-context write flow.
 
-Each layer: Goals, Deliverables, Dependencies, Exit Criteria (measurable — reference `performance.md` and Canon Ch. 13 DoD), Risks (summaries; full entries in Risk Register). Plus overall milestones, phasing, and a cross-layer dependency graph (Mermaid, inline). `document_type: "Roadmap"`.
+### 3. `docs/02-architecture/domain-map.md`
 
-### 4. Business Model — `docs/01-master/business-model.md` (new)
+`document_type: "Architecture"`. Long-form (15–20 pages equivalent).
 
-SaaS licensing; Editions (indicative); Pricing philosophy (per-user / per-company / per-module / capacity-based; regional pricing India vs GCC vs global); Marketplace; Plugin ecosystem (revenue share, certification); AI usage model (included vs metered, guardrails per Canon Ch. 9); API monetization; architectural implications (metering, entitlement, plan-gated features — flags future ADRs, does not decide them). `document_type: "Business Model"`.
+Section per domain (18 domains): Foundation, Accounting, Inventory, Sales, Purchase, Manufacturing, CRM, Projects, AMC, Field Service, HRMS, Payroll, Assets, Fleet, POS, Service Desk, Analytics, AI.
 
-### 5. Product Scope — `docs/01-master/scope.md` (new)
+Each domain declares:
 
-- **In Scope:** Accounting, Inventory, CRM, HRMS, Payroll, Projects, AMC, Field Service, Manufacturing, POS, Sales, Purchase, Assets, Fleet, Analytics, AI Copilot.
-- **Out of Scope initially:** CAD/PLM, implementation consulting services, general-purpose e-commerce storefront, social networking, generic no-code app builder, custom industry verticals beyond stated targets.
-- **Deferred:** advanced MES, treasury, multi-legal-entity consolidation beyond baseline.
-- **Scope Change Procedure:** ties into `governance.md` and Canon amendment procedure.
+- Purpose
+- Responsibilities
+- Owned aggregates (names only, no schemas)
+- Published events (names + trigger)
+- Consumed events (names + reason)
+- External integrations (categories, not vendors)
+- Upstream dependencies
+- Downstream dependencies
 
-`document_type: "Product Scope"`.
+Diagrams (Mermaid):
 
-### 6. Success Metrics — `docs/01-master/success-metrics.md` (new)
+- **Context map** — all 18 domains with typed relationships (Customer/Supplier, ACL, Shared Kernel, Published Language).
+- **Dependency diagram** — DAG of upstream/downstream at the domain level.
+- **Event flow diagram** — cross-context events for order-to-cash, procure-to-pay, hire-to-payslip.
+- **Ownership diagram** — capability-layer to domain mapping.
 
-- **Product:** time to first company setup, first invoice, first voucher; module activation rate; feature adoption.
-- **Technical:** dashboard first paint; API p95; list/search latency; report generation; mobile sync round-trip; uptime; error budgets (anchored to `performance.md`, `quality-attributes.md`).
-- **Business:** retention, NPS, expansion revenue, AI adoption, marketplace adoption, partner-sourced revenue.
-
-Every metric declared with definition, target, measurement method, owner. `document_type: "Success Metrics"`.
-
-### 7. Assumptions Register — `docs/01-master/assumptions.md` (new)
-
-Table: `ID`, `Assumption`, `Category` (technical / product / regulatory / commercial / operational), `Rationale`, `Impact if invalidated`, `Owner`, `Status` (active / promoted-to-ADR / invalidated), `Review cadence`. Seed entries: PostgreSQL as system of record; India-first, GCC-next; offline-first mobile; swappable AI provider; cloud-first (on-prem not Phase-1). `document_type: "Assumptions Register"`.
-
-### 8. Risk Register — `docs/01-master/risk-register.md` (new)
-
-Table: `ID`, `Risk`, `Category`, `Description`, `Impact`, `Probability`, `Mitigation`, `Contingency`, `Owner`, `Status`, `Review cadence`. Categories: technical, regulatory, product, adoption, AI, marketplace, operational, security. Adoption risks include **migration friction from legacy ERP and accounting systems (including Tally, Zoho, Odoo, spreadsheets, and custom solutions)**. `document_type: "Risk Register"`.
+Explicitly **not** included: tables, columns, APIs, endpoint paths, wire formats.
 
 ## Cross-document integrity
 
-- Every document opens with a **Conforms to Canon** section listing specific chapter numbers.
-- Every document ends with **References** linking related documents (Vision ↔ PRD ↔ Roadmap ↔ Business Model ↔ Scope ↔ Metrics ↔ Assumptions ↔ Risks, plus Canon).
-- `depends_on` / `referenced_by` frontmatter populated so the portal reverse-index renders correctly.
+Each document opens with **Conforms to Canon** (specific chapter numbers) and ends with **References** to Canon, Vision, Master PRD, Roadmap, Business Model, Scope, Success Metrics, Assumptions, Risk Register (plus the sibling architecture docs in this pass). Frontmatter uses the extended metadata block, with `depends_on` and `referenced_by` populated.
 
 ## Portal updates
 
-- `src/routes/docs.index.tsx` — new "Business Blueprint" quick-link group directly after the Canon.
-- `docs/_meta.json` — register the five new files under `01-master` in intended order: Master PRD, Roadmap, Business Model, Product Scope, Success Metrics, Assumptions Register, Risk Register.
-- No routing, component, or package changes.
+`docs/_meta.json` — under `02 Architecture`, confirm the first three entries are, in order:
+
+1. Master Architecture (`02-architecture/master-architecture`)
+2. Domain-Driven Design (`02-architecture/domain-driven-design`)
+3. Domain Map (`02-architecture/domain-map`)
+
+Existing entries for these paths are already stubs registered in the meta. No new entries added in this pass.
+
+No routing, package, or UI changes.
 
 ## Files touched
 
-- Author (new): `docs/01-master/business-model.md`, `scope.md`, `success-metrics.md`, `assumptions.md`, `risk-register.md`.
-- Author (replace stubs): `docs/00-vision/vision.md`, `docs/01-master/prd.md`, `docs/01-master/roadmap.md`.
-- Edit: `docs/_meta.json`, `src/routes/docs.index.tsx`.
+- Replace stubs: `docs/02-architecture/master-architecture.md`, `docs/02-architecture/domain-driven-design.md`, `docs/02-architecture/domain-map.md`.
+- Confirm order in `docs/_meta.json` (edit only if the three are not already first in the `02 Architecture` group).
 
-## Explicit non-goals for Pass 3
+## Explicit non-goals for Pass 4A
 
-- No architecture, engine, ADR, or module content.
-- No new npm packages, routes, or components.
-- No back-fill of metadata into unrelated skeleton docs.
-- **Deferred to later stand-alone passes:** `docs/01-master/stakeholders.md` (Stakeholder Register) and `docs/glossary-governance.md` (Terminology Policy). Recorded so they are not forgotten; **not** authored in Pass 3.
+- No Database Architecture, Multi-Tenant Architecture, Database Standards, Data Dictionary.
+- No API, Security, AI, Deployment, DevOps, Testing architecture docs.
+- No ERP Core Engine specs.
+- No ADRs authored (placeholders only — "Related ADR: TBD" is allowed).
+- No module PRDs, database schemas, API contracts, entities, tables, wireframes, or code.
+- No back-fill of frontmatter into unrelated skeleton docs.
 
-## Post-Pass-3 review checklist (before starting Pass 4)
+## Review checklist
 
-Applied by the user (and re-checked by the agent when Pass 4A begins) against the generated content:
+- Consistent with the Canon (every principle cites chapter numbers).
+- Consistent with the Business Blueprint (Vision, PRD, Roadmap, Scope, Business Model).
+- Domain boundaries are clear and non-overlapping.
+- Every domain has explicit responsibilities, published events, consumed events, and dependencies.
+- Mermaid diagrams render correctly.
+- Technology Overview is vendor-neutral end to end.
+- Architectural Decisions Pending explicitly lists every intentionally-deferred topic with an owner.
+- Domain Evolution Rules cover split, merge, Shared Kernel, ACL, and ownership change.
+- No implementation details leaked (no table names, no endpoint paths, no library names, no versions).
 
-- No duplicated concepts between Vision and Master PRD.
-- No contradictions between Business Model and Product Scope.
-- Roadmap phases match the capability layers exactly.
-- Success metrics are measurable, not aspirational (each has target + measurement method + owner).
-- Any "assumption" that is actually a design decision is flagged for promotion to an ADR in Pass 6.
-
-## Pass 4 will be split (recorded, approved individually later)
-
-```text
-Pass 4A  Master Architecture, Domain-Driven Design, Domain Map
-Pass 4B  Database Architecture, Multi-Tenant Architecture, Database Standards, Data Dictionary
-Pass 4C  API Architecture, Security Architecture, AI Architecture
-Pass 4D  Deployment, DevOps, Testing Strategy, UI/UX Design System, UX Standards, Coding Standards
-```
-
-Then: Pass 5 ERP Core Engines → Pass 6 ADRs → Pass 7+ Domain / Module PRDs.
-
-Approve to author the Business Blueprint.
+Approve to author Master Architecture, Domain-Driven Design, and Domain Map.

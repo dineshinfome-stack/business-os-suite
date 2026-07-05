@@ -99,6 +99,14 @@
           "path": "02-architecture/master-architecture"
         },
         {
+          "title": "Domain-Driven Design",
+          "path": "02-architecture/domain-driven-design"
+        },
+        {
+          "title": "Domain Map",
+          "path": "02-architecture/domain-map"
+        },
+        {
           "title": "Database Architecture",
           "path": "02-architecture/database-architecture"
         },
@@ -109,14 +117,6 @@
         {
           "title": "Data Dictionary",
           "path": "02-architecture/data-dictionary"
-        },
-        {
-          "title": "Domain-Driven Design",
-          "path": "02-architecture/domain-driven-design"
-        },
-        {
-          "title": "Domain Map",
-          "path": "02-architecture/domain-map"
         },
         {
           "title": "Multi-Tenant Architecture",
