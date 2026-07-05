@@ -222,7 +222,7 @@
       ]
     },
     {
-      "label": "04 Domains — Foundation",
+      "label": "04 Domains \u2014 Foundation",
       "items": [
         {
           "title": "Authentication",
@@ -271,7 +271,7 @@
       ]
     },
     {
-      "label": "04 Domains — Other",
+      "label": "04 Domains \u2014 Other",
       "items": [
         {
           "title": "Accounting",
@@ -340,20 +340,56 @@
       ]
     },
     {
-      "label": "05 ADRs (Legacy — Superseded)",
+      "label": "05 ADRs (Legacy \u2014 Superseded)",
       "items": [
-        { "title": "Legacy ADR Template", "path": "05-adr/ADR-0000-template" },
-        { "title": "ADR-0001: Tech Stack (superseded)", "path": "05-adr/ADR-0001-tech-stack" },
-        { "title": "ADR-0002: Multi-Tenant Strategy (superseded)", "path": "05-adr/ADR-0002-multi-tenant-strategy" },
-        { "title": "ADR-0003: Event Bus (superseded)", "path": "05-adr/ADR-0003-event-bus" },
-        { "title": "ADR-0004: PostgreSQL (superseded)", "path": "05-adr/ADR-0004-database-postgres" },
-        { "title": "ADR-0005: CQRS Scope (superseded)", "path": "05-adr/ADR-0005-cqrs-scope" },
-        { "title": "ADR-0006: Clean Architecture + DDD (superseded)", "path": "05-adr/ADR-0006-clean-architecture-ddd" },
-        { "title": "ADR-0007: REST-First API (superseded)", "path": "05-adr/ADR-0007-api-style-rest-first" },
-        { "title": "ADR-0008: AI Copilot Pattern (superseded)", "path": "05-adr/ADR-0008-ai-copilot-pattern" },
-        { "title": "ADR-0009: Offline Strategy (superseded)", "path": "05-adr/ADR-0009-offline-strategy" },
-        { "title": "ADR-0010: Plugin Framework (superseded)", "path": "05-adr/ADR-0010-plugin-framework" },
-        { "title": "ADR-0011: Capability-Layer Roadmap (superseded)", "path": "05-adr/ADR-0011-capability-layer-roadmap" }
+        {
+          "title": "Legacy ADR Template",
+          "path": "05-adr/ADR-0000-template"
+        },
+        {
+          "title": "ADR-0001: Tech Stack (superseded)",
+          "path": "05-adr/ADR-0001-tech-stack"
+        },
+        {
+          "title": "ADR-0002: Multi-Tenant Strategy (superseded)",
+          "path": "05-adr/ADR-0002-multi-tenant-strategy"
+        },
+        {
+          "title": "ADR-0003: Event Bus (superseded)",
+          "path": "05-adr/ADR-0003-event-bus"
+        },
+        {
+          "title": "ADR-0004: PostgreSQL (superseded)",
+          "path": "05-adr/ADR-0004-database-postgres"
+        },
+        {
+          "title": "ADR-0005: CQRS Scope (superseded)",
+          "path": "05-adr/ADR-0005-cqrs-scope"
+        },
+        {
+          "title": "ADR-0006: Clean Architecture + DDD (superseded)",
+          "path": "05-adr/ADR-0006-clean-architecture-ddd"
+        },
+        {
+          "title": "ADR-0007: REST-First API (superseded)",
+          "path": "05-adr/ADR-0007-api-style-rest-first"
+        },
+        {
+          "title": "ADR-0008: AI Copilot Pattern (superseded)",
+          "path": "05-adr/ADR-0008-ai-copilot-pattern"
+        },
+        {
+          "title": "ADR-0009: Offline Strategy (superseded)",
+          "path": "05-adr/ADR-0009-offline-strategy"
+        },
+        {
+          "title": "ADR-0010: Plugin Framework (superseded)",
+          "path": "05-adr/ADR-0010-plugin-framework"
+        },
+        {
+          "title": "ADR-0011: Capability-Layer Roadmap (superseded)",
+          "path": "05-adr/ADR-0011-capability-layer-roadmap"
+        }
       ]
     },
     {
@@ -525,10 +561,10 @@
       ]
     },
     {
-      "label": "10 ERP Core — Index",
+      "label": "10 ERP Core \u2014 Index",
       "items": [
         {
-          "title": "ERP Core Engines — Index",
+          "title": "ERP Core Engines \u2014 Index",
           "path": "10-erp-core/README"
         },
         {
@@ -538,7 +574,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — Foundation",
+      "label": "10 ERP Core \u2014 Foundation",
       "items": [
         {
           "title": "Identity Engine",
@@ -567,7 +603,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — Document",
+      "label": "10 ERP Core \u2014 Document",
       "items": [
         {
           "title": "Document Engine",
@@ -584,7 +620,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — Workflow",
+      "label": "10 ERP Core \u2014 Workflow",
       "items": [
         {
           "title": "Workflow Engine",
@@ -609,7 +645,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — Financial",
+      "label": "10 ERP Core \u2014 Financial",
       "items": [
         {
           "title": "Voucher Engine",
@@ -634,7 +670,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — Intelligence",
+      "label": "10 ERP Core \u2014 Intelligence",
       "items": [
         {
           "title": "Search Engine",
@@ -651,7 +687,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — Integration",
+      "label": "10 ERP Core \u2014 Integration",
       "items": [
         {
           "title": "Integration Engine",
@@ -668,7 +704,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — Data Exchange",
+      "label": "10 ERP Core \u2014 Data Exchange",
       "items": [
         {
           "title": "Import Engine",
@@ -681,7 +717,7 @@
       ]
     },
     {
-      "label": "10 ERP Core — AI",
+      "label": "10 ERP Core \u2014 AI",
       "items": [
         {
           "title": "AI Copilot Engine",
@@ -692,18 +728,54 @@
     {
       "label": "11 Architecture Decision Records",
       "items": [
-        { "title": "ADR Repository", "path": "11-adrs/README" },
-        { "title": "ADR Index", "path": "11-adrs/ADR_INDEX" },
-        { "title": "ADR Template", "path": "11-adrs/ADR_TEMPLATE" },
-        { "title": "Architecture ADRs", "path": "11-adrs/architecture/README" },
-        { "title": "Data ADRs", "path": "11-adrs/data/README" },
-        { "title": "Platform ADRs", "path": "11-adrs/platform/README" },
-        { "title": "Security ADRs", "path": "11-adrs/security/README" },
-        { "title": "AI ADRs", "path": "11-adrs/ai/README" },
-        { "title": "Integration ADRs", "path": "11-adrs/integration/README" },
-        { "title": "DevOps ADRs", "path": "11-adrs/devops/README" },
-        { "title": "Engineering ADRs", "path": "11-adrs/engineering/README" },
-        { "title": "UI ADRs", "path": "11-adrs/ui/README" }
+        {
+          "title": "ADR Repository",
+          "path": "11-adrs/README"
+        },
+        {
+          "title": "ADR Index",
+          "path": "11-adrs/ADR_INDEX"
+        },
+        {
+          "title": "ADR Template",
+          "path": "11-adrs/ADR_TEMPLATE"
+        },
+        {
+          "title": "Architecture ADRs",
+          "path": "11-adrs/architecture/README"
+        },
+        {
+          "title": "Data ADRs",
+          "path": "11-adrs/data/README"
+        },
+        {
+          "title": "Platform ADRs",
+          "path": "11-adrs/platform/README"
+        },
+        {
+          "title": "Security ADRs",
+          "path": "11-adrs/security/README"
+        },
+        {
+          "title": "AI ADRs",
+          "path": "11-adrs/ai/README"
+        },
+        {
+          "title": "Integration ADRs",
+          "path": "11-adrs/integration/README"
+        },
+        {
+          "title": "DevOps ADRs",
+          "path": "11-adrs/devops/README"
+        },
+        {
+          "title": "Engineering ADRs",
+          "path": "11-adrs/engineering/README"
+        },
+        {
+          "title": "UI ADRs",
+          "path": "11-adrs/ui/README"
+        }
       ]
     },
     {
@@ -716,6 +788,87 @@
         {
           "title": "ERD Template",
           "path": "11-erd/_template"
+        }
+      ]
+    },
+    {
+      "label": "20 Module PRDs",
+      "items": [
+        {
+          "title": "README",
+          "path": "20-module-prds/README"
+        },
+        {
+          "title": "MOD-001 Platform Administration",
+          "path": "20-module-prds/platform/README"
+        },
+        {
+          "title": "MOD-002 Accounting",
+          "path": "20-module-prds/accounting/README"
+        },
+        {
+          "title": "MOD-003 Sales",
+          "path": "20-module-prds/sales/README"
+        },
+        {
+          "title": "MOD-004 Purchase",
+          "path": "20-module-prds/purchase/README"
+        },
+        {
+          "title": "MOD-005 Inventory",
+          "path": "20-module-prds/inventory/README"
+        },
+        {
+          "title": "MOD-006 CRM",
+          "path": "20-module-prds/crm/README"
+        },
+        {
+          "title": "MOD-007 HRMS",
+          "path": "20-module-prds/hrms/README"
+        },
+        {
+          "title": "MOD-008 Payroll",
+          "path": "20-module-prds/payroll/README"
+        },
+        {
+          "title": "MOD-009 Manufacturing",
+          "path": "20-module-prds/manufacturing/README"
+        },
+        {
+          "title": "MOD-010 Projects",
+          "path": "20-module-prds/projects/README"
+        },
+        {
+          "title": "MOD-011 AMC",
+          "path": "20-module-prds/amc/README"
+        },
+        {
+          "title": "MOD-012 Field Service",
+          "path": "20-module-prds/field-service/README"
+        },
+        {
+          "title": "MOD-013 Assets",
+          "path": "20-module-prds/assets/README"
+        },
+        {
+          "title": "MOD-014 Fleet",
+          "path": "20-module-prds/fleet/README"
+        },
+        {
+          "title": "MOD-015 POS",
+          "path": "20-module-prds/pos/README"
+        },
+        {
+          "title": "MOD-016 Service Desk",
+          "path": "20-module-prds/service-desk/README"
+        },
+        {
+          "title": "MOD-017 Analytics",
+          "path": "20-module-prds/analytics/README"
+        },
+        {
+          "title": "MOD-018 AI Workspace",
+          "path": "20-module-prds/ai/README"
         }
       ]
     },
