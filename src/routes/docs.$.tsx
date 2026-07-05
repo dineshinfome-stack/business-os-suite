@@ -74,7 +74,7 @@ function DocPage() {
         {fm.summary && <p className="mt-2 text-muted-foreground">{fm.summary}</p>}
         {fm.tags && fm.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1">
-            {fm.tags.map((t) => (
+            {fm.tags.map((t: string) => (
               <span
                 key={t}
                 className="rounded border border-border bg-muted/40 px-2 py-0.5 text-xs"
@@ -94,7 +94,7 @@ function DocPage() {
             Depends on
           </h2>
           <ul className="text-sm">
-            {fm.depends_on.map((d) => (
+            {fm.depends_on.map((d: string) => (
               <li key={d}>
                 <code className="rounded bg-muted px-1 py-0.5">{d}</code>
               </li>
