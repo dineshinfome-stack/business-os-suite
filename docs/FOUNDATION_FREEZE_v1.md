@@ -140,4 +140,5 @@ From `Foundation v1.0` onward:
 | Governance & Traceability layer | Pass 6.5 | Complete |
 | Module PRDs (`MOD-001` … `MOD-018`) | Pass 7 | Complete |
 | Product Documentation Baseline v1 | Pass 7.5 | Complete — see [`PRODUCT_DOCUMENTATION_BASELINE_v1.md`](./PRODUCT_DOCUMENTATION_BASELINE_v1.md) |
-| Sprint PRDs / Implementation Planning | Pass 8 | Cleared to begin |
+| Sprint PRD Framework (Scaffolding) | Pass 8 | In Progress — Scaffolding Complete (see [`30-sprint-prds/README.md`](./30-sprint-prds/README.md), [`SPRINT_CATALOG.md`](./SPRINT_CATALOG.md)) |
+| Sprint PRD Authoring | Pass 8.x | Per-module, iterative |

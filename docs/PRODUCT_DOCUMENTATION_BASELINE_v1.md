@@ -124,6 +124,8 @@ Each downstream layer consumes the upstream layers and never redefines them.
 - **ADR Index** — [`docs/11-adrs/ADR_INDEX.md`](./11-adrs/ADR_INDEX.md)
 - **Module Catalog** — [`docs/MODULE_CATALOG.md`](./MODULE_CATALOG.md)
 - **Module PRDs layer** — [`docs/20-module-prds/README.md`](./20-module-prds/README.md)
+- **Sprint PRDs layer** — [`docs/30-sprint-prds/README.md`](./30-sprint-prds/README.md)
+- **Sprint Catalog** — [`docs/SPRINT_CATALOG.md`](./SPRINT_CATALOG.md)
 
 ---
 

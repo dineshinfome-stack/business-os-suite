@@ -55,6 +55,8 @@ docs/
 ├── 13-workflows/                   Workflow catalog         (Reference)
 ├── 14-localization/                Locale packs             (Reference)
 ├── 20-module-prds/                 Module PRDs (MOD-001..018) (Authoritative)
+├── 30-sprint-prds/                 Sprint PRDs (SPR-MOD-NNN-NNN) (Authoritative — scaffolded)
+├── SPRINT_CATALOG.md               Sprint catalog            (Derived)
 └── 99-templates/                   Document templates       (Reference)
 ```
 
@@ -111,10 +113,10 @@ docs/
 
 ### Sprint PRDs (Pass 8+)
 
-- **Path:** to be introduced
+- **Path:** `docs/30-sprint-prds/` (scaffolded — layer README + 18 module subfolders; sprints authored iteratively in Pass 8.x)
 - **Owner:** Engineering
-- **Purpose:** Sprint-level slices of a Module PRD.
-- **Authority:** Authoritative for the sprint scope; must not contradict its Module PRD.
+- **Purpose:** Implementation-ready slices of Module PRDs. Every sprint has a permanent `SPR-MOD-NNN-NNN` identifier and a mutable `iteration` label.
+- **Authority:** Authoritative for the sprint scope; must not contradict its Module PRD or any upstream layer. `SPRINT_CATALOG.md` is the derived index.
 
 ### Reference Documents
 

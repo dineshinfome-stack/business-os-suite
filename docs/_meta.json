@@ -873,6 +873,87 @@
       ]
     },
     {
+      "label": "30 Sprint PRDs",
+      "items": [
+        {
+          "title": "README",
+          "path": "30-sprint-prds/README"
+        },
+        {
+          "title": "MOD-001 Platform Administration",
+          "path": "30-sprint-prds/platform/README"
+        },
+        {
+          "title": "MOD-002 Accounting",
+          "path": "30-sprint-prds/accounting/README"
+        },
+        {
+          "title": "MOD-003 Sales",
+          "path": "30-sprint-prds/sales/README"
+        },
+        {
+          "title": "MOD-004 Purchase",
+          "path": "30-sprint-prds/purchase/README"
+        },
+        {
+          "title": "MOD-005 Inventory",
+          "path": "30-sprint-prds/inventory/README"
+        },
+        {
+          "title": "MOD-006 CRM",
+          "path": "30-sprint-prds/crm/README"
+        },
+        {
+          "title": "MOD-007 HRMS",
+          "path": "30-sprint-prds/hrms/README"
+        },
+        {
+          "title": "MOD-008 Payroll",
+          "path": "30-sprint-prds/payroll/README"
+        },
+        {
+          "title": "MOD-009 Manufacturing",
+          "path": "30-sprint-prds/manufacturing/README"
+        },
+        {
+          "title": "MOD-010 Projects",
+          "path": "30-sprint-prds/projects/README"
+        },
+        {
+          "title": "MOD-011 AMC",
+          "path": "30-sprint-prds/amc/README"
+        },
+        {
+          "title": "MOD-012 Field Service",
+          "path": "30-sprint-prds/field-service/README"
+        },
+        {
+          "title": "MOD-013 Assets",
+          "path": "30-sprint-prds/assets/README"
+        },
+        {
+          "title": "MOD-014 Fleet",
+          "path": "30-sprint-prds/fleet/README"
+        },
+        {
+          "title": "MOD-015 POS",
+          "path": "30-sprint-prds/pos/README"
+        },
+        {
+          "title": "MOD-016 Service Desk",
+          "path": "30-sprint-prds/service-desk/README"
+        },
+        {
+          "title": "MOD-017 Analytics",
+          "path": "30-sprint-prds/analytics/README"
+        },
+        {
+          "title": "MOD-018 AI Workspace",
+          "path": "30-sprint-prds/ai/README"
+        }
+      ]
+    },
+    {
       "label": "12 UI Components",
       "items": [
         {

@@ -66,6 +66,9 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Authorization Engine | ERP Core | Approved | Authoritative | `docs/10-erp-core/foundation/authorization-engine.md` |
 | Automation Engine | ERP Core | Approved | Authoritative | `docs/10-erp-core/workflow/automation-engine.md` |
 | Product Documentation Baseline v1 | Foundation | Approved | Authoritative | `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md` |
+| Sprint PRDs — Layer README | Delivery | Approved | Authoritative | `docs/30-sprint-prds/README.md` |
+| Sprint PRD Template | Template | Approved | Authoritative | `docs/99-templates/sprint-prd-template.md` |
+| Sprint Catalog | Cross-cutting | Approved | Derived | `docs/SPRINT_CATALOG.md` |
 
 ### B
 
