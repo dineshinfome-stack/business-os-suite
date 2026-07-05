@@ -1,6 +1,6 @@
 ---
 title: "Module Catalog"
-summary: "Placeholder catalog of every planned BusinessOS module or bounded context currently in scope. Planning metadata only; PRDs land in Pass 7+."
+summary: "Catalog of every BusinessOS module (MOD-001..MOD-018): stable identifier, status, primary domain, PRD path, and planned owner."
 layer: "platform"
 owner: "Platform"
 status: "approved"
@@ -11,52 +11,53 @@ document_type: "Governance Guide"
 
 # Module Catalog
 
-> **Derived document.** Planning metadata only. Authoritative module specifications land in Pass 7+ Module PRDs under `docs/04-domains/`. On any conflict, the Module PRD wins.
+> **Derived document.** Projection of `docs/20-module-prds/`. Authoritative module behavior lives in each `MODULE_PRD.md`. On any conflict, the Module PRD wins and this catalog is corrected in the same change.
 
 ## Purpose
 
-The **Module Catalog** enumerates every BusinessOS module (or bounded context) currently in scope, together with its planned status, primary domain, expected engine dependencies, and planned owner. It is a pre-Pass 7 planning aid: it does **not** specify behavior and MUST NOT be used as a source of truth for module design.
+The **Module Catalog** enumerates every BusinessOS module or bounded context, keyed by its permanent `MOD-NNN` identifier. Rows link to the authoritative Module PRD.
 
 ## How to Read
 
-- **Module Name** — the working name of the module or bounded context.
-- **Status** — all entries are `Planned` until their Module PRD lands.
+- **Module ID** — permanent identifier of the form `MOD-NNN`. Never reassigned or reused.
+- **Module Name** — human-readable name (may evolve; the ID does not).
+- **Status** — `Planned` before the PRD lands, `Authored` after.
 - **Primary Domain** — the business domain the module owns.
-- **Planned PRD** — the expected location of the future Module PRD.
-- **Expected Engine Dependencies** — ERP Core engines the module is expected to consume (indicative; final list is set by the Module PRD).
-- **Planned Owner** — the owning team or role.
+- **PRD Path** — link to the module's `MODULE_PRD.md`.
+- **Engine Dependencies** — see Section 12 of the PRD (authoritative).
+- **Owner** — the owning team.
 
 ## Maintenance Note
 
-This catalog SHOULD be regenerated or reviewed whenever a Module PRD is authored, renamed, or its scope changes, and whenever a new module or bounded context is proposed. It MUST NOT become an independent source of truth.
+This catalog SHOULD be regenerated or reviewed whenever a Module PRD is added, renamed, superseded, or its scope changes. It MUST NOT become an independent source of truth.
 
 ## Catalog
 
-| Module Name | Status | Primary Domain | Planned PRD | Expected Engine Dependencies | Planned Owner |
-| --- | --- | --- | --- | --- | --- |
-| Accounting | Planned | Finance | `docs/04-domains/accounting/` | ENG-001..006, 007..009, 011, 015..019, 021, 024, 026, 027 | Finance |
-| Sales | Planned | Revenue | `docs/04-domains/sales/` | ENG-001..006, 007..009, 010, 011, 013, 015, 017..019, 021, 024, 025, 026, 027 | Revenue |
-| Purchase | Planned | Procurement | `docs/04-domains/purchase/` | ENG-001..006, 007..009, 010, 011, 015..019, 021, 024, 026, 027 | Procurement |
-| Inventory | Planned | Supply Chain | `docs/04-domains/inventory/` | ENG-001..006, 007..009, 012, 015, 017, 020, 021, 024, 026, 027 | Supply Chain |
-| HRMS | Planned | People | `docs/04-domains/hr/` | ENG-001..006, 007..009, 010, 011, 013, 014, 021, 024, 025, 026, 027 | People |
-| Payroll | Planned | People | `docs/04-domains/payroll/` | ENG-001..006, 011, 014, 015..019, 021, 024, 026, 027 | People |
-| CRM | Planned | Customer | `docs/04-domains/crm/` | ENG-001..006, 007, 008, 012, 013, 020, 021, 022, 023, 024, 025, 027 | Revenue |
-| Manufacturing | Planned | Operations | `docs/04-domains/manufacturing/` | ENG-001..006, 007..009, 010, 011, 012, 014, 015, 017, 021, 024, 026, 027 | Operations |
-| Projects | Planned | Delivery | `docs/04-domains/projects/` | ENG-001..006, 007..009, 010, 011, 014, 015, 017, 021, 022, 024, 026, 027 | Delivery |
-| AMC | Planned | Service | `docs/04-domains/amc/` | ENG-001..006, 007..009, 010, 011, 013, 014, 021, 024, 025, 027 | Service |
-| Field Service | Planned | Service | `docs/04-domains/field-service/` | ENG-001..006, 007..009, 010, 013, 014, 021, 023, 024, 025, 027 | Service |
-| Assets | Planned | Operations | `docs/04-domains/assets/` | ENG-001..006, 007, 008, 014, 021, 024, 026, 027 | Operations |
-| Fleet | Planned | Operations | `docs/04-domains/fleet/` | ENG-001..006, 007, 008, 014, 021, 023, 024, 025, 027 | Operations |
-| POS | Planned | Revenue | `docs/04-domains/pos/` | ENG-001..006, 007, 015..019, 021, 023, 024, 025, 027 | Revenue |
-| Service Desk | Planned | Service | `docs/04-domains/service-desk/` | ENG-001..006, 007..009, 010..013, 020, 021, 022, 024, 025, 027 | Service |
-| Analytics | Planned | Insights | `docs/04-domains/analytics/` | ENG-001..006, 020, 021, 022, 024, 026, 027, 028 | Insights |
-| AI | Planned | Platform / AI | `docs/09-ai/` + future `docs/04-domains/ai/` | ENG-001..006, 011, 020, 021, 022, 024, 028 | AI Platform |
-| Platform | Planned | Platform | `docs/04-domains/foundation/` (extended) | ENG-001..028 | Platform |
+| Module ID | Module Name | Status | Primary Domain | PRD | Engine Dependencies | Owner |
+| --- | --- | --- | --- | --- | --- | --- |
+| MOD-001 | Platform Administration | Authored | Platform | [`docs/20-module-prds/platform/MODULE_PRD.md`](./20-module-prds/platform/MODULE_PRD.md) | See Section 12 of the PRD | Platform |
+| MOD-002 | Accounting | Authored | Finance | [`docs/20-module-prds/accounting/MODULE_PRD.md`](./20-module-prds/accounting/MODULE_PRD.md) | See Section 12 of the PRD | Finance |
+| MOD-003 | Sales | Authored | Revenue | [`docs/20-module-prds/sales/MODULE_PRD.md`](./20-module-prds/sales/MODULE_PRD.md) | See Section 12 of the PRD | Revenue |
+| MOD-004 | Purchase | Authored | Procurement | [`docs/20-module-prds/purchase/MODULE_PRD.md`](./20-module-prds/purchase/MODULE_PRD.md) | See Section 12 of the PRD | Procurement |
+| MOD-005 | Inventory | Authored | Supply Chain | [`docs/20-module-prds/inventory/MODULE_PRD.md`](./20-module-prds/inventory/MODULE_PRD.md) | See Section 12 of the PRD | Supply Chain |
+| MOD-006 | CRM | Authored | Customer | [`docs/20-module-prds/crm/MODULE_PRD.md`](./20-module-prds/crm/MODULE_PRD.md) | See Section 12 of the PRD | Revenue |
+| MOD-007 | HRMS | Authored | People | [`docs/20-module-prds/hrms/MODULE_PRD.md`](./20-module-prds/hrms/MODULE_PRD.md) | See Section 12 of the PRD | People |
+| MOD-008 | Payroll | Authored | People | [`docs/20-module-prds/payroll/MODULE_PRD.md`](./20-module-prds/payroll/MODULE_PRD.md) | See Section 12 of the PRD | People |
+| MOD-009 | Manufacturing | Authored | Operations | [`docs/20-module-prds/manufacturing/MODULE_PRD.md`](./20-module-prds/manufacturing/MODULE_PRD.md) | See Section 12 of the PRD | Operations |
+| MOD-010 | Projects | Authored | Delivery | [`docs/20-module-prds/projects/MODULE_PRD.md`](./20-module-prds/projects/MODULE_PRD.md) | See Section 12 of the PRD | Delivery |
+| MOD-011 | AMC | Authored | Service | [`docs/20-module-prds/amc/MODULE_PRD.md`](./20-module-prds/amc/MODULE_PRD.md) | See Section 12 of the PRD | Service |
+| MOD-012 | Field Service | Authored | Service | [`docs/20-module-prds/field-service/MODULE_PRD.md`](./20-module-prds/field-service/MODULE_PRD.md) | See Section 12 of the PRD | Service |
+| MOD-013 | Assets | Authored | Operations | [`docs/20-module-prds/assets/MODULE_PRD.md`](./20-module-prds/assets/MODULE_PRD.md) | See Section 12 of the PRD | Operations |
+| MOD-014 | Fleet | Authored | Operations | [`docs/20-module-prds/fleet/MODULE_PRD.md`](./20-module-prds/fleet/MODULE_PRD.md) | See Section 12 of the PRD | Operations |
+| MOD-015 | POS | Authored | Revenue | [`docs/20-module-prds/pos/MODULE_PRD.md`](./20-module-prds/pos/MODULE_PRD.md) | See Section 12 of the PRD | Revenue |
+| MOD-016 | Service Desk | Authored | Service | [`docs/20-module-prds/service-desk/MODULE_PRD.md`](./20-module-prds/service-desk/MODULE_PRD.md) | See Section 12 of the PRD | Service |
+| MOD-017 | Analytics | Authored | Insights | [`docs/20-module-prds/analytics/MODULE_PRD.md`](./20-module-prds/analytics/MODULE_PRD.md) | See Section 12 of the PRD | Insights |
+| MOD-018 | AI Workspace | Authored | AI | [`docs/20-module-prds/ai/MODULE_PRD.md`](./20-module-prds/ai/MODULE_PRD.md) | See Section 12 of the PRD | AI Platform |
 
 ## References
 
+- `docs/20-module-prds/README.md`
 - `docs/10-erp-core/ENGINE_CATALOG.md`
 - `docs/ENGINE_USAGE_MATRIX.md`
-- `docs/02-architecture/domain-map.md`
 - `docs/DOCUMENT_TRACEABILITY.md`
 - `docs/99-templates/module-prd-template.md`
