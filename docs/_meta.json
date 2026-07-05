@@ -70,6 +70,22 @@
         {
           "title": "Module Catalog",
           "path": "MODULE_CATALOG"
+        },
+        {
+          "title": "Sprint Authoring Guide",
+          "path": "SPRINT_AUTHORING_GUIDE"
+        },
+        {
+          "title": "Sprint Roadmap",
+          "path": "SPRINT_ROADMAP"
+        },
+        {
+          "title": "Sprint Estimation Guide",
+          "path": "SPRINT_ESTIMATION_GUIDE"
+        },
+        {
+          "title": "Sprint Dependency Matrix",
+          "path": "SPRINT_DEPENDENCY_MATRIX"
         }
       ]
     },
