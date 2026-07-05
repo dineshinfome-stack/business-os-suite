@@ -308,56 +308,20 @@
       ]
     },
     {
-      "label": "05 ADRs",
+      "label": "05 ADRs (Legacy — Superseded)",
       "items": [
-        {
-          "title": "ADR Template",
-          "path": "05-adr/ADR-0000-template"
-        },
-        {
-          "title": "ADR-0001: Tech Stack",
-          "path": "05-adr/ADR-0001-tech-stack"
-        },
-        {
-          "title": "ADR-0002: Multi-Tenant Strategy",
-          "path": "05-adr/ADR-0002-multi-tenant-strategy"
-        },
-        {
-          "title": "ADR-0003: Event Bus",
-          "path": "05-adr/ADR-0003-event-bus"
-        },
-        {
-          "title": "ADR-0004: PostgreSQL",
-          "path": "05-adr/ADR-0004-database-postgres"
-        },
-        {
-          "title": "ADR-0005: CQRS Scope",
-          "path": "05-adr/ADR-0005-cqrs-scope"
-        },
-        {
-          "title": "ADR-0006: Clean Architecture + DDD",
-          "path": "05-adr/ADR-0006-clean-architecture-ddd"
-        },
-        {
-          "title": "ADR-0007: REST-First API",
-          "path": "05-adr/ADR-0007-api-style-rest-first"
-        },
-        {
-          "title": "ADR-0008: AI Copilot Pattern",
-          "path": "05-adr/ADR-0008-ai-copilot-pattern"
-        },
-        {
-          "title": "ADR-0009: Offline Strategy",
-          "path": "05-adr/ADR-0009-offline-strategy"
-        },
-        {
-          "title": "ADR-0010: Plugin Framework",
-          "path": "05-adr/ADR-0010-plugin-framework"
-        },
-        {
-          "title": "ADR-0011: Capability-Layer Roadmap",
-          "path": "05-adr/ADR-0011-capability-layer-roadmap"
-        }
+        { "title": "Legacy ADR Template", "path": "05-adr/ADR-0000-template" },
+        { "title": "ADR-0001: Tech Stack (superseded)", "path": "05-adr/ADR-0001-tech-stack" },
+        { "title": "ADR-0002: Multi-Tenant Strategy (superseded)", "path": "05-adr/ADR-0002-multi-tenant-strategy" },
+        { "title": "ADR-0003: Event Bus (superseded)", "path": "05-adr/ADR-0003-event-bus" },
+        { "title": "ADR-0004: PostgreSQL (superseded)", "path": "05-adr/ADR-0004-database-postgres" },
+        { "title": "ADR-0005: CQRS Scope (superseded)", "path": "05-adr/ADR-0005-cqrs-scope" },
+        { "title": "ADR-0006: Clean Architecture + DDD (superseded)", "path": "05-adr/ADR-0006-clean-architecture-ddd" },
+        { "title": "ADR-0007: REST-First API (superseded)", "path": "05-adr/ADR-0007-api-style-rest-first" },
+        { "title": "ADR-0008: AI Copilot Pattern (superseded)", "path": "05-adr/ADR-0008-ai-copilot-pattern" },
+        { "title": "ADR-0009: Offline Strategy (superseded)", "path": "05-adr/ADR-0009-offline-strategy" },
+        { "title": "ADR-0010: Plugin Framework (superseded)", "path": "05-adr/ADR-0010-plugin-framework" },
+        { "title": "ADR-0011: Capability-Layer Roadmap (superseded)", "path": "05-adr/ADR-0011-capability-layer-roadmap" }
       ]
     },
     {
@@ -691,6 +655,23 @@
           "title": "AI Copilot Engine",
           "path": "10-erp-core/ai/ai-copilot-engine"
         }
+      ]
+    },
+    {
+      "label": "11 Architecture Decision Records",
+      "items": [
+        { "title": "ADR Repository", "path": "11-adrs/README" },
+        { "title": "ADR Index", "path": "11-adrs/ADR_INDEX" },
+        { "title": "ADR Template", "path": "11-adrs/ADR_TEMPLATE" },
+        { "title": "Architecture ADRs", "path": "11-adrs/architecture/README" },
+        { "title": "Data ADRs", "path": "11-adrs/data/README" },
+        { "title": "Platform ADRs", "path": "11-adrs/platform/README" },
+        { "title": "Security ADRs", "path": "11-adrs/security/README" },
+        { "title": "AI ADRs", "path": "11-adrs/ai/README" },
+        { "title": "Integration ADRs", "path": "11-adrs/integration/README" },
+        { "title": "DevOps ADRs", "path": "11-adrs/devops/README" },
+        { "title": "Engineering ADRs", "path": "11-adrs/engineering/README" },
+        { "title": "UI ADRs", "path": "11-adrs/ui/README" }
       ]
     },
     {

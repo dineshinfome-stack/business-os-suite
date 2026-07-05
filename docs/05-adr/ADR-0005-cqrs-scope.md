@@ -3,13 +3,15 @@ title: "ADR-0005: CQRS Scope"
 summary: "Where CQRS applies."
 layer: "platform"
 owner: "Platform"
-status: "draft"
+status: "superseded"
 updated: "2026-07-05"
 tags: ["adr"]
 depends_on: []
 ---
 
 # ADR-0005: CQRS Scope
+> **Superseded by** [ADR-006](../11-adrs/ADR_INDEX.md) — see the new ADR Repository at `docs/11-adrs/`.
+
 
 ## Status
 
