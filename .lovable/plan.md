@@ -105,3 +105,6 @@ No actual Sprint PRDs are authored in this pass.
 - Every module subfolder has a README linked to its parent `MOD-NNN` MODULE_PRD and states its `SPR-MOD-NNN-NNN` prefix.
 - Sprint PRD template lists all 13 sections, includes `iteration` in frontmatter, and forbids upstream redefinition.
 - Derived indexes still parse and cross-reference the new layer.
+## Pass 8 — Sprint PRD Framework Scaffolding (completed)
+
+Documentation-only. Established the Sprint PRD layer at `docs/30-sprint-prds/` (layer README + 18 per-module sub-READMEs) with stable `SPR-MOD-NNN-NNN` identifiers and a mutable `iteration` field. Replaced the stub Sprint PRD template with the authoritative 13-section template. Created `docs/SPRINT_CATALOG.md` (empty derived index). Registered "30 Sprint PRDs" in `docs/_meta.json`. Refreshed `REPOSITORY_MAP.md`, `DOCUMENT_INDEX.md`, `DOCUMENT_OWNERSHIP_MATRIX.md`, and `DOCUMENT_TRACEABILITY.md`. Updated `FOUNDATION_FREEZE_v1.md` Next Milestones (Pass 8 → In Progress — Scaffolding Complete; Pass 8.x added). Extended the `PRODUCT_DOCUMENTATION_BASELINE_v1.md` cross-reference map. No actual Sprint PRDs authored; sprint authoring occurs iteratively in Pass 8.x.
