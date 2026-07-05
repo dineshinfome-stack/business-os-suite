@@ -69,6 +69,10 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Sprint PRDs — Layer README | Delivery | Approved | Authoritative | `docs/30-sprint-prds/README.md` |
 | Sprint PRD Template | Template | Approved | Authoritative | `docs/99-templates/sprint-prd-template.md` |
 | Sprint Catalog | Cross-cutting | Approved | Derived | `docs/SPRINT_CATALOG.md` |
+| Sprint Authoring Guide | Delivery | Approved | Authoritative | `docs/SPRINT_AUTHORING_GUIDE.md` |
+| Sprint Roadmap | Delivery | Approved | Authoritative | `docs/SPRINT_ROADMAP.md` |
+| Sprint Estimation Guide | Delivery | Approved | Authoritative | `docs/SPRINT_ESTIMATION_GUIDE.md` |
+| Sprint Dependency Matrix | Delivery | Approved | Derived | `docs/SPRINT_DEPENDENCY_MATRIX.md` |
 
 ### B
 
