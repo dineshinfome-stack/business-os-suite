@@ -6,12 +6,16 @@ import meta from "../../docs/_meta.json";
 export type DocFrontmatter = {
   title: string;
   summary?: string;
+  document_type?: string;
   layer?: string;
   owner?: string;
   status?: string;
+  version?: string;
+  created?: string;
   updated?: string;
   tags?: string[];
   depends_on?: string[];
+  referenced_by?: string[];
 };
 
 export type Doc = {
