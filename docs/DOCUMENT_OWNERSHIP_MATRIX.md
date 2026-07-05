@@ -36,9 +36,10 @@ This matrix SHOULD be regenerated or reviewed whenever a governance responsibili
 | Architecture | Architecture Governance | ADR process | New or superseding ADR → doc update | `docs/02-architecture/` |
 | ERP Core Engines | Platform | ADR + Architecture Governance | Engine SemVer change; ADR when interface changes | `docs/10-erp-core/` |
 | Architecture Decision Records | Platform | ADR lifecycle (`Draft → Proposed → Accepted`) | New ADR or supersession | `docs/11-adrs/` |
-| Documentation Traceability & Indexes | Platform | Documentation Governance | Regenerate on source change | `docs/DOCUMENT_TRACEABILITY.md`, `docs/REPOSITORY_MAP.md`, `docs/DOCUMENT_INDEX.md`, `docs/GLOSSARY_INDEX.md`, `docs/ENGINE_USAGE_MATRIX.md`, `docs/ADR_IMPACT_MATRIX.md`, `docs/MODULE_CATALOG.md`, `docs/SPRINT_CATALOG.md`, this document |
+| Documentation Traceability & Indexes | Platform | Documentation Governance | Regenerate on source change | `docs/DOCUMENT_TRACEABILITY.md`, `docs/REPOSITORY_MAP.md`, `docs/DOCUMENT_INDEX.md`, `docs/GLOSSARY_INDEX.md`, `docs/ENGINE_USAGE_MATRIX.md`, `docs/ADR_IMPACT_MATRIX.md`, `docs/MODULE_CATALOG.md`, `docs/SPRINT_CATALOG.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md`, this document |
 | Module PRDs | Product | Product + Architecture review | Module PRD lifecycle | `docs/20-module-prds/` → `MOD-001` … `MOD-018` |
 | Sprint PRDs | Engineering | Engineering review | Sprint PRD lifecycle (`Draft → Planned → In Progress → Done → Superseded`) | `docs/30-sprint-prds/` → `SPR-MOD-NNN-NNN` |
+| Sprint Authoring Framework | Engineering | Engineering + Architecture review | Update on methodology change | `docs/SPRINT_AUTHORING_GUIDE.md`, `docs/SPRINT_ROADMAP.md`, `docs/SPRINT_ESTIMATION_GUIDE.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md` |
 | Coding Standards | Engineering | Engineering + Architecture review | ADR (Engineering category) → doc update | `docs/03-design/coding-standards.md` |
 | Design Standards | Design | Design + Engineering review | ADR (UI category) → doc update | `docs/03-design/ui-ux-design-system.md`, `docs/03-design/ux-standards.md` |
 

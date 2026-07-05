@@ -57,6 +57,10 @@ docs/
 ├── 20-module-prds/                 Module PRDs (MOD-001..018) (Authoritative)
 ├── 30-sprint-prds/                 Sprint PRDs (SPR-MOD-NNN-NNN) (Authoritative — scaffolded)
 ├── SPRINT_CATALOG.md               Sprint catalog            (Derived)
+├── SPRINT_AUTHORING_GUIDE.md       Sprint authoring guide    (Authoritative)
+├── SPRINT_ROADMAP.md               Sprint roadmap            (Authoritative)
+├── SPRINT_ESTIMATION_GUIDE.md      Sprint sizing framework   (Authoritative)
+├── SPRINT_DEPENDENCY_MATRIX.md     Sprint dependency matrix  (Derived)
 └── 99-templates/                   Document templates       (Reference)
 ```
 
