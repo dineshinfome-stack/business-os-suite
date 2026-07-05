@@ -3,13 +3,15 @@ title: "ADR-0008: AI Copilot Pattern"
 summary: "Copilot integration pattern."
 layer: "platform"
 owner: "Platform"
-status: "draft"
+status: "superseded"
 updated: "2026-07-05"
 tags: ["adr"]
 depends_on: []
 ---
 
 # ADR-0008: AI Copilot Pattern
+> **Superseded by** [ADR-040](../11-adrs/ADR_INDEX.md) — see the new ADR Repository at `docs/11-adrs/`.
+
 
 ## Status
 

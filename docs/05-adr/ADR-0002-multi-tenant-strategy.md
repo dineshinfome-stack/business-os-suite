@@ -3,13 +3,15 @@ title: "ADR-0002: Multi-Tenant Strategy"
 summary: "Tenant isolation approach."
 layer: "platform"
 owner: "Platform"
-status: "draft"
+status: "superseded"
 updated: "2026-07-05"
 tags: ["adr"]
 depends_on: []
 ---
 
 # ADR-0002: Multi-Tenant Strategy
+> **Superseded by** [ADR-011](../11-adrs/ADR_INDEX.md) — see the new ADR Repository at `docs/11-adrs/`.
+
 
 ## Status
 

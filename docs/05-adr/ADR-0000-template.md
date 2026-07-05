@@ -3,13 +3,15 @@ title: "ADR Template"
 summary: "Template for new Architecture Decision Records."
 layer: "platform"
 owner: "Platform"
-status: "draft"
+status: "superseded"
 updated: "2026-07-05"
 tags: ["adr"]
 depends_on: []
 ---
 
 # ADR Template
+> **Superseded** — this legacy ADR is replaced by the ADR Repository at `docs/11-adrs/`.
+
 
 ## Status
 
