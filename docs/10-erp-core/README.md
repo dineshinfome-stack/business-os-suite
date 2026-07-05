@@ -13,6 +13,8 @@ document_type: "ERP Core Guide"
 
 This document is the **single entry point** to the BusinessOS ERP Core Engines. It is informational and navigational: it introduces no new architectural principles. Its purpose is to enumerate the reusable platform capabilities that every ERP module will consume, and to make the layering and dependency rules between those capabilities explicit.
 
+For a one-page tabular view of every engine — with stable IDs, versions, status, stability, consumers, and direct dependencies — see the [Engine Catalog](./ENGINE_CATALOG.md). The catalog is a **derived index** of this README and the individual engine specifications; on any conflict, the specs and the Dependency Matrix below win.
+
 ERP Core Engines build **on top of** the architectural baseline frozen in `docs/FOUNDATION_FREEZE_v1.md`. They do not redefine architecture; they realize it as reusable capabilities.
 
 ---
