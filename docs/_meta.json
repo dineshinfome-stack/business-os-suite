@@ -111,6 +111,10 @@
           "path": "02-architecture/database-architecture"
         },
         {
+          "title": "Multi-Tenant Architecture",
+          "path": "02-architecture/multi-tenant-architecture"
+        },
+        {
           "title": "Database Standards",
           "path": "02-architecture/database-standards"
         },
@@ -119,8 +123,8 @@
           "path": "02-architecture/data-dictionary"
         },
         {
-          "title": "Multi-Tenant Architecture",
-          "path": "02-architecture/multi-tenant-architecture"
+          "title": "Reference Data",
+          "path": "02-architecture/reference-data"
         },
         {
           "title": "Security Architecture",
