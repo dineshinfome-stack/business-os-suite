@@ -534,6 +534,10 @@
         {
           "title": "ERP Core Engines — Index",
           "path": "10-erp-core/README"
+        },
+        {
+          "title": "Engine Catalog",
+          "path": "10-erp-core/ENGINE_CATALOG"
         }
       ]
     },
