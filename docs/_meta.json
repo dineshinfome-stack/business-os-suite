@@ -38,6 +38,38 @@
         {
           "title": "Foundation Freeze v1",
           "path": "FOUNDATION_FREEZE_v1"
+        },
+        {
+          "title": "Repository Map",
+          "path": "REPOSITORY_MAP"
+        },
+        {
+          "title": "Document Index",
+          "path": "DOCUMENT_INDEX"
+        },
+        {
+          "title": "Document Ownership Matrix",
+          "path": "DOCUMENT_OWNERSHIP_MATRIX"
+        },
+        {
+          "title": "Document Traceability",
+          "path": "DOCUMENT_TRACEABILITY"
+        },
+        {
+          "title": "Glossary Index",
+          "path": "GLOSSARY_INDEX"
+        },
+        {
+          "title": "Engine Usage Matrix",
+          "path": "ENGINE_USAGE_MATRIX"
+        },
+        {
+          "title": "ADR Impact Matrix",
+          "path": "ADR_IMPACT_MATRIX"
+        },
+        {
+          "title": "Module Catalog",
+          "path": "MODULE_CATALOG"
         }
       ]
     },
