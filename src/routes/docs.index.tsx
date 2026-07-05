@@ -27,13 +27,21 @@ const CAPABILITY_LAYERS = [
 
 const QUICK_LINKS = [
   { title: "Canon (Constitution)", path: "canon", desc: "The highest-authority document. Every PRD, ADR, and implementation must conform." },
-  { title: "Vision", path: "00-vision/vision", desc: "Product vision and North Star." },
-  { title: "Master PRD", path: "01-master/prd", desc: "Master Product Requirement Document." },
-  { title: "Roadmap", path: "01-master/roadmap", desc: "Capability-layer phasing." },
   { title: "Master Architecture", path: "02-architecture/master-architecture", desc: "Top-level architecture." },
   { title: "Domain Map", path: "02-architecture/domain-map", desc: "Bounded contexts and their relationships." },
   { title: "Decision Register", path: "decision-register", desc: "Index of Architecture Decision Records." },
   { title: "Quality Attributes", path: "quality-attributes", desc: "System-wide quality goals." },
+];
+
+const BUSINESS_BLUEPRINT_LINKS = [
+  { title: "Vision", path: "00-vision/vision", desc: "Why BusinessOS exists, who it serves, and how it is shaped differently from every incumbent." },
+  { title: "Master PRD", path: "01-master/prd", desc: "The table of contents for the entire ERP — what BusinessOS does, for whom, and to what standard." },
+  { title: "Roadmap", path: "01-master/roadmap", desc: "Capability-layer phasing with goals, deliverables, dependencies, and exit criteria." },
+  { title: "Business Model", path: "01-master/business-model", desc: "Editions, pricing philosophy, marketplace, AI usage, API monetization." },
+  { title: "Product Scope", path: "01-master/scope", desc: "Normative in-scope and out-of-scope with deferrals and change procedure." },
+  { title: "Success Metrics", path: "01-master/success-metrics", desc: "Instrumented product, technical, and business metrics with owners." },
+  { title: "Assumptions Register", path: "01-master/assumptions", desc: "Every assumption BusinessOS is built on, with impact if invalidated." },
+  { title: "Risk Register", path: "01-master/risk-register", desc: "Material risks by category, sized, mitigated, and owned." },
 ];
 
 function DocsIndex() {
