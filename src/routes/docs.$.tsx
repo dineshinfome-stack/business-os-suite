@@ -61,13 +61,20 @@ function DocPage() {
     <div>
       <header className="mb-6 border-b border-border pb-4">
         <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+          {fm.document_type && (
+            <span className="rounded bg-primary/10 px-2 py-0.5 font-medium text-primary">
+              {fm.document_type}
+            </span>
+          )}
           {fm.layer && (
             <span className="rounded bg-muted px-2 py-0.5 capitalize">{fm.layer}</span>
           )}
           {fm.status && (
             <span className="rounded bg-muted px-2 py-0.5 capitalize">{fm.status}</span>
           )}
+          {fm.version && <span>v{fm.version}</span>}
           {fm.owner && <span>Owner: {fm.owner}</span>}
+          {fm.created && <span>Created: {fm.created}</span>}
           {fm.updated && <span>Updated: {fm.updated}</span>}
         </div>
         <h1 className="mt-2 text-3xl font-bold tracking-tight">{fm.title}</h1>
@@ -95,6 +102,21 @@ function DocPage() {
           </h2>
           <ul className="text-sm">
             {fm.depends_on.map((d: string) => (
+              <li key={d}>
+                <code className="rounded bg-muted px-1 py-0.5">{d}</code>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {fm.referenced_by && fm.referenced_by.length > 0 && (
+        <section className="mt-6 border-t border-border pt-6">
+          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            Referenced by
+          </h2>
+          <ul className="text-sm">
+            {fm.referenced_by.map((d: string) => (
               <li key={d}>
                 <code className="rounded bg-muted px-1 py-0.5">{d}</code>
               </li>

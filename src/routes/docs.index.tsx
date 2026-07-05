@@ -26,7 +26,7 @@ const CAPABILITY_LAYERS = [
 ];
 
 const QUICK_LINKS = [
-  { title: "Canon", path: "canon", desc: "The constitution — principles every PRD must cite." },
+  { title: "Canon (Constitution)", path: "canon", desc: "The highest-authority document. Every PRD, ADR, and implementation must conform." },
   { title: "Vision", path: "00-vision/vision", desc: "Product vision and North Star." },
   { title: "Master PRD", path: "01-master/prd", desc: "Master Product Requirement Document." },
   { title: "Roadmap", path: "01-master/roadmap", desc: "Capability-layer phasing." },
