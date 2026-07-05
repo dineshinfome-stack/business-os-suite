@@ -1,0 +1,8 @@
+%% Foundation domain ERD — skeleton
+erDiagram
+    ORGANIZATION ||--o{ COMPANY : owns
+    COMPANY ||--o{ BRANCH : has
+    COMPANY ||--o{ FINANCIAL_YEAR : has
+    ORGANIZATION ||--o{ USER : contains
+    USER }o--o{ ROLE : assigned
+    ROLE }o--o{ PERMISSION : grants
