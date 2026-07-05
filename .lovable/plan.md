@@ -132,3 +132,27 @@ Update, without changing upstream layers:
 - Pass 8.4 — Purchase (MOD-004) + Inventory (MOD-005)
 - Pass 8.5 — Sales (MOD-003) + CRM (MOD-006)
 - Continuing module-by-module in dependency order.
+
+---
+
+## Pass 8.1 — Execution Log
+
+Pass 8.1 (v4) implemented on 2026-07-05. Documentation-only. No code, schema, or upstream architectural changes.
+
+Created:
+- `docs/SPRINT_AUTHORING_GUIDE.md` — methodology including Sprint Traceability Rule and Sprint Completion Rule.
+- `docs/SPRINT_ROADMAP.md` — cross-module roadmap using `Estimated Sprint Count` column with initial-planning-estimate framing.
+- `docs/SPRINT_ESTIMATION_GUIDE.md` — Small / Medium / Large sizing framework with worked examples; no story points.
+- `docs/SPRINT_DEPENDENCY_MATRIX.md` — derived allowable implementation order across modules.
+
+Edited:
+- 18 × `docs/30-sprint-prds/<module>/README.md` — populated planning placeholder tables (`Status = Planned`) with the placeholder disclaimer; no Sprint PRDs authored.
+- `docs/_meta.json` — sidebar entries for the four new documents.
+- `docs/REPOSITORY_MAP.md` — added the four new files to the tree overview.
+- `docs/DOCUMENT_INDEX.md` — added the four new files.
+- `docs/DOCUMENT_TRACEABILITY.md` — referenced the sprint authoring framework as the bridge between Module PRDs and Sprint PRDs.
+- `docs/DOCUMENT_OWNERSHIP_MATRIX.md` — added a Sprint Authoring Framework row and updated the derived-indexes row.
+- `docs/FOUNDATION_FREEZE_v1.md` — Pass 8.1 marked complete; Pass 8.2 (MOD-001 sprints) identified as the next planned implementation-planning phase.
+- `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md` — extended the cross-reference map and refreshed the Next Milestone table.
+
+Not changed: Canon, Architecture, ERP Core Engines, ADRs, Module PRDs, Sprint PRD template, `SPRINT_CATALOG.md`.
