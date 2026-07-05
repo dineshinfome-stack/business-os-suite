@@ -140,5 +140,7 @@ From `Foundation v1.0` onward:
 | Governance & Traceability layer | Pass 6.5 | Complete |
 | Module PRDs (`MOD-001` … `MOD-018`) | Pass 7 | Complete |
 | Product Documentation Baseline v1 | Pass 7.5 | Complete — see [`PRODUCT_DOCUMENTATION_BASELINE_v1.md`](./PRODUCT_DOCUMENTATION_BASELINE_v1.md) |
-| Sprint PRD Framework (Scaffolding) | Pass 8 | In Progress — Scaffolding Complete (see [`30-sprint-prds/README.md`](./30-sprint-prds/README.md), [`SPRINT_CATALOG.md`](./SPRINT_CATALOG.md)) |
-| Sprint PRD Authoring | Pass 8.x | Per-module, iterative |
+| Sprint PRD Framework (Scaffolding) | Pass 8 | Complete — scaffolding landed (see [`30-sprint-prds/README.md`](./30-sprint-prds/README.md), [`SPRINT_CATALOG.md`](./SPRINT_CATALOG.md)) |
+| Sprint Authoring Methodology & Execution Plan | Pass 8.1 | Complete — see [`SPRINT_AUTHORING_GUIDE.md`](./SPRINT_AUTHORING_GUIDE.md), [`SPRINT_ROADMAP.md`](./SPRINT_ROADMAP.md), [`SPRINT_ESTIMATION_GUIDE.md`](./SPRINT_ESTIMATION_GUIDE.md), [`SPRINT_DEPENDENCY_MATRIX.md`](./SPRINT_DEPENDENCY_MATRIX.md) |
+| Platform Administration Sprint PRDs (MOD-001) | Pass 8.2 | Next planned implementation-planning phase |
+| Sprint PRD Authoring (remaining modules) | Pass 8.3+ | Per-module, iterative in dependency order |
