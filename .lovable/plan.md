@@ -1,159 +1,61 @@
-## Foundation Freeze v1 + Pass 5 — ERP Core Engines (Revised v3)
+## Add ERP Core Engine Catalog (Revised)
 
-Two-part scope: (1) freeze the architectural baseline with a formal milestone document; (2) author the ERP Core Engines catalogue as a categorized, dependency-aware, versioned set of vendor-neutral platform capability specs. Documentation only — no routing, UI, package, or code changes.
+Create a single, lightweight master-index document that summarizes every ERP Core Engine in one table, with stable Engine IDs and an explicit "derived index" rule. Purely additive.
 
----
+### New file: `docs/10-erp-core/ENGINE_CATALOG.md`
 
-### Part 1 — Foundation Freeze v1
+Frontmatter:
+- `title: "ERP Core Engine Catalog"`
+- `summary: "Master index of all ERP Core Engines: stable ID, category, version, status, stability, consumers, and dependencies."`
+- `layer: platform`, `owner: Platform`, `status: approved`, `updated: 2026-07-05`
+- `tags: [erp-core, catalog, index]`
+- `document_type: "ERP Core Guide"`
 
-Create `docs/FOUNDATION_FREEZE_v1.md` (informational, 2–3 pages, no `depends_on`).
+Sections:
 
-Contents:
-- Baseline identifier `Foundation v1.0` · freeze date · rationale
-- Completed passes: 1 (Doc Infra), 2 (Canon), 3 (Business Blueprint), 4A–4D (Architecture)
-- Versioned inventory of Canon, Business Blueprint, and Architecture documents
-- Governance statement: architectural changes → ADR; business changes → Business Blueprint amendment; engineering practices → Coding Standards
-- Readiness statement: cleared to begin Pass 5
-- Cross-reference map to Canon, Architecture Index, Domain Map, Decision Register
+1. **Purpose** — single source of truth for the engine ecosystem; supports architecture reviews, dependency analysis, AI-assisted generation, impact analysis, and onboarding. Not a spec — normative content lives in each engine document and in `README.md` (Dependency Rules, Matrix, Versioning Policy).
 
-Register under **Overview** in `docs/_meta.json`.
+2. **How to Read This Catalog** — column definitions. Note that `Used By` is intentionally coarse (module families / "All modules" / "Most modules" / "TBD Pass 7+") since business modules are not yet authored; `Depends On` lists direct engine dependencies only (event-only edges live in the Matrix in `README.md`).
 
----
+3. **Engine ID Scheme** — permanent identifiers of the form `ENG-NNN` (zero-padded, 3 digits, monotonically assigned).
+   - IDs are **stable**: never reassigned or reused, even if an engine is renamed, moved, or deprecated.
+   - Deprecated/removed engines keep their ID with `status: deprecated` or `removed`; the ID row is retained for historical traceability.
+   - ADRs, Module PRDs, Sprint PRDs, and AI prompts SHOULD reference engines by `ENG-NNN` to survive renames.
+   - Initial allocation follows the reading order in `README.md` (Foundation → Document → Workflow → Financial → Intelligence → Integration → Data Exchange → AI), producing `ENG-001` … `ENG-028`.
 
-### Part 2 — Pass 5: ERP Core Engines
+4. **Engine Catalog Table** — one row per engine (28 engines). Columns: **ID · Engine · Category · Version · Status · Stability · Used By · Depends On**. Each engine name links to its spec. Values sourced from each engine's frontmatter (`version`, `status`, `stability`, `engine_category`) and from the Dependency Matrix in `README.md`.
 
-#### Folder layout
+5. **Maintenance Rules** — normative:
+   - The catalog is a **derived index** and MUST NOT introduce information that is not present in the corresponding engine specification or the ERP Core README. On any conflict, the engine spec and the Dependency Matrix win; the catalog is corrected.
+   - Any new engine, rename, version bump, status change, stability change, or dependency edge change MUST update this catalog in the same change.
+   - New engines receive the next unused `ENG-NNN`. IDs are never reused.
+   - `Depends On` MUST stay consistent with the Engine Dependency Matrix in `docs/10-erp-core/README.md`.
+   - `Used By` is updated as Module PRDs (Pass 7+) declare engine consumption.
 
-```text
-docs/10-erp-core/
-  README.md
-  foundation/
-    identity-engine.md                (new)
-    authorization-engine.md           (new)
-    permission-management-engine.md   (renamed from permission-engine.md)
-    audit-engine.md
-    configuration-engine.md           (new)
-    localization-engine.md
-  document/
-    document-engine.md
-    attachment-engine.md
-    file-storage-engine.md            (new)
-  workflow/
-    workflow-engine.md
-    approval-engine.md
-    rules-engine.md
-    automation-engine.md
-    scheduler-engine.md
-  financial/
-    voucher-engine.md
-    posting-engine.md
-    numbering-engine.md
-    currency-engine.md
-    tax-engine.md
-  intelligence/
-    search-engine.md
-    reporting-engine.md
-    dashboard-engine.md
-  integration/
-    integration-engine.md             (new)
-    event-engine.md                   (new)
-    notification-engine.md
-  data-exchange/
-    import-engine.md
-    export-engine.md
-  ai/
-    ai-copilot-engine.md              (new)
-```
+6. **Documentation Hierarchy** — short note clarifying the derivation chain:
+   `FOUNDATION_FREEZE_v1` → `ERP Core README` (rules, matrix, versioning) → `ENGINE_CATALOG` (derived index) → 28 engine specifications.
 
-Total: **1 README + 27 engine documents.** New: 7. Renamed: 1. Moved into subfolders: 20 existing stubs.
+7. **References** — `docs/10-erp-core/README.md`, `docs/FOUNDATION_FREEZE_v1.md`, `docs/canon.md`.
 
-#### `docs/10-erp-core/README.md`
+### `docs/_meta.json`
 
-Navigational index (informational, no `depends_on`). Sections:
+Register `10-erp-core/ENGINE_CATALOG` in the ERP Core Engines group immediately after the `10-erp-core/README` entry, so it appears as the second sidebar item in that section.
 
-- ERP Core Overview
-- Reading Order
-- Engine Categories (foundation · document · workflow · financial · intelligence · integration · data-exchange · ai)
-- **Dependency Graph** — visual ASCII diagram
-- **Dependency Rules** — explicit rules:
-  - Foundation engines must not depend on any other category.
-  - Financial engines may depend on Foundation and Workflow.
-  - Workflow engines may depend on Foundation only.
-  - Intelligence engines may consume Foundation, Financial, Document; must not own business logic.
-  - Integration engines communicate across boundaries; must not own business logic.
-  - AI engines may consume any engine but must not bypass Authorization, Audit, or Workflow.
-  - Data Exchange engines depend on Foundation and Document only.
-- **Engine Dependency Matrix** — markdown table immediately after the Dependency Graph. Rows = Consumer engines, Columns = Provider engines. Cells use `✓` (allowed), `▲` (event-only, no direct invocation), `—` (no dependency). Must remain synchronized with Dependency Rules. Purpose: validate layering, prevent cycles, support ADR reviews, aid AI retrieval.
-- **Engine Versioning Policy** — ERP Core Engines are versioned independently of business modules. Breaking changes require an approved ADR, migration strategy, and backward-compatibility guidance where applicable. Every engine document exposes Version, Status, Stability, and Change History. Business modules reference engine versions rather than assuming latest behavior.
-- Engine Ownership
-- Engine Lifecycle (draft → stable → deprecated)
-- How Modules Consume Engines
-- How ADRs Affect Engines
+### `docs/10-erp-core/README.md`
 
-#### Standard structure per engine
-
-Overview · Responsibilities · **Capability Interface (conceptual)** · Data Model (conceptual) · Events Produced · Events Consumed · Configuration · **Capability Rules** *(renamed from "Business Rules" — clarifies these are reusable platform behaviors, not module business logic)* · Extension Points · **Dependencies (Provides To / Consumes From)** · Non-Functionals · Failure Modes · **Change History** · **Conforms to Canon** · **Decisions Pending** · References.
-
-#### Frontmatter (extended)
-
-Every engine document adds:
-
-```yaml
-engine_category: foundation | document | workflow | financial | intelligence | integration | data-exchange | ai
-engine_type: reusable-platform-capability
-stability: core
-version: 1.0.0
-status: draft | stable | deprecated
-```
-
-These fields drive filtering, navigation, dependency visualization, versioning discipline, and AI retrieval.
-
-#### Normative rules
-
-- Vendor-neutral (no framework / SDK / library / cloud names)
-- Platform capability only — no module business logic
-- Cites the architecture layer(s) it depends on
-- Every doc ends with Conforms to Canon + Decisions Pending
-- Identity (who), Authorization (what can you do now), Permission Management (who assigns what) are three distinct engines
-- Section title inside engine docs is **Capability Rules**, never "Business Rules"
-
-#### `docs/_meta.json` updates
-
-- Add Foundation Freeze under Overview.
-- Replace flat "10 ERP Core Engines" group with subcategory groups in order:
-  Foundation → Document → Workflow → Financial → Intelligence → Integration → Data Exchange → AI.
-- `README.md` appears first under Foundation (or as a dedicated "ERP Core — Index" heading).
-- Update paths for the 20 moved stubs and the renamed permission-management engine.
-
-#### File operations summary
-
-- Create: `FOUNDATION_FREEZE_v1.md`, `10-erp-core/README.md`, 7 new engine docs
-- Move: 20 existing engine stubs into subfolders
-- Rename: `permission-engine.md` → `foundation/permission-management-engine.md`
-- Author (fill body of): all 27 engines with the standard structure and extended frontmatter
-- Update: `docs/_meta.json`
-
----
+Add one sentence in the intro / Reading Order area pointing readers to `ENGINE_CATALOG.md` as the master index and noting it is a derived view. No structural changes; Dependency Graph, Rules, Matrix, and Versioning Policy stay in `README.md`.
 
 ### Non-goals
 
-- No module/domain business logic
-- No ADR decisions inside engine docs (only Decisions Pending)
-- No source code, schemas, or API implementations
-- No vendor, framework, or cloud selection
-- No changes to Pass 1–4D documents (architecture remains frozen)
+- No changes to any engine specification.
+- No new dependency, versioning, or governance rules beyond the derivation rule and the ID scheme.
+- No implementation, ADRs, or vendor decisions.
 
----
+### Acceptance criteria
 
-### Acceptance Criteria
-
-- `docs/FOUNDATION_FREEZE_v1.md` created and registered under Overview.
-- `docs/10-erp-core/README.md` includes: Overview, Reading Order, Engine Categories, Dependency Graph, **Dependency Rules**, **Engine Dependency Matrix** (with ✓ / ▲ / — legend), **Engine Versioning Policy**, Ownership, Lifecycle, Consumption, ADR impact.
-- 27 engine docs present under correct subfolders with the full standard structure.
-- Every engine contains "Capability Interface (conceptual)", "Capability Rules" (not "Business Rules"), "Dependencies (Provides To / Consumes From)", "Change History", "Conforms to Canon", and "Decisions Pending".
-- Every engine frontmatter includes `engine_category`, `engine_type`, `stability`, `version`, and `status`.
-- Identity, Authorization, and Permission Management coexist as three distinct engines.
-- Engine Dependency Matrix is consistent with Dependency Rules.
-- `docs/_meta.json` reflects new subcategory grouping and Foundation Freeze entry.
-- No changes outside `docs/`, `docs/10-erp-core/`, and `docs/_meta.json`.
-- Architecture layer (Pass 4A–4D) untouched.
+- `docs/10-erp-core/ENGINE_CATALOG.md` exists with all 28 engines listed and linked, grouped or ordered by the 8 categories, each assigned `ENG-001` … `ENG-028`.
+- Each row's Version/Status/Stability matches the corresponding engine's frontmatter; each row's Depends On is consistent with the Engine Dependency Matrix in `README.md`.
+- The catalog contains explicit "derived index" and "stable ID" maintenance rules.
+- `_meta.json` shows the catalog directly under the ERP Core README in the sidebar.
+- `README.md` links to the catalog from its intro/reading-order area.
+- Architecture layer and all engine specs untouched.
