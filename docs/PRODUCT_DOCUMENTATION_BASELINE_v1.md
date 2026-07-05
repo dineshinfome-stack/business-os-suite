@@ -126,6 +126,10 @@ Each downstream layer consumes the upstream layers and never redefines them.
 - **Module PRDs layer** — [`docs/20-module-prds/README.md`](./20-module-prds/README.md)
 - **Sprint PRDs layer** — [`docs/30-sprint-prds/README.md`](./30-sprint-prds/README.md)
 - **Sprint Catalog** — [`docs/SPRINT_CATALOG.md`](./SPRINT_CATALOG.md)
+- **Sprint Authoring Guide** — [`docs/SPRINT_AUTHORING_GUIDE.md`](./SPRINT_AUTHORING_GUIDE.md)
+- **Sprint Roadmap** — [`docs/SPRINT_ROADMAP.md`](./SPRINT_ROADMAP.md)
+- **Sprint Estimation Guide** — [`docs/SPRINT_ESTIMATION_GUIDE.md`](./SPRINT_ESTIMATION_GUIDE.md)
+- **Sprint Dependency Matrix** — [`docs/SPRINT_DEPENDENCY_MATRIX.md`](./SPRINT_DEPENDENCY_MATRIX.md)
 
 ---
 
@@ -133,4 +137,6 @@ Each downstream layer consumes the upstream layers and never redefines them.
 
 | Milestone | Pass | Scope |
 | --- | --- | --- |
-| Sprint PRDs / Implementation Planning | Pass 8 | Sprint-level slices of Module PRDs, followed by implementation. |
+| Sprint Authoring Methodology & Execution Plan | Pass 8.1 | Complete — authoring guide, roadmap, estimation guide, and dependency matrix in place. |
+| Platform Administration Sprint PRDs (MOD-001) | Pass 8.2 | Next planned implementation-planning phase; first module-level Sprint PRDs authored per methodology. |
+| Sprint PRD Authoring (remaining modules) | Pass 8.3+ | Module-by-module Sprint PRDs in dependency order (see [`SPRINT_ROADMAP.md`](./SPRINT_ROADMAP.md)). |
