@@ -658,6 +658,23 @@
       ]
     },
     {
+      "label": "11 Architecture Decision Records",
+      "items": [
+        { "title": "ADR Repository", "path": "11-adrs/README" },
+        { "title": "ADR Index", "path": "11-adrs/ADR_INDEX" },
+        { "title": "ADR Template", "path": "11-adrs/ADR_TEMPLATE" },
+        { "title": "Architecture ADRs", "path": "11-adrs/architecture/README" },
+        { "title": "Data ADRs", "path": "11-adrs/data/README" },
+        { "title": "Platform ADRs", "path": "11-adrs/platform/README" },
+        { "title": "Security ADRs", "path": "11-adrs/security/README" },
+        { "title": "AI ADRs", "path": "11-adrs/ai/README" },
+        { "title": "Integration ADRs", "path": "11-adrs/integration/README" },
+        { "title": "DevOps ADRs", "path": "11-adrs/devops/README" },
+        { "title": "Engineering ADRs", "path": "11-adrs/engineering/README" },
+        { "title": "UI ADRs", "path": "11-adrs/ui/README" }
+      ]
+    },
+    {
       "label": "11 ERDs",
       "items": [
         {
