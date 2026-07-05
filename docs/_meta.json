@@ -1,0 +1,758 @@
+{
+  "groups": [
+    {
+      "label": "Overview",
+      "items": [
+        {
+          "title": "Home",
+          "path": ""
+        },
+        {
+          "title": "Canon",
+          "path": "canon"
+        },
+        {
+          "title": "Glossary",
+          "path": "glossary"
+        },
+        {
+          "title": "Governance",
+          "path": "governance"
+        },
+        {
+          "title": "Performance",
+          "path": "performance"
+        },
+        {
+          "title": "Quality Attributes",
+          "path": "quality-attributes"
+        },
+        {
+          "title": "Migration Strategy",
+          "path": "migration-strategy"
+        },
+        {
+          "title": "Module Dependency Matrix",
+          "path": "module-dependency-matrix"
+        },
+        {
+          "title": "Decision Register",
+          "path": "decision-register"
+        }
+      ]
+    },
+    {
+      "label": "00 Vision",
+      "items": [
+        {
+          "title": "Vision",
+          "path": "00-vision/vision"
+        }
+      ]
+    },
+    {
+      "label": "01 Master",
+      "items": [
+        {
+          "title": "Master PRD",
+          "path": "01-master/prd"
+        },
+        {
+          "title": "FRS",
+          "path": "01-master/frs"
+        },
+        {
+          "title": "SRS",
+          "path": "01-master/srs"
+        },
+        {
+          "title": "Roadmap",
+          "path": "01-master/roadmap"
+        }
+      ]
+    },
+    {
+      "label": "02 Architecture",
+      "items": [
+        {
+          "title": "Master Architecture",
+          "path": "02-architecture/master-architecture"
+        },
+        {
+          "title": "Database Architecture",
+          "path": "02-architecture/database-architecture"
+        },
+        {
+          "title": "Database Standards",
+          "path": "02-architecture/database-standards"
+        },
+        {
+          "title": "Data Dictionary",
+          "path": "02-architecture/data-dictionary"
+        },
+        {
+          "title": "Domain-Driven Design",
+          "path": "02-architecture/domain-driven-design"
+        },
+        {
+          "title": "Domain Map",
+          "path": "02-architecture/domain-map"
+        },
+        {
+          "title": "Multi-Tenant Architecture",
+          "path": "02-architecture/multi-tenant-architecture"
+        },
+        {
+          "title": "Security Architecture",
+          "path": "02-architecture/security-architecture"
+        },
+        {
+          "title": "API Architecture",
+          "path": "02-architecture/api-architecture"
+        },
+        {
+          "title": "Event Catalog",
+          "path": "02-architecture/event-catalog"
+        },
+        {
+          "title": "AI Architecture",
+          "path": "02-architecture/ai-architecture"
+        },
+        {
+          "title": "Deployment Architecture",
+          "path": "02-architecture/deployment-architecture"
+        },
+        {
+          "title": "DevOps Architecture",
+          "path": "02-architecture/devops-architecture"
+        },
+        {
+          "title": "Testing Strategy",
+          "path": "02-architecture/testing-strategy"
+        }
+      ]
+    },
+    {
+      "label": "03 Design",
+      "items": [
+        {
+          "title": "UI/UX Design System",
+          "path": "03-design/ui-ux-design-system"
+        },
+        {
+          "title": "UX Standards",
+          "path": "03-design/ux-standards"
+        },
+        {
+          "title": "Coding Standards",
+          "path": "03-design/coding-standards"
+        }
+      ]
+    },
+    {
+      "label": "04 Domains \u2014 Foundation",
+      "items": [
+        {
+          "title": "Authentication",
+          "path": "04-domains/foundation/authentication"
+        },
+        {
+          "title": "Organization",
+          "path": "04-domains/foundation/organization"
+        },
+        {
+          "title": "Company",
+          "path": "04-domains/foundation/company"
+        },
+        {
+          "title": "Branch",
+          "path": "04-domains/foundation/branch"
+        },
+        {
+          "title": "Financial Year",
+          "path": "04-domains/foundation/financial-year"
+        },
+        {
+          "title": "Users",
+          "path": "04-domains/foundation/users"
+        },
+        {
+          "title": "Roles Permissions",
+          "path": "04-domains/foundation/roles-permissions"
+        },
+        {
+          "title": "Audit",
+          "path": "04-domains/foundation/audit"
+        },
+        {
+          "title": "Notifications",
+          "path": "04-domains/foundation/notifications"
+        },
+        {
+          "title": "Workflow",
+          "path": "04-domains/foundation/workflow"
+        },
+        {
+          "title": "Documents",
+          "path": "04-domains/foundation/documents"
+        }
+      ]
+    },
+    {
+      "label": "04 Domains \u2014 Other",
+      "items": [
+        {
+          "title": "Accounting",
+          "path": "04-domains/accounting/index"
+        },
+        {
+          "title": "Inventory",
+          "path": "04-domains/inventory/index"
+        },
+        {
+          "title": "Sales",
+          "path": "04-domains/sales/index"
+        },
+        {
+          "title": "Purchase",
+          "path": "04-domains/purchase/index"
+        },
+        {
+          "title": "Crm",
+          "path": "04-domains/crm/index"
+        },
+        {
+          "title": "Manufacturing",
+          "path": "04-domains/manufacturing/index"
+        },
+        {
+          "title": "Projects",
+          "path": "04-domains/projects/index"
+        },
+        {
+          "title": "Field Service",
+          "path": "04-domains/field-service/index"
+        },
+        {
+          "title": "Amc",
+          "path": "04-domains/amc/index"
+        },
+        {
+          "title": "Hr",
+          "path": "04-domains/hr/index"
+        },
+        {
+          "title": "Payroll",
+          "path": "04-domains/payroll/index"
+        },
+        {
+          "title": "Assets",
+          "path": "04-domains/assets/index"
+        },
+        {
+          "title": "Fleet",
+          "path": "04-domains/fleet/index"
+        },
+        {
+          "title": "Pos",
+          "path": "04-domains/pos/index"
+        },
+        {
+          "title": "Service Desk",
+          "path": "04-domains/service-desk/index"
+        },
+        {
+          "title": "Analytics",
+          "path": "04-domains/analytics/index"
+        }
+      ]
+    },
+    {
+      "label": "05 ADRs",
+      "items": [
+        {
+          "title": "ADR Template",
+          "path": "05-adr/ADR-0000-template"
+        },
+        {
+          "title": "ADR-0001: Tech Stack",
+          "path": "05-adr/ADR-0001-tech-stack"
+        },
+        {
+          "title": "ADR-0002: Multi-Tenant Strategy",
+          "path": "05-adr/ADR-0002-multi-tenant-strategy"
+        },
+        {
+          "title": "ADR-0003: Event Bus",
+          "path": "05-adr/ADR-0003-event-bus"
+        },
+        {
+          "title": "ADR-0004: PostgreSQL",
+          "path": "05-adr/ADR-0004-database-postgres"
+        },
+        {
+          "title": "ADR-0005: CQRS Scope",
+          "path": "05-adr/ADR-0005-cqrs-scope"
+        },
+        {
+          "title": "ADR-0006: Clean Architecture + DDD",
+          "path": "05-adr/ADR-0006-clean-architecture-ddd"
+        },
+        {
+          "title": "ADR-0007: REST-First API",
+          "path": "05-adr/ADR-0007-api-style-rest-first"
+        },
+        {
+          "title": "ADR-0008: AI Copilot Pattern",
+          "path": "05-adr/ADR-0008-ai-copilot-pattern"
+        },
+        {
+          "title": "ADR-0009: Offline Strategy",
+          "path": "05-adr/ADR-0009-offline-strategy"
+        },
+        {
+          "title": "ADR-0010: Plugin Framework",
+          "path": "05-adr/ADR-0010-plugin-framework"
+        },
+        {
+          "title": "ADR-0011: Capability-Layer Roadmap",
+          "path": "05-adr/ADR-0011-capability-layer-roadmap"
+        }
+      ]
+    },
+    {
+      "label": "06 Integrations",
+      "items": [
+        {
+          "title": "Gst Gstn",
+          "path": "06-integrations/gst-gstn"
+        },
+        {
+          "title": "E Invoice Irn",
+          "path": "06-integrations/e-invoice-irn"
+        },
+        {
+          "title": "E Way Bill",
+          "path": "06-integrations/e-way-bill"
+        },
+        {
+          "title": "Payments Razorpay",
+          "path": "06-integrations/payments-razorpay"
+        },
+        {
+          "title": "Payments Phonepe",
+          "path": "06-integrations/payments-phonepe"
+        },
+        {
+          "title": "Payments Stripe",
+          "path": "06-integrations/payments-stripe"
+        },
+        {
+          "title": "Whatsapp",
+          "path": "06-integrations/whatsapp"
+        },
+        {
+          "title": "Sms",
+          "path": "06-integrations/sms"
+        },
+        {
+          "title": "Email",
+          "path": "06-integrations/email"
+        },
+        {
+          "title": "Google Workspace",
+          "path": "06-integrations/google-workspace"
+        },
+        {
+          "title": "Microsoft 365",
+          "path": "06-integrations/microsoft-365"
+        },
+        {
+          "title": "Bank Apis",
+          "path": "06-integrations/bank-apis"
+        },
+        {
+          "title": "Barcode Qr",
+          "path": "06-integrations/barcode-qr"
+        },
+        {
+          "title": "Ocr",
+          "path": "06-integrations/ocr"
+        },
+        {
+          "title": "Ai Providers",
+          "path": "06-integrations/ai-providers"
+        }
+      ]
+    },
+    {
+      "label": "07 Reports",
+      "items": [
+        {
+          "title": "Accounting Reports",
+          "path": "07-reports/accounting-reports"
+        },
+        {
+          "title": "Inventory Reports",
+          "path": "07-reports/inventory-reports"
+        },
+        {
+          "title": "Gst Reports",
+          "path": "07-reports/gst-reports"
+        },
+        {
+          "title": "Payroll Reports",
+          "path": "07-reports/payroll-reports"
+        },
+        {
+          "title": "Projects Reports",
+          "path": "07-reports/projects-reports"
+        },
+        {
+          "title": "Crm Reports",
+          "path": "07-reports/crm-reports"
+        },
+        {
+          "title": "Dashboards",
+          "path": "07-reports/dashboards"
+        }
+      ]
+    },
+    {
+      "label": "08 Business Rules",
+      "items": [
+        {
+          "title": "Accounting Rules",
+          "path": "08-business-rules/accounting-rules"
+        },
+        {
+          "title": "Inventory Rules",
+          "path": "08-business-rules/inventory-rules"
+        },
+        {
+          "title": "Tax Rules",
+          "path": "08-business-rules/tax-rules"
+        },
+        {
+          "title": "Approval Rules",
+          "path": "08-business-rules/approval-rules"
+        },
+        {
+          "title": "Numbering Rules",
+          "path": "08-business-rules/numbering-rules"
+        },
+        {
+          "title": "Workflow Rules",
+          "path": "08-business-rules/workflow-rules"
+        },
+        {
+          "title": "Posting Rules",
+          "path": "08-business-rules/posting-rules"
+        }
+      ]
+    },
+    {
+      "label": "09 AI",
+      "items": [
+        {
+          "title": "Ai Copilot",
+          "path": "09-ai/ai-copilot"
+        },
+        {
+          "title": "Prompt Library",
+          "path": "09-ai/prompt-library"
+        },
+        {
+          "title": "Rag",
+          "path": "09-ai/rag"
+        },
+        {
+          "title": "Tool Calling",
+          "path": "09-ai/tool-calling"
+        },
+        {
+          "title": "Document Ai",
+          "path": "09-ai/document-ai"
+        },
+        {
+          "title": "Forecasting",
+          "path": "09-ai/forecasting"
+        },
+        {
+          "title": "Business Advisor",
+          "path": "09-ai/business-advisor"
+        },
+        {
+          "title": "Ai Guardrails",
+          "path": "09-ai/ai-guardrails"
+        }
+      ]
+    },
+    {
+      "label": "10 ERP Core Engines",
+      "items": [
+        {
+          "title": "Voucher Engine",
+          "path": "10-erp-core/voucher-engine"
+        },
+        {
+          "title": "Posting Engine",
+          "path": "10-erp-core/posting-engine"
+        },
+        {
+          "title": "Workflow Engine",
+          "path": "10-erp-core/workflow-engine"
+        },
+        {
+          "title": "Approval Engine",
+          "path": "10-erp-core/approval-engine"
+        },
+        {
+          "title": "Numbering Engine",
+          "path": "10-erp-core/numbering-engine"
+        },
+        {
+          "title": "Notification Engine",
+          "path": "10-erp-core/notification-engine"
+        },
+        {
+          "title": "Document Engine",
+          "path": "10-erp-core/document-engine"
+        },
+        {
+          "title": "Audit Engine",
+          "path": "10-erp-core/audit-engine"
+        },
+        {
+          "title": "Permission Engine",
+          "path": "10-erp-core/permission-engine"
+        },
+        {
+          "title": "Currency Engine",
+          "path": "10-erp-core/currency-engine"
+        },
+        {
+          "title": "Tax Engine",
+          "path": "10-erp-core/tax-engine"
+        },
+        {
+          "title": "Localization Engine",
+          "path": "10-erp-core/localization-engine"
+        },
+        {
+          "title": "Search Engine",
+          "path": "10-erp-core/search-engine"
+        },
+        {
+          "title": "Reporting Engine",
+          "path": "10-erp-core/reporting-engine"
+        },
+        {
+          "title": "Dashboard Engine",
+          "path": "10-erp-core/dashboard-engine"
+        },
+        {
+          "title": "Import Engine",
+          "path": "10-erp-core/import-engine"
+        },
+        {
+          "title": "Export Engine",
+          "path": "10-erp-core/export-engine"
+        },
+        {
+          "title": "Attachment Engine",
+          "path": "10-erp-core/attachment-engine"
+        },
+        {
+          "title": "Scheduler Engine",
+          "path": "10-erp-core/scheduler-engine"
+        },
+        {
+          "title": "Automation Engine",
+          "path": "10-erp-core/automation-engine"
+        },
+        {
+          "title": "Rules Engine",
+          "path": "10-erp-core/rules-engine"
+        }
+      ]
+    },
+    {
+      "label": "11 ERDs",
+      "items": [
+        {
+          "title": "Foundation ERD",
+          "path": "11-erd/foundation"
+        },
+        {
+          "title": "ERD Template",
+          "path": "11-erd/_template"
+        }
+      ]
+    },
+    {
+      "label": "12 UI Components",
+      "items": [
+        {
+          "title": "Data Grid",
+          "path": "12-ui-components/data-grid"
+        },
+        {
+          "title": "Voucher Grid",
+          "path": "12-ui-components/voucher-grid"
+        },
+        {
+          "title": "Master Form",
+          "path": "12-ui-components/master-form"
+        },
+        {
+          "title": "Lookup Dialog",
+          "path": "12-ui-components/lookup-dialog"
+        },
+        {
+          "title": "Filter Panel",
+          "path": "12-ui-components/filter-panel"
+        },
+        {
+          "title": "Dashboard Cards",
+          "path": "12-ui-components/dashboard-cards"
+        },
+        {
+          "title": "Approval Timeline",
+          "path": "12-ui-components/approval-timeline"
+        },
+        {
+          "title": "Activity Feed",
+          "path": "12-ui-components/activity-feed"
+        }
+      ]
+    },
+    {
+      "label": "13 Workflows",
+      "items": [
+        {
+          "title": "Voucher Posting",
+          "path": "13-workflows/voucher-posting"
+        },
+        {
+          "title": "Approval Workflow",
+          "path": "13-workflows/approval-workflow"
+        },
+        {
+          "title": "Purchase Workflow",
+          "path": "13-workflows/purchase-workflow"
+        },
+        {
+          "title": "Sales Workflow",
+          "path": "13-workflows/sales-workflow"
+        },
+        {
+          "title": "Inventory Workflow",
+          "path": "13-workflows/inventory-workflow"
+        },
+        {
+          "title": "Payroll Workflow",
+          "path": "13-workflows/payroll-workflow"
+        },
+        {
+          "title": "Amc Workflow",
+          "path": "13-workflows/amc-workflow"
+        },
+        {
+          "title": "Field Visit Workflow",
+          "path": "13-workflows/field-visit-workflow"
+        }
+      ]
+    },
+    {
+      "label": "14 Localization",
+      "items": [
+        {
+          "title": "India",
+          "path": "14-localization/india"
+        },
+        {
+          "title": "Uae",
+          "path": "14-localization/uae"
+        },
+        {
+          "title": "Saudi-Arabia",
+          "path": "14-localization/saudi-arabia"
+        },
+        {
+          "title": "Qatar",
+          "path": "14-localization/qatar"
+        },
+        {
+          "title": "Oman",
+          "path": "14-localization/oman"
+        },
+        {
+          "title": "Kuwait",
+          "path": "14-localization/kuwait"
+        },
+        {
+          "title": "Bahrain",
+          "path": "14-localization/bahrain"
+        },
+        {
+          "title": "Global",
+          "path": "14-localization/global"
+        }
+      ]
+    },
+    {
+      "label": "99 Templates",
+      "items": [
+        {
+          "title": "Module PRD Template",
+          "path": "99-templates/module-prd-template"
+        },
+        {
+          "title": "Sprint PRD Template",
+          "path": "99-templates/sprint-prd-template"
+        },
+        {
+          "title": "API Spec Template",
+          "path": "99-templates/api-spec-template"
+        },
+        {
+          "title": "DB Schema Template",
+          "path": "99-templates/db-schema-template"
+        },
+        {
+          "title": "ADR Template",
+          "path": "99-templates/adr-template"
+        },
+        {
+          "title": "Integration Template",
+          "path": "99-templates/integration-template"
+        },
+        {
+          "title": "Report Template",
+          "path": "99-templates/report-template"
+        },
+        {
+          "title": "Event Template",
+          "path": "99-templates/event-template"
+        },
+        {
+          "title": "Workflow Template",
+          "path": "99-templates/workflow-template"
+        },
+        {
+          "title": "UI Component Template",
+          "path": "99-templates/ui-component-template"
+        },
+        {
+          "title": "Locale Template",
+          "path": "99-templates/locale-template"
+        },
+        {
+          "title": "ERD Template",
+          "path": "99-templates/erd-template"
+        }
+      ]
+    }
+  ]
+}
