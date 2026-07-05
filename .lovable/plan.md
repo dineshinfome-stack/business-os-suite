@@ -1,124 +1,110 @@
+# Pass 3 (v3, final — approved) — Business Blueprint
 
-# Pass 2 (v2, approved) — Author the Canon
+Approved as written. No structural changes. Recording the follow-up guidance so it is not lost between passes.
 
 ## Charter
 
-Treat `docs/canon.md` as the **constitution of BusinessOS ERP**. It is the highest-authority document in the repository. Every future PRD, architecture document, ADR, engine spec, module spec, and generated implementation must conform to it. Build it as a comprehensive principles document — **not** a feature specification.
+Pass 2 authored **how** BusinessOS must be built (the Canon). Pass 3 authors **what** BusinessOS is — the complete business blueprint. All eight documents ship together as one coherent strategic layer, before any architecture or module work begins.
 
-## Front-matter conventions used inside the Canon
+Every document in this pass:
 
-### Normative vs Informative
+- Conforms to the Canon (RFC 2119 language where normative).
+- Opens with a **"Conforms to Canon"** block citing the Canon chapters it must align with.
+- Uses the extended metadata block supported by `src/lib/docs.ts` (`document_type`, `version`, `created`, `updated`, `depends_on`, `referenced_by`, `owner`, `status`, `tags`).
 
-A short banner at the top of the Canon (right after the metadata) states:
+## Deliverables — eight documents
 
-> **Normative vs Informative.** Sections and clauses containing **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT** are **normative** and binding on every implementation and downstream document. Rationale, examples, and explanatory prose are **informative** and never override normative requirements. Where the two appear to conflict, the normative text wins.
+### 1. Vision — `docs/00-vision/vision.md`
 
-RFC 2119 keyword conventions (MUST / SHOULD / MAY / MUST NOT / SHOULD NOT) are explicitly adopted and defined once in the preamble.
+Why BusinessOS exists; problems solved; market positioning; 10-year vision; target industries; target customers; **competitive positioning** contrasting philosophy, UX, architectural approach, and target market vs Tally, Odoo, Zoho, SAP Business One, and Dynamics 365 (not a feature checklist); business philosophy (AI-first, mobile-first, configuration-over-customization, localization-first, unified data model); non-goals. `document_type: "Vision"`.
 
-### Authority hierarchy (explicit)
+### 2. Master PRD — `docs/01-master/prd.md`
 
-Immediately after the normative-vs-informative banner, the Canon fixes the order of authority in the repository:
+Single largest document. Table of contents for the entire ERP. Executive Summary; Personas; User Journeys; Modules (cross-linked to `04-domains/**`); Functional Scope (by capability layer); Non-functional Requirements (anchored to `performance.md`, `quality-attributes.md`); Business Rules (`08-business-rules/**`); Constraints; Integrations (`06-integrations/**`); Reporting (`07-reports/**`); AI Surfaces (`09-ai/**`); Mobile; Security & Compliance; product-level Acceptance Criteria; Dependencies; Open Questions. Assumptions and risks live in their own registers (§7, §8). `document_type: "Master PRD"`.
+
+### 3. Product Roadmap — `docs/01-master/roadmap.md`
+
+Organized strictly by **capability layers**:
 
 ```text
-Canon
-  ↓
-ADRs (Architecture Decision Records)
-  ↓
-Architecture Documents (02-architecture/*)
-  ↓
-Master PRD (01-master/prd.md)
-  ↓
-Module / Domain PRDs (04-domains/**)
-  ↓
-Sprint PRDs (Lovable sprint prompts)
-  ↓
-Implementation (source code)
-  ↓
-Tests
+Platform → Financial → Operations → Business → People → Intelligence
 ```
 
-Rules (normative):
+Each layer: Goals, Deliverables, Dependencies, Exit Criteria (measurable — reference `performance.md` and Canon Ch. 13 DoD), Risks (summaries; full entries in Risk Register). Plus overall milestones, phasing, and a cross-layer dependency graph (Mermaid, inline). `document_type: "Roadmap"`.
 
-- **Canon overrides all other documents** until amended by an approved ADR.
-- **An ADR can only override the Canon after the Canon is amended** to reflect it (amendment procedure below).
-- **A PRD MUST NOT override an Architecture document.**
-- **Generated code MUST NOT override documentation.** If code and docs conflict, docs win and code is corrected.
-- **Tests MUST reflect the specification, not the current implementation.**
+### 4. Business Model — `docs/01-master/business-model.md` (new)
 
-## Deliverable
+SaaS licensing; Editions (indicative); Pricing philosophy (per-user / per-company / per-module / capacity-based; regional pricing India vs GCC vs global); Marketplace; Plugin ecosystem (revenue share, certification); AI usage model (included vs metered, guardrails per Canon Ch. 9); API monetization; architectural implications (metering, entitlement, plan-gated features — flags future ADRs, does not decide them). `document_type: "Business Model"`.
 
-A single, dense, self-contained `docs/canon.md` with a preamble (normative/informative banner, RFC 2119 keywords, authority hierarchy), **14 numbered chapters** (fixed order below), a **Laws of BusinessOS** section, and an **Amendment Procedure**. Target: 40–70 pages of markdown — authoritative but readable.
+### 5. Product Scope — `docs/01-master/scope.md` (new)
 
-## Chapter outline (fixed order)
+- **In Scope:** Accounting, Inventory, CRM, HRMS, Payroll, Projects, AMC, Field Service, Manufacturing, POS, Sales, Purchase, Assets, Fleet, Analytics, AI Copilot.
+- **Out of Scope initially:** CAD/PLM, implementation consulting services, general-purpose e-commerce storefront, social networking, generic no-code app builder, custom industry verticals beyond stated targets.
+- **Deferred:** advanced MES, treasury, multi-legal-entity consolidation beyond baseline.
+- **Scope Change Procedure:** ties into `governance.md` and Canon amendment procedure.
 
-Every chapter uses the same shape: **Intent · Principles (numbered) · Rules (MUST / SHOULD / MUST NOT) · Rationale · Examples · Non-goals · Cross-references** to ADRs, engines, standards, and catalogs.
+`document_type: "Product Scope"`.
 
-1. **Product Philosophy** — what BusinessOS is, what it is not, long-term vision, target customers (India → GCC → global; SME through enterprise across manufacturing, trading, retail, services, construction, field service, healthcare, education, multi-branch orgs).
-2. **Product Principles** — simplicity over complexity, configuration over customization, automation over manual work, AI-first, mobile-first, API-first, offline-first for field users, multi-tenant by default, localizable by default.
-3. **Architecture Principles** — cloud-native, multi-tenant, DDD, Clean Architecture, event-driven, CQRS where justified, plugin/extension framework, PostgreSQL as system of record. Includes the sharpened rule:
+### 6. Success Metrics — `docs/01-master/success-metrics.md` (new)
 
-   > **Default architecture is a modular monolith. A transition to microservices REQUIRES an approved ADR demonstrating measurable operational or scalability benefits (concrete SLOs, throughput, blast-radius, team topology, or deployment independence).**
+- **Product:** time to first company setup, first invoice, first voucher; module activation rate; feature adoption.
+- **Technical:** dashboard first paint; API p95; list/search latency; report generation; mobile sync round-trip; uptime; error budgets (anchored to `performance.md`, `quality-attributes.md`).
+- **Business:** retention, NPS, expansion revenue, AI adoption, marketplace adoption, partner-sourced revenue.
 
-4. **Accounting Principles (the accounting constitution)** — double-entry integrity, immutable postings, voucher lifecycle (draft → validated → posted → cancelled-by-reversal), financial-year locking, audit trail, numbering (unique per company / FY / voucher type), tax handling (India: GST/TDS/TCS; GCC: VAT; extensible), multi-currency posting, cost centers/categories, no destructive edits on posted vouchers.
-5. **Database Principles** — UUID primary keys, soft delete convention, mandatory audit columns (`created_at`, `created_by`, `updated_at`, `updated_by`, `tenant_id`, `deleted_at`), naming rules, foreign keys always defined, transactions around aggregate writes, optimistic locking via `row_version`, RLS on every tenant-scoped table.
-6. **API Principles** — REST-first, versioning strategy (`/v1`, additive changes only), standard error envelope, pagination (cursor default), filtering DSL, idempotency keys on writes, bearer auth, rate limits, webhooks with signed payloads.
-7. **UX Principles** — keyboard-first for back office, responsive, fast data entry, WCAG AA accessibility, consistent navigation, standard data grids, standard lookup dialogs, standard filter panels, mobile field UX (offline-first, low bandwidth).
-8. **Security Principles** — RBAC with deny-by-default, least privilege, strict tenant isolation, encryption in transit and at rest, secret management, OWASP ASVS baseline, audit of all privileged actions.
-9. **AI Principles** — AI assists users; **AI never silently posts financial transactions**; human-in-the-loop for any state-changing action; RAG-grounded answers preferred over free generation; explainability required; guardrails documented per surface; per-module Copilots follow one shared contract.
-10. **Performance Principles** — measurable targets referenced from `performance.md`: dashboard first paint, voucher posting p95, list/search latency, report generation, mobile sync round-trip.
-11. **Coding Principles** — strict TypeScript, SOLID, Clean Code, testability, documentation-with-code, no dead code, small modules, module boundaries enforced by lint rules.
-12. **Documentation Principles** — every module needs a PRD, every API is documented, every architectural change requires an ADR, **the Canon overrides all other documents until an ADR amends it**, every document carries the standard metadata block, every downstream document MUST cite the Canon chapter(s) it conforms to.
-13. **Definition of Done** — every feature ships with tests (unit + integration where applicable), documentation update, permissions matrix, audit coverage, localization keys, accessibility check, performance check, security review checklist.
-14. **The Laws of BusinessOS** — short, numbered, non-negotiable:
-    - **L1.** Every financial transaction creates balanced journal entries.
-    - **L2.** Posted vouchers are immutable; corrections happen via reversal + re-post.
-    - **L3.** Every record belongs to exactly one tenant.
-    - **L4.** Every user action is auditable.
-    - **L5.** Permissions are deny-by-default.
-    - **L6.** Every API is versioned.
-    - **L7.** Every module is extensible without modifying core code.
-    - **L8.** Every tenant-scoped query is filtered by `tenant_id`.
-    - **L9.** Money is stored with explicit currency and precision — never as a bare number.
-    - **L10.** Time is stored in UTC; presented in tenant time zone.
-    - **L11.** AI never silently changes state; every AI action is proposed, then approved.
-    - **L12.** The Canon overrides all other documents until an ADR amends it.
+Every metric declared with definition, target, measurement method, owner. `document_type: "Success Metrics"`.
 
-**Amendment Procedure** — how the Canon is changed: propose an ADR referencing the affected Canon chapter, get approval, update the Canon chapter, bump the Canon `version`, add the ADR to `decision-register.md`, and record the change in a Canon "Change Log" section at the bottom.
+### 7. Assumptions Register — `docs/01-master/assumptions.md` (new)
 
-## Standard metadata block (adopted repository-wide)
+Table: `ID`, `Assumption`, `Category` (technical / product / regulatory / commercial / operational), `Rationale`, `Impact if invalidated`, `Owner`, `Status` (active / promoted-to-ADR / invalidated), `Review cadence`. Seed entries: PostgreSQL as system of record; India-first, GCC-next; offline-first mobile; swappable AI provider; cloud-first (on-prem not Phase-1). `document_type: "Assumptions Register"`.
 
-Extend the existing frontmatter schema with `document_type`, `version`, `created`, and `referenced_by`. Applied to the Canon in this pass; back-filled to other Level 1 docs as they are authored.
+### 8. Risk Register — `docs/01-master/risk-register.md` (new)
 
-```yaml
----
-title: "BusinessOS ERP Canon"
-document_type: "Constitution"
-summary: "The highest-authority document in the repository. All PRDs, ADRs, and code must conform."
-layer: "platform"
-owner: "Platform / Architecture Council"
-status: "approved"
-version: "1.0.0"
-created: "2026-07-05"
-updated: "2026-07-05"
-depends_on: []
-referenced_by: []
-tags: ["canon","constitution","laws","principles"]
----
-```
+Table: `ID`, `Risk`, `Category`, `Description`, `Impact`, `Probability`, `Mitigation`, `Contingency`, `Owner`, `Status`, `Review cadence`. Categories: technical, regulatory, product, adoption, AI, marketplace, operational, security. Adoption risks include **migration friction from legacy ERP and accounting systems (including Tally, Zoho, Odoo, spreadsheets, and custom solutions)**. `document_type: "Risk Register"`.
+
+## Cross-document integrity
+
+- Every document opens with a **Conforms to Canon** section listing specific chapter numbers.
+- Every document ends with **References** linking related documents (Vision ↔ PRD ↔ Roadmap ↔ Business Model ↔ Scope ↔ Metrics ↔ Assumptions ↔ Risks, plus Canon).
+- `depends_on` / `referenced_by` frontmatter populated so the portal reverse-index renders correctly.
+
+## Portal updates
+
+- `src/routes/docs.index.tsx` — new "Business Blueprint" quick-link group directly after the Canon.
+- `docs/_meta.json` — register the five new files under `01-master` in intended order: Master PRD, Roadmap, Business Model, Product Scope, Success Metrics, Assumptions Register, Risk Register.
+- No routing, component, or package changes.
 
 ## Files touched
 
-- **Author**: `docs/canon.md` — full constitution (preamble + 14 chapters + Laws + amendment procedure + change log).
-- **Extend types + rendering**:
-  - `src/lib/docs.ts` — add `document_type`, `version`, `created`, `referenced_by` to `DocFrontmatter`.
-  - `src/routes/docs.$.tsx` — surface `document_type`, `version`, `created` in the header; render a "Referenced By" section when populated.
-- **Landing pointer**: `src/routes/docs.index.tsx` — the Canon quick-link chip is labelled **Constitution** with a one-liner: "The highest-authority document. Every PRD, ADR, and implementation must conform."
-- **No changes** to routing, packages, or other skeleton files.
+- Author (new): `docs/01-master/business-model.md`, `scope.md`, `success-metrics.md`, `assumptions.md`, `risk-register.md`.
+- Author (replace stubs): `docs/00-vision/vision.md`, `docs/01-master/prd.md`, `docs/01-master/roadmap.md`.
+- Edit: `docs/_meta.json`, `src/routes/docs.index.tsx`.
 
-## Explicit non-goals for Pass 2
+## Explicit non-goals for Pass 3
 
-- No content in any other doc (Vision, PRD, Architecture, engines, domain PRDs) — those are Pass 3+.
-- No back-fill of the expanded metadata block into skeleton docs — that happens per doc as it gets authored.
-- No new dependencies.
+- No architecture, engine, ADR, or module content.
+- No new npm packages, routes, or components.
+- No back-fill of metadata into unrelated skeleton docs.
+- **Deferred to later stand-alone passes:** `docs/01-master/stakeholders.md` (Stakeholder Register) and `docs/glossary-governance.md` (Terminology Policy). Recorded so they are not forgotten; **not** authored in Pass 3.
 
-Approve to write the Canon.
+## Post-Pass-3 review checklist (before starting Pass 4)
+
+Applied by the user (and re-checked by the agent when Pass 4A begins) against the generated content:
+
+- No duplicated concepts between Vision and Master PRD.
+- No contradictions between Business Model and Product Scope.
+- Roadmap phases match the capability layers exactly.
+- Success metrics are measurable, not aspirational (each has target + measurement method + owner).
+- Any "assumption" that is actually a design decision is flagged for promotion to an ADR in Pass 6.
+
+## Pass 4 will be split (recorded, approved individually later)
+
+```text
+Pass 4A  Master Architecture, Domain-Driven Design, Domain Map
+Pass 4B  Database Architecture, Multi-Tenant Architecture, Database Standards, Data Dictionary
+Pass 4C  API Architecture, Security Architecture, AI Architecture
+Pass 4D  Deployment, DevOps, Testing Strategy, UI/UX Design System, UX Standards, Coding Standards
+```
+
+Then: Pass 5 ERP Core Engines → Pass 6 ADRs → Pass 7+ Domain / Module PRDs.
+
+Approve to author the Business Blueprint.

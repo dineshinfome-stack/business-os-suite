@@ -58,16 +58,36 @@
           "path": "01-master/prd"
         },
         {
+          "title": "Roadmap",
+          "path": "01-master/roadmap"
+        },
+        {
+          "title": "Business Model",
+          "path": "01-master/business-model"
+        },
+        {
+          "title": "Product Scope",
+          "path": "01-master/scope"
+        },
+        {
+          "title": "Success Metrics",
+          "path": "01-master/success-metrics"
+        },
+        {
+          "title": "Assumptions Register",
+          "path": "01-master/assumptions"
+        },
+        {
+          "title": "Risk Register",
+          "path": "01-master/risk-register"
+        },
+        {
           "title": "FRS",
           "path": "01-master/frs"
         },
         {
           "title": "SRS",
           "path": "01-master/srs"
-        },
-        {
-          "title": "Roadmap",
-          "path": "01-master/roadmap"
         }
       ]
     },
