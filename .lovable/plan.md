@@ -1,122 +1,79 @@
-## Pass 6 — Decision Layer (ADR Repository)
+## Pass 6.5 — Documentation Traceability & Navigation Layer
 
-Documentation-only. No code, config, packages, or route changes. Architecture (Passes 1–5) stays frozen; all future architectural evolution flows through ADRs.
-
-### Handling the existing `docs/05-adr/` folder
-
-The repo already contains `docs/05-adr/` with 12 stubs (`ADR-0000` template through `ADR-0011`) and a `docs/decision-register.md` stub. Approach:
-
-- Create the new authoritative tree at `docs/11-adrs/`.
-- Leave the old `docs/05-adr/` files in place; mark each with `status: superseded` in frontmatter and a one-line pointer to its replacement ADR ID in `docs/11-adrs/`. No deletions.
-- Update `docs/decision-register.md` to a thin redirect to `docs/11-adrs/ADR_INDEX.md`.
-- In `docs/_meta.json`, rename the existing "05 ADRs" group to "05 ADRs (Legacy — Superseded)" and add the new "11 Architecture Decision Records" group.
-
-If you'd rather delete `docs/05-adr/` outright, say so before build mode.
+Documentation-only. Creates eight derived index/catalog/matrix guides and registers them in the docs portal sidebar. No code, packages, config, routes, architecture, engine, or ADR changes.
 
 ### Deliverables
 
-**A. Governance & template**
+**1. `docs/DOCUMENT_TRACEABILITY.md`** — Master traceability guide.
+Sections: Purpose · Documentation Hierarchy · Reading Order · Document Dependency Chain · Authoritative Document Rules · Change Propagation Rules · Traceability Examples · References. Includes a Mermaid `graph TD` dependency diagram: Foundation Freeze → Canon → Business Blueprint → Architecture → ERP Core Engines → ADRs → Module PRDs → Sprint PRDs → Implementation.
 
-- `docs/11-adrs/README.md` — purpose, lifecycle, numbering, reading order, relationships to Canon / Architecture / ERP Core Engines / Module & Sprint PRDs, amendment process, references. Contains, in order:
+**2. `docs/ENGINE_USAGE_MATRIX.md`** — Engine usage matrix.
+One row per ERP Core Engine (`ENG-001..ENG-028` from `docs/10-erp-core/ENGINE_CATALOG.md`). Columns: Engine · Category · Typical Consumers · Required · Optional · Notes. Consumers drawn from the 17 planned modules (Accounting, Sales, Inventory, HRMS, Payroll, CRM, Manufacturing, Projects, AMC, Field Service, Assets, Fleet, POS, Service Desk, Analytics, AI, Platform). Informational only; authoritative dependencies land in Module PRDs.
 
-  1. **ADR Categories table** (after Reading Order):
+**3. `docs/ADR_IMPACT_MATRIX.md`** — ADR impact-analysis matrix.
+Rows: each ADR ID from `docs/11-adrs/ADR_INDEX.md`. Columns: Architecture Documents · ERP Core Engines · Module PRDs (placeholder) · Coding Standards · Design Standards. Derived from each ADR's `affected_documents` plus explicit engine cross-references. Header states: on conflict, the ADR file wins.
 
-     | Category | Purpose |
-     | --- | --- |
-     | Architecture | Structural decisions |
-     | Data | Data governance decisions |
-     | Platform | API / platform decisions |
-     | Security | Security decisions |
-     | AI | AI governance |
-     | Integration | Cross-system integration |
-     | DevOps | Runtime & operations |
-     | Engineering | Development practices |
-     | UI | Design standards |
+**4. `docs/MODULE_CATALOG.md`** — Placeholder catalog for Pass 7.
+Columns: Module Name · Status (all `Planned`) · Primary Domain · Planned PRD path · Expected Engine Dependencies · Planned Owner. One row per planned BusinessOS module or bounded context currently in scope. Planning metadata only.
 
-  2. **ADR Number Ranges** subsection:
-     - `ADR-001–009` → Architecture
-     - `ADR-010–019` → Data
-     - `ADR-020–029` → Platform
-     - `ADR-030–039` → Security
-     - `ADR-040–049` → AI
-     - `ADR-050–059` → Integration
-     - `ADR-060–069` → DevOps
-     - `ADR-070–079` → Engineering
-     - `ADR-080–089` → UI
-     - `ADR-090+` reserved for future categories.
+**5. `docs/GLOSSARY_INDEX.md`** — Master alphabetical glossary index.
+Columns: Term · Definition Source · Canon · Architecture · Data Dictionary · Module PRD (future). Points to authoritative locations (`docs/glossary.md`, `docs/canon.md`, `docs/02-architecture/data-dictionary.md`, etc.). Index-only; definitions remain in source documents.
 
-     Rule: a new ADR MUST use the next unused number within its category's range. If a range fills, allocate the next unused block of 10 and record the extension here. IDs are permanent; ranges are structural guidance, not license to renumber.
+**6. `docs/REPOSITORY_MAP.md`** — Complete repository map.
+Sections: Overview · Foundation · Canon · Business Blueprint · Architecture · ERP Core Engines · ADRs · Design Standards · Module PRDs · Sprint PRDs · Reference Documents. For each layer: folder hierarchy tree, ownership, document purpose, and document authority (authoritative vs derived).
 
-  3. **ADR Review Cadence** subsection:
+**7. `docs/DOCUMENT_INDEX.md`** — Master alphabetical inventory of every repository document.
+Columns: Document · Layer · Status · Authority (`Authoritative` | `Derived`) · Path. Complements — does not replace — `_meta.json` (portal sidebar) and `REPOSITORY_MAP.md` (hierarchy). Serves as a searchable inventory for humans and AI retrieval.
 
-     > Accepted ADRs are not permanent by default. They SHOULD be reviewed when one or more of the following occurs: a new Foundation baseline is proposed; a major platform capability is introduced or retired; a technology limitation materially affects business goals; security, regulatory, or compliance requirements change; an Accepted ADR is proposed to be superseded. Each ADR SHOULD record its next review trigger or explicitly state that no scheduled review is required.
+**8. `docs/DOCUMENT_OWNERSHIP_MATRIX.md`** — Governance ownership index.
+Purely additive derived governance document; introduces no new rules or ownership changes. Sections:
 
-  4. **Observation for Pass 7+** (closing note):
+- **Purpose** — one paragraph describing this file as the governance ownership index for the documentation repository.
+- **Ownership Matrix** — columns: Documentation Family · Primary Owner · Approval Authority · Change Mechanism · Authoritative Documents. Rows: Foundation Freeze · Canon · Business Blueprint · Architecture · ERP Core Engines · Architecture Decision Records · Documentation Traceability · Module PRDs · Sprint PRDs · Coding Standards · Design Standards.
+- **Change Authority** — Canon → Architecture Governance; Business Blueprint → Product Governance; Architecture → ADR process; ERP Core Engines → ADR + Architecture Governance; ADRs → ADR lifecycle; Module PRDs → Product + Architecture review; Sprint PRDs → Engineering; Documentation indexes → Documentation Governance.
+- **References** — `FOUNDATION_FREEZE_v1.md`, `DOCUMENT_TRACEABILITY.md`, `REPOSITORY_MAP.md`, `docs/11-adrs/README.md`, `docs/10-erp-core/ENGINE_CATALOG.md`.
 
-     > Beginning with Pass 7 (Domain / Module PRDs), platform architecture is considered complete. Module PRDs MUST consume Canon, Architecture, ERP Core Engines, and Accepted ADRs. They MUST NOT redefine platform behavior, architectural patterns, or reusable engine capabilities. If a Module PRD requires a change to platform behavior, the change MUST first be proposed through a new or superseding ADR; only after that ADR is Accepted may the Module PRD reference the updated behavior. Dependency direction: Foundation → Architecture → ERP Core Engines → ADRs → Module PRDs → Sprint PRDs → Implementation.
+Header states this is a derived document; source files win on conflict.
 
-- `docs/11-adrs/ADR_TEMPLATE.md` — mandatory template with every field: ADR ID, Title, Status, Date, Owner, Decision Type, Related Canon Chapters, Related Architecture Documents, **Affected Documents**, Related ERP Core Engines, Related Module PRDs, Context, Problem Statement, Decision, Alternatives Considered, Trade-offs, Consequences, Migration Strategy, Backward Compatibility, Risks, Rejected Options, Implementation Notes, Future Review Trigger, References.
+### Sidebar registration — `docs/_meta.json`
 
-  Frontmatter schema: `adr_id`, `status`, `owner`, `category`, `created`, `updated`, `related_docs`, `related_engines`, **`affected_documents: []`**, `supersedes`, `superseded_by`.
+Add the eight guides under the existing Overview/Documentation top-level group in this order:
 
-  **Affected Documents** section (placed immediately after "Related Architecture Documents") reads:
+1. Repository Map → `REPOSITORY_MAP`
+2. Document Index → `DOCUMENT_INDEX`
+3. Document Ownership Matrix → `DOCUMENT_OWNERSHIP_MATRIX`
+4. Document Traceability → `DOCUMENT_TRACEABILITY`
+5. Glossary Index → `GLOSSARY_INDEX`
+6. Engine Usage Matrix → `ENGINE_USAGE_MATRIX`
+7. ADR Impact Matrix → `ADR_IMPACT_MATRIX`
+8. Module Catalog → `MODULE_CATALOG`
 
-  > List the documentation expected to require updates if this ADR is Accepted (for example: Master Architecture, API Architecture, ERP Core README, specific Engine documents, Module PRDs, or Coding Standards). This is an impact-analysis aid only — it does not authorize changes; it simply records the expected documentation surface affected by the decision.
+No other `_meta.json` structural changes.
 
-  The `Future Review Trigger` field is mandatory and MUST either name a trigger from the Review Cadence list or state "No scheduled review required".
+### Technical Notes
 
-**B. ADR Index (master index)**
-
-- `docs/11-adrs/ADR_INDEX.md` — mirrors `ENGINE_CATALOG.md`. Single table with columns **ADR ID | Title | Category | Status | Related Engines | Supersedes | Superseded By**, ordered by ADR ID. Sections: Purpose, How to Read, Status legend (`Draft | Proposed | Accepted | Superseded | Deprecated | Rejected`), Derived-index rule (on any conflict the ADR file wins), Maintenance rule (adding/superseding/status change requires updating this index in the same change).
-
-**C. Category folders** under `docs/11-adrs/`:
-
-```text
-architecture/  data/  platform/  security/
-ai/            integration/  devops/  engineering/  ui/
-```
-
-Each folder gets a short `README.md` describing its scope and its reserved ID range.
-
-**D. Initial ADR set** — each ADR listed below is authored from the template (not stubs): filled Context, Problem Statement, Decision, Alternatives, Trade-offs, Consequences at Pass 5-level detail. Cross-referenced to Canon, relevant Architecture docs, and ERP Core Engine IDs (`ENG-001…ENG-028`). **Every initial ADR populates `affected_documents` where applicable** (empty array only when no downstream docs are affected). All ADRs use numbers within their category's reserved range.
-
-Status assignment:
-- **Accepted** (frozen by Canon / Foundation Freeze v1): ADR-001 Modular Monolith, ADR-002 DDD, ADR-003 Event-Driven Communication, ADR-004 Plugin Extension Model, ADR-005 Clean Architecture, ADR-011 Multi-Tenant Isolation, ADR-014 Audit Strategy, ADR-032 RBAC + ABAC.
-- **Proposed** (everything else): remains Proposed until implementation validates; each such ADR sets its Future Review Trigger.
-
-Files:
-
-- `architecture/` (001–009): ADR-001..006 (Modular Monolith, DDD, Event-Driven Communication, Plugin Extension Model, Clean Architecture, CQRS Usage Guidelines)
-- `data/` (010–019): ADR-010..016 (Postgres SoR, Multi-Tenant Isolation, UUID, Money Representation, Audit, Soft Delete, Versioning)
-- `platform/` (020–029): ADR-020..026 (API Style, API Versioning, Error Envelope, Pagination, Webhooks, Feature Flags, Configuration Hierarchy)
-- `security/` (030–039): ADR-030..036 (AuthN, AuthZ, RBAC+ABAC, Secrets Mgmt, Encryption, Data Classification, Audit Integrity)
-- `ai/` (040–049): ADR-040..045 (Provider Abstraction, Tool Calling, Human Approval, Prompt Governance, RAG, Cost Governance)
-- `integration/` (050–059): ADR-050..055 (Event Bus, Outbox, Retry, Idempotency, Dead Letter, External Integration Philosophy)
-- `devops/` (060–069): ADR-060..065 (Deployment Model, Environments, Release, Testing, Observability, DR)
-- `engineering/` (070–079): ADR-070..075 (Coding Standards, Doc Standards, Module Boundaries, Dependency Rules, Tech Debt, Backward Compatibility)
-- `ui/` (080–089): ADR-080..084 (Design Tokens, Accessibility, Localization, Offline UX, Navigation Standards)
-
-**E. Numbering & lifecycle**
-
-- Permanent IDs `ADR-001`..`ADR-999`. Never reused. Deprecated/rejected/superseded ADRs keep their ID with the appropriate status.
-- New ADRs claim the next unused number **within their category range**.
-- Statuses: `Draft | Proposed | Accepted | Superseded | Deprecated | Rejected`. Superseded ADRs link to their replacement via `superseded_by`.
-
-**F. Portal registration**
-
-- Add group **"11 Architecture Decision Records"** to `docs/_meta.json` with entries: README, ADR Index, ADR Template, and one sub-entry per category folder. Rename the existing "05 ADRs" group to "05 ADRs (Legacy — Superseded)". No route/UI/code changes.
+- All eight files live at `docs/` root — cross-cutting derived indexes matching `docs/canon.md`, `docs/glossary.md`, `docs/decision-register.md`.
+- Every file uses standard markdown frontmatter (`title`, `summary`, `layer: platform`, `owner: Platform`, `status: approved`, `updated`, `tags`, `document_type: Governance Guide`) and closes with a `## References` section.
+- Every matrix/catalog/index header states it is a **derived document**; source files win on conflict.
+- All derived documents SHOULD be regenerated or reviewed whenever an authoritative document is added, removed, renamed, or materially changed. They MUST NOT become independent sources of truth.
+- Mermaid diagram in `DOCUMENT_TRACEABILITY.md` uses plain `graph TD` — no custom colors, no emojis.
+- No edits to Passes 1–6 documents. `src/routeTree.gen.ts`, route files, styles, and packages remain untouched.
 
 ### Non-goals
 
-No code, config, schemas, endpoints, package changes, or edits to Pass 1–5 documents beyond adding ADR cross-references where already planned. No renumbering of existing engines. No new lifecycle states beyond the six listed.
+No architecture changes, no engine changes, no ADR edits, no Module or Sprint PRDs, no new governance rules, no ownership changes, no business logic, no code or route changes.
 
-### Acceptance criteria
+### Acceptance Criteria
 
-- `docs/11-adrs/README.md` (ADR Categories table, ADR Number Ranges, ADR Review Cadence, Observation for Pass 7+), `ADR_TEMPLATE.md`, and `ADR_INDEX.md` exist and follow the mandatory schema.
-- `ADR_TEMPLATE.md` frontmatter includes `affected_documents: []`; template body has an "Affected Documents" section immediately after "Related Architecture Documents".
-- Nine category folders exist, each with a README that names its reserved ID range.
-- Each initial ADR is authored from the template with a permanent ID inside its category range, correct status, owner, cross-references, a populated `affected_documents` value where applicable, and a Future Review Trigger value.
-- `ADR_INDEX.md` contains one row per ADR authored, in ID order.
-- Legacy `docs/05-adr/` files marked `superseded` with pointers; `docs/decision-register.md` redirects to `ADR_INDEX.md`.
-- `docs/_meta.json` registers the new group and renames the legacy one; no other structural changes.
-- No source, config, or schema files touched.
+- Eight new files exist at `docs/` root with correct frontmatter.
+- `DOCUMENT_TRACEABILITY.md` contains the Mermaid dependency diagram and all required sections.
+- `ENGINE_USAGE_MATRIX.md` covers every engine in `ENGINE_CATALOG.md`.
+- `ADR_IMPACT_MATRIX.md` covers every ADR in `ADR_INDEX.md`.
+- `MODULE_CATALOG.md` lists every planned BusinessOS module or bounded context currently in scope, each with status `Planned`.
+- `GLOSSARY_INDEX.md` is alphabetical and index-only (no new definitions).
+- `REPOSITORY_MAP.md` covers every documentation layer with folder tree, ownership, purpose, authority.
+- `DOCUMENT_INDEX.md` is an alphabetical inventory of every repository document with Layer, Status, Authority, and Path.
+- `DOCUMENT_OWNERSHIP_MATRIX.md` contains one ownership row per documentation family, a Change Authority section, and a derived-document disclaimer.
+- Each derived document includes the regeneration/review statement under a maintenance note.
+- `docs/_meta.json` registers the eight guides in the specified order; no other structural changes.
+- No source, config, schema, ADR, engine, or Passes 1–6 documents modified.
