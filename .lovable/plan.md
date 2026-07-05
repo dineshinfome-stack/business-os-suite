@@ -1,110 +1,134 @@
-# Pass 8 — Sprint PRD Framework (Scaffolding)
+# Pass 8.1 — Sprint Authoring Methodology & Execution Plan (v4)
 
-Documentation-only. Pass 8 establishes the **Sprint PRD layer** as the bridge from Module PRDs (MOD-NNN) to implementation. This scaffolding pass introduces the framework, template, and layer README — but does **not** author individual sprints yet. Actual sprint authoring happens per-module, sprint-by-sprint, in Pass 8.x.
+Documentation-only. Establishes the repeatable methodology, sizing, sequencing, and governance that every Pass 8.x Sprint PRD will follow. No Sprint PRDs are authored. No changes to Canon, Architecture, ERP Core Engines, ADRs, Module PRDs, or the Pass 8 scaffolding template — only the authoring framework layered on top.
 
-No architecture, engines, ADRs, or Module PRDs are modified. No code, routes, packages, schemas, or APIs are introduced.
+## Objectives
 
-## What will be built
+Create the execution framework so that all future Sprint PRDs (Pass 8.2 onward) are consistent, traceable, dependency-ordered, and deliver complete verifiable increments — before any actual sprints are written.
 
-### 1. Sprint PRD layer
+## Deliverables
 
-New folder: `docs/30-sprint-prds/`
+### 1. Sprint Authoring Guide
 
-- `README.md` — layer overview establishing:
-  - Sprint PRD purpose (implementation-ready slice of a Module PRD).
-  - Delivery hierarchy: **Module PRD → Sprint PRDs → Implementation Tasks → Source Code**.
-  - Stable identifier scheme: `SPR-MOD-<NNN>-<NNN>` (e.g. `SPR-MOD-002-001` = Accounting Sprint 1). Identifiers are permanent and never reused, even if a sprint is renamed, split, merged, or retired.
-  - Dependency rules — Sprint PRDs **may** consume ERP Core Engines (`ENG-NNN`), Accepted ADRs (`ADR-NNN`), Foundation, Architecture, and their parent Module PRD (`MOD-NNN`). They **MUST NOT** redefine any upstream layer or introduce business requirements not first captured in a Module PRD.
-  - Folder convention — one subfolder per module (`docs/30-sprint-prds/<module-folder>/`), containing that module's Sprint PRD files.
-  - Sprint PRD lifecycle: `Draft → Planned → In Progress → Done → Superseded`.
-  - Identifier Cross-Reference Convention carried forward from Pass 7.
+New file: `docs/SPRINT_AUTHORING_GUIDE.md`
 
-### 2. Authoritative Sprint PRD template
+Authoritative "how to author a Sprint PRD" document. Sections:
 
-Replace the existing stub at `docs/99-templates/sprint-prd-template.md` with the authoritative Sprint PRD template. The template uses a **standard 13-section structure** (References is section 13, matching every other authoritative document in this repository):
+1. Purpose
+2. Sprint decomposition philosophy (Module PRD → vertical slices)
+3. Vertical slice principles (UI + engine + data + tests per slice)
+4. Sprint sizing guidelines (references `SPRINT_ESTIMATION_GUIDE.md`)
+5. Dependency handling (upstream module + engine + ADR)
+6. Engine consumption rules (`ENG-NNN` — consume, never redefine)
+7. ADR reference rules (Accepted only, except explicitly awaited)
+8. Module traceability rules (every sprint traces to `MOD-NNN` sections)
+9. **Sprint Traceability Rule** — Every Sprint PRD SHOULD trace each feature back to exactly one parent Module PRD section. A sprint MAY implement multiple related requirements from the same Module PRD but SHOULD avoid spanning unrelated module capabilities. If a sprint must satisfy requirements from multiple modules, the dependency MUST already exist in the Module Dependency Graph.
+10. Acceptance Criteria writing standards (Given/When/Then, observable)
+11. Definition of Done guidance (references authoritative testing + observability standards)
+12. **Sprint Completion Rule** — A Sprint PRD SHOULD implement one or more complete business capabilities within its declared scope. A sprint MAY leave future enhancements for subsequent sprints, but it SHOULD NOT intentionally leave partially implemented functionality that cannot be exercised or validated independently. If unavoidable due to external dependencies, the incomplete capability MUST be explicitly documented under "Risks and Assumptions" and traced to the planned follow-up Sprint PRD.
+13. Sprint sequencing rules (dependency order; see `SPRINT_DEPENDENCY_MATRIX.md`)
+14. References
 
-Frontmatter fields:
-- `sprint_id` — permanent `SPR-MOD-NNN-NNN`
-- `parent_module` — `MOD-NNN`
-- `iteration` — human-readable schedule label (e.g. `Sprint 1` or `2026-Q3-S1`). Renumberable without touching `sprint_id`.
-- `related_engines` — array of `ENG-NNN`
-- `related_adrs` — array of `ADR-NNN` (Accepted only, except explicitly awaited)
-- `status` — `Draft | Planned | In Progress | Done | Superseded`
-- `owner`
-- `updated`
+### 2. Sprint Roadmap
 
-Body sections (13):
+New file: `docs/SPRINT_ROADMAP.md`
 
-1. Sprint Objective and Scope
-2. Features Included
-3. User Stories
-4. Acceptance Criteria
-5. ERP Core Engine Dependencies (`ENG-NNN`)
-6. Accepted ADR References (`ADR-NNN`)
-7. Parent Module Reference (`MOD-NNN`)
-8. Out-of-Scope
-9. Risks and Assumptions
-10. Definition of Done
-11. Traceability to Module PRD (which Module PRD sections this sprint fulfils)
-12. Test Strategy Summary (references authoritative testing standards; does not redefine)
-13. References
+Single planning table. Columns: Phase, Module, Module ID, **Estimated Sprint Count**, Priority, Depends On. The column heading `Estimated Sprint Count` (updated from `Planned Sprint Count`) reflects that values are initial planning estimates and not implementation commitments; an explanatory note above the table restates this. Phases seeded in dependency order (Platform → Accounting → Purchase → Inventory → Sales → CRM → remaining modules).
 
-The template states explicitly that Sprint PRDs consume the existing architecture and never redefine it, and that `sprint_id` is permanent while `iteration` may change.
+### 3. Module Sprint Planning Tables (roadmap placeholders only)
 
-### 3. Sprint Catalog (derived index)
+Update every `docs/30-sprint-prds/<module>/README.md` (18 files). Replace the current empty "Sprints" table with a **planning placeholder** table:
 
-New file: `docs/SPRINT_CATALOG.md`
+| Sprint ID | Iteration | Goal | Status | Dependencies |
+| --- | --- | --- | --- | --- |
 
-Derived governance index in the same family as `MODULE_CATALOG.md`. Columns: Sprint ID, Iteration, Parent Module, Status, PRD Path, Owner. Ships empty (header + empty catalog table) until the first sprints are authored in Pass 8.x.
+Each row seeded with `Status = Planned` and uses the module's permanent `SPR-MOD-NNN-NNN` prefix. Row counts align with `SPRINT_ROADMAP.md`.
 
-### 4. Per-module sprint subfolders (scaffolding only)
+**Placeholder disclaimer** — every module README MUST include this statement above the planning table:
 
-Create `docs/30-sprint-prds/<module-folder>/README.md` for each of the 18 modules (`MOD-001` … `MOD-018`). Each README:
+> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
-- Links to the parent `MODULE_PRD.md`.
-- States the sprint identifier prefix for that module (e.g. `SPR-MOD-002-NNN`).
-- Contains an empty "Sprints" table that will grow as sprint files are added.
+`SPRINT_CATALOG.md` is NOT modified in this pass — it continues to list only authored Sprint PRDs (currently none).
 
-No actual Sprint PRDs are authored in this pass.
+### 4. Sprint Estimation Guide
 
-### 5. Derived governance refresh
+New file: `docs/SPRINT_ESTIMATION_GUIDE.md`
 
-- `docs/_meta.json` — register the new "30 Sprint PRDs" sidebar group (layer README + 18 module sub-READMEs, in `MOD-001…MOD-018` order).
-- `docs/REPOSITORY_MAP.md` — add `30-sprint-prds/` to the tree overview and to the "Sprint PRDs (Pass 8+)" layer detail (flip status from *to be introduced* to *scaffolded*).
-- `docs/DOCUMENT_INDEX.md` — add the new layer README, the replaced Sprint PRD template, `SPRINT_CATALOG.md`, and each module sprint subfolder README.
-- `docs/DOCUMENT_OWNERSHIP_MATRIX.md` — flip the "Sprint PRDs" row's Authoritative Documents from *to be introduced* to `docs/30-sprint-prds/`, and add `SPRINT_CATALOG.md` to the Documentation Traceability & Indexes row.
-- `docs/DOCUMENT_TRACEABILITY.md` — reference Sprint PRDs as the downstream layer consuming Module PRDs.
+Defines Small / Medium / Large sprint sizes based on:
 
-### 6. Foundation Freeze / Baseline update
+- Business capability breadth
+- Implementation complexity
+- Number of engine integrations (`ENG-NNN`)
+- Cross-module impact
+- ADR touch surface
 
-- `docs/FOUNDATION_FREEZE_v1.md` — update Next Milestones to mark Pass 8 as *In Progress — Scaffolding Complete*.
-- `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md` — extend the Cross-Reference Map to include the new Sprint PRD layer and `SPRINT_CATALOG.md`. No governance change.
+Explicitly excludes story points. Provides one worked example per size band.
 
-### 7. Internal plan record
+### 5. Sprint Dependency Matrix
 
-`.lovable/plan.md` — append a Pass 8 scaffolding entry.
+New file: `docs/SPRINT_DEPENDENCY_MATRIX.md`
+
+Derived governance document. Shows the allowable implementation order across modules:
+
+```text
+Platform (MOD-001)
+   ↓
+Accounting (MOD-002)
+   ↓
+Purchase (MOD-004)
+   ↓
+Inventory (MOD-005)
+   ↓
+Sales (MOD-003)
+   ↓
+CRM (MOD-006)
+   ↓
+... remaining modules
+```
+
+Includes a matrix table (rows = modules, columns = modules they depend on). Cross-references `docs/module-dependency-matrix.md` — does not redefine it.
+
+### 6. Derived governance refresh
+
+Update, without changing upstream layers:
+
+- `docs/_meta.json` — register the four new documents.
+- `docs/REPOSITORY_MAP.md` — add the four new files to the tree overview.
+- `docs/DOCUMENT_INDEX.md` — add the four new files.
+- `docs/DOCUMENT_TRACEABILITY.md` — reference the authoring guide as the process bridge between Module PRDs and Sprint PRDs.
+- `docs/DOCUMENT_OWNERSHIP_MATRIX.md` — add the four new files under Documentation Traceability & Indexes / Sprint PRDs rows.
+- `docs/FOUNDATION_FREEZE_v1.md` — mark Pass 8.1 complete under Next Milestones; identify Pass 8.2 (MOD-001 Platform sprints) as the next planned implementation-planning phase.
+- `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md` — extend the cross-reference map with the sprint authoring framework.
+- `.lovable/plan.md` — append a Pass 8.1 entry.
 
 ## Files touched
 
-- **Create**:
-  - `docs/30-sprint-prds/README.md`
-  - `docs/30-sprint-prds/<module>/README.md` × 18
-  - `docs/SPRINT_CATALOG.md`
-- **Replace the existing stub**: `docs/99-templates/sprint-prd-template.md`
-- **Edit**: `docs/_meta.json`, `docs/REPOSITORY_MAP.md`, `docs/DOCUMENT_INDEX.md`, `docs/DOCUMENT_OWNERSHIP_MATRIX.md`, `docs/DOCUMENT_TRACEABILITY.md`, `docs/FOUNDATION_FREEZE_v1.md`, `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md`, `.lovable/plan.md`
+- **Create**: `docs/SPRINT_AUTHORING_GUIDE.md`, `docs/SPRINT_ROADMAP.md`, `docs/SPRINT_ESTIMATION_GUIDE.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md`
+- **Edit**: 18 × `docs/30-sprint-prds/<module>/README.md`, `docs/_meta.json`, `docs/REPOSITORY_MAP.md`, `docs/DOCUMENT_INDEX.md`, `docs/DOCUMENT_TRACEABILITY.md`, `docs/DOCUMENT_OWNERSHIP_MATRIX.md`, `docs/FOUNDATION_FREEZE_v1.md`, `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md`, `.lovable/plan.md`
 
-## What this pass explicitly does NOT do
+## Non-goals
 
-- Does not author any actual Sprint PRDs. Sprint authoring is per-module and iterative in Pass 8.x.
-- Does not modify Canon, Architecture, ERP Core Engines, ADRs, or Module PRDs.
-- Does not introduce code, routes, packages, schemas, or APIs.
+- No Sprint PRDs authored.
+- No implementation artifacts.
+- No architecture, engine, ADR, or Module PRD changes.
+- No changes to the Sprint PRD template (frozen in Pass 8).
+- No changes to `SPRINT_CATALOG.md` — it lists only authored Sprint PRDs.
 
-## Verification
+## Acceptance Criteria
 
-- Sidebar renders the new "30 Sprint PRDs" group with 19 items (layer README + 18 modules).
-- Every module subfolder has a README linked to its parent `MOD-NNN` MODULE_PRD and states its `SPR-MOD-NNN-NNN` prefix.
-- Sprint PRD template lists all 13 sections, includes `iteration` in frontmatter, and forbids upstream redefinition.
-- Derived indexes still parse and cross-reference the new layer.
-## Pass 8 — Sprint PRD Framework Scaffolding (completed)
+- Sprint Authoring Guide includes both the Sprint Traceability Rule and the Sprint Completion Rule (the latter placed immediately after Definition of Done).
+- Sprint Roadmap uses `Estimated Sprint Count` as the column heading and includes a note framing values as initial planning estimates.
+- Sprint Estimation Guide and Sprint Dependency Matrix exist and are linked from the derived indexes.
+- Every module sprint README contains a populated planning placeholder table with `Status = Planned` rows and the placeholder disclaimer above it.
+- Sidebar renders the four new governance documents.
+- `FOUNDATION_FREEZE_v1.md` marks Pass 8.1 complete and identifies Pass 8.2 as the next planned implementation-planning phase.
+- No new Sprint PRD file exists under `docs/30-sprint-prds/<module>/SPR-MOD-*.md`.
+- `SPRINT_CATALOG.md` remains empty of authored sprints.
 
-Documentation-only. Established the Sprint PRD layer at `docs/30-sprint-prds/` (layer README + 18 per-module sub-READMEs) with stable `SPR-MOD-NNN-NNN` identifiers and a mutable `iteration` field. Replaced the stub Sprint PRD template with the authoritative 13-section template. Created `docs/SPRINT_CATALOG.md` (empty derived index). Registered "30 Sprint PRDs" in `docs/_meta.json`. Refreshed `REPOSITORY_MAP.md`, `DOCUMENT_INDEX.md`, `DOCUMENT_OWNERSHIP_MATRIX.md`, and `DOCUMENT_TRACEABILITY.md`. Updated `FOUNDATION_FREEZE_v1.md` Next Milestones (Pass 8 → In Progress — Scaffolding Complete; Pass 8.x added). Extended the `PRODUCT_DOCUMENTATION_BASELINE_v1.md` cross-reference map. No actual Sprint PRDs authored; sprint authoring occurs iteratively in Pass 8.x.
+## What comes next (informational only)
+
+- Pass 8.2 — Platform Administration (MOD-001) Sprint PRDs
+- Pass 8.3 — Accounting (MOD-002)
+- Pass 8.4 — Purchase (MOD-004) + Inventory (MOD-005)
+- Pass 8.5 — Sales (MOD-003) + CRM (MOD-006)
+- Continuing module-by-module in dependency order.
