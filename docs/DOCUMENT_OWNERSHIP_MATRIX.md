@@ -30,6 +30,7 @@ This matrix SHOULD be regenerated or reviewed whenever a governance responsibili
 | Documentation Family | Primary Owner | Approval Authority | Change Mechanism | Authoritative Documents |
 | --- | --- | --- | --- | --- |
 | Foundation Freeze | Platform | Architecture Governance + Product Governance | New Foundation revision (versioned) | `docs/FOUNDATION_FREEZE_v1.md` |
+| Product Documentation Baseline | Platform | Architecture Governance + Product Governance | New baseline revision (versioned) | `docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md` |
 | Canon | Platform | Architecture Governance | Canon amendment, requires review | `docs/canon.md` |
 | Business Blueprint | Product | Product Governance | PRD/Roadmap update review | `docs/00-vision/`, `docs/01-master/` |
 | Architecture | Architecture Governance | ADR process | New or superseding ADR → doc update | `docs/02-architecture/` |

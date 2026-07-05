@@ -133,8 +133,11 @@ From `Foundation v1.0` onward:
 
 ## Next Milestones
 
-| Milestone | Pass | Scope |
-|-----------|------|-------|
-| ERP Core Engines catalogue | Pass 5 | 27 reusable platform capabilities |
-| ADR backlog burn-down | Pass 6 | Concrete decisions deferred from Passes 4–5 |
-| Domain PRDs | Pass 7+ | Accounting, Inventory, CRM, HRMS, Projects, Manufacturing, … |
+| Milestone | Pass | Status |
+|-----------|------|--------|
+| ERP Core Engines catalogue | Pass 5 | Complete |
+| ADR backlog burn-down | Pass 6 | Complete |
+| Governance & Traceability layer | Pass 6.5 | Complete |
+| Module PRDs (`MOD-001` … `MOD-018`) | Pass 7 | Complete |
+| Product Documentation Baseline v1 | Pass 7.5 | Complete — see [`PRODUCT_DOCUMENTATION_BASELINE_v1.md`](./PRODUCT_DOCUMENTATION_BASELINE_v1.md) |
+| Sprint PRDs / Implementation Planning | Pass 8 | Cleared to begin |
