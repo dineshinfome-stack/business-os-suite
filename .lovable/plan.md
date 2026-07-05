@@ -1,93 +1,77 @@
-# Pass 4C — Platform Constitution (v3, Final — Approved Structure)
+# Pass 4D — Operational Architecture
 
-Pass 4C authors **exactly three documents** — the Platform Constitution:
-**API · Security · AI**.
+**Final architecture documentation layer before ERP Core Engines (shared reusable platform capabilities).** Author ten vendor-neutral, normative documents that complete the architectural baseline before Pass 5.
 
-Observability, Integration, and all runtime/operational concerns are **owned by Pass 4D** (Operational Architecture). This preserves clean layering:
+## Deliverables
 
-| Pass | Responsibility | Question it answers |
-|---|---|---|
-| 4A | Enterprise Architecture | How is BusinessOS architected? |
-| 4B | Data Constitution | How is data governed? |
-| 4C | Platform Constitution | How does the platform behave? |
-| 4D | Operational Architecture | How does the platform run? |
+Ten documents total. Nine core operational architecture documents plus one navigational index. All replace existing stubs unless marked new. All conform to Canon and Passes 4A/4B/4C.
 
----
+### Architecture group (`docs/02-architecture/`)
 
-## Deliverables (Pass 4C — three documents only)
+0. **README.md** (new) — Architecture navigation index. Sections: Architecture Overview · Reading Order (Canon → Business Blueprint → Master Architecture → DDD → Domain Map → Data Constitution → Platform Constitution → Operational Architecture → ERP Core Engines) · Architecture Layers (Enterprise, Data, Platform, Operational) · Which Document Answers Which Question (table) · Cross-Reference Map · Architecture Governance (Canon = highest authority; ADRs amend; Engines build upon; PRDs consume) · **Architecture Evolution** (architecture documents are stable; architectural changes happen through ADRs; ERP Core Engines build on architecture; Module PRDs must not redefine architecture; Sprint PRDs implement Module PRDs) · References. Informational only — introduces no new principles.
 
-All three overwrite existing stubs, vendor-neutral, conforming to Canon and Passes 4A/4B.
+1. **deployment-architecture.md** (replace stub) — Overview · Deployment Principles · Environment Strategy · Environment Promotion · Runtime Architecture · Scaling Principles · High Availability · Disaster Recovery Philosophy · Backup Philosophy · Restore Principles · Geographic Expansion Strategy · Configuration Management · Decisions Pending · Conforms to Canon · References.
 
-### 1. `docs/02-architecture/api-architecture.md`
-Overview · API Principles (AP-01…N) · API Style (REST-first; when GraphQL/RPC are permitted) · Resource Model & URL Conventions · Versioning Strategy · Request Conventions (headers, tenant/company/branch scope, idempotency keys, correlation IDs) · Response Conventions · Error Model (canonical envelope, error codes, correlation) · Pagination (cursor-based default) · Filtering & Sorting · Search Semantics · Bulk & Batch Operations · Long-Running Operations · Idempotency · Concurrency (ETag/version) · Webhooks (delivery, signing, retries, replay) · Event Publishing vs API · Rate Limiting & Quotas · **Deprecation Policy** ·
-**API Lifecycle Governance** (immediately after Deprecation Policy):
-  - States: **Draft · Preview · General Availability (GA) · Deprecated · Sunset · Retired**.
-  - For each: Purpose · Intended Audience · Stability Expectations · Compatibility Requirements · Documentation Requirements · Exit Criteria.
-  - Backward compatibility expectations · Version support philosophy · Deprecation communication principles · Sunset notice expectations.
-  - Architectural governance only — no tooling, gateways, or CI/CD.
-· SDK/Contract Generation Principle · API Decisions Pending · Conforms to Canon · References.
+2. **devops-architecture.md** (replace stub) — Overview · DevOps Principles · Release Strategy · Branching Philosophy · Continuous Delivery Principles · Configuration Promotion · Artifact Strategy · Environment Governance · Feature Flag Philosophy · Release Governance · Rollback Principles · Change Management · Operational Readiness Reviews · Decisions Pending · Conforms to Canon · References.
 
-### 2. `docs/02-architecture/security-architecture.md`
-Overview · Security Principles (SP-01…N) · Threat Model at Platform Level · Authentication · Authorization Model (RBAC + ABAC principles; role/permission taxonomy; least privilege) · Tenant Isolation Enforcement (identity claim → RLS → cache/transport) · **Data Classification** (Public / Internal / Confidential / Financial / Personal / Sensitive) · Encryption (in transit, at rest, at column where applicable, key management principle) · Secrets Management · Audit & Non-Repudiation · Privileged Access & Break-Glass · Input Validation & Trust Boundaries · Rate Limiting & Abuse Controls · Supply-Chain Security Posture ·
-**Compliance Architecture & Posture** (renamed from "Compliance Posture"):
-  - Architectural approach to regulatory compliance.
-  - Separation between compliance architecture and certification (posture only; MUST NOT claim certification or regulatory approval).
-  - Compliance-by-design principles.
-  - Regulatory adaptability across jurisdictions (GDPR-style erasure, statutory retention, data residency, SOC/ISO alignment as posture).
-  - Relationship to audit, retention, security, and data governance.
-· Incident Response Principles · Security Decisions Pending · Conforms to Canon · References.
+3. **testing-strategy.md** (replace stub) — Overview · Testing Philosophy · Testing Pyramid · Unit · Integration · Contract · E2E · Performance · Security · Accessibility · Regression · Test Data · Test Environments · Quality Gates · Decisions Pending · Conforms to Canon · References.
 
-### 3. `docs/02-architecture/ai-architecture.md`
-Overview · AI Principles (AIP-01…N) · Copilot Contract · AI Capability Taxonomy ·
-**AI Capability Classification Matrix** (immediately after Capability Taxonomy):
-  - Markdown table. Columns: **Capability · Read Data · Suggest Actions · Execute Actions · Human Approval Required · Typical Use Cases**.
-  - Populated for at least **Assistant**, **Copilot**, **Agent**.
-  - Assistant is informational only; Copilot may prepare actions but requires user approval; Agents may execute only within explicitly approved scopes and must never bypass RBAC, RLS, workflow, or audit.
-· Tool-Calling Model (registry, capability scoping, tenant/domain scoping, dry-run vs execute) · Retrieval & RAG Governance (indexability, tenant scoping, freshness, PII in embeddings) · Prompt Governance (system prompts as versioned artifacts, prompt-injection defence, output constraints) · AI Permissions (AI acts as a scoped principal; never bypasses RBAC/RLS; distinct AI actor identity in audit) · Human-in-the-Loop (approval thresholds; reversible vs irreversible actions; financial actions always confirm) · Hallucination Controls (grounding, refusal contract, confidence surfacing) · Model Provider Abstraction (vendor-neutral) · Cost & Quota Governance · Observability & Evaluation · Safety & Content Policy · AI Decisions Pending · Conforms to Canon · References.
+4. **observability-architecture.md** (new) — Overview · Observability Principles · Logs · Metrics · Traces · Correlation Strategy · Health Model · Telemetry Strategy · Alerting Philosophy · Diagnostics · SLOs · Decisions Pending · Conforms to Canon · References.
 
----
+5. **integration-architecture.md** (new) — Overview · Integration Principles · Internal Integration · External Integration · Integration Styles · Event Choreography · Event Orchestration · Retry Philosophy · Idempotency · Circuit Breaker · Dead Letter · Data Synchronization · Version Compatibility · Integration Security · Decisions Pending · Conforms to Canon · References.
+
+6. **quality-attributes.md** (new canonical NFR reference in `02-architecture/`) — Overview · Quality Attribute Principles · Availability · Reliability · Scalability · Performance · Maintainability · Extensibility · Security · Accessibility · Localization · Offline Capability · Recoverability · DR Objectives · Supportability · Operability · Quality Trade-offs · Decisions Pending · Conforms to Canon · References.
+
+### Design group (`docs/03-design/`)
+
+7. **ui-ux-design-system.md** (replace stub) — Design Philosophy · Design Tokens · Color Principles · Typography · Spacing · Elevation · Responsive Grid · Component Library Principles · Forms · Tables · Navigation · Dashboard Standards · Mobile Standards · Accessibility · Dark Mode · Localization · Offline UX · Decisions Pending · Conforms to Canon · References.
+
+8. **ux-standards.md** (replace stub / re-author) — UX Principles · User Journey Standards · Navigation Standards · Keyboard-first · ERP Data Entry Standards · Search UX · Filter UX · Bulk Operations UX · Error UX · Notification UX · Mobile UX · Offline UX · Accessibility · Internationalization UX · Decisions Pending · Conforms to Canon · References.
+
+9. **coding-standards.md** (replace stub) — Coding Principles · Clean Architecture Rules · DDD Rules · Type Safety Principles · Naming Standards · Folder Structure · Module Boundaries · Dependency Rules · Error Handling · Logging Rules · Documentation Standards · Code Review Standards · Technical Debt Policy · Decisions Pending · Conforms to Canon · References.
 
 ## Consistency Requirements
 
-Every Pass 4C document must:
-- Include standard frontmatter (`title`, `summary`, `layer: platform`, `owner: Platform`, `status: approved`, `updated`, `tags: ["architecture"]`, `depends_on`, `referenced_by`).
-- Include a **Conforms to Canon** section citing specific Canon rules.
-- Include a **Decisions Pending** section (topic · why deferred · rough window · owner) with ADR placeholders.
-- Remain vendor-neutral. Verbatim clause: *"Specific frameworks, runtime versions, vendors, and implementation choices are intentionally deferred to ADRs and implementation documentation."*
-- Cross-reference Pass 4A/4B docs via `depends_on`.
+Every normative doc includes:
+- Standard frontmatter with `depends_on` citing Passes 4A/4B/4C.
+- **Conforms to Canon** section citing specific Canon rules.
+- **Decisions Pending** table (topic · why deferred · rough window · owner) with ADR placeholders.
+- Vendor-neutral verbatim clause: *"Specific frameworks, runtime versions, vendors, and implementation choices are intentionally deferred to ADRs and implementation documentation."*
+- Cross-references to Master Architecture, API/Security/AI Architecture, Data Constitution, and Quality Attributes where applicable.
 
-## Portal / Navigation
+The README is the only exception — navigation-index frontmatter; omits Decisions Pending and normative clauses.
 
-`docs/_meta.json` — `02-architecture` group already lists Security, API, AI after Reference Data. No reordering. No route, package, or UI changes.
+## Portal Updates
 
-## Deferred to Pass 4D (not authored here)
+Update `docs/_meta.json`:
+- Under **02-architecture**: register **README as the first entry** (landing page). Then register Quality Attributes, Observability Architecture, Integration Architecture in logical order.
+- Under **03-design**: ensure Design System, UX Standards, and Coding Standards are registered.
 
-Pass 4D — Operational Architecture — will author:
-- Deployment Architecture
-- DevOps Architecture
-- Testing Strategy
-- **Observability Architecture** (deferred from earlier drafts of 4C)
-- **Integration Architecture** (deferred from earlier drafts of 4C)
-- UI/UX Design System
-- UX Standards
-- Coding Standards
-- **Quality Attributes** (`docs/quality-attributes.md`) — single source of truth for measurable platform quality goals (availability, reliability, scalability, performance, maintainability, recoverability, security qualities, accessibility, localization, offline capability, DR objectives). Elevated to an explicit deliverable because multiple existing documents reference it.
+No routing changes. No package additions. No UI changes.
 
-## Non-Goals for Pass 4C
+## Non-Goals
 
-❌ Endpoint catalogs · ❌ Model/provider names · ❌ IAM policy JSON, RLS SQL · ❌ Secret values · ❌ Prompt content · ❌ SDK code · ❌ Gateway products or CI/CD tooling · ❌ Deployment content · ❌ Testing strategy · ❌ Design-system content · ❌ Observability tooling · ❌ Integration middleware · ❌ Certification or regulatory-approval claims.
+Cloud providers · CI/CD products · monitoring vendors · infrastructure tooling · frameworks · SDKs · module/engine implementation · ADR decisions · source code · test frameworks · lint configuration · Figma components · CSS frameworks.
+
+## Technical Details
+
+- The existing `docs/quality-attributes.md` (root-level stub) is superseded by `docs/02-architecture/quality-attributes.md` and will be removed to avoid a stale duplicate; any references get re-pointed to the new path.
+- Wording "Final architecture layer" is replaced throughout Pass 4D artifacts with **"Final architecture documentation layer before ERP Core Engines (shared reusable platform capabilities)."**
+- Frontmatter `layer` values follow existing stub conventions (`platform`).
+- All ten documents authored in parallel file writes; `_meta.json` updated in the same batch.
 
 ## Acceptance Criteria
 
-✓ Only three documents authored in Pass 4C: API · Security · AI.
-✓ Canonical error envelope + cursor pagination + idempotency + webhook signing/retry/replay defined.
-✓ **API Lifecycle Governance** section present with all six states fully specified.
-✓ **Data Classification** section present with all six tiers.
-✓ Security section titled **Compliance Architecture & Posture** and expanded (compliance-by-design, jurisdictional adaptability, posture-not-certification clause).
-✓ RBAC + ABAC principle articulated; role/permission taxonomy defined.
-✓ **AI Capability Classification Matrix** present, populated for Assistant / Copilot / Agent.
-✓ AI acts as a scoped principal; never bypasses RBAC/RLS; distinct AI actor in audit; financial/irreversible actions always confirm.
-✓ Model provider abstraction is vendor-neutral.
-✓ Every doc has Decisions Pending with ADR placeholders.
-✓ Observability and Integration Architecture are **not** created in this pass; they are held for Pass 4D alongside Quality Attributes.
-✓ Zero implementation details, tooling, gateway products, SDKs, or provider names leaked.
+- Ten documents authored (nine core + README index).
+- Architecture README present with reading order, layer explanations, question→document table, cross-reference map, governance section, and **Architecture Evolution** section; introduces no new principles.
+- Quality Attributes located at `docs/02-architecture/quality-attributes.md`; old root stub removed.
+- Observability and Integration Architecture authored as standalone documents.
+- UX Standards authored separately from the Design System.
+- Every normative doc contains Decisions Pending with ADR placeholders and Conforms to Canon citations.
+- Wording updated to "Final architecture documentation layer before ERP Core Engines."
+- `docs/_meta.json` updated: README first under 02-architecture; new architecture entries registered; design-group entries confirmed.
+- No implementation details, vendor names, product names, or code leak into any document.
+
+## Completion Gate
+
+With Pass 4D complete, Passes 4A–4D form the full architectural baseline. Pass 5 (ERP Core Engines) may then begin.
