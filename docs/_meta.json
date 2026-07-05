@@ -24,10 +24,6 @@
           "path": "performance"
         },
         {
-          "title": "Quality Attributes",
-          "path": "quality-attributes"
-        },
-        {
           "title": "Migration Strategy",
           "path": "migration-strategy"
         },
@@ -95,8 +91,16 @@
       "label": "02 Architecture",
       "items": [
         {
+          "title": "Architecture Index",
+          "path": "02-architecture/README"
+        },
+        {
           "title": "Master Architecture",
           "path": "02-architecture/master-architecture"
+        },
+        {
+          "title": "Quality Attributes",
+          "path": "02-architecture/quality-attributes"
         },
         {
           "title": "Domain-Driven Design",
@@ -153,6 +157,14 @@
         {
           "title": "Testing Strategy",
           "path": "02-architecture/testing-strategy"
+        },
+        {
+          "title": "Observability Architecture",
+          "path": "02-architecture/observability-architecture"
+        },
+        {
+          "title": "Integration Architecture",
+          "path": "02-architecture/integration-architecture"
         }
       ]
     },
