@@ -1,79 +1,31 @@
-## Pass 6.5 — Documentation Traceability & Navigation Layer
+## Pass 7 — Domain / Module PRDs (completed)
 
-Documentation-only. Creates eight derived index/catalog/matrix guides and registers them in the docs portal sidebar. No code, packages, config, routes, architecture, engine, or ADR changes.
+Documentation-only. Created the `docs/20-module-prds/` layer with 18 modules (`MOD-001` … `MOD-018`), each containing a `README.md` and a 17-section `MODULE_PRD.md`. Refreshed the derived indexes and registered the new group in the docs sidebar. No changes to code, routes, packages, or any Passes 1–6.5 authoritative document.
 
-### Deliverables
+### Added
 
-**1. `docs/DOCUMENT_TRACEABILITY.md`** — Master traceability guide.
-Sections: Purpose · Documentation Hierarchy · Reading Order · Document Dependency Chain · Authoritative Document Rules · Change Propagation Rules · Traceability Examples · References. Includes a Mermaid `graph TD` dependency diagram: Foundation Freeze → Canon → Business Blueprint → Architecture → ERP Core Engines → ADRs → Module PRDs → Sprint PRDs → Implementation.
+- `docs/20-module-prds/README.md` — layer overview with Module Dependency Rules, Module Identifier Registry, and Identifier Cross-Reference Convention.
+- 18 module folders (`platform`, `accounting`, `sales`, `purchase`, `inventory`, `crm`, `hrms`, `payroll`, `manufacturing`, `projects`, `amc`, `field-service`, `assets`, `fleet`, `pos`, `service-desk`, `analytics`, `ai`), each containing:
+  - `README.md` — lightweight guide with capabilities, consumed engines, related modules, related ADRs.
+  - `MODULE_PRD.md` — authoritative business PRD in the standard 17-section structure, with `module_id: MOD-NNN` frontmatter.
 
-**2. `docs/ENGINE_USAGE_MATRIX.md`** — Engine usage matrix.
-One row per ERP Core Engine (`ENG-001..ENG-028` from `docs/10-erp-core/ENGINE_CATALOG.md`). Columns: Engine · Category · Typical Consumers · Required · Optional · Notes. Consumers drawn from the 17 planned modules (Accounting, Sales, Inventory, HRMS, Payroll, CRM, Manufacturing, Projects, AMC, Field Service, Assets, Fleet, POS, Service Desk, Analytics, AI, Platform). Informational only; authoritative dependencies land in Module PRDs.
+### Updated
 
-**3. `docs/ADR_IMPACT_MATRIX.md`** — ADR impact-analysis matrix.
-Rows: each ADR ID from `docs/11-adrs/ADR_INDEX.md`. Columns: Architecture Documents · ERP Core Engines · Module PRDs (placeholder) · Coding Standards · Design Standards. Derived from each ADR's `affected_documents` plus explicit engine cross-references. Header states: on conflict, the ADR file wins.
+- `docs/_meta.json` — new sidebar group `20 Module PRDs` (README + 18 modules, in specified order).
+- `docs/MODULE_CATALOG.md` — flipped from `Planned` to `Authored`, keyed by `MOD-NNN`, linked to each PRD.
+- `docs/ENGINE_USAGE_MATRIX.md` — module identifier legend (`MOD-001` … `MOD-018`) so module names in the matrix map cleanly to stable IDs.
+- `docs/DOCUMENT_OWNERSHIP_MATRIX.md` — Module PRDs family flipped to `docs/20-module-prds/` (`MOD-001` … `MOD-018`).
+- `docs/DOCUMENT_INDEX.md` — new Module PRDs section listing all 37 files with authority.
+- `docs/REPOSITORY_MAP.md` — new `20-module-prds/` layer entry and updated layer detail.
 
-**4. `docs/MODULE_CATALOG.md`** — Placeholder catalog for Pass 7.
-Columns: Module Name · Status (all `Planned`) · Primary Domain · Planned PRD path · Expected Engine Dependencies · Planned Owner. One row per planned BusinessOS module or bounded context currently in scope. Planning metadata only.
+### Governance rules established
 
-**5. `docs/GLOSSARY_INDEX.md`** — Master alphabetical glossary index.
-Columns: Term · Definition Source · Canon · Architecture · Data Dictionary · Module PRD (future). Points to authoritative locations (`docs/glossary.md`, `docs/canon.md`, `docs/02-architecture/data-dictionary.md`, etc.). Index-only; definitions remain in source documents.
+- **Stable Module Identifiers** — `MOD-NNN` is permanent; folders and labels may evolve.
+- **Identifier Cross-Reference Rule** — on first mention in a document, use `Name (ENG-NNN)`, `Name (ADR-NNN)`, or `Name (MOD-NNN)`; subsequent mentions may use either.
+- **Module Dependency Rules** — modules may consume Foundation / Architecture / ERP Core Engines / Accepted ADRs; MUST NOT redefine any of them; cross-module communication only via published events, approved APIs, or shared master data; no cyclic dependencies.
 
-**6. `docs/REPOSITORY_MAP.md`** — Complete repository map.
-Sections: Overview · Foundation · Canon · Business Blueprint · Architecture · ERP Core Engines · ADRs · Design Standards · Module PRDs · Sprint PRDs · Reference Documents. For each layer: folder hierarchy tree, ownership, document purpose, and document authority (authoritative vs derived).
+### Verification
 
-**7. `docs/DOCUMENT_INDEX.md`** — Master alphabetical inventory of every repository document.
-Columns: Document · Layer · Status · Authority (`Authoritative` | `Derived`) · Path. Complements — does not replace — `_meta.json` (portal sidebar) and `REPOSITORY_MAP.md` (hierarchy). Serves as a searchable inventory for humans and AI retrieval.
-
-**8. `docs/DOCUMENT_OWNERSHIP_MATRIX.md`** — Governance ownership index.
-Purely additive derived governance document; introduces no new rules or ownership changes. Sections:
-
-- **Purpose** — one paragraph describing this file as the governance ownership index for the documentation repository.
-- **Ownership Matrix** — columns: Documentation Family · Primary Owner · Approval Authority · Change Mechanism · Authoritative Documents. Rows: Foundation Freeze · Canon · Business Blueprint · Architecture · ERP Core Engines · Architecture Decision Records · Documentation Traceability · Module PRDs · Sprint PRDs · Coding Standards · Design Standards.
-- **Change Authority** — Canon → Architecture Governance; Business Blueprint → Product Governance; Architecture → ADR process; ERP Core Engines → ADR + Architecture Governance; ADRs → ADR lifecycle; Module PRDs → Product + Architecture review; Sprint PRDs → Engineering; Documentation indexes → Documentation Governance.
-- **References** — `FOUNDATION_FREEZE_v1.md`, `DOCUMENT_TRACEABILITY.md`, `REPOSITORY_MAP.md`, `docs/11-adrs/README.md`, `docs/10-erp-core/ENGINE_CATALOG.md`.
-
-Header states this is a derived document; source files win on conflict.
-
-### Sidebar registration — `docs/_meta.json`
-
-Add the eight guides under the existing Overview/Documentation top-level group in this order:
-
-1. Repository Map → `REPOSITORY_MAP`
-2. Document Index → `DOCUMENT_INDEX`
-3. Document Ownership Matrix → `DOCUMENT_OWNERSHIP_MATRIX`
-4. Document Traceability → `DOCUMENT_TRACEABILITY`
-5. Glossary Index → `GLOSSARY_INDEX`
-6. Engine Usage Matrix → `ENGINE_USAGE_MATRIX`
-7. ADR Impact Matrix → `ADR_IMPACT_MATRIX`
-8. Module Catalog → `MODULE_CATALOG`
-
-No other `_meta.json` structural changes.
-
-### Technical Notes
-
-- All eight files live at `docs/` root — cross-cutting derived indexes matching `docs/canon.md`, `docs/glossary.md`, `docs/decision-register.md`.
-- Every file uses standard markdown frontmatter (`title`, `summary`, `layer: platform`, `owner: Platform`, `status: approved`, `updated`, `tags`, `document_type: Governance Guide`) and closes with a `## References` section.
-- Every matrix/catalog/index header states it is a **derived document**; source files win on conflict.
-- All derived documents SHOULD be regenerated or reviewed whenever an authoritative document is added, removed, renamed, or materially changed. They MUST NOT become independent sources of truth.
-- Mermaid diagram in `DOCUMENT_TRACEABILITY.md` uses plain `graph TD` — no custom colors, no emojis.
-- No edits to Passes 1–6 documents. `src/routeTree.gen.ts`, route files, styles, and packages remain untouched.
-
-### Non-goals
-
-No architecture changes, no engine changes, no ADR edits, no Module or Sprint PRDs, no new governance rules, no ownership changes, no business logic, no code or route changes.
-
-### Acceptance Criteria
-
-- Eight new files exist at `docs/` root with correct frontmatter.
-- `DOCUMENT_TRACEABILITY.md` contains the Mermaid dependency diagram and all required sections.
-- `ENGINE_USAGE_MATRIX.md` covers every engine in `ENGINE_CATALOG.md`.
-- `ADR_IMPACT_MATRIX.md` covers every ADR in `ADR_INDEX.md`.
-- `MODULE_CATALOG.md` lists every planned BusinessOS module or bounded context currently in scope, each with status `Planned`.
-- `GLOSSARY_INDEX.md` is alphabetical and index-only (no new definitions).
-- `REPOSITORY_MAP.md` covers every documentation layer with folder tree, ownership, purpose, authority.
-- `DOCUMENT_INDEX.md` is an alphabetical inventory of every repository document with Layer, Status, Authority, and Path.
-- `DOCUMENT_OWNERSHIP_MATRIX.md` contains one ownership row per documentation family, a Change Authority section, and a derived-document disclaimer.
-- Each derived document includes the regeneration/review statement under a maintenance note.
-- `docs/_meta.json` registers the eight guides in the specified order; no other structural changes.
-- No source, config, schema, ADR, engine, or Passes 1–6 documents modified.
+- `docs/_meta.json` parses; new group has 19 items (README + 18 modules).
+- All 37 module files exist under `docs/20-module-prds/`.
+- No Passes 1–6.5 authoritative document was modified.

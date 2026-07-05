@@ -41,7 +41,7 @@ docs/
 ├── 01-master/                      Business Blueprint       (Authoritative)
 ├── 02-architecture/                Enterprise Architecture  (Authoritative)
 ├── 03-design/                      Design Standards         (Authoritative)
-├── 04-domains/                     Domain notes → Module PRDs (Pass 7+)
+├── 04-domains/                     Legacy domain notes       (Reference)
 ├── 05-adr/                         Legacy ADRs (Superseded) (Deprecated)
 ├── 06-integrations/                Integrations             (Reference)
 ├── 07-reports/                     Reports catalog          (Reference)
@@ -53,6 +53,7 @@ docs/
 ├── 12-ui-components/               UI components            (Reference)
 ├── 13-workflows/                   Workflow catalog         (Reference)
 ├── 14-localization/                Locale packs             (Reference)
+├── 20-module-prds/                 Module PRDs (MOD-001..018) (Authoritative)
 └── 99-templates/                   Document templates       (Reference)
 ```
 
@@ -100,12 +101,12 @@ docs/
 - **Purpose:** Every significant engineering decision that implements the frozen architecture, in nine categories.
 - **Authority:** Authoritative. `ADR_INDEX.md` is a derived index within this layer.
 
-### Module PRDs (Pass 7+)
+### Module PRDs
 
-- **Path:** `docs/04-domains/` (current notes) → future Module PRD files
-- **Owner:** Product + Architecture review
-- **Purpose:** Authoritative behavior of each business module.
-- **Authority:** Authoritative once landed. Today, contents are early notes; Module PRDs are introduced in Pass 7.
+- **Path:** `docs/20-module-prds/` (18 folders, `MOD-001` … `MOD-018`)
+- **Owner:** Product (per module, per `docs/DOCUMENT_OWNERSHIP_MATRIX.md`)
+- **Purpose:** Authoritative business specifications for each bounded context. Each folder contains a `README.md` and a `MODULE_PRD.md`.
+- **Authority:** Authoritative for the business layer. Consumes ERP Core Engines and Accepted ADRs; never redefines them. Modules identified by permanent `MOD-NNN`.
 
 ### Sprint PRDs (Pass 8+)
 
