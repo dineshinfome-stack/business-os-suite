@@ -4,7 +4,7 @@ summary: "Alphabetical inventory of every BusinessOS repository document with la
 layer: "platform"
 owner: "Platform"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-06"
 tags: ["inventory", "index"]
 document_type: "Governance Guide"
 ---
