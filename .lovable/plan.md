@@ -99,3 +99,14 @@ Module PRDs, `SPRINT_CATALOG.md`, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines
 ## Outcome
 
 `MOD-002_SPRINT_PLAN.md` becomes the authoritative Stage 1 Sprint Planning document for Accounting, aligned with the baseline-terminated completion model established in Passes 8.2.Y and 8.2.Z. MOD-002 is prepared for **Pass 8.3.1**, which will author `SPR-MOD-002-001 Accounting Foundation` as the first Accounting Sprint PRD.
+
+---
+
+## Execution Record — Pass 8.3.0 (executed)
+
+- Created `docs/30-sprint-prds/accounting/MOD-002_SPRINT_PLAN.md` — Stage 1 planning artifact reserving six Sprint IDs (`SPR-MOD-002-001` … `SPR-MOD-002-006`) with Planning Flexibility clause and baseline-terminated Module Completion Criteria.
+- Updated `docs/30-sprint-prds/accounting/README.md` — Stage 1 section links the plan; placeholder table reconciled to six reserved rows with goals, sizes, and dependencies from the plan.
+- Registered the plan in `docs/DOCUMENT_INDEX.md` (one row) and `docs/_meta.json` (one sidebar entry).
+- No changes to Module PRDs, `SPRINT_CATALOG.md`, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, or UI.
+- `DOCUMENT_OWNERSHIP_MATRIX.md` and `DOCUMENT_TRACEABILITY.md` already register Module Sprint Plans generically (`MOD-<NNN>_SPRINT_PLAN.md`); no per-module rows added.
+- MOD-002 is prepared for **Pass 8.3.1** — authoring `SPR-MOD-002-001 Accounting Foundation`.
