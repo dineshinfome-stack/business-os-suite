@@ -924,6 +924,10 @@
           "path": "30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy"
         },
         {
+          "title": "SPR-MOD-001-005 — Localization Packs",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-005-localization-packs"
+        },
+        {
           "title": "MOD-002 Accounting",
           "path": "30-sprint-prds/accounting/README"
         },
