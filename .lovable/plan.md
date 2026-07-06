@@ -1,128 +1,67 @@
-# Plan: Elevate Sprint PRD Verification Pattern to Governance
+# Pass 8.2.3 — Author SPR-MOD-001-003 (Users, Roles & Permissions)
 
-## Context
+Stage 2 continuation of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-001. Documentation-only pass producing the third Sprint PRD for the Platform module, structurally consistent with SPR-MOD-001-001 and SPR-MOD-001-002.
 
-The Pass 8.2.2 verification checklist proved useful for `SPR-MOD-001-002` and mirrored the checks already used for `SPR-MOD-001-001`. The user wants to make this the standard repository closure pattern for all future Sprint PRD authoring passes, but to place it in a central governance document rather than inside `.lovable/plan.md`.
+## 1. Author New Sprint PRD
 
-## Target Document
+**Create** `docs/30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md` using `docs/99-templates/sprint-prd-template.md` and mirroring the section structure, tone, and traceability conventions of Sprint 001 and Sprint 002.
 
-- `docs/SPRINT_AUTHORING_GUIDE.md` — the authoritative document for Sprint PRD authoring methodology. It already defines the Sprint Traceability Rule, Acceptance Criteria standards, and Definition of Done. Adding a repository verification closure pattern here is the most natural fit and makes it applicable to every future Sprint PRD across all modules.
-
-## Change to Make
-
-Add a new **Section 13 — Sprint PRD Repository Verification Pattern** immediately after the existing **Section 12 — Sprint Completion Rule**. The new section bumps the existing **Section 13 — Sprint Sequencing Rules** to **Section 14** and **Section 14 — References** to **Section 15**, preserving the logical flow: finish the sprint → determine completion → verify repository consistency → sequence the next sprint.
-
-### New Section 13 Content
-
-```text
-## 13. Sprint PRD Repository Verification Pattern
-
-After a Sprint PRD is authored and before the authoring pass is considered complete, perform a lightweight repository consistency check to ensure the Sprint PRD library remains synchronized, traceable, and internally consistent.
-
-This verification pattern applies to every Sprint PRD authoring pass (Pass 8.x onward) and is independent of any specific module or sprint.
-
-### 13.1 Verification Checklist
-
-For the newly authored Sprint PRD (`SPR-MOD-NNN-NNN`):
-
-1. **Document Index**
-   - Verify the new Sprint PRD appears exactly once in `docs/DOCUMENT_INDEX.md`.
-   - `grep -c "SPR-MOD-NNN-NNN" docs/DOCUMENT_INDEX.md` must return `1`.
-
-2. **Sprint Catalog**
-   - Verify the Sprint PRD is registered exactly once in `docs/SPRINT_CATALOG.md` with the correct parent module and status `Draft` at the time of authoring.
-   - `grep -n "SPR-MOD-NNN-NNN" docs/SPRINT_CATALOG.md` must return exactly one row.
-
-3. **Sidebar Registration**
-   - Verify `docs/_meta.json` contains a single registration entry for the new Sprint PRD title and path.
-   - No duplicate sidebar entries.
-
-4. **Structural Consistency**
-   - Compare the section headings of the new Sprint PRD with the most recent approved Sprint PRD in the same module. Where no prior Sprint PRD exists, compare against the repository's established gold-standard Sprint PRD.
-   - Verify identical section ordering, identical governance sections, consistent terminology, and consistent traceability conventions.
-   - If the reference Sprint PRD contains an additional section, the new Sprint PRD MUST contain the same-named section in the corresponding location.
-
-5. **Traceability and Governance Cross-Checks**
-   - Verify every feature in the Sprint PRD traces back to the parent Module PRD (Section 8 / Section 11).
-   - Verify only Accepted ADRs are consumed (Section 7 / Section 9).
-   - Verify ERP Core Engines are consumed, not redefined (Section 6 / Section 8).
-   - Verify the module subfolder README (`docs/30-sprint-prds/<module>/README.md`) links to the new Sprint PRD and reflects its current status.
-
-### 13.2 Acceptance of the Verification Pattern
-
-A Sprint PRD authoring pass is considered complete only if:
-
-- `DOCUMENT_INDEX.md` contains exactly one entry for the new Sprint PRD.
-- `SPRINT_CATALOG.md` contains exactly one row for the new Sprint PRD with the correct parent module and status.
-- `_meta.json` registers the new Sprint PRD exactly once.
-- The new Sprint PRD is structurally consistent with the most recent approved Sprint PRD in the same module, or the repository's established gold-standard Sprint PRD if no prior Sprint PRD exists.
-- All upstream traceability and governance cross-checks pass.
-
-### 13.3 Purpose
-
-These checks are intentionally lightweight and serve as a repository hygiene gate before the next Sprint PRD authoring pass begins. They help prevent duplicate registrations, documentation drift, and structural inconsistencies as the Sprint PRD library grows across all modules.
-
+### Frontmatter
+```yaml
+sprint_id: SPR-MOD-001-003
+module_id: MOD-001
+iteration: Sprint 3
+size: Medium
+status: Draft
+owner: Platform
+parent_module: MOD-001
+parent_sprint_plan: MOD-001_SPRINT_PLAN.md
+related_engines: [ENG-001, ENG-004, ENG-005, ENG-024]
+related_adrs: [ADR-011, ADR-012, ADR-014, ADR-032, ADR-051]
+updated: 2026-07-06
 ```
 
-## Why This Placement
+### Sections (identical ordering to Sprint 001/002)
+1. **Sprint Deliverables** — user lifecycle, tenant/company/branch memberships, role assignment, permission assignment, administrative user management, audit integration, user lifecycle events.
+2. **Objective and Scope** — one-paragraph objective; explicit In Scope / Out of Scope. Out of Scope defers: login, authentication, MFA, password policies, OAuth/SSO, API keys, session management, feature admin UI, localization activation, audit review UI, identity federation, external IdPs.
+3. **Traceability** — every capability maps to relevant §§ of `docs/20-module-prds/platform/MODULE_PRD.md` (§2 Capabilities, §3 Personas, §5 Master Data, §6 Transactions, §7 Business Rules, §8 Events).
+4. **User Stories** — Platform Admin stories: create/invite/activate/suspend/archive user; assign company/branch/roles/permissions; manage memberships.
+5. **Acceptance Criteria** — Given / When / Then business outcomes.
+6. **ERP Core Engine Consumption** — ENG-001, ENG-004, ENG-005, ENG-024 (consume only).
+7. **ADR Consumption** — ADR-011, ADR-012, ADR-014, ADR-032, ADR-051 (Accepted only).
+8. **Data Model Impact** — conceptual entities (User, Membership, Role Assignment, Permission Assignment) with the standard "physical schema is implementation work" disclaimer.
+9. **Events Published** — table with columns `Event Name | Owning Module | Publishing Sprint | Known Consumer Modules | Delivery Guarantee`. Events: `user.created`, `user.invited`, `user.activated`, `user.suspended`, `user.archived`, `role.assigned`, `permission.assigned`. Apply established Event Ownership Convention.
+10. **Definition of Done** — per `SPRINT_AUTHORING_GUIDE.md`.
+11. **Sprint Exit Criteria** — copied verbatim from `MOD-001_SPRINT_PLAN.md` for Sprint 003.
+12. **Risks and Assumptions** — deferred capabilities (auth, MFA, passwords, SSO, sessions); assumes SPR-MOD-001-001 and SPR-MOD-001-002 complete.
+13. **Dependencies** — Parent `MOD-001`; depends on SPR-MOD-001-001, SPR-MOD-001-002.
+14. **Implementation Notes** — retain the non-authoritative disclaimer verbatim from prior sprints.
+15. **Review Gate** — reuse standard block.
 
-The logical flow of the guide becomes:
+## 2. Governance Registrations (derived docs)
 
-- Section 11 — Definition of Done (when a sprint is considered Done)
-- Section 12 — Sprint Completion Rule (when a Sprint PRD is considered complete)
-- Section 13 — Sprint PRD Repository Verification Pattern (verify repository consistency before moving on)
-- Section 14 — Sprint Sequencing Rules (how to order the next sprint)
-- Section 15 — References
+- **`docs/SPRINT_CATALOG.md`** — add one row: `SPR-MOD-001-003 | Sprint 3 | MOD-001 Platform Administration | Draft | link | Platform`.
+- **`docs/30-sprint-prds/platform/README.md`** — replace Sprint 003 "Planned" placeholder with a link to the authored PRD; status `Draft (authored, Stage 2)`.
+- **`docs/DOCUMENT_INDEX.md`** — exactly one entry in the S block.
+- **`docs/DOCUMENT_TRACEABILITY.md`** — register Sprint 003 traceability row.
+- **`docs/DOCUMENT_OWNERSHIP_MATRIX.md`** — register ownership (Platform).
+- **`docs/REPOSITORY_MAP.md`** — add the new Sprint PRD path.
+- **`docs/_meta.json`** — register the document exactly once.
+- **`.lovable/plan.md`** — append Pass 8.2.3 execution record.
 
-This preserves the natural progression: finish the sprint → determine it is complete → verify repository consistency → move to the next sprint.
+## 3. Repository Verification (Section 13 of SPRINT_AUTHORING_GUIDE.md)
 
-## Frontmatter Update
+Run all five gates and confirm each passes:
+1. **Document Index** — exactly one entry for SPR-MOD-001-003.
+2. **Sprint Catalog** — exactly one Draft row with correct parent module.
+3. **Sidebar / module README** — Sprint 003 row now links to the authored PRD.
+4. **Structural Consistency** — matches the gold-standard structure of SPR-MOD-001-001 and SPR-MOD-001-002 (section count, ordering, terminology, disclaimer text).
+5. **Traceability & Governance Cross-Checks** — Module PRD, Sprint Plan, Ownership Matrix, Traceability, Repository Map, `_meta.json` all synchronized.
 
-- Update the `updated` date from `2026-07-05` to `2026-07-06`.
+## Not Changed
 
-## Files Modified
-
-- `docs/SPRINT_AUTHORING_GUIDE.md` — only file changed.
-
-## Not Modified
-
-- No Sprint PRDs, Module PRDs, ADRs, ERP Core Engines, or workflow documents.
-- `DOCUMENT_INDEX.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md`, and `REPOSITORY_MAP.md` remain unchanged; the updated document is already registered generically in those indexes.
-- No code, schema, API, or UI changes.
-- No section renumbering in any existing document.
-
-## Verification
-
-- `grep -c "Sprint PRD Repository Verification Pattern" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
-- `grep -c "## 13\. Sprint PRD Repository Verification Pattern" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
-- `grep -c "A Sprint PRD authoring pass is considered complete only if" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
-- `grep -c "most recent approved Sprint PRD in the same module" docs/SPRINT_AUTHORING_GUIDE.md` returns `2` (once in the checklist, once in the acceptance criteria).
-- `grep -c "## 14\. Sprint Sequencing Rules" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
-- `grep -c "## 15\. References" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
+No code, schema, SQL, migrations, APIs, UI, Module PRDs, ERP Core Engines, ADRs, Sprint Plans, or workflow documents.
 
 ## Outcome
 
-The repository verification pattern becomes a documented, repeatable standard for every future Sprint PRD authoring pass (e.g., Pass 8.2.3 onward), ensuring the Sprint PRD library remains consistent, traceable, and synchronized as it grows across all modules.
-
----
-
-## Execution Record
-
-Executed 2026-07-06.
-
-### Files updated
-- `docs/SPRINT_AUTHORING_GUIDE.md` — added Section 13 "Sprint PRD Repository Verification Pattern" after Section 12; bumped Sprint Sequencing Rules to Section 14 and References to Section 15; updated `updated` frontmatter to `2026-07-06`.
-
-### Not changed
-- No Sprint PRDs, Module PRDs, ADRs, ERP Core Engines, or workflow documents.
-- No derived indexes (`DOCUMENT_INDEX.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md`, `REPOSITORY_MAP.md`) were modified; the generic Sprint PRD patterns in those files already cover future sprints.
-- No code, schema, API, or UI changes.
-
-### Verification performed
-- `grep -c "Sprint PRD Repository Verification Pattern" docs/SPRINT_AUTHORING_GUIDE.md` → 1.
-- `grep -c "## 13\. Sprint PRD Repository Verification Pattern" docs/SPRINT_AUTHORING_GUIDE.md` → 1.
-- `grep -c "A Sprint PRD authoring pass is considered complete only if" docs/SPRINT_AUTHORING_GUIDE.md` → 1.
-- `grep -c "most recent approved Sprint PRD in the same module" docs/SPRINT_AUTHORING_GUIDE.md` → 2.
-- `grep -c "## 14\. Sprint Sequencing Rules" docs/SPRINT_AUTHORING_GUIDE.md` → 1.
-- `grep -c "## 15\. References" docs/SPRINT_AUTHORING_GUIDE.md` → 1.
-- `grep -n "^## " docs/SPRINT_AUTHORING_GUIDE.md` confirms contiguous sections 1–15 with no gaps or duplicates.
+SPR-MOD-001-003 authored as a Draft Sprint PRD in the established Platform Sprint PRD family, with all derived indexes synchronized and Section 13 verification gates passing. Positions MOD-001 to proceed to Pass 8.2.4 (Sprint 004 — Configuration Hierarchy).
