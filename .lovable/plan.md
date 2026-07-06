@@ -66,3 +66,8 @@ No code, schema, SQL, migrations, APIs, UI, Module PRDs, ERP Core Engines, ADRs,
 ## Outcome
 
 SPR-MOD-001-005 authored as fifth Platform Sprint PRD with a refined Localization Ownership Convention that separates Platform-owned localization infrastructure from business-module-owned localized content, positioning MOD-001 for Pass 8.2.6 (SPR-MOD-001-006) and Pass 8.2.Z (MOD001_PLATFORM_BASELINE_v1).
+---
+
+## Execution Record — Pass 8.2.5 (2026-07-06)
+
+Authored `docs/30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md` (fifth Platform Sprint PRD), mirroring the SPR-MOD-001-004 structure and adding the Localization Ownership Convention with an explicit split between Platform-owned localization infrastructure (pack lifecycle, activation, inheritance, locale/currency/timezone/format resolution surface) and business-module-owned localized content (regulatory labels, domain terminology, module-specific resources). Consumes ENG-001/004/005/006/018/024 and Accepted ADRs 011/012/014/051; owns the `localizationpack.*`, `locale.changed`, `currency.changed`, and `regionalformat.changed` events. Registered in DOCUMENT_INDEX.md, SPRINT_CATALOG.md, platform README.md, and _meta.json sidebar. No code, schema, Module PRDs, engines, ADRs, Sprint Plans, or workflow docs changed.
