@@ -92,3 +92,11 @@ Module PRDs, `MOD-002_SPRINT_PLAN.md`, other Accounting Sprint PRDs, `MODULE_BAS
 ## 7. Outcome
 
 `SPR-MOD-002-001-accounting-foundation.md` becomes the first Accounting Sprint PRD, establishing the Accounting Sprint PRD family under the governance model proven in MOD-001, with baseline-first dependency references and repository-standard path citations. It positions MOD-002 for **Pass 8.3.2 — SPR-MOD-002-002 (Voucher Framework)**.
+
+---
+
+## Execution Record — Pass 8.3.1 (2026-07-06)
+
+- Created `docs/30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md` mirroring the MOD-001 Sprint PRD gold standard, with the Accounting Ownership Convention (§1.1) and baseline-first upstream dependency (§7).
+- Registered the Sprint PRD in `docs/SPRINT_CATALOG.md` (Draft), `docs/30-sprint-prds/accounting/README.md` (Sprint 1 row linked, status Draft), `docs/DOCUMENT_INDEX.md`, and `docs/_meta.json` (sidebar).
+- Not changed: Module PRDs, `MOD-002_SPRINT_PLAN.md`, other Accounting Sprint PRDs, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, UI.
