@@ -29,7 +29,7 @@ The **Document Traceability** guide describes how every documentation family in 
 | 5 | ERP Core Engines | `docs/10-erp-core/` |
 | 6 | Architecture Decision Records | `docs/11-adrs/` |
 | 7 | Module PRDs | `docs/20-module-prds/` (`MOD-001` … `MOD-018`) |
-| 8 | Sprint PRDs | `docs/30-sprint-prds/` (`SPR-MOD-NNN-NNN`) — scaffolded in Pass 8, authored per methodology in `docs/SPRINT_AUTHORING_GUIDE.md`, sequenced by `docs/SPRINT_ROADMAP.md` and `docs/SPRINT_DEPENDENCY_MATRIX.md`, sized against `docs/SPRINT_ESTIMATION_GUIDE.md`, and produced iteratively in Pass 8.x |
+| 8 | Sprint PRDs | `docs/30-sprint-prds/` (`SPR-MOD-NNN-NNN`) — scaffolded in Pass 8, authored per methodology in `docs/SPRINT_AUTHORING_GUIDE.md`, sequenced by `docs/SPRINT_ROADMAP.md` and `docs/SPRINT_DEPENDENCY_MATRIX.md`, sized against `docs/SPRINT_ESTIMATION_GUIDE.md`, and produced iteratively in Pass 8.x under the three-stage cadence defined in `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` (Stage 1 planning → Stage 2 authoring → Stage 3 baseline) |
 | — | Reference Documents | `docs/06-integrations/`, `docs/07-reports/`, `docs/08-business-rules/`, `docs/09-ai/`, `docs/11-erd/`, `docs/12-ui-components/`, `docs/13-workflows/`, `docs/14-localization/`, `docs/99-templates/` |
 | — | Cross-cutting derived indexes | `docs/` root (Repository Map, Document Index, Document Traceability, Ownership Matrix, Glossary Index, Engine Usage Matrix, ADR Impact Matrix, Module Catalog, Sprint Catalog, Sprint Dependency Matrix) |
 
@@ -89,7 +89,8 @@ When an authoritative document changes, the maintainer MUST update every downstr
 | Architecture | ERP Core Engines (affected engines), ADRs referencing the section |
 | ERP Core Engine spec | `ENGINE_CATALOG.md`, `ENGINE_USAGE_MATRIX.md`, ADRs referencing the engine, Module PRDs consuming it |
 | ADR | `ADR_INDEX.md`, `ADR_IMPACT_MATRIX.md`, documents listed in the ADR's `affected_documents` |
-| Module PRD | `MODULE_CATALOG.md`, dependent Sprint PRDs |
+| Module PRD | `MODULE_CATALOG.md`, dependent Sprint PRDs, module Stage 1 sprint plan (`MOD-<NNN>_SPRINT_PLAN.md`) |
+| Module Sprint Plan (Stage 1) | Module folder README (`docs/30-sprint-prds/<module>/README.md`), Stage 2 Sprint PRDs authored under the plan |
 | Any authoritative document | `DOCUMENT_INDEX.md`, `REPOSITORY_MAP.md`, `GLOSSARY_INDEX.md` if terms changed |
 
 Derived documents SHOULD be regenerated or reviewed whenever an authoritative document is added, removed, renamed, or materially changed. They MUST NOT become independent sources of truth.

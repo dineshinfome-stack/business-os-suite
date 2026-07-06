@@ -61,6 +61,7 @@ docs/
 ├── SPRINT_ROADMAP.md               Sprint roadmap            (Authoritative)
 ├── SPRINT_ESTIMATION_GUIDE.md      Sprint sizing framework   (Authoritative)
 ├── SPRINT_DEPENDENCY_MATRIX.md     Sprint dependency matrix  (Derived)
+├── MODULE_IMPLEMENTATION_WORKFLOW.md  Repository-wide module implementation workflow (Authoritative)
 └── 99-templates/                   Document templates       (Reference)
 ```
 

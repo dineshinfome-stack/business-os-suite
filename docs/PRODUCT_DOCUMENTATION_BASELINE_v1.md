@@ -130,6 +130,19 @@ Each downstream layer consumes the upstream layers and never redefines them.
 - **Sprint Roadmap** — [`docs/SPRINT_ROADMAP.md`](./SPRINT_ROADMAP.md)
 - **Sprint Estimation Guide** — [`docs/SPRINT_ESTIMATION_GUIDE.md`](./SPRINT_ESTIMATION_GUIDE.md)
 - **Sprint Dependency Matrix** — [`docs/SPRINT_DEPENDENCY_MATRIX.md`](./SPRINT_DEPENDENCY_MATRIX.md)
+- **Module Implementation Workflow** — [`docs/MODULE_IMPLEMENTATION_WORKFLOW.md`](./MODULE_IMPLEMENTATION_WORKFLOW.md)
+
+---
+
+## Module Implementation Cadence
+
+From Pass 8.2 onward, every module (MOD-001 … MOD-018) is delivered under the repository-wide three-stage cadence defined in [`MODULE_IMPLEMENTATION_WORKFLOW.md`](./MODULE_IMPLEMENTATION_WORKFLOW.md):
+
+1. **Stage 1 — Module Sprint Planning** (`Pass 8.<M>.0`) produces `docs/30-sprint-prds/<module>/MOD-<NNN>_SPRINT_PLAN.md`.
+2. **Stage 2 — Sprint PRD Authoring** (`Pass 8.<M>.<N>`) authors Sprint PRDs one at a time, registered in `SPRINT_CATALOG.md`.
+3. **Stage 3 — Module Baseline** (`Pass 8.<M>.Z`) issues `MOD<NNN>_<MODULE>_BASELINE_v1.md`.
+
+Stages do not overlap. The workflow is repository-wide; it is not module-specific and applies uniformly to every module.
 
 ---
 
@@ -138,5 +151,8 @@ Each downstream layer consumes the upstream layers and never redefines them.
 | Milestone | Pass | Scope |
 | --- | --- | --- |
 | Sprint Authoring Methodology & Execution Plan | Pass 8.1 | Complete — authoring guide, roadmap, estimation guide, and dependency matrix in place. |
-| Platform Administration Sprint PRDs (MOD-001) | Pass 8.2 | Next planned implementation-planning phase; first module-level Sprint PRDs authored per methodology. |
-| Sprint PRD Authoring (remaining modules) | Pass 8.3+ | Module-by-module Sprint PRDs in dependency order (see [`SPRINT_ROADMAP.md`](./SPRINT_ROADMAP.md)). |
+| Repository-Wide Module Implementation Workflow + MOD-001 Stage 1 Sprint Plan | Pass 8.2.0 | Complete — three-stage cadence formalized; MOD-001 Stage 1 planning document authored; sprint identifiers `SPR-MOD-001-001` … `-006` reserved (not yet authored). |
+| Platform Administration Sprint PRDs (MOD-001) | Pass 8.2.1 … 8.2.6 | Stage 2 — iterative authoring of the six reserved Sprint PRDs, one per pass. |
+| Platform Administration Module Baseline | Pass 8.2.Z | Stage 3 — `MOD001_PLATFORM_BASELINE_v1.md` after all six Sprint PRDs are `Done`. |
+| Accounting Module Implementation | Pass 8.3.0 → 8.3.Z | Stages 1 → 3 for MOD-002 Accounting, reusing the repository-wide workflow. |
+| Sprint PRD Authoring (remaining modules) | Pass 8.4+ | Module-by-module in dependency order (see [`SPRINT_ROADMAP.md`](./SPRINT_ROADMAP.md)). |
