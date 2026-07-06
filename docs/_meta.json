@@ -908,6 +908,10 @@
           "path": "30-sprint-prds/platform/MOD-001_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-001-001 — Tenancy Foundation",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation"
+        },
+        {
           "title": "MOD-002 Accounting",
           "path": "30-sprint-prds/accounting/README"
         },
