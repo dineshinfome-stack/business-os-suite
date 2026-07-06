@@ -30,6 +30,7 @@ The **Document Traceability** guide describes how every documentation family in 
 | 6 | Architecture Decision Records | `docs/11-adrs/` |
 | 7 | Module PRDs | `docs/20-module-prds/` (`MOD-001` … `MOD-018`) |
 | 8 | Sprint PRDs | `docs/30-sprint-prds/` (`SPR-MOD-NNN-NNN`) — scaffolded in Pass 8, authored per methodology in `docs/SPRINT_AUTHORING_GUIDE.md`, sequenced by `docs/SPRINT_ROADMAP.md` and `docs/SPRINT_DEPENDENCY_MATRIX.md`, sized against `docs/SPRINT_ESTIMATION_GUIDE.md`, and produced iteratively in Pass 8.x under the three-stage cadence defined in `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` (Stage 1 planning → Stage 2 authoring → Stage 3 baseline) |
+| 9 | Module Baselines | `docs/40-module-baselines/` (`MOD<NNN>_<MODULE>_BASELINE_v<version>.md`) — frozen at Stage 3 of `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, one versioned baseline per module. Consolidates the Sprint PRDs delivered and the engines/ADRs consumed; introduces no new requirements. Indexed by `docs/MODULE_BASELINE_CATALOG.md` |
 | — | Reference Documents | `docs/06-integrations/`, `docs/07-reports/`, `docs/08-business-rules/`, `docs/09-ai/`, `docs/11-erd/`, `docs/12-ui-components/`, `docs/13-workflows/`, `docs/14-localization/`, `docs/99-templates/` |
 | — | Cross-cutting derived indexes | `docs/` root (Repository Map, Document Index, Document Traceability, Ownership Matrix, Glossary Index, Engine Usage Matrix, ADR Impact Matrix, Module Catalog, Sprint Catalog, Sprint Dependency Matrix) |
 
