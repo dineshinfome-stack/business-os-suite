@@ -42,7 +42,7 @@ This matrix SHOULD be regenerated or reviewed whenever a governance responsibili
 | Sprint Authoring Framework | Engineering | Engineering + Architecture review | Update on methodology change | `docs/SPRINT_AUTHORING_GUIDE.md`, `docs/SPRINT_ROADMAP.md`, `docs/SPRINT_ESTIMATION_GUIDE.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md` |
 | Module Implementation Workflow | Engineering | Engineering + Architecture review | Update on workflow / stage-definition change | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` (repository-wide, applies to MOD-001 … MOD-018) |
 | Module Sprint Plans (Stage 1) | Engineering (per module owner) | Engineering + Architecture review | Amend before Stage 2 continues | `docs/30-sprint-prds/<module>/MOD-<NNN>_SPRINT_PLAN.md` |
-| Module Baselines (Stage 3) | Engineering (per module owner) | Engineering + Architecture + Product | New baseline revision (versioned) | `docs/20-module-prds/<module>/MOD<NNN>_<MODULE>_BASELINE_v1.md` |
+| Module Baselines (Stage 3) | Engineering (per module owner) | Engineering + Architecture + Product | New baseline revision (versioned) | `docs/40-module-baselines/MOD<NNN>_<MODULE>_BASELINE_v<version>.md` |
 | Coding Standards | Engineering | Engineering + Architecture review | ADR (Engineering category) → doc update | `docs/03-design/coding-standards.md` |
 | Design Standards | Design | Design + Engineering review | ADR (UI category) → doc update | `docs/03-design/ui-ux-design-system.md`, `docs/03-design/ux-standards.md` |
 

@@ -91,7 +91,7 @@ Here `M` is the numeric position of the module in dependency order, not the modu
 
 1. **Author** the Sprint PRD using `docs/99-templates/sprint-prd-template.md` and `SPRINT_AUTHORING_GUIDE.md` (including the Sprint Traceability Rule and the Sprint Completion Rule).
 2. **Review** for consistency with the Stage 1 plan (scope, engines, ADRs, dependencies, exit criteria).
-3. **Approve** — lifecycle transitions per `docs/DOCUMENT_OWNERSHIP_MATRIX.md` (`Draft → Planned → In Progress → Done`).
+3. **Approve** — lifecycle transitions per the Sprint Lifecycle Clarification below and `docs/DOCUMENT_OWNERSHIP_MATRIX.md`.
 4. **Register** in `docs/SPRINT_CATALOG.md` at the moment the Sprint PRD is authored (not before).
 5. **Advance** to the next sprint only when the current sprint's exit criteria are objectively met.
 
@@ -105,9 +105,19 @@ Here `M` is the numeric position of the module in dependency order, not the modu
 
 **Governance:** owned by Engineering; each Sprint PRD is reviewed by Engineering.
 
+#### Sprint Lifecycle Clarification (canonical)
+
+This is the single canonical definition of each Sprint PRD status used across `SPRINT_CATALOG.md`, module subfolder READMEs, and Sprint PRD frontmatter. Any other document that references these statuses MUST either point at this section or use identical language.
+
+- **`Draft`** — Sprint PRD authored, not yet reviewed.
+- **`Planned`** — Sprint PRD reviewed and accepted for execution; not yet in flight. Optional intermediate state; MAY be skipped for documentation-only sprints.
+- **`In Progress`** — Sprint PRD is actively being executed.
+- **`Done`** — Sprint PRD is included in an approved Module Baseline (Stage 3). Transition to `Done` is performed **only** by the Stage 3 pass authoring the baseline.
+- **`Superseded`** — Sprint PRD replaced by a later Sprint PRD.
+
 ### Stage 3 — Module Baseline
 
-**Deliverable:** `docs/20-module-prds/<module>/MOD<NNN>_<MODULE>_BASELINE_v1.md` (a milestone document, versioned).
+**Deliverable:** `docs/40-module-baselines/MOD<NNN>_<MODULE>_BASELINE_v<version>.md` (a milestone document, versioned; version increments as `v1`, `v2`, …). Module Baselines live in the top-level `docs/40-module-baselines/` layer — not inside individual module subfolders — so every baseline is discoverable in one place.
 
 **Entry criteria:**
 

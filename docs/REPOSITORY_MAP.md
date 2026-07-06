@@ -56,6 +56,7 @@ docs/
 ├── 14-localization/                Locale packs             (Reference)
 ├── 20-module-prds/                 Module PRDs (MOD-001..018) (Authoritative)
 ├── 30-sprint-prds/                 Sprint PRDs (SPR-MOD-NNN-NNN) (Authoritative — scaffolded)
+├── 40-module-baselines/            Module Baselines (Stage 3)   (Authoritative)
 ├── SPRINT_CATALOG.md               Sprint catalog            (Derived)
 ├── SPRINT_AUTHORING_GUIDE.md       Sprint authoring guide    (Authoritative)
 ├── SPRINT_ROADMAP.md               Sprint roadmap            (Authoritative)
@@ -122,6 +123,13 @@ docs/
 - **Owner:** Engineering
 - **Purpose:** Implementation-ready slices of Module PRDs. Every sprint has a permanent `SPR-MOD-NNN-NNN` identifier and a mutable `iteration` label.
 - **Authority:** Authoritative for the sprint scope; must not contradict its Module PRD or any upstream layer. `SPRINT_CATALOG.md` is the derived index.
+
+### Module Baselines
+
+- **Path:** `docs/40-module-baselines/` (one versioned baseline per module: `MOD<NNN>_<MODULE>_BASELINE_v<version>.md`)
+- **Owner:** Engineering (per module), reviewed by Engineering + Architecture + Product
+- **Purpose:** Frozen Module Baselines produced at Stage 3 of the module implementation workflow. Consolidates the Sprint PRDs delivered, the engines and ADRs consumed, and freezes the module for downstream consumption.
+- **Authority:** Authoritative and versioned. Future changes require a new baseline revision (e.g. `_v2`) rather than in-place edits. `MODULE_BASELINE_CATALOG.md` is the derived index.
 
 ### Reference Documents
 

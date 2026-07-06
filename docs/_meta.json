@@ -72,6 +72,10 @@
           "path": "MODULE_CATALOG"
         },
         {
+          "title": "Module Baseline Catalog",
+          "path": "MODULE_BASELINE_CATALOG"
+        },
+        {
           "title": "Sprint Authoring Guide",
           "path": "SPRINT_AUTHORING_GUIDE"
         },
@@ -998,6 +1002,19 @@
         {
           "title": "MOD-018 AI Workspace",
           "path": "30-sprint-prds/ai/README"
+        }
+      ]
+    },
+    {
+      "label": "40 Module Baselines",
+      "items": [
+        {
+          "title": "README",
+          "path": "40-module-baselines/README"
+        },
+        {
+          "title": "MOD001_PLATFORM_BASELINE_v1",
+          "path": "40-module-baselines/MOD001_PLATFORM_BASELINE_v1"
         }
       ]
     },
