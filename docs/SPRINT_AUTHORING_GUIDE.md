@@ -4,7 +4,7 @@ summary: "Authoritative methodology for authoring Sprint PRDs — decomposition,
 layer: "delivery"
 owner: "Engineering"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-06"
 tags: ["sprint", "prd", "authoring", "methodology", "governance"]
 document_type: "Sprint Layer Guide"
 ---
