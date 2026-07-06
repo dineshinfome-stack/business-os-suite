@@ -944,6 +944,10 @@
           "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-002-001 — Accounting Foundation",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation"
+        },
+        {
           "title": "MOD-003 Sales",
           "path": "30-sprint-prds/sales/README"
         },
