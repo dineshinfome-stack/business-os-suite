@@ -928,6 +928,10 @@
           "path": "30-sprint-prds/platform/SPR-MOD-001-005-localization-packs"
         },
         {
+          "title": "SPR-MOD-001-006 — Audit Review & Platform Administration",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration"
+        },
+        {
           "title": "MOD-002 Accounting",
           "path": "30-sprint-prds/accounting/README"
         },
