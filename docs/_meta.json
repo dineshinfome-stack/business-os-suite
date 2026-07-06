@@ -912,6 +912,10 @@
           "path": "30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation"
         },
         {
+          "title": "SPR-MOD-001-002 — Organization Structure",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-002-organization-structure"
+        },
+        {
           "title": "MOD-002 Accounting",
           "path": "30-sprint-prds/accounting/README"
         },
