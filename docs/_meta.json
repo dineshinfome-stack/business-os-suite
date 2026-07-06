@@ -940,6 +940,10 @@
           "path": "30-sprint-prds/accounting/README"
         },
         {
+          "title": "MOD-002 — Sprint Plan (Stage 1)",
+          "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
+        },
+        {
           "title": "MOD-003 Sales",
           "path": "30-sprint-prds/sales/README"
         },
