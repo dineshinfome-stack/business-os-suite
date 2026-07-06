@@ -86,6 +86,10 @@
         {
           "title": "Sprint Dependency Matrix",
           "path": "SPRINT_DEPENDENCY_MATRIX"
+        },
+        {
+          "title": "Module Implementation Workflow",
+          "path": "MODULE_IMPLEMENTATION_WORKFLOW"
         }
       ]
     },
@@ -898,6 +902,10 @@
         {
           "title": "MOD-001 Platform Administration",
           "path": "30-sprint-prds/platform/README"
+        },
+        {
+          "title": "MOD-001 — Sprint Plan (Stage 1)",
+          "path": "30-sprint-prds/platform/MOD-001_SPRINT_PLAN"
         },
         {
           "title": "MOD-002 Accounting",

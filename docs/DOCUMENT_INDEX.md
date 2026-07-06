@@ -73,6 +73,8 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Sprint Roadmap | Delivery | Approved | Authoritative | `docs/SPRINT_ROADMAP.md` |
 | Sprint Estimation Guide | Delivery | Approved | Authoritative | `docs/SPRINT_ESTIMATION_GUIDE.md` |
 | Sprint Dependency Matrix | Delivery | Approved | Derived | `docs/SPRINT_DEPENDENCY_MATRIX.md` |
+| Module Implementation Workflow | Delivery | Approved | Authoritative | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` |
+| MOD-001 Platform Administration — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN.md` |
 
 ### B
 
