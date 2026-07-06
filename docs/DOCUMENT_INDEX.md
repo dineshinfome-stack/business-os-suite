@@ -247,6 +247,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SMS Integration | Reference | Approved | Reference | `docs/06-integrations/sms.md` |
 | SPR-MOD-001-001 — Tenancy Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md` |
 | SPR-MOD-001-002 — Organization Structure | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-002-organization-structure.md` |
+| SPR-MOD-001-003 — Users, Roles & Permissions | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
