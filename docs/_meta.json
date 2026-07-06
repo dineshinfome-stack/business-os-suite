@@ -1002,6 +1002,19 @@
       ]
     },
     {
+      "label": "40 Module Baselines",
+      "items": [
+        {
+          "title": "README",
+          "path": "40-module-baselines/README"
+        },
+        {
+          "title": "MOD001_PLATFORM_BASELINE_v1",
+          "path": "40-module-baselines/MOD001_PLATFORM_BASELINE_v1"
+        }
+      ]
+    },
+    {
       "label": "12 UI Components",
       "items": [
         {
