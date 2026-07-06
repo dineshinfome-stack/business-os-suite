@@ -920,6 +920,10 @@
           "path": "30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions"
         },
         {
+          "title": "SPR-MOD-001-004 — Configuration Hierarchy",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy"
+        },
+        {
           "title": "MOD-002 Accounting",
           "path": "30-sprint-prds/accounting/README"
         },
