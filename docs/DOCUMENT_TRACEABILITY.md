@@ -91,6 +91,7 @@ When an authoritative document changes, the maintainer MUST update every downstr
 | ADR | `ADR_INDEX.md`, `ADR_IMPACT_MATRIX.md`, documents listed in the ADR's `affected_documents` |
 | Module PRD | `MODULE_CATALOG.md`, dependent Sprint PRDs, module Stage 1 sprint plan (`MOD-<NNN>_SPRINT_PLAN.md`) |
 | Module Sprint Plan (Stage 1) | Module folder README (`docs/30-sprint-prds/<module>/README.md`), Stage 2 Sprint PRDs authored under the plan |
+| Sprint PRD (Stage 2) | `SPRINT_CATALOG.md`, module folder README, `DOCUMENT_INDEX.md`, `_meta.json`; event contracts (if any) referenced from `docs/02-architecture/event-catalog.md` |
 | Any authoritative document | `DOCUMENT_INDEX.md`, `REPOSITORY_MAP.md`, `GLOSSARY_INDEX.md` if terms changed |
 
 Derived documents SHOULD be regenerated or reviewed whenever an authoritative document is added, removed, renamed, or materially changed. They MUST NOT become independent sources of truth.
