@@ -1,112 +1,94 @@
-# Pass 8.3.0 — MOD-002 Accounting Sprint Planning (Stage 1)
 
-Documentation-only. Executes Stage 1 of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-002 Accounting. No Sprint PRDs are authored in this pass; Sprint IDs are reserved as planning-only.
+# Pass 8.3.1 — Author SPR-MOD-002-001 (Accounting Foundation)
 
-## 1. Create `docs/30-sprint-prds/accounting/MOD-002_SPRINT_PLAN.md`
+**Documentation-only.** Begins Stage 2 of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-002 Accounting. Authors the first Accounting Sprint PRD using the gold-standard structure established by `SPR-MOD-001-001` through `SPR-MOD-001-006`, adapted for accounting business semantics.
 
-Follow the structure and section ordering of `MOD-001_SPRINT_PLAN.md` (repository-standard Stage 1 template). Planning artifact only — no new business requirements beyond the approved Accounting Module PRD.
+## 1. Create the Sprint PRD
 
-**Frontmatter**
+**File:** `docs/30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md`
+
+**Basis:** `docs/99-templates/sprint-prd-template.md`, with section ordering, terminology, disclaimer wording, traceability style, Review Gate, and writing quality mirrored from the Platform Sprint PRD family.
+
+### 1.1 Frontmatter
 
 ```yaml
-module_id: MOD-002
-module_name: Accounting
-status: Planning
+sprint_id: SPR-MOD-002-001
+parent_module: MOD-002
+parent_sprint_plan: MOD-002_SPRINT_PLAN.md
+iteration: Sprint 1
+stage: "2"
+pass: "8.3.1"
+size: Medium
+status: Draft
 owner: Accounting
-parent_module_prd: docs/20-module-prds/accounting/MODULE_PRD.md
-workflow_stage: Stage 1
+related_engines: [ENG-001, ENG-004, ENG-005, ENG-015, ENG-016, ENG-024]
+related_adrs: [ADR-011, ADR-012, ADR-014, ADR-032, ADR-051]
 updated: 2026-07-06
+tags: [sprint, prd, accounting, mod-002, foundation, stage-2]
+document_type: "Sprint PRD"
 ```
 
-**Sections** (mirror MOD-001 plan)
+### 1.2 Section Layout (mirrors MOD-001 Sprint PRDs)
 
-1. **Purpose & Scope** — reference the approved Accounting Module PRD; state the plan decomposes MOD-002 into independently deliverable Sprint PRDs.
+1. **Objective and Scope** — objective; In Scope (CoA, ledger hierarchy, account classifications and types, fiscal year, accounting periods, base accounting configuration, currency foundation defaults, opening balance readiness, audit integration); Out of Scope (voucher posting, journals, financial statements, GST, period close, reconciliation, cost centres, budgets, consolidation) with forward pointers to reserved sprints. Includes the **Accounting Ownership Convention** callout (see §2 of this plan).
+2. **Sprint Deliverables** — business capabilities only (CoA, ledger hierarchy, classifications, fiscal year, periods, base config, currency defaults, opening balance readiness, docs). No implementation prescription.
+3. **Traceability to Module PRD** — table mapping each capability to sections of `docs/20-module-prds/accounting/MODULE_PRD.md`. No orphan requirements.
+4. **User Stories** — Accounting Administrator stories: create account groups, create ledger accounts, configure fiscal year, define accounting periods, configure accounting defaults, manage account hierarchy.
+5. **Acceptance Criteria** — Given / When / Then, observable business behaviour only.
+6. **Parent Module Reference** — MOD-002 Accounting, linking the full path `docs/20-module-prds/accounting/MODULE_PRD.md` (repository-standard reference style).
+7. **Dependencies** —
+   - **Upstream:** `MOD001_PLATFORM_BASELINE_v1` (which encapsulates Platform Sprints 001–006). Downstream references to Platform will point to the baseline rather than individual Platform Sprint PRDs unless sprint-level traceability is specifically required.
+   - **Downstream:** SPR-MOD-002-002 … SPR-MOD-002-006 (per `MOD-002_SPRINT_PLAN.md`).
+8. **ERP Core Engine Consumption** — consume-only table for ENG-001, ENG-004, ENG-005, ENG-015, ENG-016, ENG-024 with usage notes. Cross-references the Accounting Ownership Convention.
+9. **ADR Consumption** — Accepted ADRs only: ADR-011, ADR-012, ADR-014, ADR-032, ADR-051.
+10. **Data Model Impact** — conceptual entities only: Account Group, Ledger Account, Account Type, Fiscal Year, Accounting Period, Currency Profile. Cross-references the Accounting Ownership Convention. Retains the standard disclaimer: *Physical schema design remains an implementation activity and MUST NOT appear in Sprint PRDs.*
+11. **Events Published** — table (Event Name / Owning Module / Publishing Sprint / Known Consumer Modules / Delivery Guarantee) for `accountgroup.created`, `accountgroup.updated`, `ledger.created`, `ledger.updated`, `fiscalyear.created`, `accountingperiod.created`. Cites `docs/02-architecture/event-catalog.md`. Applies the established Event Ownership Convention. No payload definitions.
+12. **Definition of Done** — repository-standard checklist from `SPRINT_AUTHORING_GUIDE.md`.
+13. **Sprint Exit Criteria** — copied verbatim from the Sprint 1 entry in `MOD-002_SPRINT_PLAN.md`.
+14. **Risks and Assumptions** — assumes MOD-001 Platform Baseline frozen, Accepted ADRs unchanged, ERP Core Engines available; defers voucher lifecycle, posting, financial reporting, taxation, reconciliation, closing.
+15. **Test Strategy Summary** — references repository testing guidance; covers CoA creation, hierarchy validation, fiscal year, accounting periods, audit emission, event publication.
+16. **Implementation Notes** — standard non-authoritative disclaimer verbatim.
+17. **Review Gate** — reuse the standard seven-question Review Gate exactly as in the Platform Sprint PRDs.
+18. **References** — mirrors MOD-001 Sprint PRD reference structure.
 
-2. **Proposed Sprint Sequence** — reserve six Sprint IDs:
-   - `SPR-MOD-002-001` Accounting Foundation — CoA, ledger hierarchy, account classifications, accounting periods, fiscal setup. Size: **Medium**.
-   - `SPR-MOD-002-002` Voucher Framework — voucher lifecycle, numbering, posting workflow, Draft/Posted/Cancelled. Size: **Large**.
-   - `SPR-MOD-002-003` Journal & Ledger Posting — double-entry engine consumption, journals, ledger posting, trial balance foundation. Size: **Large**.
-   - `SPR-MOD-002-004` Financial Statements — Trial Balance, P&L, Balance Sheet, Cash Flow, General Ledger. Size: **Large**.
-   - `SPR-MOD-002-005` Taxation & Compliance Foundation — GST framework, tax configuration, tax posting, compliance readiness. Size: **Medium**.
-   - `SPR-MOD-002-006` Period Close & Audit — FY close, locking, reopening, closing adjustments, audit support. Size: **Medium**.
+## 2. Accounting Ownership Convention
 
-   Each entry lists objective, boundaries (in/out), parent Module PRD sections covered, engines consumed (`ENG-NNN`), ADRs consumed (`ADR-NNN`), intra-module dependencies, and Sprint Exit Criteria.
+Introduce one Accounting-specific governance callout in §1, cross-referenced from §8 and §10:
 
-   **Planning Flexibility.** The sprint decomposition documented here represents the approved Stage 1 planning baseline based on the current Module PRD. During Stage 2 authoring, sprint boundaries MAY be refined, merged, or split where this improves cohesion, traceability, or implementation sequencing, provided every Module PRD capability remains fully covered and no capability becomes orphaned. Any such refinement MUST be reflected by updating this Sprint Plan before authoring subsequent Sprint PRDs.
+> **Accounting Ownership Convention.** The Accounting module owns the business semantics of the Chart of Accounts, ledger hierarchy, account classifications, fiscal structure, and accounting master data. ERP Core Engines provide shared infrastructure (identity, audit, configuration, eventing, posting services where applicable) but MUST NOT redefine accounting business rules. Downstream modules consume Accounting master data and accounting services rather than introducing independent accounting structures.
 
-3. **Sprint Dependency Graph** — ASCII:
+Complements — does not replace — the Platform conventions.
 
-   ```text
-   001 Accounting Foundation
-             │
-             ▼
-   002 Voucher Framework
-             │
-             ▼
-   003 Journal & Ledger Posting
-            ├──────────┐
-            ▼          ▼
-   004 Financials   005 Tax
-            └──────┬───┘
-                   ▼
-   006 Period Close
-   ```
+## 3. Baseline-First Dependency Convention
 
-4. **Engine Consumption Map** — matrix Sprint × ERP Core Engine, drawn from Accounting Module PRD §12 (Required: ENG-001..008, 011, 015..019, 021, 024, 026, 027; Optional: ENG-010, 012, 020, 022, 023, 025, 028). No engine behavior redefined.
+To avoid parallel sources of truth, the Sprint PRD's Dependencies section (§7) treats `MOD001_PLATFORM_BASELINE_v1` as the authoritative upstream reference. Individual Platform Sprint PRDs (001–006) are noted as encapsulated by the baseline and are cited only where sprint-level traceability is specifically required. This reinforces the Stage 3 baseline as the durable inter-module contract established during Pass 8.2.Z.
 
-5. **ADR Consumption Map** — matrix Sprint × Accepted ADR (per Module PRD: ADR-011, ADR-014, ADR-032, plus supporting Accepted ADRs referenced by engines consumed). Accepted ADRs only.
+## 4. Governance Registrations
 
-6. **Cross-Sprint Dependency Matrix** — shared events (VoucherPosted, PeriodClosed, PaymentRecorded, ReceiptRecorded, BankReconciled), shared master data (CoA, Tax Codes, Bank Accounts), shared configuration (fiscal calendar, currency, numbering series), shared migrations, shared posting workflow.
+- `docs/SPRINT_CATALOG.md` — add one row for `SPR-MOD-002-001` (Iteration: Sprint 1, Parent: MOD-002 Accounting, Status: Draft, PRD link, Owner: Accounting).
+- `docs/30-sprint-prds/accounting/README.md` — replace the Sprint 1 placeholder row with a link to the authored Sprint PRD; update status to Draft.
+- `docs/DOCUMENT_INDEX.md` — exactly one entry.
+- `docs/_meta.json` — exactly one sidebar registration.
+- `.lovable/plan.md` — append Pass 8.3.1 execution record.
 
-7. **Risks & Assumptions** — dependency on MOD-001 Platform Baseline (v1, frozen), dependency on ERP Core Engines, dependency on Accepted ADRs. Assumptions only; no new requirements.
+No new category-level registrations.
 
-8. **Module Completion Criteria** — objective, baseline-terminated conditions:
-   - all reserved Accounting Sprint PRDs authored and completed;
-   - `MOD002_ACCOUNTING_BASELINE_v1` authored under `docs/40-module-baselines/`;
-   - repository verification complete;
-   - downstream modules (MOD-003 Sales, MOD-004 Purchase, MOD-008 Payroll, MOD-015 POS, MOD-017 Analytics) may consume the frozen Accounting baseline.
+## 5. Repository Verification (per SPRINT_AUTHORING_GUIDE.md §13)
 
-9. **Non-Goals** — no Sprint PRDs authored; no Module PRD, Engine, or ADR changes; no code, schema, APIs, or UI.
+- Exactly one `DOCUMENT_INDEX.md` entry for the new Sprint PRD.
+- Exactly one Draft row in `SPRINT_CATALOG.md`.
+- Accounting README links the Sprint 1 PRD.
+- Exactly one `_meta.json` registration.
+- Structural parity with the Platform Sprint PRD family (section ordering, terminology, disclaimers, Review Gate, governance conventions).
+- Every capability traces to `docs/20-module-prds/accounting/MODULE_PRD.md`.
+- Only Accepted ADRs referenced.
+- ERP Core Engines consumed, never redefined.
+- Upstream dependencies reference `MOD001_PLATFORM_BASELINE_v1` as the authoritative source.
 
-## 2. Update `docs/30-sprint-prds/accounting/README.md`
+## 6. Not Changed
 
-- Add "Stage 1 — Sprint Planning" section linking `MOD-002_SPRINT_PLAN.md`.
-- Populate the placeholder Sprint table with the six reserved Sprint IDs, status `Planned`. No Sprint PRDs exist yet.
+Module PRDs, `MOD-002_SPRINT_PLAN.md`, other Accounting Sprint PRDs, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, UI.
 
-## 3. Governance Registrations (derived docs only)
+## 7. Outcome
 
-- `docs/DOCUMENT_INDEX.md` — one entry for `MOD-002_SPRINT_PLAN.md`.
-- `docs/_meta.json` — one sidebar entry under the Accounting sprint section.
-- `docs/REPOSITORY_MAP.md` — note the new Accounting Stage 1 artifact.
-- `docs/DOCUMENT_TRACEABILITY.md` — insert node linking MOD-002 PRD → MOD-002 Sprint Plan.
-- `docs/DOCUMENT_OWNERSHIP_MATRIX.md` — add ownership row (owner: Accounting).
-- `.lovable/plan.md` — append Pass 8.3.0 record.
-
-## 4. Not Changed
-
-Module PRDs, `SPRINT_CATALOG.md`, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, UI, sprint methodology.
-
-## 5. Verification (Stage 1)
-
-- `MOD-002_SPRINT_PLAN.md` appears exactly once in `DOCUMENT_INDEX.md`.
-- `_meta.json` contains exactly one sidebar registration for the plan.
-- Accounting README links the Sprint Plan.
-- `SPR-MOD-002-001` … `SPR-MOD-002-006` appear exactly once in the planning table, contiguous from `-001`.
-- Every proposed sprint traces to one or more Accounting Module PRD sections.
-- Every dependency references MOD-001 Platform Baseline, an ERP Core Engine, or an Accepted ADR — no Proposed ADRs.
-- No Sprint PRD files exist under `docs/30-sprint-prds/accounting/` other than the planning document.
-
-## Outcome
-
-`MOD-002_SPRINT_PLAN.md` becomes the authoritative Stage 1 Sprint Planning document for Accounting, aligned with the baseline-terminated completion model established in Passes 8.2.Y and 8.2.Z. MOD-002 is prepared for **Pass 8.3.1**, which will author `SPR-MOD-002-001 Accounting Foundation` as the first Accounting Sprint PRD.
-
----
-
-## Execution Record — Pass 8.3.0 (executed)
-
-- Created `docs/30-sprint-prds/accounting/MOD-002_SPRINT_PLAN.md` — Stage 1 planning artifact reserving six Sprint IDs (`SPR-MOD-002-001` … `SPR-MOD-002-006`) with Planning Flexibility clause and baseline-terminated Module Completion Criteria.
-- Updated `docs/30-sprint-prds/accounting/README.md` — Stage 1 section links the plan; placeholder table reconciled to six reserved rows with goals, sizes, and dependencies from the plan.
-- Registered the plan in `docs/DOCUMENT_INDEX.md` (one row) and `docs/_meta.json` (one sidebar entry).
-- No changes to Module PRDs, `SPRINT_CATALOG.md`, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, or UI.
-- `DOCUMENT_OWNERSHIP_MATRIX.md` and `DOCUMENT_TRACEABILITY.md` already register Module Sprint Plans generically (`MOD-<NNN>_SPRINT_PLAN.md`); no per-module rows added.
-- MOD-002 is prepared for **Pass 8.3.1** — authoring `SPR-MOD-002-001 Accounting Foundation`.
+`SPR-MOD-002-001-accounting-foundation.md` becomes the first Accounting Sprint PRD, establishing the Accounting Sprint PRD family under the governance model proven in MOD-001, with baseline-first dependency references and repository-standard path citations. It positions MOD-002 for **Pass 8.3.2 — SPR-MOD-002-002 (Voucher Framework)**.
