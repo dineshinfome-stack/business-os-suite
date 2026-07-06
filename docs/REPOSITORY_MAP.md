@@ -56,6 +56,7 @@ docs/
 ├── 14-localization/                Locale packs             (Reference)
 ├── 20-module-prds/                 Module PRDs (MOD-001..018) (Authoritative)
 ├── 30-sprint-prds/                 Sprint PRDs (SPR-MOD-NNN-NNN) (Authoritative — scaffolded)
+├── 40-module-baselines/            Module Baselines (Stage 3)   (Authoritative)
 ├── SPRINT_CATALOG.md               Sprint catalog            (Derived)
 ├── SPRINT_AUTHORING_GUIDE.md       Sprint authoring guide    (Authoritative)
 ├── SPRINT_ROADMAP.md               Sprint roadmap            (Authoritative)
