@@ -40,7 +40,7 @@ The Stage 1 plan **reserves** the sprint identifiers listed below. Reservations 
 
 | Sprint ID | Iteration | Goal (from Stage 1 plan) | Estimated Size | Status | Dependencies |
 | --- | --- | --- | --- | --- | --- |
-| SPR-MOD-001-001 | Sprint 1 | Tenancy Foundation | Medium | Planned | — |
+| [SPR-MOD-001-001](./SPR-MOD-001-001-tenancy-foundation.md) | Sprint 1 | Tenancy Foundation | Medium | Draft (authored, Stage 2) | — |
 | SPR-MOD-001-002 | Sprint 2 | Organization Structure | Medium | Planned | SPR-MOD-001-001 |
 | SPR-MOD-001-003 | Sprint 3 | Users, Roles & Permissions | Large | Planned | SPR-MOD-001-002 |
 | SPR-MOD-001-004 | Sprint 4 | Configuration Hierarchy | Medium | Planned | SPR-MOD-001-003 |
