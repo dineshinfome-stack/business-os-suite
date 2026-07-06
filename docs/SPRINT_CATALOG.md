@@ -34,7 +34,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 
 | Sprint ID | Iteration | Parent Module | Status | PRD | Owner |
 | --- | --- | --- | --- | --- | --- |
-| _(none yet)_ | — | — | — | — | — |
+| SPR-MOD-001-001 | Sprint 1 | MOD-001 Platform Administration | Draft | [`30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md`](30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md) | Platform |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 

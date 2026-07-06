@@ -75,6 +75,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Sprint Dependency Matrix | Delivery | Approved | Derived | `docs/SPRINT_DEPENDENCY_MATRIX.md` |
 | Module Implementation Workflow | Delivery | Approved | Authoritative | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` |
 | MOD-001 Platform Administration — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN.md` |
+| SPR-MOD-001-001 — Tenancy Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md` |
 
 ### B
 
@@ -245,6 +246,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Search Engine | ERP Core | Approved | Authoritative | `docs/10-erp-core/intelligence/search-engine.md` |
 | Security Architecture | Architecture | Approved | Authoritative | `docs/02-architecture/security-architecture.md` |
 | SMS Integration | Reference | Approved | Reference | `docs/06-integrations/sms.md` |
+| SPR-MOD-001-001 — Tenancy Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
