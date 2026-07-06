@@ -72,6 +72,10 @@
           "path": "MODULE_CATALOG"
         },
         {
+          "title": "Module Baseline Catalog",
+          "path": "MODULE_BASELINE_CATALOG"
+        },
+        {
           "title": "Sprint Authoring Guide",
           "path": "SPRINT_AUTHORING_GUIDE"
         },
