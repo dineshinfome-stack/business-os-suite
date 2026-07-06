@@ -34,12 +34,12 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 
 | Sprint ID | Iteration | Parent Module | Status | PRD | Owner |
 | --- | --- | --- | --- | --- | --- |
-| SPR-MOD-001-001 | Sprint 1 | MOD-001 Platform Administration | Draft | [`30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md`](30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md) | Platform |
-| SPR-MOD-001-002 | Sprint 2 | MOD-001 Platform Administration | Draft | [`30-sprint-prds/platform/SPR-MOD-001-002-organization-structure.md`](30-sprint-prds/platform/SPR-MOD-001-002-organization-structure.md) | Platform |
-| SPR-MOD-001-003 | Sprint 3 | MOD-001 Platform Administration | Draft | [`30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md`](30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md) | Platform |
-| SPR-MOD-001-004 | Sprint 4 | MOD-001 Platform Administration | Draft | [`30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md`](30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md) | Platform |
-| SPR-MOD-001-005 | Sprint 5 | MOD-001 Platform Administration | Draft | [`30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md`](30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md) | Platform |
-| SPR-MOD-001-006 | Sprint 6 | MOD-001 Platform Administration | Draft | [`30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration.md`](30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration.md) | Platform |
+| SPR-MOD-001-001 | Sprint 1 | MOD-001 Platform Administration | Done | [`30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md`](30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md) | Platform |
+| SPR-MOD-001-002 | Sprint 2 | MOD-001 Platform Administration | Done | [`30-sprint-prds/platform/SPR-MOD-001-002-organization-structure.md`](30-sprint-prds/platform/SPR-MOD-001-002-organization-structure.md) | Platform |
+| SPR-MOD-001-003 | Sprint 3 | MOD-001 Platform Administration | Done | [`30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md`](30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md) | Platform |
+| SPR-MOD-001-004 | Sprint 4 | MOD-001 Platform Administration | Done | [`30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md`](30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md) | Platform |
+| SPR-MOD-001-005 | Sprint 5 | MOD-001 Platform Administration | Done | [`30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md`](30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md) | Platform |
+| SPR-MOD-001-006 | Sprint 6 | MOD-001 Platform Administration | Done | [`30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration.md`](30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration.md) | Platform |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
