@@ -128,3 +128,41 @@ No code, SQL, schema, APIs, UI, architecture, ERP Core Engines, ADRs, Module PRD
 ## Outcome
 
 Pass 8.2.Y makes `docs/40-module-baselines/` the governance-sanctioned Stage 3 location repository-wide and codifies the canonical Sprint lifecycle (Draft → Planned → In Progress → Done → Superseded, with `Done` bound to Stage 3 baseline inclusion). Pass 8.2.Z then authors `MOD001_PLATFORM_BASELINE_v1` under that location — the first authoritative Module Baseline — derives its Engine and ADR consumption sections directly from the Sprint PRDs (no hard-coded lists), certifies MOD-001 completion with explicit freeze-and-version semantics, and unblocks **Pass 8.3.0 — MOD-002 Accounting Sprint Planning**.
+
+---
+
+## Execution Record — Pass 8.2.Y (Completed 2026-07-06)
+
+Governance alignment. No baseline authored in this pass.
+
+- **`docs/MODULE_IMPLEMENTATION_WORKFLOW.md`** — Stage 3 baseline path updated to `docs/40-module-baselines/MOD<NNN>_<MODULE>_BASELINE_v<version>.md`. Added a new **Sprint Lifecycle Clarification** subsection under Stage 2 stating the canonical meaning of `Draft`, `Planned`, `In Progress`, `Done`, `Superseded`; `Done` is bound to Stage 3 baseline inclusion.
+- **`docs/REPOSITORY_MAP.md`** — Registered new `40-module-baselines/` category in the ASCII overview and added a "Module Baselines" layer detail block.
+- **`docs/PRODUCT_DOCUMENTATION_BASELINE_v1.md`** — Updated Stage 3 path and Next Milestone row to the new `docs/40-module-baselines/` location.
+- **`docs/DOCUMENT_OWNERSHIP_MATRIX.md`** — Updated Module Baselines path.
+- **`docs/DOCUMENT_TRACEABILITY.md`** — Added Module Baselines as a new documentation-hierarchy layer (Layer 9) referencing `docs/40-module-baselines/` and `MODULE_BASELINE_CATALOG.md`.
+- No Sprint PRDs, Module PRDs, ADRs, ERP Core Engines, or code changed. No baseline created — the catalog and first baseline are authored in Pass 8.2.Z.
+
+## Execution Record — Pass 8.2.Z (Completed 2026-07-06)
+
+First Module Baseline in the repository. Freezes MOD-001 Platform Administration after successful completion of `SPR-MOD-001-001` … `SPR-MOD-001-006`.
+
+- **Created `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`** — 11-section baseline with frontmatter (`baseline_id`, `module_id: MOD-001`, `version: 1.0`, `status: Baseline`, `owner: Platform`, `source_module_prd`, `source_sprint_plan`, `source_sprints: SPR-MOD-001-001..006`). Engine and ADR consumption sections are **derived** from the union of Sprint PRD `related_engines` / `related_adrs` frontmatter and body citations (Engines: ENG-001, ENG-004, ENG-005, ENG-006, ENG-018, ENG-024; ADRs: ADR-011, ADR-012, ADR-014, ADR-032, ADR-051 — no additions, no omissions). Includes explicit Module Completion & Freeze Statement binding future Platform changes to a versioned baseline revision.
+- **Created `docs/40-module-baselines/README.md`** — layer README with purpose, naming convention, content contract, and current-baselines table.
+- **Created `docs/MODULE_BASELINE_CATALOG.md`** — first-baseline row for `MOD001_PLATFORM_BASELINE_v1`. Schema is extensible for a future optional `Stage` column once multiple modules exist.
+- **`docs/SPRINT_CATALOG.md`** — transitioned all six Platform Sprint rows from `Draft` to `Done`, consistent with the Sprint Lifecycle Clarification (Done = included in an approved Module Baseline). No other module rows touched.
+- **`docs/DOCUMENT_INDEX.md`** — added entries for `MOD001_PLATFORM_BASELINE_v1`, `Module Baseline Catalog`, and `Module Baselines — Layer README` under the M section; transitioned SPR-MOD-001-001..006 rows to `Done`.
+- **`docs/30-sprint-prds/platform/README.md`** — sprint status column updated from `Draft (authored, Stage 2)` to `Done (Stage 3 baseline)` for all six sprints.
+- **`docs/_meta.json`** — added `40 Module Baselines` sidebar section with README + baseline entries; added `Module Baseline Catalog` link to Overview. JSON validated.
+- No changes to Module PRDs, Sprint PRDs, ADRs, ERP Core Engines, architecture, or code.
+
+### Verification
+
+- Baseline path matches `docs/40-module-baselines/` prescribed by post-8.2.Y `MODULE_IMPLEMENTATION_WORKFLOW.md`. ✓
+- Baseline appears once in `DOCUMENT_INDEX.md` under M. ✓
+- Sidebar has exactly one entry each for the baseline and layer README. ✓
+- All six Sprint PRDs are referenced by §3, §4, and §11. ✓
+- Every MOD-001 Module PRD capability traces to at least one Sprint PRD in §4. ✓
+- Derivation checks (Engines and ADRs) hold: baseline set equals union of Sprint PRD `related_*` fields — no additions, no omissions. ✓
+- `SPRINT_CATALOG.md` shows all six Platform sprints as `Done`; no other module rows touched. ✓
+
+Next: **Pass 8.3.0 — MOD-002 Accounting Sprint Planning** (Stage 1 of the module implementation workflow for MOD-002).
