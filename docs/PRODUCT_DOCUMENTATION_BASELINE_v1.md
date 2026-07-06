@@ -140,7 +140,7 @@ From Pass 8.2 onward, every module (MOD-001 … MOD-018) is delivered under the 
 
 1. **Stage 1 — Module Sprint Planning** (`Pass 8.<M>.0`) produces `docs/30-sprint-prds/<module>/MOD-<NNN>_SPRINT_PLAN.md`.
 2. **Stage 2 — Sprint PRD Authoring** (`Pass 8.<M>.<N>`) authors Sprint PRDs one at a time, registered in `SPRINT_CATALOG.md`.
-3. **Stage 3 — Module Baseline** (`Pass 8.<M>.Z`) issues `MOD<NNN>_<MODULE>_BASELINE_v1.md`.
+3. **Stage 3 — Module Baseline** (`Pass 8.<M>.Z`) issues `docs/40-module-baselines/MOD<NNN>_<MODULE>_BASELINE_v<version>.md`. Module Baselines live in the repository-wide `docs/40-module-baselines/` layer, one versioned baseline per module.
 
 Stages do not overlap. The workflow is repository-wide; it is not module-specific and applies uniformly to every module.
 
