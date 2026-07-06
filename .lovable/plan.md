@@ -96,8 +96,9 @@ This preserves the natural progression: finish the sprint → determine it is co
 - `grep -c "Sprint PRD Repository Verification Pattern" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
 - `grep -c "## 13\. Sprint PRD Repository Verification Pattern" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
 - `grep -c "A Sprint PRD authoring pass is considered complete only if" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
-- `grep -c "most recent approved Sprint PRD in the same module" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
-- The existing `## 14. References` heading remains unchanged (no renumbering).
+- `grep -c "most recent approved Sprint PRD in the same module" docs/SPRINT_AUTHORING_GUIDE.md` returns `2` (once in the checklist, once in the acceptance criteria).
+- `grep -c "## 14\. Sprint Sequencing Rules" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
+- `grep -c "## 15\. References" docs/SPRINT_AUTHORING_GUIDE.md` returns `1`.
 
 ## Outcome
 
