@@ -148,13 +148,13 @@ A Sprint PRD authoring pass is considered complete only if:
 
 These checks are intentionally lightweight and serve as a repository hygiene gate before the next Sprint PRD authoring pass begins. They help prevent duplicate registrations, documentation drift, and structural inconsistencies as the Sprint PRD library grows across all modules.
 
-## 15. Sprint Sequencing Rules
+## 14. Sprint Sequencing Rules
 
 Sprint ordering follows the allowable implementation order defined in `docs/SPRINT_DEPENDENCY_MATRIX.md`. Within a module, sprints proceed sequentially by `SPR-MOD-NNN-NNN` unless the Sprint PRDs themselves declare a compatible parallelism (independent slices, no shared migrations).
 
 Cross-module rule: a Sprint PRD in module *A* that depends on module *B* MUST NOT enter `In Progress` before the required Sprint PRDs in module *B* are `Done`.
 
-## 16. References
+## 15. References
 
 - `docs/30-sprint-prds/README.md`
 - `docs/99-templates/sprint-prd-template.md`
