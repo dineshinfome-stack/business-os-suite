@@ -248,12 +248,12 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Search Engine | ERP Core | Approved | Authoritative | `docs/10-erp-core/intelligence/search-engine.md` |
 | Security Architecture | Architecture | Approved | Authoritative | `docs/02-architecture/security-architecture.md` |
 | SMS Integration | Reference | Approved | Reference | `docs/06-integrations/sms.md` |
-| SPR-MOD-001-001 — Tenancy Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md` |
-| SPR-MOD-001-002 — Organization Structure | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-002-organization-structure.md` |
-| SPR-MOD-001-003 — Users, Roles & Permissions | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md` |
-| SPR-MOD-001-004 — Configuration Hierarchy | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md` |
-| SPR-MOD-001-005 — Localization Packs | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md` |
-| SPR-MOD-001-006 — Audit Review & Platform Administration | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration.md` |
+| SPR-MOD-001-001 — Tenancy Foundation | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md` |
+| SPR-MOD-001-002 — Organization Structure | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-002-organization-structure.md` |
+| SPR-MOD-001-003 — Users, Roles & Permissions | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md` |
+| SPR-MOD-001-004 — Configuration Hierarchy | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md` |
+| SPR-MOD-001-005 — Localization Packs | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md` |
+| SPR-MOD-001-006 — Audit Review & Platform Administration | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
