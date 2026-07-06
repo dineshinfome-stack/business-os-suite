@@ -916,6 +916,10 @@
           "path": "30-sprint-prds/platform/SPR-MOD-001-002-organization-structure"
         },
         {
+          "title": "SPR-MOD-001-003 — Users, Roles & Permissions",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions"
+        },
+        {
           "title": "MOD-002 Accounting",
           "path": "30-sprint-prds/accounting/README"
         },
