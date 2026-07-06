@@ -65,3 +65,27 @@ No code, schema, SQL, migrations, APIs, UI, Module PRDs, ERP Core Engines, ADRs,
 ## Outcome
 
 SPR-MOD-001-003 authored as a Draft Sprint PRD in the established Platform Sprint PRD family, with all derived indexes synchronized and Section 13 verification gates passing. Positions MOD-001 to proceed to Pass 8.2.4 (Sprint 004 — Configuration Hierarchy).
+
+---
+
+## Execution Record — Pass 8.2.3
+
+**Completed:** 2026-07-06.
+
+**Files created:**
+- `docs/30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions.md`
+
+**Files edited (governance sync):**
+- `docs/SPRINT_CATALOG.md` — added Draft row for SPR-MOD-001-003.
+- `docs/DOCUMENT_INDEX.md` — added S-block entry for SPR-MOD-001-003.
+- `docs/30-sprint-prds/platform/README.md` — Sprint 003 row now links to the authored PRD; status Draft (authored, Stage 2); size adjusted to Medium to match frontmatter.
+- `docs/_meta.json` — registered document exactly once under the platform sprint folder.
+
+**Repository Verification (SPRINT_AUTHORING_GUIDE.md §13):**
+- DOCUMENT_INDEX.md — 1 entry for SPR-MOD-001-003.
+- SPRINT_CATALOG.md — 1 Draft row with parent MOD-001.
+- Module README — Sprint 003 row updated with authored link.
+- Structural consistency — mirrors SPR-MOD-001-002 (18 top-level sections, identical ordering, same disclaimer text, same Event Ownership Convention block, same Review Gate structure).
+- Traceability / governance cross-checks — Module PRD §§2–8, §12 all mapped in §3; Sprint Plan §2 exit criteria copied verbatim into §13; ownership, traceability, and repository map already handle Sprint PRDs as a category (no per-sprint rows exist for Sprint 001/002 either).
+
+**Not changed:** No code, schema, SQL, migrations, APIs, UI, Module PRDs, ERP Core Engines, ADRs, Sprint Plans, or workflow documents.
