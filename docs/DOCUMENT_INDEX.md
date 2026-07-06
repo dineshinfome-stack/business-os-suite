@@ -4,7 +4,7 @@ summary: "Alphabetical inventory of every BusinessOS repository document with la
 layer: "platform"
 owner: "Platform"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-06"
 tags: ["inventory", "index"]
 document_type: "Governance Guide"
 ---
@@ -75,7 +75,6 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Sprint Dependency Matrix | Delivery | Approved | Derived | `docs/SPRINT_DEPENDENCY_MATRIX.md` |
 | Module Implementation Workflow | Delivery | Approved | Authoritative | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` |
 | MOD-001 Platform Administration — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN.md` |
-| SPR-MOD-001-001 — Tenancy Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation.md` |
 
 ### B
 
