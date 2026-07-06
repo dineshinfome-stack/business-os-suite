@@ -10,7 +10,7 @@ The Pass 8.2.2 verification checklist proved useful for `SPR-MOD-001-002` and mi
 
 ## Change to Make
 
-Add a new **Section 13 — Sprint PRD Repository Verification Pattern** immediately after the existing **Section 12 — Sprint Completion Rule**, without renumbering any existing sections. The existing **Section 13 — Sprint Sequencing Rules** and **Section 14 — References** keep their current numbers.
+Add a new **Section 13 — Sprint PRD Repository Verification Pattern** immediately after the existing **Section 12 — Sprint Completion Rule**. The new section bumps the existing **Section 13 — Sprint Sequencing Rules** to **Section 14** and **Section 14 — References** to **Section 15**, preserving the logical flow: finish the sprint → determine completion → verify repository consistency → sequence the next sprint.
 
 ### New Section 13 Content
 
