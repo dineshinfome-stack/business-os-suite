@@ -26,20 +26,28 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-001-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-001-001`, `SPR-MOD-001-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Stage 1 — Sprint Planning
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The Stage 1 (Sprint Planning) artifact for MOD-001 under the repository-wide [`Module Implementation Workflow`](../../MODULE_IMPLEMENTATION_WORKFLOW.md) is:
 
-| Sprint ID | Iteration | Goal | Status | Dependencies |
-| --- | --- | --- | --- | --- |
-| SPR-MOD-001-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-001)_ | Planned | _(to be defined)_ |
-| SPR-MOD-001-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-001)_ | Planned | _(to be defined)_ |
-| SPR-MOD-001-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-001)_ | Planned | _(to be defined)_ |
-| SPR-MOD-001-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-001)_ | Planned | _(to be defined)_ |
-| SPR-MOD-001-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-001)_ | Planned | _(to be defined)_ |
-| SPR-MOD-001-006 | Sprint 6 | _(to be defined in Pass 8.x — parent MOD-001)_ | Planned | _(to be defined)_ |
+- [`MOD-001_SPRINT_PLAN.md`](./MOD-001_SPRINT_PLAN.md) — proposed sprint sequence, engines and ADRs consumed, cross-sprint dependencies, sprint exit criteria, and module completion criteria.
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The Stage 1 plan **reserves** the sprint identifiers listed below. Reservations are not authored Sprint PRDs and are not registered in `docs/SPRINT_CATALOG.md`.
+
+## Planning Placeholders (Reconciled with Stage 1 Plan)
+
+> Each row is a **planning reservation** made by the Stage 1 plan. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder in Stage 2 and registered in `docs/SPRINT_CATALOG.md`.
+
+| Sprint ID | Iteration | Goal (from Stage 1 plan) | Estimated Size | Status | Dependencies |
+| --- | --- | --- | --- | --- | --- |
+| SPR-MOD-001-001 | Sprint 1 | Tenancy Foundation | Medium | Planned | — |
+| SPR-MOD-001-002 | Sprint 2 | Organization Structure | Medium | Planned | SPR-MOD-001-001 |
+| SPR-MOD-001-003 | Sprint 3 | Users, Roles & Permissions | Large | Planned | SPR-MOD-001-002 |
+| SPR-MOD-001-004 | Sprint 4 | Configuration Hierarchy | Medium | Planned | SPR-MOD-001-003 |
+| SPR-MOD-001-005 | Sprint 5 | Localization Packs | Medium | Planned | SPR-MOD-001-004 |
+| SPR-MOD-001-006 | Sprint 6 | Audit Review Surface | Small | Planned | SPR-MOD-001-001..005 |
+
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6**. Row counts, sizes, and goals here remain initial planning estimates from the Stage 1 plan and will be refined when each Sprint PRD is authored in the corresponding `Pass 8.2.<N>` phase (Stage 2). See [`MOD-001_SPRINT_PLAN.md`](./MOD-001_SPRINT_PLAN.md) for full sprint boundaries, exit criteria, engine/ADR consumption, and risks.
 
 ## Authoring Rules
 
