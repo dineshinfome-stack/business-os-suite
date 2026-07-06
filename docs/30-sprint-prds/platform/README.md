@@ -45,7 +45,7 @@ The Stage 1 plan **reserves** the sprint identifiers listed below. Reservations 
 | [SPR-MOD-001-003](./SPR-MOD-001-003-users-roles-permissions.md) | Sprint 3 | Users, Roles & Permissions | Medium | Draft (authored, Stage 2) | SPR-MOD-001-002 |
 | [SPR-MOD-001-004](./SPR-MOD-001-004-configuration-hierarchy.md) | Sprint 4 | Configuration Hierarchy | Medium | Draft (authored, Stage 2) | SPR-MOD-001-003 |
 | [SPR-MOD-001-005](./SPR-MOD-001-005-localization-packs.md) | Sprint 5 | Localization Packs | Medium | Draft (authored, Stage 2) | SPR-MOD-001-004 |
-| SPR-MOD-001-006 | Sprint 6 | Audit Review Surface | Small | Planned | SPR-MOD-001-001..005 |
+| [SPR-MOD-001-006](./SPR-MOD-001-006-audit-review-platform-administration.md) | Sprint 6 | Audit Review & Platform Administration | Medium | Draft (authored, Stage 2) | SPR-MOD-001-001..005 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6**. Row counts, sizes, and goals here remain initial planning estimates from the Stage 1 plan and will be refined when each Sprint PRD is authored in the corresponding `Pass 8.2.<N>` phase (Stage 2). See [`MOD-001_SPRINT_PLAN.md`](./MOD-001_SPRINT_PLAN.md) for full sprint boundaries, exit criteria, engine/ADR consumption, and risks.
 
