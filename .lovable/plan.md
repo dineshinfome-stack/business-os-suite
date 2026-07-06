@@ -80,3 +80,27 @@ No code, schema, SQL, migrations, APIs, UI, Module PRDs, ERP Core Engines, ADRs,
 ## Outcome
 
 SPR-MOD-001-004 authored as a Draft Sprint PRD in the Platform Sprint PRD family, with the Effective Configuration Convention and the Configuration Ownership Convention preventing downstream hierarchy-resolution drift and clarifying separation of responsibilities between business modules and `ENG-005`. All derived indexes synchronized and §13 verification gates passing. Positions MOD-001 to proceed to Pass 8.2.5 (Sprint 005 — Localization Packs).
+
+---
+
+## Execution Record — Pass 8.2.4
+
+**Completed:** 2026-07-06.
+
+**Files created:**
+- `docs/30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md` — includes the two new governance callouts (Effective Configuration Convention, Configuration Ownership Convention) in §1, cross-referenced from §8 and §10.
+
+**Files edited (governance sync):**
+- `docs/SPRINT_CATALOG.md` — added Draft row for SPR-MOD-001-004.
+- `docs/DOCUMENT_INDEX.md` — added S-block entry for SPR-MOD-001-004.
+- `docs/30-sprint-prds/platform/README.md` — Sprint 004 row now links to the authored PRD; status Draft (authored, Stage 2).
+- `docs/_meta.json` — registered document exactly once under the platform sprint folder.
+
+**Repository Verification (SPRINT_AUTHORING_GUIDE.md §13):**
+- DOCUMENT_INDEX.md — 1 entry for SPR-MOD-001-004.
+- SPRINT_CATALOG.md — 1 Draft row with parent MOD-001.
+- Module README — Sprint 004 row updated with authored link.
+- Structural consistency — mirrors SPR-MOD-001-003 (Frontmatter Summary + 18 top-level sections, identical ordering, same disclaimers, same Event Ownership Convention, same Review Gate). The two new governance callouts follow the Event Ownership Convention style and do not alter structural counts.
+- Traceability / governance cross-checks — Module PRD §§2, 5, 6, 7, 8, 10, 12 all mapped in §3; Sprint Plan §2 exit criteria copied verbatim into §13; ownership, traceability, and repository map already handle Sprint PRDs as a category.
+
+**Not changed:** No code, schema, SQL, migrations, APIs, UI, Module PRDs, ERP Core Engines, ADRs, Sprint Plans, or workflow documents.
