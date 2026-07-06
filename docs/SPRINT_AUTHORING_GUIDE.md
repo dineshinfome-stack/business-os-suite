@@ -4,7 +4,7 @@ summary: "Authoritative methodology for authoring Sprint PRDs — decomposition,
 layer: "delivery"
 owner: "Engineering"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-06"
 tags: ["sprint", "prd", "authoring", "methodology", "governance"]
 document_type: "Sprint Layer Guide"
 ---
@@ -101,13 +101,60 @@ Authoritative testing and observability standards live in the Architecture and F
 
 A Sprint PRD SHOULD implement one or more complete business capabilities within its declared scope. A sprint MAY leave future enhancements for subsequent sprints, but it SHOULD NOT intentionally leave partially implemented functionality that cannot be exercised or validated independently. If unavoidable due to external dependencies, the incomplete capability MUST be explicitly documented under "Risks and Assumptions" and traced to the planned follow-up Sprint PRD.
 
-## 13. Sprint Sequencing Rules
+## 13. Sprint PRD Repository Verification Pattern
+
+After a Sprint PRD is authored and before the authoring pass is considered complete, perform a lightweight repository consistency check to ensure the Sprint PRD library remains synchronized, traceable, and internally consistent.
+
+This verification pattern applies to every Sprint PRD authoring pass (Pass 8.x onward) and is independent of any specific module or sprint.
+
+### 13.1 Verification Checklist
+
+For the newly authored Sprint PRD (`SPR-MOD-NNN-NNN`):
+
+1. **Document Index**
+   - Verify the new Sprint PRD appears exactly once in `docs/DOCUMENT_INDEX.md`.
+   - `grep -c "SPR-MOD-NNN-NNN" docs/DOCUMENT_INDEX.md` must return `1`.
+
+2. **Sprint Catalog**
+   - Verify the Sprint PRD is registered exactly once in `docs/SPRINT_CATALOG.md` with the correct parent module and status `Draft` at the time of authoring.
+   - `grep -n "SPR-MOD-NNN-NNN" docs/SPRINT_CATALOG.md` must return exactly one row.
+
+3. **Sidebar Registration**
+   - Verify `docs/_meta.json` contains a single registration entry for the new Sprint PRD title and path.
+   - No duplicate sidebar entries.
+
+4. **Structural Consistency**
+   - Compare the section headings of the new Sprint PRD with the most recent approved Sprint PRD in the same module. Where no prior Sprint PRD exists, compare against the repository's established gold-standard Sprint PRD.
+   - Verify identical section ordering, identical governance sections, consistent terminology, and consistent traceability conventions.
+   - If the reference Sprint PRD contains an additional section, the new Sprint PRD MUST contain the same-named section in the corresponding location.
+
+5. **Traceability and Governance Cross-Checks**
+   - Verify every feature in the Sprint PRD traces back to the parent Module PRD (Section 8 / Section 11).
+   - Verify only Accepted ADRs are consumed (Section 7 / Section 9).
+   - Verify ERP Core Engines are consumed, not redefined (Section 6 / Section 8).
+   - Verify the module subfolder README (`docs/30-sprint-prds/<module>/README.md`) links to the new Sprint PRD and reflects its current status.
+
+### 13.2 Acceptance of the Verification Pattern
+
+A Sprint PRD authoring pass is considered complete only if:
+
+- `DOCUMENT_INDEX.md` contains exactly one entry for the new Sprint PRD.
+- `SPRINT_CATALOG.md` contains exactly one row for the new Sprint PRD with the correct parent module and status.
+- `_meta.json` registers the new Sprint PRD exactly once.
+- The new Sprint PRD is structurally consistent with the most recent approved Sprint PRD in the same module, or the repository's established gold-standard Sprint PRD if no prior Sprint PRD exists.
+- All upstream traceability and governance cross-checks pass.
+
+### 13.3 Purpose
+
+These checks are intentionally lightweight and serve as a repository hygiene gate before the next Sprint PRD authoring pass begins. They help prevent duplicate registrations, documentation drift, and structural inconsistencies as the Sprint PRD library grows across all modules.
+
+## 14. Sprint Sequencing Rules
 
 Sprint ordering follows the allowable implementation order defined in `docs/SPRINT_DEPENDENCY_MATRIX.md`. Within a module, sprints proceed sequentially by `SPR-MOD-NNN-NNN` unless the Sprint PRDs themselves declare a compatible parallelism (independent slices, no shared migrations).
 
 Cross-module rule: a Sprint PRD in module *A* that depends on module *B* MUST NOT enter `In Progress` before the required Sprint PRDs in module *B* are `Done`.
 
-## 14. References
+## 15. References
 
 - `docs/30-sprint-prds/README.md`
 - `docs/99-templates/sprint-prd-template.md`
