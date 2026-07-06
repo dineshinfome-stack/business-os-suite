@@ -124,6 +124,13 @@ docs/
 - **Purpose:** Implementation-ready slices of Module PRDs. Every sprint has a permanent `SPR-MOD-NNN-NNN` identifier and a mutable `iteration` label.
 - **Authority:** Authoritative for the sprint scope; must not contradict its Module PRD or any upstream layer. `SPRINT_CATALOG.md` is the derived index.
 
+### Module Baselines
+
+- **Path:** `docs/40-module-baselines/` (one versioned baseline per module: `MOD<NNN>_<MODULE>_BASELINE_v<version>.md`)
+- **Owner:** Engineering (per module), reviewed by Engineering + Architecture + Product
+- **Purpose:** Frozen Module Baselines produced at Stage 3 of the module implementation workflow. Consolidates the Sprint PRDs delivered, the engines and ADRs consumed, and freezes the module for downstream consumption.
+- **Authority:** Authoritative and versioned. Future changes require a new baseline revision (e.g. `_v2`) rather than in-place edits. `MODULE_BASELINE_CATALOG.md` is the derived index.
+
 ### Reference Documents
 
 - **Path:** `docs/06-integrations/`, `docs/07-reports/`, `docs/08-business-rules/`, `docs/09-ai/`, `docs/11-erd/`, `docs/12-ui-components/`, `docs/13-workflows/`, `docs/14-localization/`, `docs/99-templates/`
