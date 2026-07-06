@@ -183,6 +183,9 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Master PRD | Business Blueprint | Approved | Authoritative | `docs/01-master/prd.md` |
 | Microsoft 365 | Reference | Approved | Reference | `docs/06-integrations/microsoft-365.md` |
 | Migration Strategy | Foundation | Approved | Authoritative | `docs/migration-strategy.md` |
+| MOD001_PLATFORM_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` |
+| Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
+| Module Baselines — Layer README | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/README.md` |
 | Module Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_CATALOG.md` |
 | Module Dependency Matrix | Cross-cutting | Draft | Derived | `docs/module-dependency-matrix.md` |
 | Module PRD Template | Template | Approved | Reference | `docs/99-templates/module-prd-template.md` |
