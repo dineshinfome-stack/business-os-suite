@@ -185,6 +185,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Microsoft 365 | Reference | Approved | Reference | `docs/06-integrations/microsoft-365.md` |
 | Migration Strategy | Foundation | Approved | Authoritative | `docs/migration-strategy.md` |
 | MOD001_PLATFORM_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` |
+| MOD002_ACCOUNTING_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
 | Module Baselines — Layer README | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/README.md` |
 | Module Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_CATALOG.md` |
@@ -255,12 +256,12 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-001-004 — Configuration Hierarchy | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy.md` |
 | SPR-MOD-001-005 — Localization Packs | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-005-localization-packs.md` |
 | SPR-MOD-001-006 — Audit Review & Platform Administration | Delivery | Done | Authoritative | `docs/30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration.md` |
-| SPR-MOD-002-001 — Accounting Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md` |
-| SPR-MOD-002-002 — Voucher Framework | Delivery | Draft | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md` |
-| SPR-MOD-002-003 — Journal & Ledger Posting | Delivery | Draft | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md` |
-| SPR-MOD-002-004 — Financial Statements | Delivery | Draft | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md` |
-| SPR-MOD-002-005 — Taxation & Compliance Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md` |
-| SPR-MOD-002-006 — Period Close & Audit | Delivery | Draft | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md` |
+| SPR-MOD-002-001 — Accounting Foundation | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md` |
+| SPR-MOD-002-002 — Voucher Framework | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md` |
+| SPR-MOD-002-003 — Journal & Ledger Posting | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md` |
+| SPR-MOD-002-004 — Financial Statements | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md` |
+| SPR-MOD-002-005 — Taxation & Compliance Foundation | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md` |
+| SPR-MOD-002-006 — Period Close & Audit | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |

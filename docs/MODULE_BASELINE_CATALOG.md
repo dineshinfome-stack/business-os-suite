@@ -38,6 +38,7 @@ A future `Stage` column (Planning / Authoring / Baseline) MAY be introduced once
 | Baseline ID | Module | Version | Status | Source Module PRD | Sprint Range | Path |
 | --- | --- | --- | --- | --- | --- | --- |
 | MOD001_PLATFORM_BASELINE_v1 | MOD-001 Platform Administration | 1.0 | Baseline | `docs/20-module-prds/platform/MODULE_PRD.md` | SPR-MOD-001-001 … SPR-MOD-001-006 | [`40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`](40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md) |
+| MOD002_ACCOUNTING_BASELINE_v1 | MOD-002 Accounting | 1.0 | Baseline | `docs/20-module-prds/accounting/MODULE_PRD.md` | SPR-MOD-002-001 … SPR-MOD-002-006 | [`40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`](40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md) |
 
 ## References
 
