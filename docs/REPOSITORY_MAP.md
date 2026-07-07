@@ -119,10 +119,11 @@ docs/
 
 ### Sprint PRDs (Pass 8+)
 
-- **Path:** `docs/30-sprint-prds/` (scaffolded — layer README + 18 module subfolders; sprints authored iteratively in Pass 8.x)
+- **Path:** `docs/30-sprint-prds/` (layer README + 18 module subfolders; Stage 1 sprint plans and Stage 2 sprint PRDs authored iteratively in Pass 8.x)
 - **Owner:** Engineering
-- **Purpose:** Implementation-ready slices of Module PRDs. Every sprint has a permanent `SPR-MOD-NNN-NNN` identifier and a mutable `iteration` label.
+- **Purpose:** Implementation-ready slices of Module PRDs. Every sprint has a permanent `SPR-MOD-NNN-NNN` identifier and a mutable `iteration` label. Stage 1 sprint plans (e.g. `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md`) reserve identifiers and define the Stage 2 authoring sequence.
 - **Authority:** Authoritative for the sprint scope; must not contradict its Module PRD or any upstream layer. `SPRINT_CATALOG.md` is the derived index.
+
 
 ### Module Baselines
 
