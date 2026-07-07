@@ -43,6 +43,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-002-001 | Sprint 1 | MOD-002 Accounting | Draft | [`30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md`](30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md) | Accounting |
 | SPR-MOD-002-002 | Sprint 2 | MOD-002 Accounting | Draft | [`30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md`](30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md) | Accounting |
 | SPR-MOD-002-003 | Sprint 3 | MOD-002 Accounting | Draft | [`30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`](30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md) | Accounting |
+| SPR-MOD-002-004 | Sprint 4 | MOD-002 Accounting | Draft | [`30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`](30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md) | Accounting |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
