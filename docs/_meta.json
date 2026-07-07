@@ -952,6 +952,10 @@
           "path": "30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework"
         },
         {
+          "title": "SPR-MOD-002-003 — Journal & Ledger Posting",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting"
+        },
+        {
           "title": "MOD-003 Sales",
           "path": "30-sprint-prds/sales/README"
         },
