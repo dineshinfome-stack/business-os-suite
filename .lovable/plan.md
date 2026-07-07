@@ -82,3 +82,38 @@ Each check reads the authoritative source directly; a value that matches only wh
 ### 4. Outcome
 
 A compliance report against the 9 checklist items (including bidirectional traceability), produced from a clean full-checklist run with no outstanding failures, plus any minimal remediating edits to the Sprint PRD. Pass 8.4.2 (SPR-MOD-003-002 Quotations & Sales Orders) is unblocked only after every item is Pass in a single unbroken re-check.
+
+---
+
+### 5. Execution Record — Pass 8.4.1-V
+
+**Initial run — 2 failures:**
+
+- **Item 4 (Accepted ADRs only) — FAIL.** Frontmatter and §9 cited `ADR-012` (Proposed; also mistitled "Tenant Lifecycle" — actual title "UUID Primary Keys") and `ADR-051` Transactional Outbox (Proposed).
+- **Item 9 (Module → Sprint bidirectional) — FAIL.** Sprint Plan §1 allocates `ENG-018` Currency to Sprint 1 but PRD omitted it. PRD emits events via `ENG-024` (§11) but Sprint Plan Sprint 1 engine list omitted `ENG-024`.
+
+**Remediation applied (minimum edits):**
+
+1. `SPR-MOD-003-001-sales-foundation.md` frontmatter — dropped `ADR-012` and `ADR-051`; added `ENG-018`. Final `related_adrs`: `[ADR-011, ADR-014, ADR-032]`. Final `related_engines`: `[ENG-001..ENG-006, ENG-017, ENG-018, ENG-024]`.
+2. §8 ERP Core Engine Consumption — added `ENG-018` Currency row.
+3. §9 ADR Consumption — removed `ADR-012` and `ADR-051` rows; added closing paragraph clarifying event envelope is governed by the authoritative event catalog + `ENG-024`, with the formal eventing ADR deferred via `R-EV-01`.
+4. §11 header paragraph — replaced `governed by ADR-051` with the deferred-ADR wording; removed the parenthetical `(per ADR-051)` from the `customer.created` delivery-guarantee cell.
+5. §14 Risk Register — R-04 rewritten to list only Accepted ADRs. R-05 rewritten to state ADR-051 is `Proposed` and explicitly not relied upon.
+6. `MOD-003_SPRINT_PLAN.md` §SPR-MOD-003-001 — added `ENG-024` Event to the Sprint 1 engines list.
+
+**Full re-check (all 9 items):**
+
+| # | Check | Result | Evidence |
+| - | --- | --- | --- |
+| 1 | Frontmatter fields | Pass | Lines 8–18 of PRD; sprint_id, parent_module, iteration, stage, pass, size, status, owner, updated, document_type, tags all present. |
+| 2 | 18-section order | Pass | Sections §1…§18 unchanged; parity with SPR-MOD-002-001 preserved. |
+| 3 | Engine IDs in catalog | Pass | Every cited `ENG-NNN` verified against `ENGINE_CATALOG.md`; no placeholders. |
+| 4 | Accepted ADRs only | Remediated → Pass | ADR-011, ADR-014, ADR-032 all `Accepted` per `ADR_INDEX.md`; `ADR-051` mentioned only in R-05 as explicitly not relied upon. |
+| 5 | Events → catalog or deferred | Pass | None of the 6 event names exist in `event-catalog.md`; all covered by `R-EV-01` deferred risk. Event Catalog unmodified. |
+| 6 | 5-field Risk Register | Pass | §14 uses Risk ID · Description · Impact · Mitigation · Status; statuses ∈ {Open, Deferred, Accepted}. |
+| 7 | Sprint → Module traceability | Pass | §3 matrix + §6 anchor; every §2 capability tied to a MODULE_PRD section. |
+| 8 | Both baselines in §7 | Pass | Line 254–255: MOD001_PLATFORM_BASELINE_v1 and MOD002_ACCOUNTING_BASELINE_v1 listed as upstream. |
+| 9 | Module → Sprint bidirectional | Remediated → Pass | Sprint Plan §SPR-MOD-003-001 engines now `[001-006, 017, 018, 024]` — matches PRD `related_engines` exactly. ADRs `[011, 014, 032]` match. No unallocated capabilities. |
+
+All 9 items Pass on a single clean re-run. No secondary regressions detected. Pass 8.4.2 (SPR-MOD-003-002 Quotations & Sales Orders) is unblocked.
+
