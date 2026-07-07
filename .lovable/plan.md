@@ -72,3 +72,22 @@ Append a short Pass 8.3.4-R record to `.lovable/plan.md` noting:
 ## 7. Outcome
 
 The four authored Accounting Sprint PRDs share a uniform Risk Register format with an explicit working status vocabulary, unblocking clean baseline consumption. Repository-wide ratification of the status vocabulary is queued as a future governance pass. Next step after this micro-pass is **Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation)** when you share the prompt.
+
+---
+
+## Execution Record — Pass 8.3.4-R (Risk Register Normalization)
+
+**Executed:** 2026-07-07
+**Outcome:** Rewrote §14 (Risks and Assumptions) in the four authored Accounting Sprint PRDs to use the reusable five-field shape (Risk ID / Description / Impact / Mitigation / Status). All original risk content preserved verbatim in Description; assumption clauses lifted into Mitigation where appropriate. Working status vocabulary (`Open` / `Mitigated` / `Accepted` / `Deferred` / `Closed`) documented in each §14 preamble.
+
+**Files edited (§14 only):**
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`
+
+**No architecture documents or governance documents modified.** No changes to registrations, engines, ADRs, `SPRINT_AUTHORING_GUIDE.md`, or the Event Catalog.
+
+**Follow-up queued:** Ratify the risk-status vocabulary as a repository-wide standard via a dedicated future governance pass (Sprint Authoring Guide update and/or documentation governance ADR), ideally alongside additional module freezes so the standard is written once and applied uniformly across all modules.
+
+**Positions MOD-002 for:** Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation) when the prompt is provided.
