@@ -44,7 +44,7 @@ The Stage 1 plan **reserves** the sprint identifiers listed below. Reservations 
 | SPR-MOD-002-002 | Sprint 2 | [Voucher Framework](./SPR-MOD-002-002-voucher-framework.md) | Large | Draft | SPR-MOD-002-001 |
 | SPR-MOD-002-003 | Sprint 3 | [Journal & Ledger Posting](./SPR-MOD-002-003-journal-ledger-posting.md) | Large | Draft | SPR-MOD-002-002 |
 | SPR-MOD-002-004 | Sprint 4 | [Financial Statements](./SPR-MOD-002-004-financial-statements.md) | Large | Draft | SPR-MOD-002-003 |
-| SPR-MOD-002-005 | Sprint 5 | Taxation & Compliance Foundation | Medium | Planned | SPR-MOD-002-003 |
+| SPR-MOD-002-005 | Sprint 5 | [Taxation & Compliance Foundation](./SPR-MOD-002-005-taxation-compliance-foundation.md) | Medium | Draft | SPR-MOD-002-001 through SPR-MOD-002-004 |
 | SPR-MOD-002-006 | Sprint 6 | Period Close & Audit | Medium | Planned | SPR-MOD-002-004, SPR-MOD-002-005 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` will be reconciled with the six-sprint Stage 1 reservation. Row counts, sizes, and goals here remain initial planning estimates from the Stage 1 plan and will be refined per the Planning Flexibility clause when each Sprint PRD is authored in Stage 2. See [`MOD-002_SPRINT_PLAN.md`](./MOD-002_SPRINT_PLAN.md) for full sprint boundaries, exit criteria, engine/ADR consumption, and risks.

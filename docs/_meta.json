@@ -960,6 +960,10 @@
           "path": "30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements"
         },
         {
+          "title": "SPR-MOD-002-005 — Taxation & Compliance Foundation",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation"
+        },
+        {
           "title": "MOD-003 Sales",
           "path": "30-sprint-prds/sales/README"
         },
