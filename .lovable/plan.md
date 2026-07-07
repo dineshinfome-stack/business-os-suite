@@ -1,85 +1,84 @@
-## Pass 8.4.1 — Author SPR-MOD-003-001 (Sales Foundation)
+## Pass 8.4.1-V — Verify SPR-MOD-003-001 (Sales Foundation) Compliance
 
-Documentation-only. Stage 2 of the Module Implementation Workflow for MOD-003 Sales. Authors the first Sales Sprint PRD with strict structural parity to the Accounting Sprint PRDs (SPR-MOD-002-001/002/003).
+Read-only verification pass. Confirms that the previously authored `docs/30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md` meets every requirement from the Pass 8.4.1 prompt. No document content is rewritten unless a gap is found; any remediation is applied as a minimal, targeted edit in the same pass.
 
-### 1. Create Sprint PRD
+### 1. Verification Checklist
 
-**File:** `docs/30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md`
+Each item is checked against the PRD as-written. Result recorded as Pass / Fail / Remediated.
 
-- Follow `docs/99-templates/sprint-prd-template.md`.
-- **Maintain the identical 18-section ordering used by the Accounting Sprint PRDs (SPR-MOD-002-001/002/003).** The content requirements below map into those existing sections and MUST NOT change the section sequence or numbering. Preserve disclaimer wording, traceability style, Definition of Done, Sprint Exit Criteria, normalized Risk Register, Review Gate, and References verbatim in structural form.
-- Canonical 18-section order (from Accounting Sprint PRDs):
-  1. Objective & Scope
-  2. Sprint Deliverables
-  3. Traceability
-  4. User Stories
-  5. Acceptance Criteria
-  6. Parent Module Reference
-  7. Dependencies
-  8. ERP Core Engine Consumption
-  9. ADR Consumption
-  10. Data Model Impact
-  11. Events
-  12. Definition of Done
-  13. Sprint Exit Criteria
-  14. Risks & Assumptions
-  15. Test Strategy Summary
-  16. Implementation Notes
-  17. Review Gate
-  18. References
-- Frontmatter as specified (sprint_id `SPR-MOD-003-001`, parent `MOD-003`, iteration Sprint 1, stage 2, pass 8.4.1, size Medium, status Draft, owner Sales, updated 2026-07-07, document_type Sprint PRD; tags sprint, prd, sales, foundation, mod-003).
-- Resolve `related_engines` verbatim from `docs/10-erp-core/ENGINE_CATALOG.md` and `docs/ENGINE_USAGE_MATRIX.md`, scoped to what the Sales Foundation actually consumes (Identity, Authorization, Permission Management, Audit, Configuration, Localization, Numbering, Event, Notification, Rules, Search — resolved to the exact `ENG-NNN` identifiers found in the catalog).
-- Resolve `related_adrs` to Accepted ADRs only, from `docs/11-adrs/ADR_INDEX.md`, restricted to those actually referenced in body copy (e.g. multi-tenant isolation, UUID PKs, audit strategy, soft delete, RBAC + ABAC, authentication model, secrets, configuration hierarchy, event bus, error envelope, coding/documentation standards).
+1. **Frontmatter populated correctly**
+   - `sprint_id: SPR-MOD-003-001`
+   - `parent_module: MOD-003`
+   - `iteration: Sprint 1`
+   - `stage: 2`
+   - `pass: 8.4.1`
+   - `size: Medium`
+   - `status: Draft`
+   - `owner: Sales`
+   - `updated: 2026-07-07`
+   - `document_type: Sprint PRD`
+   - `tags` include: sprint, prd, sales, foundation, mod-003
+   - `related_engines` and `related_adrs` populated (see items 3–4)
 
-### 2. Content Mapping (into the fixed 18-section order)
+2. **Exact 18-section numbering** (order and headings identical to SPR-MOD-002-001/002/003):
+   1 Objective & Scope · 2 Sprint Deliverables · 3 Traceability · 4 User Stories · 5 Acceptance Criteria · 6 Parent Module Reference · 7 Dependencies · 8 ERP Core Engine Consumption · 9 ADR Consumption · 10 Data Model Impact · 11 Events · 12 Definition of Done · 13 Sprint Exit Criteria · 14 Risks & Assumptions · 15 Test Strategy Summary · 16 Implementation Notes · 17 Review Gate · 18 References.
 
-- **§1 Objective & Scope:** Establish repository-standard Sales Foundation — Sales master data and organizational configuration only. Explicitly excludes quotations, orders, delivery, invoicing, returns, accounting posting, taxation, analytics, reporting.
-- **§2 Sprint Deliverables (In-Scope):** Customer master, hierarchy, categories, groups, status, contacts, addresses; sales organization, branches, regions, territories; salespersons, sales teams, customer assignment; sales configuration; sales numbering preparation; default sales settings; customer lifecycle governance; sales master validation; sales master events.
-  - **Governance Conventions §1.1–§1.5** appear as subsections of §1/§2 (matching where MOD-002 places governance conventions):
-    - 1.1 Sales ownership convention.
-    - 1.2 Customer master authority.
-    - 1.3 Commercial ownership boundary (Sales ↔ Accounting ↔ Inventory ↔ CRM).
-    - 1.4 Sales configuration authority.
-    - 1.5 Customer lifecycle boundary (financial standing consumed from Accounting).
-    - Closing sentence: *"These conventions complement — and do not redefine — the Platform governance conventions and the Accounting ownership conventions established in MOD002_ACCOUNTING_BASELINE_v1."*
-  - **Out-of-Scope forward-references** to SPR-MOD-003-002…006 (quotations, orders, delivery/shipment/fulfilment, invoices/credit/debit notes/returns, accounting vouchers, ledger posting, tax calculation, receivables, sales reporting, analytics).
-- **§3 Traceability:** Every capability traces to sections of `docs/20-module-prds/sales/MODULE_PRD.md` (2, 3, 5, 7, 8, 10, 12, 13). No orphan requirements.
-- **§4 User Stories:** Standard "As a … I want … so that …" for Sales Executive, Sales Manager, Order Desk, Admin — each traced to a §2 deliverable.
-- **§5 Acceptance Criteria:** Business-observable — customer master configurable; hierarchy deterministic; org configurable; territory assignment deterministic; lifecycle governed; unauthorized changes rejected; changes audited; events use authoritative Event Catalog names only; customer consumed by downstream modules; no downstream module creates independent customer master.
-- **§6 Parent Module Reference:** `MOD-003`, link to `MODULE_PRD.md`, cite Module PRD sections fulfilled.
-- **§7 Dependencies:** Upstream — MOD001_PLATFORM_BASELINE_v1, MOD002_ACCOUNTING_BASELINE_v1. Downstream — SPR-MOD-003-002…006 plus Purchase, Inventory, CRM, Projects, POS, Payroll consuming Customer Master.
-- **§8 ERP Core Engine Consumption:** Bulleted `ENG-NNN — name — usage` list resolved from ENGINE_CATALOG; no engine behavior redefined.
-- **§9 ADR Consumption:** Accepted-only ADRs from ADR_INDEX; each with a one-line application note.
-- **§10 Data Model Impact:** Conceptual entities only (Customer, Customer Group, Category, Address, Contact, Sales Territory, Region, Salesperson, Sales Team, Sales Organization, Sales Configuration) with the standard disclaimer that physical schema is out of scope.
-- **§11 Events:** Reference only names present in `docs/02-architecture/event-catalog.md`; illustrative list (customer.created, customer.updated, customer.activated, customer.deactivated, salesperson.created, salesterritory.updated). Any missing name is mapped to an authoritative equivalent or recorded as a deferred `R-EV-*` risk. Event Catalog is NOT modified.
-- **§12 Definition of Done, §13 Sprint Exit Criteria:** Structurally identical to Accounting Sprint PRDs.
-- **§14 Risks & Assumptions:** Normalized Risk Register table (Risk ID, Description, Impact, Mitigation, Status ∈ Open/Mitigated/Accepted/Deferred/Closed). Include upstream baseline dependency (MOD001, MOD002), customer ownership dependency, any `R-EV-*` for Event Catalog gaps.
-- **§15 Test Strategy Summary, §16 Implementation Notes, §17 Review Gate, §18 References:** Structurally identical to Accounting Sprint PRDs.
+3. **Engine IDs resolved from `docs/10-erp-core/ENGINE_CATALOG.md`**
+   - Every engine cited as an exact `ENG-NNN` identifier present in the catalog.
+   - No placeholder tokens (e.g. `ENG-XXX`, TBD, `<engine>`).
+   - Scope matches Sales Foundation consumption only: Identity, Authorization, Permission Management, Audit, Configuration, Localization, Numbering, Event, Notification, Rules, Search.
+   - Cross-check against `docs/ENGINE_USAGE_MATRIX.md`.
 
-### 3. Governance Registrations (each updated exactly once)
+4. **Accepted ADRs only**
+   - Every `ADR-NNN` cited has status `Accepted` in `docs/11-adrs/ADR_INDEX.md`.
+   - No Proposed / Draft / Superseded ADRs.
+   - Each ADR is referenced in body copy, not just frontmatter.
 
-- `docs/SPRINT_CATALOG.md` — add Draft row for SPR-MOD-003-001.
-- `docs/30-sprint-prds/sales/README.md` — link the new PRD, update Sprint 1 placeholder row.
-- `docs/DOCUMENT_INDEX.md` — one entry.
-- `docs/_meta.json` — one sidebar registration.
-- `.lovable/plan.md` — record Pass 8.4.1.
+5. **Event names mapped to Event Catalog or deferred**
+   - Every event name in §11 exists verbatim in `docs/02-architecture/event-catalog.md`, OR is recorded as a deferred risk with a `R-EV-*` ID in §14.
+   - Event Catalog itself is unmodified.
 
-No other governance files touched.
+6. **Normalized 5-field Risk Register in §14**
+   - Table columns exactly: Risk ID · Description · Impact · Mitigation · Status.
+   - Status values restricted to: Open / Mitigated / Accepted / Deferred / Closed.
+   - Includes upstream baseline dependencies (MOD001, MOD002), customer ownership dependency, and any `R-EV-*` entries.
 
-### 4. Not Changed
+7. **Parent Module traceability — Sprint → Module (§6 + §3)**
+   - §6 cites `MOD-003` and links `docs/20-module-prds/sales/MODULE_PRD.md`.
+   - §3 traces every §2 capability to specific Module PRD section numbers (2, 3, 5, 7, 8, 10, 12, 13).
+   - No orphan requirements: no capability in the Sprint PRD lacks a Module PRD anchor.
 
-Sales Module PRD, MOD-003 Sprint Plan, ERP Core Engines, ADRs, Event Catalog, architecture docs, Module Baselines, APIs, database, schema, UI, implementation code.
+8. **Dependencies on both baselines in §7**
+   - Upstream explicitly lists **MOD001_PLATFORM_BASELINE_v1** AND **MOD002_ACCOUNTING_BASELINE_v1**.
+   - Downstream lists SPR-MOD-003-002…006 plus consuming modules (Purchase, Inventory, CRM, Projects, POS, Payroll).
 
-### 5. Verification
+9. **Bidirectional Traceability Completeness — Module → Sprint**
+   - Every capability the Sales Module PRD (`docs/20-module-prds/sales/MODULE_PRD.md`) allocates to Sprint 1 / Sales Foundation is represented in this Sprint PRD.
+   - Cross-check performed against MOD-003 Sprint Plan (`docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md`) to confirm the Sprint 1 allocation set.
+   - No omissions (Foundation-scoped capability missing from the Sprint PRD) and no orphan capabilities (implemented but unallocated).
+   - Combined with item 7, this establishes complete bidirectional traceability.
 
-- One DOCUMENT_INDEX entry; one README link; one `_meta.json` registration; one Draft Sprint Catalog row.
-- Strict 18-section parity with SPR-MOD-002-001/002/003 (order and numbering unchanged).
-- Every capability traces to `docs/20-module-prds/sales/MODULE_PRD.md`.
-- **No capability introduced in this Sprint PRD is outside the approved Sales Module PRD (no orphan requirements).**
-- Accepted ADRs only; engine IDs match ENGINE_CATALOG verbatim.
-- Every event name exists in Event Catalog or is deferred via `R-EV-*`.
-- Customer ownership not redefined elsewhere; Accounting / Inventory / CRM ownership boundaries preserved.
+### 2. Method
 
-### 6. Outcome
+Cross-check each authoritative source independently; do not rely solely on references embedded within the Sprint PRD. Source-of-truth reads:
+- `docs/30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md` (target)
+- `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md` (engine cross-check)
+- `docs/11-adrs/ADR_INDEX.md` (ADR status cross-check)
+- `docs/02-architecture/event-catalog.md` (event name cross-check)
+- `docs/20-module-prds/sales/MODULE_PRD.md` (Sprint → Module traceability)
+- `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md` (Module → Sprint allocation set)
+- One Accounting reference PRD (e.g. `docs/30-sprint-prds/accounting/SPR-MOD-002-001-*.md`) for structural parity.
 
-`SPR-MOD-003-001-sales-foundation.md` becomes the authoritative Sales Foundation Sprint PRD, preparing MOD-003 for **Pass 8.4.2 — SPR-MOD-003-002 (Quotations & Sales Orders)**.
+Each check reads the authoritative source directly; a value that matches only what the Sprint PRD claims about itself does not count as verified.
+
+### 3. Remediation Policy
+
+- If all 9 checks pass: report a compliance table (item → status → evidence line) and hand off to Pass 8.4.2.
+- If any check fails: apply the minimum edit needed to `SPR-MOD-003-001-sales-foundation.md` only (no governance file changes unless the failure is a missing registration).
+- **After any remediating edit, rerun the FULL 9-item verification checklist — not just the item that initially failed — to catch secondary regressions introduced by the edit.** Iterate remediate → full re-check until every item is Pass in a single clean run.
+- Record each remediation (item number, edit summary, final status) in `.lovable/plan.md` under Pass 8.4.1-V.
+- No changes to Module PRD, Engine Catalog, ADRs, Event Catalog, or baselines under any circumstance — an authoritative-doc gap becomes a `R-EV-*` / risk entry instead.
+
+### 4. Outcome
+
+A compliance report against the 9 checklist items (including bidirectional traceability), produced from a clean full-checklist run with no outstanding failures, plus any minimal remediating edits to the Sprint PRD. Pass 8.4.2 (SPR-MOD-003-002 Quotations & Sales Orders) is unblocked only after every item is Pass in a single unbroken re-check.
