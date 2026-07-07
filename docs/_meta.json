@@ -948,6 +948,10 @@
           "path": "30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation"
         },
         {
+          "title": "SPR-MOD-002-002 — Voucher Framework",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework"
+        },
+        {
           "title": "MOD-003 Sales",
           "path": "30-sprint-prds/sales/README"
         },
