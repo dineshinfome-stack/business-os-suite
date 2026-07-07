@@ -42,7 +42,7 @@ The Stage 1 plan **reserves** the sprint identifiers listed below. Reservations 
 | --- | --- | --- | --- | --- | --- |
 | SPR-MOD-002-001 | Sprint 1 | [Accounting Foundation](./SPR-MOD-002-001-accounting-foundation.md) | Medium | Draft | — |
 | SPR-MOD-002-002 | Sprint 2 | [Voucher Framework](./SPR-MOD-002-002-voucher-framework.md) | Large | Draft | SPR-MOD-002-001 |
-| SPR-MOD-002-003 | Sprint 3 | [Journal & Ledger Posting](./SPR-MOD-002-003-journal-ledger-posting.md) | Large | Draft | SPR-MOD-002-002 |
+| SPR-MOD-002-003 | Sprint 3 | Journal & Ledger Posting | Large | Planned | SPR-MOD-002-002 |
 | SPR-MOD-002-004 | Sprint 4 | Financial Statements | Large | Planned | SPR-MOD-002-003 |
 | SPR-MOD-002-005 | Sprint 5 | Taxation & Compliance Foundation | Medium | Planned | SPR-MOD-002-003 |
 | SPR-MOD-002-006 | Sprint 6 | Period Close & Audit | Medium | Planned | SPR-MOD-002-004, SPR-MOD-002-005 |
