@@ -1043,6 +1043,10 @@
         {
           "title": "MOD001_PLATFORM_BASELINE_v1",
           "path": "40-module-baselines/MOD001_PLATFORM_BASELINE_v1"
+        },
+        {
+          "title": "MOD002_ACCOUNTING_BASELINE_v1",
+          "path": "40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1"
         }
       ]
     },
