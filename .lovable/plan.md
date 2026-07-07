@@ -93,3 +93,21 @@ Module PRDs, MOD-002 Sprint Plan, SPR-MOD-002-001, SPR-MOD-002-002, other Accoun
 ## 10. Outcome
 
 `SPR-MOD-002-003-journal-ledger-posting.md` becomes the third Accounting Sprint PRD, establishing Journal & Ledger Posting as the canonical accounting movement layer built on the Voucher Framework, with ledger immutability, balance integrity, clean period-authority boundaries, and event names consistent with the repository-wide Event Catalog. Positions MOD-002 for **Pass 8.3.4 — SPR-MOD-002-004 (Financial Statements)**.
+
+---
+
+## Execution Record — Pass 8.3.3
+
+**Executed:** 2026-07-07
+**Outcome:** Authored `SPR-MOD-002-003-journal-ledger-posting.md` as the third Accounting Sprint PRD, establishing Journal & Ledger Posting with the Ledger Posting Ownership, Ledger Immutability, Balance Integrity, Accounting Period Authority, and Ledger Access Boundary conventions. Event names use the single-entity dotted namespace (`journal.created`, `journal.posted`, `journal.reversed`, `ledger.posted`, `ledger.reversed`) consistent with Sprint 002 and the repository-wide Event Catalog. Engine IDs match the authoritative `ENGINE_CATALOG.md`/`ENGINE_USAGE_MATRIX.md` verbatim. Structural parity with SPR-MOD-002-001 and SPR-MOD-002-002 maintained (identical 18-section structure).
+
+**Files created:**
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`
+
+**Files edited (registrations):**
+- `docs/SPRINT_CATALOG.md` — added SPR-MOD-002-003 row (Draft)
+- `docs/30-sprint-prds/accounting/README.md` — Sprint 3 placeholder replaced with link, status Draft
+- `docs/DOCUMENT_INDEX.md` — one authoritative entry added
+- `docs/_meta.json` — one registration added
+
+**Positions MOD-002 for:** Pass 8.3.4 — SPR-MOD-002-004 (Financial Statements).
