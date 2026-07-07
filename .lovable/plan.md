@@ -102,3 +102,10 @@ Module PRDs, `MOD-002_SPRINT_PLAN.md`, `SPR-MOD-002-001`, other Accounting Sprin
 ## 7. Outcome
 
 `SPR-MOD-002-002-voucher-framework.md` becomes the second Accounting Sprint PRD, establishing the repository-wide Accounting Voucher Framework as the sole authoritative entry point for all downstream financial activity. It positions MOD-002 for **Pass 8.3.3 — SPR-MOD-002-003 (Journal & Ledger Posting)**.
+---
+
+## Execution Record — Pass 8.3.2 (2026-07-07)
+
+- Created `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md` mirroring the `SPR-MOD-002-001` gold standard, with the Accounting Voucher Ownership Convention and Sole Entry Point clause (§1.1), the Cross-Module Voucher Creation Contract embedded in §1.2 / §2 (source documents MUST NOT create ledger entries directly), and baseline-first upstream dependencies (§7).
+- Registered the Sprint PRD in `docs/SPRINT_CATALOG.md` (Draft), `docs/30-sprint-prds/accounting/README.md` (Sprint 2 row linked, status Draft), `docs/DOCUMENT_INDEX.md`, and `docs/_meta.json` (sidebar).
+- Not changed: Module PRDs, `MOD-002_SPRINT_PLAN.md`, `SPR-MOD-002-001`, other Accounting Sprint PRDs, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, UI.
