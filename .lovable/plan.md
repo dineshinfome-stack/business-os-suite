@@ -117,3 +117,11 @@ Module PRDs, `MOD-002_SPRINT_PLAN.md`, `SPR-MOD-002-001`, `SPR-MOD-002-002`, oth
 ## Outcome
 
 `SPR-MOD-002-003-journal-ledger-posting.md` becomes the third Accounting Sprint PRD, establishing the canonical translation of posted vouchers into balanced, immutable ledger movements and defining the authoritative accounting-movement events consumed by downstream financial and reporting modules. Positions MOD-002 for **Pass 8.3.4 — SPR-MOD-002-004 (Financial Statements)**.
+
+---
+
+## Execution Record — Pass 8.3.3 (2026-07-07)
+
+- Created `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md` mirroring the SPR-MOD-002-001 / -002 gold standard. Introduces four Accounting-scope governance conventions: Ledger Posting Ownership, Balance Integrity Rule, Ledger Immutability, and Authoritative Accounting Movement Events. Consumes SPR-MOD-002-001 (CoA, periods, base currency) and SPR-MOD-002-002 (Voucher Framework as sole entry point) upstream; MOD001_PLATFORM_BASELINE_v1 as authoritative platform source. Declares closed-period contract as read-only (owned by SPR-MOD-002-006). Publishes `journal.entry.created`, `ledger.posted`, `ledger.reversed` as the authoritative accounting-movement events for Financial Statements, Taxation, Period Close, and downstream reporting.
+- Registered in `docs/SPRINT_CATALOG.md` (Draft), `docs/30-sprint-prds/accounting/README.md` (Sprint 3 row linked, status Draft), `docs/DOCUMENT_INDEX.md`, and `docs/_meta.json` (sidebar).
+- Not changed: Module PRDs, `MOD-002_SPRINT_PLAN.md`, SPR-MOD-002-001, SPR-MOD-002-002, other Accounting Sprint PRDs, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, UI.
