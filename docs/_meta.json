@@ -976,6 +976,10 @@
           "path": "30-sprint-prds/sales/MOD-003_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-003-001 — Sales Foundation",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation"
+        },
+        {
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },
