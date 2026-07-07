@@ -36,7 +36,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-003-NNN`**, where `NNN`
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-003-001 | Sprint 1 | Sales Foundation | Planned | `MOD001_PLATFORM_BASELINE_v1` |
+| [SPR-MOD-003-001](./SPR-MOD-003-001-sales-foundation.md) | Sprint 1 | Sales Foundation | Draft | `MOD001_PLATFORM_BASELINE_v1`, `MOD002_ACCOUNTING_BASELINE_v1` |
 | SPR-MOD-003-002 | Sprint 2 | Quotations & Sales Orders | Planned | `SPR-MOD-003-001` |
 | SPR-MOD-003-003 | Sprint 3 | Delivery & Fulfillment | Planned | `SPR-MOD-003-002` |
 | SPR-MOD-003-004 | Sprint 4 | Sales Invoicing | Planned | `SPR-MOD-003-003` |
