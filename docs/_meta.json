@@ -956,6 +956,10 @@
           "path": "30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting"
         },
         {
+          "title": "SPR-MOD-002-004 — Financial Statements",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements"
+        },
+        {
           "title": "MOD-003 Sales",
           "path": "30-sprint-prds/sales/README"
         },

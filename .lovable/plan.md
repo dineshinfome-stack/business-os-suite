@@ -1,113 +1,117 @@
-# Pass 8.3.3 — Author SPR-MOD-002-003 (Journal & Ledger Posting)
+# Pass 8.3.4 — Author SPR-MOD-002-004 (Financial Statements)
 
-Documentation-only. Third Accounting Sprint PRD. Extends the Voucher Framework (Sprint 002) into the Journal & Ledger posting layer. Incorporates the two prior refinements plus event-naming consistency and explicit structural parity.
+Documentation-only. Fourth Accounting Sprint PRD. Continues Stage 2 of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-002 Accounting. Extends Journal & Ledger Posting (SPR-MOD-002-003) into the repository-standard financial reporting layer without redefining voucher, journal, ledger, or period ownership.
 
 ## 1. Create Sprint PRD
 
-`docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`, using `docs/99-templates/sprint-prd-template.md`.
+`docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`, using `docs/99-templates/sprint-prd-template.md`.
 
-**Structural Parity Requirement.** Maintain the identical section structure established by SPR-MOD-002-001 and SPR-MOD-002-002; the scope below defines section *content* only. Section ordering, governance blocks, dependency block, engines block, ADR block, events block, acceptance criteria block, and traceability block must match verbatim.
+**Structural Parity Requirement.** Maintain the identical 18-section structure established by SPR-MOD-002-001, SPR-MOD-002-002, and SPR-MOD-002-003. Section ordering, governance callouts, dependency block, traceability matrix, engine consumption, ADR consumption, events, acceptance criteria, DoD, Exit Criteria, Risks, Test Strategy, Implementation Notes, Review Gate, and References remain structurally identical. Scope below defines section **content only**.
 
-### Scope
+### In Scope
 
-- Journal entry creation from posted vouchers.
-- Ledger posting to General Ledger and applicable sub-ledgers.
-- Ledger balance computation per account / tenant / currency / period.
-- Posting-time period-state validation (consume-only).
-- Reversal posting semantics paired with Sprint 002 reversal model (no mutation).
+Trial Balance; General Ledger report; Profit & Loss; Balance Sheet; Cash Flow; account activity reporting; comparative reporting across accounting periods; opening/closing balance presentation; report parameterization (period, branch, company, financial year); multi-company reporting boundaries; multi-currency presentation using stored accounting values; report export readiness; audit traceability from report line back to ledger entries; financial reporting events.
 
 ### Out of Scope
 
-Financial statements, tax computation, period close lifecycle, consolidation, statutory reports.
+Tax reports (Sprint 005); period close (Sprint 006); consolidation; budgeting; forecasting; analytics dashboards; BI cubes; regulatory reporting; AI insights; custom report designer.
 
 ## 2. Governance Conventions Introduced
 
-**§1.1 Ledger Posting Ownership Convention.** The Accounting module owns journal entry semantics, ledger posting semantics, and ledger balance semantics. ERP Core Engines provide infrastructure; they never redefine posting business rules.
-
-**§1.2 Ledger Immutability Convention.** Posted journal entries and ledger rows are immutable. Corrections occur only through reversal journals created via the Voucher Framework; original rows are never mutated or deleted.
-
-**§1.3 Balance Integrity Rule.** A journal entry is valid only if debits equal credits per tenant per currency. Multi-currency entries balance independently within each currency dimension.
-
-**§1.4 Accounting Period Authority.** Journal & Ledger Posting consumes the accounting-period status established by the Accounting Foundation and Period Close capabilities. This sprint determines whether posting is permitted based on the current period state but MUST NOT define or modify period lifecycle semantics.
-
-**§1.5 Ledger Access Boundary.** Downstream modules consume accounting movements either through authoritative accounting events or through repository-approved read services, but MUST NOT access or mutate ledger state directly.
+- **§1.1 Financial Reporting Ownership Convention** — Accounting owns semantics of Trial Balance, GL, P&L, Balance Sheet, Cash Flow. No downstream module may redefine accounting report calculations.
+- **§1.2 Ledger Consumption Convention** — Reports consume authoritative ledger movements from SPR-MOD-002-003. Reports MUST NOT reconstruct transactions from vouchers or source documents. Ledger is the single authoritative source.
+- **§1.3 Report Determinism Rule** — Identical parameters against an unchanged ledger MUST produce identical output. Reports are deterministic projections of ledger state.
+- **§1.4 Reporting Read Model Convention** — Reports expose repository-approved read models. Read models MAY optimize performance but MUST NOT become independent sources of accounting truth; ledger remains authoritative.
+- **§1.5 Financial Statement Boundary** — Reports describe position only. They MUST NOT post, modify journals, create vouchers, reopen periods, calculate taxes, or change ledger balances.
 
 ## 3. Dependencies
 
-- **Upstream:** `MOD001_PLATFORM_BASELINE_v1` (frozen), `SPR-MOD-002-001` (foundation), `SPR-MOD-002-002` (voucher framework — direct predecessor).
-- **Downstream:** SPR-MOD-002-004 (Financial Statements), 005 (Tax), 006 (Period Close), plus voucher-consuming modules (MOD-003, MOD-004, MOD-008, MOD-015, MOD-017).
+- **Upstream:** MOD001_PLATFORM_BASELINE_v1; SPR-MOD-002-001; SPR-MOD-002-002; SPR-MOD-002-003 (direct predecessor).
+- **Downstream:** SPR-MOD-002-005 (Taxation & Compliance); SPR-MOD-002-006 (Period Close & Audit). Consumer modules: MOD-003, MOD-004, MOD-005, MOD-008, MOD-015, MOD-017, MOD-018.
 
 ## 4. Engine & ADR References
 
-Engine identifiers MUST match the authoritative identifiers already defined in `docs/10-erp-core/ENGINE_CATALOG.md` and `docs/ENGINE_USAGE_MATRIX.md`. No new identifiers may be introduced in this Sprint PRD.
+Consume only the engines required by the Accounting Module PRD, using the exact identifiers from `docs/10-erp-core/ENGINE_CATALOG.md` and `docs/ENGINE_USAGE_MATRIX.md`. No new engine identifiers introduced. Expected consumption spans Reporting, Currency, Audit, Event, Authorization, and Configuration engines — resolved to authoritative ENG identifiers at authoring time.
 
-Engines: ENG-002 Authorization, ENG-004 Audit, ENG-015 Voucher, ENG-016 Posting, ENG-018 Currency, ENG-021 Reporting, ENG-024 Event.
-
-ADRs (Accepted only): ADR-011, ADR-013, ADR-014, ADR-015, ADR-032, ADR-051, ADR-053.
+Only Accepted ADRs referenced; identifiers match the ADR catalog verbatim.
 
 ## 5. Events
 
-Event names MUST follow the repository-wide convention already established by the Event Catalog and the Sprint 002 voucher events (`voucher.created`, `voucher.posted`, `voucher.reversed`). Using the same single-entity dotted namespace:
+Financial reporting events follow the repository-wide Event Catalog and the single-entity dotted namespace precedent from Sprints 002/003. Expected event surface:
 
-- `journal.created`
-- `journal.posted`
-- `journal.reversed`
-- `ledger.posted`
-- `ledger.reversed`
+- `financialstatement.generated`
+- `trialbalance.generated`
+- `balancesheet.generated`
+- `profitloss.generated`
+- `cashflow.generated`
 
-Names must be validated against `docs/02-architecture/event-catalog.md` at authoring time; any mismatch is resolved in favor of the Event Catalog and this Sprint PRD is corrected in the same change. Ownership registered under Accounting.
+**Event Catalog governance (architecture-doc immutability preserved).** Sprint PRD authoring is documentation-only and MUST NOT modify `docs/02-architecture/event-catalog.md`. The Sprint PRD references only event names that already exist in the authoritative Event Catalog at authoring time. If any of the expected events above is not present in the catalog, the Sprint PRD either (a) references the closest authoritative equivalent that already exists, or (b) records the gap in Risks/Assumptions and defers publication of that specific event until a dedicated Event Catalog governance pass introduces it. New event definitions require a separate, explicitly authorized architecture pass — never this pass.
 
-## 6. Acceptance Criteria (observable, no implementation leakage)
+## 6. Acceptance Criteria (observable, business-outcome only)
 
-- Every posted voucher produces exactly one balanced journal entry.
-- Debits equal credits per tenant per currency for every journal entry.
-- Posted ledger rows are immutable; reversals produce new rows.
-- Posting is rejected when the target period is not in an open state (consumed signal only).
-- Every posting operation is authorized and audited.
-- Accounting events are emitted for every posting state change, using the naming convention in §5.
-- Downstream modules access accounting movements exclusively via events or approved read services.
+- Trial Balance balances to zero.
+- Balance Sheet satisfies Assets = Liabilities + Equity.
+- P&L derives exclusively from posted ledger movements.
+- General Ledger reconciles exactly with account balances.
+- Cash Flow derives from authoritative accounting movements.
+- Reports generated twice against identical ledger state produce identical output (determinism).
+- Reports respect tenant, company, branch, and financial-year boundaries.
+- Report output is fully traceable back to journal entries.
+- Unauthorized report access is rejected.
+- Report generation is audited.
+- Reporting events are emitted per the Event Catalog, using only names that exist in the authoritative catalog at authoring time.
 
-## 7. Governance Registrations
+## 7. Governance Registrations (derived indexes only)
 
-- `docs/SPRINT_CATALOG.md` — add Sprint 003 row, status Draft.
-- `docs/30-sprint-prds/accounting/README.md` — replace Sprint 003 placeholder with link.
+- `docs/SPRINT_CATALOG.md` — replace Sprint 004 planned row with Draft.
+- `docs/30-sprint-prds/accounting/README.md` — replace Sprint 004 placeholder with authored PRD link.
 - `docs/DOCUMENT_INDEX.md` — exactly one entry.
 - `docs/_meta.json` — exactly one registration.
-- `.lovable/plan.md` — append Pass 8.3.3 execution record.
+- `.lovable/plan.md` — append Pass 8.3.4 execution record.
 
-## 8. Verification
+No architecture documents modified. No category-level registrations. `docs/02-architecture/event-catalog.md` is **not** edited in this pass.
 
-- One `DOCUMENT_INDEX.md` entry, one `_meta.json` entry, one Draft row in `SPRINT_CATALOG.md`.
-- Structural parity with SPR-MOD-002-001 and SPR-MOD-002-002 (identical section structure).
+## 8. Repository Verification (per `docs/SPRINT_AUTHORING_GUIDE.md` §13)
+
+- Exactly one `DOCUMENT_INDEX.md` entry.
+- Exactly one Draft row in `SPRINT_CATALOG.md`.
+- Exactly one `_meta.json` registration.
+- Accounting README links Sprint 004.
+- Structural parity with SPR-MOD-002-001/002/003.
 - Every capability traces to `docs/20-module-prds/accounting/MODULE_PRD.md`.
 - Only Accepted ADRs referenced.
-- Engine IDs match `ENGINE_CATALOG.md` / `ENGINE_USAGE_MATRIX.md` verbatim.
-- Event names match `docs/02-architecture/event-catalog.md` convention and Sprint 002 precedent.
-- ERP Core Engines consumed, never redefined.
-- No content redefines period-close lifecycle.
+- Engine IDs match `ENGINE_CATALOG.md`/`ENGINE_USAGE_MATRIX.md` verbatim.
+- Every event name referenced in the Sprint PRD already exists in `docs/02-architecture/event-catalog.md`; any gap is recorded in Risks/Assumptions rather than resolved by editing the catalog.
+- Financial Statements consume ledger state only.
+- No content redefines voucher, journal, ledger, or period ownership.
+- No architecture documents modified by this pass.
 
 ## 9. Not Changed
 
-Module PRDs, MOD-002 Sprint Plan, SPR-MOD-002-001, SPR-MOD-002-002, other Accounting Sprint PRDs, Module Baseline Catalog, ERP Core Engines, ADRs, architecture, code, database, APIs, UI.
+Module PRDs, MOD-002 Sprint Plan, SPR-MOD-002-001, SPR-MOD-002-002, SPR-MOD-002-003, SPR-MOD-002-005, SPR-MOD-002-006, Module Baselines, ERP Core Engines, ADRs, architecture documentation (including `event-catalog.md`), APIs, database, schema, UI, implementation code.
 
 ## 10. Outcome
 
-`SPR-MOD-002-003-journal-ledger-posting.md` becomes the third Accounting Sprint PRD, establishing Journal & Ledger Posting as the canonical accounting movement layer built on the Voucher Framework, with ledger immutability, balance integrity, clean period-authority boundaries, and event names consistent with the repository-wide Event Catalog. Positions MOD-002 for **Pass 8.3.4 — SPR-MOD-002-004 (Financial Statements)**.
+`SPR-MOD-002-004-financial-statements.md` becomes the fourth Accounting Sprint PRD, establishing the repository-standard financial reporting layer built exclusively on authoritative ledger movements while preserving ownership boundaries established by Sprints 001–003 and the architecture-doc immutability rule for Sprint PRD authoring. Positions MOD-002 for **Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation)**.
 
 ---
 
-## Execution Record — Pass 8.3.3
+## Execution Record — Pass 8.3.4
 
 **Executed:** 2026-07-07
-**Outcome:** Authored `SPR-MOD-002-003-journal-ledger-posting.md` as the third Accounting Sprint PRD, establishing Journal & Ledger Posting with the Ledger Posting Ownership, Ledger Immutability, Balance Integrity, Accounting Period Authority, and Ledger Access Boundary conventions. Event names use the single-entity dotted namespace (`journal.created`, `journal.posted`, `journal.reversed`, `ledger.posted`, `ledger.reversed`) consistent with Sprint 002 and the repository-wide Event Catalog. Engine IDs match the authoritative `ENGINE_CATALOG.md`/`ENGINE_USAGE_MATRIX.md` verbatim. Structural parity with SPR-MOD-002-001 and SPR-MOD-002-002 maintained (identical 18-section structure).
+**Outcome:** Authored `SPR-MOD-002-004-financial-statements.md` as the fourth Accounting Sprint PRD, establishing the repository-standard financial reporting layer (Trial Balance, GL, P&L, Balance Sheet, Cash Flow) as deterministic projections of the authoritative ledger. Introduced five governance conventions: Financial Reporting Ownership, Ledger Consumption, Report Determinism Rule, Reporting Read Model Convention, and Financial Statement Boundary. Engine IDs (`ENG-002`, `ENG-004`, `ENG-018`, `ENG-021`, `ENG-024`) match the authoritative `ENGINE_CATALOG.md`/`ENGINE_USAGE_MATRIX.md` verbatim. Structural parity with SPR-MOD-002-001/002/003 maintained (identical 18-section structure).
+
+**Event Catalog governance preserved.** Sprint PRD authoring is documentation-only and did NOT modify `docs/02-architecture/event-catalog.md`. The expected reporting event surface is documented but publication is conditional on registration by a dedicated architecture pass; the gap is recorded as Risk R-EV-01.
 
 **Files created:**
-- `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`
 
-**Files edited (registrations):**
-- `docs/SPRINT_CATALOG.md` — added SPR-MOD-002-003 row (Draft)
-- `docs/30-sprint-prds/accounting/README.md` — Sprint 3 placeholder replaced with link, status Draft
+**Files edited (derived indexes only):**
+- `docs/SPRINT_CATALOG.md` — added SPR-MOD-002-004 row (Draft)
+- `docs/30-sprint-prds/accounting/README.md` — Sprint 4 placeholder replaced with authored link, status Draft
 - `docs/DOCUMENT_INDEX.md` — one authoritative entry added
 - `docs/_meta.json` — one registration added
 
-**Positions MOD-002 for:** Pass 8.3.4 — SPR-MOD-002-004 (Financial Statements).
+**No architecture documents modified.**
+
+**Positions MOD-002 for:** Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation).
