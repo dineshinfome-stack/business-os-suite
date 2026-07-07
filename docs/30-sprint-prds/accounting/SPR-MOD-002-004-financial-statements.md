@@ -385,17 +385,73 @@ If any exit criterion is not met, the sprint MUST NOT move to `Done`.
 
 ## 14. Risks and Assumptions
 
-- **R1 — Upstream sprint dependency.** This sprint assumes `SPR-MOD-002-003` (Journal & Ledger Posting) is `Done` and ledger movements, ledger balances, and account balances are available. Any regression in ledger immutability or balance integrity blocks this sprint.
-- **R2 — Transitive upstream dependency.** Assumes `SPR-MOD-002-001` master data (CoA, account classifications, fiscal year, accounting periods) and `SPR-MOD-002-002` voucher/journal traceability are available and stable under every tenant / company that participates in this sprint's smoke fixtures.
-- **R3 — Platform baseline dependency.** Assumes `MOD001_PLATFORM_BASELINE_v1` is frozen and available for tenancy, users/roles/permissions, configuration hierarchy, and audit review. Any regression against that baseline blocks this sprint.
-- **R4 — Downstream deferrals.** Tax reports, period close, and consolidation are deferred to `SPR-MOD-002-005`, `SPR-MOD-002-006`, and future work. Assumption: these deferrals hold; this sprint does not silently absorb their scope.
-- **R5 — Reporting engine contract.** `ENG-021` Reporting is consumed as shared infrastructure. Assumption: its contract accepts the report families defined here without weakening determinism or the Reporting Read Model Convention.
-- **R6 — Currency engine contract.** `ENG-018` Currency is consumed for multi-currency presentation. Assumption: conversion utilities are stable and do not silently rewrite stored source-currency values.
-- **R7 — ADR acceptance.** All referenced ADRs (`ADR-011`, `ADR-013`, `ADR-014`, `ADR-032`, `ADR-051`, `ADR-053`) are Accepted at authoring time. If any becomes non-Accepted, this sprint is re-planned.
-- **R-EV-01 — Reporting events not yet registered in the Event Catalog.** At authoring time, the authoritative `docs/02-architecture/event-catalog.md` does not enumerate the expected reporting events listed in §11. Per the Event Catalog governance rule (§11), this Sprint PRD MUST NOT edit the catalog. Assumption: a dedicated architecture pass will register the required reporting events before implementation reaches its event-emission milestone. Until then, reporting events for the affected report families are **deferred**: the report family still functions, but no event is published for it. This gap does not block the non-event acceptance criteria in §5.
-- **R8 — Read-model authority.** Reporting read models must remain strict projections of the ledger. Assumption: implementation does not treat any read model as a write-side source of accounting truth, preserving the Reporting Read Model Convention.
-- **R9 — Multi-company boundary.** Multi-company reporting in this sprint stops at boundary presentation and does not perform consolidation. Assumption: stakeholders accept that consolidation is out of scope for this sprint.
-- **R10 — Determinism under drift.** Determinism (§5.6) applies against an unchanged ledger. Ordinary ledger changes between two invocations of the same report will legitimately change output; this is not a determinism violation.
+Each risk uses the reusable five-field shape: **Risk ID**, **Description**, **Impact**, **Mitigation**, **Status**. Status values are drawn from the working vocabulary `Open` (active), `Mitigated` (residual only), `Accepted` (consciously accepted), `Deferred` (postponed), and `Closed` (no longer applicable). Repository-wide ratification of this vocabulary is queued for a future governance pass and is not performed here.
+
+- **Risk ID:** R-01
+  - **Description:** This sprint depends on `SPR-MOD-002-003` (Journal & Ledger Posting) being `Done` with ledger movements, ledger balances, and account balances available.
+  - **Impact:** Any regression in ledger immutability or balance integrity blocks this sprint.
+  - **Mitigation:** Gate this sprint on `SPR-MOD-002-003` completion; treat regressions as upstream defects.
+  - **Status:** Open
+
+- **Risk ID:** R-02
+  - **Description:** Transitive dependency on `SPR-MOD-002-001` master data (CoA, account classifications, fiscal year, accounting periods) and `SPR-MOD-002-002` voucher/journal traceability under every participating tenant / company.
+  - **Impact:** Missing foundation or voucher-layer state blocks reporting exercises and smoke fixtures.
+  - **Mitigation:** Consume upstream seeds; treat missing state as an upstream defect.
+  - **Status:** Open
+
+- **Risk ID:** R-03
+  - **Description:** This sprint depends on `MOD001_PLATFORM_BASELINE_v1` being frozen and available for tenancy, users/roles/permissions, configuration hierarchy, and audit review.
+  - **Impact:** Any regression against the platform baseline blocks this sprint.
+  - **Mitigation:** Rely on the frozen baseline contract; treat regressions as baseline defects and re-plan.
+  - **Status:** Open
+
+- **Risk ID:** R-04
+  - **Description:** Tax reports, period close, and consolidation are deferred to `SPR-MOD-002-005`, `SPR-MOD-002-006`, and future work.
+  - **Impact:** Silent absorption of downstream scope would violate sprint boundaries.
+  - **Mitigation:** Enforce the §1.3 out-of-scope list; reject additions that belong to downstream sprints.
+  - **Status:** Open
+
+- **Risk ID:** R-05
+  - **Description:** `ENG-021` Reporting is consumed as shared infrastructure and must accept the report families defined here without weakening determinism or the Reporting Read Model Convention.
+  - **Impact:** A weaker reporting contract would compromise determinism or make read models an independent source of truth.
+  - **Mitigation:** Consume `ENG-021` per its authoritative contract; escalate weakening as an engine defect.
+  - **Status:** Open
+
+- **Risk ID:** R-06
+  - **Description:** `ENG-018` Currency is consumed for multi-currency presentation and must not silently rewrite stored source-currency values.
+  - **Impact:** Silent rewrites would break audit traceability and the Ledger Consumption Convention.
+  - **Mitigation:** Consume `ENG-018` per its authoritative contract; enforce preservation of stored source-currency values at the report boundary.
+  - **Status:** Open
+
+- **Risk ID:** R-07
+  - **Description:** All referenced ADRs (`ADR-011`, `ADR-013`, `ADR-014`, `ADR-032`, `ADR-051`, `ADR-053`) are Accepted at authoring time.
+  - **Impact:** If any becomes non-Accepted, this sprint's contract is invalidated.
+  - **Mitigation:** Re-plan this sprint if the acceptance status of any referenced ADR changes.
+  - **Status:** Open
+
+- **Risk ID:** R-EV-01
+  - **Description:** Reporting event definitions are not yet present in the authoritative Event Catalog.
+  - **Impact:** Financial reporting events cannot be formally referenced or published until Event Catalog governance is updated; report families still function, but no event is published for them.
+  - **Mitigation:** Execute a dedicated Event Catalog governance pass before implementation or baseline freeze; this Sprint PRD MUST NOT edit `docs/02-architecture/event-catalog.md` (per §11).
+  - **Status:** Deferred
+
+- **Risk ID:** R-08
+  - **Description:** Reporting read models must remain strict projections of the ledger.
+  - **Impact:** Treating a read model as a write-side source of accounting truth would violate the Reporting Read Model Convention.
+  - **Mitigation:** Implementation MUST NOT treat any read model as a write-side source of truth; enforce projection-only semantics at the read-model boundary.
+  - **Status:** Open
+
+- **Risk ID:** R-09
+  - **Description:** Multi-company reporting in this sprint stops at boundary presentation and does not perform consolidation.
+  - **Impact:** Stakeholders expecting consolidation would be surprised.
+  - **Mitigation:** Communicate the §1.3 boundary; queue consolidation as future work.
+  - **Status:** Accepted
+
+- **Risk ID:** R-10
+  - **Description:** Determinism (§5.6) applies against an unchanged ledger; ordinary ledger changes between two invocations legitimately change output.
+  - **Impact:** Misinterpreting legitimate change as a determinism violation would cause false defects.
+  - **Mitigation:** Scope determinism tests to a fixed ledger snapshot; document expected drift behaviour in test fixtures.
+  - **Status:** Accepted
 
 ---
 
