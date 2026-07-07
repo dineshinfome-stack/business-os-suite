@@ -1,94 +1,101 @@
-# Pass 8.3.5 — Author SPR-MOD-002-005 (Taxation & Compliance Foundation)
+# Pass 8.3.6 — Author SPR-MOD-002-006 (Period Close & Audit)
 
-Documentation-only. Fifth Accounting Sprint PRD, structurally identical to SPR-MOD-002-001…004. No architecture, engine, ADR, or Event Catalog edits.
+Documentation-only. Sixth and final MOD-002 Sprint PRD, structurally identical to SPR-MOD-002-001…005. No architecture, engine, ADR, Event Catalog, Module PRD, or previous Sprint PRD is modified.
 
 ## 1. Create Sprint PRD
 
-**File:** `docs/30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md`
+**File:** `docs/30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md`
 
-Template: `docs/99-templates/sprint-prd-template.md`, 18-section structure matching Sprints 001–004 verbatim (section ordering, governance callouts, dependency block, ERP Core Engine consumption, ADR consumption, Events, Acceptance Criteria, DoD, Sprint Exit Criteria, Risks & Assumptions using the normalized 5-field Risk Register, Test Strategy, Implementation Notes, Review Gate, References).
+Template: `docs/99-templates/sprint-prd-template.md`. Full 18-section structure matching Sprints 001–005 verbatim (Objective & Scope; Deliverables; Traceability; User Stories; Acceptance Criteria; Parent Module; Dependencies; ERP Core Engine Consumption; ADR Consumption; Data Model Impact; Events; Definition of Done; Sprint Exit Criteria; Risks & Assumptions with normalized 5-field register; Test Strategy; Implementation Notes; Review Gate; References).
 
 Frontmatter:
-- `sprint_id: SPR-MOD-002-005`
+- `sprint_id: SPR-MOD-002-006`
 - `parent_module: MOD-002`
-- `iteration: Sprint 5`
+- `iteration: Sprint 6`
 - `status: Draft`
 - `owner: Accounting`
 - `updated: 2026-07-07`
-- `related_engines` / `related_adrs` populated by reading `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`, and `docs/11-adrs/ADR_INDEX.md` during authoring; only Accepted ADRs; engine IDs verbatim.
+- `size: Medium`
+- `related_engines` populated by reading `docs/10-erp-core/ENGINE_CATALOG.md` + `docs/ENGINE_USAGE_MATRIX.md` at authoring time; no hardcoded IDs.
+- `related_adrs` populated from `docs/11-adrs/ADR_INDEX.md`; Accepted only.
 
-### Governance conventions (§1.1–§1.5)
+### Governance Conventions (§1.1–§1.6)
 
-1. **Tax Ownership Convention** — Accounting owns tax semantics, master data, applicability, determination, classifications, reporting semantics, and posting preparation. No downstream module redefines.
-2. **Tax Calculation Boundary** — Business modules determine commercial transactions; Accounting determines taxation; downstream modules consume Accounting taxation services.
-3. **Tax Configuration Authority** — Tax Codes, Groups, Rates, Classifications, Jurisdictions, Applicability Rules are authoritative Accounting master data.
-4. **Compliance Readiness Convention** — Establishes repository-standard readiness only; statutory submission deferred to a future compliance sprint.
-5. **Tax Reporting Boundary** — Tax reporting consumes authoritative ledger movements + tax classifications; never derives taxation directly from source documents.
+1. **Period Authority Convention** — Accounting exclusively owns period lifecycle states (Open, Soft Closed, Closed, Reopened). No downstream redefinition.
+2. **Financial Year Ownership Convention** — Accounting owns fiscal year close, year-end carry forward, opening balance preparation, closing adjustment governance. Business modules consume resulting state.
+3. **Period Close Boundary** — Period Close determines whether posting is permitted; MUST NOT create vouchers, modify journals, modify ledger entries, calculate taxes, or generate financial statements. Those remain owned by Sprints 002–005.
+4. **Controlled Reopening Convention** — Closed periods may be reopened only through authorized accounting governance; fully audited; preserves historical integrity; never deletes accounting history.
+5. **Audit Review Boundary** — Accounting owns business-level accounting audit review. Platform Audit (MOD-001 / `ENG-004`) remains authoritative for audit collection, storage, integrity, and lifecycle. Accounting consumes Platform audit services.
+6. **Financial Freeze Convention** — Once a period reaches Closed, accounting movements are frozen; downstream modules consume the closed state; subsequent corrections occur only through controlled reopening.
+
+All six complement — and do not replace — the Accounting Ownership (001), Voucher Ownership (002), Ledger Posting Ownership / Immutability / Balance Integrity / Ledger Access Boundary (003), Financial Reporting Ownership / Ledger Consumption / Report Determinism / Reporting Read Model / Financial Statement Boundary (004), and Tax Ownership / Tax Calculation Boundary / Tax Configuration Authority / Compliance Readiness / Tax Reporting Boundary (005) conventions.
 
 ### Traceability Requirement
 
-Every capability documented in this Sprint PRD MUST trace to one or more sections of `docs/20-module-prds/accounting/MODULE_PRD.md`. No orphan requirements may be introduced. (Consistent with Sprints 001–004.)
+Every capability MUST trace to one or more sections of `docs/20-module-prds/accounting/MODULE_PRD.md`. No orphan requirements.
 
 ### Scope
 
-**In scope:** tax master configuration; GST/VAT framework; tax classifications, codes, groups, rates; input/output tax classification; tax applicability rules; reverse charge readiness; tax determination inputs; jurisdiction-aware configuration; tax calculation boundaries; **tax posting preparation metadata and posting inputs only — journal creation and ledger posting remain owned by SPR-MOD-002-003**; tax reconciliation readiness; compliance reporting prerequisites; tax audit traceability; tax events; tax configuration versioning; tax reporting parameterization; cross-module tax consumption contracts.
+**In scope:** accounting period lifecycle; Open / Soft Close / Close / Reopen transitions; financial-year close; closing adjustments (governance only — journal creation stays in Sprint 003); closing validation; closing checklist; year-end carry forward readiness; opening balance preparation; accounting lock rules; posting restrictions enforced against Sprint 003 posting pipeline; audit review workflows; audit exports; accounting operational review; period status visibility; close authorization; accounting close events.
 
-**Out of scope:** statutory return filing; government integrations; e-invoicing; e-way bill; country-specific compliance; tax payment workflow; financial statement generation; period close; payroll taxation; budgeting; forecasting; BI; AI compliance analysis.
+**Out of scope:** voucher lifecycle (002); journal creation and ledger posting (003); financial statement calculation (004); tax determination and tax filing (005); statutory/government filing; external audit systems; SIEM; infrastructure monitoring; BI dashboards; AI accounting analysis; consolidation.
 
 ### Dependencies
 
-- **Upstream:** `MOD001_PLATFORM_BASELINE_v1`; **SPR-MOD-002-001 through SPR-MOD-002-004 (all required)**.
-- **Downstream:** SPR-MOD-002-006 Period Close & Audit; consumers MOD-003, MOD-004, MOD-005, MOD-008, MOD-015, MOD-017, MOD-018.
+- **Upstream:** `MOD001_PLATFORM_BASELINE_v1`; **SPR-MOD-002-001 through SPR-MOD-002-005 (all required)**.
+- **Downstream:** `MOD002_ACCOUNTING_BASELINE_v1` (frozen in the next Stage 3 pass); consumer modules MOD-003, MOD-004, MOD-005, MOD-008, MOD-015, MOD-017, MOD-018.
 
 ### Engines & ADRs
 
-Consume only engines already required by the Accounting Module PRD, resolved verbatim against ENGINE_CATALOG / ENGINE_USAGE_MATRIX. Expected engine surface: Configuration, Rules, Currency, Audit, Event, Authorization, Reporting. No new ENG IDs. Only Accepted ADR IDs.
+Consume only engines already required by the Accounting Module PRD, resolved verbatim against ENGINE_CATALOG / ENGINE_USAGE_MATRIX. Expected engine surface: Configuration, Authorization, Audit, Event, Reporting, Currency. No new ENG IDs. Only Accepted ADRs from `ADR_INDEX.md`.
 
 ### Events
 
-Reference only names already in `docs/02-architecture/event-catalog.md`. The Event Catalog is the sole authoritative source; the following list is **illustrative, not normative**:
+Reference only names already present in `docs/02-architecture/event-catalog.md`. Event Catalog is the sole authoritative source; the following list is **illustrative, not normative**:
 
-> Expected event surface includes (subject to the authoritative Event Catalog): `taxcode.created`, `taxcode.updated`, `taxrate.created`, `taxrate.updated`, `taxclassification.updated`, `taxconfiguration.changed`.
+> Expected event surface includes (subject to the authoritative Event Catalog): `accountingperiod.closed`, `accountingperiod.reopened`, `financialyear.closed`, `periodclose.completed`, `auditreview.generated`.
 
-For any illustrative name absent from the Event Catalog, either reference the closest authoritative equivalent or record a deferred `R-EV-*` risk. **Event Catalog is not edited in this pass.**
+For any illustrative name absent from the catalog, reference the closest authoritative equivalent or record a deferred `R-EV-*` risk. **Event Catalog is not edited.**
 
-### Acceptance Criteria
+### Acceptance Criteria (Given/When/Then, observable only)
 
-Business-observable outcomes covering: configurable tax masters; deterministic applicability resolution; version-aware rates; authoritative jurisdiction config; ledger-based tax reporting; deterministic tax posting preparation (inputs/metadata only); audited tax config changes; rejection of unauthorized changes; ledger traceability; authoritative-only event names; downstream consumption (no independent tax engines).
+Includes: closed periods reject posting deterministically; authorized reopening succeeds and is audited; unauthorized reopening is refused and audited; financial-year close prepares opening balances deterministically; closing validation detects unresolved accounting issues before Close; accounting audit review is fully traceable to Platform audit records; audit exports reflect authoritative accounting state; every period state change is authorized via `ENG-002` and audited via `ENG-004`; **period close and audit events are published only using names present in the authoritative Event Catalog**; downstream modules consume closed accounting state without redefining it; tenant isolation (`ADR-011`) enforced on every period/audit read/write; ownership-boundary preservation — no path performs voucher, journal, ledger, tax, or financial-statement mutation through the close/audit surface.
 
 ### Risks & Assumptions
 
-Normalized 5-field register (Risk ID, Description, Impact, Mitigation, Status) with working vocabulary preamble (`Open`, `Mitigated`, `Accepted`, `Deferred`, `Closed`). Include `R-EV-01` (Deferred) if any illustrative tax event is absent from the Event Catalog.
+Normalized 5-field register (Risk ID, Description, Impact, Mitigation, Status) with working vocabulary preamble (`Open`, `Mitigated`, `Accepted`, `Deferred`, `Closed`). Include `R-EV-01` (Deferred) if any illustrative close/audit event is absent from the Event Catalog. Include explicit risks for upstream Sprint 001–005 dependency, Platform baseline dependency, deferred statutory/consolidation scope, Audit Review Boundary (Platform audit ownership preserved), and Controlled Reopening governance.
 
 ## 2. Governance registrations (derived indexes only)
 
-- `docs/SPRINT_CATALOG.md` — one new Draft row for SPR-MOD-002-005.
-- `docs/30-sprint-prds/accounting/README.md` — link Sprint 005.
+- `docs/SPRINT_CATALOG.md` — one new Draft row for SPR-MOD-002-006.
+- `docs/30-sprint-prds/accounting/README.md` — link Sprint 006 (replace the existing Planned placeholder row).
 - `docs/DOCUMENT_INDEX.md` — one new entry.
-- `docs/_meta.json` — one registration.
-- `.lovable/plan.md` — Pass 8.3.5 execution record.
+- `docs/_meta.json` — one registration entry.
+- `.lovable/plan.md` — Pass 8.3.6 execution record.
 
-## 3. Repository verification (SPRINT_AUTHORING_GUIDE §13)
+Exactly one registration per document; no new repository categories.
+
+## 3. Repository verification
 
 Confirm:
 
-- Single DOCUMENT_INDEX entry; single Draft SPRINT_CATALOG row; README link; single _meta.json entry.
-- Structural parity with Sprints 001–004.
+- Single DOCUMENT_INDEX entry; single Draft SPRINT_CATALOG row; single README link; single `_meta.json` registration.
+- Structural parity with Sprints 001–005.
 - Every capability traces to Accounting MODULE_PRD.
 - Accepted ADRs only; engine IDs match catalog verbatim.
 - Every referenced event exists in the Event Catalog or is recorded as a deferred `R-EV-*` risk.
-- Taxation consumes authoritative ledger state, not source documents.
-- **Tax semantics introduced here do NOT redefine voucher ownership, journal ownership, ledger ownership, financial reporting ownership, or period ownership established by earlier Accounting Sprint PRDs.**
+- Period Close & Audit ownership does NOT redefine voucher, journal, ledger, financial reporting, or taxation ownership from Sprints 002–005.
+- Platform Audit ownership (`ENG-004`, MOD-001) remains unchanged; Accounting consumes Platform audit services.
 - No architecture documents modified.
 
 ## 4. Future (out of scope for this pass)
 
-Repository-wide standardization of governance convention identifiers using a **module-prefixed registry format** (e.g., `GOV-ACC-001` Accounting Ownership, `GOV-ACC-002` Voucher Ownership, `GOV-ACC-003` Ledger Posting Ownership, `GOV-ACC-004` Financial Reporting Ownership, `GOV-ACC-005` Tax Ownership) would improve cross-baseline referenceability and avoid collisions with Platform and future modules. Requires a repository-wide governance pass touching Sprints 001–004 and downstream module references. **Explicitly deferred**; not introduced in Pass 8.3.5.
+Baseline creation is NOT performed here. It occurs in the subsequent Stage 3 pass **Pass 8.3.Z — MOD002_ACCOUNTING_BASELINE_v1**, following the Stage 3 baseline process established by `MOD001_PLATFORM_BASELINE_v1`. No repository-wide governance-identifier standardization is introduced here.
 
 ## 5. Not changed
 
-MOD-002 Sprint Plan; Sprints 001–004; SPR-MOD-002-006; Module Baselines; Engines; ADRs; architecture docs; Event Catalog; APIs; database; schema; UI; implementation code.
+MOD-002 Sprint Plan; Accounting Sprints 001–005; Module PRDs; Module Baselines; ERP Core Engines; ADRs; Event Catalog; architecture documentation; APIs; database; schema; UI; implementation code.
 
 ## 6. Outcome
 
-SPR-MOD-002-005 becomes the fifth Accounting Sprint PRD, establishing the repository-standard Taxation & Compliance Foundation and positioning MOD-002 for **Pass 8.3.6 — SPR-MOD-002-006 (Period Close & Audit)**.
+`SPR-MOD-002-006-period-close-audit.md` becomes the sixth and final Accounting Sprint PRD, completing Stage 2 of MOD-002. The Accounting Sprint family (001–006) is complete and ready for **Pass 8.3.Z — MOD002_ACCOUNTING_BASELINE_v1**, which freezes the Accounting module as the second repository Module Baseline.

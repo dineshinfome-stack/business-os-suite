@@ -964,6 +964,10 @@
           "path": "30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation"
         },
         {
+          "title": "SPR-MOD-002-006 — Period Close & Audit",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit"
+        },
+        {
           "title": "MOD-003 Sales",
           "path": "30-sprint-prds/sales/README"
         },
