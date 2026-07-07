@@ -1,111 +1,119 @@
-# Pass 8.3.2 — Author SPR-MOD-002-002 (Voucher Framework)
+# Pass 8.3.3 — Author SPR-MOD-002-003 (Journal & Ledger Posting)
 
-Documentation-only. Stage 2 of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-002 Accounting. Authors the second Accounting Sprint PRD, establishing the canonical Accounting voucher transaction layer consumed by all downstream modules.
+Documentation-only. Continues Stage 2 of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-002 Accounting. Produces the third Accounting Sprint PRD, building directly on the Voucher Framework established in SPR-MOD-002-002.
 
-## 1. Create the Sprint PRD
+## 1. Create Sprint PRD
 
-**File:** `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md`
+File: `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`
 
-**Basis:** `docs/99-templates/sprint-prd-template.md`, with section ordering, terminology, disclaimer wording, traceability style, Review Gate, and writing quality mirrored from the gold-standard `SPR-MOD-002-001-accounting-foundation.md` and `SPR-MOD-001-001-tenancy-foundation.md`.
+Authored using `docs/99-templates/sprint-prd-template.md`, mirroring the structural gold standard of SPR-MOD-002-001 and SPR-MOD-002-002 (same section order, same governance blocks, same acceptance-criteria style expressed as observable business outcomes).
 
-### 1.1 Frontmatter
+## 2. Sprint Scope
 
-```yaml
-sprint_id: SPR-MOD-002-002
-parent_module: MOD-002
-parent_sprint_plan: MOD-002_SPRINT_PLAN.md
-iteration: Sprint 2
-stage: "2"
-pass: "8.3.2"
-size: Large
-status: Draft
-owner: Accounting
-related_engines: [ENG-002, ENG-004, ENG-007, ENG-008, ENG-011, ENG-015, ENG-017, ENG-024]
-related_adrs: [ADR-011, ADR-014, ADR-032, ADR-051]
-updated: 2026-07-07
-tags: [sprint, prd, accounting, mod-002, voucher, framework, stage-2]
-document_type: "Sprint PRD"
-```
+The sprint defines *what happens after a voucher is posted* — the canonical translation of posted vouchers into balanced double-entry ledger movements and the resulting account balances. It does **not** redefine voucher ownership, lifecycle, or entry-point rules established in Sprint 002; it consumes them.
 
-### 1.2 Section Layout (18 sections, mirroring SPR-MOD-002-001)
+In scope:
 
-1. **Objective and Scope** — objective; In Scope (voucher lifecycle state machine, voucher types per Module PRD §6, numbering series binding, approval hooks, cancellation semantics, reversal semantics, immutability after posting, cross-module voucher creation contract, audit integration, events); Out of Scope (double-entry ledger posting, tax computation, financial statements, period close, ledger balances, cost centres) with forward pointers to reserved sprints. Includes the **Accounting Voucher Ownership Convention** callout (§2 of this plan).
-2. **Sprint Deliverables** — business capabilities only (voucher framework, lifecycle, numbering, approvals, immutability, reversal, cross-module contract, events, docs). No implementation prescription.
-3. **Traceability to Module PRD** — table mapping each capability to sections of `docs/20-module-prds/accounting/MODULE_PRD.md` (§2 Business Scope, §6 Transactions, §7 Business Rules — voucher balancing declared here / enforced next, §10 Configuration — numbering series and approval thresholds, §12 Engine consumption). No orphan requirements.
-4. **User Stories** — Accountant, Controller, downstream module (system persona), and security reviewer stories: create vouchers, validate/post vouchers, cancel/reverse vouchers, configure numbering series, enforce approval boundaries, consume voucher events, audit all transitions.
-5. **Acceptance Criteria** — Given / When / Then, observable business behaviour only. Explicit criteria for immutability after `Posted`, reversal-creates-new-voucher, and cross-module invocation refusing direct ledger writes.
-6. **Parent Module Reference** — MOD-002 Accounting, linking the full path `docs/20-module-prds/accounting/MODULE_PRD.md`.
-7. **Dependencies** —
-   - **Parent:** `MOD-002` MODULE_PRD.
-   - **Upstream sprint:** `SPR-MOD-002-001` (Accounting Foundation) — required master data: CoA, ledger accounts, fiscal year, accounting periods, base accounting configuration.
-   - **Upstream baseline:** `MOD001_PLATFORM_BASELINE_v1` (frozen), encapsulating Platform Sprints 001–006. Individual Platform sprints cited only where sprint-level traceability is specifically required.
-   - **Downstream:** `SPR-MOD-002-003` … `SPR-MOD-002-006`, plus all modules that create accounting vouchers (MOD-003 Sales, MOD-004 Purchase, MOD-008 Payroll, MOD-015 POS).
-8. **ERP Core Engine Consumption** — consume-only table for ENG-002, ENG-004, ENG-007, ENG-008, ENG-011, ENG-015, ENG-017, ENG-024 with usage notes. Cross-references the Voucher Ownership Convention.
-9. **ADR Consumption** — Accepted ADRs only: ADR-011, ADR-014, ADR-032, ADR-051.
-10. **Data Model Impact** — conceptual entities only: Voucher, Voucher Line, Voucher Type, Numbering Series Binding, Approval Context, Reversal Link. Standard disclaimer: *Physical schema design remains an implementation activity and MUST NOT appear in Sprint PRDs.*
-11. **Events Published** — table for `voucher.created`, `voucher.updated`, `voucher.submitted`, `voucher.posted`, `voucher.cancelled`, `voucher.reversed` (exact names aligned with the authoritative event catalog). Cites `docs/02-architecture/event-catalog.md`. Applies the Event Ownership Convention.
-12. **Definition of Done** — repository-standard checklist from `SPRINT_AUTHORING_GUIDE.md`.
-13. **Sprint Exit Criteria** — copied verbatim from the Sprint 2 entry in `MOD-002_SPRINT_PLAN.md`.
-14. **Risks and Assumptions** — assumes `SPR-MOD-002-001` is Done, platform baseline frozen, Accepted ADRs unchanged, posting engine referenced only as read-only contract; defers ledger posting, tax, financial reporting, period close.
-15. **Test Strategy Summary** — references repository testing guidance; covers voucher lifecycle, numbering, approval, cancellation, reversal, immutability, event publication, isolation.
-16. **Implementation Notes** — standard non-authoritative disclaimer verbatim.
-17. **Review Gate** — reuse the standard seven-question Review Gate exactly as in `SPR-MOD-002-001`.
-18. **References** — mirrors `SPR-MOD-002-001` reference structure.
+- **Journal Entry Model** — balanced debit/credit lines derived from a posted voucher, tenant-scoped, currency-aware.
+- **Chart of Accounts Consumption** — accounts referenced by journal lines must resolve to the CoA established in SPR-MOD-002-001; posting fails deterministically on invalid or inactive accounts.
+- **Ledger Posting** — idempotent projection of journal entries onto per-account ledgers with running balances.
+- **Balance Integrity Rules** — every journal entry balances to zero per tenant per currency; unbalanced entries are rejected with structured errors.
+- **Posting Determinism & Idempotency** — repeating the same posting request for the same voucher produces the same ledger state exactly once.
+- **Reversal Semantics** — reversal vouchers (defined in Sprint 002) produce inverse journal entries; original entries remain immutable.
+- **Multi-Currency Posting** — foreign-currency vouchers post at the voucher's captured exchange rate; base-currency equivalents are derived, not re-computed at read time.
+- **Period Awareness (read-only)** — posting respects the open/closed period signal but does not own period close (that is Sprint 006).
+- **Events** — `journal.entry.created`, `ledger.posted`, `ledger.reversed` published as the authoritative accounting-movement events for downstream consumers.
 
-## 2. Accounting Voucher Ownership Convention
+Out of scope (explicit non-goals):
 
-Introduce one Voucher-specific governance callout in §1, cross-referenced from §8 and §10:
+- Financial statements (Sprint 004).
+- Tax computation and jurisdictional rules (Sprint 005).
+- Period close, lock, and audit trail consolidation (Sprint 006).
+- Any redefinition of voucher lifecycle, entry-point ownership, or cross-module voucher contract (owned by Sprint 002).
 
-> **Accounting Voucher Ownership Convention.** The Accounting module owns the business semantics of every accounting voucher: its lifecycle, types, numbering, approval, cancellation, reversal, and immutability after posting. ERP Core Engines provide shared infrastructure (voucher abstraction, numbering, approval, audit, eventing, document/attachment) but MUST NOT redefine accounting voucher business rules. Downstream modules (Sales, Purchase, Payroll, POS, Inventory, etc.) create accounting vouchers by consuming this framework rather than introducing independent voucher structures or posting semantics. A voucher is immutable once it reaches a `Posted` state; any correction is achieved through a reversal voucher that references the original without mutating it.
->
-> **Sole entry point.** The Voucher Framework is the sole authoritative entry point into the Accounting transaction lifecycle. Future Accounting Sprint PRDs (Journal & Ledger Posting, Financial Statements, Taxation, Period Close) extend this lifecycle but MUST NOT redefine voucher ownership or lifecycle semantics established here.
+## 3. Governance Conventions Introduced
 
-Complements — does not replace — the Accounting Ownership Convention from `SPR-MOD-002-001`.
+Stated once, in the Sprint PRD, and never redefined later:
 
-## 3. Cross-Module Voucher Creation Contract
+1. **Ledger Posting Ownership Convention.** The Accounting module owns the translation of posted vouchers into journal entries and ledger movements. No other module may write to accounting ledgers directly; downstream modules read via the Reporting Engine or subscribe to accounting events.
+2. **Balance Integrity Rule.** A journal entry is valid only if debits equal credits per tenant per currency. This invariant is a platform-wide accounting invariant and cannot be relaxed by any downstream sprint or module.
+3. **Ledger Immutability Convention.** Once posted, ledger entries are immutable. Corrections flow through reversal vouchers (Sprint 002) which produce new inverse ledger entries; historical entries are never mutated or deleted.
+4. **Authoritative Accounting Movement Events.** `journal.entry.created`, `ledger.posted`, and `ledger.reversed` are the authoritative accounting-movement events consumed by Financial Statements, Taxation, Period Close, and downstream reporting modules. Reporting consumes these events rather than source-document events.
 
-In §1.2 (In Scope) and §2 (Deliverables), explicitly establish the repository-wide convention for cross-module voucher creation:
+## 4. Traceability
 
-- Downstream modules generate source documents (sales invoice, purchase invoice, payroll run, POS day-close) in their own bounded context.
-- **Source documents MAY request creation of an accounting voucher through the Voucher Framework, but MUST NOT create ledger entries or accounting postings directly. All accounting transactions enter the Accounting domain exclusively through the Voucher Framework.**
-- The Accounting module owns the resulting voucher lifecycle, numbering, and state; the originating module owns the source document lifecycle.
-- Events published by the Voucher Framework are authoritative for downstream financial reporting and period close.
+Each capability traces to specific sections of `docs/20-module-prds/accounting/MODULE_PRD.md`:
 
-This positions the Voucher Framework as the canonical transaction layer for the entire ERP, not a module-local CRUD feature.
+- §2 Business Scope
+- §6 Transactions
+- §7 Business Rules
+- §10 Configuration
+- §12 Engine Consumption
 
-## 4. Governance Registrations
+## 5. Dependencies
 
-- `docs/SPRINT_CATALOG.md` — add one row for `SPR-MOD-002-002` (Iteration: Sprint 2, Parent: MOD-002 Accounting, Status: Draft, PRD link, Owner: Accounting).
-- `docs/30-sprint-prds/accounting/README.md` — replace the Sprint 2 placeholder row with a link to the authored Sprint PRD; update status to Draft.
-- `docs/DOCUMENT_INDEX.md` — exactly one entry.
-- `docs/_meta.json` — exactly one sidebar registration.
-- `.lovable/plan.md` — append Pass 8.3.2 execution record.
+- **Upstream (authoritative):** `MOD001_PLATFORM_BASELINE_v1` (frozen; encapsulates Platform Sprints 001–006).
+- **Upstream (sprint-level):** `SPR-MOD-002-001` (Accounting Foundation — CoA, accounting periods, base currency), `SPR-MOD-002-002` (Voucher Framework — sole entry point, posted-voucher immutability, reversal semantics).
+- **Downstream:** `SPR-MOD-002-004` (Financial Statements), `SPR-MOD-002-005` (Taxation & Compliance Foundation), `SPR-MOD-002-006` (Period Close & Audit), and all reporting/analytics modules that consume accounting movements.
 
-No new category-level registrations. A repository-wide `MODULE_OWNERSHIP_CONVENTIONS.md` consolidation document is a valuable future direction but is out of scope for this pass — the Sprint PRDs remain the authoritative source of each convention.
+## 6. Engines Consumed (never redefined)
 
-## 5. Repository Verification (per `SPRINT_AUTHORING_GUIDE.md` §13)
+Listed as consumption only — canonical semantics remain in each engine's spec:
 
-- Exactly one `DOCUMENT_INDEX.md` entry for the new Sprint PRD.
+- ENG — Posting Engine, Voucher Engine, Currency Engine, Numbering Engine, Event Engine, Audit Engine, Authorization Engine, Configuration Engine, Reporting Engine (read side).
+
+Exact engine identifiers are filled in by referencing `docs/10-erp-core/ENGINE_CATALOG.md` and `docs/ENGINE_USAGE_MATRIX.md` when authoring, matching the identifier style used in SPR-MOD-002-002.
+
+## 7. ADRs Referenced (Accepted only)
+
+Referenced, not redefined:
+
+- ADR-013 Money Representation
+- ADR-014 Audit Strategy
+- ADR-032 RBAC/ABAC
+- ADR-051 Transactional Outbox
+- ADR-053 Idempotency
+- ADR-011 Multi-Tenant Isolation
+
+Only Accepted ADRs are referenced; no new ADRs are proposed.
+
+## 8. Acceptance Criteria (observable business outcomes)
+
+- A posted voucher produces exactly one balanced journal entry per tenant per currency.
+- An unbalanced journal entry is rejected; no partial ledger state is persisted.
+- Posting the same voucher twice yields the same ledger state exactly once (idempotency).
+- Ledger entries are immutable after posting; direct mutation attempts are rejected.
+- A reversal voucher produces inverse ledger entries; the original entries remain unchanged.
+- Foreign-currency postings preserve the voucher's captured exchange rate and derived base-currency amount.
+- `journal.entry.created`, `ledger.posted`, and `ledger.reversed` events are emitted for every relevant state transition.
+- Attempts to write to ledgers outside the Voucher → Journal → Ledger path are rejected.
+
+## 9. Governance Registrations
+
+- `docs/SPRINT_CATALOG.md` — replace the planned row for SPR-MOD-002-003 with a Draft row linking the new file (exactly one row).
+- `docs/30-sprint-prds/accounting/README.md` — convert the Sprint 3 placeholder into a link to the new PRD.
+- `docs/DOCUMENT_INDEX.md` — register the new file exactly once.
+- `docs/_meta.json` — register the doc route exactly once.
+- `.lovable/plan.md` — append an execution record for Pass 8.3.3.
+
+No new category-level registrations. No changes to `MODULE_BASELINE_CATALOG.md`.
+
+## 10. Repository Verification
+
+- Exactly one `DOCUMENT_INDEX.md` entry.
 - Exactly one Draft row in `SPRINT_CATALOG.md`.
-- Accounting README links the Sprint 2 PRD.
+- Accounting README links Sprint 3.
 - Exactly one `_meta.json` registration.
-- Structural parity with `SPR-MOD-002-001` (section ordering, terminology, disclaimers, Review Gate, governance conventions).
-- Every capability traces to `docs/20-module-prds/accounting/MODULE_PRD.md`.
+- Structural parity with SPR-MOD-002-001 and SPR-MOD-002-002.
+- Every capability traces to a specific section of `docs/20-module-prds/accounting/MODULE_PRD.md`.
 - Only Accepted ADRs referenced.
 - ERP Core Engines consumed, never redefined.
-- Upstream dependencies reference `MOD001_PLATFORM_BASELINE_v1` as the authoritative platform source and `SPR-MOD-002-001` as the immediate sprint dependency.
+- Voucher ownership and entry-point conventions from Sprint 002 are referenced, not restated.
 
-## 6. Not Changed
+## 11. Not Changed
 
-Module PRDs, `MOD-002_SPRINT_PLAN.md`, `SPR-MOD-002-001`, other Accounting Sprint PRDs, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, UI.
+Module PRDs, `MOD-002_SPRINT_PLAN.md`, `SPR-MOD-002-001`, `SPR-MOD-002-002`, other Accounting Sprint PRDs, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture documentation, code, database schema, APIs, UI.
 
-## 7. Outcome
+## Outcome
 
-`SPR-MOD-002-002-voucher-framework.md` becomes the second Accounting Sprint PRD, establishing the repository-wide Accounting Voucher Framework as the sole authoritative entry point for all downstream financial activity. It positions MOD-002 for **Pass 8.3.3 — SPR-MOD-002-003 (Journal & Ledger Posting)**.
----
-
-## Execution Record — Pass 8.3.2 (2026-07-07)
-
-- Created `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md` mirroring the `SPR-MOD-002-001` gold standard, with the Accounting Voucher Ownership Convention and Sole Entry Point clause (§1.1), the Cross-Module Voucher Creation Contract embedded in §1.2 / §2 (source documents MUST NOT create ledger entries directly), and baseline-first upstream dependencies (§7).
-- Registered the Sprint PRD in `docs/SPRINT_CATALOG.md` (Draft), `docs/30-sprint-prds/accounting/README.md` (Sprint 2 row linked, status Draft), `docs/DOCUMENT_INDEX.md`, and `docs/_meta.json` (sidebar).
-- Not changed: Module PRDs, `MOD-002_SPRINT_PLAN.md`, `SPR-MOD-002-001`, other Accounting Sprint PRDs, `MODULE_BASELINE_CATALOG.md`, ERP Core Engines, ADRs, architecture, code, database, APIs, UI.
+`SPR-MOD-002-003-journal-ledger-posting.md` becomes the third Accounting Sprint PRD, establishing the canonical translation of posted vouchers into balanced, immutable ledger movements and defining the authoritative accounting-movement events consumed by downstream financial and reporting modules. Positions MOD-002 for **Pass 8.3.4 — SPR-MOD-002-004 (Financial Statements)**.
