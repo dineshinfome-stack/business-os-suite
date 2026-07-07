@@ -45,7 +45,7 @@ The **Estimated Sprint Count** for MOD-003 in `SPRINT_ROADMAP.md` is **6**. This
   - Out: quotations, sales orders, delivery workflow, invoicing, returns, analytics, credit-control enforcement, pricing rules.
 - **Estimated size.** Medium.
 - **Module PRD sections covered.** §1 Overview, §2 Business Scope (Sales submodules), §3 Personas (Sales Executive, Sales Manager, Order Desk), §5 Master Data (Customer, Sales Territory, Salesperson), §10 Configuration (Default price list, Approval thresholds, Numbering series, Return window, Credit-limit policy).
-- **Engines consumed.** `ENG-001` Identity, `ENG-002` Authorization, `ENG-003` Permission Management, `ENG-004` Audit, `ENG-005` Configuration, `ENG-006` Localization, `ENG-017` Numbering, `ENG-018` Currency.
+- **Engines consumed.** `ENG-001` Identity, `ENG-002` Authorization, `ENG-003` Permission Management, `ENG-004` Audit, `ENG-005` Configuration, `ENG-006` Localization, `ENG-017` Numbering, `ENG-018` Currency, `ENG-024` Event.
 - **ADRs consumed.** `ADR-011` Multi-Tenant Isolation, `ADR-014` Audit Strategy, `ADR-032` RBAC + ABAC.
 - **Upstream sprint dependencies.** None (Sales sprint 1). Depends on the frozen `MOD001_PLATFORM_BASELINE_v1` for tenancy, organization structure, users/roles/permissions, configuration hierarchy, and localization.
 - **Sprint Exit Criteria.**

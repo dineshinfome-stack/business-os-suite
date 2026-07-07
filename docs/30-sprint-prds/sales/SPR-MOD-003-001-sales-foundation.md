@@ -12,8 +12,8 @@ iteration: "Sprint 1"
 stage: "2"
 pass: "8.4.1"
 size: "Medium"
-related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-017", "ENG-024"]
-related_adrs: ["ADR-011", "ADR-012", "ADR-014", "ADR-032", "ADR-051"]
+related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-017", "ENG-018", "ENG-024"]
+related_adrs: ["ADR-011", "ADR-014", "ADR-032"]
 tags: ["sprint", "prd", "sales", "mod-003", "foundation", "stage-2"]
 document_type: "Sprint PRD"
 ---
@@ -272,6 +272,7 @@ Engine behavior is **consumed, not redefined** (see the Sales Ownership Conventi
 | `ENG-005` Configuration | Resolves sales configuration (defaults, thresholds, return-window, credit-limit policy) under the tenant/company hierarchy established by the Platform baseline. |
 | `ENG-006` Localization | Resolves locale-scoped labels for sales master data where applicable. |
 | `ENG-017` Numbering | Registers and resolves sales-document numbering series. Consumption by document types occurs in downstream sprints. |
+| `ENG-018` Currency | Resolves the default reporting currency reference on the customer master; currency semantics are consumed, not redefined. |
 | `ENG-024` Eventing | Publishes sales-foundation events with the contracts declared in §11. |
 
 Sales business semantics (customer master, hierarchy, classification, sales-organization semantics, salesperson and territory assignment) are owned by this module and are not delegated to any engine.
@@ -285,10 +286,10 @@ Only **Accepted** ADRs are relied upon.
 | ADR | Applied As |
 | --- | --- |
 | `ADR-011` Multi-Tenant Isolation | Authoritative isolation model; enforced on every sales-foundation read and write. |
-| `ADR-012` Tenant Lifecycle | Consumed indirectly via `MOD001_PLATFORM_BASELINE_v1`; sales foundation lifecycle is scoped to `active` tenants. |
 | `ADR-014` Audit Strategy | Authoritative audit contract used by `ENG-004` integration. |
 | `ADR-032` RBAC + ABAC | Authoritative authorization model applied to sales-foundation actions. |
-| `ADR-051` Event Contracts | Authoritative event envelope / naming / delivery guarantees for sales-foundation events. |
+
+Event envelope, naming, and delivery guarantees are governed by the authoritative event catalog (`docs/02-architecture/event-catalog.md`) and `ENG-024` Eventing. A formal Accepted event-envelope ADR is not yet ratified and is tracked as a deferred governance item under `R-EV-01` (§14); no non-Accepted ADR is relied upon here.
 
 ---
 
@@ -334,11 +335,11 @@ Physical schema (tables, columns, indexes, constraints) is deliberately excluded
 
 ## 11. Events Published
 
-Referenced authoritatively in [`../../02-architecture/event-catalog.md`](../../02-architecture/event-catalog.md). Envelope, naming, and delivery guarantees are governed by `ADR-051`. The Event Ownership Convention established by MOD-001 applies: each event is owned by the module that first publishes it, and consumer lists reflect known consumers at authoring time.
+Referenced authoritatively in [`../../02-architecture/event-catalog.md`](../../02-architecture/event-catalog.md). Envelope, naming, and delivery guarantees are governed by the authoritative event catalog and `ENG-024` Eventing; a formal event-envelope ADR is deferred (see `R-EV-01` in §14). The Event Ownership Convention established by MOD-001 applies: each event is owned by the module that first publishes it, and consumer lists reflect known consumers at authoring time.
 
 | Event Name | Owning Module | Publishing Sprint | Known Consumer Modules | Delivery Guarantee |
 | --- | --- | --- | --- | --- |
-| `customer.created` | MOD-003 | SPR-MOD-003-001 | MOD-003 (self), MOD-004 (Purchase where applicable), MOD-005 (Inventory), MOD-CRM, MOD-Projects, MOD-POS, MOD-017 (Analytics) | At-least-once, ordered per tenant (per `ADR-051`) |
+| `customer.created` | MOD-003 | SPR-MOD-003-001 | MOD-003 (self), MOD-004 (Purchase where applicable), MOD-005 (Inventory), MOD-CRM, MOD-Projects, MOD-POS, MOD-017 (Analytics) | At-least-once, ordered per tenant |
 | `customer.updated` | MOD-003 | SPR-MOD-003-001 | MOD-003 (self), MOD-004, MOD-005, MOD-CRM, MOD-Projects, MOD-POS, MOD-017 | At-least-once, ordered per tenant |
 | `customer.activated` | MOD-003 | SPR-MOD-003-001 | MOD-003 (self), MOD-004, MOD-005, MOD-CRM, MOD-017 | At-least-once, ordered per tenant |
 | `customer.deactivated` | MOD-003 | SPR-MOD-003-001 | MOD-003 (self), MOD-004, MOD-005, MOD-CRM, MOD-017 | At-least-once, ordered per tenant |
@@ -402,15 +403,15 @@ Each risk uses the reusable five-field shape: **Risk ID**, **Description**, **Im
   - **Status:** Open
 
 - **Risk ID:** R-04
-  - **Description:** All referenced ADRs (`ADR-011`, `ADR-012`, `ADR-014`, `ADR-032`, `ADR-051`) are Accepted at authoring time.
+  - **Description:** All referenced ADRs (`ADR-011`, `ADR-014`, `ADR-032`) are Accepted at authoring time; no Proposed / Draft / Superseded ADR is relied upon.
   - **Impact:** If any becomes non-Accepted, this sprint's contract is invalidated.
   - **Mitigation:** Re-plan this sprint if the acceptance status of any referenced ADR changes.
   - **Status:** Open
 
 - **Risk ID:** R-05
-  - **Description:** Sales-foundation events rely on `ENG-024` delivery guarantees stated in `ADR-051`.
-  - **Impact:** Weakened delivery guarantees would break consumer contracts.
-  - **Mitigation:** Consume `ENG-024` per `ADR-051` without redefining delivery semantics; escalate any weakening as an ADR / engine defect.
+  - **Description:** Sales-foundation events rely on `ENG-024` delivery guarantees governed by the authoritative event catalog. A formal event-envelope ADR (candidate `ADR-051` Transactional Outbox) is currently `Proposed` and is not relied upon by this sprint.
+  - **Impact:** Weakened delivery guarantees at the engine or catalog level would break consumer contracts.
+  - **Mitigation:** Consume `ENG-024` per the authoritative event catalog without redefining delivery semantics; escalate any weakening as an engine / catalog defect. Adopt an eventing ADR once ratified.
   - **Status:** Open
 
 - **Risk ID:** R-EV-01
