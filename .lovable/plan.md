@@ -1,32 +1,54 @@
-# Pass 8.3.Z — MOD002_ACCOUNTING_BASELINE_v1 (Stage 3 Module Baseline)
+# Pass 8.4.0-R — Clarify Sales → Accounting Ownership Boundary (Documentation Refinement)
 
-Documentation-only. Executes Stage 3 of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-002 Accounting. Consolidates the approved Accounting Module PRD and Sprint PRDs 001–006 into the frozen Module Baseline, mirroring `MOD001_PLATFORM_BASELINE_v1.md`.
+Documentation-only micro-pass. Refines the Stage 1 Sprint Planning document for MOD-003 Sales by explicitly aligning Sales with the ownership boundaries established by `MOD002_ACCOUNTING_BASELINE_v1`. No Sprint sequencing, scope, registrations, or governance documents are modified.
 
-## Execution Record
+## 1. Refine Sprint Planning Document
 
-- Created `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md` (Status: Frozen, v1.0).
-  - Sections 1–12 mirror MOD001 baseline structure.
-  - Engines/ADRs derived from the union of Sprint frontmatter (`related_engines`, `related_adrs`) across SPR-MOD-002-001…006.
-  - Consumed engines (verbatim ENGINE_CATALOG IDs): ENG-001, ENG-002, ENG-004, ENG-005, ENG-007, ENG-008, ENG-011, ENG-012, ENG-015, ENG-016, ENG-017, ENG-018, ENG-021, ENG-024.
-  - Consumed ADRs (Accepted only, verbatim ADR_INDEX IDs): ADR-011, ADR-012, ADR-013, ADR-014, ADR-015, ADR-032, ADR-051, ADR-053.
-  - §7 summarizes every governance convention established across the six Sprint PRDs, grouped by originating sprint; ownership remains with the originating Sprint PRDs.
-  - §8 defers to the authoritative Event Catalog; deferred `R-EV-*` risks remain governed by their originating Sprints. Event Catalog NOT modified.
-  - §9 lists downstream consumers by module ID (MOD-003, MOD-004, MOD-005, MOD-008, MOD-015, MOD-017, MOD-018).
-- Registered baseline in derived indexes (exactly one entry each):
-  - `docs/MODULE_BASELINE_CATALOG.md` — new row, status Baseline.
-  - `docs/40-module-baselines/README.md` — Current Baselines table.
-  - `docs/DOCUMENT_INDEX.md` — M section.
-  - `docs/_meta.json` — sidebar under "40 Module Baselines".
-- Sprint Catalog finalization: transitioned SPR-MOD-002-001…006 from Draft → **Done** in:
-  - `docs/SPRINT_CATALOG.md`
-  - `docs/DOCUMENT_INDEX.md`
-  - `docs/30-sprint-prds/accounting/README.md` (also added baseline-freeze note)
-- `docs/REPOSITORY_MAP.md`, `docs/DOCUMENT_TRACEABILITY.md`, `docs/DOCUMENT_OWNERSHIP_MATRIX.md` already register the Module Baselines family generically (layer 9 / Stage 3); no per-module row is added, matching the precedent set by `MOD001_PLATFORM_BASELINE_v1`.
+**File:** `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md`
 
-## Not Changed
+The plan is updated in place from the approved Pass 8.4.0 baseline with one ownership-boundary clarification and one cross-module dependency note. All other Pass 8.4.0 content (Sprint sequence, frontmatter, governance maps, completion criteria, non-goals) remains unchanged.
 
-Module PRDs; Sprint PRDs; ERP Core Engines; ADRs; Event Catalog; architecture documents; APIs; database; schema; UI; implementation code.
+### 1.1 SPR-MOD-003-004 — Sales Invoicing Description
 
-## Outcome
+Update the description of **SPR-MOD-003-004 — Sales Invoicing** to include the following ownership-boundary statement, replacing the prior Accounting dependency wording:
 
-`MOD002_ACCOUNTING_BASELINE_v1.md` becomes the authoritative frozen Stage 3 baseline for MOD-002 Accounting, superseding the Sprint PRD family as the primary inter-module reference while preserving Sprint PRDs for detailed implementation and traceability. MOD-002 is the second completed repository module after `MOD001_PLATFORM_BASELINE_v1`. The repository is ready for **Pass 8.4.0 — MOD-003 Sales Sprint Planning (Stage 1)**.
+> **Accounting Voucher Creation Contract** — Sales produces commercial documents (Sales Invoice, Credit Note, Debit Note) and requests accounting voucher creation by consuming `MOD002_ACCOUNTING_BASELINE_v1`. Sales MUST NOT create accounting journals, ledger entries, or independently manage accounting voucher lifecycles. Accounting remains the authoritative owner of accounting vouchers, journal posting, ledger posting, taxation, financial reporting, and accounting period governance.
+
+This clarification documents consumption of the Accounting baseline only; it introduces no new business capability.
+
+### 1.2 Cross-Module Dependency Note
+
+Within the Sprint Dependency / Cross-Sprint Dependency section, add one repository-standard note:
+
+> **Accounting Dependency.** All accounting behavior required by MOD-003 is consumed through `MOD002_ACCOUNTING_BASELINE_v1`. Sales owns commercial document lifecycle; Accounting owns accounting lifecycle. Ownership boundaries established by the Accounting baseline SHALL NOT be redefined in Sales Sprint PRDs.
+
+## 2. Not Changed
+
+- Sprint sequencing (linear 001 → 002 → 003 → 004 → 005 → 006).
+- Sprint IDs, sizes, and objectives.
+- Sprint scopes and out-of-scope items.
+- ERP Core Engine consumption map.
+- ADR consumption map.
+- Cross-Sprint dependency matrix (other than the single Accounting dependency note).
+- Risks, assumptions, module completion criteria, and non-goals.
+- Sales README (`docs/30-sprint-prds/sales/README.md`).
+- Governance registrations (`DOCUMENT_INDEX.md`, `_meta.json`, `REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md`, `.lovable/plan.md`).
+- Module PRDs, Sprint Catalog, Module Baseline Catalog, Module Baselines, ERP Core Engines, ADRs, Event Catalog, architecture documents, APIs, database, schema, UI, code.
+
+## 3. Verification
+
+- No Sprint sequencing changes.
+- No Sprint scope changes.
+- No new Sprint IDs.
+- No new governance conventions.
+- No changes to Module PRDs.
+- No changes to `MOD002_ACCOUNTING_BASELINE_v1`.
+- No changes to ERP Core Engines, ADRs, Event Catalog, or architecture documents.
+- Diff confined to wording within `MOD-003_SPRINT_PLAN.md`.
+- `MOD-003_SPRINT_PLAN.md` appears exactly once in `DOCUMENT_INDEX.md`.
+- `_meta.json` contains exactly one sidebar registration.
+- Sales README still links the Sprint Plan and lists SPR-MOD-003-001 through SPR-MOD-003-006.
+
+## 4. Outcome
+
+`MOD-003_SPRINT_PLAN.md` explicitly reflects the repository-wide Accounting ownership model before Sprint PRDs are authored, reducing the possibility of ownership drift during Stage 2 while preserving the existing Sales Sprint Plan. This wording provides a reusable pattern for future commercial modules (Purchase, POS, Payroll, Projects, CRM, etc.) when consuming `MOD002_ACCOUNTING_BASELINE_v1`; formal repository-wide standardization, if desired, remains a future governance decision. MOD-003 remains prepared for **Pass 8.4.1 — SPR-MOD-003-001 (Sales Foundation)**.

@@ -101,7 +101,9 @@ Derived documents SHOULD be regenerated or reviewed whenever an authoritative do
 
 - **Adding an engine capability** — Author or bump the engine spec under `docs/10-erp-core/`. Update `ENGINE_CATALOG.md` (version, dependencies), `ENGINE_USAGE_MATRIX.md` (consumers, if changed), and any ADR whose `affected_documents` list the engine. If the change is architectural, first raise an ADR in `docs/11-adrs/`; only after Accepted status does the engine spec change.
 - **Superseding an ADR** — Create the replacement ADR in the same category range, set the old ADR's status to `Superseded` with `superseded_by`, and update both rows in `ADR_INDEX.md` and `ADR_IMPACT_MATRIX.md` in the same change.
+- **Introducing a Module Sprint Plan (Stage 1)** — Create the plan under `docs/30-sprint-prds/<module>/MOD-<NNN>_SPRINT_PLAN.md`, reserve sprint identifiers against the parent Module PRD, declare engine and ADR consumption from `ENGINE_CATALOG.md` and `ADR_INDEX.md`, and add a registration to `DOCUMENT_INDEX.md`, `_meta.json`, and the module folder README. Example: `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md`.
 - **Introducing a new Module PRD (Pass 7+)** — Copy `docs/99-templates/module-prd-template.md`, reference the engines it consumes by `ENG-NNN`, reference every ADR it depends on, and add a row to `MODULE_CATALOG.md`. The PRD MUST NOT redefine any engine, ADR, or architectural pattern.
+
 
 ## References
 

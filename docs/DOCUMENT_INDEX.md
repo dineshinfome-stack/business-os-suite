@@ -76,6 +76,8 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Module Implementation Workflow | Delivery | Approved | Authoritative | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` |
 | MOD-001 Platform Administration — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN.md` |
 | MOD-002 Accounting — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/accounting/MOD-002_SPRINT_PLAN.md` |
+| MOD-003 Sales — Sprint Plan (Stage 1) | Delivery | Planning | Authoritative | `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md` |
+
 
 ### B
 

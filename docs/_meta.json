@@ -972,9 +972,14 @@
           "path": "30-sprint-prds/sales/README"
         },
         {
+          "title": "MOD-003 Sales — Sprint Plan (Stage 1)",
+          "path": "30-sprint-prds/sales/MOD-003_SPRINT_PLAN"
+        },
+        {
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },
+
         {
           "title": "MOD-005 Inventory",
           "path": "30-sprint-prds/inventory/README"

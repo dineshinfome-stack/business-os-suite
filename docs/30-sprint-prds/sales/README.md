@@ -4,7 +4,7 @@ summary: "Sprint PRDs for Sales (MOD-003). Sprint identifiers are prefixed SPR-M
 layer: "delivery"
 owner: "Revenue"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-07"
 module_id: "MOD-003"
 sprint_prefix: "SPR-MOD-003-"
 tags: ["sprint", "prd", "readme"]
@@ -22,6 +22,10 @@ document_type: "Sprint Module Guide"
 - **Module README:** [`../../20-module-prds/sales/README.md`](../../20-module-prds/sales/README.md)
 - **Module PRD (authoritative):** [`../../20-module-prds/sales/MODULE_PRD.md`](../../20-module-prds/sales/MODULE_PRD.md)
 
+## Stage 1 — Sprint Planning
+
+The Stage 1 Sprint Plan for MOD-003 Sales is [`MOD-003_SPRINT_PLAN.md`](./MOD-003_SPRINT_PLAN.md). It reserves six Sprint identifiers and defines the sequence, engine/ADR consumption, dependencies, and exit criteria that will govern Stage 2 authoring. **No Sprint PRDs exist yet.**
+
 ## Sprint Identifier Prefix
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-003-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-003-001`, `SPR-MOD-003-002`, …). Identifiers are permanent and never reused.
@@ -32,12 +36,12 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-003-NNN`**, where `NNN`
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-003-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-003)_ | Planned | _(to be defined)_ |
-| SPR-MOD-003-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-003)_ | Planned | _(to be defined)_ |
-| SPR-MOD-003-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-003)_ | Planned | _(to be defined)_ |
-| SPR-MOD-003-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-003)_ | Planned | _(to be defined)_ |
-| SPR-MOD-003-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-003)_ | Planned | _(to be defined)_ |
-| SPR-MOD-003-006 | Sprint 6 | _(to be defined in Pass 8.x — parent MOD-003)_ | Planned | _(to be defined)_ |
+| SPR-MOD-003-001 | Sprint 1 | Sales Foundation | Planned | `MOD001_PLATFORM_BASELINE_v1` |
+| SPR-MOD-003-002 | Sprint 2 | Quotations & Sales Orders | Planned | `SPR-MOD-003-001` |
+| SPR-MOD-003-003 | Sprint 3 | Delivery & Fulfillment | Planned | `SPR-MOD-003-002` |
+| SPR-MOD-003-004 | Sprint 4 | Sales Invoicing | Planned | `SPR-MOD-003-003` |
+| SPR-MOD-003-005 | Sprint 5 | Returns & Customer Adjustments | Planned | `SPR-MOD-003-002`, `SPR-MOD-003-004` |
+| SPR-MOD-003-006 | Sprint 6 | Sales Analytics & Controls | Planned | `SPR-MOD-003-001` … `SPR-MOD-003-005` |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
 
@@ -49,6 +53,7 @@ The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6*
 - Use [`docs/99-templates/sprint-prd-template.md`](../../99-templates/sprint-prd-template.md).
 - Do not add business requirements that are not first captured in the parent Module PRD.
 - Reference upstream layers by stable identifier (`ENG-NNN`, `ADR-NNN`, `MOD-NNN`).
+- All accounting behavior is consumed through `MOD002_ACCOUNTING_BASELINE_v1`; Sales owns commercial document lifecycle, Accounting owns accounting lifecycle.
 
 ## References
 
@@ -60,3 +65,4 @@ The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6*
 - [`../../20-module-prds/sales/MODULE_PRD.md`](../../20-module-prds/sales/MODULE_PRD.md)
 - [`../../99-templates/sprint-prd-template.md`](../../99-templates/sprint-prd-template.md)
 - [`../../SPRINT_CATALOG.md`](../../SPRINT_CATALOG.md)
+- [`./MOD-003_SPRINT_PLAN.md`](./MOD-003_SPRINT_PLAN.md)
