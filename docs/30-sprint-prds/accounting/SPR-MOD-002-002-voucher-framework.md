@@ -363,14 +363,55 @@ If any exit criterion is not met, the sprint MUST NOT move to `Done`.
 
 ## 14. Risks and Assumptions
 
-- **R1 — Upstream sprint dependency.** This sprint assumes `SPR-MOD-002-001` (Accounting Foundation) is `Done` and its master data (CoA, ledger accounts, fiscal year, accounting periods, base configuration) is available under every tenant / company that participates in this sprint's smoke fixtures.
-- **R2 — Platform baseline dependency.** Assumes `MOD001_PLATFORM_BASELINE_v1` is frozen and available for tenancy, users/roles/permissions, configuration hierarchy, and audit review. Any regression against that baseline blocks this sprint.
-- **R3 — Downstream deferrals.** Ledger posting, tax computation, financial statements, and period close are deferred to `SPR-MOD-002-003` … `SPR-MOD-002-006`. Assumption: these deferrals hold; this sprint does not silently absorb their scope. In particular, the debit-equals-credit rule is declared as a contract here but **enforced** at ledger level in `SPR-MOD-002-003`.
-- **R4 — Posting engine as read-only contract.** `ENG-016` Posting is referenced by the framework only as a forward-compatibility contract. Assumption: the posting engine's contract will accept the voucher shape defined here without weakening immutability or reversal semantics.
-- **R5 — ADR acceptance.** All referenced ADRs (`ADR-011`, `ADR-014`, `ADR-032`, `ADR-051`) are Accepted at authoring time. If any becomes non-Accepted, this sprint is re-planned.
-- **R6 — Event delivery.** Voucher-lifecycle events rely on `ENG-024` delivery guarantees stated in `ADR-051`. Assumption: those guarantees hold; this sprint does not redefine them.
-- **R7 — Cross-module contract enforcement.** The framework declares itself as the sole entry point to the Accounting transaction lifecycle. Assumption: downstream modules (MOD-003, MOD-004, MOD-008, MOD-015) will consume the framework rather than attempt to write ledger entries directly. Framework-level refusal of direct ledger writes is required (§5.6).
-- **R8 — Numbering series availability.** Assumption: `ENG-017` numbering series are configured per voucher type by tenant configuration before the first voucher of that type is created. If a series is missing, voucher creation is refused deterministically rather than silently generated.
+Each risk uses the reusable five-field shape: **Risk ID**, **Description**, **Impact**, **Mitigation**, **Status**. Status values are drawn from the working vocabulary `Open` (active), `Mitigated` (residual only), `Accepted` (consciously accepted), `Deferred` (postponed), and `Closed` (no longer applicable). Repository-wide ratification of this vocabulary is queued for a future governance pass and is not performed here.
+
+- **Risk ID:** R-01
+  - **Description:** This sprint depends on `SPR-MOD-002-001` (Accounting Foundation) being `Done` with CoA, ledger accounts, fiscal year, accounting periods, and base configuration available under every participating tenant / company.
+  - **Impact:** Missing or incomplete foundation master data blocks voucher lifecycle exercises and smoke fixtures.
+  - **Mitigation:** Gate this sprint's smoke fixtures on the foundation seed; treat missing foundation as an upstream defect.
+  - **Status:** Open
+
+- **Risk ID:** R-02
+  - **Description:** This sprint depends on `MOD001_PLATFORM_BASELINE_v1` being frozen and available for tenancy, users/roles/permissions, configuration hierarchy, and audit review.
+  - **Impact:** Any regression against the platform baseline blocks this sprint.
+  - **Mitigation:** Rely on the frozen baseline contract; treat regressions as baseline defects and re-plan.
+  - **Status:** Open
+
+- **Risk ID:** R-03
+  - **Description:** Ledger posting, tax computation, financial statements, and period close are deferred to `SPR-MOD-002-003` … `SPR-MOD-002-006`. The debit-equals-credit rule is declared here as a contract but enforced at ledger level in `SPR-MOD-002-003`.
+  - **Impact:** Silent absorption of downstream scope would violate sprint boundaries.
+  - **Mitigation:** Enforce the §1.3 out-of-scope list; keep balance enforcement in `SPR-MOD-002-003`.
+  - **Status:** Open
+
+- **Risk ID:** R-04
+  - **Description:** `ENG-016` Posting is referenced by the framework only as a forward-compatibility contract.
+  - **Impact:** If the posting engine's contract weakens immutability or reversal semantics, the framework's guarantees are undermined.
+  - **Mitigation:** Consume `ENG-016` as a read-only contract in this sprint; require future posting work to accept the voucher shape without weakening immutability or reversal semantics.
+  - **Status:** Open
+
+- **Risk ID:** R-05
+  - **Description:** All referenced ADRs (`ADR-011`, `ADR-014`, `ADR-032`, `ADR-051`) are Accepted at authoring time.
+  - **Impact:** If any becomes non-Accepted, this sprint's contract is invalidated.
+  - **Mitigation:** Re-plan this sprint if the acceptance status of any referenced ADR changes.
+  - **Status:** Open
+
+- **Risk ID:** R-06
+  - **Description:** Voucher-lifecycle events rely on `ENG-024` delivery guarantees stated in `ADR-051`.
+  - **Impact:** Weakened delivery guarantees would break consumer contracts.
+  - **Mitigation:** Consume `ENG-024` per `ADR-051` without redefining delivery semantics.
+  - **Status:** Open
+
+- **Risk ID:** R-07
+  - **Description:** The framework declares itself as the sole entry point to the Accounting transaction lifecycle; downstream modules (MOD-003, MOD-004, MOD-008, MOD-015) must consume it rather than attempt direct ledger writes.
+  - **Impact:** Direct ledger writes by downstream modules would fracture the entry-point contract.
+  - **Mitigation:** Framework-level refusal of direct ledger writes is required (§5.6).
+  - **Status:** Open
+
+- **Risk ID:** R-08
+  - **Description:** `ENG-017` numbering series must be configured per voucher type by tenant configuration before the first voucher of that type is created.
+  - **Impact:** Missing series would otherwise cause silent voucher creation defects.
+  - **Mitigation:** Refuse voucher creation deterministically when a series is missing rather than silently generating a number.
+  - **Status:** Open
 
 ---
 
