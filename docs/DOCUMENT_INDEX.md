@@ -264,6 +264,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-002-004 — Financial Statements | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md` |
 | SPR-MOD-002-005 — Taxation & Compliance Foundation | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md` |
 | SPR-MOD-002-006 — Period Close & Audit | Delivery | Done | Authoritative | `docs/30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md` |
+| SPR-MOD-003-001 — Sales Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
