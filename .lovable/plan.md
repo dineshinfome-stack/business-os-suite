@@ -93,3 +93,25 @@ Module PRDs, MOD-002 Sprint Plan, SPR-MOD-002-001, SPR-MOD-002-002, SPR-MOD-002-
 ## 10. Outcome
 
 `SPR-MOD-002-004-financial-statements.md` becomes the fourth Accounting Sprint PRD, establishing the repository-standard financial reporting layer built exclusively on authoritative ledger movements while preserving ownership boundaries established by Sprints 001–003 and the architecture-doc immutability rule for Sprint PRD authoring. Positions MOD-002 for **Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation)**.
+
+---
+
+## Execution Record — Pass 8.3.4
+
+**Executed:** 2026-07-07
+**Outcome:** Authored `SPR-MOD-002-004-financial-statements.md` as the fourth Accounting Sprint PRD, establishing the repository-standard financial reporting layer (Trial Balance, GL, P&L, Balance Sheet, Cash Flow) as deterministic projections of the authoritative ledger. Introduced five governance conventions: Financial Reporting Ownership, Ledger Consumption, Report Determinism Rule, Reporting Read Model Convention, and Financial Statement Boundary. Engine IDs (`ENG-002`, `ENG-004`, `ENG-018`, `ENG-021`, `ENG-024`) match the authoritative `ENGINE_CATALOG.md`/`ENGINE_USAGE_MATRIX.md` verbatim. Structural parity with SPR-MOD-002-001/002/003 maintained (identical 18-section structure).
+
+**Event Catalog governance preserved.** Sprint PRD authoring is documentation-only and did NOT modify `docs/02-architecture/event-catalog.md`. The expected reporting event surface is documented but publication is conditional on registration by a dedicated architecture pass; the gap is recorded as Risk R-EV-01.
+
+**Files created:**
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`
+
+**Files edited (derived indexes only):**
+- `docs/SPRINT_CATALOG.md` — added SPR-MOD-002-004 row (Draft)
+- `docs/30-sprint-prds/accounting/README.md` — Sprint 4 placeholder replaced with authored link, status Draft
+- `docs/DOCUMENT_INDEX.md` — one authoritative entry added
+- `docs/_meta.json` — one registration added
+
+**No architecture documents modified.**
+
+**Positions MOD-002 for:** Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation).
