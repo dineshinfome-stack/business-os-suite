@@ -361,16 +361,67 @@ If any exit criterion is not met, the sprint MUST NOT move to `Done`.
 
 ## 14. Risks and Assumptions
 
-- **R1 — Upstream sprint dependency.** This sprint assumes `SPR-MOD-002-002` (Voucher Framework) is `Done` and voucher-lifecycle events are emitted reliably. Any regression in voucher lifecycle or immutability blocks this sprint.
-- **R2 — Transitive upstream dependency.** Assumes `SPR-MOD-002-001` (Accounting Foundation) master data — Chart of Accounts, account classifications, fiscal year, accounting periods, and period state — is available under every tenant / company that participates in this sprint's smoke fixtures.
-- **R3 — Platform baseline dependency.** Assumes `MOD001_PLATFORM_BASELINE_v1` is frozen and available for tenancy, users/roles/permissions, configuration hierarchy, and audit review. Any regression against that baseline blocks this sprint.
-- **R4 — Downstream deferrals.** Financial statements, tax computation and posting, and period lifecycle are deferred to `SPR-MOD-002-004`, `SPR-MOD-002-005`, and `SPR-MOD-002-006`. Assumption: these deferrals hold; this sprint does not silently absorb their scope. In particular, period-close semantics remain owned by `SPR-MOD-002-006`.
-- **R5 — Posting engine contract.** `ENG-016` Posting is consumed as shared infrastructure. Assumption: its contract accepts the journal shape defined here without weakening immutability, balance integrity, or reversal semantics.
-- **R6 — Currency engine contract.** `ENG-018` Currency is consumed for multi-currency conversion. Assumption: currency scope and conversion utilities are stable and do not implicitly cross-currency-net journal entries at posting time.
-- **R7 — ADR acceptance.** All referenced ADRs (`ADR-011`, `ADR-013`, `ADR-014`, `ADR-015`, `ADR-032`, `ADR-051`, `ADR-053`) are Accepted at authoring time. If any becomes non-Accepted, this sprint is re-planned.
-- **R8 — Event delivery.** Posting-lifecycle events rely on `ENG-024` delivery guarantees stated in `ADR-051`. Assumption: those guarantees hold; this sprint does not redefine them.
-- **R9 — Ledger access boundary enforcement.** Downstream modules will consume accounting movements only via events or approved read services. Framework-level refusal of direct ledger access is required (§5.8).
-- **R10 — Idempotency.** Posting is triggered by voucher-lifecycle events; delivery is at-least-once. Assumption: posting is idempotent per `ADR-015`, so retries produce no duplicate journal entries or ledger rows.
+Each risk uses the reusable five-field shape: **Risk ID**, **Description**, **Impact**, **Mitigation**, **Status**. Status values are drawn from the working vocabulary `Open` (active), `Mitigated` (residual only), `Accepted` (consciously accepted), `Deferred` (postponed), and `Closed` (no longer applicable). Repository-wide ratification of this vocabulary is queued for a future governance pass and is not performed here.
+
+- **Risk ID:** R-01
+  - **Description:** This sprint depends on `SPR-MOD-002-002` (Voucher Framework) being `Done` with voucher-lifecycle events emitted reliably.
+  - **Impact:** Any regression in voucher lifecycle or immutability blocks this sprint.
+  - **Mitigation:** Gate this sprint on `SPR-MOD-002-002` completion; treat regressions as upstream defects.
+  - **Status:** Open
+
+- **Risk ID:** R-02
+  - **Description:** Transitive dependency on `SPR-MOD-002-001` master data — CoA, account classifications, fiscal year, accounting periods, and period state — under every participating tenant / company.
+  - **Impact:** Missing foundation data blocks posting exercises and smoke fixtures.
+  - **Mitigation:** Consume foundation seeds; treat missing foundation state as an upstream defect.
+  - **Status:** Open
+
+- **Risk ID:** R-03
+  - **Description:** This sprint depends on `MOD001_PLATFORM_BASELINE_v1` being frozen and available for tenancy, users/roles/permissions, configuration hierarchy, and audit review.
+  - **Impact:** Any regression against the platform baseline blocks this sprint.
+  - **Mitigation:** Rely on the frozen baseline contract; treat regressions as baseline defects and re-plan.
+  - **Status:** Open
+
+- **Risk ID:** R-04
+  - **Description:** Financial statements, tax computation and posting, and period lifecycle are deferred to `SPR-MOD-002-004`, `SPR-MOD-002-005`, and `SPR-MOD-002-006`. Period-close semantics remain owned by `SPR-MOD-002-006`.
+  - **Impact:** Silent absorption of downstream scope would violate sprint boundaries.
+  - **Mitigation:** Enforce the §1.3 out-of-scope list; consume period state without redefining lifecycle.
+  - **Status:** Open
+
+- **Risk ID:** R-05
+  - **Description:** `ENG-016` Posting is consumed as shared infrastructure and must accept the journal shape defined here without weakening immutability, balance integrity, or reversal semantics.
+  - **Impact:** A weaker posting contract would compromise ledger guarantees.
+  - **Mitigation:** Consume `ENG-016` per its authoritative contract; escalate weakening as an engine defect.
+  - **Status:** Open
+
+- **Risk ID:** R-06
+  - **Description:** `ENG-018` Currency is consumed for multi-currency conversion and must not implicitly cross-currency-net journal entries at posting time.
+  - **Impact:** Implicit netting would violate the Balance Integrity Rule per currency.
+  - **Mitigation:** Consume `ENG-018` per its authoritative contract; enforce per-currency balancing at the journal boundary.
+  - **Status:** Open
+
+- **Risk ID:** R-07
+  - **Description:** All referenced ADRs (`ADR-011`, `ADR-013`, `ADR-014`, `ADR-015`, `ADR-032`, `ADR-051`, `ADR-053`) are Accepted at authoring time.
+  - **Impact:** If any becomes non-Accepted, this sprint's contract is invalidated.
+  - **Mitigation:** Re-plan this sprint if the acceptance status of any referenced ADR changes.
+  - **Status:** Open
+
+- **Risk ID:** R-08
+  - **Description:** Posting-lifecycle events rely on `ENG-024` delivery guarantees stated in `ADR-051`.
+  - **Impact:** Weakened delivery guarantees would break consumer contracts.
+  - **Mitigation:** Consume `ENG-024` per `ADR-051` without redefining delivery semantics.
+  - **Status:** Open
+
+- **Risk ID:** R-09
+  - **Description:** Downstream modules must consume accounting movements only via events or approved read services.
+  - **Impact:** Direct ledger access by consumers would fracture the Ledger Access Boundary.
+  - **Mitigation:** Framework-level refusal of direct ledger access is required (§5.8).
+  - **Status:** Open
+
+- **Risk ID:** R-10
+  - **Description:** Posting is triggered by voucher-lifecycle events; delivery is at-least-once.
+  - **Impact:** Non-idempotent posting would produce duplicate journal entries or ledger rows on retry.
+  - **Mitigation:** Ensure posting is idempotent per `ADR-015` so retries produce no duplicates.
+  - **Status:** Open
 
 ---
 

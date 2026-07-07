@@ -1,117 +1,93 @@
-# Pass 8.3.4 — Author SPR-MOD-002-004 (Financial Statements)
+# Pass 8.3.4-R — Normalize Risk Register Format (R-EV-01 and siblings)
 
-Documentation-only. Fourth Accounting Sprint PRD. Continues Stage 2 of `MODULE_IMPLEMENTATION_WORKFLOW.md` for MOD-002 Accounting. Extends Journal & Ledger Posting (SPR-MOD-002-003) into the repository-standard financial reporting layer without redefining voucher, journal, ledger, or period ownership.
+Documentation-only micro-pass. Introduces a reusable, repository-standard Risk Register format across the four authored Accounting Sprint PRDs so that later baselines (`MOD002_ACCOUNTING_BASELINE_v1`) can consume risks uniformly. No architecture documents modified; no new governance conventions ratified in this pass.
 
-## 1. Create Sprint PRD
+## 1. Scope
 
-`docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`, using `docs/99-templates/sprint-prd-template.md`.
+Rewrite the **Risks and Assumptions** section (§14) of each authored Accounting Sprint PRD so every risk uses the following fixed shape:
 
-**Structural Parity Requirement.** Maintain the identical 18-section structure established by SPR-MOD-002-001, SPR-MOD-002-002, and SPR-MOD-002-003. Section ordering, governance callouts, dependency block, traceability matrix, engine consumption, ADR consumption, events, acceptance criteria, DoD, Exit Criteria, Risks, Test Strategy, Implementation Notes, Review Gate, and References remain structurally identical. Scope below defines section **content only**.
+- **Risk ID** — stable identifier (e.g. `R-EV-01`, `R-01`).
+- **Description** — the risk in one sentence.
+- **Impact** — what breaks or is delayed if the risk materializes.
+- **Mitigation** — concrete mitigation or containment action.
+- **Status** — one of `Open`, `Mitigated`, `Accepted`, `Deferred` (see §3 for the working status vocabulary).
 
-### In Scope
+Preserve every current risk statement verbatim in its Description field; do not delete or invent risks. Assumption clauses embedded inside current risk paragraphs are lifted into the appropriate slot (typically Description or Mitigation) without changing meaning.
 
-Trial Balance; General Ledger report; Profit & Loss; Balance Sheet; Cash Flow; account activity reporting; comparative reporting across accounting periods; opening/closing balance presentation; report parameterization (period, branch, company, financial year); multi-company reporting boundaries; multi-currency presentation using stored accounting values; report export readiness; audit traceability from report line back to ledger entries; financial reporting events.
+R-EV-01 in SPR-MOD-002-004 becomes the canonical example:
 
-### Out of Scope
+- **Risk ID:** R-EV-01
+- **Description:** Reporting event definitions are not yet present in the authoritative Event Catalog.
+- **Impact:** Financial reporting events cannot be formally referenced or published until Event Catalog governance is updated.
+- **Mitigation:** Execute a dedicated Event Catalog governance pass before implementation or baseline freeze; until then, affected report families function without event emission.
+- **Status:** Deferred
 
-Tax reports (Sprint 005); period close (Sprint 006); consolidation; budgeting; forecasting; analytics dashboards; BI cubes; regulatory reporting; AI insights; custom report designer.
+## 2. Files Rewritten (§14 only)
 
-## 2. Governance Conventions Introduced
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`
 
-- **§1.1 Financial Reporting Ownership Convention** — Accounting owns semantics of Trial Balance, GL, P&L, Balance Sheet, Cash Flow. No downstream module may redefine accounting report calculations.
-- **§1.2 Ledger Consumption Convention** — Reports consume authoritative ledger movements from SPR-MOD-002-003. Reports MUST NOT reconstruct transactions from vouchers or source documents. Ledger is the single authoritative source.
-- **§1.3 Report Determinism Rule** — Identical parameters against an unchanged ledger MUST produce identical output. Reports are deterministic projections of ledger state.
-- **§1.4 Reporting Read Model Convention** — Reports expose repository-approved read models. Read models MAY optimize performance but MUST NOT become independent sources of accounting truth; ledger remains authoritative.
-- **§1.5 Financial Statement Boundary** — Reports describe position only. They MUST NOT post, modify journals, create vouchers, reopen periods, calculate taxes, or change ledger balances.
+All other sections in these files remain unchanged. Structural parity across the 18-section shape is preserved — only §14 rows change form, not location or count.
 
-## 3. Dependencies
+## 3. Working Status Vocabulary (used by this pass; not yet ratified as a repository standard)
 
-- **Upstream:** MOD001_PLATFORM_BASELINE_v1; SPR-MOD-002-001; SPR-MOD-002-002; SPR-MOD-002-003 (direct predecessor).
-- **Downstream:** SPR-MOD-002-005 (Taxation & Compliance); SPR-MOD-002-006 (Period Close & Audit). Consumer modules: MOD-003, MOD-004, MOD-005, MOD-008, MOD-015, MOD-017, MOD-018.
+The four rewrites use the following working status vocabulary. Meanings are consumed here only; **no** Sprint Authoring Guide, ADR, or other architecture document is modified in this pass.
 
-## 4. Engine & ADR References
+| Status | Meaning |
+| --- | --- |
+| `Open` | Active risk requiring attention. |
+| `Mitigated` | Mitigation implemented; residual risk remains. |
+| `Accepted` | Risk consciously accepted; no further action planned. |
+| `Deferred` | Postponed to a later governance or implementation pass. |
+| `Closed` *(optional)* | No longer applicable. |
 
-Consume only the engines required by the Accounting Module PRD, using the exact identifiers from `docs/10-erp-core/ENGINE_CATALOG.md` and `docs/ENGINE_USAGE_MATRIX.md`. No new engine identifiers introduced. Expected consumption spans Reporting, Currency, Audit, Event, Authorization, and Configuration engines — resolved to authoritative ENG identifiers at authoring time.
+**Standardization deferred.** Ratifying this vocabulary as a repository-wide standard (via an update to `docs/SPRINT_AUTHORING_GUIDE.md` and/or a dedicated documentation governance ADR) is **out of scope for this pass** and is queued as a future governance pass, ideally executed alongside additional module freezes so the standard is written once and applied uniformly across all modules. Recorded in `.lovable/plan.md` as a follow-up so it does not get lost.
 
-Only Accepted ADRs referenced; identifiers match the ADR catalog verbatim.
+## 4. Not Changed
 
-## 5. Events
+- No governance conventions added or modified in Sprint PRDs.
+- No new risks introduced; no existing risks removed.
+- No changes to `SPRINT_CATALOG.md`, `DOCUMENT_INDEX.md`, `_meta.json`, or accounting `README.md` (registrations already correct).
+- No changes to Module PRDs, Sprint Plan, baselines, engines, ADRs, architecture docs, event catalog, `SPRINT_AUTHORING_GUIDE.md`, APIs, database, schema, UI, or code.
+- No changes to acceptance criteria, DoD, or Exit Criteria.
 
-Financial reporting events follow the repository-wide Event Catalog and the single-entity dotted namespace precedent from Sprints 002/003. Expected event surface:
+## 5. Execution Record
 
-- `financialstatement.generated`
-- `trialbalance.generated`
-- `balancesheet.generated`
-- `profitloss.generated`
-- `cashflow.generated`
+Append a short Pass 8.3.4-R record to `.lovable/plan.md` noting:
 
-**Event Catalog governance (architecture-doc immutability preserved).** Sprint PRD authoring is documentation-only and MUST NOT modify `docs/02-architecture/event-catalog.md`. The Sprint PRD references only event names that already exist in the authoritative Event Catalog at authoring time. If any of the expected events above is not present in the catalog, the Sprint PRD either (a) references the closest authoritative equivalent that already exists, or (b) records the gap in Risks/Assumptions and defers publication of that specific event until a dedicated Event Catalog governance pass introduces it. New event definitions require a separate, explicitly authorized architecture pass — never this pass.
+- The four §14 rewrites and risk-content preservation.
+- The working status vocabulary applied by this pass.
+- A follow-up entry to ratify the status vocabulary as a repository standard in a future governance pass (Sprint Authoring Guide update).
 
-## 6. Acceptance Criteria (observable, business-outcome only)
+## 6. Verification
 
-- Trial Balance balances to zero.
-- Balance Sheet satisfies Assets = Liabilities + Equity.
-- P&L derives exclusively from posted ledger movements.
-- General Ledger reconciles exactly with account balances.
-- Cash Flow derives from authoritative accounting movements.
-- Reports generated twice against identical ledger state produce identical output (determinism).
-- Reports respect tenant, company, branch, and financial-year boundaries.
-- Report output is fully traceable back to journal entries.
-- Unauthorized report access is rejected.
-- Report generation is audited.
-- Reporting events are emitted per the Event Catalog, using only names that exist in the authoritative catalog at authoring time.
+- Every §14 row in the four files uses the five-field shape.
+- Every original risk statement remains present (by content, in Description).
+- Every Status value is drawn from the working vocabulary in §3.
+- No file outside the four Accounting Sprint PRDs changes.
+- Diff for each file is confined to §14.
 
-## 7. Governance Registrations (derived indexes only)
+## 7. Outcome
 
-- `docs/SPRINT_CATALOG.md` — replace Sprint 004 planned row with Draft.
-- `docs/30-sprint-prds/accounting/README.md` — replace Sprint 004 placeholder with authored PRD link.
-- `docs/DOCUMENT_INDEX.md` — exactly one entry.
-- `docs/_meta.json` — exactly one registration.
-- `.lovable/plan.md` — append Pass 8.3.4 execution record.
-
-No architecture documents modified. No category-level registrations. `docs/02-architecture/event-catalog.md` is **not** edited in this pass.
-
-## 8. Repository Verification (per `docs/SPRINT_AUTHORING_GUIDE.md` §13)
-
-- Exactly one `DOCUMENT_INDEX.md` entry.
-- Exactly one Draft row in `SPRINT_CATALOG.md`.
-- Exactly one `_meta.json` registration.
-- Accounting README links Sprint 004.
-- Structural parity with SPR-MOD-002-001/002/003.
-- Every capability traces to `docs/20-module-prds/accounting/MODULE_PRD.md`.
-- Only Accepted ADRs referenced.
-- Engine IDs match `ENGINE_CATALOG.md`/`ENGINE_USAGE_MATRIX.md` verbatim.
-- Every event name referenced in the Sprint PRD already exists in `docs/02-architecture/event-catalog.md`; any gap is recorded in Risks/Assumptions rather than resolved by editing the catalog.
-- Financial Statements consume ledger state only.
-- No content redefines voucher, journal, ledger, or period ownership.
-- No architecture documents modified by this pass.
-
-## 9. Not Changed
-
-Module PRDs, MOD-002 Sprint Plan, SPR-MOD-002-001, SPR-MOD-002-002, SPR-MOD-002-003, SPR-MOD-002-005, SPR-MOD-002-006, Module Baselines, ERP Core Engines, ADRs, architecture documentation (including `event-catalog.md`), APIs, database, schema, UI, implementation code.
-
-## 10. Outcome
-
-`SPR-MOD-002-004-financial-statements.md` becomes the fourth Accounting Sprint PRD, establishing the repository-standard financial reporting layer built exclusively on authoritative ledger movements while preserving ownership boundaries established by Sprints 001–003 and the architecture-doc immutability rule for Sprint PRD authoring. Positions MOD-002 for **Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation)**.
+The four authored Accounting Sprint PRDs share a uniform Risk Register format with an explicit working status vocabulary, unblocking clean baseline consumption. Repository-wide ratification of the status vocabulary is queued as a future governance pass. Next step after this micro-pass is **Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation)** when you share the prompt.
 
 ---
 
-## Execution Record — Pass 8.3.4
+## Execution Record — Pass 8.3.4-R (Risk Register Normalization)
 
 **Executed:** 2026-07-07
-**Outcome:** Authored `SPR-MOD-002-004-financial-statements.md` as the fourth Accounting Sprint PRD, establishing the repository-standard financial reporting layer (Trial Balance, GL, P&L, Balance Sheet, Cash Flow) as deterministic projections of the authoritative ledger. Introduced five governance conventions: Financial Reporting Ownership, Ledger Consumption, Report Determinism Rule, Reporting Read Model Convention, and Financial Statement Boundary. Engine IDs (`ENG-002`, `ENG-004`, `ENG-018`, `ENG-021`, `ENG-024`) match the authoritative `ENGINE_CATALOG.md`/`ENGINE_USAGE_MATRIX.md` verbatim. Structural parity with SPR-MOD-002-001/002/003 maintained (identical 18-section structure).
+**Outcome:** Rewrote §14 (Risks and Assumptions) in the four authored Accounting Sprint PRDs to use the reusable five-field shape (Risk ID / Description / Impact / Mitigation / Status). All original risk content preserved verbatim in Description; assumption clauses lifted into Mitigation where appropriate. Working status vocabulary (`Open` / `Mitigated` / `Accepted` / `Deferred` / `Closed`) documented in each §14 preamble.
 
-**Event Catalog governance preserved.** Sprint PRD authoring is documentation-only and did NOT modify `docs/02-architecture/event-catalog.md`. The expected reporting event surface is documented but publication is conditional on registration by a dedicated architecture pass; the gap is recorded as Risk R-EV-01.
-
-**Files created:**
+**Files edited (§14 only):**
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting.md`
 - `docs/30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`
 
-**Files edited (derived indexes only):**
-- `docs/SPRINT_CATALOG.md` — added SPR-MOD-002-004 row (Draft)
-- `docs/30-sprint-prds/accounting/README.md` — Sprint 4 placeholder replaced with authored link, status Draft
-- `docs/DOCUMENT_INDEX.md` — one authoritative entry added
-- `docs/_meta.json` — one registration added
+**No architecture documents or governance documents modified.** No changes to registrations, engines, ADRs, `SPRINT_AUTHORING_GUIDE.md`, or the Event Catalog.
 
-**No architecture documents modified.**
+**Follow-up queued:** Ratify the risk-status vocabulary as a repository-wide standard via a dedicated future governance pass (Sprint Authoring Guide update and/or documentation governance ADR), ideally alongside additional module freezes so the standard is written once and applied uniformly across all modules.
 
-**Positions MOD-002 for:** Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation).
+**Positions MOD-002 for:** Pass 8.3.5 — SPR-MOD-002-005 (Taxation & Compliance Foundation) when the prompt is provided.

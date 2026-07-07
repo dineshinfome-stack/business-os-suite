@@ -318,12 +318,43 @@ If any exit criterion is not met, the sprint MUST NOT move to `Done`.
 
 ## 14. Risks and Assumptions
 
-- **R1 — Platform baseline dependency.** MOD-002 assumes `MOD001_PLATFORM_BASELINE_v1` is frozen and available for tenancy, company/branch hierarchy, users/roles/permissions, configuration hierarchy, localization, and audit review. Any regression against that baseline blocks this sprint.
-- **R2 — Downstream deferrals.** Vouchers, posting, financials, taxation, and period close are deferred to `SPR-MOD-002-002` … `SPR-MOD-002-006`. Assumption: these deferrals hold; this sprint does not silently absorb their scope.
-- **R3 — ADR acceptance.** All referenced ADRs (`ADR-011`, `ADR-012`, `ADR-014`, `ADR-032`, `ADR-051`) are Accepted at authoring time. If any becomes non-Accepted, this sprint is re-planned.
-- **R4 — Event delivery.** Accounting-foundation events rely on `ENG-024` delivery guarantees stated in `ADR-051`. Assumption: those guarantees hold; this sprint does not redefine them.
-- **R5 — Opening balance readiness vs. posting.** The CoA and period structure are prepared to receive opening balances, but opening-balance posting is not delivered here. Assumption: `SPR-MOD-002-003` (posting) delivers opening-balance posting on the structure defined here without weakening classification invariants.
-- **R6 — Base currency change safety.** Base currency changes are constrained deterministically (§5.4). Assumption: implementation surfaces this constraint at the earliest boundary; loosening it is out of scope for this sprint.
+Each risk uses the reusable five-field shape: **Risk ID**, **Description**, **Impact**, **Mitigation**, **Status**. Status values are drawn from the working vocabulary `Open` (active), `Mitigated` (residual only), `Accepted` (consciously accepted), `Deferred` (postponed), and `Closed` (no longer applicable). Repository-wide ratification of this vocabulary is queued for a future governance pass and is not performed here.
+
+- **Risk ID:** R-01
+  - **Description:** MOD-002 depends on `MOD001_PLATFORM_BASELINE_v1` being frozen and available for tenancy, company/branch hierarchy, users/roles/permissions, configuration hierarchy, localization, and audit review.
+  - **Impact:** Any regression against the platform baseline blocks this sprint.
+  - **Mitigation:** Rely on the frozen `MOD001_PLATFORM_BASELINE_v1` contract; treat any regression as a baseline defect and re-plan.
+  - **Status:** Open
+
+- **Risk ID:** R-02
+  - **Description:** Vouchers, posting, financials, taxation, and period close are deferred to `SPR-MOD-002-002` … `SPR-MOD-002-006`.
+  - **Impact:** Silent absorption of downstream scope would violate sprint boundaries and pollute the Foundation.
+  - **Mitigation:** Enforce the §1.3 out-of-scope list; reject additions that belong to downstream sprints.
+  - **Status:** Open
+
+- **Risk ID:** R-03
+  - **Description:** All referenced ADRs (`ADR-011`, `ADR-012`, `ADR-014`, `ADR-032`, `ADR-051`) are Accepted at authoring time.
+  - **Impact:** If any becomes non-Accepted, this sprint's contract is invalidated.
+  - **Mitigation:** Re-plan this sprint if the acceptance status of any referenced ADR changes.
+  - **Status:** Open
+
+- **Risk ID:** R-04
+  - **Description:** Accounting-foundation events rely on `ENG-024` delivery guarantees stated in `ADR-051`.
+  - **Impact:** Weakened delivery guarantees would break consumer contracts.
+  - **Mitigation:** Consume `ENG-024` per `ADR-051` without redefining delivery semantics; escalate any weakening as an ADR / engine defect.
+  - **Status:** Open
+
+- **Risk ID:** R-05
+  - **Description:** The CoA and period structure are prepared to receive opening balances, but opening-balance posting is not delivered here.
+  - **Impact:** If posting weakens classification invariants, foundation guarantees are undermined.
+  - **Mitigation:** `SPR-MOD-002-003` delivers opening-balance posting on the structure defined here without weakening classification invariants.
+  - **Status:** Deferred
+
+- **Risk ID:** R-06
+  - **Description:** Base currency changes are constrained deterministically (§5.4).
+  - **Impact:** Loosening this constraint would compromise historical currency integrity.
+  - **Mitigation:** Surface the constraint at the earliest boundary in implementation; treat any loosening as out of scope for this sprint.
+  - **Status:** Accepted
 
 ---
 
