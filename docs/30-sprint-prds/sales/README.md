@@ -24,7 +24,7 @@ document_type: "Sprint Module Guide"
 
 ## Stage 1 — Sprint Planning
 
-The Stage 1 Sprint Plan for MOD-003 Sales is [`MOD-003_SPRINT_PLAN.md`](./MOD-003_SPRINT_PLAN.md). It reserves six Sprint identifiers and defines the sequence, engine/ADR consumption, dependencies, and exit criteria that will govern Stage 2 authoring. Stage 2 authoring is under way with [`SPR-MOD-003-001`](./SPR-MOD-003-001-sales-foundation.md) (Sales Foundation, Draft) and [`SPR-MOD-003-002`](./SPR-MOD-003-002-quotations-sales-orders.md) (Quotations & Sales Orders, Draft).
+The Stage 1 Sprint Plan for MOD-003 Sales is [`MOD-003_SPRINT_PLAN.md`](./MOD-003_SPRINT_PLAN.md). It reserves six Sprint identifiers and defines the sequence, engine/ADR consumption, dependencies, and exit criteria that will govern Stage 2 authoring. Stage 2 authoring is under way with [`SPR-MOD-003-001`](./SPR-MOD-003-001-sales-foundation.md) (Sales Foundation, Draft), [`SPR-MOD-003-002`](./SPR-MOD-003-002-quotations-sales-orders.md) (Quotations & Sales Orders, Draft), and [`SPR-MOD-003-003`](./SPR-MOD-003-003-delivery-fulfillment.md) (Delivery & Fulfillment, Draft).
 
 ## Sprint Identifier Prefix
 
