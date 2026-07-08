@@ -1,79 +1,52 @@
-## Pass 8.4.4 — Author SPR-MOD-003-004 (Sales Invoicing) + Pass 8.4.4-V
+# Pass 8.4.4 — Author SPR-MOD-003-004 (Sales Invoicing) + Pass 8.4.4-V
 
-Documentation-only. Stage 2 of MOD-003 Sales, Sprint 4. Authors the Sales Invoicing Sprint PRD and immediately verifies it with the repository-standard 10-item checklist established in Pass 8.4.3.
+Documentation-only. Stage 2 of MOD-003 Sales, Sprint 4. Authored the Sales Invoicing Sprint PRD and immediately verified it with the repository-standard 10-item verification checklist.
 
-### Part A — Author SPR-MOD-003-004
+## Files Changed
 
-**New file:** `docs/30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md`
+- **New:** `docs/30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md` — authoritative Sprint PRD for the commercial invoicing lifecycle.
+- **Edited:** `docs/SPRINT_CATALOG.md`, `docs/30-sprint-prds/sales/README.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (governance registrations, once each).
 
-- Uses `docs/99-templates/sprint-prd-template.md`; identical 18-section ordering, disclaimers, Review Gate, Definition of Done, Sprint Exit Criteria, Risk Register, References, and traceability conventions as SPR-MOD-002-001…006 and SPR-MOD-003-001…003.
-- Frontmatter: `sprint_id: SPR-MOD-003-004`, `parent_module: MOD-003`, `iteration: Sprint 4`, `stage: 2`, `pass: 8.4.4`, `size: Large`, `status: Draft`, `owner: Sales`, `updated: 2026-07-07`, `document_type: Sprint PRD`, tags `[sprint, prd, sales, invoicing, mod-003]`.
-- `related_engines` resolved verbatim from `ENGINE_USAGE_MATRIX.md` and must exactly match Sprint 4 allocation in `MOD-003_SPRINT_PLAN.md`.
-- `related_adrs` — Accepted ADRs only, resolved verbatim from `ADR_INDEX.md`.
-
-**Section content:**
-
-- **§1 Objective & Scope** — commercial invoicing lifecycle: Sales Invoice, generation, validation, approval, cancellation, amendments, Credit Notes, Debit Notes, invoice numbering, attachments, notifications, lifecycle events. Explicit exclusions: payment collection, receipt allocation, receivables, journal/ledger posting, voucher ownership, tax engine implementation, accounting reports, financial statements, accounting periods, analytics, dashboards.
-- **§1.1** Commercial Invoice Ownership — Sales owns the commercial invoice lifecycle.
-- **§1.2** Accounting Consumption Boundary — voucher creation requested via MOD002_ACCOUNTING_BASELINE_v1 contracts; Sales MUST NOT create vouchers, own voucher lifecycle, journal, post ledgers, maintain receivables, or close periods.
-- **§1.3** Tax Consumption Boundary — Sales consumes taxation via Accounting; may determine taxable transactions but MUST NOT redefine tax engine/config/calculation/reporting.
-- **§1.4** Receivable Boundary — invoice completion MAY create downstream receivable requests; receivable ownership belongs to Accounting.
-- **§1.5** Delivery Consumption Boundary — consumes completed deliveries from SPR-MOD-003-003; no redefinition of delivery ownership.
-- **§1.6** Governance Complement — repository-standard closing wording referencing MOD001, MOD002, SPR-MOD-003-001, -002, -003.
-- **§2 Sprint Deliverables** — enumerated list per prompt; forward reference SPR-MOD-003-005 and -006.
-- **§3 Traceability** — bidirectional table; every deliverable traces to Sales MODULE_PRD sections; no orphans, no unallocated capabilities.
-- **§4 User Stories** — Sales Executive, Billing Executive, Sales Manager, Finance Reviewer, Customer, System Administrator; each story linked to a Sprint Deliverable.
-- **§5 Acceptance Criteria** — Given/When/Then across invoice creation, approval, amendment, cancellation, credit/debit notes, numbering, delivery validation, voucher request generation, tax consumption, receivable request, unauthorized modification rejection, audit logging, tenant isolation, invoice lifecycle events.
-- **§6 Parent Module Reference** — MOD-003 Sales Module PRD with fulfilled sections.
-- **§7 Dependencies** — Upstream: MOD001, MOD002 baselines, SPR-MOD-003-001, -002, -003. Downstream: SPR-MOD-003-005, -006. Consumers resolve module IDs verbatim from `docs/MODULE_CATALOG.md` (no hardcoded IDs).
-- **§8 ERP Core Engine Consumption** — engines resolved verbatim from `ENGINE_CATALOG.md` and `ENGINE_USAGE_MATRIX.md`, exactly matching Sprint 4 allocation in `MOD-003_SPRINT_PLAN.md`; one-line usage per engine; no engine behavior redefined.
-- **§9 ADR Consumption** — Accepted ADRs from `ADR_INDEX.md`; one-line usage note per ADR.
-- **§10 Data Model Impact** — conceptual entities only: Sales Invoice, Invoice Line, Credit Note, Debit Note, Invoice Approval, Invoice Attachment, Invoice Status; physical schema out of scope.
-- **§11 Events** — only authoritative Event Catalog names; unknowns become deferred `R-EV-*` risks; Event Catalog NOT modified.
-- **§12–§17** — Definition of Done, Sprint Exit Criteria, Normalized Risk Register (Risk ID, Description, Impact, Mitigation, Status ∈ {Open, Mitigated, Accepted, Deferred, Closed}) with risks covering Accounting dependency, Tax dependency, Delivery dependency, Event Catalog gaps, Voucher contract dependency; Test Strategy Summary; Implementation Notes; Review Gate.
-- **§18 References** — Sales Module PRD, MOD-003 Sprint Plan, SPR-MOD-003-001/002/003, ERP Core Engines, Accepted ADRs, Event Catalog, MOD001 Baseline, MOD002 Baseline, MODULE_CATALOG.
-
-### Part B — Governance Registrations (each edited exactly once)
-
-- `docs/SPRINT_CATALOG.md` — register SPR-MOD-003-004.
-- `docs/30-sprint-prds/sales/README.md` — flip Sprint 4 placeholder to Draft with link.
-- `docs/DOCUMENT_INDEX.md` — add entry.
-- `docs/_meta.json` — add entry.
-- `.lovable/plan.md` — record pass and verification artifacts.
-
-All with `updated: 2026-07-07`. No other governance files modified.
-
-### Part C — Pass 8.4.4-V (10-item verification)
-
-Authoritative sources: SPR-MOD-003-004, ENGINE_CATALOG, ENGINE_USAGE_MATRIX, ADR_INDEX, Event Catalog, Sales Module PRD, MOD-003 Sprint Plan, SPR-MOD-003-001/002/003, MOD001 Baseline, MOD002 Baseline, MODULE_CATALOG, MODULE_IMPLEMENTATION_WORKFLOW.
-
-Checks:
-1. Frontmatter completeness
-2. 18-section structural conformance
-3. Engine allocation matches ENGINE_USAGE_MATRIX + Sprint Plan
-4. Accepted ADR validation
-5. Event Catalog validation
-6. Bidirectional traceability
-7. Dependency resolution from MODULE_CATALOG
-8. Governance registrations exactly once
-9. Scope exclusions + Platform / Accounting / Delivery boundaries preserved
-10. Cross-module ownership validation
-
-On failure: minimum edit to SPR-MOD-003-004 only; rerun full 10-check; repeat until Failed = 0. Module PRDs, Sprint Plan, Baselines, Engine Catalog, ADRs, Event Catalog, MODULE_CATALOG, and MODULE_IMPLEMENTATION_WORKFLOW are NOT modified during remediation.
-
-### Mandatory Closing Artifacts
-
-Recorded in `.lovable/plan.md` and mirrored in chat:
-1. Verification Metadata
-2. Check / Result / Action table (10 rows)
-3. Verification Summary
-
-Invariants: `Passed + Remediated + Failed = 10`; `PASS ⇔ Failed = 0`; `Failed ≥ 1 ⇒ BLOCKED`.
-
-### Not Modified
+## Not Modified
 
 Sales Module PRD, MOD-003 Sprint Plan, previous Sprint PRDs, Module Baselines, ERP Core Engines, ADRs, Event Catalog, MODULE_CATALOG, MODULE_IMPLEMENTATION_WORKFLOW, architecture docs, APIs, database, schema, UI, implementation code.
 
-### Outcome
+---
 
-SPR-MOD-003-004-sales-invoicing.md becomes the authoritative Sprint PRD for the commercial invoicing lifecycle. MOD-003 complete through Sprint 4 with Repository Status = PASS. Repository ready for Pass 8.4.5 — SPR-MOD-003-005 (Returns & Customer Adjustments).
+## Pass 8.4.4-V — Verification Metadata
+
+| Field | Value |
+| --- | --- |
+| Verification Pass | 8.4.4-V |
+| Sprint under verification | SPR-MOD-003-004 (Sales Invoicing) |
+| Parent module | MOD-003 Sales |
+| Stage | 2 |
+| Verification standard | 10-item repository-standard checklist per `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` |
+| Date | 2026-07-07 |
+| Authoritative sources | SPR-MOD-003-004, ENGINE_CATALOG, ENGINE_USAGE_MATRIX, ADR_INDEX, Event Catalog, Sales Module PRD, MOD-003 Sprint Plan, SPR-MOD-003-001/002/003, MOD001 Baseline, MOD002 Baseline, MODULE_CATALOG, MODULE_IMPLEMENTATION_WORKFLOW |
+
+## Check / Result / Action Table
+
+| # | Check | Result | Action |
+| - | ----- | ------ | ------ |
+| 1 | Frontmatter completeness | Passed | Frontmatter includes `sprint_id`, `parent_module`, `parent_sprint_plan`, `iteration`, `stage`, `pass`, `size`, `status`, `owner`, `updated`, `related_engines`, `related_adrs`, `tags`, `document_type`. None missing. |
+| 2 | 18-section structural conformance | Passed | Sections §1 through §18 present in identical ordering to SPR-MOD-003-001, -002, -003 and the sprint-prd template. |
+| 3 | Engine allocation matches ENGINE_USAGE_MATRIX + Sprint Plan | Passed | `related_engines` = ENG-002, 004, 007, 011, 015, 017, 018, 019, 021, 024, 025, 027 — exactly the Sprint 4 row of `MOD-003_SPRINT_PLAN.md` §4. |
+| 4 | Accepted ADR validation | Passed | `related_adrs` = ADR-011, ADR-014, ADR-032 — all Accepted per `ADR_INDEX.md`. |
+| 5 | Event Catalog validation | Passed | All invoice-lifecycle event names are declared with the Event Catalog governance disclaimer; none present in the stubbed Event Catalog at authoring time, deferred via R-EV-01 (Deferred). Event Catalog not modified. |
+| 6 | Bidirectional traceability | Passed | §3 traceability matrix ties every Sprint Deliverable to a MOD-003 MODULE_PRD section and confirms no orphan requirements and no unallocated chartered capabilities. |
+| 7 | Dependency resolution from MODULE_CATALOG | Passed | §7 consumers (MOD-002, MOD-005, MOD-006, MOD-010, MOD-017) resolved verbatim from `docs/MODULE_CATALOG.md`; no hardcoded IDs asserted independently. |
+| 8 | Governance registrations exactly once | Passed | `SPRINT_CATALOG.md`, `30-sprint-prds/sales/README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md` — each updated exactly once. |
+| 9 | Scope exclusions + Platform / Accounting / Delivery boundaries preserved | Passed | §1.1.2, §1.1.3, §1.1.4, §1.1.5, §1.3 and §5.10–§5.13, §5.18 explicitly disclaim accounting vouchers, journals, ledger posting, receivables, tax engine, financial statements, accounting periods, delivery ownership, payment collection, analytics, and quotations/orders — all mapped to their owning modules or sprints. |
+| 10 | Cross-module ownership validation | Passed | No capability in SPR-MOD-003-004 redefines ownership already established by MOD001_PLATFORM_BASELINE_v1, MOD002_ACCOUNTING_BASELINE_v1, SPR-MOD-003-001, SPR-MOD-003-002, or SPR-MOD-003-003. Sales owns commercial invoicing only; Accounting owns vouchers, journals, ledgers, tax, and receivables; Delivery owns fulfillment. |
+
+## Verification Summary
+
+- Passed: 10
+- Remediated: 0
+- Failed: 0
+- Passed + Remediated + Failed = 10 ✓
+- **Repository Status: PASS** (Failed = 0)
+- Next Pass: 8.4.5 — Author SPR-MOD-003-005 (Returns & Customer Adjustments)
+
+MOD-003 is complete through Sprint 4 with Repository Status = PASS. Repository ready for Pass 8.4.5.
