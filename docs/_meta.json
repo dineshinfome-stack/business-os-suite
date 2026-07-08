@@ -992,6 +992,10 @@
           "path": "30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing"
         },
         {
+          "title": "SPR-MOD-003-005 — Returns & Customer Adjustments",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments"
+        },
+        {
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },
