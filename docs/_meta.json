@@ -980,6 +980,10 @@
           "path": "30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation"
         },
         {
+          "title": "SPR-MOD-003-002 — Quotations & Sales Orders",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders"
+        },
+        {
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },
