@@ -71,3 +71,40 @@ Sales Module PRD, MOD-003 Sprint Plan, previous Sprint PRDs, Module Baselines, E
 ### Outcome
 
 SPR-MOD-003-005 becomes authoritative for the commercial returns & customer adjustments lifecycle, preserving three-way ownership between Sales, Inventory, and Accounting. MOD-003 complete through Sprint 5 with Repository Status = PASS. Repository ready for Pass 8.4.6 — SPR-MOD-003-006 (Sales Analytics & Controls).
+---
+
+## Pass 8.4.5-V — Verification Report
+
+### Verification Metadata
+
+- **Pass:** 8.4.5-V
+- **Sprint under verification:** `SPR-MOD-003-005` — Returns & Customer Adjustments
+- **File:** `docs/30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md`
+- **Verification date:** 2026-07-07
+- **Checklist standard:** Repository-standard 10-item verification (per `MODULE_IMPLEMENTATION_WORKFLOW.md`)
+- **Invariants:** `Passed + Remediated + Failed = 10`; `PASS ⇔ Failed = 0`; `Failed ≥ 1 ⇒ BLOCKED`.
+
+### 10-Item Verification Table
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter conformance (sprint_id, parent_module, iteration, stage, pass, size, status, owner, updated, related_engines, related_adrs, tags, document_type) | Passed | None. |
+| 2 | 18-section conformance with `docs/99-templates/sprint-prd-template.md` ordering | Passed | None. |
+| 3 | Engine allocation verbatim from `ENGINE_USAGE_MATRIX.md` matching Sprint 5 row of `MOD-003_SPRINT_PLAN.md` (`ENG-002, ENG-004, ENG-007, ENG-010, ENG-011, ENG-012, ENG-017, ENG-018, ENG-024, ENG-025`) | Passed | None. |
+| 4 | Accepted-only ADR consumption (`ADR-011`, `ADR-014`, `ADR-032`) from `ADR_INDEX.md` | Passed | None. |
+| 5 | Event Catalog compliance — illustrative event names in §11 flagged as subject to `R-EV-01`; event catalog not modified | Passed | None. Deferred via `R-EV-01`. |
+| 6 | Bidirectional traceability to `MOD-003` MODULE_PRD (§3 matrix; no orphan requirements; no unallocated chartered capabilities) | Passed | None. |
+| 7 | Dependencies resolved from `docs/MODULE_CATALOG.md` (consumer module IDs not hardcoded) | Passed | None. |
+| 8 | Governance registrations exactly once (`SPRINT_CATALOG.md`, `README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md`) | Passed | None. |
+| 9 | Scope exclusions & Platform / Accounting / Inventory / Delivery / Invoicing / Tax boundaries preserved (§1.1.2–§1.1.6, §1.3, §5.11–§5.14, §5.19, §10.3) | Passed | None. |
+| 10 | Cross-module ownership validation (Sales-Returns vs. Sales-Invoicing vs. Inventory vs. Accounting vs. Tax vs. Delivery) | Passed | None. |
+
+### Verification Summary
+
+- **Passed:** 10
+- **Remediated:** 0
+- **Failed:** 0
+- **Repository Status:** **PASS**
+- **Blocked:** No
+
+MOD-003 Sales is complete through Sprint 5 with Repository Status = PASS. Repository ready for **Pass 8.4.6 — SPR-MOD-003-006 (Sales Analytics & Controls)**.
