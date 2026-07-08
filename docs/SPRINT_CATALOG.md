@@ -4,7 +4,7 @@ summary: "Catalog of every Sprint PRD (SPR-MOD-NNN-NNN): stable identifier, iter
 layer: "platform"
 owner: "Platform"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-07"
 tags: ["sprint", "catalog", "index"]
 document_type: "Governance Guide"
 ---
@@ -47,6 +47,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-002-005 | Sprint 5 | MOD-002 Accounting | Done | [`30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md`](30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md) | Accounting |
 | SPR-MOD-002-006 | Sprint 6 | MOD-002 Accounting | Done | [`30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md`](30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md) | Accounting |
 | SPR-MOD-003-001 | Sprint 1 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md`](30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md) | Sales |
+| SPR-MOD-003-002 | Sprint 2 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md`](30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md) | Sales |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 

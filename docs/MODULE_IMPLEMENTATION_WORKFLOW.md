@@ -4,7 +4,7 @@ summary: "Repository-wide three-stage cadence for taking every module (MOD-001 �
 layer: "delivery"
 owner: "Engineering"
 status: "approved"
-updated: "2026-07-06"
+updated: "2026-07-07"
 tags: ["workflow", "governance", "sprint", "module", "process"]
 document_type: "Governance Guide"
 ---
@@ -135,6 +135,68 @@ This is the single canonical definition of each Sprint PRD status used across `S
 **Exit criteria:** baseline document approved; downstream modules may now depend on this module's capabilities.
 
 **Governance:** owned by Engineering; approved by Engineering + Architecture + Product.
+
+## Verification Reporting Standard
+
+**Scope — repository-wide.** This reporting standard applies to *every* repository verification pass, not only Sprint PRD verification. It governs, without limitation:
+
+- Sprint PRD verification (`Pass N-V`).
+- Module Baseline verification.
+- Architecture verification.
+- ADR verification.
+- Governance / repository-wide audit passes.
+- Any future pass whose primary purpose is verification against an authoritative source.
+
+Every such pass MUST close with **three** artifacts, in the following order. The checklist length is pass-specific; the reporting shape is universal.
+
+### (a) Verification Metadata header
+
+Fixed shape (auditability):
+
+```
+Verification Metadata
+Target Artifact: <file path or artifact ID>
+Verification Pass: <pass id, e.g. 8.4.2-V>
+Verification Date: <YYYY-MM-DD>
+Verifier: <role or agent, e.g. "Lovable agent">
+Authoritative Sources Checked:
+  - <path 1>
+  - <path 2>
+  - …
+```
+
+### (b) Check / Result / Action table
+
+One row per checklist item. Columns are fixed:
+
+- **Check** — the checklist item being verified.
+- **Result** — one of `Pass`, `Fail`, `Remediated`.
+- **Action** — edit summary or `"no action"`.
+
+### (c) Verification Summary block
+
+Fixed, implementation-agnostic shape (works for any checklist length):
+
+```
+Verification Summary
+Checklist Items: <n>
+Passed: <n>
+Remediated: <n>
+Failed: <n>
+Outstanding Risks: <R-IDs or "none">
+Repository Status: PASS | BLOCKED
+Next Pass: <pass id or "n/a">
+```
+
+**Invariants.**
+
+- `Passed + Remediated + Failed = Checklist Items`.
+- `Repository Status: PASS` requires `Failed = 0`.
+- Any `Failed ≥ 1` is `BLOCKED` and `Next Pass = n/a` until remediation clears the failure via a full re-check.
+
+### Placement
+
+All three artifacts are written into `.lovable/plan.md` under the pass's Execution Record **and** mirrored in the pass's final chat reply.
 
 ## Stage Boundaries
 
