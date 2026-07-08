@@ -24,7 +24,7 @@ document_type: "Sprint Module Guide"
 
 ## Stage 1 — Sprint Planning
 
-The Stage 1 Sprint Plan for MOD-003 Sales is [`MOD-003_SPRINT_PLAN.md`](./MOD-003_SPRINT_PLAN.md). It reserves six Sprint identifiers and defines the sequence, engine/ADR consumption, dependencies, and exit criteria that will govern Stage 2 authoring. Stage 2 authoring is under way with [`SPR-MOD-003-001`](./SPR-MOD-003-001-sales-foundation.md) (Sales Foundation, Draft), [`SPR-MOD-003-002`](./SPR-MOD-003-002-quotations-sales-orders.md) (Quotations & Sales Orders, Draft), and [`SPR-MOD-003-003`](./SPR-MOD-003-003-delivery-fulfillment.md) (Delivery & Fulfillment, Draft).
+The Stage 1 Sprint Plan for MOD-003 Sales is [`MOD-003_SPRINT_PLAN.md`](./MOD-003_SPRINT_PLAN.md). It reserves six Sprint identifiers and defines the sequence, engine/ADR consumption, dependencies, and exit criteria that will govern Stage 2 authoring. Stage 2 authoring is under way with [`SPR-MOD-003-001`](./SPR-MOD-003-001-sales-foundation.md) (Sales Foundation, Draft), [`SPR-MOD-003-002`](./SPR-MOD-003-002-quotations-sales-orders.md) (Quotations & Sales Orders, Draft), [`SPR-MOD-003-003`](./SPR-MOD-003-003-delivery-fulfillment.md) (Delivery & Fulfillment, Draft), and [`SPR-MOD-003-004`](./SPR-MOD-003-004-sales-invoicing.md) (Sales Invoicing, Draft).
 
 ## Sprint Identifier Prefix
 
@@ -39,7 +39,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-003-NNN`**, where `NNN`
 | [SPR-MOD-003-001](./SPR-MOD-003-001-sales-foundation.md) | Sprint 1 | Sales Foundation | Draft | `MOD001_PLATFORM_BASELINE_v1`, `MOD002_ACCOUNTING_BASELINE_v1` |
 | [SPR-MOD-003-002](./SPR-MOD-003-002-quotations-sales-orders.md) | Sprint 2 | Quotations & Sales Orders | Draft | `SPR-MOD-003-001` |
 | [SPR-MOD-003-003](./SPR-MOD-003-003-delivery-fulfillment.md) | Sprint 3 | Delivery & Fulfillment | Draft | `SPR-MOD-003-002` |
-| SPR-MOD-003-004 | Sprint 4 | Sales Invoicing | Planned | `SPR-MOD-003-003` |
+| [SPR-MOD-003-004](./SPR-MOD-003-004-sales-invoicing.md) | Sprint 4 | Sales Invoicing | Draft | `SPR-MOD-003-003` |
 | SPR-MOD-003-005 | Sprint 5 | Returns & Customer Adjustments | Planned | `SPR-MOD-003-002`, `SPR-MOD-003-004` |
 | SPR-MOD-003-006 | Sprint 6 | Sales Analytics & Controls | Planned | `SPR-MOD-003-001` … `SPR-MOD-003-005` |
 

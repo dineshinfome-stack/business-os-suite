@@ -988,6 +988,10 @@
           "path": "30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment"
         },
         {
+          "title": "SPR-MOD-003-004 — Sales Invoicing",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing"
+        },
+        {
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },
