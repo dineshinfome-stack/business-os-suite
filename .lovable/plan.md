@@ -156,3 +156,127 @@ Pass 8.4.3 (SPR-MOD-003-003 Delivery & Fulfillment) is unblocked only after Part
 - A repository-wide Verification Reporting Standard — Verification Metadata + Check/Result/Action table + implementation-agnostic Verification Summary — is registered in `MODULE_IMPLEMENTATION_WORKFLOW.md`, reusable for Sprint PRD, Module Baseline, Architecture, ADR, and governance audit passes across every module (Sales, Purchase, Inventory, CRM, Projects, Payroll, POS, …). The 8.4.1-V record is retrofitted with all three artifacts for auditability.
 - `SPR-MOD-003-002-quotations-sales-orders.md` is authored (with fixed `updated: 2026-07-07`) and verified without silent Sprint Plan edits.
 - MOD-003 is verified through Sprint 2 and prepared for **Pass 8.4.3 — SPR-MOD-003-003 (Delivery & Fulfillment)**.
+
+---
+
+## Pass 8.4.1-V+ — Retrofit repository-wide Verification Reporting Standard onto 8.4.1-V
+
+Registered the repository-wide **Verification Reporting Standard** in `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` (Stage 2 area, before "Stage Boundaries"). The standard applies to every repository verification pass — Sprint PRD verification, Module Baseline verification, Architecture verification, ADR verification, and governance/audit passes — and mandates three closing artifacts in fixed order: **(a) Verification Metadata header**, **(b) Check / Result / Action table**, **(c) Verification Summary block** (implementation-agnostic: Checklist Items / Passed / Remediated / Failed / Outstanding Risks / Repository Status / Next Pass, with invariants `Passed + Remediated + Failed = Checklist Items` and `PASS ⇒ Failed = 0`).
+
+No files other than `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` were modified by Part A.
+
+### Retrofit — 8.4.1-V closing artifacts
+
+**Verification Metadata**
+
+```
+Target Artifact: docs/30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md
+Verification Pass: 8.4.1-V
+Verification Date: 2026-07-07
+Verifier: Lovable agent
+Authoritative Sources Checked:
+  - docs/10-erp-core/ENGINE_CATALOG.md
+  - docs/ENGINE_USAGE_MATRIX.md
+  - docs/11-adrs/ADR_INDEX.md
+  - docs/02-architecture/event-catalog.md
+  - docs/20-module-prds/sales/MODULE_PRD.md
+  - docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md
+  - docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md
+  - docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md
+```
+
+**Check / Result / Action Table**
+
+| Check | Result | Action |
+| --- | --- | --- |
+| 1. Frontmatter populated correctly | Pass | No action. |
+| 2. Exact 18-section numbering | Pass | No action. |
+| 3. Engine IDs resolved from ENGINE_CATALOG | Pass | No action. |
+| 4. Accepted ADRs only | Remediated | Removed `ADR-012` (Proposed) and `ADR-051` (Proposed) from frontmatter and §9; rewrote R-04 / R-05 accordingly. |
+| 5. Events mapped to Event Catalog or deferred | Pass | All 6 events covered by `R-EV-01`. |
+| 6. Normalized 5-field Risk Register | Pass | No action. |
+| 7. Sprint → Module traceability | Pass | No action. |
+| 8. Both baselines in §7 | Pass | No action. |
+| 9. Module → Sprint bidirectional traceability | Remediated | Added `ENG-018` to Sprint PRD §8; added `ENG-024` to Sprint Plan §SPR-MOD-003-001. |
+
+**Verification Summary**
+
+```
+Checklist Items: 9
+Passed: 7
+Remediated: 2
+Failed: 0
+Outstanding Risks: R-EV-01
+Repository Status: PASS
+Next Pass: 8.4.2
+```
+
+---
+
+## Pass 8.4.2 — Author SPR-MOD-003-002 (Quotations & Sales Orders)
+
+Authored the second Sales Sprint PRD covering the commercial document lifecycle (quotations and sales orders — creation, pricing, approval, credit-limit routing, amendment, confirmation, cancellation).
+
+**Files created / updated:**
+
+- Created `docs/30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md` (18-section order, `updated: 2026-07-07`, `size: Large`, `status: Draft`, engines `[ENG-002, ENG-004, ENG-005, ENG-007, ENG-008, ENG-010, ENG-011, ENG-012, ENG-017, ENG-018, ENG-024, ENG-025]`, ADRs `[ADR-011, ADR-014, ADR-032]`).
+- Registered in `docs/SPRINT_CATALOG.md` as a Draft row.
+- Registered in `docs/30-sprint-prds/sales/README.md` (Sprint 2 row → Draft + link).
+- Registered in `docs/DOCUMENT_INDEX.md`.
+- Registered in `docs/_meta.json` sidebar.
+
+**Stage separation upheld.** `MOD-003_SPRINT_PLAN.md` was **not modified** during Part B. No Module PRD, Engine Catalog, ADR, Event Catalog, or Baseline document was touched.
+
+---
+
+## Pass 8.4.2-V — Verify SPR-MOD-003-002
+
+Ran the same 9-item verification checklist from Pass 8.4.1-V against `SPR-MOD-003-002-quotations-sales-orders.md`, cross-checking each authoritative source independently.
+
+**Verification Metadata**
+
+```
+Target Artifact: docs/30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md
+Verification Pass: 8.4.2-V
+Verification Date: 2026-07-07
+Verifier: Lovable agent
+Authoritative Sources Checked:
+  - docs/10-erp-core/ENGINE_CATALOG.md
+  - docs/ENGINE_USAGE_MATRIX.md
+  - docs/11-adrs/ADR_INDEX.md
+  - docs/02-architecture/event-catalog.md
+  - docs/20-module-prds/sales/MODULE_PRD.md
+  - docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md
+  - docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md
+  - docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md
+```
+
+**Check / Result / Action Table**
+
+| Check | Result | Action |
+| --- | --- | --- |
+| 1. Frontmatter populated correctly | Pass | `sprint_id`, `parent_module`, `iteration`, `stage`, `pass`, `size`, `status`, `owner`, `updated`, `document_type`, `tags`, `related_engines`, `related_adrs` all present and consistent. |
+| 2. Exact 18-section numbering | Pass | §1 Objective & Scope · §2 Deliverables · §3 Traceability · §4 User Stories · §5 Acceptance · §6 Parent Module · §7 Dependencies · §8 Engines · §9 ADRs · §10 Data Model · §11 Events · §12 DoD · §13 Exit · §14 Risks · §15 Test · §16 Impl Notes · §17 Review Gate · §18 References — parity with SPR-MOD-002-00x and SPR-MOD-003-001. |
+| 3. Engine IDs resolved from ENGINE_CATALOG | Pass | ENG-002, 004, 005, 007, 008, 010, 011, 012, 017, 018, 024, 025 all present in `ENGINE_CATALOG.md`; no placeholders. |
+| 4. Accepted ADRs only | Pass | ADR-011, ADR-014, ADR-032 all `Accepted` per `ADR_INDEX.md`; no Proposed/Draft/Superseded ADRs relied upon. |
+| 5. Events mapped to Event Catalog or deferred | Pass | None of the 6 event names (`quotation.issued`, `quotation.revised`, `salesorder.created`, `salesorder.confirmed`, `salesorder.amended`, `salesorder.cancelled`) exist in `event-catalog.md`; all covered by `R-EV-01` deferred risk. Event Catalog unmodified. |
+| 6. Normalized 5-field Risk Register | Pass | §14 uses Risk ID · Description · Impact · Mitigation · Status; statuses ∈ {Open, Deferred, Accepted}. |
+| 7. Sprint → Module traceability | Pass | §3 matrix ties every §2 deliverable to a MOD-003 MODULE_PRD section (§2, §3, §4, §6, §7, §8, §10, §12, §13). |
+| 8. Both baselines in §7 | Pass | Upstream lists `MOD001_PLATFORM_BASELINE_v1` and `MOD002_ACCOUNTING_BASELINE_v1` (both frozen), plus `SPR-MOD-003-001` as upstream sprint. |
+| 9. Module → Sprint bidirectional traceability | Pass | `related_engines` `[ENG-002, 004, 005, 007, 008, 010, 011, 012, 017, 018, 024, 025]` matches `MOD-003_SPRINT_PLAN.md` §2 Sprint 2 engines exactly. ADRs `[ADR-011, ADR-014, ADR-032]` match Sprint Plan §5. No capability in the Sprint PRD is unallocated by the Sprint Plan, and no Sprint Plan Sprint 2 allocation is missing from the Sprint PRD. No Sprint Plan drift finding recorded. |
+
+All 9 items Pass on a single clean run. No remediation was required. No secondary regressions detected.
+
+**Verification Summary**
+
+```
+Checklist Items: 9
+Passed: 9
+Remediated: 0
+Failed: 0
+Outstanding Risks: R-EV-01
+Repository Status: PASS
+Next Pass: 8.4.3
+```
+
+Pass 8.4.3 (SPR-MOD-003-003 Delivery & Fulfillment) is unblocked.
