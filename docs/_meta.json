@@ -984,6 +984,10 @@
           "path": "30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders"
         },
         {
+          "title": "SPR-MOD-003-003 — Delivery & Fulfillment",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment"
+        },
+        {
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },
