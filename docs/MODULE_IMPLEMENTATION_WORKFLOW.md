@@ -149,6 +149,25 @@ This is the single canonical definition of each Sprint PRD status used across `S
 
 Every such pass MUST close with **three** artifacts, in the following order. The checklist length is pass-specific; the reporting shape is universal.
 
+### Repository-standard verification checklist (10 mandatory items)
+
+Effective with **Pass 8.4.3**, the repository-standard verification checklist for Sprint PRD verification is **10 mandatory items**. Prior passes used a 9-item checklist; the standard is promoted to 10 items by adding **Cross-module ownership validation** as the final mandatory check. All future Sprint PRD authoring and verification passes (Sprint 4 / 5 / 6 of every module, and every subsequent module — Purchase, Inventory, CRM, Projects, Payroll, POS, and beyond) inherit this 10-item standard from this document.
+
+The 10 mandatory checks are:
+
+1. Frontmatter completeness and correctness.
+2. Structural conformance to the Sprint PRD template.
+3. Engine allocation matches `ENGINE_USAGE_MATRIX.md` and the parent Sprint Plan verbatim.
+4. ADR references are Accepted-only and present in `ADR_INDEX.md`.
+5. Events reference only authoritative names in the event catalog, or are deferred via a documented `R-EV-*` risk.
+6. Bidirectional traceability to the parent Module PRD — no orphan deliverables and no unallocated chartered capabilities.
+7. Dependencies resolve consumer module identifiers verbatim from `MODULE_CATALOG.md` (no hardcoded IDs).
+8. Governance registrations present exactly once each in the standard set (`SPRINT_CATALOG.md`, module subfolder `README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md`).
+9. Scope exclusions and upstream ownership boundaries (Platform, Accounting, and any consumed module baselines) are preserved.
+10. **Cross-module ownership validation** — no capability in the Sprint PRD redefines ownership already established by any upstream module baseline or any previously authored Sprint PRD within the same module or a consumed module.
+
+Individual verification passes MAY add pass-specific checks on top of the 10 mandatory items; they MUST NOT drop or reorder them.
+
 ### (a) Verification Metadata header
 
 Fixed shape (auditability):
@@ -156,7 +175,7 @@ Fixed shape (auditability):
 ```
 Verification Metadata
 Target Artifact: <file path or artifact ID>
-Verification Pass: <pass id, e.g. 8.4.2-V>
+Verification Pass: <pass id, e.g. 8.4.3-V>
 Verification Date: <YYYY-MM-DD>
 Verifier: <role or agent, e.g. "Lovable agent">
 Authoritative Sources Checked:
@@ -187,6 +206,8 @@ Outstanding Risks: <R-IDs or "none">
 Repository Status: PASS | BLOCKED
 Next Pass: <pass id or "n/a">
 ```
+
+For a Sprint PRD verification pass following the repository-standard checklist, `Checklist Items` is `10` and the invariant example resolves to `Passed + Remediated + Failed = 10`.
 
 **Invariants.**
 
