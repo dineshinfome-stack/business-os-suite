@@ -996,6 +996,10 @@
           "path": "30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments"
         },
         {
+          "title": "SPR-MOD-003-006 — Sales Analytics & Controls",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls"
+        },
+        {
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },

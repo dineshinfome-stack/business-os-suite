@@ -51,6 +51,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-003-003 | Sprint 3 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment.md`](30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment.md) | Sales |
 | SPR-MOD-003-004 | Sprint 4 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md`](30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md) | Sales |
 | SPR-MOD-003-005 | Sprint 5 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md`](30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md) | Sales |
+| SPR-MOD-003-006 | Sprint 6 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md`](30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md) | Sales |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
