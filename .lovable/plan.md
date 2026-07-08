@@ -1,110 +1,106 @@
-## Pass 8.4.5 — Author SPR-MOD-003-005 (Returns & Customer Adjustments) + Pass 8.4.5-V
+# Pass 8.4.6 — Author SPR-MOD-003-006 (Sales Analytics & Controls) + Pass 8.4.6-V
 
-Documentation-only. Stage 2 of MOD-003 Sales, Sprint 5. Authors the Sales Returns & Customer Adjustments Sprint PRD and verifies it using the repository-standard 10-item verification workflow.
+Documentation-only. Completes Stage 2 authoring for MOD-003 Sales by delivering the sixth and final Sprint PRD, followed by the repository-standard 10-item verification.
 
----
+## Part A — Author SPR-MOD-003-006
 
-### Part A — Author SPR-MOD-003-005
+**New file:** `docs/30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md`
 
-**New file:** `docs/30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md`
+Follow `docs/99-templates/sprint-prd-template.md` with the exact 18-section ordering, disclaimer wording, traceability style, Definition of Done, Sprint Exit Criteria, Review Gate, Risk Register format, References, and governance wording used in SPR-MOD-002-001..006 and SPR-MOD-003-001..005.
 
-Template: `docs/99-templates/sprint-prd-template.md`. Identical 18-section ordering as SPR-MOD-002-001..006 and SPR-MOD-003-001..004.
+### Frontmatter
+- `sprint_id: SPR-MOD-003-006`, `parent_module: MOD-003`, `iteration: Sprint 6`, `stage: 2`, `pass: 8.4.6`, `size: Medium`, `status: Draft`, `owner: Sales`, `updated: 2026-07-07`, `document_type: Sprint PRD`.
+- `related_engines`: resolved verbatim from `ENGINE_USAGE_MATRIX.md`, must exactly match the Sprint 6 row in `MOD-003_SPRINT_PLAN.md`.
+- `related_adrs`: Accepted ADRs only, verbatim from `ADR_INDEX.md`.
+- `tags: [sprint, prd, sales, analytics, controls, mod-003]`.
 
-**Frontmatter:** `sprint_id: SPR-MOD-003-005`, `parent_module: MOD-003`, `iteration: Sprint 5`, `stage: 2`, `pass: 8.4.5`, `size: Medium`, `status: Draft`, `owner: Sales`, `updated: 2026-07-07`, `document_type: Sprint PRD`, `related_engines` resolved verbatim from `ENGINE_USAGE_MATRIX.md` matching Sprint 5 allocation in `MOD-003_SPRINT_PLAN.md`, `related_adrs` (Accepted only) from `ADR_INDEX.md`, `tags: [sprint, prd, sales, returns, customer-adjustments, mod-003]`.
+### §1 Objective & Scope
+In scope: Sales dashboards, KPI reporting, pipeline reporting, territory/salesperson performance, customer sales analytics, margin analytics, approval analytics, operational controls, audit readiness, read-model consumption, dashboard filtering, export readiness.
 
-**§1 Objective & Scope:** commercial return lifecycle — Return Request, Approval, Validation, Receipt Confirmation, Customer Adjustments, Replacement Preparation, Refund Preparation, Status, Numbering, Attachments, Notifications, Events. Explicit exclusions: inventory movement, stock valuation, warehouse ownership, accounting vouchers, journals, ledgers, receivables, tax calculation, refund accounting, payment processing, financial reporting, analytics, dashboards.
+Out of scope: quotation/order/delivery/invoicing/returns lifecycles, accounting vouchers/journals/ledger posting/receivables/taxation, inventory management, AI forecasting/budgeting/predictive analytics, implementation-specific BI tooling.
 
-**§1.1–§1.6 Governance Conventions:** Commercial Return Ownership; Inventory Consumption Boundary; Accounting Consumption Boundary; Customer Adjustment Boundary (Sales owns commercial; Accounting owns financial); Delivery/Invoice Consumption Boundary (consumes SPR-MOD-003-003 and SPR-MOD-003-004); Governance Complement clause complementing MOD001/MOD002 baselines and prior Sales sprints.
+### §1.1–§1.6 Governance Conventions
+1.1 Analytics Ownership — Sales owns commercial analytics and operational reporting.
+1.2 Reporting Consumption Boundary — analytics consume operational data from prior Sales Sprints; SHALL NOT redefine operational ownership.
+1.3 Accounting Reporting Boundary — financial reporting owned by `MOD002_ACCOUNTING_BASELINE_v1`; Sales MAY consume summaries via repository contracts but SHALL NOT redefine financial statements, accounting reports, ledger balances, journals, vouchers.
+1.4 Inventory Reporting Boundary — Inventory owns stock valuation, balances, warehouse KPIs. Module IDs resolved verbatim from `MODULE_CATALOG.md`.
+1.5 Analytics Read Model Convention — dashboards/KPIs read-only; no transactional ownership.
+1.6 Governance Complement — repository-standard closing clause referencing MOD001/MOD002 baselines and SPR-MOD-003-001..005.
 
-**§2 Deliverables:** Return Request, Return Authorization, Approval, Validation, Completion, Customer Adjustment, Replacement Preparation, Refund Request Contract, Numbering, Attachments, Notifications, Events. Forward-references SPR-MOD-003-006.
+### §2 Sprint Deliverables
+Sales Dashboard, KPI Dashboard, Pipeline Dashboard, Salesperson Performance, Territory Performance, Customer Sales Analytics, Margin Analysis, Approval Analytics, Operational Controls, Dashboard Filters, Export Support, Audit Readiness, Reporting Events. No new Sales functionality beyond analytics; no forward Sprint references (Sprint 6 completes MOD-003).
 
-**§3 Traceability:** bidirectional matrix to Sales Module PRD sections; every Sprint 5 capability from MOD-003 Sprint Plan represented; no orphans.
+### §3 Traceability
+Bidirectional matrix; every deliverable ↔ Sales Module PRD section; every Sprint 6 allocation in `MOD-003_SPRINT_PLAN.md` represented; no orphans.
 
-**§4 User Stories:** Sales Executive, Customer Service Executive, Returns Coordinator, Sales Manager, Warehouse Coordinator, Customer — each traced to a deliverable.
+### §4 User Stories
+Sales Executive, Sales Manager, Regional Manager, Business Head, Sales Director, Operations Manager, Auditor. Each story traces to one Sprint Deliverable.
 
-**§5 Acceptance Criteria:** Given/When/Then for return request, approval, rejection, replacement, refund, customer adjustment, completion, invoice validation, delivery validation, unauthorized return rejection, audit logging, tenant isolation, lifecycle events.
+### §5 Acceptance Criteria
+Given/When/Then for KPI generation, dashboard rendering, territory/salesperson/customer analytics, pipeline reporting, approval analytics, dashboard filtering, export, audit readiness, authorization, tenant isolation, read-only analytics, reporting events. Analytics MUST NOT modify transactional data.
 
-**§6 Parent Module Reference:** MOD-003 Sales Module PRD, cite fulfilled sections.
+### §6 Parent Module Reference
+Reference `docs/20-module-prds/sales/MODULE_PRD.md` and cite fulfilled sections.
 
-**§7 Dependencies:** Upstream — MOD001/MOD002 baselines, SPR-MOD-003-001..004. Downstream — SPR-MOD-003-006. **Consumer module identifiers SHALL be resolved verbatim from `docs/MODULE_CATALOG.md` and MUST NOT be hardcoded anywhere in the Sprint PRD.**
+### §7 Dependencies
+Upstream: MOD001_PLATFORM_BASELINE_v1, MOD002_ACCOUNTING_BASELINE_v1, SPR-MOD-003-001..005. Consumer module IDs resolved verbatim from `MODULE_CATALOG.md`; no hardcoded IDs. Sprint 6 completes MOD-003 — no downstream Sales Sprint.
 
-**§8 Engines:** verbatim from ENGINE_CATALOG / ENGINE_USAGE_MATRIX matching Sprint 5 allocation in MOD-003 Sprint Plan. One-line usage note per engine. No engine behavior redefined.
+### §8 ERP Core Engine Consumption
+Engine IDs resolved verbatim from `ENGINE_CATALOG.md` + `ENGINE_USAGE_MATRIX.md`, matching Sprint 6 row of `MOD-003_SPRINT_PLAN.md`. One-line usage note per engine; no engine behavior redefined.
 
-**§9 ADRs:** Accepted only, verbatim from ADR_INDEX. One-line usage note per ADR.
+### §9 ADR Consumption
+Accepted ADRs only, verbatim from `ADR_INDEX.md`; one-line usage note per ADR.
 
-**§10 Data Model:** conceptual only — Return Request, Return Authorization, Return Line, Customer Adjustment, Replacement Request, Refund Request, Return Status, Return Attachment. Physical schema out of scope.
+### §10 Data Model Impact
+Conceptual only: Sales Dashboard, KPI Definition, Dashboard Widget, Sales/Pipeline/Territory/Salesperson/Approval Metric, Dashboard Filter, Dashboard Export. Physical schema out of scope.
 
-**§11 Events:** Reference only event names that exist verbatim in `docs/02-architecture/event-catalog.md`. Any illustrative event that does not exist SHALL be replaced with the authoritative catalog name or deferred through an `R-EV-*` risk entry. The Event Catalog MUST NOT be modified by this pass.
+### §11 Events
+Only authoritative names from `docs/02-architecture/event-catalog.md`. Any absent event either replaced with an authoritative name or deferred via `R-EV-*` risk. Event Catalog MUST NOT be modified.
 
-**§12–§17:** Definition of Done, Sprint Exit Criteria, Risk Register (Risk ID, Description, Impact, Mitigation, Status ∈ {Open, Mitigated, Accepted, Deferred, Closed}) covering Accounting/Inventory/Delivery/Invoice/Event Catalog/Refund contract dependencies, Test Strategy Summary, Implementation Notes, Review Gate.
+### §12–§17
+Definition of Done, Sprint Exit Criteria, Risk Register (columns: Risk ID | Description | Impact | Mitigation | Status; Status ∈ {Open, Mitigated, Accepted, Deferred, Closed}) with risks for Accounting reporting dependency, Inventory reporting dependency, Event Catalog gaps, analytics read-model dependency, dashboard performance assumptions, cross-module reporting contracts. Then Test Strategy Summary, Implementation Notes, Review Gate — identical structure to prior Sprint PRDs.
 
-**§18 References:** Sales Module PRD, MOD-003 Sprint Plan, SPR-MOD-003-001..004, ERP Core Engines, Accepted ADRs, Event Catalog, MOD001/MOD002 Baselines, MODULE_CATALOG.
+### §18 References
+Sales Module PRD, MOD-003 Sprint Plan, SPR-MOD-003-001..005, ERP Core Engines, Accepted ADRs, Event Catalog, MOD001 Platform Baseline, MOD002 Accounting Baseline, MODULE_CATALOG.
 
----
-
-### Part B — Governance Registrations (each exactly once, `updated: 2026-07-07`)
-
+## Part B — Governance Registrations
+Update exactly once, each with `updated: 2026-07-07`:
 - `docs/SPRINT_CATALOG.md`
 - `docs/30-sprint-prds/sales/README.md`
 - `docs/DOCUMENT_INDEX.md`
 - `docs/_meta.json`
 - `.lovable/plan.md`
 
----
+No other governance files modified.
 
-### Part C — Pass 8.4.5-V (10-item verification)
+## Part C — Pass 8.4.6-V (10-item verification)
 
-Checks: Frontmatter, 18-section conformance, Engine allocation vs ENGINE_USAGE_MATRIX + Sprint Plan, Accepted ADRs, Event Catalog, Bidirectional traceability, Dependencies from MODULE_CATALOG, Governance registrations exactly once, Scope exclusions & Platform/Accounting/Inventory/Delivery/Invoicing boundaries, Cross-module ownership validation.
+Authoritative sources: SPR-MOD-003-006, ENGINE_CATALOG, ENGINE_USAGE_MATRIX, ADR_INDEX, event-catalog, Sales MODULE_PRD, MOD-003_SPRINT_PLAN, SPR-MOD-003-001..005, MOD001/MOD002 baselines, MODULE_CATALOG, MODULE_IMPLEMENTATION_WORKFLOW.
 
-On failure: minimum edit to SPR-MOD-003-005 only; rerun full checklist until Failed = 0. Do not modify Module PRDs, Sprint Plan, Baselines, ENGINE_CATALOG, ENGINE_USAGE_MATRIX, ADR_INDEX, Event Catalog, MODULE_CATALOG, MODULE_IMPLEMENTATION_WORKFLOW.
+Checklist:
+1. Frontmatter completeness
+2. 18-section structural conformance
+3. Engine allocation matches ENGINE_USAGE_MATRIX + Sprint Plan
+4. Accepted ADR validation
+5. Event Catalog validation
+6. Bidirectional traceability
+7. Dependency resolution from MODULE_CATALOG
+8. Governance registrations exactly once
+9. Scope exclusions and Platform/Accounting/Inventory/Sales ownership boundaries preserved
+10. Cross-module ownership validation
 
-Invariants: `Passed + Remediated + Failed = 10`; `PASS ⇔ Failed = 0`; `Failed ≥ 1 ⇒ BLOCKED`. Record Verification Metadata, 10-row Check/Result/Action table, and Verification Summary in `.lovable/plan.md` and mirror in chat.
+On failure: minimum edit to `SPR-MOD-003-006-sales-analytics-controls.md` only; rerun full checklist until Failed = 0. Forbidden to modify during remediation: Module PRDs, Sprint Plan, Baselines, ENGINE_CATALOG, ENGINE_USAGE_MATRIX, ADR_INDEX, Event Catalog, MODULE_CATALOG, MODULE_IMPLEMENTATION_WORKFLOW.
 
----
+Invariants: `Passed + Remediated + Failed = 10`; `PASS ⇔ Failed = 0`; `Failed ≥ 1 ⇒ BLOCKED`.
 
-### Not Modified
+## Closing Artifacts
+Recorded in `.lovable/plan.md` and mirrored in chat:
+1. Verification Metadata
+2. Check / Result / Action table (10 rows)
+3. Verification Summary
 
+## Not Modified
 Sales Module PRD, MOD-003 Sprint Plan, previous Sprint PRDs, Module Baselines, ERP Core Engines, ADRs, Event Catalog, MODULE_CATALOG, MODULE_IMPLEMENTATION_WORKFLOW, architecture docs, APIs, database, schema, UI, implementation code.
 
----
-
-### Outcome
-
-SPR-MOD-003-005 becomes authoritative for the commercial returns & customer adjustments lifecycle, preserving three-way ownership between Sales, Inventory, and Accounting. MOD-003 complete through Sprint 5 with Repository Status = PASS. Repository ready for Pass 8.4.6 — SPR-MOD-003-006 (Sales Analytics & Controls).
----
-
-## Pass 8.4.5-V — Verification Report
-
-### Verification Metadata
-
-- **Pass:** 8.4.5-V
-- **Sprint under verification:** `SPR-MOD-003-005` — Returns & Customer Adjustments
-- **File:** `docs/30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md`
-- **Verification date:** 2026-07-07
-- **Checklist standard:** Repository-standard 10-item verification (per `MODULE_IMPLEMENTATION_WORKFLOW.md`)
-- **Invariants:** `Passed + Remediated + Failed = 10`; `PASS ⇔ Failed = 0`; `Failed ≥ 1 ⇒ BLOCKED`.
-
-### 10-Item Verification Table
-
-| # | Check | Result | Action |
-| --- | --- | --- | --- |
-| 1 | Frontmatter conformance (sprint_id, parent_module, iteration, stage, pass, size, status, owner, updated, related_engines, related_adrs, tags, document_type) | Passed | None. |
-| 2 | 18-section conformance with `docs/99-templates/sprint-prd-template.md` ordering | Passed | None. |
-| 3 | Engine allocation verbatim from `ENGINE_USAGE_MATRIX.md` matching Sprint 5 row of `MOD-003_SPRINT_PLAN.md` (`ENG-002, ENG-004, ENG-007, ENG-010, ENG-011, ENG-012, ENG-017, ENG-018, ENG-024, ENG-025`) | Passed | None. |
-| 4 | Accepted-only ADR consumption (`ADR-011`, `ADR-014`, `ADR-032`) from `ADR_INDEX.md` | Passed | None. |
-| 5 | Event Catalog compliance — illustrative event names in §11 flagged as subject to `R-EV-01`; event catalog not modified | Passed | None. Deferred via `R-EV-01`. |
-| 6 | Bidirectional traceability to `MOD-003` MODULE_PRD (§3 matrix; no orphan requirements; no unallocated chartered capabilities) | Passed | None. |
-| 7 | Dependencies resolved from `docs/MODULE_CATALOG.md` (consumer module IDs not hardcoded) | Passed | None. |
-| 8 | Governance registrations exactly once (`SPRINT_CATALOG.md`, `README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md`) | Passed | None. |
-| 9 | Scope exclusions & Platform / Accounting / Inventory / Delivery / Invoicing / Tax boundaries preserved (§1.1.2–§1.1.6, §1.3, §5.11–§5.14, §5.19, §10.3) | Passed | None. |
-| 10 | Cross-module ownership validation (Sales-Returns vs. Sales-Invoicing vs. Inventory vs. Accounting vs. Tax vs. Delivery) | Passed | None. |
-
-### Verification Summary
-
-- **Passed:** 10
-- **Remediated:** 0
-- **Failed:** 0
-- **Repository Status:** **PASS**
-- **Blocked:** No
-
-MOD-003 Sales is complete through Sprint 5 with Repository Status = PASS. Repository ready for **Pass 8.4.6 — SPR-MOD-003-006 (Sales Analytics & Controls)**.
+## Outcome
+`SPR-MOD-003-006-sales-analytics-controls.md` becomes the authoritative Sprint PRD for Sales Analytics & Controls and completes Stage 2 authoring for MOD-003 Sales. All six Sales Sprint PRDs verified. Repository ready for **Pass 8.5.0 — MOD003_SALES_BASELINE_v1 (Stage 3 Module Baseline)**.
