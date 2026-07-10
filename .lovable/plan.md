@@ -79,3 +79,54 @@ On failure: minimum edits to the new Sprint PRD only; re-run until Failed = 0. D
 ## Outcome
 
 `SPR-MOD-005-002-inventory-receipts-putaway.md` becomes the authoritative Sprint PRD for Inventory Receipts & Putaway. Purchase, Warehouse, and Accounting ownership preserved via approved contracts. Repository ready for Pass 8.8.3 — SPR-MOD-005-003 (Inventory Issues, Transfers & Reservations).
+
+---
+
+## Pass 8.8.2 / 8.8.2-V — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway.md`
+- **Verification Pass:** 8.8.2-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Lovable Agent (Repository Standard)
+- **Authoritative Sources Checked:**
+  - `docs/20-module-prds/inventory/MODULE_PRD.md`
+  - `docs/30-sprint-prds/inventory/MOD-005_SPRINT_PLAN.md`
+  - `docs/30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation.md`
+  - `docs/40-module-baselines/MOD004_PURCHASE_BASELINE_v1.md`
+  - `docs/MODULE_CATALOG.md`
+  - `docs/10-erp-core/ENGINE_CATALOG.md`
+  - `docs/ENGINE_USAGE_MATRIX.md`
+  - `docs/11-adrs/ADR_INDEX.md`
+  - `docs/02-architecture/event-catalog.md`
+  - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+
+### Check / Result / Action Table
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter completeness | Passed | None |
+| 2 | 18-section structural conformance vs SPR-MOD-005-001 | Passed | None |
+| 3 | Engine authority (verbatim vs Catalog + Usage Matrix + Sprint 2 allocation: ENG-002, 004, 007, 008, 010, 012, 017, 024, 025) | Passed | None |
+| 4 | Bidirectional traceability (forward + reverse tables, no orphan / no duplicate originating) | Passed | None |
+| 5 | ADR authority (Accepted only: ADR-011, ADR-014, ADR-032) | Passed | None |
+| 6 | Event authority (all event surfaces deferred as R-EV-01; Event Catalog unchanged) | Passed | None |
+| 7 | Dependency authority (MODULE_CATALOG verbatim; Purchase / Warehouse / Accounting ownership preserved) | Passed | None |
+| 8 | Governance registration exactly once across 5 required files | Passed | None |
+| 9 | Stage 2 Sprint PRD workflow conformance | Passed | None |
+| 10 | Capability completeness (bidirectional): no Sprint capability outside MOD-005 Module PRD; every Sprint 2 allocation in Sprint Plan present | Passed | None |
+
+### Verification Summary
+
+```text
+Checklist Items: 10
+Passed: 10
+Remediated: 0
+Failed: 0
+Outstanding Risks: R-01, R-02, R-03, R-04, R-05, R-07, R-09, R-10 (Open); R-06, R-08 (Accepted); R-EV-01 (Deferred pending Event Catalog registration)
+Repository Status: PASS
+Next Pass: 8.8.3 — SPR-MOD-005-003 (Inventory Issues, Transfers & Reservations)
+```
+
+Invariants: `Passed + Remediated + Failed = 10`; `Repository Status = PASS ⇔ Failed = 0`.
