@@ -1023,6 +1023,10 @@
           "title": "SPR-MOD-004-004 — Vendor Billing & Commercial 3-Way Match",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match"
         },
+        {
+          "title": "SPR-MOD-004-005 — Purchase Returns & Vendor Adjustments",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments"
+        },
 
 
         {
