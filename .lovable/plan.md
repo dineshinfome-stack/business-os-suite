@@ -88,3 +88,58 @@ Invariants: `Passed + Remediated + Failed = 10`; `Repository Status = PASS ⇔ F
 ## Outcome
 
 `SPR-MOD-004-006-purchase-analytics-controls.md` becomes the authoritative Sprint PRD for commercial Purchase Analytics & Controls, introducing dashboards, KPIs, operational controls, and audit-readiness on repository-approved read models with no transactional ownership. MOD-004 Purchase Stage 2 is complete. Repository ready for **Pass 8.7.0 — MOD004_PURCHASE_BASELINE_v1 (Stage 3 Module Baseline)**.
+---
+
+## Pass 8.6.6-V — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls.md`
+- **Verification Pass:** 8.6.6-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Repository governance (Lovable agent)
+- **Authoritative Sources Checked:**
+  - `docs/20-module-prds/purchase/MODULE_PRD.md`
+  - `docs/30-sprint-prds/purchase/MOD-004_SPRINT_PLAN.md` §2 (`SPR-MOD-004-006`)
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments.md`
+  - `docs/10-erp-core/ENGINE_CATALOG.md`
+  - `docs/ENGINE_USAGE_MATRIX.md`
+  - `docs/11-adrs/ADR_INDEX.md`
+  - `docs/02-architecture/event-catalog.md`
+  - `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`, `MOD002_ACCOUNTING_BASELINE_v1.md`, `MOD003_SALES_BASELINE_v1.md`
+  - `docs/MODULE_CATALOG.md`
+  - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+  - `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `docs/30-sprint-prds/purchase/README.md`
+
+### Check / Result / Action Table
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter completeness (sprint_id, parent_module, iteration, stage, pass, size, status, owner, updated, related_engines, related_adrs, tags, document_type) | Pass | None |
+| 2 | 18-section structural conformance vs prior Sprint PRD template (SPR-MOD-004-005) | Pass | None |
+| 3 | Engine allocation parity — 7 engines (`ENG-002, ENG-004, ENG-020, ENG-021, ENG-024, ENG-025, ENG-027`) resolve verbatim from `ENGINE_CATALOG.md`, match `ENGINE_USAGE_MATRIX.md`, and exactly match Sprint 6 allocation in `MOD-004_SPRINT_PLAN.md` §2 (§5 engine table row for `SPR-MOD-004-006`); no placeholder, deprecated, undefined, duplicate, or additional identifiers | Pass | None |
+| 4 | Bidirectional traceability — explicit §3.1 forward (Sprint → Module PRD) and §3.2 reverse (Module PRD → Sprint) tables; unique originating allocation; no orphans; no duplicates | Pass | None |
+| 5 | Accepted ADR validation — `ADR-011`, `ADR-014`, `ADR-032` verbatim from `ADR_INDEX.md` | Pass | None |
+| 6 | Event Catalog validation — `purchase-report.scheduled-report.executed`, `purchase-report.control-report.generated`, `purchase-report.kpi-snapshot.completed`, `purchase-report.exception.surfaced` deferred as `R-EV-01` (Event Catalog remains a stub); no invented events; Event Catalog unmodified | Pass | None |
+| 7 | Dependencies verbatim from `MODULE_CATALOG.md`; explicit SPR-MOD-004-005 originating-supplier wording present in §1.1.1 and §7; consume-not-redefine wording present in §1.1.2 and §7 | Pass | None |
+| 8 | Governance registrations completed exactly once across `SPRINT_CATALOG.md`, `purchase/README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md` | Pass | None |
+| 9 | Cross-module ownership preserved — Inventory (stock ledger, warehouse ops), Accounting (vouchers/ledger/payables/tax/payments/financial reporting), Sales (customer master), MOD-017 Analytics (cross-module BI / predictive), MOD-018 AI Workspace (AI/ML), MOD-001 Platform, and upstream Purchase sprints not redefined | Pass | None |
+| 10 | Stage 2 Sprint PRD requirements per `MODULE_IMPLEMENTATION_WORKFLOW.md` (18 sections, ownership convention, DoD, Exit Criteria verbatim from Sprint Plan) | Pass | None |
+
+### Verification Summary
+
+```text
+Checklist Items: 10
+Passed: 10
+Remediated: 0
+Failed: 0
+Outstanding Risks: R-EV-01 (Event Catalog stub — deferred per repository policy)
+Repository Status: PASS
+Next Pass: 8.7.0 — MOD004_PURCHASE_BASELINE_v1 (Stage 3 Module Baseline)
+```
+
+Invariants satisfied: `Passed + Remediated + Failed = 10`; `Failed = 0 ⇒ Repository Status: PASS`. MOD-004 Purchase Stage 2 is complete.
