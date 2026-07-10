@@ -109,3 +109,76 @@ Sales Module PRD, MOD-003 Sprint Plan, Sprint PRDs, ERP Core Engines, ADRs, Even
 ## Outcome
 
 `MOD003_SALES_BASELINE_v1.md` becomes the authoritative frozen Stage 3 Module Baseline for MOD-003 Sales, superseding the Sprint PRD family as the primary repository-wide Sales reference for cross-module consumption while preserving Sprint-level traceability. Cross-module identifiers are resolved from `MODULE_CATALOG.md` as the authoritative source. An explicit versioning policy governs future evolution via successor baselines (v2+). MOD-003 becomes the third completed repository module after MOD-001 and MOD-002. Repository is ready for **Pass 8.6.0 — MOD-004 Purchase Sprint Planning (Stage 1)**.
+
+---
+
+## Pass 8.5.0 — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md`
+- **Verification Pass:** 8.5.0-V (embedded in Pass 8.5.0)
+- **Verification Date:** 2026-07-07
+- **Verifier:** Lovable (repository governance automation)
+- **Authoritative Sources Checked:** `docs/20-module-prds/sales/MODULE_PRD.md`; `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md`; `docs/30-sprint-prds/sales/SPR-MOD-003-001…006-*.md`; `docs/10-erp-core/ENGINE_CATALOG.md`; `docs/ENGINE_USAGE_MATRIX.md`; `docs/11-adrs/ADR_INDEX.md`; `docs/02-architecture/event-catalog.md`; `docs/MODULE_CATALOG.md`; `docs/MODULE_BASELINE_CATALOG.md`; `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`; `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`; `docs/SPRINT_CATALOG.md`; `docs/DOCUMENT_INDEX.md`; `docs/_meta.json`; `docs/REPOSITORY_MAP.md`; `docs/DOCUMENT_TRACEABILITY.md`; `docs/DOCUMENT_OWNERSHIP_MATRIX.md`; `docs/40-module-baselines/README.md`.
+
+### Verification Check / Result / Action
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | All six Sprint PRDs `SPR-MOD-003-001..006` exist under `docs/30-sprint-prds/sales/` | PASS | none |
+| 2 | Every Stage 1 Sprint reservation in `MOD-003_SPRINT_PLAN.md` has an authored Stage 2 Sprint PRD | PASS | none |
+| 3 | Sprint Catalog transitions Sprints 1–6 for MOD-003 Sales from `Draft` to `Done` | PASS | executed in this pass |
+| 4 | Capability Coverage §4 maps every MOD-003 Module PRD capability area to at least one Sprint; no orphans | PASS | none |
+| 5 | §4 traceability is bidirectional: every listed Sprint covers ≥1 capability area and every capability area is covered by ≥1 Sprint | PASS | none |
+| 6 | §5 Engine list is the exact union of `related_engines` frontmatter and body citations across `SPR-MOD-003-001..006`; identifiers match `ENGINE_CATALOG.md` verbatim | PASS | none |
+| 7 | §6 ADR list is the exact union of `related_adrs` across the Sprint family; all listed ADRs are `Accepted` in `ADR_INDEX.md` | PASS | none |
+| 8 | §7 Governance Conventions enumerate every convention established across Sprints 001–006, grouped by originating Sprint, with no numeric hardcoding | PASS | none |
+| 9 | §8 Events reference only names present in `event-catalog.md` or inherited `R-EV-*` risks; no new event names are introduced by the baseline | PASS | none |
+| 10 | §9 Cross-Module Contracts resolve all module IDs verbatim from `MODULE_CATALOG.md`; downstream ownership boundaries preserved | PASS | none |
+| 11 | Governance registrations complete: `MODULE_BASELINE_CATALOG.md`, `40-module-baselines/README.md`, `DOCUMENT_INDEX.md`, `_meta.json` (`REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md` covered by existing pattern rows for `40-module-baselines/`) | PASS | executed in this pass |
+| 12 | Sprint consolidation: no Sprint PRD content was modified; the baseline is reference-only and introduces no new requirements, engines, ADRs, events, or governance conventions | PASS | none |
+| 13 | Baseline Authority clause is present and correctly expressed: baseline supersedes Sprint PRDs for cross-module consumption while preserving Sprint-level traceability; explicit versioning policy references successor baselines (v2+) with backward traceability | PASS | none |
+
+### Verification Summary
+
+Verification Summary
+Checklist Items: 13
+Passed: 13
+Remediated: 0
+Failed: 0
+Outstanding Risks: none (deferred `R-EV-*` risks remain governed by their originating Sprint PRDs)
+Repository Status: PASS
+Next Pass: 8.6.0 — MOD-004 Purchase Sprint Planning (Stage 1)
+
+### Artifacts Produced
+
+- **Created:** `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md` (Stage 3 Module Baseline, Frozen).
+- **Updated:** `docs/MODULE_BASELINE_CATALOG.md` (row added).
+- **Updated:** `docs/40-module-baselines/README.md` (Current Baselines row added).
+- **Updated:** `docs/DOCUMENT_INDEX.md` (M-section row added).
+- **Updated:** `docs/_meta.json` (sidebar entry added under `40 Module Baselines`).
+- **Updated:** `docs/SPRINT_CATALOG.md` (Sprints 1–6 for MOD-003 Sales transitioned from `Draft` to `Done`).
+
+Documents governed by existing pattern rows for `docs/40-module-baselines/` (`REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md`) require no per-baseline edit; they already register the versioned baseline pattern authoritatively.
+
+### Confirmed Non-Edits
+
+The following authoritative documents were **not modified** by this pass and remain unchanged:
+
+- `docs/20-module-prds/sales/MODULE_PRD.md`
+- `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md`
+- `docs/30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md`
+- `docs/30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md`
+- `docs/30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment.md`
+- `docs/30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md`
+- `docs/30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md`
+- `docs/30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md`
+- `docs/10-erp-core/ENGINE_CATALOG.md`; `docs/ENGINE_USAGE_MATRIX.md`
+- `docs/11-adrs/ADR_INDEX.md` and any ADR file
+- `docs/02-architecture/event-catalog.md`
+- `docs/MODULE_CATALOG.md`
+- `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`
+- `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`
+
+MOD-003 Sales is now **Frozen** at `v1.0`. The repository is ready for **Pass 8.6.0 — MOD-004 Purchase Sprint Planning (Stage 1)**.
