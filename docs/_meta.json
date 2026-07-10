@@ -1109,6 +1109,10 @@
         {
           "title": "MOD003_SALES_BASELINE_v1",
           "path": "40-module-baselines/MOD003_SALES_BASELINE_v1"
+        },
+        {
+          "title": "MOD004_PURCHASE_BASELINE_v1",
+          "path": "40-module-baselines/MOD004_PURCHASE_BASELINE_v1"
         }
       ]
     },
