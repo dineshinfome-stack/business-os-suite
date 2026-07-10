@@ -37,7 +37,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-004-NNN`**, where `NNN`
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
 | SPR-MOD-004-001 | Sprint 1 | Purchase Foundation | Draft — [`SPR-MOD-004-001-purchase-foundation.md`](./SPR-MOD-004-001-purchase-foundation.md) | `MOD001_PLATFORM_BASELINE_v1`, `MOD002_ACCOUNTING_BASELINE_v1`, `MOD003_SALES_BASELINE_v1` |
-| SPR-MOD-004-002 | Sprint 2 | Requisitions, RFQs & Purchase Orders | Planned | `SPR-MOD-004-001` |
+| SPR-MOD-004-002 | Sprint 2 | Requisitions, RFQs & Purchase Orders | Draft — [`SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md`](./SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md) | `SPR-MOD-004-001` |
 | SPR-MOD-004-003 | Sprint 3 | Goods Receipt & Inspection | Planned | `SPR-MOD-004-002` |
 | SPR-MOD-004-004 | Sprint 4 | Vendor Billing & 3-Way Match | Planned | `SPR-MOD-004-003` |
 | SPR-MOD-004-005 | Sprint 5 | Purchase Returns & Debit Notes | Planned | `SPR-MOD-004-003`, `SPR-MOD-004-004` |
