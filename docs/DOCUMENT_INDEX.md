@@ -272,6 +272,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-003-004 — Sales Invoicing | Delivery | Draft | Authoritative | `docs/30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md` |
 | SPR-MOD-003-005 — Returns & Customer Adjustments | Delivery | Draft | Authoritative | `docs/30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md` |
 | SPR-MOD-003-006 — Sales Analytics & Controls | Delivery | Draft | Authoritative | `docs/30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md` |
+| SPR-MOD-004-001 — Purchase Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |

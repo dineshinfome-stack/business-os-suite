@@ -1007,6 +1007,10 @@
           "title": "MOD-004 Purchase — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/purchase/MOD-004_SPRINT_PLAN"
         },
+        {
+          "title": "SPR-MOD-004-001 — Purchase Foundation",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation"
+        },
 
 
         {
