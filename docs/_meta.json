@@ -1062,6 +1062,10 @@
           "path": "30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment"
         },
         {
+          "title": "SPR-MOD-005-006 — Inventory Analytics & Operational Controls",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls"
+        },
+        {
           "title": "MOD-006 CRM",
           "path": "30-sprint-prds/crm/README"
         },
