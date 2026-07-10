@@ -66,3 +66,39 @@ Next Pass: 8.6.0 (MOD-004 Purchase Stage 1)
 - Zero edits to `REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md` — pattern coverage is sufficient and adding per-baseline rows would break the established convention (no such rows exist for MOD-001 or MOD-002 baselines).
 - Zero edits to `MOD003_SALES_BASELINE_v1.md` or any Sprint PRD.
 - If, during execution, any check flips to Fail, apply exactly one minimal registration in the offending file preserving its existing row style, and re-run only that check.
+
+---
+
+## Pass 8.5.0-V2 — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md`
+- **Verification Pass:** 8.5.0-V2 (governance-registration audit)
+- **Verification Date:** 2026-07-10
+- **Verifier:** Lovable
+- **Authoritative Sources Checked:** `docs/REPOSITORY_MAP.md`, `docs/DOCUMENT_TRACEABILITY.md`, `docs/DOCUMENT_OWNERSHIP_MATRIX.md`; precedent set by `MOD001_PLATFORM_BASELINE_v1` and `MOD002_ACCOUNTING_BASELINE_v1` (neither has per-baseline rows in these three files).
+
+### Check / Result / Action
+
+| # | Check | Result | Evidence | Action Taken |
+| --- | --- | --- | --- | --- |
+| 1 | `REPOSITORY_MAP.md` registers `MOD003_SALES_BASELINE_v1` (directly or by folder/pattern). | Covered | Overview tree line 59 registers `40-module-baselines/` as Authoritative; Module Baselines layer section (lines 128–133) documents versioned pattern `MOD<NNN>_<MODULE>_BASELINE_v<version>.md` and names `MODULE_BASELINE_CATALOG.md` as the derived index. Maintenance Note (line 158) regenerates only on top-level folder change. | None. |
+| 2 | `DOCUMENT_TRACEABILITY.md` registers `MOD003_SALES_BASELINE_v1` (directly or by layer/pattern). | Covered | Hierarchy table line 33 registers layer 9 `Module Baselines` at `docs/40-module-baselines/` with filename pattern `MOD<NNN>_<MODULE>_BASELINE_v<version>.md`, indexed by `MODULE_BASELINE_CATALOG.md`. No per-baseline row exists for MOD-001 or MOD-002 baselines — pattern registration is the established convention. | None. |
+| 3 | `DOCUMENT_OWNERSHIP_MATRIX.md` registers `MOD003_SALES_BASELINE_v1` (directly or by pattern). | Covered | Row line 46: `Module Baselines (Stage 3) | Engineering (per module owner) | Engineering + Architecture + Product | New baseline revision (versioned) | docs/40-module-baselines/MOD<NNN>_<MODULE>_BASELINE_v<version>.md`. Pattern matches Sales v1. Consistent with MOD-001/MOD-002 precedent. | None. |
+
+### Verification Summary
+
+```
+Checklist Items: 3
+Passed: 3
+Remediated: 0
+Failed: 0
+Outstanding Risks: none
+Repository Status: PASS
+Next Pass: 8.6.0 (MOD-004 Purchase Stage 1)
+```
+
+### Confirmation
+
+Pass 8.5.0 remains **PASS**. All three governance files register `MOD003_SALES_BASELINE_v1` via folder-level and filename-pattern registration, consistent with the precedent set by `MOD001_PLATFORM_BASELINE_v1` and `MOD002_ACCOUNTING_BASELINE_v1`. No edits applied — adding per-baseline rows would violate the established convention.
