@@ -4,7 +4,7 @@ summary: "Sprint PRDs for Inventory (MOD-005). Sprint identifiers are prefixed S
 layer: "delivery"
 owner: "Supply Chain"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-10"
 module_id: "MOD-005"
 sprint_prefix: "SPR-MOD-005-"
 tags: ["sprint", "prd", "readme"]
@@ -22,6 +22,10 @@ document_type: "Sprint Module Guide"
 - **Module README:** [`../../20-module-prds/inventory/README.md`](../../20-module-prds/inventory/README.md)
 - **Module PRD (authoritative):** [`../../20-module-prds/inventory/MODULE_PRD.md`](../../20-module-prds/inventory/MODULE_PRD.md)
 
+## Stage 1 — Sprint Planning
+
+The Stage 1 Sprint Plan for MOD-005 Inventory is [`MOD-005_SPRINT_PLAN.md`](./MOD-005_SPRINT_PLAN.md). It reserves six Sprint identifiers and defines the sequence, engine/ADR consumption, dependencies, and exit criteria that will govern Stage 2 authoring. Stage 2 authoring has not started; each Sprint PRD below is a **planning placeholder** and will become active documentation only when the corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+
 ## Sprint Identifier Prefix
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-005-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-005-001`, `SPR-MOD-005-002`, …). Identifiers are permanent and never reused.
@@ -32,14 +36,14 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-005-NNN`**, where `NNN`
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-005-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-005)_ | Planned | _(to be defined)_ |
-| SPR-MOD-005-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-005)_ | Planned | _(to be defined)_ |
-| SPR-MOD-005-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-005)_ | Planned | _(to be defined)_ |
-| SPR-MOD-005-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-005)_ | Planned | _(to be defined)_ |
-| SPR-MOD-005-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-005)_ | Planned | _(to be defined)_ |
-| SPR-MOD-005-006 | Sprint 6 | _(to be defined in Pass 8.x — parent MOD-005)_ | Planned | _(to be defined)_ |
+| SPR-MOD-005-001 | Sprint 1 | Inventory Foundation | Planned | `MOD001_PLATFORM_BASELINE_v1` |
+| SPR-MOD-005-002 | Sprint 2 | Stock Receipts & Putaway | Planned | `SPR-MOD-005-001`, `MOD004_PURCHASE_BASELINE_v1` |
+| SPR-MOD-005-003 | Sprint 3 | Stock Issues & Transfers | Planned | `SPR-MOD-005-001` |
+| SPR-MOD-005-004 | Sprint 4 | Stock Adjustments & Physical Verification | Planned | `SPR-MOD-005-001` |
+| SPR-MOD-005-005 | Sprint 5 | Inventory Valuation & Replenishment | Planned | `SPR-MOD-005-002`, `SPR-MOD-005-003`, `SPR-MOD-005-004`, `MOD002_ACCOUNTING_BASELINE_v1` |
+| SPR-MOD-005-006 | Sprint 6 | Inventory Analytics & Controls | Planned | `SPR-MOD-005-001` … `SPR-MOD-005-005` |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is reconciled to **6** by the authoritative Sprint Plan (`MOD-005_SPRINT_PLAN.md`). Row counts and goals here follow the Sprint Plan and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
 
 ## Authoring Rules
 

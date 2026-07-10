@@ -1038,6 +1038,10 @@
           "path": "30-sprint-prds/inventory/README"
         },
         {
+          "title": "MOD-005 Inventory — Sprint Plan (Stage 1)",
+          "path": "30-sprint-prds/inventory/MOD-005_SPRINT_PLAN"
+        },
+        {
           "title": "MOD-006 CRM",
           "path": "30-sprint-prds/crm/README"
         },
