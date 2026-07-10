@@ -46,12 +46,12 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-002-004 | Sprint 4 | MOD-002 Accounting | Done | [`30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md`](30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements.md) | Accounting |
 | SPR-MOD-002-005 | Sprint 5 | MOD-002 Accounting | Done | [`30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md`](30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation.md) | Accounting |
 | SPR-MOD-002-006 | Sprint 6 | MOD-002 Accounting | Done | [`30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md`](30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit.md) | Accounting |
-| SPR-MOD-003-001 | Sprint 1 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md`](30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md) | Sales |
-| SPR-MOD-003-002 | Sprint 2 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md`](30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md) | Sales |
-| SPR-MOD-003-003 | Sprint 3 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment.md`](30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment.md) | Sales |
-| SPR-MOD-003-004 | Sprint 4 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md`](30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md) | Sales |
-| SPR-MOD-003-005 | Sprint 5 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md`](30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md) | Sales |
-| SPR-MOD-003-006 | Sprint 6 | MOD-003 Sales | Draft | [`30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md`](30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md) | Sales |
+| SPR-MOD-003-001 | Sprint 1 | MOD-003 Sales | Done | [`30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md`](30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation.md) | Sales |
+| SPR-MOD-003-002 | Sprint 2 | MOD-003 Sales | Done | [`30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md`](30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders.md) | Sales |
+| SPR-MOD-003-003 | Sprint 3 | MOD-003 Sales | Done | [`30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment.md`](30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment.md) | Sales |
+| SPR-MOD-003-004 | Sprint 4 | MOD-003 Sales | Done | [`30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md`](30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing.md) | Sales |
+| SPR-MOD-003-005 | Sprint 5 | MOD-003 Sales | Done | [`30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md`](30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments.md) | Sales |
+| SPR-MOD-003-006 | Sprint 6 | MOD-003 Sales | Done | [`30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md`](30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls.md) | Sales |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 

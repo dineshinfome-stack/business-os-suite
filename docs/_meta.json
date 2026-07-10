@@ -1076,6 +1076,10 @@
         {
           "title": "MOD002_ACCOUNTING_BASELINE_v1",
           "path": "40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1"
+        },
+        {
+          "title": "MOD003_SALES_BASELINE_v1",
+          "path": "40-module-baselines/MOD003_SALES_BASELINE_v1"
         }
       ]
     },

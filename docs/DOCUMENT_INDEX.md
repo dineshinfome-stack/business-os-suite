@@ -188,6 +188,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Migration Strategy | Foundation | Approved | Authoritative | `docs/migration-strategy.md` |
 | MOD001_PLATFORM_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` |
 | MOD002_ACCOUNTING_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md` |
+| MOD003_SALES_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
 | Module Baselines — Layer README | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/README.md` |
 | Module Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_CATALOG.md` |
