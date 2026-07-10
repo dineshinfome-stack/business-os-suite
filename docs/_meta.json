@@ -1027,6 +1027,10 @@
           "title": "SPR-MOD-004-005 — Purchase Returns & Vendor Adjustments",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments"
         },
+        {
+          "title": "SPR-MOD-004-006 — Purchase Analytics & Controls",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls"
+        },
 
 
         {

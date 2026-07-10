@@ -277,6 +277,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-004-003 — Goods Receipt & Inspection | Delivery | Draft | Authoritative | `docs/30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection.md` |
 | SPR-MOD-004-004 — Vendor Billing & Commercial 3-Way Match | Delivery | Draft | Authoritative | `docs/30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match.md` |
 | SPR-MOD-004-005 — Purchase Returns & Vendor Adjustments | Delivery | Draft | Authoritative | `docs/30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments.md` |
+| SPR-MOD-004-006 — Purchase Analytics & Controls | Delivery | Draft | Authoritative | `docs/30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
