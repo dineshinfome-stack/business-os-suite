@@ -59,6 +59,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-004-005 | Sprint 5 | MOD-004 Purchase | Done | [`30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments.md`](30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments.md) | Procurement |
 | SPR-MOD-004-006 | Sprint 6 | MOD-004 Purchase | Done | [`30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls.md`](30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls.md) | Procurement |
 | SPR-MOD-005-001 | Sprint 1 | MOD-005 Inventory | Draft | [`30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation.md`](30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation.md) | Inventory |
+| SPR-MOD-005-002 | Sprint 2 | MOD-005 Inventory | Draft | [`30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway.md`](30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway.md) | Inventory |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
