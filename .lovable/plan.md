@@ -93,3 +93,58 @@ Invariants: `Passed + Remediated + Failed = 10`; `Repository Status = PASS ⇔ F
 ## Outcome
 
 `SPR-MOD-004-005-purchase-returns-vendor-adjustments.md` becomes the authoritative Sprint PRD for the commercial Purchase Returns and Vendor Adjustments lifecycle. Inventory transactions remain owned by Inventory; accounting/tax/payables/financial postings remain owned by MOD002 Accounting via approved contracts. Repository ready for **Pass 8.6.6 — SPR-MOD-004-006 (Purchase Analytics & Controls)**.
+
+---
+
+## Pass 8.6.5-V — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments.md`
+- **Verification Pass:** 8.6.5-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Repository governance (Lovable agent)
+- **Authoritative Sources Checked:**
+  - `docs/20-module-prds/purchase/MODULE_PRD.md`
+  - `docs/30-sprint-prds/purchase/MOD-004_SPRINT_PLAN.md` §2 (`SPR-MOD-004-005`)
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match.md`
+  - `docs/10-erp-core/ENGINE_CATALOG.md`
+  - `docs/ENGINE_USAGE_MATRIX.md`
+  - `docs/11-adrs/ADR_INDEX.md`
+  - `docs/02-architecture/event-catalog.md`
+  - `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`, `MOD002_ACCOUNTING_BASELINE_v1.md`, `MOD003_SALES_BASELINE_v1.md`
+  - `docs/MODULE_CATALOG.md`
+  - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+  - `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `docs/30-sprint-prds/purchase/README.md`
+
+### Check / Result / Action Table
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter completeness (sprint_id, parent_module, iteration, stage, pass, size, status, owner, updated, related_engines, related_adrs, tags, document_type) | Pass | None |
+| 2 | 18-section structural conformance vs prior Sprint PRD template (SPR-MOD-004-004) | Pass | None |
+| 3 | Engine allocation parity — 11 engines (`ENG-002, ENG-004, ENG-007, ENG-008, ENG-010, ENG-011, ENG-012, ENG-017, ENG-018, ENG-024, ENG-025`) resolve verbatim from `ENGINE_CATALOG.md`, match `ENGINE_USAGE_MATRIX.md`, and exactly match Sprint 5 allocation in `MOD-004_SPRINT_PLAN.md` §2; no placeholder, deprecated, undefined, duplicate, or additional identifiers | Pass | None |
+| 4 | Bidirectional traceability — explicit §3.1 forward (Sprint → Module PRD) and §3.2 reverse (Module PRD → Sprint) tables; unique originating allocation; no orphans; no duplicates | Pass | None |
+| 5 | Accepted ADR validation — `ADR-011`, `ADR-014`, `ADR-032` verbatim from `ADR_INDEX.md` | Pass | None |
+| 6 | Event Catalog validation — `DebitNoteIssued` and `purchase-return.*` / `replacement-request.*` / `vendor-return-authorization.*` / `vendor-adjustment.*` events deferred as `R-EV-01` (Event Catalog remains a stub); no invented events; Event Catalog unmodified | Pass | None |
+| 7 | Dependencies verbatim from `MODULE_CATALOG.md`; explicit PO (`SPR-MOD-004-002`), GRN (`SPR-MOD-004-003`), and Vendor Billing (`SPR-MOD-004-004`) originating-supplier wording present in §1.1 and §7 | Pass | None |
+| 8 | Governance registrations completed exactly once across `SPRINT_CATALOG.md`, `purchase/README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md` | Pass | None |
+| 9 | Cross-module ownership preserved — Inventory (stock ledger, putaway, cost-layer reversal), Accounting (vouchers/ledger/payables/tax/payments), Sales (customer master), MOD001 Platform, and upstream Purchase sprints not redefined | Pass | None |
+| 10 | Stage 2 Sprint PRD requirements per `MODULE_IMPLEMENTATION_WORKFLOW` (18 sections, ownership convention, DoD, Exit Criteria verbatim from Sprint Plan) | Pass | None |
+
+### Verification Summary
+
+```text
+Checklist Items: 10
+Passed: 10
+Remediated: 0
+Failed: 0
+Outstanding Risks: R-EV-01 (Event Catalog stub — deferred per repository policy)
+Repository Status: PASS
+Next Pass: 8.6.6 — SPR-MOD-004-006 (Purchase Analytics & Controls)
+```
+
+Invariants satisfied: `Passed + Remediated + Failed = 10`; `Failed = 0 ⇒ Repository Status: PASS`.
