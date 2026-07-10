@@ -157,3 +157,76 @@ No other authoritative documents are touched.
 ## Outcome
 
 The Repository Audit gate is now versioned (`Spec v1.0`), supports optional artifact hashes for offline / export-only reviews, and classifies findings by severity (`Critical / Major / Minor / Informational`) — enabling prioritized remediation while preserving the strict PASS/FAIL model. Pass 8.8.5 receives its first repository audit under Spec v1.0; the repository proceeds to Pass 8.8.6 only if the audit reports `READY / HIGH` with cited revision identifier and no unresolved `Critical` or `Major` findings.
+
+---
+
+## Pass 8.8.5-A — Repository Audit (Spec v1.0)
+
+### Reproducibility Metadata
+
+- **Audit Specification Version:** 1.0
+- **Audit Timestamp (UTC):** 2026-07-10T00:00:00Z
+- **Auditor:** Lovable agent (Pass 8.8.5-A)
+- **Repository Revision Identifier:** `dcd3d7ea2dcc86211aff5d86c45cdab25ea522bd`
+  - Evidence: `git rev-parse HEAD` → `dcd3d7ea2dcc86211aff5d86c45cdab25ea522bd`
+- **Change-tracking mechanism used:** Git (`git rev-parse HEAD`, `sha256sum`).
+- **Mandatory Read Set opened:**
+  - `docs/30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment.md` (frontmatter L1-20; sections index L25-624)
+  - `docs/30-sprint-prds/inventory/MOD-005_SPRINT_PLAN.md` (§ SPR-MOD-005-005, L108-125)
+  - `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/30-sprint-prds/inventory/README.md`, `docs/_meta.json`, `.lovable/plan.md`
+  - `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/MODULE_CATALOG.md`, `docs/02-architecture/event-catalog.md`, `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+- **Declared Files Modified list (Pass 8.8.5):**
+  1. `docs/30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment.md`
+  2. `docs/SPRINT_CATALOG.md`
+  3. `docs/30-sprint-prds/inventory/README.md`
+  4. `docs/DOCUMENT_INDEX.md`
+  5. `docs/_meta.json`
+  6. `.lovable/plan.md`
+- **Observed change set:** matches declared list (via prior-turn tool call outputs and current tree inspection).
+- **Optional Artifact Hashes (SHA-256, post-pass; `sha256sum <path>`):**
+  - `12c1c2c6b55d54bdc19850a84b484f489e8b640b36247f77587f13d32183c13d  docs/30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment.md`
+  - `01d07fe6c95113793b35a009bf186290e87dc7bfe2bdee4fa7a2858d1ee4be21  docs/SPRINT_CATALOG.md`
+  - `635e86e097cdec1bec61f6af37883667349a074f6420d6c50f01d52902c07dc8  docs/30-sprint-prds/inventory/README.md`
+  - `c0cd92a1ea48684a1a5dcd5e0dbd386076b1c0cf4cfa91680d594b4079361826  docs/DOCUMENT_INDEX.md`
+  - `575b98d1847e26c5056846090c1168d599a06d64bc0747adf803d27e8058e085  docs/_meta.json`
+  - `5217a3cb72b4596fb61887825626d054a298f7331099db2540d03f74fc0c505b  .lovable/plan.md` (pre-8.8.5-A append)
+
+### Evidence Table
+
+| # | Check | PASS/FAIL | Severity | Repository Evidence | Required Fix |
+|---|---|---|---|---|---|
+| 1 | Sprint PRD file exists at declared path | PASS | Informational | `docs/30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment.md` (66,399 bytes; `ls -la` confirms presence) | none |
+| 2 | Frontmatter matches specification (incl. `size` bound to Sprint Plan) | PASS | Informational | PRD L1-20 → `sprint_id: "SPR-MOD-005-005"`, `parent_module: "MOD-005"`, `iteration: "Sprint 5"`, `stage: "2"`, `pass: "8.8.5"`, `size: "Medium"`; Sprint Plan L114 → `**Estimated size.** Medium.` | none |
+| 3 | Exactly 18 sections; numbering matches template | PASS | Informational | PRD headings at L41, 125, 152, 197, 219, 329, 338, 369, 390, 404, 451, 470, 490, 503, 575, 588, 603, 624 = 18 numbered `## N.` sections | none |
+| 4 | Sprint scope exactly matches Sprint Plan allocation | PASS | Informational | Sprint Plan L108-125 lists Valuation method configuration, Valuation recalculation on stock events, Valuation-change events, Reorder policy maintenance, Replenishment suggestion generation, Low-stock detection; PRD §1 mirrors these verbatim | none |
+| 5 | Capability bidirectionality | PASS | Informational | PRD §3 Bidirectional Traceability tables (L152-196) enumerate forward and reverse mappings and encode the six invariants required by the pass plan | none |
+| 6 | Engine set identity across Sprint PRD ∧ Sprint Plan ∧ ENGINE_USAGE_MATRIX ∧ ENGINE_CATALOG | PASS | Informational | Sprint Plan L118: `ENG-002 Authorization, ENG-004 Audit, ENG-005 Configuration, ENG-012 Rules, ENG-013 Automation, ENG-015 Voucher, ENG-016 Posting, ENG-024 Event`; PRD frontmatter `related_engines: ["ENG-002","ENG-004","ENG-005","ENG-012","ENG-013","ENG-015","ENG-016","ENG-024"]` — identical set, same order | none |
+| 7 | ADR IDs match ADR_INDEX (Accepted only) | PASS | Informational | Sprint Plan L119 → `ADR-011, ADR-014, ADR-032`; PRD frontmatter `related_adrs: ["ADR-011","ADR-014","ADR-032"]` — identity match; all Accepted per ADR_INDEX | none |
+| 8 | Event names resolve verbatim in event-catalog.md OR deferred as R-EV-* | PASS | Minor | `event-catalog.md` is currently a stub with all sections marked "Section stub — content to be filled in a later pass"; PRD §11 defers unresolved event names under risk `R-EV-01` per plan | none (event catalog population is a separate authorized workstream) |
+| 9 | Governance wording preserves ownership boundaries; no prohibited ownership transfer | PASS | Informational | PRD §1.1-§1.9 declare Inventory ownership of valuation & replenishment and explicitly consume Accounting, Purchase, Sales, Warehouse, Manufacturing via approved repository contracts; §1.9 "No Downstream Ownership Transfer" is present | none |
+| 10 | Dependencies resolve verbatim from MODULE_CATALOG.md | PASS | Informational | PRD §7 references `MOD-002 Accounting`, `MOD-003 Sales`, `MOD-004 Purchase`, and consumer modules by their MODULE_CATALOG identifiers only | none |
+| 11 | Five governance registrations exist exactly once; no duplicates | PASS | Major (verified clean) | `grep -c "SPR-MOD-005-005"`: SPRINT_CATALOG=1, DOCUMENT_INDEX=1, inventory/README=2 (table row + link, single logical entry), _meta.json=2 (label + path, single logical entry); `.lovable/plan.md` records the pass exactly once | none |
+| 12 | Repository consistency (cross-refs resolve; no broken internal links; no duplicate Sprint/Module/document IDs) | PASS | Informational | Sprint ID `SPR-MOD-005-005` appears in exactly one Sprint PRD file; cross-references to Module PRD, Sprint Plan, and prior Sprint PRDs resolve to existing files under `docs/30-sprint-prds/inventory/` and `docs/20-module-prds/inventory/` | none |
+| 13 | Metadata consistency across frontmatter, README, SPRINT_CATALOG, DOCUMENT_INDEX, _meta.json | PASS | Informational | Iteration `Sprint 5`, title `Inventory Valuation & Replenishment`, status `Draft` agree in PRD frontmatter, `inventory/README.md` (row: "SPR-MOD-005-005 | Sprint 5 | Inventory Valuation & Replenishment | Draft"), `SPRINT_CATALOG.md`, `DOCUMENT_INDEX.md`, and `_meta.json` nav entry | none |
+| 14 | Authoritative source integrity — no unexpected authoritative modifications; observed change set = declared list | PASS | Informational | Observed change set for Pass 8.8.5 = declared six-file list; `MODULE_PRD.md`, `ENGINE_CATALOG.md`, `ADR_INDEX.md`, `MODULE_CATALOG.md`, prior Sprint PRDs, `event-catalog.md`, `REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md` unchanged; revision `dcd3d7ea…` cited above | none |
+| 15 | `.lovable/plan.md` updated with verification metadata + summary | PASS | Informational | `.lovable/plan.md` contains the Pass 8.8.5 execution record with Verification Metadata, 10-row Check/Result/Action table, and Verification Summary block (`Passed: 10 / Remediated: 0 / Failed: 0 / Repository Status: PASS`) | none |
+
+### Final Report
+
+```
+Repository Audit
+Audit Specification Version: 1.0
+Checks: 15
+Passed: 15
+Remediated: 0
+Failed: 0
+  Critical: 0
+  Major: 0
+  Minor: 0
+Repository Status: READY
+Confidence:        HIGH
+Revision:          dcd3d7ea2dcc86211aff5d86c45cdab25ea522bd   (evidence: `git rev-parse HEAD` → `dcd3d7ea2dcc86211aff5d86c45cdab25ea522bd`)
+Artifact Hashes:   see Reproducibility Metadata block above
+```
+
+Invariants satisfied: `Passed + Remediated + Failed = Checks` (15 = 15); `Failed(Critical)=0 ∧ Failed(Major)=0 ⇒ Repository Status = READY`; every PASS row cites file path + line range / heading + exact matching text; authoritative source integrity verified via Git; revision identifier cited as evidence ⇒ `Confidence = HIGH`. **Gate rule satisfied — proceed to Pass 8.8.6.**
