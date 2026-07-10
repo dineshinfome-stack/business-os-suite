@@ -4,7 +4,7 @@ summary: "Frozen Module Baselines produced at Stage 3 of the module implementati
 layer: "delivery"
 owner: "Engineering"
 status: "approved"
-updated: "2026-07-06"
+updated: "2026-07-10"
 tags: ["baseline", "module", "governance", "stage-3"]
 document_type: "Layer Guide"
 ---
