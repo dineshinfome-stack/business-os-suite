@@ -219,6 +219,99 @@ For a Sprint PRD verification pass following the repository-standard checklist, 
 
 All three artifacts are written into `.lovable/plan.md` under the pass's Execution Record **and** mirrored in the pass's final chat reply.
 
+### Post-Implementation Repository Audit (Mandatory Final Gate) — v1.0
+
+**Audit Specification Version: 1.0.** The Repository Audit is a repository-wide, evidence-based final gate that runs *after* the pass-specific verification checklist and *after* the three verification artifacts above. It is a superset gate: existing 10-item / 13-item verification remains the internal verification step; the audit is the external evidence-based confirmation.
+
+1. **Trigger.** Runs after every Stage-2 Sprint PRD pass, every Stage-3 Baseline pass, and any pass that mutates authoritative documents. The pass is not complete until the audit reports `Repository Status: READY` at `Confidence: HIGH`.
+
+2. **Specification versioning.** Every audit record SHALL declare `Audit Specification Version: <MAJOR.MINOR>` (initial value `1.0`). Backward-incompatible changes to the Standard Check Set, Confidence rubric, or Gate rule require a MAJOR bump; additive refinements require a MINOR bump. Older audit records remain valid under the version they were written against; the current version applies to new passes.
+
+3. **Governance stance (strict).**
+   - `Repository Status: READY` means no evidence-based failures were found.
+   - `Confidence: HIGH` additionally requires verified authoritative source integrity via a change-tracking mechanism.
+   - The gate to proceed to the next pass requires **both** `READY` and `HIGH`. An environment without change tracking cannot pass the gate, even if every document is otherwise perfect.
+
+4. **Audit rules.**
+   - Read every modified file directly; do not rely on the implementation summary, memory, or logs.
+   - Every PASS SHALL cite the repository location (file path **plus line range or uniquely identifiable section heading**) together with the **exact matching text**.
+   - Missing evidence ⇒ FAIL.
+   - Never assume a document exists because it was reported as created.
+   - **Access guard clause.** If any file in the Mandatory Read Set cannot be opened or read, the audit SHALL terminate immediately with `Repository Status: NOT READY` and `Confidence: LOW`, listing the inaccessible files. No PASS/FAIL is inferred for unread files.
+
+5. **Audit reproducibility (mandatory metadata).** Every audit record SHALL include, at minimum:
+   - `Audit Specification Version` (e.g. `1.0`).
+   - Audit timestamp (ISO-8601 UTC).
+   - **Repository revision identifier** (commit SHA, version ID, or equivalent). SHALL be cited as evidence — the auditor SHALL quote the exact command and its verbatim output (e.g. `git rev-parse HEAD` → `<sha>`). Missing revision identifier caps Confidence at `MEDIUM`.
+   - **Optional artifact hashes.** For each file in the declared Files Modified list, the auditor MAY additionally record a SHA-256 checksum (or equivalent) of the post-pass contents, captured with the command used (e.g. `sha256sum <path>` → `<digest>  <path>`). Recommended for environments where only exported documents will be reviewed.
+   - Tool / version used for verification (auditor identity and tooling versions).
+   - Change-tracking mechanism used, or explicit statement that none was available.
+   - Mandatory read set actually opened, with line ranges consulted.
+   - Declared Files Modified list and the actual observed change set.
+
+6. **Mandatory Read Set** (per pass; expand as authoritative sources evolve): the newly created / modified artifact(s); parent Module PRD; parent Sprint Plan (Stage 2 passes); `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, module sprint `README.md`, `docs/_meta.json`, `.lovable/plan.md`; `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`; `docs/11-adrs/ADR_INDEX.md`; `docs/MODULE_CATALOG.md`; `docs/02-architecture/event-catalog.md`; `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`.
+
+7. **Evidence Table Schema** — five columns: `Check | PASS/FAIL | Severity | Repository Evidence | Required Fix`. PASS rows without file-path + line-range/heading + exact quote are invalid.
+
+8. **Severity classification.** Every finding SHALL be tagged with one severity level. Severity is orthogonal to PASS/FAIL: it classifies the *type* of finding, and for FAIL rows it drives remediation priority. PASS rows use `Informational` unless reviewer interpretation was required (use `Minor`).
+   - **Critical** — violates authoritative-source integrity, governance boundary, engine/ADR/event authority, or capability bidirectionality; blocks the gate unconditionally.
+   - **Major** — violates repository consistency, metadata consistency, structural conformance (18 sections, frontmatter, `size` binding), or governance registration exactness; blocks the gate.
+   - **Minor** — cosmetic drift, evidence quality reduced to reviewer interpretation, non-normative reordering; does not block the gate but downgrades Confidence to `MEDIUM`.
+   - **Informational** — evidence citation for a passing check; no action required.
+
+   Gate impact: any `Critical` or `Major` FAIL ⇒ `Repository Status: NOT READY`; any unresolved `Minor` FAIL ⇒ Confidence capped at `MEDIUM`; only `Informational` findings ⇒ gate can be `READY / HIGH`.
+
+9. **Standard Check Set** (superset; suggested default severity in parentheses):
+   - Sprint PRD file exists at declared path. *(Critical)*
+   - Frontmatter matches specification (including `size` bound to Sprint Plan). *(Major)*
+   - Exactly 18 sections; numbering matches template. *(Major)*
+   - Sprint scope exactly matches Sprint Plan allocation. *(Critical)*
+   - **Capability bidirectionality** — every Sprint capability originates from exactly one Module PRD capability; every allocated Module capability appears exactly once; no additional capability. *(Critical)*
+   - **Engine set identity** — identical across Sprint PRD, Sprint Plan, `ENGINE_USAGE_MATRIX`, `ENGINE_CATALOG`; no missing, additional, reordered (where normative), deprecated, or undefined identifiers. *(Critical)*
+   - ADR IDs match `ADR_INDEX` (Accepted only). *(Critical)*
+   - Event names resolve verbatim in `event-catalog.md` OR are deferred as `R-EV-*`; no invented IDs. *(Critical)*
+   - Governance wording preserves ownership boundaries; no prohibited ownership transfer. *(Critical)*
+   - Dependencies resolve verbatim from `MODULE_CATALOG.md`. *(Major)*
+   - Five governance registrations exist exactly once; no duplicates. *(Major)*
+   - **Repository consistency** — cross-references resolve; no broken internal links; no duplicate Sprint IDs, Module IDs, or document identifiers. *(Major)*
+   - **Metadata consistency** — agrees across frontmatter, module `README`, `SPRINT_CATALOG`, `DOCUMENT_INDEX`, `_meta.json`. *(Major)*
+   - **Authoritative source integrity** — every modified file appears in declared list; no additional authoritative document changed; verified via `git diff` / `git status` **or an equivalent repository change-tracking mechanism available in the execution environment**. Immutable examples: `MODULE_PRD.md`, `ENGINE_CATALOG.md`, `ADR_INDEX.md`, `MODULE_CATALOG.md`, prior Sprint PRDs, `event-catalog.md`, `REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md`. If no change-tracking mechanism is available, treat as **unverified** and cap Confidence at `MEDIUM`; under the strict-governance stance the pass cannot proceed. *(Critical)*
+   - `.lovable/plan.md` updated with verification metadata + summary. *(Major)*
+
+10. **Failure policy.** On any FAIL: report exact section, quote evidence, tag severity, recommend minimum edit; do not auto-modify authoritative sources; re-run audit after correction.
+
+11. **Final Report Format.**
+
+    ```
+    Repository Audit
+    Audit Specification Version: 1.0
+    Checks:
+    Passed:
+    Remediated:
+    Failed:
+      Critical:
+      Major:
+      Minor:
+    Repository Status: READY | NOT READY
+    Confidence:        HIGH  | MEDIUM    | LOW
+    Revision:          <commit SHA / version ID>   (evidence: <command + quoted output>)
+    Artifact Hashes:   <optional SHA-256 lines, one per modified file>
+    ```
+
+    Invariants:
+    - `Passed + Remediated + Failed = Checks`.
+    - `Failed = Critical + Major + Minor` (Informational never contributes to Failed).
+    - `Repository Status = READY ⇔ Failed(Critical) = 0 ∧ Failed(Major) = 0`.
+    - **Confidence rubric.**
+      - `HIGH` — every PASS supported by repository evidence, authoritative source integrity verified, revision identifier cited, no unresolved `Minor` findings.
+      - `MEDIUM` — evidence exists but reviewer interpretation was required, OR integrity / revision unverifiable, OR unresolved `Minor` findings.
+      - `LOW` — assumptions / unread files / access guard fired.
+    - **Gate rule (strict).** Proceed to next pass ⇔ `Repository Status = READY` ∧ `Confidence = HIGH`.
+
+12. **Relationship to the 10-item / 13-item verification.** The audit is a superset gate; the checklists remain the internal verification step and the audit is the external evidence-based confirmation.
+
+
+
 ## Stage Boundaries
 
 Stages do not overlap. No Sprint PRD may be authored before Stage 1 approval; no Module Baseline may be issued before Stage 2 completes. If work-in-flight reveals a defect in a completed stage, that stage is amended explicitly before the current stage continues.
