@@ -70,3 +70,39 @@ Invariants: `Passed + Remediated + Failed = 10`; `Repository Status = PASS ⇔ F
 ## Outcome
 
 MOD-004 Sprint 1 authored and verified. Repository ready for **Pass 8.6.2 — SPR-MOD-004-002 (RFQ & Purchase Orders)**.
+
+---
+
+## Pass 8.6.1 / 8.6.1-V — Execution Record
+
+### Verification Metadata
+- **Target Artifact:** `docs/30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation.md`
+- **Verification Pass:** 8.6.1-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Lovable agent
+- **Authoritative Sources Checked:** `docs/20-module-prds/purchase/MODULE_PRD.md`; `docs/30-sprint-prds/purchase/MOD-004_SPRINT_PLAN.md`; `docs/10-erp-core/ENGINE_CATALOG.md`; `docs/ENGINE_USAGE_MATRIX.md`; `docs/11-adrs/ADR_INDEX.md`; `docs/02-architecture/event-catalog.md`; `docs/MODULE_CATALOG.md`; `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`; `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`, `MOD002_ACCOUNTING_BASELINE_v1.md`, `MOD003_SALES_BASELINE_v1.md`; template `SPR-MOD-003-001-sales-foundation.md`.
+
+### Check / Result / Action
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter completeness (sprint_id, parent_module, iteration, stage, pass, size, owner, status, updated, document_type, related_engines, related_adrs, tags) | Pass | None |
+| 2 | 18-section structural conformance vs. `SPR-MOD-003-001` template | Pass | None |
+| 3 | Engine allocation resolves verbatim from `ENGINE_CATALOG.md`, matches `ENGINE_USAGE_MATRIX.md` and `MOD-004_SPRINT_PLAN.md` Sprint 1 row (`ENG-001`, `ENG-002`, `ENG-003`, `ENG-004`, `ENG-005`, `ENG-006`, `ENG-017`, `ENG-018`, `ENG-024`); no placeholders/deprecated/undefined/additional | Pass | None |
+| 4 | Bidirectional traceability preserved with unique originating allocation (§3 forward + reverse; no orphan, no cross-sprint duplication of originating capabilities) | Pass | None |
+| 5 | Accepted ADRs only, verbatim from `ADR_INDEX.md` (`ADR-011`, `ADR-014`, `ADR-032`) | Pass | None |
+| 6 | Event Catalog validation — event-name policy stated; unresolved names deferred as `R-EV-01`; catalog not modified | Pass | None |
+| 7 | Dependencies resolve verbatim from `MODULE_CATALOG.md` (MOD-001, MOD-002, MOD-003, MOD-005, MOD-017) | Pass | None |
+| 8 | Governance registrations completed exactly once across `SPRINT_CATALOG.md`, `docs/30-sprint-prds/purchase/README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md` | Pass | None |
+| 9 | Cross-module ownership preserved (Platform, Accounting, Sales, Inventory boundaries per §1.1.2; customer ownership not redefined; accounting/inventory ownership not redefined) | Pass | None |
+| 10 | Stage-2 Sprint PRD requirements per `MODULE_IMPLEMENTATION_WORKFLOW.md` (Sections 1–18, DoD, Exit Criteria, Review Gate) | Pass | None |
+
+### Verification Summary
+- Checklist Items: **10** · Passed: **10** · Remediated: **0** · Failed: **0**
+- Outstanding Risks: **R-EV-01** (Deferred — event-catalog registration for unresolved event names before Purchase Sprint 2 consumption)
+- Repository Status: **PASS**
+- Next Pass: **8.6.2 — SPR-MOD-004-002 (Requisitions, RFQs & Purchase Orders)**
+
+Invariant: 10 + 0 + 0 = 10 ✅ · PASS since Failed = 0 ✅.
+
+Note: `REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, `DOCUMENT_OWNERSHIP_MATRIX.md` remain covered by their pattern-based registrations for `30-sprint-prds/purchase/` per Pass 8.5.0-V2 precedent; no direct edits required.
