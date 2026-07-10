@@ -148,6 +148,11 @@ A Sprint PRD authoring pass is considered complete only if:
 
 These checks are intentionally lightweight and serve as a repository hygiene gate before the next Sprint PRD authoring pass begins. They help prevent duplicate registrations, documentation drift, and structural inconsistencies as the Sprint PRD library grows across all modules.
 
+### 13.4 Post-Implementation Repository Audit
+
+After the lightweight verification pattern above, every Sprint PRD authoring pass SHALL also pass the **Post-Implementation Repository Audit (Spec v1.0)** defined in `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` under *Verification Reporting Standard → Post-Implementation Repository Audit (Mandatory Final Gate) — v1.0*. The audit is evidence-based, reproducible, and strict; the pass may proceed only when the audit reports `Repository Status: READY` and `Confidence: HIGH`.
+
+
 ## 14. Sprint Sequencing Rules
 
 Sprint ordering follows the allowable implementation order defined in `docs/SPRINT_DEPENDENCY_MATRIX.md`. Within a module, sprints proceed sequentially by `SPR-MOD-NNN-NNN` unless the Sprint PRDs themselves declare a compatible parallelism (independent slices, no shared migrations).
