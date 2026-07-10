@@ -71,3 +71,54 @@ Append to `.lovable/plan.md` and mirror in chat:
 ## Outcome
 
 `SPR-MOD-005-001-inventory-foundation.md` becomes the authoritative Sprint PRD for Inventory Foundation. Repository ready for **Pass 8.8.2 — SPR-MOD-005-002 (Inventory Receipts & Putaway)**.
+
+---
+
+# Pass 8.8.1 / 8.8.1-V — Execution Record
+
+## Verification Metadata
+
+- **Target Artifact:** `docs/30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation.md`
+- **Verification Pass:** 8.8.1-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Lovable Agent
+- **Authoritative Sources Checked:**
+  - `docs/20-module-prds/inventory/MODULE_PRD.md`
+  - `docs/30-sprint-prds/inventory/MOD-005_SPRINT_PLAN.md`
+  - `docs/10-erp-core/ENGINE_CATALOG.md`
+  - `docs/ENGINE_USAGE_MATRIX.md`
+  - `docs/11-adrs/ADR_INDEX.md`
+  - `docs/02-architecture/event-catalog.md`
+  - `docs/MODULE_CATALOG.md`
+  - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+
+## Check / Result / Action
+
+| # | Check | Result | Action |
+|---|-------|--------|--------|
+| 1 | Frontmatter completeness | Pass | Includes sprint_id, parent_module, iteration, stage, pass, size, status, owner, updated, document_type, related_engines, related_adrs, tags. |
+| 2 | 18-section structural conformance | Pass | Sections §1–§18 present; §1.1.1–§1.1.7 governance sub-sections included per Purchase parity. |
+| 3 | Engine identifiers verbatim from ENGINE_CATALOG.md, matching ENGINE_USAGE_MATRIX.md, exactly matching Sprint 1 allocation in MOD-005_SPRINT_PLAN.md; no placeholder/deprecated/undefined/duplicate/additional IDs | Pass | Set = `{ENG-001, ENG-002, ENG-003, ENG-004, ENG-005, ENG-006, ENG-017, ENG-024}` exactly matches Sprint Plan §2 SPR-MOD-005-001 engines. |
+| 4 | Bidirectional traceability validated using both forward (Module→Sprint) and reverse (Sprint→Module) tables; no orphan; no duplicate originating allocation | Pass | §3.1 and §3.2 present; every Sprint 1 capability traces to a MODULE_PRD reference; no unallocated Module capability introduced beyond Sprint 1 scope. |
+| 5 | Accepted ADRs only, verbatim from ADR_INDEX.md | Pass | `ADR-011`, `ADR-014`, `ADR-032` — all Accepted; no Proposed/Draft/Superseded relied upon. |
+| 6 | Events verbatim from Event Catalog or deferred `R-EV-*`; no invented events | Pass | Event Catalog is a stub; every §11 event surface is deferred under `R-EV-01`. No invented event names. |
+| 7 | Dependencies SHALL resolve verbatim from MODULE_CATALOG.md; Purchase, Warehouse, and Accounting ownership SHALL be consumed and SHALL NOT be redefined | Pass | Module IDs `MOD-001…MOD-005, MOD-009, MOD-015, MOD-017` verbatim; §1.1.3/§1.1.4/§1.1.5/§7 explicitly consume and preserve Purchase, Warehouse, and Accounting ownership. |
+| 8 | Governance registrations completed exactly once across the five target files | Pass | Updated `SPRINT_CATALOG.md`, `inventory/README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md` — one entry each. |
+| 9 | Stage 2 Sprint PRD requirements per MODULE_IMPLEMENTATION_WORKFLOW.md | Pass | 18-section template, bidirectional traceability, engine/ADR consumption without redefinition, DoD/Exit distinct, Review Gate answered inline. |
+| 10 | No Sprint capability absent from Inventory Module PRD; every Module capability allocated exactly once | Pass | All Sprint 1 capabilities trace to MODULE_PRD §1/§2/§3/§5/§7/§10/§12/§13. Sprint 1 originating allocation is unique per Sprint Plan §4 forward map; no duplicate originating allocation. |
+
+## Verification Summary
+
+```text
+Checklist Items: 10
+Passed: 10
+Remediated: 0
+Failed: 0
+Outstanding Risks: R-01, R-02, R-03, R-06, R-07, R-08, R-09, R-11 (Open); R-04, R-05, R-10 (Accepted); R-EV-01 (Deferred pending event-catalog authoring)
+Repository Status: PASS
+Next Pass: 8.8.2 — SPR-MOD-005-002 (Inventory Receipts & Putaway)
+```
+
+Invariants satisfied:
+- `Passed + Remediated + Failed = 10` ✓
+- `Repository Status = PASS ⇔ Failed = 0` ✓
