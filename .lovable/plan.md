@@ -117,3 +117,44 @@ Invariants: `Passed + Remediated + Failed = 10`; `Repository Status = PASS ⇔ F
 ### Outcome
 
 `SPR-MOD-005-004-inventory-adjustments-stock-counting.md` becomes the authoritative Sprint PRD for Inventory Adjustments & Stock Counting. Inventory ownership preserved; Warehouse and Accounting consumed exclusively through approved repository contracts. Repository ready for **Pass 8.8.5 — SPR-MOD-005-005 (Inventory Traceability & Lot/Serial Control)**.
+
+---
+
+## Pass 8.8.4-V — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting.md`
+- **Verification Pass:** 8.8.4-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Lovable (Inventory Stage 2 authoring)
+- **Authoritative Sources Checked:** `docs/20-module-prds/inventory/MODULE_PRD.md`, `docs/30-sprint-prds/inventory/MOD-005_SPRINT_PLAN.md`, `SPR-MOD-005-001/002/003`, `MOD001/002/003/004` baselines, `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md`, `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`.
+
+### Check / Result / Action
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter completeness | Pass | None |
+| 2 | 18-section structural conformance | Pass | None |
+| 3 | Engine authority — verbatim vs ENGINE_CATALOG + ENGINE_USAGE_MATRIX + Sprint 4 allocation (`ENG-002, 004, 007, 008, 010, 011, 012, 017, 024, 025`); no placeholder/deprecated/undefined/duplicate/additional | Pass | None |
+| 4 | Bidirectional traceability — forward and reverse tables; five verbatim invariants satisfied | Pass | None |
+| 5 | ADR authority — Accepted only, verbatim from ADR_INDEX (`ADR-011, ADR-014, ADR-032`) | Pass | None |
+| 6 | Event authority — verbatim from event-catalog.md or `R-EV-*`; event catalog remains stub, surfaces deferred under `R-EV-01`; no invented events | Pass | None |
+| 7 | Dependency authority — module IDs verbatim from MODULE_CATALOG.md; Warehouse and Accounting consumed through approved repository contracts; ownership not redefined | Pass | None |
+| 8 | Governance registration — five files updated exactly once (`SPRINT_CATALOG.md`, `inventory/README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md`); REPOSITORY_MAP / TRACEABILITY / OWNERSHIP unchanged | Pass | None |
+| 9 | Stage 2 workflow conformance — all Stage 2 Sprint PRD requirements defined by MODULE_IMPLEMENTATION_WORKFLOW.md are satisfied | Pass | None |
+| 10 | Capability completeness (bidirectional) — no Sprint capability outside Inventory Module PRD; every Module PRD capability allocated exactly once to an originating Sprint in MOD-005_SPRINT_PLAN.md; no extras, omissions, or duplicate originating allocations | Pass | None |
+
+### Verification Summary
+
+```text
+Checklist Items: 10
+Passed: 10
+Remediated: 0
+Failed: 0
+Outstanding Risks: R-EV-01 (Deferred — Event Catalog stub)
+Repository Status: PASS
+Next Pass: 8.8.5 — SPR-MOD-005-005 (Inventory Valuation & Replenishment)
+```
+
+Invariants satisfied: `Passed + Remediated + Failed = 10`; `Repository Status = PASS ⇔ Failed = 0`.
