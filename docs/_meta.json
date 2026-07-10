@@ -1003,6 +1003,11 @@
           "title": "MOD-004 Purchase",
           "path": "30-sprint-prds/purchase/README"
         },
+        {
+          "title": "MOD-004 Purchase — Sprint Plan (Stage 1)",
+          "path": "30-sprint-prds/purchase/MOD-004_SPRINT_PLAN"
+        },
+
 
         {
           "title": "MOD-005 Inventory",
