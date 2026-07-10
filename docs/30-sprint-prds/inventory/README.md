@@ -39,7 +39,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-005-NNN`**, where `NNN`
 | [SPR-MOD-005-001](./SPR-MOD-005-001-inventory-foundation.md) | Sprint 1 | Inventory Foundation | Draft | `MOD001_PLATFORM_BASELINE_v1` |
 | [SPR-MOD-005-002](./SPR-MOD-005-002-inventory-receipts-putaway.md) | Sprint 2 | Inventory Receipts & Putaway | Draft | `SPR-MOD-005-001`, `MOD004_PURCHASE_BASELINE_v1` |
 | [SPR-MOD-005-003](./SPR-MOD-005-003-inventory-issues-transfers-reservations.md) | Sprint 3 | Inventory Issues, Transfers & Reservations | Draft | `SPR-MOD-005-001`, `MOD003_SALES_BASELINE_v1` |
-| SPR-MOD-005-004 | Sprint 4 | Stock Adjustments & Physical Verification | Planned | `SPR-MOD-005-001` |
+| [SPR-MOD-005-004](./SPR-MOD-005-004-inventory-adjustments-stock-counting.md) | Sprint 4 | Inventory Adjustments & Stock Counting | Draft | `SPR-MOD-005-001`, `SPR-MOD-005-002`, `SPR-MOD-005-003` |
 | SPR-MOD-005-005 | Sprint 5 | Inventory Valuation & Replenishment | Planned | `SPR-MOD-005-002`, `SPR-MOD-005-003`, `SPR-MOD-005-004`, `MOD002_ACCOUNTING_BASELINE_v1` |
 | SPR-MOD-005-006 | Sprint 6 | Inventory Analytics & Controls | Planned | `SPR-MOD-005-001` … `SPR-MOD-005-005` |
 
