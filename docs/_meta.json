@@ -1058,6 +1058,10 @@
           "path": "30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting"
         },
         {
+          "title": "SPR-MOD-005-005 — Inventory Valuation & Replenishment",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment"
+        },
+        {
           "title": "MOD-006 CRM",
           "path": "30-sprint-prds/crm/README"
         },
