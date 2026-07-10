@@ -36,7 +36,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-005-NNN`**, where `NNN`
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-005-001 | Sprint 1 | Inventory Foundation | Planned | `MOD001_PLATFORM_BASELINE_v1` |
+| [SPR-MOD-005-001](./SPR-MOD-005-001-inventory-foundation.md) | Sprint 1 | Inventory Foundation | Draft | `MOD001_PLATFORM_BASELINE_v1` |
 | SPR-MOD-005-002 | Sprint 2 | Stock Receipts & Putaway | Planned | `SPR-MOD-005-001`, `MOD004_PURCHASE_BASELINE_v1` |
 | SPR-MOD-005-003 | Sprint 3 | Stock Issues & Transfers | Planned | `SPR-MOD-005-001` |
 | SPR-MOD-005-004 | Sprint 4 | Stock Adjustments & Physical Verification | Planned | `SPR-MOD-005-001` |
