@@ -61,3 +61,48 @@ Invariants: `Passed + Remediated + Failed = 10`; `Repository Status = PASS` iff 
 ### Outcome
 
 `MOD-004_SPRINT_PLAN.md` becomes the authoritative Stage 1 artifact for Purchase. Repository ready for Pass 8.6.1 — SPR-MOD-004-001 (Purchase Foundation).
+---
+
+## Pass 8.6.0 / 8.6.0-V — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/30-sprint-prds/purchase/MOD-004_SPRINT_PLAN.md` (Stage 1 Sprint Plan for MOD-004 Purchase)
+- **Verification Pass:** 8.6.0-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Lovable agent (Procurement pass)
+- **Authoritative Sources Checked:**
+  - `docs/20-module-prds/purchase/MODULE_PRD.md`
+  - `docs/10-erp-core/ENGINE_CATALOG.md` and `docs/ENGINE_USAGE_MATRIX.md`
+  - `docs/11-adrs/ADR_INDEX.md`
+  - `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`, `MOD002_ACCOUNTING_BASELINE_v1.md`, `MOD003_SALES_BASELINE_v1.md`
+  - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+  - `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md` (structural reference)
+  - `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `docs/30-sprint-prds/purchase/README.md`
+
+### Check / Result / Action
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter complete (module_id, module_name, document_type, workflow_stage, status, owner, version, updated) | Pass | None |
+| 2 | Structure identical to MOD-003 Sprint Plan (numbering, section order, tables, governance wording, disclaimer, completion criteria, references) | Pass | None |
+| 3 | Exactly six sprints defined (SPR-MOD-004-001 … 006) | Pass | None |
+| 4 | Bidirectional traceability — every Module PRD capability maps to exactly one originating Sprint (Forward Map §4.1–§4.3) and every Sprint maps back to Module PRD sections (Reverse Map §4.4) | Pass | None |
+| 5 | Unique originating allocation — no capability, submodule, master-data entity, or transaction is originating-allocated in more than one Sprint; no orphan Sprint allocation; no unallocated Module PRD capability | Pass | None |
+| 6 | Engine allocation parity — every engine identifier resolves verbatim against `ENGINE_CATALOG.md`; allocation is consistent with `ENGINE_USAGE_MATRIX.md`; every sprint's engines match the Sprint allocation table in §5; no placeholders | Pass | None |
+| 7 | Accepted ADRs only (`ADR-011`, `ADR-014`, `ADR-032` per `ADR_INDEX.md`) | Pass | None |
+| 8 | Cross-module ownership preserved — Accounting, Inventory, Sales (Customer), and Analytics ownership boundaries explicitly re-stated in §7; no boundary redefined | Pass | None |
+| 9 | Governance registrations completed exactly once — `docs/DOCUMENT_INDEX.md` (row added), `docs/_meta.json` (entry added under `30 Sprint PRDs`), `docs/30-sprint-prds/purchase/README.md` (Stage 1 section, placeholders reconciled to 6, authoring rules updated). `docs/SPRINT_PLAN_INDEX.md` does not exist in this repository; per `docs/DOCUMENT_TRACEABILITY.md` §"Introducing a Module Sprint Plan (Stage 1)", the authoritative registration targets are the three above plus the folder README, which are all completed. `REPOSITORY_MAP.md`, `DOCUMENT_TRACEABILITY.md`, and `DOCUMENT_OWNERSHIP_MATRIX.md` already register Sprint Plans through pattern-based entries (`docs/30-sprint-prds/<module>/MOD-<NNN>_SPRINT_PLAN.md`) — no edits applied, per Pass 8.5.0-V2 precedent. | Pass | None |
+| 10 | Repository Stage-1 requirements satisfied per `MODULE_IMPLEMENTATION_WORKFLOW.md` (Sprint Plan authored, identifiers reserved, no Sprint PRDs authored, no engine/ADR/Module PRD/Baseline/Event Catalog modified, no code/schema/API changes) | Pass | None |
+
+### Verification Summary
+
+- **Checklist Items:** 10
+- **Passed:** 10
+- **Remediated:** 0
+- **Failed:** 0
+- **Outstanding Risks:** none
+- **Repository Status:** PASS
+- **Next Pass:** 8.6.1 — Author SPR-MOD-004-001 (Purchase Foundation)
+
+**Invariant check:** Passed (10) + Remediated (0) + Failed (0) = 10 ✅. Repository Status = PASS since Failed = 0. ✅
