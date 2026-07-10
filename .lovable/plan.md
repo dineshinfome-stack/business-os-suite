@@ -94,3 +94,57 @@ Invariants: `Passed + Remediated + Failed = 10`; `Repository Status = PASS ⇔ F
 ## Outcome
 
 `SPR-MOD-004-004-vendor-billing-3-way-match.md` — titled **"Vendor Billing & Commercial 3-Way Match"** — becomes the authoritative Sprint PRD for the commercial Vendor Billing and Commercial 3-Way Match lifecycle. Accounting posting, payables, taxation, and financial processing remain exclusively owned by MOD002 Accounting through approved repository contracts. Repository ready for **Pass 8.6.5 — SPR-MOD-004-005 (Purchase Returns & Vendor Adjustments)**.
+
+---
+
+## Pass 8.6.4-V — Execution Record
+
+### Verification Metadata
+
+- **Target Artifact:** `docs/30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match.md`
+- **Verification Pass:** 8.6.4-V
+- **Verification Date:** 2026-07-10
+- **Verifier:** Repository governance (Lovable agent)
+- **Authoritative Sources Checked:**
+  - `docs/20-module-prds/purchase/MODULE_PRD.md`
+  - `docs/30-sprint-prds/purchase/MOD-004_SPRINT_PLAN.md` §2 (`SPR-MOD-004-004`)
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md`
+  - `docs/30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection.md`
+  - `docs/10-erp-core/ENGINE_CATALOG.md`
+  - `docs/ENGINE_USAGE_MATRIX.md`
+  - `docs/11-adrs/ADR_INDEX.md`
+  - `docs/02-architecture/event-catalog.md`
+  - `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`, `MOD002_ACCOUNTING_BASELINE_v1.md`, `MOD003_SALES_BASELINE_v1.md`
+  - `docs/MODULE_CATALOG.md`
+  - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+  - `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `docs/30-sprint-prds/purchase/README.md`
+
+### Check / Result / Action Table
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter completeness (sprint_id, parent_module, iteration, stage, pass, size, status, owner, updated, related_engines, related_adrs, tags, document_type) | Pass | None |
+| 2 | 18-section structural conformance vs prior Sprint PRD template | Pass | None |
+| 3 | Engine allocation parity — 12 engines (`ENG-002, ENG-004, ENG-007, ENG-008, ENG-011, ENG-012, ENG-015, ENG-017, ENG-018, ENG-019, ENG-024, ENG-025`) verbatim from `MOD-004_SPRINT_PLAN.md` §2 Sprint 4; no placeholder/deprecated/undefined/extra IDs | Pass | None |
+| 4 | Bidirectional traceability (Sprint 4 ↔ Module PRD; unique originating allocation preserved; no orphans or duplicates) | Pass | None |
+| 5 | Accepted ADR validation — `ADR-011`, `ADR-014`, `ADR-032` verbatim from `ADR_INDEX.md` | Pass | None |
+| 6 | Event Catalog validation — `PurchaseInvoiceReceived` and `vendor-bill.*` events deferred as `R-EV-01` (Event Catalog remains a stub); Event Catalog NOT modified | Pass | None |
+| 7 | Dependencies verbatim from `MODULE_CATALOG.md`; explicit PO (`SPR-MOD-004-002`) and GRN (`SPR-MOD-004-003`) originating-supplier wording present | Pass | None |
+| 8 | Governance registrations completed exactly once across `SPRINT_CATALOG.md`, `purchase/README.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `.lovable/plan.md` | Pass | None |
+| 9 | Cross-module ownership preserved — Accounting (vouchers/ledger/payables/tax/payments), Inventory, Sales, MOD001 Platform, and upstream Purchase sprints not redefined | Pass | None |
+| 10 | Stage 2 Sprint PRD requirements per `MODULE_IMPLEMENTATION_WORKFLOW` (18 sections, ownership convention, DoD, Exit Criteria verbatim from Sprint Plan) | Pass | None |
+
+### Verification Summary
+
+```text
+Checklist Items: 10
+Passed: 10
+Remediated: 0
+Failed: 0
+Outstanding Risks: R-EV-01 (Event Catalog stub — deferred per repository policy)
+Repository Status: PASS
+Next Pass: 8.6.5 — SPR-MOD-004-005 (Purchase Returns & Debit Notes)
+```
+
+Invariants satisfied: `Passed + Remediated + Failed = 10`; `Failed = 0 ⇒ Repository Status: PASS`.
