@@ -40,7 +40,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-005-NNN`**, where `NNN`
 | [SPR-MOD-005-002](./SPR-MOD-005-002-inventory-receipts-putaway.md) | Sprint 2 | Inventory Receipts & Putaway | Draft | `SPR-MOD-005-001`, `MOD004_PURCHASE_BASELINE_v1` |
 | [SPR-MOD-005-003](./SPR-MOD-005-003-inventory-issues-transfers-reservations.md) | Sprint 3 | Inventory Issues, Transfers & Reservations | Draft | `SPR-MOD-005-001`, `MOD003_SALES_BASELINE_v1` |
 | [SPR-MOD-005-004](./SPR-MOD-005-004-inventory-adjustments-stock-counting.md) | Sprint 4 | Inventory Adjustments & Stock Counting | Draft | `SPR-MOD-005-001`, `SPR-MOD-005-002`, `SPR-MOD-005-003` |
-| SPR-MOD-005-005 | Sprint 5 | Inventory Valuation & Replenishment | Planned | `SPR-MOD-005-002`, `SPR-MOD-005-003`, `SPR-MOD-005-004`, `MOD002_ACCOUNTING_BASELINE_v1` |
+| [SPR-MOD-005-005](./SPR-MOD-005-005-inventory-valuation-replenishment.md) | Sprint 5 | Inventory Valuation & Replenishment | Draft | `SPR-MOD-005-002`, `SPR-MOD-005-003`, `SPR-MOD-005-004`, `MOD002_ACCOUNTING_BASELINE_v1` |
 | SPR-MOD-005-006 | Sprint 6 | Inventory Analytics & Controls | Planned | `SPR-MOD-005-001` … `SPR-MOD-005-005` |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is reconciled to **6** by the authoritative Sprint Plan (`MOD-005_SPRINT_PLAN.md`). Row counts and goals here follow the Sprint Plan and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
