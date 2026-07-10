@@ -1050,6 +1050,10 @@
           "path": "30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway"
         },
         {
+          "title": "SPR-MOD-005-003 — Inventory Issues, Transfers & Reservations",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations"
+        },
+        {
           "title": "MOD-006 CRM",
           "path": "30-sprint-prds/crm/README"
         },
