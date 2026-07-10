@@ -40,7 +40,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-004-NNN`**, where `NNN`
 | SPR-MOD-004-002 | Sprint 2 | Requisitions, RFQs & Purchase Orders | Draft — [`SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md`](./SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md) | `SPR-MOD-004-001` |
 | SPR-MOD-004-003 | Sprint 3 | Goods Receipt & Inspection | Draft — [`SPR-MOD-004-003-goods-receipt-inspection.md`](./SPR-MOD-004-003-goods-receipt-inspection.md) | `SPR-MOD-004-002` |
 | SPR-MOD-004-004 | Sprint 4 | Vendor Billing & Commercial 3-Way Match | Draft — [`SPR-MOD-004-004-vendor-billing-3-way-match.md`](./SPR-MOD-004-004-vendor-billing-3-way-match.md) | `SPR-MOD-004-003` |
-| SPR-MOD-004-005 | Sprint 5 | Purchase Returns & Debit Notes | Planned | `SPR-MOD-004-003`, `SPR-MOD-004-004` |
+| SPR-MOD-004-005 | Sprint 5 | Purchase Returns & Vendor Adjustments | Draft — [`SPR-MOD-004-005-purchase-returns-vendor-adjustments.md`](./SPR-MOD-004-005-purchase-returns-vendor-adjustments.md) | `SPR-MOD-004-003`, `SPR-MOD-004-004` |
 | SPR-MOD-004-006 | Sprint 6 | Purchase Analytics & Controls | Planned | `SPR-MOD-004-001` … `SPR-MOD-004-005` |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**; the authoritative Sprint Plan (`MOD-004_SPRINT_PLAN.md`) reconciles this to **6**. Row counts and goals here follow the Sprint Plan and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.

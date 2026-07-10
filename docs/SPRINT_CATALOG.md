@@ -56,6 +56,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-004-002 | Sprint 2 | MOD-004 Purchase | Draft | [`30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md`](30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders.md) | Procurement |
 | SPR-MOD-004-003 | Sprint 3 | MOD-004 Purchase | Draft | [`30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection.md`](30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection.md) | Procurement |
 | SPR-MOD-004-004 | Sprint 4 | MOD-004 Purchase | Draft | [`30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match.md`](30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match.md) | Procurement |
+| SPR-MOD-004-005 | Sprint 5 | MOD-004 Purchase | Draft | [`30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments.md`](30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments.md) | Procurement |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
