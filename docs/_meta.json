@@ -1015,6 +1015,10 @@
           "title": "SPR-MOD-004-002 — Requisitions, RFQs & Purchase Orders",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders"
         },
+        {
+          "title": "SPR-MOD-004-003 — Goods Receipt & Inspection",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection"
+        },
 
 
         {
