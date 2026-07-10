@@ -1046,6 +1046,10 @@
           "path": "30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation"
         },
         {
+          "title": "SPR-MOD-005-002 — Inventory Receipts & Putaway",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway"
+        },
+        {
           "title": "MOD-006 CRM",
           "path": "30-sprint-prds/crm/README"
         },
