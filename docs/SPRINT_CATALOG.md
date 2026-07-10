@@ -63,6 +63,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-005-003 | Sprint 3 | MOD-005 Inventory | Draft | [`30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations.md`](30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations.md) | Inventory |
 | SPR-MOD-005-004 | Sprint 4 | MOD-005 Inventory | Draft | [`30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting.md`](30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting.md) | Inventory |
 | SPR-MOD-005-005 | Sprint 5 | MOD-005 Inventory | Draft | [`30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment.md`](30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment.md) | Inventory |
+| SPR-MOD-005-006 | Sprint 6 | MOD-005 Inventory | Draft | [`30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls.md`](30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls.md) | Inventory |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
