@@ -284,6 +284,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-005-002 — Inventory Receipts & Putaway | Delivery | Draft | Authoritative | `docs/30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway.md` |
 | SPR-MOD-005-003 — Inventory Issues, Transfers & Reservations | Delivery | Draft | Authoritative | `docs/30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations.md` |
 | SPR-MOD-005-004 — Inventory Adjustments & Stock Counting | Delivery | Draft | Authoritative | `docs/30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting.md` |
+| SPR-MOD-005-005 — Inventory Valuation & Replenishment | Delivery | Draft | Authoritative | `docs/30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
