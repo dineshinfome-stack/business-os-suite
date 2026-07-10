@@ -52,6 +52,7 @@ Every baseline mirrors the same section order (see [`MOD001_PLATFORM_BASELINE_v1
 | --- | --- | --- | --- |
 | [`MOD001_PLATFORM_BASELINE_v1`](./MOD001_PLATFORM_BASELINE_v1.md) | MOD-001 Platform Administration | 1.0 | Baseline |
 | [`MOD002_ACCOUNTING_BASELINE_v1`](./MOD002_ACCOUNTING_BASELINE_v1.md) | MOD-002 Accounting | 1.0 | Baseline |
+| [`MOD003_SALES_BASELINE_v1`](./MOD003_SALES_BASELINE_v1.md) | MOD-003 Sales | 1.0 | Baseline |
 
 The full index across all modules lives in [`docs/MODULE_BASELINE_CATALOG.md`](../MODULE_BASELINE_CATALOG.md).
 
