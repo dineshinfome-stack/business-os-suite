@@ -893,6 +893,10 @@
         {
           "title": "MOD-018 AI Workspace",
           "path": "20-module-prds/ai/README"
+        },
+        {
+          "title": "MOD-019 Warehouse",
+          "path": "20-module-prds/warehouse/README"
         }
       ]
     },
