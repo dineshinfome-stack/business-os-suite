@@ -54,7 +54,7 @@ docs/
 ├── 12-ui-components/               UI components            (Reference)
 ├── 13-workflows/                   Workflow catalog         (Reference)
 ├── 14-localization/                Locale packs             (Reference)
-├── 20-module-prds/                 Module PRDs (MOD-001..018) (Authoritative)
+├── 20-module-prds/                 Module PRDs (MOD-001..019) (Authoritative)
 ├── 30-sprint-prds/                 Sprint PRDs (SPR-MOD-NNN-NNN) (Authoritative — scaffolded)
 ├── 40-module-baselines/            Module Baselines (Stage 3)   (Authoritative)
 ├── SPRINT_CATALOG.md               Sprint catalog            (Derived)
@@ -112,14 +112,14 @@ docs/
 
 ### Module PRDs
 
-- **Path:** `docs/20-module-prds/` (18 folders, `MOD-001` … `MOD-018`)
+- **Path:** `docs/20-module-prds/` (19 folders, `MOD-001` … `MOD-019`)
 - **Owner:** Product (per module, per `docs/DOCUMENT_OWNERSHIP_MATRIX.md`)
 - **Purpose:** Authoritative business specifications for each bounded context. Each folder contains a `README.md` and a `MODULE_PRD.md`.
 - **Authority:** Authoritative for the business layer. Consumes ERP Core Engines and Accepted ADRs; never redefines them. Modules identified by permanent `MOD-NNN`.
 
 ### Sprint PRDs (Pass 8+)
 
-- **Path:** `docs/30-sprint-prds/` (layer README + 18 module subfolders; Stage 1 sprint plans and Stage 2 sprint PRDs authored iteratively in Pass 8.x)
+- **Path:** `docs/30-sprint-prds/` (layer README + 19 module subfolders; Stage 1 sprint plans and Stage 2 sprint PRDs authored iteratively in Pass 8.x)
 - **Owner:** Engineering
 - **Purpose:** Implementation-ready slices of Module PRDs. Every sprint has a permanent `SPR-MOD-NNN-NNN` identifier and a mutable `iteration` label. Stage 1 sprint plans (e.g. `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md`) reserve identifiers and define the Stage 2 authoring sequence.
 - **Authority:** Authoritative for the sprint scope; must not contradict its Module PRD or any upstream layer. `SPRINT_CATALOG.md` is the derived index.

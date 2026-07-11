@@ -50,7 +50,8 @@ docs/30-sprint-prds/
 ├── accounting/README.md            MOD-002
 ├── sales/README.md                 MOD-003
 ├── … 15 more …
-└── ai/README.md                    MOD-018
+├── ai/README.md                    MOD-018
+└── warehouse/README.md             MOD-019
 ```
 
 Sprint PRD files live inside their module's subfolder using the sprint identifier as the filename, e.g. `docs/30-sprint-prds/accounting/SPR-MOD-002-001.md`.

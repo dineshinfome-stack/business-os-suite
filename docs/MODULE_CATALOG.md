@@ -1,6 +1,6 @@
 ---
 title: "Module Catalog"
-summary: "Catalog of every BusinessOS module (MOD-001..MOD-018): stable identifier, status, primary domain, PRD path, and planned owner."
+summary: "Catalog of every BusinessOS module (MOD-001..MOD-019): stable identifier, status, primary domain, PRD path, and planned owner."
 layer: "platform"
 owner: "Platform"
 status: "approved"
@@ -53,6 +53,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Module PRD is added, r
 | MOD-016 | Service Desk | Authored | Service | [`docs/20-module-prds/service-desk/MODULE_PRD.md`](./20-module-prds/service-desk/MODULE_PRD.md) | See Section 12 of the PRD | Service |
 | MOD-017 | Analytics | Authored | Insights | [`docs/20-module-prds/analytics/MODULE_PRD.md`](./20-module-prds/analytics/MODULE_PRD.md) | See Section 12 of the PRD | Insights |
 | MOD-018 | AI Workspace | Authored | AI | [`docs/20-module-prds/ai/MODULE_PRD.md`](./20-module-prds/ai/MODULE_PRD.md) | See Section 12 of the PRD | AI Platform |
+| MOD-019 | Warehouse | Authored | Operations | [`docs/20-module-prds/warehouse/MODULE_PRD.md`](./20-module-prds/warehouse/MODULE_PRD.md) | See Section 12 of the PRD | Operations |
 
 ## References
 

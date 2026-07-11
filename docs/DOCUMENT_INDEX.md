@@ -79,6 +79,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-003 Sales — Sprint Plan (Stage 1) | Delivery | Planning | Authoritative | `docs/30-sprint-prds/sales/MOD-003_SPRINT_PLAN.md` |
 | MOD-004 Purchase — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/purchase/MOD-004_SPRINT_PLAN.md` |
 | MOD-005 Inventory — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/inventory/MOD-005_SPRINT_PLAN.md` |
+| MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
 ### B
@@ -368,6 +369,8 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-017 Analytics — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/analytics/MODULE_PRD.md` |
 | MOD-018 AI Workspace — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/ai/README.md` |
 | MOD-018 AI Workspace — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/ai/MODULE_PRD.md` |
+| MOD-019 Warehouse — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/warehouse/README.md` |
+| MOD-019 Warehouse — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/warehouse/MODULE_PRD.md` |
 
 ## References
 

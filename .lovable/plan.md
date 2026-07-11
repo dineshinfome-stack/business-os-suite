@@ -1,179 +1,85 @@
-# Pass 8.9.1 — MOD-006 Warehouse Module PRD (Stage 1)
+# Pass 8.9.1 (Resolved) — MOD-019 Warehouse Module PRD (Stage 1)
 
-Author the authoritative Stage 1 Module PRD for MOD-006 Warehouse, allocate every capability into exactly six Stage 2 Sprints, register in governance, run Stage 1 verification, and execute Repository Audit Spec v1.0. Establishes the canonical Stage 1 template reusable for all remaining modules.
+## Preflight Result — Module ID Resolution
 
-## Part 0 — Preflight (Read-Only)
+Read `docs/MODULE_CATALOG.md` (lines 38–55). Findings:
 
-Open verbatim:
-- `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md`
-- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `docs/SPRINT_AUTHORING_GUIDE.md`
-- Baselines: MOD001–MOD005
-- Existing Module PRDs (structural reference: MOD-005 Inventory)
-- Existing Sprint Plans (structural reference: MOD-004, MOD-005)
+| Check | Result |
+|---|---|
+| Highest allocated Module ID | **MOD-018** (AI Workspace) |
+| First unallocated Module ID | **MOD-019** |
+| Warehouse already registered under any name (MOD-001…MOD-018)? | **No** — none of Platform, Accounting, Sales, Purchase, Inventory, CRM, HRMS, Payroll, Manufacturing, Projects, AMC, Field Service, Assets, Fleet, POS, Service Desk, Analytics, AI Workspace is Warehouse |
+| MOD-006 current assignment | **CRM** — preserved, never reassigned |
+| Catalog range statement | Summary (line 3) currently reads `MOD-001..MOD-018` — must extend to `MOD-001..MOD-019` on registration |
 
-No authoritative document modified during Preflight.
+**Selected Module ID: `MOD-019 Warehouse`.**
 
-## Normative Source Precedence
+No existing Module ID is modified. CRM (MOD-006) is untouched. The "Module IDs are immutable and never reused" invariant is preserved.
 
-When two documents disagree, higher precedence wins:
-1. `MODULE_PRD.md` (Business Capabilities section)
-2. Capability Allocation Matrix (in `MOD-006_SPRINT_PLAN.md`)
-3. `MOD-006_SPRINT_PLAN.md` (non-matrix content)
-4. Derived artifacts (Forward Traceability, Reverse Traceability, Cross-Sprint Coverage Report)
+## Scope Change vs Prior Plan
 
-Any disagreement discovered during Verification or Audit SHALL be remediated by editing the lower-precedence artifact to conform to the higher one.
+The previously finalized Pass 8.9.1 plan in `.lovable/plan.md` remains valid in structure, template, verification checklist (13 items), Cross-Sprint Coverage Gate, and Repository Audit Spec v1.0. The **only** change is the Module identifier:
 
-## Canonical Ordering Definition
+- Every occurrence of `MOD-006 Warehouse` → `MOD-019 Warehouse`
+- Sprint IDs: `SPR-MOD-019-001` … `SPR-MOD-019-006`
+- Baseline (future Stage 3): `MOD019_WAREHOUSE_BASELINE_v1`
+- Directory: `docs/20-module-prds/warehouse/` and `docs/30-sprint-prds/warehouse/` (name-based, unchanged)
 
-"Canonical order" for engine and ADR identifiers means:
-- **Engines:** the order in which identifiers appear in `docs/10-erp-core/ENGINE_CATALOG.md`. If that document does not define an explicit order, canonical order defaults to ascending identifier order (`ENG-001, ENG-002, …`).
-- **ADRs:** the order in which identifiers appear in `docs/11-adrs/ADR_INDEX.md`. If that document does not define an explicit order, canonical order defaults to ascending identifier order (`ADR-001, ADR-002, …`).
+## Part A — Governance Registration (First)
 
-This pass SHALL NOT modify `ENGINE_CATALOG.md` or `ADR_INDEX.md`. Any repository-wide promotion of this definition is deferred to a future workflow-doc pass.
+Before authoring the Module PRD, register the new identifier so downstream verification resolves cleanly:
 
-## Part A — Author `docs/20-module-prds/warehouse/MODULE_PRD.md`
+1. `docs/MODULE_CATALOG.md`
+   - Update summary line 3: `MOD-001..MOD-018` → `MOD-001..MOD-019`.
+   - Append row: `| MOD-019 | Warehouse | Authored | Operations | docs/20-module-prds/warehouse/MODULE_PRD.md | See Section 12 of the PRD | Operations |`.
+2. `docs/ENGINE_USAGE_MATRIX.md` — add MOD-019 Warehouse entry consistent with existing style (module list only; engine allocations follow when Sprints exist).
+3. `docs/DOCUMENT_INDEX.md`, `docs/REPOSITORY_MAP.md`, `docs/_meta.json` — add entries for the new Module PRD and Sprint Plan paths.
+4. `docs/20-module-prds/README.md` and `docs/30-sprint-prds/README.md` — add Warehouse rows.
 
-**Frontmatter**
-```yaml
-module_id: MOD-006
-module_name: Warehouse
-document_type: Module PRD
-stage: 1
-pass: 8.9.1
-version: v1.0
-status: Draft
-owner: Warehouse
-updated: 2026-07-10
-size: XL
-related_engines: <verbatim from ENGINE_CATALOG.md, canonical order>
-related_adrs:    <Accepted only, verbatim from ADR_INDEX.md, canonical order>
-tags: [module, prd, warehouse, mod-006]
-```
+## Part B — Authoring (Unchanged Template)
 
-**Repository-standard Stage 1 Module PRD structure — 23 sections:** Executive Summary, Business Objectives, Module Scope, **Business Capabilities**, Functional Requirements, Non-functional Requirements, User Personas, Business Processes, Governance, Ownership Boundaries, Dependencies, ERP Core Engine Consumption, ADR Consumption, Conceptual Data Model, Events, Security, Reporting, Configuration, Risks, Success Metrics, Traceability, Stage 2 Sprint Allocation, References.
+1. `docs/20-module-prds/warehouse/MODULE_PRD.md` — 23-section Stage 1 Module PRD, using MOD-019 throughout.
+2. `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` — 6 Sprints with the 7-column Capability Allocation Matrix and deterministic engine/ADR allocation from the authoritative catalogs.
 
-**Warehouse Ownership (exclusive):** warehouse execution, bin management, putaway execution, picking execution, wave execution, dock execution, task execution, warehouse operational control.
+Normative Source Precedence, canonical ordering, and fixed-schema reports are inherited verbatim from the finalized Pass 8.9.1 plan.
 
-**Boundaries (consumed, not redefined):** Inventory transactions/valuation (MOD-005), Purchase commercial (MOD-004), Sales commercial (MOD-003), Manufacturing execution, Financial posting (MOD-002).
+## Part C — Verification (Pass 8.9.1-V)
 
-**Capability domains:** Warehouse Master, Warehouse Structure (Zones/Aisles/Racks/Bins), Bin Types, Capacity Rules, Putaway Rules, Picking Rules, Wave Planning, Task Management, Receiving Execution, Dispatch Execution, Warehouse Transfers, Cross Dock, Dock Management, Resource Management, Equipment Assignment, Warehouse Scheduling, Exception Handling, Warehouse KPIs, Operational Monitoring, Warehouse Events, Warehouse Configuration.
+Run the 13-item Stage 1 checklist unchanged. Metadata Consistency check now specifically verifies:
+- `MOD-019` appears in `MODULE_CATALOG.md` with status `Authored`.
+- `MOD-006` remains `CRM` (regression guard).
+- Catalog summary range covers MOD-019.
 
-## Part B — Author `docs/30-sprint-prds/warehouse/MOD-006_SPRINT_PLAN.md`
+## Part D — Cross-Sprint Coverage Gate
 
-**Deterministic Capability Coverage:** Every capability defined in the **Business Capabilities** section of `MODULE_PRD.md` SHALL appear exactly once in `MOD-006_SPRINT_PLAN.md`. No Sprint capability SHALL exist unless it originates from `MODULE_PRD.md`.
-
-**Six Sprints:**
-- SPR-MOD-006-001 Warehouse Foundation
-- SPR-MOD-006-002 Receiving, Putaway & Bin Operations
-- SPR-MOD-006-003 Picking, Wave Planning & Dispatch
-- SPR-MOD-006-004 Warehouse Transfers & Task Management
-- SPR-MOD-006-005 Resource Management & Warehouse Operations
-- SPR-MOD-006-006 Warehouse Analytics & Operational Controls (read-model/audit only)
-
-**Required Matrices:**
-
-- **Capability Allocation Matrix (sole normative allocation artifact)** — deterministic table with fixed columns:
-
-  | Module Capability | Originating Sprint | Sprint PRD | Sprint Section | Engine(s) | ADR(s) | Status |
-
-  Rules:
-  - **Authority Clause:** The Capability Allocation Matrix is the **sole normative capability allocation artifact for Stage 1**. Forward Traceability, Reverse Traceability, the Cross-Sprint Coverage Report, and Stage 1 verification SHALL be derived from this matrix and SHALL NOT introduce independent mappings.
-  - **Uniqueness Rule:** The combination `(Module Capability, Originating Sprint)` SHALL be unique across the matrix.
-  - **Completeness Rule:** The number of rows in the Capability Allocation Matrix SHALL equal the number of capabilities defined in the **Business Capabilities** section of `MODULE_PRD.md`.
-  - **Origin Rule:** Every Module capability appears exactly once; every Sprint capability traces back to exactly one Module capability.
-
-- **Forward Traceability** (Module Capability → Sprint) — derived from the Capability Allocation Matrix.
-- **Reverse Traceability** (Sprint → Module Capability) — derived from the Capability Allocation Matrix.
-
-- **Engine Allocation Matrix** — derived exclusively from `ENGINE_CATALOG.md` and `ENGINE_USAGE_MATRIX.md`. Every Engine SHALL resolve verbatim and SHALL appear only in the Sprint(s) allocated by the Module PRD. Engine identifiers listed in canonical order (as defined above).
-
-- **ADR Allocation Matrix** — Accepted ADRs only, resolved verbatim from `ADR_INDEX.md`. ADR identifiers listed in canonical order (as defined above).
-
-## Part C — Governance Registration (exactly once)
-
-1. `docs/MODULE_CATALOG.md` — add/confirm MOD-006 row
-2. `docs/20-module-prds/warehouse/README.md` — register PRD + Sprint Plan
-3. `docs/DOCUMENT_INDEX.md` — Draft entries
-4. `docs/_meta.json` — nav entries
-5. `.lovable/plan.md` — execution record
-
-**Not modified:** Repository Maps, Sprint Catalog, Sprint PRDs, Baselines, other Module PRDs, `ENGINE_CATALOG.md`, `ADR_INDEX.md`, `event-catalog.md`.
-
-## Declared Files Modified
-
-1. `docs/20-module-prds/warehouse/MODULE_PRD.md`
-2. `docs/30-sprint-prds/warehouse/MOD-006_SPRINT_PLAN.md`
-3. `docs/MODULE_CATALOG.md`
-4. `docs/20-module-prds/warehouse/README.md`
-5. `docs/DOCUMENT_INDEX.md`
-6. `docs/_meta.json`
-7. `.lovable/plan.md`
-
-## Part D — Stage 1 Verification (Pass 8.9.1-V)
-
-**13-item checklist:**
-1. Frontmatter completeness
-2. Repository-standard Stage 1 Module PRD structure (23 sections)
-3. Business capability completeness
-4. Exactly six Sprint allocations
-5. Capability Allocation Matrix satisfies Authority, Uniqueness `(Module Capability, Originating Sprint)`, Completeness (row count = capability count in **Business Capabilities** section of `MODULE_PRD.md`), and Origin (every Module capability exactly once; every Sprint capability traces to exactly one Module capability); Forward and Reverse Traceability are derived from it
-6. Engine identifiers resolved verbatim from `ENGINE_CATALOG.md` and consistent with `ENGINE_USAGE_MATRIX.md`; canonical ordering preserved
-7. ADR identifiers Accepted only, verbatim from `ADR_INDEX.md`; canonical ordering preserved
-8. Events verbatim from `event-catalog.md` or deferred `R-EV-*`
-9. Dependencies verbatim from `MODULE_CATALOG.md`
-10. Ownership boundaries — no Inventory / Purchase / Sales / Manufacturing / Accounting ownership redefinition
-11. Governance registration completed exactly once each
-12. Repository consistency — no duplicate identifiers, no broken references, no orphan capabilities
-13. Metadata consistency across `MODULE_CATALOG.md`, `20-module-prds/warehouse/README.md`, `DOCUMENT_INDEX.md`, and `_meta.json` (module_id, module_name, version, status, owner, path identical)
-
-Emit Verification Metadata + Check/Result/Action table + Verification Summary.
-Invariant: `Passed + Remediated + Failed = Checks`. Any Fail → minimum edits under Normative Source Precedence (edit lower-precedence artifact to conform to higher); re-run until `Failed = 0`.
-
-### Cross-Sprint Coverage Gate (Stage 1)
-
-After Part D checks, execute the Stage 1 equivalent of the Stage 3 coverage gate.
-
-**Required Artifact — Cross-Sprint Coverage Report.** Derived directly from the Capability Allocation Matrix plus repository evidence. Fixed columns, aligned with Repository Audit Spec v1.0 evidence standard (path + section/line **and** exact matching text):
-
-| Module Capability | Originating Sprint | Sprint PRD | Evidence (path + section/line + exact quote) | Status |
-
-Gate criteria:
-- 100% Module capabilities allocated (row count equals **Business Capabilities** section count)
-- No duplicate originating allocations
-- No orphan Sprint capability
-- No unallocated Module capability
-
-Any FAIL → STOP; do not proceed to Repository Audit until coverage = PASS.
+Emit the 5-column Cross-Sprint Coverage Report (Capability | Origin Sprint | Section | Exact Quote | Status). Gate must pass before Audit.
 
 ## Part E — Repository Audit (Spec v1.0)
 
-Apply Access Guard Clause per `MODULE_IMPLEMENTATION_WORKFLOW.md`.
+Execute the 18-check audit with portable revision metadata. Additional Metadata Consistency assertions:
+- No existing Module ID was renamed, merged, split, or transferred.
+- MOD-006 = CRM (unchanged).
+- MOD-019 = Warehouse (newly allocated, first unused ID).
 
-**Audit Metadata:** Repository Audit Specification Version 1.0, UTC timestamp, Auditor, Tool Versions, Repository revision identifier via the available change-tracking mechanism (e.g., Git commit ID or equivalent immutable revision identifier). If unavailable, revision field = "Unavailable" and Confidence SHALL NOT exceed MEDIUM. Change Tracking Mechanism, Declared Files Modified, Actual Change Set, Mandatory Read Set opened, SHA-256 artifact hashes.
+## Files to Modify / Create
 
-**Severity Policy:** per `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` (Repository Audit Spec v1.0) — Critical (blocks progression), Major (governance violation, blocks READY), Minor (documentation quality; caps Confidence at MEDIUM), Informational.
+**Created:**
+- `docs/20-module-prds/warehouse/MODULE_PRD.md`
+- `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md`
+- `docs/30-sprint-prds/warehouse/README.md`
 
-**Evidence Table (5 cols):** Check | PASS/FAIL | Severity | Repository Evidence (path + line range/heading + exact quote) | Required Fix.
+**Modified (registration only):**
+- `docs/MODULE_CATALOG.md`
+- `docs/ENGINE_USAGE_MATRIX.md`
+- `docs/DOCUMENT_INDEX.md`
+- `docs/REPOSITORY_MAP.md`
+- `docs/_meta.json`
+- `docs/20-module-prds/README.md`
+- `docs/30-sprint-prds/README.md`
+- `.lovable/plan.md` (record resolution)
 
-**Coverage:** Stage 1 Verification, Metadata Consistency, Repository Consistency, Capability Allocation Integrity (Authority, Uniqueness, Completeness, Origin), Engine Authority, ADR Authority, Event Authority, Ownership Boundary Validation, Authoritative Source Integrity, Cross-reference Validation, Normative Source Precedence, Artifact Integrity.
+**Not modified:** any existing Module PRD, Sprint PRD, Baseline, ADR, or the CRM (MOD-006) row.
 
-**Final Report:** Passed / Remediated / Failed (Critical/Major/Minor) / Repository Status / Confidence / Revision / SHA-256.
+## Reported Selection
 
-**Invariants:**
-- `Passed + Remediated + Failed = Checks`
-- `READY ⇔ Critical = 0 ∧ Major = 0`
-- `Proceed ⇔ READY ∧ HIGH`
-
-## Closing Artifacts
-
-Append to `.lovable/plan.md`: Stage 1 Verification, Capability Allocation Matrix, Cross-Sprint Coverage Report, Verification Metadata, Repository Audit, Final Report. Mirror summary in chat.
-
-## Outcome
-
-Proceed to **Pass 8.9.2 — SPR-MOD-006-001 (Warehouse Foundation)** only when:
-- Capability Allocation Matrix satisfies Authority, Uniqueness, Completeness, Origin
-- No orphan Sprint capability
-- No duplicate originating allocation
-- Stage 1 Verification = PASS
-- Repository Audit = READY
-- Confidence = HIGH
+**Selected Module ID for Warehouse: `MOD-019`** — first unallocated ID in `docs/MODULE_CATALOG.md`. Awaiting approval to proceed.

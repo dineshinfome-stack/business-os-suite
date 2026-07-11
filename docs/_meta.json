@@ -893,6 +893,10 @@
         {
           "title": "MOD-018 AI Workspace",
           "path": "20-module-prds/ai/README"
+        },
+        {
+          "title": "MOD-019 Warehouse",
+          "path": "20-module-prds/warehouse/README"
         }
       ]
     },
@@ -1116,6 +1120,14 @@
         {
           "title": "MOD-018 AI Workspace",
           "path": "30-sprint-prds/ai/README"
+        },
+        {
+          "title": "MOD-019 Warehouse",
+          "path": "30-sprint-prds/warehouse/README"
+        },
+        {
+          "title": "MOD-019 — Sprint Plan (Stage 1)",
+          "path": "30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN"
         }
       ]
     },

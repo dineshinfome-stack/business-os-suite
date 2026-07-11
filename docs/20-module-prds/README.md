@@ -19,7 +19,7 @@ Each module is a **bounded context** with:
 
 - a stable identifier `MOD-NNN`,
 - a `README.md` (this layer guide's companion, one per folder),
-- a `MODULE_PRD.md` (17-section authoritative business specification).
+- a `MODULE_PRD.md` (authoritative business specification).
 
 Modules interact through **published events**, **approved APIs**, and **shared master data** — never through direct database access or in-process coupling.
 
@@ -98,6 +98,7 @@ Canonical, permanent registry. Folder names, module names, and sidebar labels **
 | MOD-016 | `service-desk` | Service Desk | Service | Service |
 | MOD-017 | `analytics` | Analytics | Insights | Insights |
 | MOD-018 | `ai` | AI Workspace | AI | AI Platform |
+| MOD-019 | `warehouse` | Warehouse | Operations | Operations |
 
 ## Identifier Cross-Reference Convention
 
