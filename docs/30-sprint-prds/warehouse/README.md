@@ -23,7 +23,7 @@ document_type: "Module Sprint Guide"
 
 | Sprint ID | Name | Status |
 | --- | --- | --- |
-| SPR-MOD-019-001 | Warehouse Foundation | Reserved |
+| SPR-MOD-019-001 | [Warehouse Foundation](./SPR-MOD-019-001-warehouse-foundation.md) | Draft |
 | SPR-MOD-019-002 | Inbound Execution | Reserved |
 | SPR-MOD-019-003 | Storage & Slotting | Reserved |
 | SPR-MOD-019-004 | Outbound Execution | Reserved |
