@@ -369,6 +369,8 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-017 Analytics — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/analytics/MODULE_PRD.md` |
 | MOD-018 AI Workspace — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/ai/README.md` |
 | MOD-018 AI Workspace — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/ai/MODULE_PRD.md` |
+| MOD-019 Warehouse — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/warehouse/README.md` |
+| MOD-019 Warehouse — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/warehouse/MODULE_PRD.md` |
 
 ## References
 
