@@ -98,6 +98,7 @@ Canonical, permanent registry. Folder names, module names, and sidebar labels **
 | MOD-016 | `service-desk` | Service Desk | Service | Service |
 | MOD-017 | `analytics` | Analytics | Insights | Insights |
 | MOD-018 | `ai` | AI Workspace | AI | AI Platform |
+| MOD-019 | `warehouse` | Warehouse | Operations | Operations |
 
 ## Identifier Cross-Reference Convention
 
