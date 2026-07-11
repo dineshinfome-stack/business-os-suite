@@ -112,3 +112,81 @@ Confidence rubric per Spec v1.0. If revision identifier is unavailable, invoke D
 ## Post-freeze next step
 
 Pass **8.9.2 — SPR-MOD-019-001 Warehouse Foundation** (Stage 2 authoring). No further governance refinements unless a real inconsistency is discovered.
+
+---
+
+## Execution Record — Pass 8.9.1-G
+
+**Files modified**
+- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` — added "Governance Specification v1.0 (Pass 8.9.1-G)" section before `## Stage Boundaries`, encoding D1–D8.
+- `.lovable/plan.md` — this execution record.
+
+### Verification Metadata
+
+```
+Target Artifact: docs/MODULE_IMPLEMENTATION_WORKFLOW.md
+Verification Pass: 8.9.1-G-V
+Verification Date: 2026-07-11
+Verifier: Lovable agent
+Authoritative Sources Checked:
+  - docs/MODULE_IMPLEMENTATION_WORKFLOW.md
+  - .lovable/plan.md
+  - docs/99-templates/module-prd-template.md (existence check)
+  - docs/DOCUMENT_OWNERSHIP_MATRIX.md
+  - docs/REPOSITORY_MAP.md
+```
+
+### Check / Result / Action
+
+| # | Check | Result | Action |
+|---|---|---|---|
+| 1 | Scope limited to the two permitted files | Pass | No other files modified |
+| 2 | D1 canonical template wording present; no "exactly N sections" for Module PRDs; stable-selection + bootstrap-only fallback present | Pass | Added "Canonical Stage 1 Module PRD Template" subsection |
+| 3 | D2 confidence enum closed to HIGH \| MEDIUM \| LOW; no compound values | Pass | Added "Confidence Enum (closed)" subsection |
+| 4 | D3+D4 portability clause engine-agnostic; waiver conditions explicit | Pass | Added "Portability Clause — Revision Evidence" subsection |
+| 5 | D5 + D6 (Tiers A/B/C) + D7 present, correctly scoped, internally consistent; Tier A includes WORKFLOW, MODULE_CATALOG, ENGINE_CATALOG, ADR_INDEX, event-catalog | Pass | Added Registration-Mutable Files, Normative Source Precedence, Governance Freeze |
+| 6 | D8 bootstrap-aware Mandatory Read Set present; Access Guard aligned with D1 designation | Pass | Added "Bootstrap-Aware Mandatory Read Set" subsection |
+
+### Verification Summary
+
+```
+Checklist Items: 6
+Passed: 6
+Remediated: 0
+Failed: 0
+Outstanding Risks: none
+Repository Status: PASS
+Next Pass: 8.9.2 — SPR-MOD-019-001 Warehouse Foundation
+```
+
+### Repository Audit (Spec v1.0)
+
+```
+Repository Audit
+Audit Specification Version: 1.0
+Checks: 5
+Passed: 5
+Remediated: 0
+Failed: 0
+  Critical: 0
+  Major: 0
+  Minor: 0
+Repository Status: READY
+Confidence:        MEDIUM
+Revision:          Unavailable (execution environment restricts stateful git commands per platform policy — D3 waiver invoked)
+Artifact Hashes:   n/a
+```
+
+**Evidence table**
+
+| Check | PASS/FAIL | Severity | Repository Evidence | Required Fix |
+|---|---|---|---|---|
+| Authoritative Source Integrity — only the two declared files changed | PASS | Informational | Declared Files Modified: `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `.lovable/plan.md`; no other authoritative document touched this pass | none |
+| Metadata Consistency — new subsections cohere with pre-existing Verification Reporting Standard and Post-Implementation Repository Audit sections | PASS | Informational | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` → section "Governance Specification v1.0 (Pass 8.9.1-G)"; cross-refs Final Report Format rubric and Access Guard Clause | none |
+| Repository Consistency — Tier A/B/C paths resolve to existing repository files | PASS | Informational | Tier A cites `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md` — all present in project | none |
+| Frontmatter — workflow document retains existing frontmatter; no schema regressions | PASS | Informational | File header lines 1-9 unchanged | none |
+| `.lovable/plan.md` updated with verification metadata + summary + audit record | PASS | Informational | This execution record | none |
+
+**Waiver reason (D3):** the sandbox environment prohibits stateful `git` commands (`git rev-parse`, `git diff`, etc.) per platform policy; no alternative content-tracking mechanism is exposed. Confidence capped at `MEDIUM` per D3.
+
+**Governance Freeze effective.** `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` is now frozen. Next pass: **8.9.2 — SPR-MOD-019-001 Warehouse Foundation**.
