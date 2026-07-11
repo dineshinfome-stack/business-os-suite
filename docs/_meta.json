@@ -1128,6 +1128,10 @@
         {
           "title": "MOD-019 — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-019-001 — Warehouse Foundation",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation"
         }
       ]
     },

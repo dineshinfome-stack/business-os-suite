@@ -1,192 +1,297 @@
-# Pass 8.9.1-G — Governance Cleanup (Approved, Freeze-Ready)
+## Pass 8.9.2 — SPR-MOD-019-001 Warehouse Foundation (Stage 2 Sprint PRD)
 
-**Status:** validated 10/10 by reviewer. Ready to execute and freeze.
+Authoring the first Warehouse Sprint PRD under the frozen Governance Spec v1.0. Once approved, this plan doubles as the **canonical Stage 2 Sprint PRD authoring template** for Passes 8.9.3–8.9.7 (only module/sprint identifiers change).
 
-**Scope:** documentation-only. Modifies **only**:
+### Authoritative Source Resolution Log
+
+Two precedence decisions applied before authoring. Under D6 (Tier A > Tier B > Tier C), the higher-precedence source wins.
+
+**R1 — Sprint scope aligned to Sprint Plan, not prompt narrative.** The prompt's "Sprint Scope" enumerates *Warehouse Master / Warehouse Structure (Warehouse, Zones, Aisles, Racks, Bins) / Bin Types / Capacity Rules / Putaway Rule Definitions / Picking Rule Definitions*. The authoritative **Capability Allocation Matrix** in `MOD-019_SPRINT_PLAN.md` allocates to Sprint 001 only the Warehouse-owned foundation capabilities (zones/areas overlay, dock, equipment, labor, task-type registry, dock-appointment calendar, ops configuration, numbering-series registration). The prompt items conflict with:
+- **MOD-005 Inventory ownership** — Warehouse/Bin/Aisle/Rack master, Bin Types, and Capacity Rules are Inventory-owned per Warehouse Module PRD "Consumed Master Data".
+- **Sprint 003 allocation** — Slotting / putaway / picking rule definitions.
+
+**Resolution:** Author Sprint 001 against the Sprint Plan Capability Allocation Matrix. Do not introduce Bin/Aisle/Rack master or Slotting/Putaway/Picking rule definitions.
+
+**R2 — Filename convention.** The prompt specifies `SPR-MOD-019-001_WAREHOUSE_FOUNDATION.md` (SCREAMING_SNAKE). All existing Sprint PRDs and registration entries (`docs/_meta.json`, `docs/DOCUMENT_INDEX.md`, `docs/SPRINT_CATALOG.md`) use kebab-case: `SPR-MOD-<NNN>-<NNN>-<slug>.md`.
+
+**Resolution:** Use `SPR-MOD-019-001-warehouse-foundation.md`.
+
+Both entries recorded verbatim in the Verification Metadata block. Future decisions (R3, R4, …) append here — not "conflicts" but precedence decisions.
+
+### Part 0 — Preflight (read-only)
+
+Open verbatim:
+
+**Tier A (repository-wide governance):**
 - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
-- `.lovable/plan.md` (execution record)
+- `docs/MODULE_CATALOG.md`
+- `docs/10-erp-core/ENGINE_CATALOG.md`
+- `docs/11-adrs/ADR_INDEX.md`
+- `docs/02-architecture/event-catalog.md`
+- `docs/SPRINT_AUTHORING_GUIDE.md`
 
-No Sprint PRD, Module PRD, Baseline, catalog, or registration file is touched.
+**Tier B (module authority):**
+- `docs/20-module-prds/warehouse/MODULE_PRD.md`
+- `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md`
+
+**Reference Sprint PRD (structural template):**
+- `docs/30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation.md`
+
+**SPRINT_CATALOG registration rule check:** open `docs/SPRINT_AUTHORING_GUIDE.md` and determine whether Stage 2 sprint registration requires a row in `docs/SPRINT_CATALOG.md`. Encode the result deterministically as follows (settled before Part C runs):
+
+- If required → `docs/SPRINT_CATALOG.md` is **included** in the declared change set for this pass.
+- If not required → the declared change set records **"intentionally excluded — SPRINT_AUTHORING_GUIDE does not require Stage 2 SPRINT_CATALOG registration"**.
+
+No writes in Part 0.
+
+### Part A — Sprint Capability Allocation Gate
+
+Emit the **Sprint Capability Allocation Report** with fixed schema `Module Capability | Sprint Allocation | Status`, populated exclusively from `MOD-019_SPRINT_PLAN.md` Capability Allocation Matrix rows tagged `SPR-MOD-019-001`. Verify:
+
+- Every Sprint 001 capability originates from Module PRD (quoted evidence from Module PRD Business Capabilities / Consumed Master Data / Numbering sections).
+- Every allocated item appears exactly once.
+- No capability from Sprints 002–006 present.
+- No orphan / no duplicate originating allocation.
+- Engine and ADR sets align with the SPR-MOD-019-001 subsection of the Sprint Plan.
+- Events resolve from `event-catalog.md`; otherwise deferred as `R-EV-*` placeholders.
+
+Gate failure ⇒ Repository Status `NOT READY`; STOP without authoring.
+
+### Part B — Author Sprint PRD
+
+Create `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md`.
+
+**Frontmatter fields:** `module_id`, `module_name`, `sprint_id`, `sprint_name`, `document_type`, `stage: 2`, `pass: 8.9.2`, `version: v1.0`, `status: Draft`, `updated: 2026-07-11`, `size` (from Sprint Plan SPR-MOD-019-001 subsection), `related_engines`, `related_adrs`, `related_events`.
+
+**`owner` field** — SHALL match the `owner` field defined in `docs/20-module-prds/warehouse/MODULE_PRD.md` verbatim. No independent owner may be introduced at the Sprint PRD level. If the Module PRD owner and the Warehouse Sprint README owner (`Operations`) disagree, the Module PRD wins under D6 Tier B; the disagreement is recorded as R3 in the Authoritative Source Resolution Log and the README correction deferred to a follow-up remediation ticket.
+
+**Related Engines** — SHALL be resolved verbatim from the SPR-MOD-019-001 subsection of the Capability Allocation Matrix in `MOD-019_SPRINT_PLAN.md`. No engine identifier may be added, removed, or reordered.
+
+**Related ADRs** — SHALL be resolved verbatim from the SPR-MOD-019-001 subsection of the Capability Allocation Matrix in `MOD-019_SPRINT_PLAN.md`. Only Accepted ADRs; no additions, removals, or reordering.
+
+**Related Events** — SHALL be resolved verbatim from the Sprint Plan and `event-catalog.md`. Any event not yet present in the Event Catalog is deferred as `R-EV-*`; no event identifier may be invented.
+
+**18-section body** (frozen Sprint PRD standard):
+
+1. Executive Summary
+2. Sprint Scope (in / out, aligned with Sprint Plan boundaries)
+3. Business Capabilities (Warehouse operations configuration only)
+4. Functional Requirements (CRUD + lifecycle for each Sprint-1-allocated master entity; configuration resolution via ENG-005 if allocated; numbering series registration via ENG-017 if allocated)
+5. Business Processes (foundation config workflows; no execution processes)
+6. Governance (tenant / company / warehouse hierarchy; ADR-011 multi-tenant; ADR-032 RBAC+ABAC; ADR-014 audit — each cited only if resolved into the ADR set)
+7. Ownership Boundaries (Warehouse owns: zones/areas/dock/equipment/labor/task-type-registry/dock-appointment-calendar/ops-config/numbering-series-registrations. Consumes read-only from MOD-005: item master, warehouse master, bin master. Consumes from MOD-001: tenant, company, branch, user. Does NOT own warehouse/bin master.)
+8. Dependencies (upstream frozen baselines: MOD-001, MOD-005; no prior Warehouse sprints)
+9. ERP Core Engine Consumption (per-engine reason paragraphs matching the resolved engine list)
+10. ADR Consumption (per-ADR relevance paragraph matching the resolved ADR list)
+11. Data Model (business entities; no schema)
+12. Events (published: as resolved; deferred `R-EV-*` if not in Event Catalog)
+13. Integration Contracts (read-only consumption of MOD-005 warehouse/bin master and MOD-001 tenant/company/branch/user via approved APIs)
+14. Security (per ADR-011)
+15. Authorization (per ADR-032 via ENG-002/ENG-003)
+16. Operational Constraints (from Module PRD)
+17. Implementation Readiness (Sprint Exit Criteria section of the Sprint Plan for SPR-MOD-019-001, verbatim)
+18. References
+
+Governance boundaries: Warehouse zones/areas overlay — never redefine — MOD-005 warehouse/bin master. No stock ledger writes. No accounting posting. No numbering algorithm invention.
+
+### Part C — Governance Registration (each exactly once)
+
+**Declared Files Modified** (finalized after Part 0's SPRINT_AUTHORING_GUIDE check):
+
+1. `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md` (new)
+2. `docs/30-sprint-prds/warehouse/README.md` (Sprint 001 row: Reserved → Draft, link to PRD)
+3. `docs/DOCUMENT_INDEX.md` (add entry)
+4. `docs/_meta.json` (add sidebar link)
+5. `docs/SPRINT_CATALOG.md` (add Draft row) — **included if** Part 0 determines Stage 2 registration is required; **otherwise explicitly excluded** with the reason recorded in the change set declaration
+6. `.lovable/plan.md` (append execution record)
+
+Must NOT modify (Tier A/B authoritative sources): `MODULE_PRD.md`, `MOD-019_SPRINT_PLAN.md`, `MODULE_CATALOG.md`, any Module Baseline, `MODULE_IMPLEMENTATION_WORKFLOW.md` (frozen), `ENGINE_CATALOG.md`, `ADR_INDEX.md`, `event-catalog.md`, `ENGINE_USAGE_MATRIX.md`.
+
+### Part D — Stage 2 Verification (Pass 8.9.2-V)
+
+13-item checklist (Check / Result / Action table):
+
+1. Frontmatter complete; `owner` matches Module PRD verbatim
+2. 18 canonical sections present
+3. Capability completeness — every Sprint capability originates from Module PRD
+4. No capability outside Sprint 001 allocation
+5. Engines resolved verbatim from Sprint Plan (identical set and order)
+6. ADRs Accepted only, resolved verbatim from Sprint Plan
+7. Events verbatim from Event Catalog or deferred `R-EV-*`
+8. Ownership boundaries preserved (no MOD-005 territory absorbed)
+9. Dependencies resolve from `MODULE_CATALOG.md`
+10. Governance registrations completed exactly once each (matching the deterministic declared change set)
+11. Repository consistency (no duplicate IDs, no broken references)
+12. Metadata consistency (README ↔ DOCUMENT_INDEX ↔ _meta.json ↔ frontmatter; SPRINT_CATALOG row if the deterministic rule required it)
+13. Bidirectional capability completeness (Module PRD → Sprint AND Sprint → Module PRD)
+
+Invariant: `Passed + Remediated + Failed = 13`. Loop with minimal edits to the Sprint PRD only until `Failed = 0`.
+
+### Part E — Repository Audit (Spec v1.0, frozen)
+
+**Mandatory Read Set:**
+- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+- `docs/20-module-prds/warehouse/MODULE_PRD.md`
+- `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md`
+- `docs/10-erp-core/ENGINE_CATALOG.md`
+- `docs/ENGINE_USAGE_MATRIX.md`
+- `docs/11-adrs/ADR_INDEX.md`
+- `docs/02-architecture/event-catalog.md`
+- `docs/SPRINT_AUTHORING_GUIDE.md`
+- `docs/30-sprint-prds/warehouse/README.md`
+- `docs/DOCUMENT_INDEX.md`
+- `docs/_meta.json`
+- `docs/SPRINT_CATALOG.md` (always in read set so Metadata Consistency can verify inclusion-or-intentional-exclusion)
+
+Rationale: this pass modifies README, DOCUMENT_INDEX, and _meta.json (and conditionally SPRINT_CATALOG), so the audit MUST read them to verify Metadata Consistency.
+
+**Audit Metadata Header:** Specification Version, UTC Timestamp, Auditor, Tool Versions, Repository Revision Identifier (or "Unavailable" + D3 environmental waiver reason quoted), Change Tracking Mechanism, Declared Files Modified (with SPRINT_CATALOG inclusion decision explicit), Actual Change Set (must equal declared), SHA-256 Artifact Hashes per file.
+
+**Evidence Table** (fixed schema): `Check | PASS/FAIL | Severity | Repository Evidence (path + section + exact quote) | Required Fix`.
+
+**Coverage areas:** Stage 2 Verification; Capability Allocation Integrity; Engine Authority; ADR Authority; Event Authority; Ownership Boundary Validation; Repository Consistency; Metadata Consistency (owner-field match + change-set determinism); Cross-reference Validation; Artifact Integrity.
+
+**Confidence (D2 closed enum):** `HIGH | MEDIUM | LOW`. `MEDIUM` permitted only under D3 environmental waiver.
+
+**Repository Status:** `READY ⇔ Critical = 0 ∧ Major = 0`.
+
+### Closing Artifacts (appended to `.lovable/plan.md` and mirrored in chat)
+
+1. Authoritative Source Resolution Log (R1, R2, R3 if triggered, …)
+2. Sprint Capability Allocation Report
+3. Verification Metadata header
+4. Check / Result / Action table (13 rows)
+5. Verification Summary (Checklist Items, Passed, Remediated, Failed, Outstanding Risks, Repository Status, Next Pass)
+6. Repository Audit Metadata Header + Evidence Table + Confidence + Repository Status
+7. Final Report
+
+### Outcome
+
+Pass 8.9.2 complete when:
+- Capability Allocation Gate = PASS
+- Stage 2 Verification = 13/13 Passed
+- Repository Audit = READY + HIGH (or READY + MEDIUM under D3 waiver)
+- Zero orphan capabilities, zero duplicate originating allocations, zero capabilities outside Sprint 001 scope
+
+**Next Pass:** 8.9.3 — SPR-MOD-019-002 Inbound Execution (reuses this plan as the canonical Stage 2 template with module/sprint substitutions).
 
 ---
 
-## Findings
+## Execution Record — Pass 8.9.2 / 8.9.2-V / Repository Audit Spec v1.0
 
-1. Section-count ambiguity → conformance by **canonical template**, not numeric count.
-2. Confidence enum drift → close to `HIGH | MEDIUM | LOW`.
-3. Git-centric revision evidence → engine-agnostic wording + narrow portability clause.
-4. `REPOSITORY_MAP.md` mutability → derived registration metadata only.
-5. Normative source precedence must include repository-wide governance documents above module-specific documents.
-6. Audit Mandatory Read Set must be **bootstrap-aware** for the canonical template.
-7. Governance freeze after this pass.
+### Authoritative Source Resolution Log
 
-## Decisions
+- **R1 — Sprint scope aligned to Sprint Plan.** Prompt items (Warehouse/Bin/Aisle/Rack master, Bin Types, Capacity Rules, Putaway/Picking Rule Definitions) conflicted with MOD-005 Inventory ownership and Sprint 003 allocation. Authored Sprint 001 against the Sprint Plan Capability Allocation Matrix.
+- **R2 — Filename convention.** Kebab-case adopted: `SPR-MOD-019-001-warehouse-foundation.md`.
+- **R3 — Not triggered.** Module PRD `owner: Operations` and Sprint Plan `owner: Operations` agree; Sprint PRD inherits verbatim.
+- **SPRINT_CATALOG registration decision.** `docs/SPRINT_AUTHORING_GUIDE.md` §13.1.2 and §13.2 REQUIRE Stage 2 sprint registration in `docs/SPRINT_CATALOG.md`. Therefore **included** in the declared change set.
 
-### D1 — Canonical Stage 1 Module PRD template (stable selection)
+### Sprint Capability Allocation Report
 
-> A Stage 1 Module PRD SHALL conform exactly to the **canonical Stage 1 Module PRD template** designated in `docs/99-templates/module-prd-template.md`. Conformance is structural (sections, ordering, headings, required subsections) — not a numeric count.
->
-> **Template selection is stable, not time-dependent.** If `docs/99-templates/module-prd-template.md` does not yet exist, the repository maintainer SHALL **explicitly designate** one existing approved Stage 1 Module PRD as the canonical template by recording that designation in `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` (module id + version + date). The "most recently approved Stage 1 Module PRD" rule is permitted **only during initial repository bootstrap** and MUST be replaced by an explicit designation before the next Stage 1 pass. Once designated, the template is immutable until superseded by an explicit governance pass.
+| Module Capability | Sprint Allocation | Status |
+| --- | --- | --- |
+| Warehouse operations configuration (zones, areas, dock, equipment, labor, task type registry) | SPR-MOD-019-001 (originating) | PASS |
+| Dock Appointment Calendar (Master Data §5) | SPR-MOD-019-001 (originating) | PASS |
+| Warehouse Operations Configuration namespace (§10) | SPR-MOD-019-001 (originating) | PASS |
+| Warehouse Numbering Series registration (§6, §10) | SPR-MOD-019-001 (originating) | PASS |
+| Inbound execution | SPR-MOD-019-002 (out of scope here) | PASS |
+| Storage and slotting | SPR-MOD-019-003 (out of scope here) | PASS |
+| Outbound execution | SPR-MOD-019-004 (out of scope here) | PASS |
+| Yard, dock, and load-out | SPR-MOD-019-005 (out of scope here) | PASS |
+| Warehouse labor, equipment, and analytics | SPR-MOD-019-006 (out of scope here) | PASS |
 
-Sprint PRD template remains **18 sections** (unchanged).
-
-### D2 — Confidence enum (closed)
-
-Repository Audit `Confidence` SHALL be exactly one of `HIGH | MEDIUM | LOW`. Compound values are prohibited. Spec v1.0 rubric remains authoritative.
-
-### D3 — Environmental waiver (narrow)
-
-Portability clause applies **only** when the environment cannot expose a repository revision identifier through any supported mechanism. When invoked: `Revision: Unavailable (reason)`, Confidence capped at `MEDIUM`, reason recorded verbatim.
-
-### D4 — Engine-agnostic revision evidence
-
-"A repository revision identifier produced by the active source-control or content-tracking system (e.g., Git commit SHA, Mercurial changeset, content-addressed digest of the working tree). The auditor SHALL quote the exact command invoked and its verbatim output."
-
-### D5 — `REPOSITORY_MAP.md` mutability
-
-Permitted edits during module registration are limited to **derived registration metadata**: module counts, folder counts, registry rows/ranges. Structural sections (layer definitions, ownership, precedence) are immutable during registration passes.
-
-### D6 — Normative source precedence (repository-wide)
-
-**Tier A — Repository-wide governance (highest)**
-1. `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
-2. `docs/MODULE_CATALOG.md`
-3. `docs/10-erp-core/ENGINE_CATALOG.md`
-4. `docs/11-adrs/ADR_INDEX.md`
-5. `docs/02-architecture/event-catalog.md`
-
-**Tier B — Module-specific authority**
-6. `docs/20-module-prds/<module>/MODULE_PRD.md`
-7. Capability Allocation Matrix
-8. `docs/30-sprint-prds/<module>/MOD-<NNN>_SPRINT_PLAN.md`
-9. Sprint PRDs (`SPR-MOD-<NNN>-<NNN>`)
-10. Module Baselines
-
-**Tier C — Derived registration metadata (lowest)**
-11. `docs/ENGINE_USAGE_MATRIX.md` (derived; may be promoted to Tier B in a future governance pass if it becomes normative)
-12. READMEs, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `docs/REPOSITORY_MAP.md` registration metadata
-
-Conflict rule: higher-precedence source wins; lower-precedence artifact SHALL be corrected in the same pass whenever practical, otherwise recorded as a follow-up remediation with a tracked identifier. This precedence governs authoring and verification only; it does not alter ownership defined in `docs/DOCUMENT_OWNERSHIP_MATRIX.md`.
-
-### D7 — Governance freeze
-
-After approval, `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` is **frozen**. Further changes require an explicit governance-exception pass triggered by a real inconsistency. Routine refinements deferred to a future `Governance Specification v2.0`.
-
-### D8 — Bootstrap-aware Repository Audit Mandatory Read Set
-
-> Read `docs/99-templates/module-prd-template.md` **if it exists**; otherwise read the **explicitly designated canonical Stage 1 Module PRD** referenced in `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`. The Access Guard Clause SHALL NOT terminate the audit solely because `docs/99-templates/module-prd-template.md` is absent, provided a valid designation exists in the workflow. If neither exists, the Access Guard fires as usual.
-
-## Deliverables
-
-1. Update `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`:
-   - **Canonical Stage 1 Module PRD Template** subsection (D1).
-   - **Confidence Enum** wording (D2).
-   - **Portability Clause** (D3, D4).
-   - **Registration-Mutable Files** subsection (D5).
-   - **Normative Source Precedence** subsection with Tiers A/B/C (D6).
-   - **Bootstrap-Aware Mandatory Read Set** clause in Audit section (D8).
-   - **Governance Freeze** clause (D7) at end of document.
-2. Update `.lovable/plan.md` execution record with verification and audit artifacts.
-
-## Verification (Pass 8.9.1-G-V)
-
-Six-item governance-cleanup checklist (Check / Result / Action):
-
-1. Scope limited to the two permitted files.
-2. D1 wording present; no residual "exactly N sections" phrasing for Module PRDs; stable-selection + bootstrap-only fallback both present.
-3. D2 confidence enum closed; no compound values remain.
-4. D3+D4 portability clause is engine-agnostic; waiver conditions explicit.
-5. D5 + D6 (Tier A/B/C) + D7 present, correctly scoped, internally consistent; Tier A includes `MODULE_IMPLEMENTATION_WORKFLOW.md`, `MODULE_CATALOG.md`, `ENGINE_CATALOG.md`, `ADR_INDEX.md`, `event-catalog.md`.
-6. D8 bootstrap-aware Mandatory Read Set clause present; Access Guard behavior aligned with D1 designation mechanism.
-
-Emit the three standard artifacts: Verification Metadata header, Check/Result/Action table, Verification Summary block.
-
-## Repository Audit (Spec v1.0)
-
-Mandatory Read Set: `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `.lovable/plan.md`, canonical template per D8, `docs/DOCUMENT_OWNERSHIP_MATRIX.md`, `docs/REPOSITORY_MAP.md`.
-
-Standard Check Set restricted to governance-relevant items: Authoritative Source Integrity, Metadata Consistency, Repository Consistency, Frontmatter, `.lovable/plan.md` updated.
-
-Confidence rubric per Spec v1.0. If revision identifier is unavailable, invoke D3 waiver, cap Confidence at `MEDIUM`, record reason.
-
-## Post-freeze next step
-
-Pass **8.9.2 — SPR-MOD-019-001 Warehouse Foundation** (Stage 2 authoring). No further governance refinements unless a real inconsistency is discovered.
-
----
-
-## Execution Record — Pass 8.9.1-G
-
-**Files modified**
-- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` — added "Governance Specification v1.0 (Pass 8.9.1-G)" section before `## Stage Boundaries`, encoding D1–D8.
-- `.lovable/plan.md` — this execution record.
+Gate result: **PASS**. Zero orphan capabilities, zero duplicate originating allocations, zero capabilities outside Sprint 001 scope.
 
 ### Verification Metadata
 
-```
-Target Artifact: docs/MODULE_IMPLEMENTATION_WORKFLOW.md
-Verification Pass: 8.9.1-G-V
-Verification Date: 2026-07-11
-Verifier: Lovable agent
-Authoritative Sources Checked:
-  - docs/MODULE_IMPLEMENTATION_WORKFLOW.md
-  - .lovable/plan.md
-  - docs/99-templates/module-prd-template.md (existence check)
-  - docs/DOCUMENT_OWNERSHIP_MATRIX.md
-  - docs/REPOSITORY_MAP.md
-```
+- Target Artifact: `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md`
+- Verification Pass: 8.9.2-V
+- Verification Date: 2026-07-11
+- Verifier: Lovable AI
+- Authoritative Sources Checked: `docs/20-module-prds/warehouse/MODULE_PRD.md`, `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md`, `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md`, `docs/SPRINT_AUTHORING_GUIDE.md`, `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
 
-### Check / Result / Action
+### Verification Check / Result / Action Table
 
 | # | Check | Result | Action |
-|---|---|---|---|
-| 1 | Scope limited to the two permitted files | Pass | No other files modified |
-| 2 | D1 canonical template wording present; no "exactly N sections" for Module PRDs; stable-selection + bootstrap-only fallback present | Pass | Added "Canonical Stage 1 Module PRD Template" subsection |
-| 3 | D2 confidence enum closed to HIGH \| MEDIUM \| LOW; no compound values | Pass | Added "Confidence Enum (closed)" subsection |
-| 4 | D3+D4 portability clause engine-agnostic; waiver conditions explicit | Pass | Added "Portability Clause — Revision Evidence" subsection |
-| 5 | D5 + D6 (Tiers A/B/C) + D7 present, correctly scoped, internally consistent; Tier A includes WORKFLOW, MODULE_CATALOG, ENGINE_CATALOG, ADR_INDEX, event-catalog | Pass | Added Registration-Mutable Files, Normative Source Precedence, Governance Freeze |
-| 6 | D8 bootstrap-aware Mandatory Read Set present; Access Guard aligned with D1 designation | Pass | Added "Bootstrap-Aware Mandatory Read Set" subsection |
+| --- | --- | --- | --- |
+| 1 | Frontmatter complete; owner matches Module PRD verbatim | Passed | None |
+| 2 | 18 canonical sections present | Passed | None |
+| 3 | Every Sprint capability originates from Module PRD | Passed | None |
+| 4 | No capability outside Sprint 001 allocation | Passed | None |
+| 5 | Engines resolved verbatim from Sprint Plan §2.001 (ENG-001, ENG-002, ENG-003, ENG-004, ENG-005, ENG-006, ENG-017, ENG-024) | Passed | None |
+| 6 | ADRs Accepted only, verbatim from Sprint Plan (ADR-011, ADR-014, ADR-032) | Passed | None |
+| 7 | Events verbatim from Event Catalog; none published in this sprint (Foundation is master-data only) | Passed | None |
+| 8 | Ownership boundaries preserved (no MOD-005 territory absorbed) | Passed | None |
+| 9 | Dependencies resolve from MODULE_CATALOG.md (MOD-001, MOD-004, MOD-005) | Passed | None |
+| 10 | Governance registrations completed exactly once (README, SPRINT_CATALOG, DOCUMENT_INDEX, _meta.json) | Passed | None |
+| 11 | Repository consistency — no duplicate IDs, no broken references | Passed | None |
+| 12 | Metadata consistency across README ↔ DOCUMENT_INDEX ↔ _meta.json ↔ SPRINT_CATALOG ↔ frontmatter | Passed | None |
+| 13 | Bidirectional capability completeness (Module PRD → Sprint AND Sprint → Module PRD) | Passed | None |
 
 ### Verification Summary
 
-```
-Checklist Items: 6
-Passed: 6
-Remediated: 0
-Failed: 0
-Outstanding Risks: none
-Repository Status: PASS
-Next Pass: 8.9.2 — SPR-MOD-019-001 Warehouse Foundation
-```
+- Checklist Items: 13
+- Passed: 13
+- Remediated: 0
+- Failed: 0
+- Outstanding Risks: None
+- Repository Status: **PASS**
+- Next Pass: 8.9.3 — SPR-MOD-019-002 Inbound Execution
+
+Invariant check: `13 + 0 + 0 = 13` ✓.
+
+---
 
 ### Repository Audit (Spec v1.0)
 
-```
-Repository Audit
-Audit Specification Version: 1.0
-Checks: 5
-Passed: 5
-Remediated: 0
-Failed: 0
-  Critical: 0
-  Major: 0
-  Minor: 0
-Repository Status: READY
-Confidence:        MEDIUM
-Revision:          Unavailable (execution environment restricts stateful git commands per platform policy — D3 waiver invoked)
-Artifact Hashes:   n/a
-```
+**Audit Metadata Header**
 
-**Evidence table**
+- Specification Version: 1.0
+- UTC Timestamp: 2026-07-11
+- Auditor: Lovable AI
+- Tool Versions: repository-native tooling
+- Repository Revision Identifier: Unavailable — sandbox has no accessible immutable revision identifier (Git operations restricted by environment); D3 environmental waiver invoked per Governance Spec v1.0
+- Change Tracking Mechanism: File-level SHA-256 (below); Registration cross-checks via `grep`
+- Declared Files Modified:
+  1. `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md` (new)
+  2. `docs/30-sprint-prds/warehouse/README.md`
+  3. `docs/SPRINT_CATALOG.md` — **included** (Stage 2 registration required by `SPRINT_AUTHORING_GUIDE.md` §13.1.2)
+  4. `docs/DOCUMENT_INDEX.md`
+  5. `docs/_meta.json`
+  6. `.lovable/plan.md` (execution record)
+- Actual Change Set: Identical to Declared Files Modified ✓
+- SHA-256 Artifact Hashes:
+  - `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md` = `d63f6ae62c5319b7d8467ed6a24e49d230c0bb41e1cb7f1c7aa34a893e7521b2`
+  - `docs/30-sprint-prds/warehouse/README.md` = `85e90a6e35b0b702932612c12dc0f0470681edbb404c0d157b435a2699291aeb`
+  - `docs/SPRINT_CATALOG.md` = `2c8551e7010f3125418f07c35ba83e2313f434c2730c59a51b096799de38fb57`
+  - `docs/DOCUMENT_INDEX.md` = `6c3599a279026b02f93fcefd1f96a73eca6efbc387ae44d40e6fdb136874b700`
+  - `docs/_meta.json` = `2ddbea9efef6051bf74c4536acf0f49e06822b8cf6a92bc6bc459c007d06dc2a`
+
+**Evidence Table**
 
 | Check | PASS/FAIL | Severity | Repository Evidence | Required Fix |
-|---|---|---|---|---|
-| Authoritative Source Integrity — only the two declared files changed | PASS | Informational | Declared Files Modified: `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `.lovable/plan.md`; no other authoritative document touched this pass | none |
-| Metadata Consistency — new subsections cohere with pre-existing Verification Reporting Standard and Post-Implementation Repository Audit sections | PASS | Informational | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` → section "Governance Specification v1.0 (Pass 8.9.1-G)"; cross-refs Final Report Format rubric and Access Guard Clause | none |
-| Repository Consistency — Tier A/B/C paths resolve to existing repository files | PASS | Informational | Tier A cites `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md` — all present in project | none |
-| Frontmatter — workflow document retains existing frontmatter; no schema regressions | PASS | Informational | File header lines 1-9 unchanged | none |
-| `.lovable/plan.md` updated with verification metadata + summary + audit record | PASS | Informational | This execution record | none |
+| --- | --- | --- | --- | --- |
+| Stage 2 verification 13/13 | PASS | — | See Verification Summary above | None |
+| Capability allocation integrity | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001, §4.3: "Warehouse Zone … Warehouse Area … Dock Door … Equipment … Labor Resource … Task Type Registry … Dock Appointment Calendar → SPR-MOD-019-001" | None |
+| Engine authority | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001: "Engines consumed. ENG-001 … ENG-002 … ENG-003 … ENG-004 … ENG-005 … ENG-006 … ENG-017 … ENG-024"; Sprint PRD frontmatter `related_engines` identical | None |
+| ADR authority | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001: "ADRs consumed. ADR-011 … ADR-014 … ADR-032"; Sprint PRD frontmatter `related_adrs` identical | None |
+| Event authority | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001 lists no published events for Sprint 001; `event-catalog.md` contains no foundation-level warehouse events; Sprint PRD §12 declares "None" | None |
+| Ownership boundary validation | PASS | — | Sprint PRD §7 "Consumed read-only from MOD-005 Inventory. Item master … Warehouse master, Bin/Location master"; matches Module PRD §5 "Consumed Master Data" and `MOD005_INVENTORY_BASELINE_v1` | None |
+| Repository consistency | PASS | — | `grep -c SPR-MOD-019-001` = 1 in DOCUMENT_INDEX, 1 in SPRINT_CATALOG, 1 in README; 2 references in _meta.json (single entry with title + path) | None |
+| Metadata consistency | PASS | Info | Owner field: Module PRD line 5 `owner: "Operations"` == Sprint PRD frontmatter `owner: "Operations"`; SPRINT_CATALOG inclusion matches deterministic rule | None |
+| Cross-reference validation | PASS | — | All internal links resolve; parent Sprint Plan, Module PRD, and workflow paths verified | None |
+| Artifact integrity | PASS | — | JSON validity of `docs/_meta.json` confirmed via `json.load`; SHA-256 hashes captured above | None |
 
-**Waiver reason (D3):** the sandbox environment prohibits stateful `git` commands (`git rev-parse`, `git diff`, etc.) per platform policy; no alternative content-tracking mechanism is exposed. Confidence capped at `MEDIUM` per D3.
+**Coverage**
 
-**Governance Freeze effective.** `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` is now frozen. Next pass: **8.9.2 — SPR-MOD-019-001 Warehouse Foundation**.
+- Total checks: 10
+- Passed: 10
+- Failed (Critical): 0
+- Failed (Major): 0
+- Failed (Minor): 0
+
+**Confidence:** MEDIUM (D3 environmental waiver: Repository Revision Identifier Unavailable; all other checks HIGH-confidence)
+
+**Repository Status:** READY (Critical = 0, Major = 0)
+
+**Next Pass:** 8.9.3 — SPR-MOD-019-002 Inbound Execution
