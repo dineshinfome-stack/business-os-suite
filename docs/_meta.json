@@ -1132,6 +1132,10 @@
         {
           "title": "SPR-MOD-019-001 — Warehouse Foundation",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation"
+        },
+        {
+          "title": "SPR-MOD-019-002 — Inbound Execution",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution"
         }
       ]
     },
