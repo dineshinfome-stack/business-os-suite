@@ -25,7 +25,7 @@ document_type: "Module Sprint Guide"
 | --- | --- | --- |
 | SPR-MOD-019-001 | [Warehouse Foundation](./SPR-MOD-019-001-warehouse-foundation.md) | Draft |
 | SPR-MOD-019-002 | [Inbound Execution](./SPR-MOD-019-002-inbound-execution.md) | Draft |
-| SPR-MOD-019-003 | Storage & Slotting | Reserved |
+| SPR-MOD-019-003 | [Storage & Slotting](./SPR-MOD-019-003-storage-slotting.md) | Draft |
 | SPR-MOD-019-004 | Outbound Execution | Reserved |
 | SPR-MOD-019-005 | Yard, Dock & Load-Out | Reserved |
 | SPR-MOD-019-006 | Warehouse Labor, Equipment & Analytics | Reserved |
