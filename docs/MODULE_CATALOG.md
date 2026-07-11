@@ -1,6 +1,6 @@
 ---
 title: "Module Catalog"
-summary: "Catalog of every BusinessOS module (MOD-001..MOD-018): stable identifier, status, primary domain, PRD path, and planned owner."
+summary: "Catalog of every BusinessOS module (MOD-001..MOD-019): stable identifier, status, primary domain, PRD path, and planned owner."
 layer: "platform"
 owner: "Platform"
 status: "approved"
