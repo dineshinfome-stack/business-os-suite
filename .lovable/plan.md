@@ -103,3 +103,134 @@ Confidence ∈ {HIGH, MEDIUM, LOW}. Repository Status READY ⇔ Critical = 0 ∧
 Pass 8.9.4 complete only when: Allocation Gate = PASS ∧ Verification = 15/15 ∧ Audit = READY ∧ Confidence = HIGH (or MEDIUM solely under D3 environmental waiver).
 
 Next: **Pass 8.9.5 — SPR-MOD-019-004 Outbound Execution** (per frozen Sprint Plan sequence).
+
+---
+
+# Execution Artifacts — Pass 8.9.4
+
+## 1. Authoritative Source Resolution Log
+
+| Field | Value | Source |
+| --- | --- | --- |
+| Sprint name | Storage & Slotting | `MOD-019_SPRINT_PLAN.md` §2.003 / §4.1 (verbatim) |
+| Owner | Operations | Warehouse Module PRD frontmatter (verbatim) |
+| Size | Medium | Sprint Plan §2.003 |
+| Engines | ENG-002, 004, 005, 010, 011, 012, 013, 017, 024, 025 | Sprint Plan §2.003 (verbatim) |
+| ADRs | ADR-011, ADR-014, ADR-032 | Sprint Plan §2.003 (verbatim, Accepted only) |
+| Events published | SlottingChangeApplied, InternalReplenishmentCompleted | Sprint Plan §2.003 + Module PRD §8 |
+| Events consumed | InventoryLowStock | Sprint Plan §2.003 + Module PRD §8 |
+| Deps | SPR-MOD-019-001, SPR-MOD-019-002 | Sprint Plan §2.003 |
+| Filename | `SPR-MOD-019-003-storage-slotting.md` | Repository kebab-case convention |
+| SPRINT_CATALOG registration | Mandatory (Stage 2) | `SPRINT_AUTHORING_GUIDE.md` §5 |
+
+## 2. Sprint Capability Allocation Report
+
+| # | Module Capability | Sprint Allocation | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| 1 | Storage and slotting (bin allocation strategies, slotting optimization, internal replenishment tasks) | SPR-MOD-019-003 | PASS | Sprint Plan §4.1 row 3 |
+| 2 | Slotting Rule (master) | SPR-MOD-019-003 | PASS | Sprint Plan §4.3 |
+| 3 | Slotting Change Order (transaction) | SPR-MOD-019-003 | PASS | Sprint Plan §4.3 |
+| 4 | Internal Replenishment Task (transaction) | SPR-MOD-019-003 | PASS | Sprint Plan §4.3 |
+
+**Nine validations:**
+1. All capabilities originate from Module PRD §2, §5, §6 — **PASS**.
+2. Each appears exactly once in Sprint 003 — **PASS**.
+3. No Sprint 001/002 capability present — **PASS**.
+4. No Sprint 004+ capability present — **PASS**.
+5. No duplicate originating allocation — **PASS**.
+6. No orphan — **PASS**.
+7. Engines identical to Sprint Plan — **PASS**.
+8. ADRs Accepted only, identical to Sprint Plan — **PASS**.
+9. Events verbatim from Module PRD §8 / Sprint Plan — **PASS**.
+
+**Allocation Gate = PASS.**
+
+## 3. Verification Metadata
+
+- Target Artifact: `docs/30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting.md`
+- Verification Pass: 8.9.4-V
+- Date: 2026-07-11 UTC
+- Verifier: Lovable Agent
+- Authoritative Sources: Module PRD, Sprint Plan, ENGINE_CATALOG, ADR_INDEX, event-catalog, SPRINT_AUTHORING_GUIDE, warehouse/README, SPRINT_CATALOG, DOCUMENT_INDEX, _meta.json.
+
+## 4. Verification Table (15 rows)
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter complete (module_id, sprint_id, sprint_name, stage, pass, version, status, updated, owner, size, engines, ADRs, events, tags) | PASS | none |
+| 2 | 18 canonical sections present | PASS | none |
+| 3 | All allocated capabilities covered | PASS | none |
+| 4 | No capability outside Sprint 003 | PASS | none |
+| 5 | Engines identical to Sprint Plan | PASS | none |
+| 6 | ADRs Accepted only, identical | PASS | none |
+| 7 | Events verbatim (no invented IDs) | PASS | none |
+| 8 | Ownership boundaries preserve upstream artifacts | PASS | none |
+| 9 | Dependencies resolve from MODULE_CATALOG | PASS | none |
+| 10 | Registration files modified exactly once | PASS | none |
+| 11 | Repo cross-references consistent | PASS | none |
+| 12 | Metadata consistency (README, catalog, index, _meta.json) | PASS | none |
+| 13 | Bidirectional capability completeness | PASS | none |
+| 14 | Cross-Sprint Leakage — no Sprint 001/002/004+ capability | PASS | none |
+| 15 | Ownership preservation vs Module PRD (no transfer) | PASS | none |
+
+## 5. Verification Summary
+
+- Checklist Items: 15
+- Passed: 15
+- Remediated: 0
+- Failed: 0
+- Outstanding Risks: 0
+- Repository Status: READY
+- Next Pass: 8.9.5 (SPR-MOD-019-004 Outbound Execution)
+
+Invariant: Passed + Remediated + Failed = 15 ✓
+
+## 6. Repository Audit Metadata
+
+- Spec: v1.0
+- Timestamp: 2026-07-11 UTC
+- Auditor: Lovable Agent
+- Tool versions: n/a (sandbox)
+- Repo revision: unavailable in sandbox — **D3 environmental waiver invoked**.
+- Declared Files Modified: `docs/30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting.md` (new), `docs/30-sprint-prds/warehouse/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `.lovable/plan.md`.
+- Actual Change Set: identical to Declared.
+
+**Determinism Invariant:** Declared = Actual — **PASS**.
+
+## 7. Repository Audit Evidence Table
+
+| Check | Result | Severity | Evidence | Fix |
+| --- | --- | --- | --- | --- |
+| Sprint PRD exists at declared path | PASS | — | `docs/30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting.md` | — |
+| Frontmatter fields resolve verbatim | PASS | — | Sprint Plan §2.003 | — |
+| Engines identical to Sprint Plan | PASS | — | related_engines array matches §2.003 | — |
+| ADRs Accepted only | PASS | — | ADR-011/014/032 all Accepted per ADR_INDEX | — |
+| Events verbatim | PASS | — | Module PRD §8 + Sprint Plan §2.003 | — |
+| Ownership boundary preserved | PASS | — | §1.1 + §7 preserve MOD-005 ledger ownership | — |
+| No cross-sprint leakage | PASS | — | §2.2 explicit exclusion | — |
+| README updated | PASS | — | line 28 status Draft with link | — |
+| SPRINT_CATALOG updated | PASS | — | new row for SPR-MOD-019-003 | — |
+| DOCUMENT_INDEX updated | PASS | — | new row for SPR-MOD-019-003 | — |
+| _meta.json updated | PASS | — | new entry under warehouse group | — |
+| No upstream authoritative doc modified | PASS | — | MODULE_PRD, Sprint Plan, ENGINE_CATALOG, ADR_INDEX, event-catalog untouched | — |
+| Declared = Actual change set | PASS | — | 6 files declared, 6 modified | — |
+
+## 8. Sprint PRD Semantic Invariants (7)
+
+1. No capability added — **PASS**
+2. No capability removed — **PASS**
+3. No capability renamed — **PASS**
+4. No capability merged — **PASS**
+5. No capability split — **PASS**
+6. No ownership transferred — **PASS**
+7. No capability reallocated across Sprint boundaries — **PASS**
+
+## 9. Final Report
+
+- Allocation Gate: **PASS**
+- Stage 2 Verification (8.9.4-V): **15/15 Passed**
+- Repository Audit (Spec v1.0): **13/13 Passed**, Critical = 0, Major = 0
+- Repository Status: **READY**
+- Confidence: **MEDIUM** (D3 environmental waiver — no Git revision available in sandbox)
+- Pass 8.9.4 — Complete.
+- Next: **Pass 8.9.5 — SPR-MOD-019-004 Outbound Execution** (per frozen Sprint Plan).
