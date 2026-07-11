@@ -290,6 +290,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-005-006 — Inventory Analytics & Operational Controls | Delivery | Draft | Authoritative | `docs/30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls.md` |
 | SPR-MOD-019-001 — Warehouse Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md` |
 | SPR-MOD-019-002 — Inbound Execution | Delivery | Draft | Authoritative | `docs/30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution.md` |
+| SPR-MOD-019-003 — Storage & Slotting | Delivery | Draft | Authoritative | `docs/30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |

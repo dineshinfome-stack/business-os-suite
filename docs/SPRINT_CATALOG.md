@@ -66,6 +66,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-005-006 | Sprint 6 | MOD-005 Inventory | Draft | [`30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls.md`](30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls.md) | Inventory |
 | SPR-MOD-019-001 | Sprint 1 | MOD-019 Warehouse | Draft | [`30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md`](30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md) | Operations |
 | SPR-MOD-019-002 | Sprint 2 | MOD-019 Warehouse | Draft | [`30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution.md`](30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution.md) | Operations |
+| SPR-MOD-019-003 | Sprint 3 | MOD-019 Warehouse | Draft | [`30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting.md`](30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting.md) | Operations |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
