@@ -311,6 +311,64 @@ All three artifacts are written into `.lovable/plan.md` under the pass's Executi
 12. **Relationship to the 10-item / 13-item verification.** The audit is a superset gate; the checklists remain the internal verification step and the audit is the external evidence-based confirmation.
 
 
+## Governance Specification v1.0 (Pass 8.9.1-G)
+
+This section supplements the workflow with repository-wide governance rules. Where it modifies earlier language, this section takes precedence. After approval of Pass 8.9.1-G, this section is **frozen** — see **Governance Freeze** below.
+
+### Canonical Stage 1 Module PRD Template
+
+A Stage 1 Module PRD SHALL conform exactly to the **canonical Stage 1 Module PRD template** designated in `docs/99-templates/module-prd-template.md`. Conformance is structural — sections, ordering, headings, and required subsections — not a numeric count. Prior references to "17 sections" or "23 sections" are superseded by this rule.
+
+**Template selection is stable, not time-dependent.** If `docs/99-templates/module-prd-template.md` does not yet exist, the repository maintainer SHALL **explicitly designate** one existing approved Stage 1 Module PRD as the canonical template by recording that designation in this document (module id + version + date). The "most recently approved Stage 1 Module PRD" fallback is permitted **only during initial repository bootstrap** and MUST be replaced by an explicit designation before the next Stage 1 pass. Once designated, the template is immutable until superseded by an explicit governance pass.
+
+**Current designation.** No explicit designation is recorded yet. Until `docs/99-templates/module-prd-template.md` is authored or a designation is added here, the bootstrap fallback applies. Sprint PRD template remains the 18-section template referenced elsewhere in this document and is unchanged.
+
+### Confidence Enum (closed)
+
+Repository Audit `Confidence` SHALL be exactly one of `HIGH | MEDIUM | LOW`. Compound values (e.g. `MEDIUM-HIGH`) are prohibited in all audit records. The rubric under **Post-Implementation Repository Audit — Final Report Format** remains authoritative.
+
+### Portability Clause — Revision Evidence
+
+Revision evidence is engine-agnostic: it SHALL be **a repository revision identifier produced by the active source-control or content-tracking system** (e.g., Git commit SHA, Mercurial changeset, content-addressed digest of the working tree). The auditor SHALL quote the exact command invoked and its verbatim output.
+
+**Environmental waiver (narrow).** The portability clause applies **only** when the execution environment cannot expose a repository revision identifier through any supported mechanism. When invoked, the audit record SHALL contain `Revision: Unavailable (reason)`, cap Confidence at `MEDIUM`, and record the waiver reason verbatim. The waiver does not permit skipping any other audit obligation.
+
+### Registration-Mutable Files
+
+Permitted edits to `docs/REPOSITORY_MAP.md` during a module registration pass are limited to **derived registration metadata**: module counts, folder counts, and module registry rows/ranges. Structural sections (layer definitions, ownership, precedence) are **immutable** during registration passes and require an explicit governance pass to change. The same principle extends by analogy to other derived registry artifacts.
+
+### Normative Source Precedence
+
+For any Stage 1 or Stage 2 authoring or verification conflict, precedence is:
+
+**Tier A — Repository-wide governance (highest)**
+1. `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+2. `docs/MODULE_CATALOG.md`
+3. `docs/10-erp-core/ENGINE_CATALOG.md`
+4. `docs/11-adrs/ADR_INDEX.md`
+5. `docs/02-architecture/event-catalog.md`
+
+**Tier B — Module-specific authority**
+6. `docs/20-module-prds/<module>/MODULE_PRD.md`
+7. Capability Allocation Matrix (in the module's Sprint Plan)
+8. `docs/30-sprint-prds/<module>/MOD-<NNN>_SPRINT_PLAN.md`
+9. Sprint PRDs (`SPR-MOD-<NNN>-<NNN>`)
+10. Module Baselines (`MOD<NNN>_<MODULE>_BASELINE_v<version>.md`)
+
+**Tier C — Derived registration metadata (lowest)**
+11. `docs/ENGINE_USAGE_MATRIX.md` (derived; MAY be promoted to Tier B in a future governance pass if it becomes normative)
+12. READMEs, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, and `docs/REPOSITORY_MAP.md` registration metadata
+
+**Conflict rule.** The higher-precedence source wins; the lower-precedence artifact SHALL be corrected in the same pass whenever practical, otherwise recorded as a follow-up remediation with a tracked identifier. This precedence governs authoring and verification only; it does not alter document ownership defined in `docs/DOCUMENT_OWNERSHIP_MATRIX.md`.
+
+### Bootstrap-Aware Mandatory Read Set (Repository Audit)
+
+Supplementing the Repository Audit's Mandatory Read Set: for the canonical Stage 1 Module PRD template, the auditor SHALL read `docs/99-templates/module-prd-template.md` **if it exists**; otherwise the auditor SHALL read the **explicitly designated canonical Stage 1 Module PRD** referenced in this document. The Access Guard Clause SHALL NOT terminate the audit solely because `docs/99-templates/module-prd-template.md` is absent, provided a valid designation (or the bootstrap fallback) is available. If neither a template file nor a designation nor a bootstrap fallback source exists, the Access Guard fires as usual.
+
+### Governance Freeze
+
+After approval of Pass 8.9.1-G, this document (`docs/MODULE_IMPLEMENTATION_WORKFLOW.md`) is **frozen**. Further changes require an explicit governance-exception pass triggered by a real inconsistency discovered during implementation. Routine refinements are deferred to a future `Governance Specification v2.0`. Registration passes that add modules, sprints, or baselines remain permitted — they do not modify this document.
+
 
 ## Stage Boundaries
 
