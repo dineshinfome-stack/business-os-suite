@@ -174,3 +174,124 @@ Pass 8.9.2 complete when:
 - Zero orphan capabilities, zero duplicate originating allocations, zero capabilities outside Sprint 001 scope
 
 **Next Pass:** 8.9.3 — SPR-MOD-019-002 Inbound Execution (reuses this plan as the canonical Stage 2 template with module/sprint substitutions).
+
+---
+
+## Execution Record — Pass 8.9.2 / 8.9.2-V / Repository Audit Spec v1.0
+
+### Authoritative Source Resolution Log
+
+- **R1 — Sprint scope aligned to Sprint Plan.** Prompt items (Warehouse/Bin/Aisle/Rack master, Bin Types, Capacity Rules, Putaway/Picking Rule Definitions) conflicted with MOD-005 Inventory ownership and Sprint 003 allocation. Authored Sprint 001 against the Sprint Plan Capability Allocation Matrix.
+- **R2 — Filename convention.** Kebab-case adopted: `SPR-MOD-019-001-warehouse-foundation.md`.
+- **R3 — Not triggered.** Module PRD `owner: Operations` and Sprint Plan `owner: Operations` agree; Sprint PRD inherits verbatim.
+- **SPRINT_CATALOG registration decision.** `docs/SPRINT_AUTHORING_GUIDE.md` §13.1.2 and §13.2 REQUIRE Stage 2 sprint registration in `docs/SPRINT_CATALOG.md`. Therefore **included** in the declared change set.
+
+### Sprint Capability Allocation Report
+
+| Module Capability | Sprint Allocation | Status |
+| --- | --- | --- |
+| Warehouse operations configuration (zones, areas, dock, equipment, labor, task type registry) | SPR-MOD-019-001 (originating) | PASS |
+| Dock Appointment Calendar (Master Data §5) | SPR-MOD-019-001 (originating) | PASS |
+| Warehouse Operations Configuration namespace (§10) | SPR-MOD-019-001 (originating) | PASS |
+| Warehouse Numbering Series registration (§6, §10) | SPR-MOD-019-001 (originating) | PASS |
+| Inbound execution | SPR-MOD-019-002 (out of scope here) | PASS |
+| Storage and slotting | SPR-MOD-019-003 (out of scope here) | PASS |
+| Outbound execution | SPR-MOD-019-004 (out of scope here) | PASS |
+| Yard, dock, and load-out | SPR-MOD-019-005 (out of scope here) | PASS |
+| Warehouse labor, equipment, and analytics | SPR-MOD-019-006 (out of scope here) | PASS |
+
+Gate result: **PASS**. Zero orphan capabilities, zero duplicate originating allocations, zero capabilities outside Sprint 001 scope.
+
+### Verification Metadata
+
+- Target Artifact: `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md`
+- Verification Pass: 8.9.2-V
+- Verification Date: 2026-07-11
+- Verifier: Lovable AI
+- Authoritative Sources Checked: `docs/20-module-prds/warehouse/MODULE_PRD.md`, `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md`, `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md`, `docs/SPRINT_AUTHORING_GUIDE.md`, `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+
+### Verification Check / Result / Action Table
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Frontmatter complete; owner matches Module PRD verbatim | Passed | None |
+| 2 | 18 canonical sections present | Passed | None |
+| 3 | Every Sprint capability originates from Module PRD | Passed | None |
+| 4 | No capability outside Sprint 001 allocation | Passed | None |
+| 5 | Engines resolved verbatim from Sprint Plan §2.001 (ENG-001, ENG-002, ENG-003, ENG-004, ENG-005, ENG-006, ENG-017, ENG-024) | Passed | None |
+| 6 | ADRs Accepted only, verbatim from Sprint Plan (ADR-011, ADR-014, ADR-032) | Passed | None |
+| 7 | Events verbatim from Event Catalog; none published in this sprint (Foundation is master-data only) | Passed | None |
+| 8 | Ownership boundaries preserved (no MOD-005 territory absorbed) | Passed | None |
+| 9 | Dependencies resolve from MODULE_CATALOG.md (MOD-001, MOD-004, MOD-005) | Passed | None |
+| 10 | Governance registrations completed exactly once (README, SPRINT_CATALOG, DOCUMENT_INDEX, _meta.json) | Passed | None |
+| 11 | Repository consistency — no duplicate IDs, no broken references | Passed | None |
+| 12 | Metadata consistency across README ↔ DOCUMENT_INDEX ↔ _meta.json ↔ SPRINT_CATALOG ↔ frontmatter | Passed | None |
+| 13 | Bidirectional capability completeness (Module PRD → Sprint AND Sprint → Module PRD) | Passed | None |
+
+### Verification Summary
+
+- Checklist Items: 13
+- Passed: 13
+- Remediated: 0
+- Failed: 0
+- Outstanding Risks: None
+- Repository Status: **PASS**
+- Next Pass: 8.9.3 — SPR-MOD-019-002 Inbound Execution
+
+Invariant check: `13 + 0 + 0 = 13` ✓.
+
+---
+
+### Repository Audit (Spec v1.0)
+
+**Audit Metadata Header**
+
+- Specification Version: 1.0
+- UTC Timestamp: 2026-07-11
+- Auditor: Lovable AI
+- Tool Versions: repository-native tooling
+- Repository Revision Identifier: Unavailable — sandbox has no accessible immutable revision identifier (Git operations restricted by environment); D3 environmental waiver invoked per Governance Spec v1.0
+- Change Tracking Mechanism: File-level SHA-256 (below); Registration cross-checks via `grep`
+- Declared Files Modified:
+  1. `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md` (new)
+  2. `docs/30-sprint-prds/warehouse/README.md`
+  3. `docs/SPRINT_CATALOG.md` — **included** (Stage 2 registration required by `SPRINT_AUTHORING_GUIDE.md` §13.1.2)
+  4. `docs/DOCUMENT_INDEX.md`
+  5. `docs/_meta.json`
+  6. `.lovable/plan.md` (execution record)
+- Actual Change Set: Identical to Declared Files Modified ✓
+- SHA-256 Artifact Hashes:
+  - `docs/30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation.md` = `d63f6ae62c5319b7d8467ed6a24e49d230c0bb41e1cb7f1c7aa34a893e7521b2`
+  - `docs/30-sprint-prds/warehouse/README.md` = `85e90a6e35b0b702932612c12dc0f0470681edbb404c0d157b435a2699291aeb`
+  - `docs/SPRINT_CATALOG.md` = `2c8551e7010f3125418f07c35ba83e2313f434c2730c59a51b096799de38fb57`
+  - `docs/DOCUMENT_INDEX.md` = `6c3599a279026b02f93fcefd1f96a73eca6efbc387ae44d40e6fdb136874b700`
+  - `docs/_meta.json` = `2ddbea9efef6051bf74c4536acf0f49e06822b8cf6a92bc6bc459c007d06dc2a`
+
+**Evidence Table**
+
+| Check | PASS/FAIL | Severity | Repository Evidence | Required Fix |
+| --- | --- | --- | --- | --- |
+| Stage 2 verification 13/13 | PASS | — | See Verification Summary above | None |
+| Capability allocation integrity | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001, §4.3: "Warehouse Zone … Warehouse Area … Dock Door … Equipment … Labor Resource … Task Type Registry … Dock Appointment Calendar → SPR-MOD-019-001" | None |
+| Engine authority | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001: "Engines consumed. ENG-001 … ENG-002 … ENG-003 … ENG-004 … ENG-005 … ENG-006 … ENG-017 … ENG-024"; Sprint PRD frontmatter `related_engines` identical | None |
+| ADR authority | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001: "ADRs consumed. ADR-011 … ADR-014 … ADR-032"; Sprint PRD frontmatter `related_adrs` identical | None |
+| Event authority | PASS | — | `MOD-019_SPRINT_PLAN.md` §2.001 lists no published events for Sprint 001; `event-catalog.md` contains no foundation-level warehouse events; Sprint PRD §12 declares "None" | None |
+| Ownership boundary validation | PASS | — | Sprint PRD §7 "Consumed read-only from MOD-005 Inventory. Item master … Warehouse master, Bin/Location master"; matches Module PRD §5 "Consumed Master Data" and `MOD005_INVENTORY_BASELINE_v1` | None |
+| Repository consistency | PASS | — | `grep -c SPR-MOD-019-001` = 1 in DOCUMENT_INDEX, 1 in SPRINT_CATALOG, 1 in README; 2 references in _meta.json (single entry with title + path) | None |
+| Metadata consistency | PASS | Info | Owner field: Module PRD line 5 `owner: "Operations"` == Sprint PRD frontmatter `owner: "Operations"`; SPRINT_CATALOG inclusion matches deterministic rule | None |
+| Cross-reference validation | PASS | — | All internal links resolve; parent Sprint Plan, Module PRD, and workflow paths verified | None |
+| Artifact integrity | PASS | — | JSON validity of `docs/_meta.json` confirmed via `json.load`; SHA-256 hashes captured above | None |
+
+**Coverage**
+
+- Total checks: 10
+- Passed: 10
+- Failed (Critical): 0
+- Failed (Major): 0
+- Failed (Minor): 0
+
+**Confidence:** MEDIUM (D3 environmental waiver: Repository Revision Identifier Unavailable; all other checks HIGH-confidence)
+
+**Repository Status:** READY (Critical = 0, Major = 0)
+
+**Next Pass:** 8.9.3 — SPR-MOD-019-002 Inbound Execution
