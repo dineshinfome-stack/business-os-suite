@@ -1140,6 +1140,10 @@
         {
           "title": "SPR-MOD-019-003 — Storage & Slotting",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting"
+        },
+        {
+          "title": "SPR-MOD-019-004 — Outbound Execution",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-004-outbound-execution"
         }
       ]
     },
