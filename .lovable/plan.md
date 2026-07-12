@@ -1,203 +1,195 @@
-# Pass 8.12.2-E — Governance Template Dependency Matrix (v3.1)
+# Pass 8.12.3 — GT-004 Baseline Consolidation Template (Governance Asset) — v3
 
-> **Note.** The reviewer's six recommendations (stable edge IDs, `schema_version`, waiver schema, Planned semantics, formal relationship registry, MVAL-011/012) were already incorporated in v3. v3.1 keeps the v3 design intact and adds only the two extra columns the reviewer's relationship-registry table calls for (`blocking`, `versioned`) so §4 is a formal registry rather than a plain cardinality table. No other changes.
+Author GT-004 Baseline Consolidation as an `Active` governance template so all future Stage 3 invocations reduce to *"Execute GT-004 for MOD-NNN"*. Governance-only pass: no Module Baseline is authored or modified.
 
-## Scope
+> **v3 changes:** explicit activation sequence; full-scope rollback order covering Dependency Matrix, Registry, and Governance Index; §14 result enum `PASS | FAIL | WAIVED`; documented `v1.0 → v1.0.1` patch-level rationale; stable **TVAL-001..TVAL-012** verification identifiers; execution-manifest normativity note; event-catalog path consistency assertion.
 
-**In scope**
-- New asset: `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` (`version: v1.0`, `schema_version: 1`, `graph_version: 1`, Active).
-- Derived companion: `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` (generated-from-markdown; markdown normative).
-- Template Standard v1.3 → v1.4: R25 (Matrix Authority), R26 (Conflict = FAIL), R27 (YAML Generation Policy).
-- Backfill rows: GT-001 v1.1, GT-002 v1.0, GT-003 v1.0; `Planned` rows for GT-004, GT-005.
-- Registration in Registry, Index, `DOCUMENT_INDEX`, `_meta.json`.
-- Verification (10-item) + Repository Audit.
+## Non-Goals (hard guardrails)
 
-**Out of scope**
-- GT-004 authoring (Pass 8.12.3).
-- Edits to GT-001/002/003 bodies.
-- Capabilities Registry v1.1 changes.
-- Governance Specification v1.0 changes.
+SHALL NOT: execute GT-004 for any module; modify GT-001/GT-002/GT-003 bodies; modify Governance Specification v1.0; modify Template Standard v1.4; modify Capabilities Registry v1.1; modify Module PRDs, Sprint Plans, Sprint PRDs, or existing Baselines; modify historical execution logs; introduce, remove, or redirect edges in the Dependency Matrix (only lifecycle-state transitions on `Planned` entries).
 
-## Deliverable 1 — Dependency Matrix Asset
+## Deterministic Pass Sequence
 
-Path: `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md`
+The pass proceeds in this exact order; each step is a barrier for the next.
+
+1. **Author** `docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md` with `lifecycle_state: Draft` and compute `template_sha256`.
+2. **Template Validation** — run the 12 TVAL checks (§Deliverable 4).
+3. **Repository Audit** — Post-Implementation Repository Audit (Spec v1.0).
+4. **Activate** — flip GT-004 to `lifecycle_state: Active` in the template body **and** transition GT-004 node + EDGE-003/EDGE-004 to `Active` in the Dependency Matrix; regenerate matrix `asset_sha256`; regenerate YAML export.
+5. **Register** — update Registry, Index, `DOCUMENT_INDEX.md`, `_meta.json`.
+6. **Record Execution** — audit trail entry in §16 of GT-004 and §15 of the Dependency Matrix.
+
+Steps 4–6 SHALL execute only if Steps 2 and 3 return PASS. Failure at any step triggers §Rollback.
+
+## Deliverable 1 — GT-004 Template
+
+Path: `docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md`
+
+Structure: canonical **16-section** governance template (mirrors GT-003; conforms to Template Standard v1.4).
 
 ### §1 Identity
+
 ```yaml
-asset_id: GOV-DEP-MATRIX
-version: v1.0              # document format
-schema_version: 1          # structural schema
-graph_version: 1           # topology
+template_id: GT-004
+template_uuid: <generated at build>
+template_name: Baseline Consolidation
+template_version: v1.0
 governance_specification: v1.0
 template_standard: v1.4
-lifecycle_state: Active
+compatible_governance: ">=1.0,<2.0"
+compatible_template_standard: ">=1.4,<2.0"
+compatible_capabilities_registry: ">=1.1,<2.0"
+schema_version: 1
+lifecycle_state: Active     # set at Step 4 of the deterministic sequence
+owner: Architecture Office
+classification: Governance Template
 sha_scope_rule: "exclude sections marked retainable: false"
-asset_sha256: sha256:...:computed-at-commit
+template_sha256: sha256:<computed-at-commit>
+capabilities:
+  - { id: CAP-005, slug: baseline-consolidation }
+  - { id: CAP-009, slug: verification }
+  - { id: CAP-008, slug: repository-audit }
+  - { id: CAP-007, slug: registration }
+depends_on_templates:
+  - { id: GT-003, minimum_version: ">=1.0,<2.0" }
 ```
 
-Three independent version axes: `version`, `schema_version`, `graph_version`.
+Capabilities resolve verbatim against Capabilities Registry v1.1 (CAP-005..CAP-009 present). **No runtime fallback**: any absent `CAP-NNN` at Preflight yields `CAPABILITY-NOT-REGISTERED` (exit_code 20). Introducing a new capability requires a separate registry pass.
 
-### §2 Purpose & Authority Precedence
-Matrix authoritative for **the graph**; each template's `§1 Identity` authoritative for **its own** metadata. Conflicts = FAIL (R26).
+### §2–§16
 
-### §3 Root Template Declaration
-```yaml
-root_templates: [GT-001]
-```
+- §2 Purpose — Stage 3 consolidation contract.
+- §3 Scope — consolidate completed Sprint PRDs into a Module Baseline; validate cross-sprint consistency; establish Baseline as authoritative implementation document.
+- §4 Inputs — Module PRD, Sprint Plan, Sprint PRDs, `docs/MODULE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`, `docs/ADR_IMPACT_MATRIX.md`, `docs/02-architecture/event-catalog.md` (canonical), Dependency Matrix, Capabilities Registry; optional: previous Baseline.
+- §5 Outputs & Excluded Outputs —
+  - **Creates:** `docs/40-module-baselines/MOD<NNN>_<NAME>_BASELINE_v1.md`.
+  - **Updates:** `docs/40-module-baselines/README.md`, `docs/DOCUMENT_INDEX.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/_meta.json`.
+  - **Never modifies:** Module PRD, Sprint Plan, Sprint PRDs, Governance Templates, Governance Specification, Template Standard, Capabilities Registry, Dependency Matrix.
+- §6 Preconditions — Stage 1 frozen; Stage 2 complete; Dependency Matrix EDGE-003 Active; no open FAIL findings on upstream artifacts.
+- §7 Execution Workflow — 9 deterministic idempotent steps: Preflight → Dependency Resolution → Sprint Collection → Cross-Sprint Validation → Baseline Assembly → Registration → Verification → Repository Audit → Completion.
+- §8 Execution State Machine — `preflight → resolving → collecting → validating → assembling → registering → verifying → auditing → complete | failed`; explicit rollback on failure.
+- §9 Failure Object Schema + Runtime Rollback Rule — standard `Finding ID | Severity | Evidence | Resolution | Status`. **Runtime rollback (future GT-004 executions):** if Verification (Step 7) or Repository Audit (Step 8) fails after Registration (Step 6), the created Baseline and the four registration surfaces (`_meta.json` → `MODULE_BASELINE_CATALOG.md` → `DOCUMENT_INDEX.md` → `README.md`) SHALL be reverted in reverse order before Repository Status is evaluated.
+- §10 Baseline Template Validation Rules — **VAL-001..VAL-016** (16): sprint completeness; capability coverage vs Sprint Plan; engine reconciliation vs Engine Usage Matrix; ADR reconciliation vs ADR Impact Matrix; event reconciliation vs `docs/02-architecture/event-catalog.md`; cross-reference integrity; no duplicated requirements; no orphan capabilities; registration completeness; traceability preservation; metadata validity; Baseline 16-section structural conformance; dependency resolution via Dependency Matrix (R25); placeholder discipline; repository consistency; Baseline determinism.
+- §11 Automation Exit Codes — `0` OK, `10` R26 conflict, `20` DEPENDENCY-FAIL / CAPABILITY-NOT-REGISTERED, `30` VAL-fail, `40` audit-fail.
+- §12 Execution Manifest —
+  ```yaml
+  # The Execution Manifest is NORMATIVE for future Stage 3 executions
+  # (any "Execute GT-004 for MOD-NNN") and INFORMATIVE for this governance
+  # pass (Pass 8.12.3), which authors the template only and creates no Baseline.
+  reads:
+    - docs/20-module-prds/**
+    - docs/30-sprint-prds/**
+    - docs/MODULE_CATALOG.md
+    - docs/ENGINE_USAGE_MATRIX.md
+    - docs/ADR_IMPACT_MATRIX.md
+    - docs/02-architecture/event-catalog.md
+    - docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md
+    - docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md
+  creates:
+    - docs/40-module-baselines/MOD<NNN>_<NAME>_BASELINE_v1.md
+  updates:
+    - docs/40-module-baselines/README.md
+    - docs/DOCUMENT_INDEX.md
+    - docs/MODULE_BASELINE_CATALOG.md
+    - docs/_meta.json
+  never_modifies:
+    - docs/20-module-prds/**
+    - docs/30-sprint-prds/**
+    - docs/15-governance/**
+    - docs/MODULE_IMPLEMENTATION_WORKFLOW.md
+  ```
+- §13 Machine-Readable Metadata — `execution_type: Stage3`; `validation_checks: 16`; `audit_required: true`; `baseline_required: true`; `next_templates: [GT-005]`.
+- §14 Compatibility Matrix — one v1.0 row using enum **`result: PASS | FAIL | WAIVED`**; recorded value: `PASS` (governance v1.0, standard v1.4, capabilities ≥ v1.1).
+- §15 Example — `retainable: false` (excluded from `template_sha256`).
+- §16 Change Control — Audit Trail: v1.0, Pass 8.12.3, Active.
 
-### §4 Relationship Registry (formal)
+## Deliverable 2 — Dependency Matrix Transition
 
-| Relationship | Direction | Cardinality | Blocking | Versioned | Notes |
-|---|---|---|---|---|---|
-| `depends_on` | directed | many → many | yes | yes | Execution dependency. |
-| `successor_of` | directed | one → many | no | no | Sequencing hint. |
-| `replaces` | directed | one → one | yes | yes | Lifecycle transition; deprecates target. |
-| `audits` | directed | many → many | no | no | Audit scope assertion. |
-| `optional_with` | non-directed | many → many | no | no | Optional co-use. |
-| `mutually_exclusive` | non-directed | many → many | yes | no | May not co-execute. |
-| `compatible_with` | non-directed | many → many | no | no | Advisory compatibility. |
+Edit `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` at Step 4:
 
-Semantic axes (execution / validation / traceability / version_scope) reuse Capabilities Registry §2.
+- **§5 Node Table**: GT-004 `Planned → Active`; `current_version: v1.0`.
+- **§6 Edge Table**: `EDGE-003` and `EDGE-004` `Planned → Active`. EDGE-005..EDGE-008 remain `Planned`.
+- **§9 Reverse Dependency Index**: no structural change.
+- **§15 Change Control**: append row `v1.0 → v1.0.1` — **patch-level (SemVer)**: lifecycle state changed on existing nodes/edges; structural schema unchanged; graph topology unchanged.
+- **§16 Audit Metadata**: append Pass 8.12.3 note.
+- Recompute `asset_sha256`.
 
-### §5 Node Table
-Per template: `template_id`, `current_version`, `lifecycle_state`, `compatible_governance`, `compatible_template_standard`, `compatible_capabilities_registry`. Backfilled verbatim from each template's §1 Identity.
+**Dependency Matrix Invariant (this pass):** activation SHALL NOT introduce, remove, or redirect any edge; only lifecycle-state transitions on existing `Planned` entries are permitted.
 
-### §6 Edge Table with Stable Edge IDs
+- `graph_version` remains `1` (topology unchanged).
+- `schema_version` remains `1` (structural schema unchanged).
+- Document `version` bumps **v1.0 → v1.0.1 (patch)** because only lifecycle state changed.
 
-`edge_id` is monotonic, append-only, immutable; retired edges keep their ID with `status: Retired`. Waivers and audit trails reference `edge_id`.
+Regenerate `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` from the updated markdown (R27, one-way). **YAML derivation constraint:** the YAML SHALL contain no fields absent from the markdown source; any surplus field is a divergence and fails R27.
 
-| edge_id | source | relationship | target | constraint | status | notes |
-|---|---|---|---|---|---|---|
-| EDGE-001 | GT-002 | `depends_on` | GT-001 | `>=1.1,<2.0` | Active | Stage 1 requires framework |
-| EDGE-002 | GT-003 | `depends_on` | GT-002 | `>=1.0,<2.0` | Active | Stage 2 requires Stage 1 |
-| EDGE-003 | GT-004 | `depends_on` | GT-003 | `>=1.0,<2.0` | Planned | |
-| EDGE-004 | GT-004 | `successor_of` | GT-003 | — | Planned | |
-| EDGE-005 | GT-005 | `depends_on` | GT-001 | `>=1.1,<2.0` | Planned | |
-| EDGE-006 | GT-005 | `audits` | GT-002 | — | Planned | |
-| EDGE-007 | GT-005 | `audits` | GT-003 | — | Planned | |
-| EDGE-008 | GT-005 | `audits` | GT-004 | — | Planned | |
+## Deliverable 3 — Registration Surface Updates (Step 5)
 
-### §7 Planned Node Semantics
-- `Planned` nodes MAY appear as edge targets.
-- `Planned` nodes MUST NOT satisfy runtime execution prerequisites.
-- Only `Active` (or `Deprecated` per §14 fallback) satisfies execution dependencies.
-- Edge with a `Planned` target emits `INFO`, not FAIL.
+- `GOVERNANCE_TEMPLATE_REGISTRY.md` — GT-004 record: `Current Version: v1.0`, `Status: Active`, `Compatible Template Standard: v1.4`, `Compatible Capabilities Registry: v1.1`, path, UUID, SHA reference, First/Latest Release `v1.0 — Pass 8.12.3`, Notes.
+- `GOVERNANCE_TEMPLATE_INDEX.md` — GT-004 row: `v1.0 | Active`.
+- `docs/DOCUMENT_INDEX.md` — add `GT-004 — Baseline Consolidation Template`.
+- `docs/_meta.json` — add `GT-004 Baseline Consolidation` under `15 Governance`.
 
-### §8 Successor Sets
-`successor_templates: [...]` per source; supports branching.
+## Rollback (this pass)
 
-### §9 Reverse Dependency Index
-Auto-derived `depended_on_by[T]`. Rendered in markdown and YAML. MVAL-009 enforces forward/reverse consistency.
+If Template Validation (Step 2) or Repository Audit (Step 3) fails, **Steps 4–6 are never executed** — nothing to roll back beyond removing the Draft GT-004 file.
 
-### §10 Graph Invariants
-Acyclicity across `depends_on ∪ replaces ∪ successor_of`; targets resolve; SemVer ranges parse and are satisfiable or target is `Planned`; every Active template reachable from a root.
+If any later failure surfaces (e.g. YAML regeneration error at Step 4, registration write error at Step 5, or a post-registration audit re-check), rollback proceeds in **reverse order of the deterministic sequence**:
 
-### §11 Validation Rules (MVAL-001..MVAL-012)
+1. Revert `_meta.json`.
+2. Revert `DOCUMENT_INDEX.md`.
+3. Revert `GOVERNANCE_TEMPLATE_INDEX.md`.
+4. Revert `GOVERNANCE_TEMPLATE_REGISTRY.md`.
+5. Revert `GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml`.
+6. Revert `GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` (node/edge status, `asset_sha256`, §15/§16 rows).
+7. Flip GT-004 body `lifecycle_state: Active → Draft` (or delete file if Step 1 failed).
+
+Registry, Governance Index, and Dependency Matrix are explicitly in-scope for rollback because Step 4 mutates them.
+
+## Deliverable 4 — Verification (Pass 8.12.3-V, TVAL-001..TVAL-012)
+
+Verification Metadata header + 12 stable-ID checks:
 
 | ID | Check |
 |---|---|
-| MVAL-001 | Rows unique by `edge_id`. |
-| MVAL-002 | Referenced `template_id` values registered. |
-| MVAL-003 | SemVer ranges parse. |
-| MVAL-004 | Graph acyclic across `depends_on ∪ replaces ∪ successor_of`. |
-| MVAL-005 | Successor targets registered or `Planned`. |
-| MVAL-006 | Node metadata matches template §1 Identity — conflict = FAIL (R26). |
-| MVAL-007 | No orphan Active templates (roots exempt). |
-| MVAL-008 | `root_templates` resolves; roots have no inbound `depends_on`. |
-| MVAL-009 | Reverse index consistent with forward edges. |
-| MVAL-010 | Every Active template reachable from a root. |
-| MVAL-011 | Every relationship kind used is declared in §4 Relationship Registry. |
-| MVAL-012 | No duplicate semantic edges: same `(source,relationship,target)` with overlapping constraints. |
+| TVAL-001 | Template Standard v1.4 conformance (16 sections present and ordered). |
+| TVAL-002 | Identity completeness (frontmatter keys, UUID, SHA excludes `retainable: false`). |
+| TVAL-003 | Validation Rules enumerate 16 checks with PASS/FAIL semantics. |
+| TVAL-004 | Compatibility Matrix row present for v1.0 with `result: PASS`. |
+| TVAL-005 | Dependency Matrix sync: GT-004 Active; EDGE-003/EDGE-004 Active; MVAL-006 PASS; matrix invariant PASS (`graph_version=1`, `schema_version=1`; no edge changes). |
+| TVAL-006 | `template_sha256` computed and recorded. |
+| TVAL-007 | Registration surfaces updated (Registry, Index, `DOCUMENT_INDEX`, `_meta.json`). |
+| TVAL-008 | YAML export regenerated; R27 divergence PASS; derivation-constraint PASS (no surplus fields). |
+| TVAL-009 | No governance drift (Standard v1.4, Spec v1.0, Capabilities Registry v1.1 unchanged). |
+| TVAL-010 | No module artifacts modified (`20-module-prds/**`, `30-sprint-prds/**`, `40-module-baselines/**` untouched). |
+| TVAL-011 | Post-Implementation Repository Audit (Spec v1.0) → READY. |
+| TVAL-012 | READY status preserved; confidence MEDIUM (D3 waiver only). |
 
-Non-waivable: MVAL-002, MVAL-003, MVAL-004.
-
-### §12 Waiver Schema
-
-```yaml
-waiver_id: WVR-NNN            # append-only, monotonic
-edge_id: EDGE-NNN             # references §6
-rule_id: MVAL-NNN | R26
-reason: <string>
-approved_by: <owner>
-approval_date: YYYY-MM-DD
-expires: YYYY-MM-DD | null    # null = permanent (must be explicit)
-status: Active | Expired | Revoked
-```
-
-### §13 Machine-Readable Export & Generation Policy
-
-- **Direction:** Markdown → YAML only.
-- **Overwrite:** wholesale regeneration on every commit touching the markdown.
-- **Manual edits prohibited;** YAML/markdown divergence = FAIL.
-- **Validation frequency:** at commit and at every governance verification pass.
-- Codified as **R27** in the Standard.
-
-### §14 Version Resolution
-Highest `Active` version satisfying the range; SemVer 2.0 precedence for ties; `Deprecated` eligible only if no `Active` qualifies (emit WARN); `Archived`/`Planned` never satisfy execution prerequisites.
-
-### §15 Change Control & §16 Audit Metadata
-Standard shape. v1.0 initial release; `schema_version: 1`, `graph_version: 1`.
-
-Mermaid DAG marked `retainable: false`, excluded from `asset_sha256`.
-
-## Deliverable 2 — Template Standard v1.3 → v1.4
-
-Edits to `docs/15-governance/GOVERNANCE_TEMPLATE_STANDARD.md`:
-
-- Bump `template_standard: v1.4`.
-- **R25 — Matrix Authority.** Automation resolving inter-template relationships SHALL consult `GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX` first; template-local declarations are advisory and cross-checked by MVAL-006.
-- **R26 — Conflict = FAIL.** Mismatch between template §1 Identity and the matrix is FAIL (`exit_code 10`), waivable only via §12 waiver.
-- **R27 — YAML Generation Policy.** Markdown normative; YAML one-way; manual edits prohibited; divergence = FAIL.
-- Promote the version-resolution rule (previously GT-003 §14 S2) to Standard-level.
-- Change Control: v1.3 → v1.4 (additive; existing template bodies unchanged).
-
-## Deliverable 3 — Registration Surface Updates
-
-- `GOVERNANCE_TEMPLATE_REGISTRY.md` — Companion Assets row for Dependency Matrix v1.0 / `schema_version: 1` / `graph_version: 1`; bump Standard reference to v1.4.
-- `GOVERNANCE_TEMPLATE_INDEX.md` — Dependency Matrix under Companion Registries.
-- `docs/DOCUMENT_INDEX.md` — register asset (and YAML export).
-- `docs/_meta.json` — sidebar entry under Governance.
-- `REPOSITORY_MAP.md` — verify existing coverage; expected no modification.
-
-## Deliverable 4 — Verification (Pass 8.12.2-E-V)
-
-Verification Metadata header + 10-item checklist:
-
-1. Asset frontmatter valid (Standard v1.4 keys; `version`, `schema_version`, `graph_version` all present).
-2. `asset_sha256` computed excluding `retainable: false`; YAML export structurally equal to markdown-derived structure (R27).
-3. Node table matches GT-001/GT-002/GT-003 §1 Identity verbatim (MVAL-006).
-4. Edge table: `edge_id` unique/append-only; every relationship kind in §4 (MVAL-011); no duplicate semantic edges (MVAL-012); every target resolves (MVAL-002).
-5. Graph acyclic; roots resolve; every Active template reachable (MVAL-004/007/008/010).
-6. Reverse index consistent (MVAL-009).
-7. SemVer ranges parse and are satisfiable (MVAL-003).
-8. Registration surfaces updated (Registry, Index, DOCUMENT_INDEX, `_meta.json`).
-9. Template Standard v1.4 published; R25/R26/R27 present; Change Control appended.
-10. No conflicts between any template §1 Identity and the matrix (else FAIL — R26); waiver appendix present (may be empty).
-
-Then **Post-Implementation Repository Audit (Spec v1.0)** — expected `READY`.
-
-### Verification Summary shape
+### Verification Summary
 Checklist Items / Passed / Remediated / Failed / Outstanding Risks / Repository Status / Next Pass.
+
+## Event Catalog Path Consistency
+
+`docs/02-architecture/event-catalog.md` is the canonical event catalog path repository-wide. GT-004 uses this path in §4, §10, and §12. Any future template (GT-005+) or matrix update referencing the event catalog SHALL use the same path. No cross-template edits are made in this pass; consistency is asserted, not retrofitted.
 
 ## Files touched
 
-Created:
-- `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md`
-- `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml`
+**Created:** `docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md`
 
-Updated:
-- `docs/15-governance/GOVERNANCE_TEMPLATE_STANDARD.md` (v1.3 → v1.4; R25, R26, R27; promoted version-resolution rule)
-- `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md`
-- `docs/15-governance/GOVERNANCE_TEMPLATE_INDEX.md`
-- `docs/DOCUMENT_INDEX.md`
-- `docs/_meta.json`
+**Updated:** `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md`, `.yaml`, `GOVERNANCE_TEMPLATE_REGISTRY.md`, `GOVERNANCE_TEMPLATE_INDEX.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
 
-Never modified:
-- GT-001, GT-002, GT-003 bodies
-- Capabilities Registry v1.1
-- Governance Specification v1.0
-- Module PRDs, Sprint PRDs, Baselines
+**Never modified:** GT-001/002/003 bodies, Template Standard v1.4, Governance Specification v1.0, Capabilities Registry v1.1, Module PRDs, Sprint Plans, Sprint PRDs, Module Baselines, `MODULE_IMPLEMENTATION_WORKFLOW.md`.
 
-## Next Pass
+## Success Criteria
 
-**Pass 8.12.3 — GT-004 Baseline Consolidation Template**, authored against the matrix: EDGE-003 / EDGE-004 targets transition from `Planned` to `Active` at commit; GT-005 rows remain `Planned` until 8.12.4.
+- GT-004 is `Active` (post-verification, per deterministic sequence).
+- Dependency Matrix: GT-004 Active; EDGE-003 & EDGE-004 Active; GT-005 rows remain `Planned`; `graph_version` & `schema_version` unchanged; document `version: v1.0.1` (patch).
+- YAML regenerated (R27 + derivation-constraint PASS).
+- TVAL-001..TVAL-012 all PASS; Repository Audit PASS.
+- No Module PRDs, Sprint Plans, Sprint PRDs, or Baselines modified.
+- Future Stage 3 executions invokable as *"Execute GT-004 for MOD-NNN"*.
+
+## Roadmap
+
+1. **Pass 8.12.4** — GT-005 Repository Audit Template (activates EDGE-005..EDGE-008).
+2. **Governance Framework v1.0 Freeze** — lock GT-001..GT-005, Template Standard v1.4, Capabilities Registry v1.1, Dependency Matrix.
+3. Resume module implementation via GT-002 / GT-003 / GT-004 / GT-005.
