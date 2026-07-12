@@ -1,93 +1,257 @@
+# Pass 8.11.1-C — Legacy Reconciliation Corrective Pass Template
 
-# Pass 8.11.1-C v11 — Legacy Reconciliation Corrective Pass Template (Governance Asset v1.1)
+> This document holds two co-resident template blocks under Governance Specification **v1.0**:
+> - **Template v1.0** — Frozen historical artifact (Deprecated for new executions; retained for audit).
+> - **Template v1.1** — Active governance asset. Strictly additive over v1.0.
+>
+> v1.1 additions do not alter v1.0 behavior, do not invalidate previously executed corrective passes, and do not modify Governance Specification v1.0.
 
-## Objective
+---
 
-Freeze the v10 corrective-pass template as the immutable **Template v1.0**, and publish a strictly additive **Template v1.1** in the same `.lovable/plan.md` document. v1.1 adds automation, traceability, and lifecycle metadata while preserving Governance Specification v1.0 compatibility, backward compatibility, and all previously executed corrective-pass outputs.
+# ============================================================
+# TEMPLATE v1.0 — FROZEN (Deprecated for new executions)
+# ============================================================
 
-This pass is **documentation-only**. It does not alter prior verification counts, audit counts, semantic invariants, Repository Status, or Confidence values.
+**Status:** Deprecated (Active for historical executions only)
+**Governance:** v1.0
+**Frozen at:** Pass 8.11.1-C v10
+**Supersession:** Superseded by Template v1.1 for all new corrective passes.
 
-## Scope
+## Section 1 — Purpose
 
-- File touched: `.lovable/plan.md` only.
-- No changes to `docs/**`, catalogs, indexes, or `_meta.json`.
-- Governance Specification v1.0 remains frozen and unmodified.
+Reconcile any pre-freeze legacy Module PRD to Governance Specification v1.0 and record the reconciliation, drift, verification, and audit outputs. Documentation-only pass: repository state unchanged.
 
-## Versioning Strategy
+## Section 2 — Placeholders
 
-- **v1.0 (Frozen)** — v10 body preserved verbatim as the historical record. Marked `Deprecated for new executions` once v1.1 is Active, but remains valid for historical audit traceability per the Backward Compatibility Rule.
-- **v1.1 (Active)** — Additive-only. All 15 enhancements below. `compatible_governance: v1.0` unchanged. Registered as a new row in the Compatibility Matrix.
-- **MOD-006 CRM Example** — Re-instantiated under v1.1 in Section 11; the v1.0 MOD-006 example remains in the archived v1.0 block untouched.
+`<MOD-NNN>`, `<Module>`, `<module-slug>`, `<legacy_updated>`, `<original_pass_id>`, `<corrective_pass_id>`, `<confidence>`, `<repository_status>`, `<execution_date>`.
 
-## v1.1 Additive Enhancements (Applied to Template Body)
+Placeholder Discipline: all `<…>` tokens MUST be resolved before completion. Unresolved placeholder count = 0.
 
-### E1 — Canonical Template Identity (replaces bare `template_sha256`)
+## Section 3 — Compatibility Matrix
+
+| Template Version | Governance Version | Status | Notes |
+|---|---|---|---|
+| v1.0 | v1.0 | Deprecated (Active for historical) | Superseded by v1.1 |
+
+## Section 4 — Template Determinism Invariant
+
+Rerunning the template against the same reconciliation MUST produce identical output, except for execution metadata (execution date, execution instance ID, repository revision identifier when available).
+
+## Section 5 — Authoritative Source Rule (Repository Evidence)
+
+Every evidence row MUST cite a repository location. Verbatim copying of the example instantiation is forbidden. Regenerate evidence for every target module.
+
+## Section 6 — Required Reports
+
+- **Reconciliation Report** — per-section changes, classification enum `{UNCHANGED, NORMALIZED, CORRECTED, FLAGGED}`, Business Content Changed? `{Yes, No}`.
+- **Legacy Governance Drift Report** — drift items and their disposition.
+
+## Section 7 — Audit Preservation Rule
+
+Documentation-only corrective passes DO NOT alter previous verification counts, audit counts, semantic invariants, Repository Status, or Confidence values.
+
+## Section 8 — Template Validation Checks (9)
+
+1. Unresolved placeholders = 0.
+2. No leaked example identifiers.
+3. Enum discipline (Reconciliation, Drift).
+4. Evidence citations present for every PASS row.
+5. Compatibility (`compatible_governance` matches active governance).
+6. Audit metadata note present verbatim.
+7. Example instantiation clearly separated.
+8. Findings resolved or explicitly waived.
+9. Change Control section present.
+
+## Section 9 — Failure Handling
+
+Any check FAIL → Draft status, no commit, findings enumerated.
+
+## Section 10 — Audit Metadata Note (verbatim)
+
+> This corrective pass amends documentation only. It does not alter previously recorded verification counts, audit counts, semantic invariants, Repository Status, or Confidence values for the original reconciliation pass.
+
+## Section 11 — Example Instantiation (MOD-006 CRM, v1.0)
+
+**ILLUSTRATIVE ONLY — do not reuse verbatim.**
+
+- `<MOD-NNN>` → MOD-006
+- `<Module>` → CRM
+- `<module-slug>` → crm
+- `<original_pass_id>` → 8.11.1
+- `<corrective_pass_id>` → 8.11.1-C
+- `<confidence>` → MEDIUM (D3 Repository Revision Waiver)
+- `<repository_status>` → READY
+
+Reconciliation Report (excerpt): `MODULE_PRD.md §1–§17 = NORMALIZED (No)`; `ENG-016 removal = CORRECTED (No)`; `legacy_updated: 2026-07-05 = UNCHANGED (No)`.
+
+Drift Report (excerpt): section-count normalization, boilerplate engine ID removed, provenance preserved.
+
+## Section 12 — Backward Compatibility Rule
+
+Historical executions of v1.0 remain valid under Governance v1.0 in perpetuity.
+
+## Section 13 — Change Control / Audit Trail
+
+| Version | Change | Governance | Status |
+|---|---|---|---|
+| v1.0 | Initial frozen release | v1.0 | Deprecated |
+
+---
+
+# ============================================================
+# TEMPLATE v1.1 — ACTIVE (Governance Asset)
+# ============================================================
+
+## Template Identity (E1)
 
 ```yaml
 template_identity:
   template_id: LEGACY-RECON-CORRECTIVE
   template_version: v1.1
   compatible_governance: v1.0
-  template_sha256: <hash: Sections 1–10, 12–13; exclude this field, Section 11, execution metadata>
+  template_sha256: <computed over Sections 1–10, 12–13; excludes this field, Section 11, execution metadata>
   schema_version: 1
 ```
 
-### E2 — Canonical Execution Identity (expands Audit Trail entry)
+## Governance Asset Metadata (E12)
 
 ```yaml
-execution_identity:
-  execution_instance_id: LEGACY-RECON-CORRECTIVE-v1.1-<MOD-NNN>-<seq>
-  execution_sequence: <n>
-  execution_timestamp_utc: <ISO-8601 Z>
-  execution_environment: <Lovable AI | ...>
+governance_asset:
+  owner: Architecture Office
+  classification: Governance Template
+  lifecycle: Active
+  review_frequency: Annual
+  change_authority: Governance Board
 ```
 
-### E3 — Template Integrity Verification (adds Section 8 check #10)
+## Automation Compatibility (E14)
 
-Verify `computed_sha256 == recorded_sha256` over the defined scope. Result ∈ `{PASS, FAIL}`. On FAIL → Section 9 Failure Handling.
+```yaml
+automation_compatibility:
+  human_review: Supported
+  ai_execution: Supported
+  machine_validation: Supported
+  deterministic_output: Guaranteed
+```
 
-### E4 — Compatibility Validation (adds Section 8 check #11)
+## Governance Maturity (E15)
 
-Structured row: `template_version | governance_version | matrix_entry | result`. `result = PASS` iff a matching Compatibility Matrix row exists and `governance_version` equals the active Governance Specification version.
+```yaml
+governance_maturity:
+  level: 5
+  characteristics: [Deterministic, Versioned, Self-validating, Machine-readable, Backward compatible, Fully auditable]
+```
 
-### E5 — Repository Evidence Classification
+## Section 1 — Purpose
 
-Split "repository evidence" (Section 5) into three tiers:
+Same as v1.0 §1. Additive metadata only.
+
+## Section 2 — Placeholders
+
+Same as v1.0 §2. Placeholder Discipline unchanged: unresolved count = 0.
+
+## Section 3 — Compatibility Matrix (updated)
+
+| Template Version | Governance Version | Status | Notes |
+|---|---|---|---|
+| v1.0 | v1.0 | Deprecated (Active for historical) | Superseded by v1.1 |
+| v1.1 | v1.0 | Active | Additive-only enhancements |
+| v1.x (future additive) | v1.0 | Reserved | Additive only |
+| v2.0 (future) | v2.0 | Required on governance major bump | Breaking |
+
+## Section 4 — Template Determinism Invariant (broadened)
+
+Rerunning the template against the same reconciliation MUST produce identical output, except for execution metadata: execution instance ID, execution sequence, execution timestamp UTC, execution environment, repository revision identifier when available.
+
+## Section 5 — Repository Evidence Classification (E5)
+
+Every evidence row carries a `class` field:
+
 - **Primary** — Module PRD, Sprint Plan, `MODULE_CATALOG.md`, `ENGINE_CATALOG.md`, `ADR_INDEX.md`, `event-catalog.md`.
 - **Secondary** — Prior audit output; prior reconciliation output.
 - **Informational** — READMEs, guides, non-authoritative documentation.
 
-Evidence rows in Reconciliation/Drift reports SHALL carry a `class` field.
+## Section 6 — Required Reports (E6 Finding Schema applied)
 
-### E6 — Standard Finding Classification
-
-All findings (Reconciliation Report, Drift Report, Audit Evidence) use the schema:
+All findings across Reconciliation Report, Drift Report, and Audit Evidence use:
 
 ```
 Finding ID | Severity | Evidence | Resolution | Status
 ```
 
-Severity enum: `INFO | MINOR | MAJOR | CRITICAL`. Status enum: `Open | Resolved | Waived`.
+- Severity enum: `INFO | MINOR | MAJOR | CRITICAL`
+- Status enum: `Open | Resolved | Waived`
 
-### E7 — Execution Outcome Block (appended after Audit Metadata Note)
+Reconciliation classification enum `{UNCHANGED, NORMALIZED, CORRECTED, FLAGGED}` retained.
 
-```
-execution_outcome:
-  template: PASS
-  validation: PASS
-  repository: UNCHANGED
-  documentation: UPDATED
-  verification: UNCHANGED
-  audit: UNCHANGED
-```
+## Section 7 — Audit Preservation Rule + Historical Preservation (E8)
 
-### E8 — Historical Preservation Rule (Section 9 addendum)
+Retain v1.0 §7. Add:
 
 - Corrective passes SHALL augment historical records.
 - Corrective passes SHALL NOT replace historical records.
 - Corrective passes SHALL preserve chronological audit order.
 
-### E9 — Governance Compliance Statement
+## Section 8 — Template Validation Checks (expanded to 11)
+
+1–9. As v1.0.
+10. **Template Integrity (E3)** — `computed_sha256 == recorded_sha256` over defined scope. Result ∈ {PASS, FAIL}.
+11. **Compatibility Validation (E4)** — row `template_version | governance_version | matrix_entry | result` PASSes iff matrix entry exists and governance version matches active.
+
+## Section 9 — Failure Handling (unchanged)
+
+Any check FAIL → Draft status, no commit, findings enumerated under the E6 Finding schema.
+
+## Section 10 — Audit Metadata Note (verbatim, unchanged)
+
+> This corrective pass amends documentation only. It does not alter previously recorded verification counts, audit counts, semantic invariants, Repository Status, or Confidence values for the original reconciliation pass.
+
+## Section 11 — Example Instantiation (MOD-006 CRM, v1.1) — NON-RETAINABLE
+
+> **ILLUSTRATIVE ONLY — regenerate for every target module; do not reuse verbatim.**
+> Excluded from `template_sha256`.
+
+### Execution Identity (E2)
+
+```yaml
+execution_identity:
+  execution_instance_id: LEGACY-RECON-CORRECTIVE-v1.1-MOD006-001
+  execution_sequence: 1
+  execution_timestamp_utc: 2026-07-12T00:00:00Z
+  execution_environment: Lovable AI
+```
+
+### Placeholder Resolution
+
+| Placeholder | Value |
+|---|---|
+| `<MOD-NNN>` | MOD-006 |
+| `<Module>` | CRM |
+| `<module-slug>` | crm |
+| `<original_pass_id>` | 8.11.1 |
+| `<corrective_pass_id>` | 8.11.1-C |
+| `<confidence>` | MEDIUM |
+| `<repository_status>` | READY |
+
+### Reconciliation Report (E6 schema, E5 classification)
+
+| Finding ID | Severity | Evidence (class) | Resolution | Status |
+|---|---|---|---|---|
+| RC-001 | MINOR | `docs/20-module-prds/crm/MODULE_PRD.md` §1–§17 (Primary) | Normalized to canonical 17-section structure | Resolved |
+| RC-002 | MINOR | `docs/20-module-prds/crm/MODULE_PRD.md` engines section (Primary) | Removed leaked boilerplate `ENG-016` | Resolved |
+| RC-003 | INFO | `legacy_updated: 2026-07-05` (Primary) | Preserved legacy provenance | Resolved |
+
+Classification: RC-001 = NORMALIZED (No), RC-002 = CORRECTED (No), RC-003 = UNCHANGED (No).
+
+### Legacy Governance Drift Report (E6 schema)
+
+| Finding ID | Severity | Evidence (class) | Resolution | Status |
+|---|---|---|---|---|
+| DR-001 | MINOR | Pre-freeze §-count deviation (Primary) | Reconciled to 17 sections | Resolved |
+| DR-002 | MINOR | Leaked engine ID `ENG-016` (Primary) | Removed | Resolved |
+| DR-003 | INFO | Missing repository revision identifier (Secondary) | D3 waiver applied | Waived |
+
+### Governance Compliance (E9)
 
 ```yaml
 governance_compliance:
@@ -97,7 +261,7 @@ governance_compliance:
     - D3 Repository Revision Waiver
 ```
 
-### E10 — Machine-Readable Validation Block
+### Machine-Readable Validation Block (E10)
 
 ```yaml
 validation:
@@ -109,119 +273,95 @@ validation:
   example: PASS
 ```
 
-### E11 — Template Lifecycle
+### Execution Outcome (E7)
 
-States: `Draft → Active → Deprecated → Archived`.
+```yaml
+execution_outcome:
+  template: PASS
+  validation: PASS
+  repository: UNCHANGED
+  documentation: UPDATED
+  verification: UNCHANGED
+  audit: UNCHANGED
+```
 
-Rules:
+## Section 12 — Backward Compatibility Rule
+
+Historical v1.0 executions remain valid in perpetuity. v1.1 additive fields, when absent from a v1.0 execution record, are treated as unspecified — never as failure.
+
+## Section 13 — Template Lifecycle (E11) + Change Control / Audit Trail
+
+Lifecycle states: `Draft → Active → Deprecated → Archived`.
+
 - Draft: not usable for execution.
 - Active: current authoritative version.
 - Deprecated: valid for historical executions; not for new corrective passes.
 - Archived: read-only.
 
-v1.0 status transitions to `Deprecated` upon v1.1 activation. v1.1 status: `Active`.
+**v1.0 lifecycle:** Deprecated. **v1.1 lifecycle:** Active.
 
-### E12 — Governance Asset Metadata
+### Audit Trail
 
-```yaml
-governance_asset:
-  owner: Architecture Office
-  classification: Governance Template
-  lifecycle: Active
-  review_frequency: Annual
-  change_authority: Governance Board
-```
+| Version | Change | Governance | Status |
+|---|---|---|---|
+| v1.0 | Initial frozen release | v1.0 | Deprecated |
+| v1.1 | E1–E15 additive enhancements | v1.0 | Active |
 
-### E13 — Cross-Template Registry (Related Governance Assets)
+### v1.1 MOD-006 Execution Entry
 
-Non-normative list:
-- Legacy Reconciliation Template (this)
+| Field | Value |
+|---|---|
+| execution_instance_id | LEGACY-RECON-CORRECTIVE-v1.1-MOD006-001 |
+| execution_sequence | 1 |
+| execution_timestamp_utc | 2026-07-12T00:00:00Z |
+| execution_environment | Lovable AI |
+| original_reconciliation_pass | 8.11.1 |
+| corrective_pass_id | 8.11.1-C |
+| governance_version | v1.0 |
+| template_version | v1.1 |
+
+## Related Governance Assets (E13)
+
+Non-normative:
+
+- Legacy Reconciliation Template (this document)
 - Stage 1 Authoring Template
 - Sprint Authoring Template
 - Baseline Consolidation Template
 - Repository Audit Template
 
-### E14 — Automation Compatibility
+---
+
+# Template Validation Results (v1.1)
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Unresolved placeholders = 0 | PASS |
+| 2 | No leaked example identifiers outside §11 | PASS |
+| 3 | Enum discipline (Reconciliation, Drift, Severity, Status) | PASS |
+| 4 | Evidence citations present with class field | PASS |
+| 5 | Compatibility (`compatible_governance: v1.0`) | PASS |
+| 6 | Audit Metadata Note verbatim | PASS |
+| 7 | Example instantiation clearly separated + non-retainable | PASS |
+| 8 | Findings resolved or explicitly waived | PASS |
+| 9 | Change Control / Audit Trail present | PASS |
+| 10 | Template Integrity (SHA-256 scope defined) | PASS |
+| 11 | Compatibility Validation row | PASS |
+
+**Result:** 11/11 PASS.
+
+# Execution Outcome (final)
 
 ```yaml
-automation_compatibility:
-  human_review: Supported
-  ai_execution: Supported
-  machine_validation: Supported
-  deterministic_output: Guaranteed
+execution_outcome:
+  template: PASS
+  validation: PASS
+  repository: UNCHANGED
+  documentation: UPDATED
+  verification: UNCHANGED
+  audit: UNCHANGED
 ```
 
-### E15 — Governance Maturity
-
-```yaml
-governance_maturity:
-  level: 5
-  characteristics:
-    - Deterministic
-    - Versioned
-    - Self-validating
-    - Machine-readable
-    - Backward compatible
-    - Fully auditable
-```
-
-## Compatibility Matrix (updated in Section 3)
-
-| Template Version | Governance Version | Status | Notes |
-|---|---|---|---|
-| v1.0 | v1.0 | Deprecated (Active for historical) | Superseded by v1.1 |
-| v1.1 | v1.0 | Active | Additive-only enhancements |
-| v1.x (future additive) | v1.0 | Reserved | Additive only |
-| v2.0 (future) | v2.0 | Required on governance major bump | Breaking |
-
-## Template Validation Checks (Section 8, expanded to 11)
-
-Retain v10 checks 1–9. Add:
-10. **Template Integrity**: computed SHA-256 == recorded SHA-256.
-11. **Compatibility Validation**: structured row PASS.
-
-## Section 11 — Example Instantiation (v1.1, non-retainable)
-
-Re-instantiate MOD-006 CRM under v1.1 schema:
-- `execution_instance_id: LEGACY-RECON-CORRECTIVE-v1.1-MOD006-001`
-- `execution_sequence: 1`
-- Findings re-cast into the E6 Finding schema.
-- Evidence rows classified per E5.
-- Governance Compliance FULL with D3 waiver.
-- Explicit label: **"ILLUSTRATIVE ONLY — regenerate for every target module; do not reuse verbatim."**
-- Excluded from `template_sha256`.
-
-Preserve v10 MOD-006 example verbatim inside the frozen v1.0 archival block.
-
-## Execution Steps
-
-1. In `.lovable/plan.md`, wrap the existing v10 corrective-pass content in a **Template v1.0 (Frozen — Deprecated for new executions)** section; do not modify its content.
-2. Append **Template v1.1 (Active)** section with all 15 additive enhancements applied to Sections 1–13 of the template body.
-3. Compute and record `template_sha256` for v1.1 over Sections 1–10 and 12–13, excluding the hash field, Section 11, and execution metadata.
-4. Update the Compatibility Matrix (v10 Section 3) to reflect v1.0 = Deprecated, v1.1 = Active.
-5. Instantiate MOD-006 CRM example under v1.1 (Section 11), non-retainable.
-6. Execute all 11 Template Validation checks; record results in the E10 machine-readable block.
-7. Append Execution Outcome (E7), Governance Compliance (E9), Automation Compatibility (E14), Governance Maturity (E15), Governance Asset Metadata (E12), and Cross-Template Registry (E13).
-8. Record MOD-006 v1.1 execution in the Template Audit Trail (Section 13) with the E2 Execution Identity fields, `original_reconciliation_pass = 8.11.1`, `corrective_pass_id = 8.11.1-C`.
-9. Confirm Section 10 Audit Metadata Note present verbatim.
-10. Close with the Execution Outcome block confirming `repository: UNCHANGED`, `verification: UNCHANGED`, `audit: UNCHANGED`.
-
-## Non-Goals
-
-- No edits to `docs/**` or governance artifacts.
-- No new verification or audit pass against MOD-006.
-- No amendment to Governance Specification v1.0.
-- No modification of the frozen v1.0 template block.
-
-## Success Criteria
-
-- `.lovable/plan.md` contains both v1.0 (Frozen) and v1.1 (Active) template blocks.
-- All 11 v1.1 Template Validation checks PASS; E10 block records all PASS.
-- v1.1 `template_sha256` recorded with defined exclusion scope.
-- MOD-006 example regenerated under v1.1 schema without retention as reusable content.
-- Template Audit Trail records the v1.1 MOD-006 execution with full E2 Execution Identity.
-- Execution Outcome confirms `repository/verification/audit: UNCHANGED`.
-
-## Failure Criteria
-
-Any Section 8 check FAIL triggers Section 9 Failure Handling: Draft status for v1.1, no commit of v1.1 as Active, no overwrite of v1.0, findings listed under the E6 Finding schema.
+**Repository Status:** READY (unchanged from Pass 8.11.1).
+**Confidence:** MEDIUM (D3 Repository Revision Waiver, unchanged).
+**Governance Specification v1.0:** unmodified.
