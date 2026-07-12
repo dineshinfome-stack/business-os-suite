@@ -7,6 +7,8 @@ status: "approved"
 updated: "2026-07-12"
 tags: ["governance", "templates", "standard"]
 document_type: "Governance Standard"
+standard_version: v1.3
+governance_specification: v1.0
 ---
 
 # Governance Template Standard
