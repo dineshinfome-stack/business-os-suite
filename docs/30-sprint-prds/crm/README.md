@@ -27,19 +27,25 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-006-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-006-001`, `SPR-MOD-006-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Sprint Plan (Stage 1)
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The authoritative Stage 1 Sprint Plan for MOD-006 is [`MOD-006_SPRINT_PLAN.md`](./MOD-006_SPRINT_PLAN.md). It defines the sprint sequence, capability allocation, engine and ADR consumption, cross-module dependencies, and exit criteria. Sprint identifiers below are reserved by that plan.
+
+## Reserved Sprints
+
+> Rows are **planning reservations** from the Stage 1 Sprint Plan. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-006-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-006)_ | Planned | _(to be defined)_ |
-| SPR-MOD-006-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-006)_ | Planned | _(to be defined)_ |
-| SPR-MOD-006-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-006)_ | Planned | _(to be defined)_ |
-| SPR-MOD-006-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-006)_ | Planned | _(to be defined)_ |
-| SPR-MOD-006-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-006)_ | Planned | _(to be defined)_ |
+| SPR-MOD-006-001 | Sprint 1 | CRM Foundation (accounts, contacts, CRM configuration) | Planned | `MOD001_PLATFORM_BASELINE_v1` |
+| SPR-MOD-006-002 | Sprint 2 | Leads (capture, qualification, conversion) | Planned | SPR-MOD-006-001 |
+| SPR-MOD-006-003 | Sprint 3 | Opportunities (pipeline, win/loss) | Planned | SPR-MOD-006-001, SPR-MOD-006-002 |
+| SPR-MOD-006-004 | Sprint 4 | Activities (activity, task, meeting tracking) | Planned | SPR-MOD-006-001 |
+| SPR-MOD-006-005 | Sprint 5 | Campaigns (campaigns, segmentation, sends) | Planned | SPR-MOD-006-001 |
+| SPR-MOD-006-006 | Sprint 6 | Customer 360 & Analytics (read model, reports, dashboards) | Planned | SPR-MOD-006-001 … SPR-MOD-006-005 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module is reconciled to **6** by the Stage 1 Sprint Plan. Goals and dependencies above mirror the plan and will be refined only through amendments to the plan itself.
+
 
 ## Authoring Rules
 
