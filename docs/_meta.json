@@ -1333,6 +1333,10 @@
         {
           "title": "GT-002 Stage 1 Authoring",
           "path": "15-governance/templates/GT-002_STAGE1_AUTHORING"
+        },
+        {
+          "title": "GT-003 Sprint Authoring",
+          "path": "15-governance/templates/GT-003_SPRINT_AUTHORING"
         }
       ]
     },

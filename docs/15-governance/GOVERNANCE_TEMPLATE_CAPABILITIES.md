@@ -9,7 +9,7 @@ tags: ["governance", "templates", "capabilities", "registry"]
 document_type: "Governance Registry"
 governance_specification: v1.0
 template_standard: v1.3
-registry_version: v1.0
+registry_version: v1.1
 lifecycle_state: Active
 ---
 
@@ -83,7 +83,7 @@ Interpretation rules:
 | CAP-001 | `stage1-authoring` | Stage 1 Authoring | Module PRD + Sprint Plan authoring for Stage 1. | v1.0 | — | — | — | — | Active |
 | CAP-002 | `module-prd` | Module PRD Authoring | Produces a Stage 1 Module PRD conforming to Governance Specification v1.0. | v1.0 | — | — | — | — | Active |
 | CAP-003 | `sprint-plan` | Sprint Plan Authoring | Produces a Stage 1 Sprint Plan enumerating sprints for a module. | v1.0 | — | — | — | — | Active |
-| CAP-004 | `sprint-authoring` | Sprint PRD Authoring | Stage 2 Sprint PRD authoring under the canonical 18-section template. | v1.0 | — | — | — | — | Active |
+| CAP-004 | `sprint-authoring` | Sprint PRD Authoring | Stage 2 Sprint PRD authoring under the canonical 18-section template. | v1.0 | — | CAP-001, CAP-002, CAP-003 | — | — | Active |
 | CAP-005 | `baseline-consolidation` | Baseline Consolidation | Stage 3 Module Baseline authoring; consolidation-only. | v1.0 | — | — | — | — | Active |
 | CAP-006 | `legacy-reconciliation` | Legacy Reconciliation | Normalizes pre-Governance-v1.0 artifacts into canonical form. | v1.0 | — | — | — | — | Active |
 | CAP-007 | `registration` | Registration | Registers artifacts across governance surfaces (Registry, Index, Catalogs, `_meta.json`). | v1.0 | — | — | — | — | Active |
@@ -96,3 +96,4 @@ Interpretation rules:
 | Version | Change Summary | Governance Version | Lifecycle State |
 |---|---|---|---|
 | v1.0 | Initial registry: `CAP-001..CAP-010` with optional relationship schema and formal Relationship Semantics block (R23 + R24). | v1.0 | Active |
+| v1.1 | Add `depends_on` edges on `CAP-004` (→ `CAP-001`, `CAP-002`, `CAP-003`) to support GT-003 Sprint Authoring. GT-003 requires v1.1 because v1.0 lacks these edges and cannot satisfy `VAL-013A`. Additive (Minor); graph remains acyclic. | v1.0 | Active |

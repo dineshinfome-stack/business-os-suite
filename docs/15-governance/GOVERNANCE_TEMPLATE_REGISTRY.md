@@ -78,14 +78,15 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 |---|---|
 | Asset Type | Governance Registry (companion to templates) |
 | Path | `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` |
-| Current Version | v1.0 |
+| Current Version | v1.1 |
 | Status | Active |
 | Compatible Governance Version | v1.0 |
 | Compatible Template Standard | v1.3 |
 | Owner | Architecture Office |
 | Lifecycle State | Active |
 | First Release | v1.0 — Pass 8.12.1 v10 |
-| Notes | Authoritative `CAP-NNN` capability identifiers referenced by governance templates. Includes optional relationship metadata schema and formal Relationship Semantics (execution / validation / traceability / version_scope). |
+| Latest Revision | v1.1 — Pass 8.12.2 v3 (CAP-004 `depends_on` edges added for GT-003) |
+| Notes | Authoritative `CAP-NNN` capability identifiers referenced by governance templates. Includes optional relationship metadata schema and formal Relationship Semantics (execution / validation / traceability / version_scope). v1.1 adds CAP-004 → CAP-001/CAP-002/CAP-003. |
 
 ### GT-003 — Sprint Authoring
 
@@ -93,17 +94,20 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 |---|---|
 | Template ID | GT-003 |
 | Template Name | Sprint Authoring |
-| Current Version | TBD |
-| Status | Planned |
+| Current Version | v1.0 |
+| Status | Active |
 | Compatible Governance Version | v1.0 |
+| Compatible Template Standard | v1.3 |
+| Compatible Capabilities Registry | v1.1 |
 | Owner | Architecture Office |
-| Lifecycle State | Draft (not started) |
-| Template SHA256 | — |
-| First Release | — |
-| Latest Revision | — |
+| Lifecycle State | Active |
+| Template SHA256 | Recorded in template body (`docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` → §1 `template_sha256`); scope per `sha_scope_rule`: exclude sections marked `retainable: false` (§15 Example). |
+| Template UUID | 2d335f1a-2070-4ed1-95ab-6f56e6e7345e |
+| First Release | v1.0 — Pass 8.12.2 v3 |
+| Latest Revision | v1.0 — Pass 8.12.2 v3 |
 | Superseded By | — |
 | Used By | — |
-| Notes | Canonical 18-section Sprint PRD authoring template. |
+| Notes | Stage 2 Sprint PRD authoring template. Depends on GT-002 outputs (Module PRD + Sprint Plan). Dual validation surfaces: 13 framework checks (authoring-time) + 15 runtime checks (VAL-001..VAL-012, VAL-013A, VAL-013B, VAL-014). Requires Capabilities Registry ≥ v1.1 for `CAP-004.depends_on` edges. |
 
 ### GT-004 — Baseline Consolidation
 
