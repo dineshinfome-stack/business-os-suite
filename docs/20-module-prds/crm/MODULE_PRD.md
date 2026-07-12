@@ -1,21 +1,23 @@
 ---
 title: "MOD-006 — CRM Module PRD"
-summary: "Authoritative business specification for the CRM bounded context. Consumes ERP Core Engines and Accepted ADRs; does not redefine platform behavior."
+summary: "Authoritative business specification for the CRM (Customer Relationship) bounded context. Consumes ERP Core Engines and Accepted ADRs; does not redefine platform behavior."
 layer: "business"
 owner: "Revenue"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-12"
+legacy_updated: "2026-07-05"
 module_id: "MOD-006"
 module: "CRM"
 domain: "Customer"
 bounded_context: "Customer Relationship"
 depends_on: ["docs/canon.md", "docs/10-erp-core/ENGINE_CATALOG.md", "docs/11-adrs/ADR_INDEX.md", "docs/02-architecture/quality-attributes.md"]
-related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-007", "ENG-008", "ENG-012", "ENG-013", "ENG-020", "ENG-021", "ENG-022", "ENG-024", "ENG-025", "ENG-010", "ENG-011", "ENG-023", "ENG-026", "ENG-027", "ENG-028"]
-related_adrs: ["ADR-011", "ADR-032"]
-related_modules: ["MOD-001", "MOD-003", "MOD-016", "MOD-012", "MOD-017"]
+related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-007", "ENG-008", "ENG-010", "ENG-011", "ENG-012", "ENG-013", "ENG-020", "ENG-021", "ENG-022", "ENG-023", "ENG-024", "ENG-025", "ENG-026", "ENG-027", "ENG-028"]
+related_adrs: ["ADR-011", "ADR-014", "ADR-032"]
+related_modules: ["MOD-001", "MOD-003", "MOD-012", "MOD-016", "MOD-017"]
 referenced_by: []
 tags: ["module", "prd"]
 document_type: "Module PRD"
+derived_from: "docs/20-module-prds/crm/MODULE_PRD.md (pre-freeze, updated 2026-07-05)"
 ---
 
 # MOD-006 — CRM Module PRD
@@ -139,9 +141,9 @@ document_type: "Module PRD"
 
 **Approvals.** Multi-step approvals, delegation, and out-of-office handling are provided by ENG-011 Approval Engine per ADR-032 (RBAC + ABAC).
 
-**Posting Behavior.** All ledger effects of module transactions are produced by ENG-016 Posting Engine — this module does not implement double-entry posting logic itself.
+**Posting Behavior.** CRM transactions have no accounting ledger effect and produce no financial vouchers. Ledger posting is out of scope for this module and remains owned by **MOD-002 Accounting**.
 
-**Numbering.** All document numbers are produced by ENG-017 Numbering Engine using tenant-configured series — this module does not implement numbering algorithms.
+**Numbering.** CRM does not implement numbering algorithms. Where CRM documents require a tenant-visible number, numbers are produced by ENG-017 Numbering Engine only when a corresponding series is registered by the consuming sprint; ENG-017 is not listed as a required engine in section 12.
 
 **Audit.** Every state-changing operation is audited by ENG-004 Audit Engine per ADR-014 (Audit Strategy) — this module does not implement its own audit trail.
 
@@ -190,7 +192,7 @@ Module-specific business rules only. This section MUST NOT redefine security, au
 - Campaign Effectiveness
 - Customer 360
 
-**Dashboards.** Delivered via ENG-022 Dashboard Engine; the KPI catalog is maintained in **Analytics (MOD-017)**.
+**Dashboards.** Delivered via ENG-022 Dashboard Engine; the cross-module KPI catalog is maintained in **Analytics (MOD-017)**.
 
 **KPIs.** Cross-module KPIs are defined once in **Analytics (MOD-017)** and referenced from this module.
 
@@ -215,7 +217,7 @@ Module-specific business rules only. This section MUST NOT redefine security, au
 
 Non-functional targets inherit from `docs/02-architecture/quality-attributes.md`. Module-specific refinements:
 
-- **Performance.** Interactive operations complete within the platform latency budget; batch operations (posting, payroll runs, imports) use the platform batch envelope.
+- **Performance.** Interactive operations complete within the platform latency budget; batch operations (imports, campaign sends) use the platform batch envelope.
 - **Compliance.** Follows the data-classification and retention rules in the Data Constitution; regulated reports live in section 9.
 - **Accessibility.** Meets the platform accessibility baseline per ADR-081 (Accessibility Standard) — enforcement lives in the design system, not this PRD.
 
