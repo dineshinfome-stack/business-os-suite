@@ -16,10 +16,16 @@ Tabular summary. Authoritative details live in `GOVERNANCE_TEMPLATE_REGISTRY.md`
 | ID | Template | Version | Status |
 |---|---|---|---|
 | GT-001 | Legacy Reconciliation Corrective | v1.1 | Active |
-| GT-002 | Stage 1 Authoring | TBD | Planned |
+| GT-002 | Stage 1 Authoring | v1.0 | Active |
 | GT-003 | Sprint Authoring | TBD | Planned |
 | GT-004 | Baseline Consolidation | TBD | Planned |
 | GT-005 | Repository Audit | TBD | Planned |
+
+### Companion Registries
+
+| Asset | Version | Status |
+|---|---|---|
+| Governance Template Capabilities Registry | v1.0 | Active |
 
 ## Legend
 
