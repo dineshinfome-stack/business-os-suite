@@ -1,9 +1,10 @@
 # Generated from GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md
 # Direction: markdown -> yaml (one-way). Manual edits prohibited (R27).
 # Divergence between markdown and this file = FAIL.
+# YAML derivation constraint: no fields absent from the markdown source.
 
 asset_id: GOV-DEP-MATRIX
-version: v1.0
+version: v1.0.1
 schema_version: 1
 graph_version: 1
 governance_specification: v1.0
@@ -71,8 +72,8 @@ nodes:
     compatible_template_standard: v1.3
     compatible_capabilities_registry: v1.1
   - template_id: GT-004
-    current_version: null
-    lifecycle_state: Planned
+    current_version: v1.0
+    lifecycle_state: Active
     compatible_governance: v1.0
     compatible_template_standard: v1.4
     compatible_capabilities_registry: v1.1
@@ -101,13 +102,13 @@ edges:
     relationship: depends_on
     target: GT-003
     constraint: ">=1.0,<2.0"
-    status: Planned
+    status: Active
   - edge_id: EDGE-004
     source: GT-004
     relationship: successor_of
     target: GT-003
     constraint: null
-    status: Planned
+    status: Active
   - edge_id: EDGE-005
     source: GT-005
     relationship: depends_on
