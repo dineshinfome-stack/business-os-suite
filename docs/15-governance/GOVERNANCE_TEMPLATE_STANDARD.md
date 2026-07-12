@@ -7,7 +7,7 @@ status: "approved"
 updated: "2026-07-12"
 tags: ["governance", "templates", "standard"]
 document_type: "Governance Standard"
-standard_version: v1.3
+standard_version: v1.4
 governance_specification: v1.0
 ---
 
@@ -47,6 +47,10 @@ Every governance template in `docs/15-governance/` MUST implement the following 
 - **Capability Identity (R22):** every capability has an immutable `capability_id` of the form `CAP-NNN`. Templates SHOULD store slugs for human readability; automation MUST resolve to `capability_id` for equality, dependency, and traceability operations. Retired `capability_id` values MUST NOT be reused.
 - **Capability Relationships (R23):** the Capabilities registry MAY declare optional per-row relationship metadata using the fields `depends_on`, `supersedes`, and `related_to`. Targets MUST be existing `capability_id` values. The `depends_on ∪ supersedes` graph MUST be acyclic. Empty relationship fields are valid; existing templates remain conformant when their referenced capabilities carry no edges.
 - **Capability Relationship Semantics (R24):** the operational meaning of each relationship kind is declared once in `GOVERNANCE_TEMPLATE_CAPABILITIES.md → §Relationship Semantics` across four axes: `execution`, `validation`, `traceability`, and `version_scope`. Individual capability rows SHALL NOT override these semantics. `depends_on` is execution-required and validation-blocking (`VAL-014` FAIL, `DEPENDENCY-FAIL`, `exit_code 20`). `supersedes` is non-executing, deprecates its target at commit time, is blocking-on-commit, and is permitted only across Major registry versions. `related_to` is informational only and never blocks. Version-comparison operations SHALL follow Semantic Versioning 2.0 precedence rules.
+- **Matrix Authority (R25):** automation resolving inter-template relationships (execution dependencies, successors, replacements, audits, compatibility) SHALL consult `GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` as the authoritative graph. Template-local relationship declarations are advisory and are cross-checked against the matrix by MVAL-006.
+- **Conflict = FAIL (R26):** any mismatch between a template's §1 Identity and the corresponding row in the Dependency Matrix is FAIL (`exit_code 10`), waivable only via the Matrix §12 waiver schema.
+- **YAML Generation Policy (R27):** for governance assets that publish a machine-readable export, markdown is normative and YAML is generated one-way from markdown. Manual edits to the YAML export are prohibited. Divergence between markdown and YAML at commit time or at any governance verification pass = FAIL.
+- **Version Resolution (R28):** given a versioned dependency constraint (SemVer range), automation SHALL select the highest `Active` version of the target that satisfies the range; on ties, apply Semantic Versioning 2.0 precedence rules; if no `Active` version qualifies, fall back to the highest qualifying `Deprecated` version and emit `WARN`; `Archived` and `Planned` versions never satisfy execution prerequisites.
 
 ## Compliance
 

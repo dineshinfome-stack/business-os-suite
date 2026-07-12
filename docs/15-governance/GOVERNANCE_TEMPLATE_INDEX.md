@@ -26,6 +26,8 @@ Tabular summary. Authoritative details live in `GOVERNANCE_TEMPLATE_REGISTRY.md`
 | Asset | Version | Status |
 |---|---|---|
 | Governance Template Capabilities Registry | v1.1 | Active |
+| Governance Template Dependency Matrix | v1.0 (schema 1 / graph 1) | Active |
+
 
 ## Legend
 

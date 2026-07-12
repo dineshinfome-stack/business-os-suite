@@ -1331,6 +1331,10 @@
           "path": "15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES"
         },
         {
+          "title": "Governance Template Dependency Matrix",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX"
+        },
+        {
           "title": "GT-002 Stage 1 Authoring",
           "path": "15-governance/templates/GT-002_STAGE1_AUTHORING"
         },

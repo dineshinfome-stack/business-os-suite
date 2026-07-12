@@ -81,12 +81,32 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 | Current Version | v1.1 |
 | Status | Active |
 | Compatible Governance Version | v1.0 |
-| Compatible Template Standard | v1.3 |
+| Compatible Template Standard | v1.4 |
 | Owner | Architecture Office |
 | Lifecycle State | Active |
 | First Release | v1.0 — Pass 8.12.1 v10 |
 | Latest Revision | v1.1 — Pass 8.12.2 v3 (CAP-004 `depends_on` edges added for GT-003) |
 | Notes | Authoritative `CAP-NNN` capability identifiers referenced by governance templates. Includes optional relationship metadata schema and formal Relationship Semantics (execution / validation / traceability / version_scope). v1.1 adds CAP-004 → CAP-001/CAP-002/CAP-003. |
+
+### Governance Template Dependency Matrix
+
+| Field | Value |
+|---|---|
+| Asset Type | Governance Registry (companion to templates) |
+| Asset ID | GOV-DEP-MATRIX |
+| Path | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` |
+| YAML Export | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` (generated one-way per R27) |
+| Current Version | v1.0 |
+| Schema Version | 1 |
+| Graph Version | 1 |
+| Status | Active |
+| Compatible Governance Version | v1.0 |
+| Compatible Template Standard | v1.4 |
+| Owner | Architecture Office |
+| Lifecycle State | Active |
+| First Release | v1.0 — Pass 8.12.2-E v3.1 |
+| Latest Revision | v1.0 — Pass 8.12.2-E v3.1 |
+| Notes | Authoritative graph of inter-template relationships. Establishes generic edge model (source/relationship/target/constraint), stable `EDGE-NNN` identifiers, formal Relationship Registry (§4), validation rules MVAL-001..MVAL-012, waiver schema (§12), and Planned-node semantics (§7). Root: GT-001. |
 
 ### GT-003 — Sprint Authoring
 
