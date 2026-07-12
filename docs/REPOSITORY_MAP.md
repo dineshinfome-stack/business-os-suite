@@ -54,6 +54,7 @@ docs/
 ├── 12-ui-components/               UI components            (Reference)
 ├── 13-workflows/                   Workflow catalog         (Reference)
 ├── 14-localization/                Locale packs             (Reference)
+├── 15-governance/                  Governance Template Framework (Authoritative)
 ├── 20-module-prds/                 Module PRDs (MOD-001..019) (Authoritative)
 ├── 30-sprint-prds/                 Sprint PRDs (SPR-MOD-NNN-NNN) (Authoritative — scaffolded)
 ├── 40-module-baselines/            Module Baselines (Stage 3)   (Authoritative)

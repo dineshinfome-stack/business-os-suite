@@ -1304,6 +1304,31 @@
       ]
     },
     {
+      "label": "15 Governance",
+      "items": [
+        {
+          "title": "Governance Template Framework",
+          "path": "15-governance/README"
+        },
+        {
+          "title": "Governance Template Standard",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_STANDARD"
+        },
+        {
+          "title": "Governance Template Lifecycle",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE"
+        },
+        {
+          "title": "Governance Template Registry",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_REGISTRY"
+        },
+        {
+          "title": "Governance Template Index",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_INDEX"
+        }
+      ]
+    },
+    {
       "label": "99 Templates",
       "items": [
         {
