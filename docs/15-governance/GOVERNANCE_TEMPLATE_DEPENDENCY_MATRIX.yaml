@@ -1,0 +1,149 @@
+# Generated from GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md
+# Direction: markdown -> yaml (one-way). Manual edits prohibited (R27).
+# Divergence between markdown and this file = FAIL.
+
+asset_id: GOV-DEP-MATRIX
+version: v1.0
+schema_version: 1
+graph_version: 1
+governance_specification: v1.0
+template_standard: v1.4
+lifecycle_state: Active
+sha_scope_rule: "exclude sections marked retainable: false"
+
+root_templates:
+  - GT-001
+
+relationship_registry:
+  - relationship: depends_on
+    direction: directed
+    cardinality: many-to-many
+    blocking: true
+    versioned: true
+  - relationship: successor_of
+    direction: directed
+    cardinality: one-to-many
+    blocking: false
+    versioned: false
+  - relationship: replaces
+    direction: directed
+    cardinality: one-to-one
+    blocking: true
+    versioned: true
+  - relationship: audits
+    direction: directed
+    cardinality: many-to-many
+    blocking: false
+    versioned: false
+  - relationship: optional_with
+    direction: non-directed
+    cardinality: many-to-many
+    blocking: false
+    versioned: false
+  - relationship: mutually_exclusive
+    direction: non-directed
+    cardinality: many-to-many
+    blocking: true
+    versioned: false
+  - relationship: compatible_with
+    direction: non-directed
+    cardinality: many-to-many
+    blocking: false
+    versioned: false
+
+nodes:
+  - template_id: GT-001
+    current_version: v1.1
+    lifecycle_state: Active
+    compatible_governance: v1.0
+    compatible_template_standard: v1.3
+    compatible_capabilities_registry: null
+  - template_id: GT-002
+    current_version: v1.0
+    lifecycle_state: Active
+    compatible_governance: v1.0
+    compatible_template_standard: v1.3
+    compatible_capabilities_registry: v1.0
+  - template_id: GT-003
+    current_version: v1.0
+    lifecycle_state: Active
+    compatible_governance: v1.0
+    compatible_template_standard: v1.3
+    compatible_capabilities_registry: v1.1
+  - template_id: GT-004
+    current_version: null
+    lifecycle_state: Planned
+    compatible_governance: v1.0
+    compatible_template_standard: v1.4
+    compatible_capabilities_registry: v1.1
+  - template_id: GT-005
+    current_version: null
+    lifecycle_state: Planned
+    compatible_governance: v1.0
+    compatible_template_standard: v1.4
+    compatible_capabilities_registry: v1.1
+
+edges:
+  - edge_id: EDGE-001
+    source: GT-002
+    relationship: depends_on
+    target: GT-001
+    constraint: ">=1.1,<2.0"
+    status: Active
+  - edge_id: EDGE-002
+    source: GT-003
+    relationship: depends_on
+    target: GT-002
+    constraint: ">=1.0,<2.0"
+    status: Active
+  - edge_id: EDGE-003
+    source: GT-004
+    relationship: depends_on
+    target: GT-003
+    constraint: ">=1.0,<2.0"
+    status: Planned
+  - edge_id: EDGE-004
+    source: GT-004
+    relationship: successor_of
+    target: GT-003
+    constraint: null
+    status: Planned
+  - edge_id: EDGE-005
+    source: GT-005
+    relationship: depends_on
+    target: GT-001
+    constraint: ">=1.1,<2.0"
+    status: Planned
+  - edge_id: EDGE-006
+    source: GT-005
+    relationship: audits
+    target: GT-002
+    constraint: null
+    status: Planned
+  - edge_id: EDGE-007
+    source: GT-005
+    relationship: audits
+    target: GT-003
+    constraint: null
+    status: Planned
+  - edge_id: EDGE-008
+    source: GT-005
+    relationship: audits
+    target: GT-004
+    constraint: null
+    status: Planned
+
+successor_templates:
+  GT-003: [GT-004]
+
+depended_on_by:
+  GT-001: [GT-002, GT-005]
+  GT-002: [GT-003]
+  GT-003: [GT-004]
+
+audited_by:
+  GT-002: [GT-005]
+  GT-003: [GT-005]
+  GT-004: [GT-005]
+
+waivers: []
