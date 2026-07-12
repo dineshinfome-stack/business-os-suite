@@ -55,6 +55,7 @@ Every baseline mirrors the same section order (see [`MOD001_PLATFORM_BASELINE_v1
 | [`MOD003_SALES_BASELINE_v1`](./MOD003_SALES_BASELINE_v1.md) | MOD-003 Sales | 1.0 | Baseline |
 | [`MOD004_PURCHASE_BASELINE_v1`](./MOD004_PURCHASE_BASELINE_v1.md) | MOD-004 Purchase | 1.0 | Baseline |
 | [`MOD005_INVENTORY_BASELINE_v1`](./MOD005_INVENTORY_BASELINE_v1.md) | MOD-005 Inventory | 1.0 | Baseline |
+| [`MOD019_WAREHOUSE_BASELINE_v1`](./MOD019_WAREHOUSE_BASELINE_v1.md) | MOD-019 Warehouse | 1.0 | Baseline |
 
 The full index across all modules lives in [`docs/MODULE_BASELINE_CATALOG.md`](../MODULE_BASELINE_CATALOG.md).
 
