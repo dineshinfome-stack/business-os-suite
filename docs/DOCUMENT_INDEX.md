@@ -29,6 +29,16 @@ The **Document Index** is the searchable inventory of every document in the repo
 
 This inventory SHOULD be regenerated or reviewed whenever any document is added, removed, or renamed. It MUST NOT become an independent source of truth.
 
+## Governance Templates
+
+| Document | Layer | Status | Authority | Path |
+| --- | --- | --- | --- | --- |
+| Governance Template Framework — README | Cross-cutting | Approved | Authoritative | `docs/15-governance/README.md` |
+| Governance Template Standard | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_STANDARD.md` |
+| Governance Template Lifecycle | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE.md` |
+| Governance Template Registry | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` |
+| Governance Template Index | Cross-cutting | Approved | Derived | `docs/15-governance/GOVERNANCE_TEMPLATE_INDEX.md` |
+
 ## Inventory
 
 ### A
