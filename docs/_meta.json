@@ -1181,6 +1181,10 @@
         {
           "title": "MOD005_INVENTORY_BASELINE_v1",
           "path": "40-module-baselines/MOD005_INVENTORY_BASELINE_v1"
+        },
+        {
+          "title": "MOD019_WAREHOUSE_BASELINE_v1",
+          "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
         }
       ]
     },
