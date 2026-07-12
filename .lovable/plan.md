@@ -198,3 +198,92 @@ On completion, `<MOD-NNN> <Module>` is ready for **Stage 2 Sprint PRD authoring*
 ## Architectural Note (informational, non-binding)
 
 This pass **validates the reusable Legacy Module Reconciliation workflow** for MOD-007…MOD-018. The workflow is informative only and does not amend Governance Specification v1.0, which remains frozen.
+
+---
+
+## Closing Artifacts — Pass 8.11.1 — MOD-006 CRM
+
+### 1. Capability Allocation Report
+
+| # | Module PRD Capability | Origin Sprint | Result |
+| --- | --- | --- | --- |
+| 1 | Lead capture and qualification | SPR-MOD-006-002 | PASS |
+| 2 | Opportunity pipeline | SPR-MOD-006-003 | PASS |
+| 3 | Account and contact management | SPR-MOD-006-001 | PASS |
+| 4 | Activity, task, and meeting tracking | SPR-MOD-006-004 | PASS |
+| 5 | Campaigns and segmentation | SPR-MOD-006-005 | PASS |
+| 6 | Customer 360 view | SPR-MOD-006-006 | PASS |
+
+**Allocation Gate: PASS** — 6/6 capabilities allocated exactly once; no duplicates; no orphans.
+
+### 2. Verification Metadata
+
+- **Target Artifact:** MOD-006 CRM Stage 1 (Module PRD reconciled + Sprint Plan authored)
+- **Verification Pass:** 8.11.1-V
+- **Verification Date:** 2026-07-12
+- **Verifier:** Lovable Agent (automated)
+- **Authoritative Sources Checked:** `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/20-module-prds/crm/MODULE_PRD.md`, `docs/30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md`, `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `docs/SPRINT_AUTHORING_GUIDE.md`
+
+### 3. Verification Table
+
+| # | Check | Result | Action |
+| --- | --- | --- | --- |
+| 1 | Module PRD complete (17 canonical sections) | PASS | — |
+| 2 | Sprint Plan complete (canonical template) | PASS | — |
+| 3 | Capability Allocation Matrix complete | PASS | — |
+| 4 | Forward Traceability complete | PASS | — |
+| 5 | Reverse Traceability complete | PASS | — |
+| 6 | Engine allocations valid (verbatim ENG-NNN, Accepted) | PASS | — |
+| 7 | ADR allocations valid (ADR-011, ADR-014, ADR-032 — Accepted) | PASS | — |
+| 8 | Event allocations valid (verbatim; source: Module PRD §8) | PASS | — |
+| 9 | Ownership preserved (Revenue, no duplicate ownership) | PASS | — |
+| 10 | Metadata consistent (frontmatter, `updated`, `legacy_updated`) | PASS | — |
+| 11 | Registration complete (README, DOCUMENT_INDEX, _meta.json) | PASS | — |
+| 12 | Repository consistency (folder layout, cross-refs resolve) | PASS | — |
+| 13 | No orphan capability (every capability ↔ exactly one origin sprint) | PASS | — |
+
+### 4. Verification Summary
+
+- **Checklist Items:** 13
+- **Passed:** 13
+- **Remediated:** 0
+- **Failed:** 0
+- **Outstanding Risks:** None
+- **Repository Status:** READY
+- **Next Pass:** 8.11.2 — SPR-MOD-006-001 Stage 2 Sprint PRD authoring
+
+Invariant: Passed + Remediated + Failed = 13 ✓
+
+### 5. Repository Audit Metadata (Spec v1.0)
+
+- **Audit Pass:** 8.11.1-A
+- **Audit Date:** 2026-07-12
+- **Auditor:** Lovable Agent
+- **Mandatory Read Set:** Tier A + Module PRD + Sprint Plan (all read verbatim)
+
+### 6. Repository Audit Evidence Table
+
+| # | Audit Check | Evidence | Result |
+| --- | --- | --- | --- |
+| 1 | Authoritative Source Integrity | Module PRD §12 engines match `ENGINE_CATALOG.md`; ADRs match `ADR_INDEX.md` (Accepted) | PASS |
+| 2 | Metadata Consistency | Frontmatter includes `module_id: MOD-006`, `owner: Revenue`, `updated: 2026-07-12`, `legacy_updated: 2026-07-05` | PASS |
+| 3 | Capability Integrity | 6 capabilities in PRD §2 = 6 origin allocations in Sprint Plan §4.1 | PASS |
+| 4 | Ownership Integrity | MODULE_CATALOG line 43: "MOD-006 \| CRM \| Authored \| ... \| Revenue" — matches all artifacts | PASS |
+| 5 | Engine Integrity | All ENG-NNN in Sprint Plan §5 are subset of PRD §12 required+optional; all resolve in ENGINE_CATALOG | PASS |
+| 6 | ADR Integrity | ADR-011, ADR-014, ADR-032 all Accepted per ADR_INDEX | PASS |
+| 7 | Event Integrity | `CustomerCreated`, `SalesInvoiceIssued`, `ServiceTicketClosed`, `LeadCreated`, `OpportunityWon/Lost`, `ActivityLogged`, `CampaignSent` — sourced verbatim from PRD §8 (event-catalog.md is stub; D3 waiver) | PASS |
+| 8 | Repository Consistency | Files under authoritative folders per REPOSITORY_MAP; cross-refs resolve | PASS |
+| 9 | Artifact Integrity | Sprint Plan authored, Module PRD reconciled, READMEs updated, DOCUMENT_INDEX + _meta.json updated | PASS |
+
+**Critical: 0 | Major: 0 | Minor: 0**
+
+### 7. Final Report
+
+- **Pass:** 8.11.1 — MOD-006 CRM (Stage 1)
+- **Allocation Gate:** PASS
+- **Stage 1 Verification:** 13/13 Passed
+- **Repository Audit:** READY
+- **Confidence:** MEDIUM (D3 environmental waiver — `event-catalog.md` is a stub; event integrity is validated against the Module PRD as the authoritative source per Normative Source Precedence Tier B)
+- **Legacy Reconciliation:** Module PRD normalized to 17 canonical sections; boilerplate engine reference `ENG-016` removed (not declared in CRM engine consumption). Sprint Plan authored fresh under Governance v1.0.
+
+MOD-006 CRM is **Stage 1 complete** and ready for **Stage 2 Sprint PRD authoring** (`SPR-MOD-006-001` — CRM Foundation).
