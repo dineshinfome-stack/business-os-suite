@@ -1,231 +1,241 @@
-
-# Pass 8.12.1 — GT-002 Stage 1 Authoring Template (Governance Asset) — v10
+# Pass 8.12.2 — GT-003 Sprint Authoring Template (Governance Asset) — v3
 
 ## Objective
 
-Author **GT-002 Stage 1 Authoring** as an Active governance template so future Stage 1 executions (greenfield + legacy reconciliation) can be invoked by reference (`"Execute GT-002 for MOD-NNN"`) instead of embedding Stage 1 governance in every prompt.
+Author **GT-003 Sprint Authoring** as an Active governance template so future Stage 2 Sprint PRD executions can be invoked by reference (`"Execute GT-003 for SPR-MOD-NNN-XXX"`) instead of embedding Sprint PRD governance in every prompt.
 
-**Strict scope**: Template asset creation + additive governance-framework refinements. No module, PRD, Sprint Plan, or Baseline is authored or modified.
+**Strict scope**: Template asset creation + minimal additive Capabilities-registry edit to record `CAP-004` relationships. No Sprint PRD, Module PRD, or Baseline is authored or modified. Governance Specification v1.0 unchanged. GT-001 / GT-002 bodies unchanged.
 
-## Changes from v9 (Additive, Non-Breaking)
+## Changes from v2 (Additive Refinements S1–S7)
 
-- **R24 — Capability Relationship Semantics.** The Capabilities registry defines the *schema* of `depends_on / supersedes / related_to` (R23). v10 defines their *operational meaning* so automation is unambiguous. Semantics are declared once in `GOVERNANCE_TEMPLATE_CAPABILITIES.md` under a new **§Relationship Semantics** block (schema unchanged; interpretation formalized):
-
+- **S1 — Canonical Capability Identifiers.** The template `capabilities` block SHALL carry both the stable `capability_id` and its resolved `slug` so slug refinements never invalidate the template:
   ```yaml
-  relationship_semantics:
-    depends_on:
-      execution: required               # target capability MUST be satisfiable within the current execution graph
-      validation: blocking              # unsatisfied dependency ⇒ VAL-014 FAIL (exit_code 20, DEPENDENCY-FAIL)
-      traceability: recorded            # edge appears in traceability reports
-      version_scope: any                # may span Major versions
-    supersedes:
-      execution: none                   # does not trigger execution of the target
-      lifecycle: deprecates_target      # target row transitions to status: Deprecated at commit time
-      validation: blocking-on-commit    # commit rejected if target does not exist or is already superseded
-      traceability: recorded
-      version_scope: major-only         # supersedes edges MAY be declared only across Major registry versions
-    related_to:
-      execution: none
-      validation: informational         # emits an INFO finding; never blocking
-      traceability: recorded            # supports discovery / affinity queries
-      directionality: non-directional
-      version_scope: any
+  capabilities:
+    - id: CAP-004
+      slug: sprint-authoring     # primary
+    - id: CAP-007
+      slug: registration
+    - id: CAP-009
+      slug: verification
+    - id: CAP-008
+      slug: repository-audit
   ```
+  Automation resolves by `id`; `slug` is informational and MUST match the registry entry at the pinned `compatible_capabilities_registry` range.
+- **S2 — Deterministic Version Resolution Rule.** Add to §14 Compatibility Matrix a normative rule: *"When multiple registered versions satisfy a compatibility range, automation SHALL select the highest non-deprecated `Active` version. Ties resolve by SemVer 2.0 precedence. `Deprecated` and `Archived` versions are eligible only if no `Active` version satisfies the range, in which case the invocation MUST emit a `WARN` finding."*
+- **S3 — VAL-013 split.** Replace the single VAL-013 with two sibling checks reported under the same finding class but distinguishable in diagnostics:
+  - **VAL-013A** — Template dependencies satisfied (every `depends_on_templates` entry resolves to an `Active` registered template within its `minimum_version` range).
+  - **VAL-013B** — Upstream sprint dependencies satisfied (any sprint listed as an upstream in the Sprint Plan exists in the repository and is `Active`).
+  - Total Sprint Template Validation checks now = **15** (`VAL-001..VAL-012, VAL-013A, VAL-013B, VAL-014`). Framework Validation count remains **13**.
+- **S4 — SHA scope formalization.** Add a normative rule (top of §1 / repeated in §16 Change Control):
+  *"`template_sha256` is computed over all sections not marked `retainable: false`. Sections marked non-retainable (illustrative examples, ephemeral diagnostics) are excluded. This rule generalizes across all governance templates and MUST NOT be redefined per-template."*
+  For GT-003, §15 Example carries `retainable: false` and is the only excluded section.
+- **S5 — Machine-readable Execution Prerequisites.** Add to §13:
+  ```yaml
+  execution_prerequisites:
+    requires_stage1: true
+    requires_module_prd: true
+    requires_sprint_plan: true
+    requires_capabilities_registry_min: ">=1.1,<2.0"
+  ```
+- **S6 — Success Criterion — dependency resolution.** Add: *"All `depends_on_templates` entries resolve to `Active` template versions satisfying declared version constraints at authoring time and at every future GT-003 invocation."* Complements VAL-013A.
+- **S7 — Registry-bump rationale documented.** In §14 Compatibility Matrix and in the Capabilities Registry Change Control row for v1.1, explicitly state: *"GT-003 requires Capabilities Registry v1.1 because it introduces the first `depends_on` edges (CAP-004 → CAP-001/CAP-002/CAP-003). Registries at v1.0 lack those edges and cannot satisfy VAL-013A."*
 
-  Rules:
-  - Semantics are declared **once** per relationship kind; individual rows do not override.
-  - Adding a new relationship kind = **Minor**. Changing the semantics of an existing kind = **Major** (breaking for automation contracts).
-  - `depends_on` satisfaction for GT-002 v1.0 is evaluated against (a) the template's own `capabilities` set and (b) capabilities declared by templates listed in its `depends_on` (template-level). If either satisfies the graph, VAL-014 PASSes. Because the v1.0 registry declares no edges, VAL-014 is guaranteed PASS in this pass.
-  - `supersedes` MAY appear in registry v1.0 only if paired with a Major registry bump; therefore v1.0 declares none.
-  - `related_to` never blocks completion; findings surface under severity `INFO`.
-
-Retained from prior versions: `template_uuid` (R6), Execution State Machine (R7), Failure Object Schema (R8), `outputs`/`excluded_outputs` (R9), `VAL-014` (R10), Required vs Optional registration surfaces (R11), Capability Descriptor (R12), Input Version Constraints (R13), Execution Manifest (R14), Unified Severity Vocabulary (R15), Automation Exit Codes (R16), Canonical Capability Vocabulary rule (R17), SemVer 2.0 Precedence (R18), explicit `governance_specification` + `template_standard` identity (R19), Standard Versioning Thresholds (R20), Externalized Capabilities Registry (R21), Stable `CAP-NNN` IDs (R22), Capability Relationship metadata schema (R23).
+Retained from v2: R1 (dual validation surfaces), R2 (abstracted registration surface), R3 (deterministic REPOSITORY_MAP action), R4 (SemVer-versioned template deps), R5 (`reads` in Execution Manifest), R6 (Audit Metadata block), R7 (`dependency_semantics`), R8 (`next_templates` successor set).
 
 ## Non-Goals (Hard Guardrails)
 
+- SHALL NOT execute GT-003 for any sprint.
+- SHALL NOT modify GT-001, GT-002, or the Governance Specification.
 - SHALL NOT modify the 16-section structure of `GOVERNANCE_TEMPLATE_STANDARD.md`.
-- SHALL NOT author or modify any Module PRD, Sprint Plan, or Baseline.
-- SHALL NOT execute Stage 1 for any module.
-- SHALL NOT modify GT-001 or Governance Specification v1.0.
-- SHALL NOT modify any historical execution log or audit record.
-- SHALL NOT introduce new severity or capability values beyond the registered vocabularies.
-- SHALL NOT reuse a retired `capability_id`.
+- SHALL NOT author or modify any Module PRD, Sprint PRD, Sprint Plan, or Baseline.
+- SHALL NOT retire, renumber, or re-slug any existing `CAP-NNN`.
+- SHALL NOT introduce `supersedes` edges.
 - SHALL NOT introduce relationship cycles.
-- SHALL NOT re-interpret an existing relationship kind without a Major registry bump.
+- SHALL NOT bump Standard v1.3 (no new rules introduced; S4's SHA rule is a *clarification* of existing behavior, recorded in GT-003 and cross-referenced from the Standard's next Minor bump if desired — not required this pass).
 
 ## Deliverables
 
 ### Created
-1. `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md`.
-2. `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` — authoritative registry with `CAP-NNN` primary keys, optional relationship metadata schema (R23), and formal Relationship Semantics block (R24).
+1. `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` (v1.0, Active).
 
 ### Updated
-3. `docs/15-governance/GOVERNANCE_TEMPLATE_STANDARD.md` — Minor amendment `v1.2 → v1.3`:
-   - Add **§Rules → Versioning Thresholds** (R20).
-   - Replace inline capability list with citation of `GOVERNANCE_TEMPLATE_CAPABILITIES.md` (R21).
-   - Add **§Rules → Capability Identity** (R22).
-   - Add **§Rules → Capability Relationships** (R23).
-   - Add **§Rules → Capability Relationship Semantics** (R24) — declares the four axes (`execution`, `validation`, `traceability`, `version_scope`) and cites the Capabilities registry as authoritative.
-4. `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` — GT-002 → `Active`; add row for the Capabilities registry.
-5. `docs/15-governance/GOVERNANCE_TEMPLATE_INDEX.md` — GT-002 → `v1.0` / `Active`; add Capabilities registry.
-6. `docs/15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE.md` — informational note that the Capabilities registry follows the same lifecycle.
-7. `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `docs/REPOSITORY_MAP.md` — register the two new files.
+2. `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` — Minor bump `v1.0 → v1.1`:
+   - Add `depends_on: [CAP-001, CAP-002, CAP-003]` on `CAP-004`.
+   - Append Change Control row for v1.1 with S7 rationale text.
+   - Reconfirm `depends_on ∪ supersedes` acyclicity.
+3. `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` — GT-003 `Planned → Active`; Capabilities row → v1.1.
+4. `docs/15-governance/GOVERNANCE_TEMPLATE_INDEX.md` — GT-003 `v1.0 / Active`; Capabilities `v1.1`.
+5. `docs/15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE.md` — informational note.
 
-## New File — `GOVERNANCE_TEMPLATE_CAPABILITIES.md`
-
-Frontmatter:
-
-```yaml
-title: "Governance Template Capabilities Registry"
-document_type: "Governance Registry"
-governance_specification: v1.0
-template_standard: v1.3
-registry_version: v1.0
-lifecycle_state: Active
-owner: Architecture Office
-```
-
-Sections:
-
-- **§1 Schema** — row shape: `capability_id | slug | name | description | since | aliases | depends_on | supersedes | related_to | status`.
-- **§2 Relationship Semantics** — the `relationship_semantics` block from R24 verbatim.
-- **§3 Registry Rules** — `capability_id` immutable/monotonic/non-reused; version-bump thresholds (Patch/Minor/Major) for edits; acyclicity across `depends_on ∪ supersedes`; `supersedes` restricted to `version_scope: major-only`; slug refinements are Patch and must record prior slug under `aliases`.
-- **§4 Capabilities Table** (v1.0, `CAP-001..CAP-010`, relationship columns empty):
-
-  | capability_id | slug | name | description | since | aliases | depends_on | supersedes | related_to | status |
-  |---|---|---|---|---|---|---|---|---|---|
-  | CAP-001 | `stage1-authoring` | Stage 1 Authoring | Module PRD + Sprint Plan authoring | v1.0 | — | — | — | — | Active |
-  | CAP-002 | `module-prd` | Module PRD Authoring | Produces a Stage 1 Module PRD | v1.0 | — | — | — | — | Active |
-  | CAP-003 | `sprint-plan` | Sprint Plan Authoring | Produces a Stage 1 Sprint Plan | v1.0 | — | — | — | — | Active |
-  | CAP-004 | `sprint-authoring` | Sprint PRD Authoring | Stage 2 Sprint PRD authoring | v1.0 | — | — | — | — | Active |
-  | CAP-005 | `baseline-consolidation` | Baseline Consolidation | Stage 3 Module Baseline authoring | v1.0 | — | — | — | — | Active |
-  | CAP-006 | `legacy-reconciliation` | Legacy Reconciliation | Pre-Governance-v1.0 artifact normalization | v1.0 | — | — | — | — | Active |
-  | CAP-007 | `registration` | Registration | Governance-surface registration | v1.0 | — | — | — | — | Active |
-  | CAP-008 | `repository-audit` | Repository Audit | Repository-wide Spec v1.0 audit | v1.0 | — | — | — | — | Active |
-  | CAP-009 | `verification` | Verification | Standardized post-implementation verification | v1.0 | — | — | — | — | Active |
-  | CAP-010 | `drift-report` | Drift Report | Legacy governance drift reporting | v1.0 | — | — | — | — | Active |
+### Registration
+6. `docs/DOCUMENT_INDEX.md` — register GT-003.
+7. `docs/_meta.json` — sidebar entry for GT-003.
+8. `docs/REPOSITORY_MAP.md` — action per R3 (verify; no modification expected).
 
 ## Template Identity (Header §1)
 
 ```yaml
-template_id: GT-002
+template_id: GT-003
 template_uuid: <UUIDv4 generated at authoring time>
-template_name: Stage 1 Authoring
+template_name: Sprint Authoring
 template_version: v1.0
 governance_specification: v1.0
 template_standard: v1.3
 compatible_governance: ">=1.0,<2.0"
 compatible_template_standard: ">=1.3,<2.0"
-compatible_capabilities_registry: ">=1.0,<2.0"
+compatible_capabilities_registry: ">=1.1,<2.0"   # per S7: v1.1 required for CAP-004.depends_on
 schema_version: 1
 lifecycle_state: Active
 owner: Architecture Office
 classification: Governance Template
-template_sha256: <computed over §1–14 + §16, excluding §15 and Example>
-capabilities:                                  # slugs resolve to CAP-NNN in registry
-  - stage1-authoring     # CAP-001
-  - module-prd           # CAP-002
-  - sprint-plan          # CAP-003
-  - legacy-reconciliation # CAP-006
-  - registration         # CAP-007
-  - repository-audit     # CAP-008
+sha_scope_rule: "exclude sections marked retainable: false"   # S4
+template_sha256: <computed per sha_scope_rule>
+capabilities:                                                 # S1
+  - id: CAP-004
+    slug: sprint-authoring
+  - id: CAP-007
+    slug: registration
+  - id: CAP-009
+    slug: verification
+  - id: CAP-008
+    slug: repository-audit
+depends_on_templates:
+  - id: GT-002
+    minimum_version: ">=1.0,<2.0"
 ```
 
-## GT-002 Document Structure
+## GT-003 Document Structure (16 sections, per Standard v1.3)
 
-Identical to v9 except:
+§1 Identity · §2 Purpose · §3 Scope · §4 Inputs · §5 Outputs & Excluded Outputs · §6 Preconditions · §7 Execution Workflow · §8 Execution State Machine · §9 Failure Object Schema · §10 Sprint Template Validation Rules (VAL-001..VAL-012, VAL-013A, VAL-013B, VAL-014 — **15** checks per S3) · §11 Automation Exit Codes · §12 Execution Manifest (`reads`/`creates`/`updates`/`never_modifies`/`repository_map`) · §13 Machine-Readable Metadata (incl. `execution_prerequisites`, `dependency_semantics`, `next_templates`) · §14 Compatibility Matrix (incl. version-resolution rule per S2 and S7 rationale) · §15 Example (`retainable: false`; excluded from SHA per S4) · §16 Change Control + Audit Metadata block (per R6).
 
-- **§10 Validation Rules** — VAL-014 sub-rules now evaluate relationships under R24 semantics:
-  - `depends_on` unresolved / unsatisfied ⇒ **blocking** FAIL (`DEPENDENCY-FAIL`, exit_code 20).
-  - `related_to` unresolved ⇒ **informational** finding (`INFO`), non-blocking.
-  - `supersedes` misuse (target missing, cyclic, or declared outside a Major registry bump) ⇒ **blocking** at registry-commit gate, not at template execution.
-- **§14 Compatibility Matrix**: `v1.0 | governance v1.0 | template_standard v1.3 | capabilities_registry v1.0 | matrix_entry-001 | PASS`.
-- **§16 Change Control** appends: *"…adds formal capability-relationship semantics (execution / validation / traceability / version_scope axes)."*
+### §10 Sprint Template Validation Rules (15, stable IDs)
 
-## Standard Amendment (v1.2 → v1.3) — Details
+| ID | Check |
+|---|---|
+| VAL-001 | Sprint ID (`SPR-MOD-NNN-XXX`) unique across repository |
+| VAL-002 | Originating capability exists in Module PRD Capability Allocation Matrix |
+| VAL-003 | Capability allocated to exactly one sprint |
+| VAL-004 | Engines subset of Module PRD engine union |
+| VAL-005 | ADRs subset of Module PRD ADR union |
+| VAL-006 | Events subset of Module PRD event union |
+| VAL-007 | Acceptance criteria complete (non-empty, testable) |
+| VAL-008 | Deliverables complete |
+| VAL-009 | Registration surfaces updated |
+| VAL-010 | Bidirectional traceability (capability ↔ sprint ↔ deliverable) |
+| VAL-011 | No unresolved placeholders (`<...>` = 0) |
+| VAL-012 | Frontmatter metadata valid |
+| **VAL-013A** | Template dependencies satisfied (each `depends_on_templates` resolves to `Active` registered template within its `minimum_version` range) |
+| **VAL-013B** | Upstream sprint dependencies satisfied (upstream sprints declared in Sprint Plan exist and are `Active`) |
+| VAL-014 | Repository consistency (path conventions; no orphan refs) |
 
-Additive changes to `GOVERNANCE_TEMPLATE_STANDARD.md`:
+### §11 Automation Exit Codes
 
-- **§Rules → Versioning Thresholds** (R20).
-- **§Rules → Canonical Capability Vocabulary** — cites `GOVERNANCE_TEMPLATE_CAPABILITIES.md` (R21).
-- **§Rules → Capability Identity** (R22).
-- **§Rules → Capability Relationships** — schema (R23).
-- **§Rules → Capability Relationship Semantics** — declares the four axes and cites the registry as authoritative (R24).
+`0` OK · `10` Validation failure · `20` Dependency failure · `30` Audit failure · `40` Registration failure · `50` Preflight failure.
 
-No structural change. No prior template invalidated. Standard SHA recomputed. Governance Specification compatibility unchanged (`v1.0`).
+### §12 Execution Manifest
+
+```yaml
+reads:
+  - docs/20-module-prds/<module-slug>/MODULE_PRD.md
+  - docs/30-sprint-prds/<module-slug>/MOD-<NNN>_SPRINT_PLAN.md
+  - docs/MODULE_CATALOG.md
+  - docs/10-erp-core/ENGINE_CATALOG.md
+  - docs/11-adrs/ADR_INDEX.md
+  - docs/02-architecture/event-catalog.md
+  - docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md
+creates:
+  - docs/30-sprint-prds/<module-slug>/SPR-MOD-<NNN>-<XXX>-<sprint-slug>.md
+updates:
+  - docs/30-sprint-prds/<module-slug>/README.md
+  - <sprint-registration-surface>       # Sprint Catalog if present; else authoritative equivalent
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+never_modifies:
+  - docs/20-module-prds/**
+  - docs/40-module-baselines/**
+  - docs/15-governance/**
+  - docs/MODULE_IMPLEMENTATION_WORKFLOW.md
+repository_map:
+  action: verify
+  expected_modification: none
+  verification: "existing registration covers docs/15-governance/templates/"
+```
+
+### §13 Machine-Readable Metadata
+
+```yaml
+execution_type: Stage2
+validation_checks: 15                # Sprint Template Validation (S3: VAL-013 split)
+framework_validation_checks: 13      # Template (asset) Validation
+audit_required: true
+baseline_required: false
+execution_prerequisites:             # S5
+  requires_stage1: true
+  requires_module_prd: true
+  requires_sprint_plan: true
+  requires_capabilities_registry_min: ">=1.1,<2.0"
+next_templates:
+  - id: GT-004
+    role: baseline-consolidation
+  - id: GT-005
+    role: repository-audit
+dependency_semantics:
+  depends_on_templates:
+    kind: execution-dependency
+    validation: blocking
+  depends_on_capabilities:
+    kind: validation-dependency
+    validation: blocking
+version_resolution:                  # S2
+  rule: "highest Active version satisfying range; SemVer 2.0 precedence"
+  fallback: "Deprecated/Archived eligible only if no Active version qualifies; emit WARN"
+```
+
+### §14 Compatibility Matrix
+
+`v1.0 | governance v1.0 | template_standard v1.3 | capabilities_registry v1.1 | matrix_entry-001 | PASS`.
+
+Includes S2 version-resolution rule and S7 rationale: *"GT-003 requires Capabilities Registry v1.1 because it introduces the first `depends_on` edges (CAP-004 → CAP-001/CAP-002/CAP-003). Registries at v1.0 lack those edges and cannot satisfy VAL-013A."*
+
+## Capabilities Registry v1.0 → v1.1 (Minor)
+
+Single-row edit on `CAP-004`; graph acyclic. Change Control row per S7:
+
+| Version | Change | Governance | Lifecycle |
+|---|---|---|---|
+| v1.1 | Add `depends_on` edges on CAP-004 (→ CAP-001, CAP-002, CAP-003) to support GT-003 Sprint Authoring. GT-003 requires v1.1 because v1.0 lacks these edges and cannot satisfy VAL-013A. | v1.0 | Active |
 
 ## Execution Workflow (this pass)
 
-1. **Preflight** — GT-001 Active (v1.1); Standard at `v1.2`; `docs/15-governance/templates/` absent; GT-002 row `Planned`; `GOVERNANCE_TEMPLATE_CAPABILITIES.md` absent.
-2. **Author Capabilities Registry** at `registry_version: v1.0`: §1 Schema, §2 Relationship Semantics (R24), §3 Registry Rules, §4 Capabilities Table with `CAP-001..CAP-010` and empty relationship columns.
-3. **Amend Standard** `v1.2 → v1.3` (R20 + R21 + R22 + R23 + R24 additions); recompute Standard SHA.
-4. **Author** `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md`; generate `template_uuid`; populate Header.
-5. **Compute** `template_sha256` over §1–14 + §16 (excluding §15 and Example).
-6. **Update** REGISTRY, INDEX, LIFECYCLE (informational note), DOCUMENT_INDEX, _meta.json, REPOSITORY_MAP.
-7. **Template Validation** (13 checks):
-   (a) 16 sections present & in order;
-   (b) Header complete (incl. `template_uuid`, `capabilities`, `governance_specification`, `template_standard`, `compatible_capabilities_registry`);
-   (c) every `capabilities` slug resolves to a `capability_id` at `status: Active`;
-   (d) VAL-001..VAL-014 enumerated;
-   (e) Compatibility Matrix cites Standard v1.3, Governance v1.0, Capabilities Registry v1.0;
-   (f) Audit Metadata verbatim;
-   (g) Example labeled non-retainable, excluded from SHA;
-   (h) Dependency `requires:` ranges parseable under SemVer 2.0; Automation Exit Codes and Execution Manifest present;
-   (i) `governance_specification` and `template_standard` resolve to concrete versions;
-   (j) Standard Versioning Thresholds section present; this pass correctly categorized as Minor;
-   (k) Capabilities registry rows carry unique, monotonic, non-reused `capability_id` values;
-   (l) `depends_on / supersedes / related_to` schema present; all present edges (none in v1.0) resolve; `depends_on ∪ supersedes` graph acyclic;
-   (m) `relationship_semantics` block present with all four axes defined for all three kinds; no `supersedes` edge declared outside a Major registry bump.
-8. **Repository Audit (Spec v1.0)** — evidence rows: Governance Spec v1.0 unchanged; GT-001 body unchanged; Standard bumped `v1.2 → v1.3` additive-only; Capabilities Registry authored at `v1.0` with `CAP-NNN` keys, relationship schema, and formal semantics; GT-002 registered; no module/PRD/baseline touched; historical logs unchanged. Expected: `READY`, Confidence `MEDIUM` (D3 waiver).
-9. **Append** execution record to `.lovable/plan.md`.
+1. **Preflight** — GT-001 Active (v1.1); GT-002 Active (v1.0); Standard v1.3; Capabilities registry v1.0; GT-003 row `Planned`; no `docs/30-sprint-prds/` touched.
+2. **Amend Capabilities Registry** v1.0 → v1.1 (CAP-004 edit + Change Control row with S7 rationale).
+3. **Author** `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md`; generate `template_uuid`; mark §15 with `retainable: false`.
+4. **Compute** `template_sha256` per `sha_scope_rule` (S4) — over all sections not marked `retainable: false` (excludes §15 only).
+5. **Update** REGISTRY, INDEX, LIFECYCLE, DOCUMENT_INDEX, `_meta.json`; **verify** REPOSITORY_MAP per R3.
+6. **Template Validation (Framework, 13 checks)**:
+   (a) 16 sections present & ordered · (b) Header complete incl. `template_uuid`, `capabilities` with `id`+`slug` pairs (S1), spec/standard/registry compat, versioned `depends_on_templates` · (c) every capability `id` resolves to an `Active` registry row and its `slug` matches at the pinned registry range · (d) VAL-001..VAL-012, VAL-013A, VAL-013B, VAL-014 enumerated (15 total) with stable IDs · (e) Compatibility Matrix cites Standard v1.3, Governance v1.0, Capabilities Registry v1.1; version-resolution rule (S2) and S7 rationale present · (f) Audit Metadata block present per R6 · (g) §15 marked `retainable: false`; SHA scope rule (S4) declared and honored · (h) SemVer ranges parseable; exit codes + full Execution Manifest present · (i) `governance_specification` & `template_standard` concrete · (j) No Standard bump attempted · (k) `CAP-004.depends_on` targets resolve to Active rows · (l) `depends_on ∪ supersedes` acyclic · (m) `execution_prerequisites`, `dependency_semantics`, `next_templates`, `version_resolution` present and well-formed.
+7. **Repository Audit (Spec v1.0)** — evidence rows: Governance Spec v1.0 unchanged; GT-001/GT-002 bodies unchanged; Standard v1.3 unchanged; Capabilities Registry v1.0 → v1.1 Minor additive-only with S7 rationale; GT-003 `Active`; no module/sprint/baseline touched; historical logs unchanged; `_meta.json` valid JSON; REPOSITORY_MAP unchanged. Expected: `READY`, Confidence `MEDIUM` (D3 waiver).
+8. **Append** execution record to `.lovable/plan.md`.
 
 ## Verification Summary (target)
 
-| Checklist Items | Passed | Remediated | Failed | Outstanding Risks | Repository Status | Next Pass |
-|---|---|---|---|---|---|---|
-| 13 Template Validation + audit evidence rows | all | 0 | 0 | None | READY | Pass 8.12.2 — GT-003 Sprint Authoring (or begin module execution invoking GT-002) |
+| Checklist Items | Passed | Remediated | Failed | Outstanding Risks | Repository Status | Confidence | Next Pass |
+|---|---|---|---|---|---|---|---|
+| 13 Framework Validation + audit evidence rows | 13 | 0 | 0 | None | READY | MEDIUM (D3 waiver) | Pass 8.12.3 — GT-004 Baseline Consolidation |
+
+Sprint Template Validation (15 checks) is the runtime contract; not executed this pass.
 
 ## Success Criteria
 
-- `GOVERNANCE_TEMPLATE_STANDARD.md` at `v1.3` with Versioning Thresholds, Capabilities citation, Capability Identity, Capability Relationships, and Capability Relationship Semantics rules.
-- `GOVERNANCE_TEMPLATE_CAPABILITIES.md` at `v1.0`, Active, with immutable `CAP-001..CAP-010`, optional relationship schema, and formal `relationship_semantics` block.
-- GT-002 `Active`; every slug resolves to a `capability_id`; relationship graph acyclic; automation contract for relationship enforcement is unambiguous.
-- Registry gains a row for the Capabilities registry; GT-001 body unaffected.
-- Template conforms to Standard v1.3; 16-section structure preserved.
-- Failure Objects carry `exit_code`; unified severity and capability vocabularies in effect via registry authority.
-- No module artifact changed; no prior execution invalidated.
-- Future Stage 1 prompts reduce to: *"Execute GT-002 for MOD-NNN"*.
-
----
-
-## Execution Record — Pass 8.12.1 v10 (2026-07-12)
-
-**Template**: GT-002 Stage 1 Authoring · **UUID**: `6b9c83b6-abbb-45a9-b52e-7f92762e25c6` · **Version**: v1.0 · **Instance**: `GT-002-v1.0-BOOTSTRAP-001`
-
-### Deliverables
-- Created `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` (v1.0, Active).
-- Created `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` (registry v1.0) — `CAP-001..CAP-010`, §2 formal Relationship Semantics (R24), §3 Registry Rules.
-- Amended `docs/15-governance/GOVERNANCE_TEMPLATE_STANDARD.md` `v1.2 → v1.3` (additive: R20, R21, R22, R23, R24).
-- Updated REGISTRY (GT-002 Active + Capabilities registry row), INDEX (Companion Registries), LIFECYCLE (companion note), DOCUMENT_INDEX, `_meta.json` (JSON validated), REPOSITORY_MAP untouched (unchanged tree line already covers `15-governance/`).
-
-### Template Validation (13/13 PASS)
-(a) 16 sections ✓  (b) Header incl. `template_uuid`, `capabilities`, spec/standard/registry compat ✓  (c) all slugs resolve to Active `CAP-NNN` ✓  (d) VAL-001..VAL-014 enumerated ✓  (e) Compatibility Matrix cites Standard v1.3 / Gov v1.0 / Cap Registry v1.0 ✓  (f) Audit Metadata verbatim ✓  (g) Example labeled non-retainable, excluded from SHA ✓  (h) `requires:` SemVer-parseable; exit codes + Execution Manifest present ✓  (i) `governance_specification` & `template_standard` concrete ✓  (j) Versioning Thresholds present; this pass = Minor (Standard) + Bootstrap (Capabilities v1.0) ✓  (k) `CAP-NNN` unique/monotonic/non-reused ✓  (l) relationship schema present; v1.0 declares no edges; `depends_on ∪ supersedes` acyclic (empty) ✓  (m) `relationship_semantics` block declares all four axes for all three kinds; no `supersedes` outside Major bump ✓.
-
-### Repository Audit (Spec v1.0)
-| Check | Evidence | Result |
-|---|---|---|
-| Governance Spec v1.0 unchanged | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` not modified this pass | PASS |
-| GT-001 body unchanged | `docs/15-governance/` GT-001 asset untouched | PASS |
-| Standard bumped v1.2 → v1.3 (additive) | `standard_version: v1.3` frontmatter; rules R20–R24 appended | PASS |
-| Capabilities Registry authored v1.0 | `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` created | PASS |
-| GT-002 Active in Registry | `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` updated | PASS |
-| No module/PRD/Baseline touched | Only `15-governance/`, DOCUMENT_INDEX, _meta.json modified | PASS |
-| Historical logs unchanged | Prior `.lovable/plan.md` records preserved; append-only | PASS |
-| `_meta.json` valid | `python3 -c "json.load(...)"` = OK | PASS |
-
-**Verification Summary**
-
-| Checklist Items | Passed | Remediated | Failed | Outstanding Risks | Repository Status | Confidence | Next Pass |
-|---|---|---|---|---|---|---|---|
-| 13 | 13 | 0 | 0 | None | READY | MEDIUM (D3 waiver — repository revision identifier unavailable) | Pass 8.12.2 — GT-003 Sprint Authoring, or invoke GT-002 for MOD-007 |
-
+- `GT-003_SPRINT_AUTHORING.md` at `v1.0`, `Active`, conforms to Standard v1.3.
+- Framework Validation (13) and Sprint Template Validation (15, per S3) are exposed as distinct surfaces without conflation.
+- `capabilities` block uses canonical `id`+`slug` pairs (S1); every `id` resolves to an `Active` row.
+- SHA scope rule (S4) declared once and honored; §15 is the only non-retainable section in v1.0.
+- `execution_prerequisites` (S5), `version_resolution` (S2), `dependency_semantics` (R7), and `next_templates` (R8) all present in §13.
+- **All `depends_on_templates` resolve to `Active` template versions satisfying declared version constraints** (S6) — verified at authoring and mandated at every future invocation via VAL-013A.
+- Capabilities Registry at `v1.1` with `CAP-004.depends_on = [CAP-001, CAP-002, CAP-003]`; Change Control row carries S7 rationale; graph acyclic.
+- Execution Manifest carries `reads` (R5), abstracted registration surface (R2), and deterministic REPOSITORY_MAP action (R3).
+- GT-001, GT-002, Standard v1.3, Governance Specification v1.0 unchanged.
+- No Sprint PRD, Module PRD, or Baseline authored or modified.
+- Future Stage 2 prompts reduce to: *"Execute GT-003 for SPR-MOD-NNN-XXX"*.
+- Framework roadmap: **GT-004** (Baseline Consolidation) → **GT-005** (Repository Audit).
