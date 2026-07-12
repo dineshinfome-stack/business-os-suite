@@ -28,7 +28,7 @@ document_type: "Module Sprint Guide"
 | SPR-MOD-019-003 | [Storage & Slotting](./SPR-MOD-019-003-storage-slotting.md) | Draft |
 | SPR-MOD-019-004 | [Outbound Execution](./SPR-MOD-019-004-outbound-execution.md) | Draft |
 | SPR-MOD-019-005 | [Yard, Dock & Load-Out](./SPR-MOD-019-005-yard-dock-load-out.md) | Draft |
-| SPR-MOD-019-006 | Warehouse Labor, Equipment & Analytics | Reserved |
+| SPR-MOD-019-006 | [Warehouse Labor, Equipment & Analytics](./SPR-MOD-019-006-warehouse-labor-equipment-analytics.md) | Draft |
 
 ## References
 
