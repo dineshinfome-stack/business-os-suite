@@ -1,289 +1,227 @@
-# Pass 8.11.1 — MOD-006 CRM (Stage 1 — Module PRD & Sprint Plan)
 
-Reconcile the pre-freeze `<Module>` Module PRD to Governance Specification v1.0 and author the `<Module>` Sprint Plan. No Sprint PRDs. No Baseline. No governance amendments.
+# Pass 8.11.1-C v11 — Legacy Reconciliation Corrective Pass Template (Governance Asset v1.1)
 
-> **Reusable template.** This pass is written with `<Module>` and `<MOD-NNN>` placeholders so it can be reused verbatim for MOD-007…MOD-018. For this execution, the placeholders resolve to:
-> - `<MOD-NNN>` = **MOD-006**
-> - `<Module>` = **CRM**
-> - `<module-slug>` = **crm**
+## Objective
 
-## Next Module Resolution (Authoritative)
+Freeze the v10 corrective-pass template as the immutable **Template v1.0**, and publish a strictly additive **Template v1.1** in the same `.lovable/plan.md` document. v1.1 adds automation, traceability, and lifecycle metadata while preserving Governance Specification v1.0 compatibility, backward compatibility, and all previously executed corrective-pass outputs.
 
-Per `docs/MODULE_CATALOG.md` (sole authority for module identity/ordering):
+This pass is **documentation-only**. It does not alter prior verification counts, audit counts, semantic invariants, Repository Status, or Confidence values.
 
-- **Module ID:** MOD-006
-- **Module Name:** CRM
-- **Primary Domain:** Customer
-- **Owner:** Revenue
-- **Current State:**
-  - `docs/20-module-prds/crm/MODULE_PRD.md` — exists (pre-freeze, Status: Authored)
-  - `docs/20-module-prds/crm/README.md` — exists (pre-freeze)
-  - `docs/30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md` — **missing**
-  - No baseline
+## Scope
 
-MOD-006 is the lowest-numbered `Authored` module without a Sprint Plan under Governance Specification v1.0; it is the next Stage 1 target and the **first legacy-module reconciliation** executed under the frozen spec.
+- File touched: `.lovable/plan.md` only.
+- No changes to `docs/**`, catalogs, indexes, or `_meta.json`.
+- Governance Specification v1.0 remains frozen and unmodified.
 
----
+## Versioning Strategy
 
-## Part 0 — Preflight (Read-Only)
+- **v1.0 (Frozen)** — v10 body preserved verbatim as the historical record. Marked `Deprecated for new executions` once v1.1 is Active, but remains valid for historical audit traceability per the Backward Compatibility Rule.
+- **v1.1 (Active)** — Additive-only. All 15 enhancements below. `compatible_governance: v1.0` unchanged. Registered as a new row in the Compatibility Matrix.
+- **MOD-006 CRM Example** — Re-instantiated under v1.1 in Section 11; the v1.0 MOD-006 example remains in the archived v1.0 block untouched.
 
-**Tier A**
-- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
-- `docs/MODULE_CATALOG.md`
-- `docs/10-erp-core/ENGINE_CATALOG.md`
-- `docs/ENGINE_USAGE_MATRIX.md`
-- `docs/11-adrs/ADR_INDEX.md`
-- `docs/02-architecture/event-catalog.md`
-- `docs/SPRINT_AUTHORING_GUIDE.md`
+## v1.1 Additive Enhancements (Applied to Template Body)
 
-**Legacy `<Module>` artifacts (reconciliation source)**
-- `docs/20-module-prds/<module-slug>/MODULE_PRD.md`
-- `docs/20-module-prds/<module-slug>/README.md`
+### E1 — Canonical Template Identity (replaces bare `template_sha256`)
 
-**Structural reference (frozen exemplar)**
-- `docs/20-module-prds/warehouse/MODULE_PRD.md`
-- `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md`
-- `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md`
+```yaml
+template_identity:
+  template_id: LEGACY-RECON-CORRECTIVE
+  template_version: v1.1
+  compatible_governance: v1.0
+  template_sha256: <hash: Sections 1–10, 12–13; exclude this field, Section 11, execution metadata>
+  schema_version: 1
+```
 
-Resolve verbatim from `MODULE_CATALOG.md`: Module ID, Name, Owner, Primary Domain, dependencies.
+### E2 — Canonical Execution Identity (expands Audit Trail entry)
 
----
+```yaml
+execution_identity:
+  execution_instance_id: LEGACY-RECON-CORRECTIVE-v1.1-<MOD-NNN>-<seq>
+  execution_sequence: <n>
+  execution_timestamp_utc: <ISO-8601 Z>
+  execution_environment: <Lovable AI | ...>
+```
 
-## Part A — Module Capability Allocation Gate
+### E3 — Template Integrity Verification (adds Section 8 check #10)
 
-Validate:
+Verify `computed_sha256 == recorded_sha256` over the defined scope. Result ∈ `{PASS, FAIL}`. On FAIL → Section 9 Failure Handling.
 
-1. `<MOD-NNN>` exists in `MODULE_CATALOG.md`.
-2. Ownership resolves deterministically.
-3. No duplicate ownership across catalog.
-4. **Every capability SHALL resolve to exactly one owning module** using `MODULE_CATALOG.md` + authoritative Module PRDs. Any overlapping capability SHALL produce a **documented conflict with repository evidence** (file path + line/quote). Subjective overlap decisions are prohibited.
-5. Engine references match `ENGINE_CATALOG.md` verbatim `ENG-NNN`.
-6. ADR references are `Accepted` per `ADR_INDEX.md`.
-7. Event ownership resolves per `event-catalog.md`.
-8. Cross-module dependencies valid.
+### E4 — Compatibility Validation (adds Section 8 check #11)
 
-Failure → **Repository Status = NOT READY**, STOP, surface in chat.
+Structured row: `template_version | governance_version | matrix_entry | result`. `result = PASS` iff a matching Compatibility Matrix row exists and `governance_version` equals the active Governance Specification version.
 
----
+### E5 — Repository Evidence Classification
 
-## Part B — Reconcile Module PRD (Legacy Reconciliation)
+Split "repository evidence" (Section 5) into three tiers:
+- **Primary** — Module PRD, Sprint Plan, `MODULE_CATALOG.md`, `ENGINE_CATALOG.md`, `ADR_INDEX.md`, `event-catalog.md`.
+- **Secondary** — Prior audit output; prior reconciliation output.
+- **Informational** — READMEs, guides, non-authoritative documentation.
 
-Path: `docs/20-module-prds/<module-slug>/MODULE_PRD.md` (edit in place).
+Evidence rows in Reconciliation/Drift reports SHALL carry a `class` field.
 
-**Reconciliation Rule (deterministic).** The existing `<Module>` PRD SHALL be treated as the **authoritative business-content source**. Only **structural normalization** is permitted:
+### E6 — Standard Finding Classification
 
-- canonical section ordering (17 sections),
-- section headings,
-- frontmatter fields,
-- metadata,
-- traceability blocks,
-- governance alignment (verbatim `ENG-NNN` / `ADR-NNN` / `MOD-NNN` / event names).
+All findings (Reconciliation Report, Drift Report, Audit Evidence) use the schema:
 
-Existing business content SHALL NOT be altered unless required to resolve (a) an Allocation Gate failure, or (b) an authoritative-source conflict. Both cases SHALL be reported in the **`<Module>` Reconciliation Report** and the **Legacy Governance Drift Report**.
+```
+Finding ID | Severity | Evidence | Resolution | Status
+```
 
-**Frontmatter timestamps (generic, reusable).**
-Preserve the legacy document's previous `updated` value into a new `legacy_updated` field; set `updated` to the execution date. Populate `derived_from` where required by the canonical template.
+Severity enum: `INFO | MINOR | MAJOR | CRITICAL`. Status enum: `Open | Resolved | Waived`.
 
-No invented capabilities. No pre-freeze content silently mutated.
+### E7 — Execution Outcome Block (appended after Audit Metadata Note)
 
----
+```
+execution_outcome:
+  template: PASS
+  validation: PASS
+  repository: UNCHANGED
+  documentation: UPDATED
+  verification: UNCHANGED
+  audit: UNCHANGED
+```
 
-## Part C — Author Sprint Plan
+### E8 — Historical Preservation Rule (Section 9 addendum)
 
-Path: `docs/30-sprint-prds/<module-slug>/<MOD-NNN>_SPRINT_PLAN.md`. Canonical Sprint Plan template (as used for MOD-019).
+- Corrective passes SHALL augment historical records.
+- Corrective passes SHALL NOT replace historical records.
+- Corrective passes SHALL preserve chronological audit order.
 
-- Sprint IDs sequential: `SPR-<MOD-NNN>-001` … `SPR-<MOD-NNN>-NNN`.
-- **Capability Allocation Matrix**, **Forward Traceability**, **Reverse Traceability**.
-- **Engine allocation** — every PRD §12 engine assigned to ≥1 sprint.
-- **ADR allocation** — every PRD-referenced ADR assigned.
-- **Event allocation** — every PRD §8 event assigned (originating vs consuming).
-- **Sprint Exit Criteria** — per-sprint deliverables and cross-boundary constraints.
+### E9 — Governance Compliance Statement
 
-**Invariant (strengthened).** Every capability appears **in exactly one originating sprint AND in at least one sprint** — this catches both duplicate ownership and forgotten capabilities.
+```yaml
+governance_compliance:
+  governance_version: v1.0
+  compliance: FULL
+  exceptions:
+    - D3 Repository Revision Waiver
+```
 
----
+### E10 — Machine-Readable Validation Block
 
-## Part D — Governance Registration (Deterministic Change Set)
-
-Modify **at most** the files listed below. If a file requires no metadata change, it SHALL remain unmodified and SHALL NOT appear in the Actual Change Set.
-
-**The Declared Change Set SHALL be finalized immediately after Preflight and SHALL NOT change during execution.**
-
-1. `docs/20-module-prds/<module-slug>/README.md` — refresh to Governance v1.0 shape.
-2. `docs/20-module-prds/<module-slug>/MODULE_PRD.md` — reconciled in Part B.
-3. `docs/30-sprint-prds/<module-slug>/README.md` — add `<MOD-NNN>` sprint plan link + sprint list.
-4. `docs/30-sprint-prds/<module-slug>/<MOD-NNN>_SPRINT_PLAN.md` — created in Part C.
-5. `docs/MODULE_CATALOG.md` — touched **only if** row content changes.
-6. `docs/ENGINE_USAGE_MATRIX.md` — add/refresh `<MOD-NNN>` entries.
-7. `docs/REPOSITORY_MAP.md` — update **only the derived registration metadata** for the reconciled artifacts; structural sections remain immutable.
-8. `docs/DOCUMENT_INDEX.md` — register `<Module>` Module PRD + Sprint Plan entries.
-9. `docs/_meta.json` — SHA-256 change-set entries for actually modified files.
-10. `.lovable/plan.md` — append closing artifacts.
-
-**Actual Change Set MUST equal Declared Change Set** (Verification #11).
-
----
-
-## Part E — Stage 1 Verification (13 checks)
-
-1. Module PRD complete (17 canonical sections, non-stub).
-2. Sprint Plan complete.
-3. Capability Allocation Matrix complete.
-4. Forward Traceability complete.
-5. Reverse Traceability complete.
-6. Engine allocations valid (verbatim `ENG-NNN`, all PRD engines allocated).
-7. ADR allocations valid (Accepted-only, all PRD ADRs allocated).
-8. Event allocations valid (verbatim event names, ownership consistent with catalog).
-9. Ownership preserved — every capability owned exactly once (Allocation Gate #4 satisfied).
-10. **Metadata consistent** — frontmatter ↔ `MODULE_CATALOG.md` ↔ registrations; `legacy_updated` preserved; `derived_from` correctly populated.
-11. **Registration complete AND Actual Change Set = Declared Change Set.**
-12. Repository consistency (no dangling links, no orphan IDs).
-13. No orphan capability (bidirectional PRD↔SprintPlan coverage; each capability in exactly one originating sprint and ≥1 sprint total).
-
-Invariant: `Passed + Remediated + Failed = 13`. Loop until `Failed = 0`.
-
----
-
-## Part F — Repository Audit (Spec v1.0)
-
-Mandatory Read Set: Tier A + reconciled Module PRD + new Sprint Plan.
-
-Dimensions:
-- Authoritative Source Integrity
-- Metadata Consistency
-- Capability Integrity
-- Ownership Integrity
-- Engine Integrity
-- ADR Integrity
-- Event Integrity
-- Repository Consistency
-- Artifact Integrity
-- **Legacy Reconciliation Integrity** — no semantic drift; only structural normalization; every correction justified with an authoritative source.
-
-Emit **Confidence** (`HIGH | MEDIUM | LOW`) and **Repository Status** (`READY` ⇔ Critical = 0 ∧ Major = 0).
-
----
-
-## Closing Artifacts (append to `.lovable/plan.md`)
-
-1. Capability Allocation Report
-2. Verification Metadata
-3. Verification Table
-4. Verification Summary (`Checklist Items | Passed | Remediated | Failed | Outstanding Risks | Repository Status | Next Pass`)
-5. Repository Audit Metadata
-6. Repository Audit Evidence Table
-7. Final Report
-8. **`<Module>` Reconciliation Report** — one row per structural change:
-   `Legacy Section | Canonical Section | Action | Reason | Authoritative Source | Business Content Changed? (Yes/No) | Justification`
-   Nearly every row SHOULD be `No` — this proves structural-only normalization.
-9. **Legacy Governance Drift Report** — one row per legacy element evaluated:
-   `Legacy Element | Canonical Element | Status | Resolution | Authoritative Source`
-   `Status ∈ { UNCHANGED, NORMALIZED, CORRECTED, FLAGGED }`.
-
-Mirror summary in chat.
-
----
-
-## Completion Criteria
-
-- Allocation Gate = PASS
-- Stage 1 Verification = 13/13 Passed
-- Repository Audit = READY
-- Confidence = HIGH (or MEDIUM solely under the D3 environmental waiver)
-- Actual Change Set = Declared Change Set
-- **`<Module>` Reconciliation Report contains zero undocumented semantic changes** (every `Business Content Changed? = Yes` row has an authoritative-source justification and matches a Drift Report `CORRECTED`/`FLAGGED` entry).
-
-On completion, `<MOD-NNN> <Module>` is ready for **Stage 2 Sprint PRD authoring** (`SPR-<MOD-NNN>-001`).
-
-## Architectural Note (informational, non-binding)
-
-This pass **validates the reusable Legacy Module Reconciliation workflow** for MOD-007…MOD-018. The workflow is informative only and does not amend Governance Specification v1.0, which remains frozen.
-
----
-
-## Closing Artifacts — Pass 8.11.1 — MOD-006 CRM
-
-### 1. Capability Allocation Report
-
-| # | Module PRD Capability | Origin Sprint | Result |
-| --- | --- | --- | --- |
-| 1 | Lead capture and qualification | SPR-MOD-006-002 | PASS |
-| 2 | Opportunity pipeline | SPR-MOD-006-003 | PASS |
-| 3 | Account and contact management | SPR-MOD-006-001 | PASS |
-| 4 | Activity, task, and meeting tracking | SPR-MOD-006-004 | PASS |
-| 5 | Campaigns and segmentation | SPR-MOD-006-005 | PASS |
-| 6 | Customer 360 view | SPR-MOD-006-006 | PASS |
-
-**Allocation Gate: PASS** — 6/6 capabilities allocated exactly once; no duplicates; no orphans.
-
-### 2. Verification Metadata
-
-- **Target Artifact:** MOD-006 CRM Stage 1 (Module PRD reconciled + Sprint Plan authored)
-- **Verification Pass:** 8.11.1-V
-- **Verification Date:** 2026-07-12
-- **Verifier:** Lovable Agent (automated)
-- **Authoritative Sources Checked:** `docs/MODULE_CATALOG.md`, `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/11-adrs/ADR_INDEX.md`, `docs/20-module-prds/crm/MODULE_PRD.md`, `docs/30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md`, `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `docs/SPRINT_AUTHORING_GUIDE.md`
-
-### 3. Verification Table
-
-| # | Check | Result | Action |
-| --- | --- | --- | --- |
-| 1 | Module PRD complete (17 canonical sections) | PASS | — |
-| 2 | Sprint Plan complete (canonical template) | PASS | — |
-| 3 | Capability Allocation Matrix complete | PASS | — |
-| 4 | Forward Traceability complete | PASS | — |
-| 5 | Reverse Traceability complete | PASS | — |
-| 6 | Engine allocations valid (verbatim ENG-NNN, Accepted) | PASS | — |
-| 7 | ADR allocations valid (ADR-011, ADR-014, ADR-032 — Accepted) | PASS | — |
-| 8 | Event allocations valid (verbatim; source: Module PRD §8) | PASS | — |
-| 9 | Ownership preserved (Revenue, no duplicate ownership) | PASS | — |
-| 10 | Metadata consistent (frontmatter, `updated`, `legacy_updated`) | PASS | — |
-| 11 | Registration complete (README, DOCUMENT_INDEX, _meta.json) | PASS | — |
-| 12 | Repository consistency (folder layout, cross-refs resolve) | PASS | — |
-| 13 | No orphan capability (every capability ↔ exactly one origin sprint) | PASS | — |
-
-### 4. Verification Summary
-
-- **Checklist Items:** 13
-- **Passed:** 13
-- **Remediated:** 0
-- **Failed:** 0
-- **Outstanding Risks:** None
-- **Repository Status:** READY
-- **Next Pass:** 8.11.2 — SPR-MOD-006-001 Stage 2 Sprint PRD authoring
-
-Invariant: Passed + Remediated + Failed = 13 ✓
-
-### 5. Repository Audit Metadata (Spec v1.0)
-
-- **Audit Pass:** 8.11.1-A
-- **Audit Date:** 2026-07-12
-- **Auditor:** Lovable Agent
-- **Mandatory Read Set:** Tier A + Module PRD + Sprint Plan (all read verbatim)
-
-### 6. Repository Audit Evidence Table
-
-| # | Audit Check | Evidence | Result |
-| --- | --- | --- | --- |
-| 1 | Authoritative Source Integrity | Module PRD §12 engines match `ENGINE_CATALOG.md`; ADRs match `ADR_INDEX.md` (Accepted) | PASS |
-| 2 | Metadata Consistency | Frontmatter includes `module_id: MOD-006`, `owner: Revenue`, `updated: 2026-07-12`, `legacy_updated: 2026-07-05` | PASS |
-| 3 | Capability Integrity | 6 capabilities in PRD §2 = 6 origin allocations in Sprint Plan §4.1 | PASS |
-| 4 | Ownership Integrity | MODULE_CATALOG line 43: "MOD-006 \| CRM \| Authored \| ... \| Revenue" — matches all artifacts | PASS |
-| 5 | Engine Integrity | All ENG-NNN in Sprint Plan §5 are subset of PRD §12 required+optional; all resolve in ENGINE_CATALOG | PASS |
-| 6 | ADR Integrity | ADR-011, ADR-014, ADR-032 all Accepted per ADR_INDEX | PASS |
-| 7 | Event Integrity | `CustomerCreated`, `SalesInvoiceIssued`, `ServiceTicketClosed`, `LeadCreated`, `OpportunityWon/Lost`, `ActivityLogged`, `CampaignSent` — sourced verbatim from PRD §8 (event-catalog.md is stub; D3 waiver) | PASS |
-| 8 | Repository Consistency | Files under authoritative folders per REPOSITORY_MAP; cross-refs resolve | PASS |
-| 9 | Artifact Integrity | Sprint Plan authored, Module PRD reconciled, READMEs updated, DOCUMENT_INDEX + _meta.json updated | PASS |
-
-**Critical: 0 | Major: 0 | Minor: 0**
-
-### 7. Final Report
-
-- **Pass:** 8.11.1 — MOD-006 CRM (Stage 1)
-- **Allocation Gate:** PASS
-- **Stage 1 Verification:** 13/13 Passed
-- **Repository Audit:** READY
-- **Confidence:** MEDIUM (D3 environmental waiver — `event-catalog.md` is a stub; event integrity is validated against the Module PRD as the authoritative source per Normative Source Precedence Tier B)
-- **Legacy Reconciliation:** Module PRD normalized to 17 canonical sections; boilerplate engine reference `ENG-016` removed (not declared in CRM engine consumption). Sprint Plan authored fresh under Governance v1.0.
-
-MOD-006 CRM is **Stage 1 complete** and ready for **Stage 2 Sprint PRD authoring** (`SPR-MOD-006-001` — CRM Foundation).
+```yaml
+validation:
+  placeholders: PASS
+  compatibility: PASS
+  hash: PASS
+  governance: PASS
+  audit_metadata: PASS
+  example: PASS
+```
+
+### E11 — Template Lifecycle
+
+States: `Draft → Active → Deprecated → Archived`.
+
+Rules:
+- Draft: not usable for execution.
+- Active: current authoritative version.
+- Deprecated: valid for historical executions; not for new corrective passes.
+- Archived: read-only.
+
+v1.0 status transitions to `Deprecated` upon v1.1 activation. v1.1 status: `Active`.
+
+### E12 — Governance Asset Metadata
+
+```yaml
+governance_asset:
+  owner: Architecture Office
+  classification: Governance Template
+  lifecycle: Active
+  review_frequency: Annual
+  change_authority: Governance Board
+```
+
+### E13 — Cross-Template Registry (Related Governance Assets)
+
+Non-normative list:
+- Legacy Reconciliation Template (this)
+- Stage 1 Authoring Template
+- Sprint Authoring Template
+- Baseline Consolidation Template
+- Repository Audit Template
+
+### E14 — Automation Compatibility
+
+```yaml
+automation_compatibility:
+  human_review: Supported
+  ai_execution: Supported
+  machine_validation: Supported
+  deterministic_output: Guaranteed
+```
+
+### E15 — Governance Maturity
+
+```yaml
+governance_maturity:
+  level: 5
+  characteristics:
+    - Deterministic
+    - Versioned
+    - Self-validating
+    - Machine-readable
+    - Backward compatible
+    - Fully auditable
+```
+
+## Compatibility Matrix (updated in Section 3)
+
+| Template Version | Governance Version | Status | Notes |
+|---|---|---|---|
+| v1.0 | v1.0 | Deprecated (Active for historical) | Superseded by v1.1 |
+| v1.1 | v1.0 | Active | Additive-only enhancements |
+| v1.x (future additive) | v1.0 | Reserved | Additive only |
+| v2.0 (future) | v2.0 | Required on governance major bump | Breaking |
+
+## Template Validation Checks (Section 8, expanded to 11)
+
+Retain v10 checks 1–9. Add:
+10. **Template Integrity**: computed SHA-256 == recorded SHA-256.
+11. **Compatibility Validation**: structured row PASS.
+
+## Section 11 — Example Instantiation (v1.1, non-retainable)
+
+Re-instantiate MOD-006 CRM under v1.1 schema:
+- `execution_instance_id: LEGACY-RECON-CORRECTIVE-v1.1-MOD006-001`
+- `execution_sequence: 1`
+- Findings re-cast into the E6 Finding schema.
+- Evidence rows classified per E5.
+- Governance Compliance FULL with D3 waiver.
+- Explicit label: **"ILLUSTRATIVE ONLY — regenerate for every target module; do not reuse verbatim."**
+- Excluded from `template_sha256`.
+
+Preserve v10 MOD-006 example verbatim inside the frozen v1.0 archival block.
+
+## Execution Steps
+
+1. In `.lovable/plan.md`, wrap the existing v10 corrective-pass content in a **Template v1.0 (Frozen — Deprecated for new executions)** section; do not modify its content.
+2. Append **Template v1.1 (Active)** section with all 15 additive enhancements applied to Sections 1–13 of the template body.
+3. Compute and record `template_sha256` for v1.1 over Sections 1–10 and 12–13, excluding the hash field, Section 11, and execution metadata.
+4. Update the Compatibility Matrix (v10 Section 3) to reflect v1.0 = Deprecated, v1.1 = Active.
+5. Instantiate MOD-006 CRM example under v1.1 (Section 11), non-retainable.
+6. Execute all 11 Template Validation checks; record results in the E10 machine-readable block.
+7. Append Execution Outcome (E7), Governance Compliance (E9), Automation Compatibility (E14), Governance Maturity (E15), Governance Asset Metadata (E12), and Cross-Template Registry (E13).
+8. Record MOD-006 v1.1 execution in the Template Audit Trail (Section 13) with the E2 Execution Identity fields, `original_reconciliation_pass = 8.11.1`, `corrective_pass_id = 8.11.1-C`.
+9. Confirm Section 10 Audit Metadata Note present verbatim.
+10. Close with the Execution Outcome block confirming `repository: UNCHANGED`, `verification: UNCHANGED`, `audit: UNCHANGED`.
+
+## Non-Goals
+
+- No edits to `docs/**` or governance artifacts.
+- No new verification or audit pass against MOD-006.
+- No amendment to Governance Specification v1.0.
+- No modification of the frozen v1.0 template block.
+
+## Success Criteria
+
+- `.lovable/plan.md` contains both v1.0 (Frozen) and v1.1 (Active) template blocks.
+- All 11 v1.1 Template Validation checks PASS; E10 block records all PASS.
+- v1.1 `template_sha256` recorded with defined exclusion scope.
+- MOD-006 example regenerated under v1.1 schema without retention as reusable content.
+- Template Audit Trail records the v1.1 MOD-006 execution with full E2 Execution Identity.
+- Execution Outcome confirms `repository/verification/audit: UNCHANGED`.
+
+## Failure Criteria
+
+Any Section 8 check FAIL triggers Section 9 Failure Handling: Draft status for v1.1, no commit of v1.1 as Active, no overwrite of v1.0, findings listed under the E6 Finding schema.
