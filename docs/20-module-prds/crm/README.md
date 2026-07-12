@@ -4,12 +4,14 @@ summary: "Leads, opportunities, accounts, contacts, activities, and campaigns su
 layer: "business"
 owner: "Revenue"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-12"
+legacy_updated: "2026-07-05"
 module_id: "MOD-006"
 module: "CRM"
 domain: "Customer"
 tags: ["module", "prd", "readme"]
 document_type: "Module Guide"
+derived_from: "docs/20-module-prds/crm/README.md (pre-freeze, updated 2026-07-05)"
 ---
 
 # MOD-006 — CRM
@@ -92,6 +94,7 @@ Provides to:
 ## Related ADRs
 
 - ADR-011 Multi-Tenant Isolation
+- ADR-014 Audit Strategy
 - ADR-032 RBAC + ABAC
 
 ## Reading Order
@@ -103,6 +106,7 @@ Provides to:
 ## References
 
 - [`MODULE_PRD.md`](./MODULE_PRD.md)
+- [`../../30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md`](../../30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md)
 - `docs/20-module-prds/README.md`
 - `docs/10-erp-core/ENGINE_CATALOG.md`
 - `docs/11-adrs/ADR_INDEX.md`
