@@ -40,6 +40,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Governance Template Index | Cross-cutting | Approved | Derived | `docs/15-governance/GOVERNANCE_TEMPLATE_INDEX.md` |
 | Governance Template Capabilities Registry | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` |
 | GT-002 — Stage 1 Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` |
+| GT-003 — Sprint Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` |
 
 ## Inventory
 
