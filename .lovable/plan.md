@@ -239,3 +239,41 @@ Sprint Template Validation (15 checks) is the runtime contract; not executed thi
 - No Sprint PRD, Module PRD, or Baseline authored or modified.
 - Future Stage 2 prompts reduce to: *"Execute GT-003 for SPR-MOD-NNN-XXX"*.
 - Framework roadmap: **GT-004** (Baseline Consolidation) → **GT-005** (Repository Audit).
+
+---
+
+## Execution Record — Pass 8.12.2 v3 (2026-07-12)
+
+**Template**: GT-003 Sprint Authoring · **UUID**: `2d335f1a-2070-4ed1-95ab-6f56e6e7345e` · **Version**: v1.0 · **Instance**: `GT-003-v1.0-BOOTSTRAP-001`
+
+### Deliverables
+- Created `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` (v1.0, Active) with 16 sections, dual validation surfaces (13 framework + 15 runtime), `id`+`slug` capability refs (S1), version-resolution rule (S2), VAL-013 split into 013A/013B (S3), SHA-scope rule (S4), machine-readable `execution_prerequisites` (S5), and `next_templates` successor set (R8).
+- Amended `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` `v1.0 → v1.1` (Minor): added `depends_on: [CAP-001, CAP-002, CAP-003]` on CAP-004; Change Control row records S7 rationale.
+- Updated `GOVERNANCE_TEMPLATE_REGISTRY.md` (GT-003 Active; Capabilities row → v1.1), `GOVERNANCE_TEMPLATE_INDEX.md` (GT-003 v1.0 Active; Capabilities v1.1), `DOCUMENT_INDEX.md`, `_meta.json` (JSON valid).
+- `GOVERNANCE_TEMPLATE_LIFECYCLE.md` unchanged this pass — existing "Companion Registries" note already covers Capabilities registry lifecycle without version-specific edits.
+- `REPOSITORY_MAP.md` unchanged — existing `15-governance/` tree line covers `templates/`.
+
+### Template Validation — Framework (13/13 PASS)
+(a) 16 sections present & ordered ✓  (b) Header complete incl. `template_uuid`, `capabilities` with `id`+`slug` pairs, spec/standard/registry compat, versioned `depends_on_templates` ✓  (c) every capability `id` resolves to an Active registry row; slugs match ✓  (d) VAL-001..VAL-012, VAL-013A, VAL-013B, VAL-014 enumerated (15 total) ✓  (e) Compatibility Matrix cites Standard v1.3, Governance v1.0, Capabilities Registry v1.1; version-resolution rule (S2) + S7 rationale present ✓  (f) Audit Metadata block present (R6) ✓  (g) §15 marked `retainable: false`; SHA scope rule declared (S4) ✓  (h) SemVer ranges parseable; exit codes + full Execution Manifest (reads/creates/updates/never_modifies/repository_map) present ✓  (i) `governance_specification` v1.0 & `template_standard` v1.3 concrete ✓  (j) No Standard bump attempted ✓  (k) `CAP-004.depends_on` targets (CAP-001/002/003) resolve to Active rows ✓  (l) `depends_on ∪ supersedes` acyclic ✓  (m) `execution_prerequisites`, `dependency_semantics`, `next_templates`, `version_resolution` present and well-formed ✓.
+
+### Repository Audit (Spec v1.0)
+| Check | Evidence | Result |
+|---|---|---|
+| Governance Spec v1.0 unchanged | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` not modified this pass | PASS |
+| GT-001 body unchanged | GT-001 template asset untouched | PASS |
+| GT-002 body unchanged | `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` untouched | PASS |
+| Standard v1.3 unchanged | `GOVERNANCE_TEMPLATE_STANDARD.md` not modified this pass | PASS |
+| Capabilities Registry v1.0 → v1.1 (Minor, additive) | CAP-004 depends_on added; Change Control row appended | PASS |
+| GT-003 Active in Registry | `GOVERNANCE_TEMPLATE_REGISTRY.md` updated | PASS |
+| No module/PRD/Sprint/Baseline touched | Only `15-governance/`, `DOCUMENT_INDEX.md`, `_meta.json` modified | PASS |
+| Historical logs unchanged | Prior `.lovable/plan.md` records preserved; append-only | PASS |
+| `_meta.json` valid | `json.load(...)` = OK | PASS |
+| REPOSITORY_MAP unchanged | verification only; existing tree covers `templates/` | PASS |
+
+**Verification Summary**
+
+| Checklist Items | Passed | Remediated | Failed | Outstanding Risks | Repository Status | Confidence | Next Pass |
+|---|---|---|---|---|---|---|---|
+| 13 Framework Validation + 10 audit evidence rows | 23 | 0 | 0 | None | READY | MEDIUM (D3 waiver — repository revision identifier unavailable) | Pass 8.12.3 — GT-004 Baseline Consolidation |
+
+Sprint Template Validation (15 checks) is the runtime contract; exercised on every future GT-003 invocation, not this pass.
