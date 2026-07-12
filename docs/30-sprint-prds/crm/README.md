@@ -4,7 +4,8 @@ summary: "Sprint PRDs for CRM (MOD-006). Sprint identifiers are prefixed SPR-MOD
 layer: "delivery"
 owner: "Revenue"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-12"
+legacy_updated: "2026-07-05"
 module_id: "MOD-006"
 sprint_prefix: "SPR-MOD-006-"
 tags: ["sprint", "prd", "readme"]
