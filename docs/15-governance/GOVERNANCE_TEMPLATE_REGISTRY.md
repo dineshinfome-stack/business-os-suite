@@ -135,17 +135,21 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 |---|---|
 | Template ID | GT-004 |
 | Template Name | Baseline Consolidation |
-| Current Version | TBD |
-| Status | Planned |
+| Current Version | v1.0 |
+| Status | Active |
 | Compatible Governance Version | v1.0 |
+| Compatible Template Standard | v1.4 |
+| Compatible Capabilities Registry | v1.1 |
 | Owner | Architecture Office |
-| Lifecycle State | Draft (not started) |
-| Template SHA256 | — |
-| First Release | — |
-| Latest Revision | — |
+| Lifecycle State | Active |
+| Template SHA256 | Recorded in template body (`docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md` → §1 `template_sha256`); scope per `sha_scope_rule`: exclude sections marked `retainable: false` (§15 Example). |
+| Template UUID | b856a96c-db7f-4b06-b90b-0bcdbb830ca6 |
+| First Release | v1.0 — Pass 8.12.3 v3 |
+| Latest Revision | v1.0 — Pass 8.12.3 v3 |
 | Superseded By | — |
 | Used By | — |
-| Notes | Stage 3 Module Baseline template, consolidation-only. |
+| Notes | Stage 3 Module Baseline consolidation template. Depends on GT-003 (EDGE-003 Active). 16 validation rules (VAL-001..VAL-016). 12-check template verification (TVAL-001..TVAL-012). Deterministic Author→Validate→Audit→Activate→Register→Record sequence. Result enum: `PASS \| FAIL \| WAIVED`. |
+
 
 ### GT-005 — Repository Audit
 

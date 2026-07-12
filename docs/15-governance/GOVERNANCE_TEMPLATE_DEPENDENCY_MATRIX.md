@@ -8,7 +8,7 @@ updated: "2026-07-12"
 tags: ["governance", "templates", "dependency", "graph"]
 document_type: "Governance Registry"
 asset_id: GOV-DEP-MATRIX
-version: v1.0
+version: v1.0.1
 schema_version: 1
 graph_version: 1
 governance_specification: v1.0
@@ -22,7 +22,7 @@ lifecycle_state: Active
 
 ```yaml
 asset_id: GOV-DEP-MATRIX
-version: v1.0              # document format
+version: v1.0.1            # document format (patch: lifecycle-state transitions only)
 schema_version: 1          # structural schema
 graph_version: 1           # topology
 governance_specification: v1.0
@@ -81,7 +81,7 @@ Each row is backfilled verbatim from the corresponding template's §1 Identity. 
 | GT-001 | v1.1 | Active | v1.0 | v1.3 | — |
 | GT-002 | v1.0 | Active | v1.0 | v1.3 | v1.0 |
 | GT-003 | v1.0 | Active | v1.0 | v1.3 | v1.1 |
-| GT-004 | — | Planned | v1.0 | v1.4 | v1.1 |
+| GT-004 | v1.0 | Active | v1.0 | v1.4 | v1.1 |
 | GT-005 | — | Planned | v1.0 | v1.4 | v1.1 |
 
 Notes:
@@ -96,8 +96,8 @@ Notes:
 |---|---|---|---|---|---|---|
 | EDGE-001 | GT-002 | `depends_on` | GT-001 | `>=1.1,<2.0` | Active | Stage 1 requires legacy reconciliation framework. |
 | EDGE-002 | GT-003 | `depends_on` | GT-002 | `>=1.0,<2.0` | Active | Stage 2 requires Stage 1 outputs. |
-| EDGE-003 | GT-004 | `depends_on` | GT-003 | `>=1.0,<2.0` | Planned | Stage 3 requires Stage 2 sprint set. |
-| EDGE-004 | GT-004 | `successor_of` | GT-003 | — | Planned | Sequencing hint. |
+| EDGE-003 | GT-004 | `depends_on` | GT-003 | `>=1.0,<2.0` | Active | Stage 3 requires Stage 2 sprint set. Activated by Pass 8.12.3. |
+| EDGE-004 | GT-004 | `successor_of` | GT-003 | — | Active | Sequencing hint. Activated by Pass 8.12.3. |
 | EDGE-005 | GT-005 | `depends_on` | GT-001 | `>=1.1,<2.0` | Planned | Audit framework base. |
 | EDGE-006 | GT-005 | `audits` | GT-002 | — | Planned | Repository audit scope. |
 | EDGE-007 | GT-005 | `audits` | GT-003 | — | Planned | Repository audit scope. |
@@ -199,6 +199,7 @@ This rule is promoted to Standard-level in Template Standard v1.4 (previously lo
 | Version | Change Summary | Governance | Standard | Lifecycle |
 |---|---|---|---|---|
 | v1.0 | Initial release. `schema_version: 1`, `graph_version: 1`. Backfills GT-001, GT-002, GT-003 as `Active` nodes; GT-004, GT-005 as `Planned`. Establishes edges EDGE-001..EDGE-008. | v1.0 | v1.4 | Active |
+| v1.0.1 | Patch (SemVer): lifecycle-state transitions only. GT-004 node `Planned → Active` (`current_version: v1.0`); EDGE-003 and EDGE-004 `Planned → Active`. Structural schema unchanged (`schema_version: 1`); graph topology unchanged (`graph_version: 1`). | v1.0 | v1.4 | Active |
 
 ## §16 Audit Metadata
 
@@ -206,3 +207,4 @@ This rule is promoted to Standard-level in Template Standard v1.4 (previously lo
 - **Verification:** Pass 8.12.2-E-V (10-item checklist) + Post-Implementation Repository Audit (Spec v1.0)
 - **Confidence:** MEDIUM — D3 waiver in effect for missing repository revision identifiers (inherited from Pass 8.11.1-C).
 - **Non-retainable content:** none in v1.0. Any future Mermaid diagrams SHALL be marked `retainable: false` and excluded from `asset_sha256`.
+- **Update — Pass 8.12.3 (v1.0.1):** GT-004 activated; EDGE-003 and EDGE-004 transitioned to Active. Matrix invariant honored — no edge introduced, removed, or redirected. `graph_version` and `schema_version` unchanged.

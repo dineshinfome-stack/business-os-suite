@@ -18,7 +18,7 @@ Tabular summary. Authoritative details live in `GOVERNANCE_TEMPLATE_REGISTRY.md`
 | GT-001 | Legacy Reconciliation Corrective | v1.1 | Active |
 | GT-002 | Stage 1 Authoring | v1.0 | Active |
 | GT-003 | Sprint Authoring | v1.0 | Active |
-| GT-004 | Baseline Consolidation | TBD | Planned |
+| GT-004 | Baseline Consolidation | v1.0 | Active |
 | GT-005 | Repository Audit | TBD | Planned |
 
 ### Companion Registries
@@ -26,7 +26,7 @@ Tabular summary. Authoritative details live in `GOVERNANCE_TEMPLATE_REGISTRY.md`
 | Asset | Version | Status |
 |---|---|---|
 | Governance Template Capabilities Registry | v1.1 | Active |
-| Governance Template Dependency Matrix | v1.0 (schema 1 / graph 1) | Active |
+| Governance Template Dependency Matrix | v1.0.1 (schema 1 / graph 1) | Active |
 
 
 ## Legend
