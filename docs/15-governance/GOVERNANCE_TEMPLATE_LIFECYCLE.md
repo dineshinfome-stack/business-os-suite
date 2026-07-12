@@ -68,3 +68,7 @@ template_version | governance_version | matrix_entry | result
 - Corrective and successor passes SHALL augment historical records.
 - Corrective and successor passes SHALL NOT replace historical records.
 - Chronological audit order MUST be preserved across state transitions.
+
+## Companion Registries
+
+The `GOVERNANCE_TEMPLATE_CAPABILITIES.md` registry follows the same lifecycle states and transition rules as templates. It is versioned independently (`registry_version`) and its SemVer thresholds are defined in its own §3 Registry Rules.

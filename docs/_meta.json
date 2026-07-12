@@ -1325,6 +1325,14 @@
         {
           "title": "Governance Template Index",
           "path": "15-governance/GOVERNANCE_TEMPLATE_INDEX"
+        },
+        {
+          "title": "Governance Template Capabilities",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES"
+        },
+        {
+          "title": "GT-002 Stage 1 Authoring",
+          "path": "15-governance/templates/GT-002_STAGE1_AUTHORING"
         }
       ]
     },

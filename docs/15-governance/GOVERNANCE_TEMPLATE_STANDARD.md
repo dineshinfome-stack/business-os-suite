@@ -7,6 +7,8 @@ status: "approved"
 updated: "2026-07-12"
 tags: ["governance", "templates", "standard"]
 document_type: "Governance Standard"
+standard_version: v1.3
+governance_specification: v1.0
 ---
 
 # Governance Template Standard
@@ -36,10 +38,15 @@ Every governance template in `docs/15-governance/` MUST implement the following 
 
 - **SHA-256 scope:** computed over Sections 1–14 and 16. Section 15 (audit metadata) and any example instantiation are excluded.
 - **Additive discipline:** Minor bumps MUST NOT change validation semantics of prior versions or invalidate prior executions.
-- **Governance parenting:** every template MUST cite Governance Specification v1.0 (or its successor) as its normative parent.
+- **Governance parenting:** every template MUST cite Governance Specification v1.0 (or its successor) as its normative parent. Templates SHALL declare `governance_specification` and `template_standard` as independent metadata fields.
 - **Finding schema:** all findings in template outputs use `Finding ID | Severity | Evidence | Resolution | Status`. Severity enum `INFO | MINOR | MAJOR | CRITICAL`; Status enum `Open | Resolved | Waived`.
 - **Determinism:** rerunning a template against identical inputs MUST produce identical output except for execution metadata (instance ID, sequence, timestamp, environment, repository revision when available).
 - **Example instantiations:** MUST be labeled non-retainable and excluded from `template_sha256`.
+- **Versioning Thresholds (R20):** `Patch` — editorial only (typos, formatting). `Minor` — additive rules, new optional fields, new capabilities, or new relationship kinds; backward compatible. `Major` — removal, breaking semantic change to existing rules or existing relationship kinds, or changes that invalidate prior executions.
+- **Canonical Capability Vocabulary (R21):** allowed `capabilities` values are defined exclusively in `GOVERNANCE_TEMPLATE_CAPABILITIES.md`. Templates SHALL NOT introduce free-form capability strings. `slug → capability_id` resolution is authoritative.
+- **Capability Identity (R22):** every capability has an immutable `capability_id` of the form `CAP-NNN`. Templates SHOULD store slugs for human readability; automation MUST resolve to `capability_id` for equality, dependency, and traceability operations. Retired `capability_id` values MUST NOT be reused.
+- **Capability Relationships (R23):** the Capabilities registry MAY declare optional per-row relationship metadata using the fields `depends_on`, `supersedes`, and `related_to`. Targets MUST be existing `capability_id` values. The `depends_on ∪ supersedes` graph MUST be acyclic. Empty relationship fields are valid; existing templates remain conformant when their referenced capabilities carry no edges.
+- **Capability Relationship Semantics (R24):** the operational meaning of each relationship kind is declared once in `GOVERNANCE_TEMPLATE_CAPABILITIES.md → §Relationship Semantics` across four axes: `execution`, `validation`, `traceability`, and `version_scope`. Individual capability rows SHALL NOT override these semantics. `depends_on` is execution-required and validation-blocking (`VAL-014` FAIL, `DEPENDENCY-FAIL`, `exit_code 20`). `supersedes` is non-executing, deprecates its target at commit time, is blocking-on-commit, and is permitted only across Major registry versions. `related_to` is informational only and never blocks. Version-comparison operations SHALL follow Semantic Versioning 2.0 precedence rules.
 
 ## Compliance
 

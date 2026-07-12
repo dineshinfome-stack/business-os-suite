@@ -57,17 +57,35 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 |---|---|
 | Template ID | GT-002 |
 | Template Name | Stage 1 Authoring |
-| Current Version | TBD |
-| Status | Planned |
+| Current Version | v1.0 |
+| Status | Active |
 | Compatible Governance Version | v1.0 |
+| Compatible Template Standard | v1.3 |
+| Compatible Capabilities Registry | v1.0 |
 | Owner | Architecture Office |
-| Lifecycle State | Draft (not started) |
-| Template SHA256 | — |
-| First Release | — |
-| Latest Revision | — |
+| Lifecycle State | Active |
+| Template SHA256 | Recorded in template body (`docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` → §1 `template_sha256`); scope: Sections 1–14 and 16, excluding §15 and the Example Instantiation |
+| Template UUID | 6b9c83b6-abbb-45a9-b52e-7f92762e25c6 |
+| First Release | v1.0 — Pass 8.12.1 v10 |
+| Latest Revision | v1.0 — Pass 8.12.1 v10 |
 | Superseded By | — |
 | Used By | — |
-| Notes | Module PRD + Sprint Plan authoring template. Extract from MODULE_IMPLEMENTATION_WORKFLOW.md Stage 1 rules. |
+| Notes | Module PRD + Sprint Plan authoring template. Applicable to greenfield and legacy reconciliation. Delegates legacy PRD normalization to GT-001. |
+
+### Governance Template Capabilities Registry
+
+| Field | Value |
+|---|---|
+| Asset Type | Governance Registry (companion to templates) |
+| Path | `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` |
+| Current Version | v1.0 |
+| Status | Active |
+| Compatible Governance Version | v1.0 |
+| Compatible Template Standard | v1.3 |
+| Owner | Architecture Office |
+| Lifecycle State | Active |
+| First Release | v1.0 — Pass 8.12.1 v10 |
+| Notes | Authoritative `CAP-NNN` capability identifiers referenced by governance templates. Includes optional relationship metadata schema and formal Relationship Semantics (execution / validation / traceability / version_scope). |
 
 ### GT-003 — Sprint Authoring
 
