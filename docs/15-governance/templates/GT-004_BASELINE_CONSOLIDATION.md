@@ -33,7 +33,7 @@ lifecycle_state: Active
 owner: Architecture Office
 classification: Governance Template
 sha_scope_rule: "exclude sections marked retainable: false"
-template_sha256: sha256:GT-004-v1.0:computed-at-commit
+template_sha256: sha256:7b3407afa5e20159bf91dc22db397fc0f5cb410ed89d2c54234bcccbd91bcdbb
 capabilities:
   - { id: CAP-005, slug: baseline-consolidation }
   - { id: CAP-009, slug: verification }
