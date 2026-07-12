@@ -195,3 +195,37 @@ No structural change. No prior template invalidated. Standard SHA recomputed. Go
 - Failure Objects carry `exit_code`; unified severity and capability vocabularies in effect via registry authority.
 - No module artifact changed; no prior execution invalidated.
 - Future Stage 1 prompts reduce to: *"Execute GT-002 for MOD-NNN"*.
+
+---
+
+## Execution Record — Pass 8.12.1 v10 (2026-07-12)
+
+**Template**: GT-002 Stage 1 Authoring · **UUID**: `6b9c83b6-abbb-45a9-b52e-7f92762e25c6` · **Version**: v1.0 · **Instance**: `GT-002-v1.0-BOOTSTRAP-001`
+
+### Deliverables
+- Created `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` (v1.0, Active).
+- Created `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` (registry v1.0) — `CAP-001..CAP-010`, §2 formal Relationship Semantics (R24), §3 Registry Rules.
+- Amended `docs/15-governance/GOVERNANCE_TEMPLATE_STANDARD.md` `v1.2 → v1.3` (additive: R20, R21, R22, R23, R24).
+- Updated REGISTRY (GT-002 Active + Capabilities registry row), INDEX (Companion Registries), LIFECYCLE (companion note), DOCUMENT_INDEX, `_meta.json` (JSON validated), REPOSITORY_MAP untouched (unchanged tree line already covers `15-governance/`).
+
+### Template Validation (13/13 PASS)
+(a) 16 sections ✓  (b) Header incl. `template_uuid`, `capabilities`, spec/standard/registry compat ✓  (c) all slugs resolve to Active `CAP-NNN` ✓  (d) VAL-001..VAL-014 enumerated ✓  (e) Compatibility Matrix cites Standard v1.3 / Gov v1.0 / Cap Registry v1.0 ✓  (f) Audit Metadata verbatim ✓  (g) Example labeled non-retainable, excluded from SHA ✓  (h) `requires:` SemVer-parseable; exit codes + Execution Manifest present ✓  (i) `governance_specification` & `template_standard` concrete ✓  (j) Versioning Thresholds present; this pass = Minor (Standard) + Bootstrap (Capabilities v1.0) ✓  (k) `CAP-NNN` unique/monotonic/non-reused ✓  (l) relationship schema present; v1.0 declares no edges; `depends_on ∪ supersedes` acyclic (empty) ✓  (m) `relationship_semantics` block declares all four axes for all three kinds; no `supersedes` outside Major bump ✓.
+
+### Repository Audit (Spec v1.0)
+| Check | Evidence | Result |
+|---|---|---|
+| Governance Spec v1.0 unchanged | `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` not modified this pass | PASS |
+| GT-001 body unchanged | `docs/15-governance/` GT-001 asset untouched | PASS |
+| Standard bumped v1.2 → v1.3 (additive) | `standard_version: v1.3` frontmatter; rules R20–R24 appended | PASS |
+| Capabilities Registry authored v1.0 | `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` created | PASS |
+| GT-002 Active in Registry | `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` updated | PASS |
+| No module/PRD/Baseline touched | Only `15-governance/`, DOCUMENT_INDEX, _meta.json modified | PASS |
+| Historical logs unchanged | Prior `.lovable/plan.md` records preserved; append-only | PASS |
+| `_meta.json` valid | `python3 -c "json.load(...)"` = OK | PASS |
+
+**Verification Summary**
+
+| Checklist Items | Passed | Remediated | Failed | Outstanding Risks | Repository Status | Confidence | Next Pass |
+|---|---|---|---|---|---|---|---|
+| 13 | 13 | 0 | 0 | None | READY | MEDIUM (D3 waiver — repository revision identifier unavailable) | Pass 8.12.2 — GT-003 Sprint Authoring, or invoke GT-002 for MOD-007 |
+
