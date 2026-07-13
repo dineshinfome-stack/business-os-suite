@@ -71,6 +71,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-019-005 | Sprint 5 | MOD-019 Warehouse | Draft | [`30-sprint-prds/warehouse/SPR-MOD-019-005-yard-dock-load-out.md`](30-sprint-prds/warehouse/SPR-MOD-019-005-yard-dock-load-out.md) | Operations |
 | SPR-MOD-019-006 | Sprint 6 | MOD-019 Warehouse | Draft | [`30-sprint-prds/warehouse/SPR-MOD-019-006-warehouse-labor-equipment-analytics.md`](30-sprint-prds/warehouse/SPR-MOD-019-006-warehouse-labor-equipment-analytics.md) | Operations |
 | SPR-MOD-006-001 | Sprint 1 | MOD-006 CRM | Draft | [`30-sprint-prds/crm/SPR-MOD-006-001-crm-foundation.md`](30-sprint-prds/crm/SPR-MOD-006-001-crm-foundation.md) | Revenue |
+| SPR-MOD-006-002 | Sprint 2 | MOD-006 CRM | Draft | [`30-sprint-prds/crm/SPR-MOD-006-002-leads.md`](30-sprint-prds/crm/SPR-MOD-006-002-leads.md) | Revenue |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
