@@ -37,7 +37,7 @@ The authoritative Stage 1 Sprint Plan for MOD-006 is [`MOD-006_SPRINT_PLAN.md`](
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-006-001 | Sprint 1 | CRM Foundation (accounts, contacts, CRM configuration) | Planned | `MOD001_PLATFORM_BASELINE_v1` |
+| SPR-MOD-006-001 | Sprint 1 | CRM Foundation (accounts, contacts, CRM configuration) | Authored (Draft) — [`SPR-MOD-006-001-crm-foundation.md`](./SPR-MOD-006-001-crm-foundation.md) | `MOD001_PLATFORM_BASELINE_v1` |
 | SPR-MOD-006-002 | Sprint 2 | Leads (capture, qualification, conversion) | Planned | SPR-MOD-006-001 |
 | SPR-MOD-006-003 | Sprint 3 | Opportunities (pipeline, win/loss) | Planned | SPR-MOD-006-001, SPR-MOD-006-002 |
 | SPR-MOD-006-004 | Sprint 4 | Activities (activity, task, meeting tracking) | Planned | SPR-MOD-006-001 |
