@@ -72,3 +72,11 @@ template_version | governance_version | matrix_entry | result
 ## Companion Registries
 
 The `GOVERNANCE_TEMPLATE_CAPABILITIES.md` registry follows the same lifecycle states and transition rules as templates. It is versioned independently (`registry_version`) and its SemVer thresholds are defined in its own §3 Registry Rules.
+
+## Framework Freeze Record
+
+| Pass | Transition | Effective |
+|---|---|---|
+| 8.12.5 | Governance Framework: **Development → Released** (v1.0) | 2026-07-13 |
+
+Post-freeze evolution is governed by §5 of [`GOVERNANCE_FRAMEWORK_RELEASE_v1.0.md`](./GOVERNANCE_FRAMEWORK_RELEASE_v1.0.md). Frozen assets SHALL NOT change except through a superseding Governance Framework Release.
