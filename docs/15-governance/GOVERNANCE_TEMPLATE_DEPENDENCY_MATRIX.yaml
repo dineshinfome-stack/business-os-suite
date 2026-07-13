@@ -4,7 +4,7 @@
 # YAML derivation constraint: no fields absent from the markdown source.
 
 asset_id: GOV-DEP-MATRIX
-version: v1.0.1
+version: v1.0.2
 schema_version: 1
 graph_version: 1
 governance_specification: v1.0
@@ -78,8 +78,8 @@ nodes:
     compatible_template_standard: v1.4
     compatible_capabilities_registry: v1.1
   - template_id: GT-005
-    current_version: null
-    lifecycle_state: Planned
+    current_version: v1.0
+    lifecycle_state: Active
     compatible_governance: v1.0
     compatible_template_standard: v1.4
     compatible_capabilities_registry: v1.1
@@ -114,25 +114,25 @@ edges:
     relationship: depends_on
     target: GT-001
     constraint: ">=1.1,<2.0"
-    status: Planned
+    status: Active
   - edge_id: EDGE-006
     source: GT-005
     relationship: audits
     target: GT-002
     constraint: null
-    status: Planned
+    status: Active
   - edge_id: EDGE-007
     source: GT-005
     relationship: audits
     target: GT-003
     constraint: null
-    status: Planned
+    status: Active
   - edge_id: EDGE-008
     source: GT-005
     relationship: audits
     target: GT-004
     constraint: null
-    status: Planned
+    status: Active
 
 successor_templates:
   GT-003: [GT-004]

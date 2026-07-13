@@ -8,7 +8,7 @@ updated: "2026-07-12"
 tags: ["governance", "templates", "dependency", "graph"]
 document_type: "Governance Registry"
 asset_id: GOV-DEP-MATRIX
-version: v1.0.1
+version: v1.0.2
 schema_version: 1
 graph_version: 1
 governance_specification: v1.0
@@ -22,14 +22,14 @@ lifecycle_state: Active
 
 ```yaml
 asset_id: GOV-DEP-MATRIX
-version: v1.0.1            # document format (patch: lifecycle-state transitions only)
+version: v1.0.2            # document format (patch: lifecycle-state transitions only)
 schema_version: 1          # structural schema
 graph_version: 1           # topology
 governance_specification: v1.0
 template_standard: v1.4
 lifecycle_state: Active
 sha_scope_rule: "exclude sections marked retainable: false"
-asset_sha256: sha256:cdbccbd841cdf0b7412289dde2ab10f283e5680d2569617ede5ddc27ad2f8806
+asset_sha256: sha256:1a012b000227c8c95222c12a50ec2812455a92de1c34f3dab4b37e90fc8ed64d
 ```
 
 Three independent version axes evolve independently:
@@ -82,7 +82,7 @@ Each row is backfilled verbatim from the corresponding template's §1 Identity. 
 | GT-002 | v1.0 | Active | v1.0 | v1.3 | v1.0 |
 | GT-003 | v1.0 | Active | v1.0 | v1.3 | v1.1 |
 | GT-004 | v1.0 | Active | v1.0 | v1.4 | v1.1 |
-| GT-005 | — | Planned | v1.0 | v1.4 | v1.1 |
+| GT-005 | v1.0 | Active | v1.0 | v1.4 | v1.1 |
 
 Notes:
 - GT-001 predates the Capabilities Registry; `compatible_capabilities_registry` is `—`.
@@ -98,10 +98,10 @@ Notes:
 | EDGE-002 | GT-003 | `depends_on` | GT-002 | `>=1.0,<2.0` | Active | Stage 2 requires Stage 1 outputs. |
 | EDGE-003 | GT-004 | `depends_on` | GT-003 | `>=1.0,<2.0` | Active | Stage 3 requires Stage 2 sprint set. Activated by Pass 8.12.3. |
 | EDGE-004 | GT-004 | `successor_of` | GT-003 | — | Active | Sequencing hint. Activated by Pass 8.12.3. |
-| EDGE-005 | GT-005 | `depends_on` | GT-001 | `>=1.1,<2.0` | Planned | Audit framework base. |
-| EDGE-006 | GT-005 | `audits` | GT-002 | — | Planned | Repository audit scope. |
-| EDGE-007 | GT-005 | `audits` | GT-003 | — | Planned | Repository audit scope. |
-| EDGE-008 | GT-005 | `audits` | GT-004 | — | Planned | Repository audit scope. |
+| EDGE-005 | GT-005 | `depends_on` | GT-001 | `>=1.1,<2.0` | Active | Audit framework base. Activated by Pass 8.12.4. |
+| EDGE-006 | GT-005 | `audits` | GT-002 | — | Active | Repository audit scope. Activated by Pass 8.12.4. |
+| EDGE-007 | GT-005 | `audits` | GT-003 | — | Active | Repository audit scope. Activated by Pass 8.12.4. |
+| EDGE-008 | GT-005 | `audits` | GT-004 | — | Active | Repository audit scope. Activated by Pass 8.12.4. |
 
 ## §7 Planned Node Semantics
 
@@ -200,6 +200,7 @@ This rule is promoted to Standard-level in Template Standard v1.4 (previously lo
 |---|---|---|---|---|
 | v1.0 | Initial release. `schema_version: 1`, `graph_version: 1`. Backfills GT-001, GT-002, GT-003 as `Active` nodes; GT-004, GT-005 as `Planned`. Establishes edges EDGE-001..EDGE-008. | v1.0 | v1.4 | Active |
 | v1.0.1 | Patch (SemVer): lifecycle-state transitions only. GT-004 node `Planned → Active` (`current_version: v1.0`); EDGE-003 and EDGE-004 `Planned → Active`. Structural schema unchanged (`schema_version: 1`); graph topology unchanged (`graph_version: 1`). | v1.0 | v1.4 | Active |
+| v1.0.2 | Patch (SemVer): lifecycle-state transitions only. GT-005 node `Planned → Active` (`current_version: v1.0`); EDGE-005, EDGE-006, EDGE-007, EDGE-008 `Planned → Active`. Structural schema unchanged (`schema_version: 1`); graph topology unchanged (`graph_version: 1`). | v1.0 | v1.4 | Active |
 
 ## §16 Audit Metadata
 
@@ -208,3 +209,4 @@ This rule is promoted to Standard-level in Template Standard v1.4 (previously lo
 - **Confidence:** MEDIUM — D3 waiver in effect for missing repository revision identifiers (inherited from Pass 8.11.1-C).
 - **Non-retainable content:** none in v1.0. Any future Mermaid diagrams SHALL be marked `retainable: false` and excluded from `asset_sha256`.
 - **Update — Pass 8.12.3 (v1.0.1):** GT-004 activated; EDGE-003 and EDGE-004 transitioned to Active. Matrix invariant honored — no edge introduced, removed, or redirected. `graph_version` and `schema_version` unchanged.
+- **Update — Pass 8.12.4 (v1.0.2):** GT-005 activated; EDGE-005, EDGE-006, EDGE-007, EDGE-008 transitioned to Active. Matrix invariant honored — no edge introduced, removed, or redirected. `graph_version` and `schema_version` unchanged. Terminal governance template activation prior to Pass 8.12.5 Framework Freeze.

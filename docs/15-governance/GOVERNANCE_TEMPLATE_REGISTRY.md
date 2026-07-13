@@ -96,7 +96,7 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 | Asset ID | GOV-DEP-MATRIX |
 | Path | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` |
 | YAML Export | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` (generated one-way per R27) |
-| Current Version | v1.0 |
+| Current Version | v1.0.2 |
 | Schema Version | 1 |
 | Graph Version | 1 |
 | Status | Active |
@@ -105,8 +105,8 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 | Owner | Architecture Office |
 | Lifecycle State | Active |
 | First Release | v1.0 — Pass 8.12.2-E v3.1 |
-| Latest Revision | v1.0 — Pass 8.12.2-E v3.1 |
-| Notes | Authoritative graph of inter-template relationships. Establishes generic edge model (source/relationship/target/constraint), stable `EDGE-NNN` identifiers, formal Relationship Registry (§4), validation rules MVAL-001..MVAL-012, waiver schema (§12), and Planned-node semantics (§7). Root: GT-001. |
+| Latest Revision | v1.0.2 — Pass 8.12.4 (GT-005 + EDGE-005..008 activated) |
+| Notes | Authoritative graph of inter-template relationships. Establishes generic edge model (source/relationship/target/constraint), stable `EDGE-NNN` identifiers, formal Relationship Registry (§4), validation rules MVAL-001..MVAL-012, waiver schema (§12), and Planned-node semantics (§7). Root: GT-001. v1.0.2 patch: GT-005 node and EDGE-005..008 transitioned Planned → Active; `graph_version` and `schema_version` unchanged. |
 
 ### GT-003 — Sprint Authoring
 
@@ -157,14 +157,17 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 |---|---|
 | Template ID | GT-005 |
 | Template Name | Repository Audit |
-| Current Version | TBD |
-| Status | Planned |
+| Current Version | v1.0 |
+| Status | Active |
 | Compatible Governance Version | v1.0 |
+| Compatible Template Standard | v1.4 |
+| Compatible Capabilities Registry | v1.1 |
 | Owner | Architecture Office |
-| Lifecycle State | Draft (not started) |
-| Template SHA256 | — |
-| First Release | — |
-| Latest Revision | — |
+| Lifecycle State | Active |
+| Template SHA256 | Recorded in template body (`docs/15-governance/templates/GT-005_REPOSITORY_AUDIT.md` → §1 `template_sha256`); scope per `sha_scope_rule`: exclude sections marked `retainable: false` (§15 Example). |
+| Template UUID | 5b8a1a11-4a31-4231-8b07-f78a52d9a71a |
+| First Release | v1.0 — Pass 8.12.4 v3 |
+| Latest Revision | v1.0 — Pass 8.12.4 v3 |
 | Superseded By | — |
 | Used By | — |
-| Notes | Extract from Repository Audit Spec v1.0 in MODULE_IMPLEMENTATION_WORKFLOW.md. |
+| Notes | Terminal governance template. Repository-wide governance audit contract. 18 validation rules (VAL-001..VAL-018). 14-check template verification (TVAL-001..TVAL-014). Depends on GT-001..GT-004 (EDGE-005..008 Active). R2 filename convention, R3 audit_report_schema, R4 repository_snapshot, R7 audit_summary, R8 audit_scope, R9 report_sha256, R10 frozen audit_profiles vocabulary. Result enum: `PASS \| FAIL \| WAIVED`. |
