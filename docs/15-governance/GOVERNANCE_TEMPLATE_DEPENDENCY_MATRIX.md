@@ -29,7 +29,7 @@ governance_specification: v1.0
 template_standard: v1.4
 lifecycle_state: Active
 sha_scope_rule: "exclude sections marked retainable: false"
-asset_sha256: sha256:<computed-at-commit>
+asset_sha256: sha256:1a012b000227c8c95222c12a50ec2812455a92de1c34f3dab4b37e90fc8ed64d
 ```
 
 Three independent version axes evolve independently:

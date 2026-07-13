@@ -33,7 +33,7 @@ lifecycle_state: Active
 owner: Architecture Office
 classification: Governance Template
 sha_scope_rule: "exclude sections marked retainable: false"
-template_sha256: sha256:<computed-at-commit>
+template_sha256: sha256:1cd331fc4491807829d709dcb4951da3dee1eaa77b64088782a574ff5be5eb13
 capabilities:
   - { id: CAP-008, slug: repository-audit }
   - { id: CAP-009, slug: verification }
