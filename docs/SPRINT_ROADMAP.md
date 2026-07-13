@@ -34,7 +34,7 @@ Estimated sprint counts reflect the initial planning baseline. They will be refi
 | Pass 8.4 | Inventory | MOD-005 | 6 | P0 | MOD-001, MOD-002, MOD-004 |
 | Pass 8.5 | Sales | MOD-003 | 6 | P0 | MOD-001, MOD-002, MOD-005 |
 | Pass 8.5 | CRM | MOD-006 | 5 | P1 | MOD-001, MOD-003 |
-| Pass 8.6 | HRMS | MOD-007 | 5 | P1 | MOD-001 |
+| Pass 8.6 | HRMS | MOD-007 | 6 | P1 | MOD-001 |
 | Pass 8.6 | Payroll | MOD-008 | 4 | P1 | MOD-001, MOD-002, MOD-007 |
 | Pass 8.7 | Manufacturing | MOD-009 | 6 | P1 | MOD-001, MOD-004, MOD-005 |
 | Pass 8.7 | Projects | MOD-010 | 5 | P1 | MOD-001, MOD-002, MOD-003 |

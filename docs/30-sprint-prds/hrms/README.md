@@ -4,9 +4,10 @@ summary: "Sprint PRDs for HRMS (MOD-007). Sprint identifiers are prefixed SPR-MO
 layer: "delivery"
 owner: "People"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-13"
 module_id: "MOD-007"
 sprint_prefix: "SPR-MOD-007-"
+sprint_plan: "MOD-007_SPRINT_PLAN.md"
 tags: ["sprint", "prd", "readme"]
 document_type: "Sprint Module Guide"
 ---
@@ -26,19 +27,20 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-007-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-007-001`, `SPR-MOD-007-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Sprint Reservations
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+> Reservations below correspond to the approved [MOD-007 Sprint Plan (Stage 1)](./MOD-007_SPRINT_PLAN.md). Each row is a **planning reservation** — the identifier is reserved for later Stage 2 authoring but is **not** an authored Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-007-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-007)_ | Planned | _(to be defined)_ |
-| SPR-MOD-007-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-007)_ | Planned | _(to be defined)_ |
-| SPR-MOD-007-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-007)_ | Planned | _(to be defined)_ |
-| SPR-MOD-007-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-007)_ | Planned | _(to be defined)_ |
-| SPR-MOD-007-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-007)_ | Planned | _(to be defined)_ |
+| SPR-MOD-007-001 | Sprint 1 | HRMS Foundation & Employee Master | Reserved | `MOD001_PLATFORM_BASELINE_v1` |
+| SPR-MOD-007-002 | Sprint 2 | Employment Lifecycle (Hire & Exit) | Reserved | SPR-MOD-007-001 |
+| SPR-MOD-007-003 | Sprint 3 | Attendance & Leave | Reserved | SPR-MOD-007-001 |
+| SPR-MOD-007-004 | Sprint 4 | Performance & Appraisal | Reserved | SPR-MOD-007-001 |
+| SPR-MOD-007-005 | Sprint 5 | Learning & Development and Self-Service | Reserved | SPR-MOD-007-001, SPR-MOD-007-003 |
+| SPR-MOD-007-006 | Sprint 6 | HR Analytics & Compliance | Reserved | SPR-MOD-007-001 … SPR-MOD-007-005 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is reconciled to **6** by the MOD-007 Sprint Plan (up from the prior `5`).
 
 ## Authoring Rules
 

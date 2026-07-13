@@ -1082,6 +1082,10 @@
           "path": "30-sprint-prds/hrms/README"
         },
         {
+          "title": "MOD-007 HRMS — Sprint Plan (Stage 1)",
+          "path": "30-sprint-prds/hrms/MOD-007_SPRINT_PLAN"
+        },
+        {
           "title": "MOD-008 Payroll",
           "path": "30-sprint-prds/payroll/README"
         },

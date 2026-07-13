@@ -4,18 +4,24 @@ summary: "Authoritative business specification for the HRMS bounded context. Con
 layer: "business"
 owner: "People"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-13"
+legacy_updated: "2026-07-05"
 module_id: "MOD-007"
 module: "HRMS"
 domain: "People"
 bounded_context: "Human Capital"
+governance_specification: "v1.0"
+template_standard: "v1.3"
+lifecycle_state: "Active"
+sprint_authority: "docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md"
 depends_on: ["docs/canon.md", "docs/10-erp-core/ENGINE_CATALOG.md", "docs/11-adrs/ADR_INDEX.md", "docs/02-architecture/quality-attributes.md"]
 related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-007", "ENG-008", "ENG-010", "ENG-011", "ENG-013", "ENG-021", "ENG-024", "ENG-025", "ENG-012", "ENG-014", "ENG-020", "ENG-022", "ENG-026", "ENG-027"]
 related_adrs: ["ADR-011", "ADR-032", "ADR-014"]
-related_modules: ["MOD-001", "MOD-008", "MOD-010", "MOD-012", "MOD-017"]
+related_modules: ["MOD-001", "MOD-002", "MOD-008", "MOD-010", "MOD-012", "MOD-017"]
 referenced_by: []
 tags: ["module", "prd"]
 document_type: "Module PRD"
+derived_from: "docs/20-module-prds/hrms/MODULE_PRD.md (pre-freeze, updated 2026-07-05)"
 ---
 
 # MOD-007 — HRMS Module PRD
@@ -74,6 +80,13 @@ document_type: "Module PRD"
 
 - Primary owner: **People**.
 - Governance: Product + Architecture review per `docs/DOCUMENT_OWNERSHIP_MATRIX.md`.
+
+**Governance Boundaries (out-of-scope).**
+
+- **Payroll processing, earnings/deductions, pay runs, statutory filings, and payslip issuance** are owned by **MOD-008 Payroll**. HRMS supplies employee master, org assignments, attendance/leave signals, and lifecycle events; it does not compute pay or post payroll journals.
+- **Financial postings** for HR-originating obligations (e.g. leave encashment, exit settlements) are the exclusive authority of **MOD-002 Accounting** via the Voucher Engine (`ENG-015`) and Posting Engine (`ENG-016`). HRMS emits events and never writes journal entries directly.
+- **Identity, authentication, roles, and permissions** remain owned by **MOD-001 Platform Administration** via `ENG-001`, `ENG-002`, `ENG-003`. HRMS consumes identity for the employee record; it does not mint credentials or grant application permissions.
+- **Document generation and file storage** for HR letters, contracts, and attachments are delegated to `ENG-007` and `ENG-009`. HRMS defines the business content and lifecycle; it does not implement rendering or storage primitives.
 
 ## 3. Personas
 
