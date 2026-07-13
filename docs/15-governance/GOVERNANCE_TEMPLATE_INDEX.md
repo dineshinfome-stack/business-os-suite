@@ -19,14 +19,14 @@ Tabular summary. Authoritative details live in `GOVERNANCE_TEMPLATE_REGISTRY.md`
 | GT-002 | Stage 1 Authoring | v1.0 | Active |
 | GT-003 | Sprint Authoring | v1.0 | Active |
 | GT-004 | Baseline Consolidation | v1.0 | Active |
-| GT-005 | Repository Audit | TBD | Planned |
+| GT-005 | Repository Audit | v1.0 | Active |
 
 ### Companion Registries
 
 | Asset | Version | Status |
 |---|---|---|
 | Governance Template Capabilities Registry | v1.1 | Active |
-| Governance Template Dependency Matrix | v1.0.1 (schema 1 / graph 1) | Active |
+| Governance Template Dependency Matrix | v1.0.2 (schema 1 / graph 1) | Active |
 
 
 ## Legend
