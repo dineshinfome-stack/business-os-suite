@@ -81,6 +81,13 @@ derived_from: "docs/20-module-prds/hrms/MODULE_PRD.md (pre-freeze, updated 2026-
 - Primary owner: **People**.
 - Governance: Product + Architecture review per `docs/DOCUMENT_OWNERSHIP_MATRIX.md`.
 
+**Governance Boundaries (out-of-scope).**
+
+- **Payroll processing, earnings/deductions, pay runs, statutory filings, and payslip issuance** are owned by **MOD-008 Payroll**. HRMS supplies employee master, org assignments, attendance/leave signals, and lifecycle events; it does not compute pay or post payroll journals.
+- **Financial postings** for HR-originating obligations (e.g. leave encashment, exit settlements) are the exclusive authority of **MOD-002 Accounting** via the Voucher Engine (`ENG-015`) and Posting Engine (`ENG-016`). HRMS emits events and never writes journal entries directly.
+- **Identity, authentication, roles, and permissions** remain owned by **MOD-001 Platform Administration** via `ENG-001`, `ENG-002`, `ENG-003`. HRMS consumes identity for the employee record; it does not mint credentials or grant application permissions.
+- **Document generation and file storage** for HR letters, contracts, and attachments are delegated to `ENG-007` and `ENG-009`. HRMS defines the business content and lifecycle; it does not implement rendering or storage primitives.
+
 ## 3. Personas
 
 **Primary Users.**
