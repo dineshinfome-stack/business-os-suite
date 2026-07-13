@@ -28,6 +28,12 @@ Tabular summary. Authoritative details live in `GOVERNANCE_TEMPLATE_REGISTRY.md`
 | Governance Template Capabilities Registry | v1.1 | Active |
 | Governance Template Dependency Matrix | v1.0.2 (schema 1 / graph 1) | Active |
 
+### Framework Release
+
+| Release | Version | Status | Pass |
+|---|---|---|---|
+| Governance Framework Release | v1.0 | Released | 8.12.5 |
+
 
 ## Legend
 

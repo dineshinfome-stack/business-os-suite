@@ -1349,6 +1349,18 @@
         {
           "title": "GT-005 Repository Audit",
           "path": "15-governance/templates/GT-005_REPOSITORY_AUDIT"
+        },
+        {
+          "title": "Governance Framework Release v1.0",
+          "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_v1.0"
+        },
+        {
+          "title": "Governance Framework Release Notes v1.0",
+          "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0"
+        },
+        {
+          "title": "Governance Framework Manifest (JSON)",
+          "path": "15-governance/GOVERNANCE_FRAMEWORK_MANIFEST"
         }
       ]
     },

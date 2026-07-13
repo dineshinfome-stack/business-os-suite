@@ -13,6 +13,22 @@ document_type: "Governance Registry"
 
 Authoritative per-template record. One entry per template. Fields are verbatim across all records.
 
+## Framework Status
+
+| Field | Value |
+|---|---|
+| Framework | Governance Framework |
+| Version | v1.0 |
+| Lifecycle | **Released** |
+| Release Pass | 8.12.5 |
+| Release Date | 2026-07-13 |
+| Release Manifest | [`GOVERNANCE_FRAMEWORK_RELEASE_v1.0.md`](./GOVERNANCE_FRAMEWORK_RELEASE_v1.0.md) |
+| Release Notes | [`GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0.md`](./GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0.md) |
+| Checksum Manifest | [`GOVERNANCE_FRAMEWORK_MANIFEST.json`](./GOVERNANCE_FRAMEWORK_MANIFEST.json) |
+| Framework Status Transition | Development → Released (Pass 8.12.5) |
+
+Assets included in Release v1.0 are frozen per §4 of the Release Manifest. Changes require a new Governance Framework Release (Major or Minor) per §5.
+
 ## Record Schema
 
 | Field | Description |

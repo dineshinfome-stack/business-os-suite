@@ -45,6 +45,9 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | GT-003 — Sprint Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` |
 | GT-004 — Baseline Consolidation Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md` |
 | GT-005 — Repository Audit Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-005_REPOSITORY_AUDIT.md` |
+| Governance Framework Release v1.0 | Cross-cutting | Released | Authoritative | `docs/15-governance/GOVERNANCE_FRAMEWORK_RELEASE_v1.0.md` |
+| Governance Framework Release Notes v1.0 | Cross-cutting | Released | Authoritative | `docs/15-governance/GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0.md` |
+| Governance Framework Manifest (JSON) | Cross-cutting | Released | Authoritative | `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json` |
 
 ## Inventory
 
