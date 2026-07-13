@@ -4,9 +4,10 @@ summary: "Sprint PRDs for HRMS (MOD-007). Sprint identifiers are prefixed SPR-MO
 layer: "delivery"
 owner: "People"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-13"
 module_id: "MOD-007"
 sprint_prefix: "SPR-MOD-007-"
+sprint_plan: "MOD-007_SPRINT_PLAN.md"
 tags: ["sprint", "prd", "readme"]
 document_type: "Sprint Module Guide"
 ---
