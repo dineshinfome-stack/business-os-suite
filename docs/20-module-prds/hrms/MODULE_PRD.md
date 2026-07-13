@@ -4,18 +4,24 @@ summary: "Authoritative business specification for the HRMS bounded context. Con
 layer: "business"
 owner: "People"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-13"
+legacy_updated: "2026-07-05"
 module_id: "MOD-007"
 module: "HRMS"
 domain: "People"
 bounded_context: "Human Capital"
+governance_specification: "v1.0"
+template_standard: "v1.3"
+lifecycle_state: "Active"
+sprint_authority: "docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md"
 depends_on: ["docs/canon.md", "docs/10-erp-core/ENGINE_CATALOG.md", "docs/11-adrs/ADR_INDEX.md", "docs/02-architecture/quality-attributes.md"]
 related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-007", "ENG-008", "ENG-010", "ENG-011", "ENG-013", "ENG-021", "ENG-024", "ENG-025", "ENG-012", "ENG-014", "ENG-020", "ENG-022", "ENG-026", "ENG-027"]
 related_adrs: ["ADR-011", "ADR-032", "ADR-014"]
-related_modules: ["MOD-001", "MOD-008", "MOD-010", "MOD-012", "MOD-017"]
+related_modules: ["MOD-001", "MOD-002", "MOD-008", "MOD-010", "MOD-012", "MOD-017"]
 referenced_by: []
 tags: ["module", "prd"]
 document_type: "Module PRD"
+derived_from: "docs/20-module-prds/hrms/MODULE_PRD.md (pre-freeze, updated 2026-07-05)"
 ---
 
 # MOD-007 — HRMS Module PRD
