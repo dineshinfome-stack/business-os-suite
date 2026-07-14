@@ -321,6 +321,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-006-002 — Leads | Delivery | Draft | Authoritative | `docs/30-sprint-prds/crm/SPR-MOD-006-002-leads.md` |
 | SPR-MOD-006-003 — Opportunities | Delivery | Draft | Authoritative | `docs/30-sprint-prds/crm/SPR-MOD-006-003-opportunities.md` |
 | SPR-MOD-006-004 — Activities & Communications | Delivery | Draft | Authoritative | `docs/30-sprint-prds/crm/SPR-MOD-006-004-activities-communications.md` |
+| SPR-MOD-006-005 — Campaigns | Delivery | Draft | Authoritative | `docs/30-sprint-prds/crm/SPR-MOD-006-005-campaigns.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
