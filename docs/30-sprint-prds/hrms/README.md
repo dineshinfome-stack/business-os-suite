@@ -33,7 +33,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-007-NNN`**, where `NNN`
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-007-001 | Sprint 1 | HRMS Foundation & Employee Master | Reserved | `MOD001_PLATFORM_BASELINE_v1` |
+| [SPR-MOD-007-001](./SPR-MOD-007-001-hrms-foundation-employee-master.md) | Sprint 1 | HRMS Foundation & Employee Master | Draft | `MOD001_PLATFORM_BASELINE_v1` |
 | SPR-MOD-007-002 | Sprint 2 | Employment Lifecycle (Hire & Exit) | Reserved | SPR-MOD-007-001 |
 | SPR-MOD-007-003 | Sprint 3 | Attendance & Leave | Reserved | SPR-MOD-007-001 |
 | SPR-MOD-007-004 | Sprint 4 | Performance & Appraisal | Reserved | SPR-MOD-007-001 |
