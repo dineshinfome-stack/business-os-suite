@@ -80,6 +80,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-007-002 | Sprint 2 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit.md`](30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit.md) | People |
 | SPR-MOD-007-003 | Sprint 3 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave.md`](30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave.md) | People |
 | SPR-MOD-007-004 | Sprint 4 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal.md`](30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal.md) | People |
+| SPR-MOD-007-005 | Sprint 5 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service.md`](30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service.md) | People |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
