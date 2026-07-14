@@ -1114,6 +1114,10 @@
           "path": "30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master"
         },
         {
+          "title": "SPR-MOD-007-002 — Employment Lifecycle (Hire & Exit)",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit"
+        },
+        {
           "title": "MOD-008 Payroll",
           "path": "30-sprint-prds/payroll/README"
         },
