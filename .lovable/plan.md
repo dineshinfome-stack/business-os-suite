@@ -84,3 +84,16 @@ Append execution record to `.lovable/plan.md`.
 - Pass 9.1.5 — Execute GT-003 for SPR-MOD-006-006 using the objective reserved in the CRM Sprint Plan.
 - Pass 9.2.0 — Execute GT-004 for MOD-006 (CRM Baseline Consolidation).
 - Pass 9.2.1 — Execute GT-005 for the completed CRM baseline; publish `MOD006_CRM_BASELINE_v1`.
+
+---
+
+## Execution Record — Pass 9.1.3 (2026-07-14)
+
+- **Sprint PRD:** `docs/30-sprint-prds/crm/SPR-MOD-006-004-activities-communications.md` authored via GT-003 v1.0 (execution_id `GT003-MOD006-004-20260714-001`; parent `GT003-MOD006-003-20260713-001`).
+- **Events (verbatim from CRM Module PRD §8):** published `ActivityLogged`; consumed `account.*` / `contact.*` from `SPR-MOD-006-001`. No invented names.
+- **Bounded context:** MOD-006 CRM Activities owns Activity, Meeting, Activity Linkage, Communication Log Projection. Lead/Opportunity/Account/Contact/Customer/Sales/Voucher surfaces referenced or forbidden per §1.1.2.
+- **Registration (4/4 surfaces, transactional):** `docs/30-sprint-prds/crm/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`. `docs/DOCUMENT_TRACEABILITY.md` present but N/A (consistent with Passes 9.1.0–9.1.2).
+- **GT-003 Validation:** all declared v1.0 rules PASS (VAL-001..VAL-014 including VAL-013A/B). Validation bound dynamically to released template — no fixed count asserted.
+- **GT-005 Repository Audit:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000000Z.md`, all declared v1.0 audit rules PASS across governance, repository, registration, traceability, integrity profiles.
+- **Repository Status:** READY. Confidence: MEDIUM (D3 waiver inherited).
+- **Next Pass:** 9.1.4 — Execute GT-003 for `SPR-MOD-006-005` using the objective reserved in the CRM Sprint Plan, via the reusable Execution Wrapper.
