@@ -45,3 +45,21 @@ All other sprint facts (title, scope, capabilities, entities, engines, ADRs, per
 ## Next
 
 On completion, Stage 2 for MOD-007 HRMS is complete. Next pass is **9.4.0 — GT-004 Baseline Consolidation for MOD-007**, followed by **9.4.1 Publication Audit**, then the planned combined CRM + HRMS retrospective.
+
+---
+
+## Execution Record — Pass 9.3.5
+
+- **Executed:** 2026-07-14T00:09:00Z
+- **Execution ID:** `GT003-MOD007-006-20260714T000900Z-001`
+- **Wrapper:** GT-003 Execution Wrapper v1.0 (FROZEN)
+- **Sprint PRD Authored:** `docs/30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance.md`
+- **Slug Resolved From Sprint Plan:** `hr-analytics-and-compliance` (per `MOD-007_SPRINT_PLAN.md` §2 title "HR Analytics & Compliance")
+- **Registration Surfaces Updated:**
+  - `docs/30-sprint-prds/hrms/README.md` — Sprint 6 row transitioned Reserved → Draft
+  - `docs/SPRINT_CATALOG.md` — Sprint 6 row appended
+  - `docs/DOCUMENT_INDEX.md` — Sprint 6 entry appended
+  - `docs/_meta.json` — Sprint 6 sidebar entry appended under HRMS group
+- **Audit Report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000900Z.md` — All profiles PASS
+- **Governance Assets Modified:** None (`docs/15-governance/**` untouched)
+- **Result:** Repository READY. HRMS Stage 2 **complete** (6/6 sprints authored). Next pass: **9.4.0 — GT-004 Baseline Consolidation for MOD-007 HRMS**.
