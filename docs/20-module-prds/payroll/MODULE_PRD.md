@@ -4,18 +4,24 @@ summary: "Authoritative business specification for the Payroll bounded context. 
 layer: "business"
 owner: "People"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-14"
+legacy_updated: "2026-07-05"
 module_id: "MOD-008"
 module: "Payroll"
 domain: "People"
 bounded_context: "Payroll and Compensation"
+governance_specification: "v1.0"
+template_standard: "v1.3"
+lifecycle_state: "Active"
+sprint_authority: "docs/30-sprint-prds/payroll/MOD-008_SPRINT_PLAN.md"
 depends_on: ["docs/canon.md", "docs/10-erp-core/ENGINE_CATALOG.md", "docs/11-adrs/ADR_INDEX.md", "docs/02-architecture/quality-attributes.md"]
-related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-011", "ENG-014", "ENG-015", "ENG-016", "ENG-017", "ENG-018", "ENG-021", "ENG-024", "ENG-026", "ENG-027", "ENG-007", "ENG-019", "ENG-023", "ENG-025"]
+related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-007", "ENG-011", "ENG-014", "ENG-015", "ENG-016", "ENG-017", "ENG-018", "ENG-019", "ENG-021", "ENG-023", "ENG-024", "ENG-025", "ENG-026", "ENG-027"]
 related_adrs: ["ADR-011", "ADR-032", "ADR-014"]
-related_modules: ["MOD-001", "MOD-002", "MOD-007", "MOD-002", "MOD-017"]
+related_modules: ["MOD-001", "MOD-002", "MOD-007", "MOD-017"]
 referenced_by: []
 tags: ["module", "prd"]
 document_type: "Module PRD"
+derived_from: "docs/20-module-prds/payroll/MODULE_PRD.md (pre-freeze, updated 2026-07-05)"
 ---
 
 # MOD-008 — Payroll Module PRD

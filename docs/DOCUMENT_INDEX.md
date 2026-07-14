@@ -101,6 +101,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-005 Inventory — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/inventory/MOD-005_SPRINT_PLAN.md` |
 | MOD-006 CRM — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md` |
 | MOD-007 HRMS — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md` |
+| MOD-008 Payroll — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/payroll/MOD-008_SPRINT_PLAN.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 

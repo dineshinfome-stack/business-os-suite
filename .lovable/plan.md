@@ -1,140 +1,99 @@
-# RR-001 v1.2 — Combined CRM + HRMS Governance & Execution Retrospective
+# Pass 10.0.0 v2 — Execute GT-002 for MOD-008 Payroll (Stage 1 Authoring)
 
-**Classification:** read-only · writes: none · governance_touch: none · wrapper_touch: none · repository_mutation: none
-**Scope:** Completed CRM (MOD-006) and HRMS (MOD-007) governance pipelines, GT-002 → GT-005, Governance Framework v1.0, GT-003 Execution Wrapper v1.0.
-**Delivery:** Chat report only. No files created, modified, or deleted.
+Execute the released **GT-002** template to author Stage 1 governance artifacts for **MOD-008 Payroll** under the unchanged Governance Framework v1.0. No governance evolution, no template changes, no wrapper changes.
 
----
+## Execution Variables
 
-## 1. Executive Summary
+- template: GT-002 (Released, Active)
+- module_id: MOD-008
+- module_name: Payroll
+- module_prd_target: `docs/20-module-prds/payroll/MODULE_PRD.md` (legacy PRD present — reconcile in-place per GT-002 legacy mode; delegate legacy normalization to GT-001 where required)
+- sprint_plan_target: `docs/30-sprint-prds/payroll/MOD-008_SPRINT_PLAN.md`
+- audit_report: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 
-Governance Framework v1.0 executed two full Business OS module pipelines end-to-end (CRM → PUBLISHED, HRMS → PUBLISHED) without governance drift, template drift, dependency-matrix drift, or capability-registry drift. All reviewed GT-003 sprint authorings across both modules landed under the FROZEN Wrapper v1.0 with All-PASS audits and full registration coverage. Both GT-004 baselines consolidated cleanly and both GT-005 publications closed without remediation. The methodology has demonstrated repeatability across two structurally distinct domains (customer lifecycle vs. workforce lifecycle), which is a strong signal of production maturity across the completed pipelines.
+All module facts (capabilities, entities, engines, ADRs, events, personas, sprint decomposition) resolve verbatim at execution time from authoritative sources. **Zero fabrication.**
 
-**Verdict:** Continue with Deferred Improvements.
+## Lifecycle (per released GT-002)
 
----
+1. **Preflight** — verify Governance Framework v1.0 Released; GT-002/003/004/005 Active and unchanged; GT-003 Wrapper v1.0 FROZEN; MOD-006 and MOD-007 PUBLISHED; RR-001 completed; no open corrective executions; MOD-008 registered in `docs/MODULE_CATALOG.md`; repository READY. Abort on first failure (`PRECONDITION-FAIL`, exit 20).
+2. **Dependency Resolution** — resolve GT-002 dependencies dynamically via the Governance Template Dependency Matrix and Capabilities Registry.
+3. **Module Authoring** — reconcile/normalize `docs/20-module-prds/payroll/MODULE_PRD.md` to the released GT-002 canonical structure; preserve legacy provenance via `legacy_updated`; resolve engines from Engine Catalog + Engine Usage Matrix, ADRs from ADR Index, events from Event Catalog, dependencies from Module Catalog.
+4. **Sprint Planning** — author `docs/30-sprint-prds/payroll/MOD-008_SPRINT_PLAN.md` with deterministic sprint decomposition, capability allocation, and dependency sequencing. Ensure bidirectional traceability (every PRD capability → ≥1 sprint; every sprint → ≥1 PRD capability).
+5. **Registration** — update only the registration surfaces declared by the released GT-002 template.
+6. **GT-002 Validation** — execute every validation rule declared by the released GT-002 template.
+7. **GT-005 Repository Audit** — emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`; all profiles must PASS; repository finishes READY.
+8. **Completion** — append Execution Record to `.lovable/plan.md`.
 
-## 2. Governance Stability
+## Authoritative Sources (read-only)
 
-| Dimension | Observation | Drift |
-| --- | --- | --- |
-| Governance Framework v1.0 manifest | Unchanged across both modules | None |
-| GT-002 / GT-003 / GT-004 / GT-005 templates | Unchanged; no in-flight edits | None |
-| Governance Template Dependency Matrix | Edges resolved dynamically each pass; no schema change | None |
-| Capabilities Registry | Appended-only; no renames or ID reuse | None |
-| GT-003 Execution Wrapper v1.0 | FROZEN and honored by every reviewed sprint pass | None |
+Governance Framework v1.0, GT-002 released template, Dependency Matrix, Capabilities Registry, Engine Catalog, Engine Usage Matrix, ADR Index, Event Catalog, Module Catalog, published CRM Baseline, published HRMS Baseline. Missing dependency → `PRECONDITION-FAIL`.
 
-Governance Framework v1.0 held stable under real load. No mid-pipeline hotfixes to templates, matrix, or wrapper were required in either module.
+## Execution Record (target)
 
----
+```yaml
+execution_status: READY_FOR_SPRINT_AUTHORING
+next_template: GT-003
+next_target: MOD-008 Sprint 001
+handoff_state: READY
+execution_id: <allocated>
+audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
+repository_revision_after: <allocated>
+snapshot_digest: <allocated>
+```
 
-## 3. GT Template Assessment
+## Success Criteria
 
-- **GT-002 (Stage 1 Authoring):** Produced two Module PRDs + Sprint Plans following the canonical GT-002 structure. Legacy reconciliation path (established via CRM) reused cleanly by HRMS with zero template amendment.
-- **GT-003 (Sprint Authoring):** All reviewed sprint authorings resolved validation checks dynamically from the released template. No repeated validator warnings across the two modules. Authoring quality (scope isolation, engine/ADR citations, event catalog fidelity) held constant from the first CRM sprint through the final HRMS sprint.
-- **GT-004 (Baseline Consolidation):** Both baselines (`MOD006_CRM_BASELINE_v1`, `MOD007_HRMS_BASELINE_v1`) consolidated their sprint families into the canonical GT-004 structure with union-of-frontmatter engine/ADR resolution. No fabricated capabilities; no orphan sprints; governance-conventions section resolved from source sprints in both cases.
-- **GT-005 (Repository Audit):** All reviewed audits (sprint audits, baseline audits, publication audits) reported All-Profile PASS. No audit required a follow-up remediation pass.
+- Module PRD authored in released GT-002 canonical structure.
+- Sprint Plan authored with bidirectional capability↔sprint traceability.
+- Registration completed across GT-002-declared surfaces.
+- Every GT-002 validation rule PASS (INFO allowed where the template permits).
+- GT-005 audit PASS; repository READY.
+- Governance Framework, GT templates, and Wrapper v1.0 unchanged.
 
-Determinism, repeatability, and validation quality are all rated high.
+## Non-Goals
 
----
+No GT-003/GT-004/GT-005 authoring, no Sprint PRDs, no baseline, no publication, no governance/template/wrapper changes, no implementation code.
 
-## 4. GT-003 Wrapper v1.0 Assessment
+## Roadmap
 
-Reviewing all completed GT-003 executions under FROZEN Wrapper v1.0:
-
-- **Execution consistency:** Every pass followed Preflight → Snapshot → Resolution → Authoring → Registration → Validation → Audit → Finalization in identical order.
-- **Parameterization quality:** Execution Variables converged early to a minimum viable set (target slug + upstream sprint IDs) and stayed minimal for the remaining passes. Zero sprint-specific facts leaked into the wrapper.
-- **Lifecycle completeness:** Every reviewed pass reached Finalization; none aborted mid-lifecycle.
-- **Rollback behavior:** Not exercised — no pass required rollback. Positive signal, but leaves rollback empirically unverified (deferred item).
-- **Registration behavior:** Multi-surface registration (README, SPRINT_CATALOG, DOCUMENT_INDEX, _meta.json) succeeded on every pass with no post-hoc corrections.
-- **Snapshot integrity:** Snapshots consumed only authoritative sources; no downstream artifact was authored before its upstream snapshot resolved.
-- **Zero-fabrication enforcement:** Held across every reviewed pass. Engines, ADRs, events, and cross-module contracts were resolved verbatim from ENGINE_CATALOG, ADR_INDEX, event-catalog, and MODULE_CATALOG.
-
-**Maturity:** Demonstrated production maturity across the completed CRM and HRMS governance pipelines.
-
----
-
-## 5. Repository Assessment
-
-- **Registration consistency:** Every published artifact appears on every required surface; no surface is stale relative to another.
-- **Audit consistency:** Audit reports use a consistent header, profile set, and PASS/FAIL grammar across both modules.
-- **Document traceability:** DOCUMENT_INDEX, MODULE_BASELINE_CATALOG, and `_meta.json` remain internally consistent; baseline entries link back to Module PRDs and Sprint PRDs without dead references.
-- **Baseline publication flow:** GT-004 → GT-005 handoff worked without ambiguity in both modules; FROZEN → PUBLISHED transition was recorded in both cases.
-- **Execution record consistency:** `.lovable/plan.md` execution records follow a consistent shape across all reviewed passes.
-- **Metadata consistency:** `_meta.json` validated as parseable JSON after every mutation; no schema violations observed.
+- Pass 10.0.1 — GT-003 for SPR-MOD-008-001
+- Pass 10.0.2..10.0.6 — remaining Payroll Sprint PRDs
+- Pass 10.1.0 — GT-004 Baseline Consolidation (`MOD008_PAYROLL_BASELINE_v1`)
+- Pass 10.1.1 — GT-005 Publication
 
 ---
 
-## 6. Module Production Quality
+## Execution Record — Pass 10.0.0 (GT-002 for MOD-008 Payroll)
 
-**CRM (MOD-006):**
-- Sprint decomposition mapped 1:1 to Module PRD capability areas.
-- Baseline consolidated cleanly; served as the initial reference implementation for the Business OS governance pipeline.
-- Publication closed without remediation.
-
-**HRMS (MOD-007):**
-- Sprint decomposition mapped 1:1 to Module PRD capability areas.
-- Cross-module boundaries (Payroll, Accounting, Platform, Analytics, external Learning) held; HRMS did not redefine ownership of any upstream module.
-- Governance Conventions section resolved verbatim from source sprints.
-- Publication closed without remediation.
-
-Cross-sprint consistency (naming, event catalog fidelity, engine citations, ADR citations) is high in both modules.
-
----
-
-## 7. Positive Trends
-
-- Wrapper v1.0 substantially reduced per-pass methodology restatement; each new pass converges to a smaller, cleaner prompt.
-- Zero-fabrication survived contact with a second, structurally different module (workforce lifecycle vs. customer lifecycle).
-- No reviewed GT-005 audit required a remediation loop.
-- Registration surfaces have not drifted apart, indicating that the current four-surface registration contract (README, SPRINT_CATALOG / MODULE_BASELINE_CATALOG, DOCUMENT_INDEX, `_meta.json`) has operated consistently across the reviewed modules.
-- Governance boundaries between modules held under real load (HRMS ↔ Payroll ↔ Accounting ↔ Platform ↔ Analytics ↔ external Learning).
-
----
-
-## 8. Deferred Improvement Backlog
-
-All items below are **Deferred until Wrapper v1.1 planning.** None require action now.
-
-1. **Rollback path empirically unverified.** No pass has failed, so wrapper rollback semantics remain untested in practice. Consider a synthetic dry-run during v1.1 planning.
-2. **Synthetic audit timestamps.** Audit filenames use monotonically-authored UTC placeholders rather than true wall-clock UTC. Cosmetic; consider standardizing in v1.1.
-3. **Draft → Approved lifecycle transitions.** Sprint PRDs are authored directly at their terminal status; the intermediate `Draft` state is not exercised. Consider whether v1.1 should model this explicitly.
-4. **Per-sprint OR reports.** OR-002 showed diminishing value of per-sprint observation reports; v1.1 should formalize the "combined module retrospective" cadence (this document) as the canonical checkpoint.
-5. **Wrapper telemetry.** No structured health metric is emitted per pass beyond audit PASS/FAIL. A lightweight per-pass health envelope could be considered in v1.1.
-6. **Cross-module contract verification.** Currently verified narratively in baselines; v1.1 could consider a mechanical cross-reference check between downstream `consumes` and upstream `provides` declarations.
-
-None of the above justify unfreezing Wrapper v1.0 or amending Governance Framework v1.0.
-
----
-
-## 9. Overall Scores
-
-Observational only; not acceptance criteria.
-
-| Dimension | Score |
-| --- | --- |
-| Governance Stability | 10 / 10 |
-| Template Quality | 9.8 / 10 |
-| Wrapper Stability | 9.8 / 10 |
-| Repository Health | 10 / 10 |
-| Execution Determinism | 9.9 / 10 |
-| Overall Methodology | 9.9 / 10 |
-
-**Overall Health Score:** 98 / 100 (Excellent — production-mature across the completed pipelines; residual 2 points reflect deferred, non-blocking observations).
-**Confidence Level:** High, based on two completed modules. Additional completed modules would provide stronger evidence of long-term repeatability.
-
----
-
-## 10. Final Verdict
-
-**Continue with Deferred Improvements.**
-
-- Governance Framework v1.0 remains unchanged.
-- GT-002, GT-003, GT-004, GT-005 remain unchanged.
-- GT-003 Execution Wrapper v1.0 remains FROZEN.
-- Historical CRM and HRMS executions remain untouched.
-- All improvement candidates are recorded as Wrapper v1.1 backlog items only.
-- Repository is declared **READY** for execution of the next GT-002 Business OS module.
-
-No execution plans are generated by this review.
+```yaml
+pass: 10.0.0
+executed_via_template: GT-002
+executed_via_template_version: v1.0
+governance_specification: v1.0
+template_standard: v1.3
+mode: legacy-reconciliation
+target_module: MOD-008 Payroll
+execution_id: GT002-MOD008-20260714-001
+execution_status: READY_FOR_SPRINT_AUTHORING
+next_template: GT-003
+next_target: MOD-008 Sprint 001 (SPR-MOD-008-001)
+handoff_state: READY
+artifacts_created:
+  - docs/30-sprint-prds/payroll/MOD-008_SPRINT_PLAN.md
+artifacts_reconciled:
+  - docs/20-module-prds/payroll/MODULE_PRD.md
+registration_surfaces_updated:
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+  - docs/SPRINT_CATALOG.md
+  - docs/30-sprint-prds/payroll/README.md
+validation_result: PASS (14/14)
+audit_report_id: REPOSITORY_AUDIT_20260714T001200Z
+audit_report_path: docs/50-audit-reports/REPOSITORY_AUDIT_20260714T001200Z.md
+audit_result: PASS (all 5 profiles)
+repository_status_after: READY
+governance_framework_changed: false
+gt_templates_changed: false
+gt003_wrapper_changed: false
+verification_date: 2026-07-14
+```
