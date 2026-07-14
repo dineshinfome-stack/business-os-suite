@@ -26,18 +26,24 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-008-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-008-001`, `SPR-MOD-008-002`, …). Identifiers are permanent and never reused.
 
+## Sprint Plan (Stage 1)
+
+The Stage 1 Sprint Plan for MOD-008 is authored at [`MOD-008_SPRINT_PLAN.md`](./MOD-008_SPRINT_PLAN.md) under GT-002 (Governance Framework v1.0, Pass 10.0.0). It reconciles the sprint count for this module to **6** and is the authoritative source for sprint decomposition, capability allocation, and dependency sequencing.
+
 ## Planning Placeholders
 
 > Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-008-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-008)_ | Planned | _(to be defined)_ |
-| SPR-MOD-008-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-008)_ | Planned | _(to be defined)_ |
-| SPR-MOD-008-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-008)_ | Planned | _(to be defined)_ |
-| SPR-MOD-008-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-008)_ | Planned | _(to be defined)_ |
+| SPR-MOD-008-001 | Sprint 1 | Payroll Foundation & Salary Structures | Planned | `MOD001_PLATFORM_BASELINE_v1`, `MOD007_HRMS_BASELINE_v1` |
+| SPR-MOD-008-002 | Sprint 2 | Payroll Cycles & Runs | Planned | SPR-MOD-008-001 |
+| SPR-MOD-008-003 | Sprint 3 | Statutory Computations | Planned | SPR-MOD-008-002 |
+| SPR-MOD-008-004 | Sprint 4 | Reimbursements & Advances | Planned | SPR-MOD-008-001, SPR-MOD-008-002 |
+| SPR-MOD-008-005 | Sprint 5 | Payslip Generation & Disbursement | Planned | SPR-MOD-008-002, SPR-MOD-008-003, SPR-MOD-008-004 |
+| SPR-MOD-008-006 | Sprint 6 | Payroll Analytics & Compliance | Planned | SPR-MOD-008-001 … SPR-MOD-008-005 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module is reconciled to **6** by the Stage 1 Sprint Plan (upward from the 4 recorded in `docs/SPRINT_ROADMAP.md`). Row goals and dependencies above trace to `MOD-008_SPRINT_PLAN.md` §2 and §4.
 
 ## Authoring Rules
 
