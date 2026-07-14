@@ -1,65 +1,76 @@
-# Pass 9.3.5 — Execute GT-003 for SPR-MOD-007-006 under FROZEN Wrapper v1.0
+# Pass 9.4.0 — Execute GT-004 for MOD-007 Baseline Consolidation
 
-## Status
+## Objective
+Consolidate the six approved MOD-007 HRMS Sprint PRDs into the authoritative Module Baseline using the **released GT-004 template** — no governance, template, or wrapper changes.
 
-- **Wrapper:** GT-003 Execution Wrapper v1.0 (FROZEN) — unchanged.
-- **Precedent:** Passes 9.3.1–9.3.4 executed successfully; OR-002 v1.1 verdict is *Continue unchanged*.
-- **Scope:** This plan binds new Execution Variables only. All sprint-specific content resolves verbatim at execution time from authoritative sources.
+## Execution Variables (minimal)
 
-## Execution Variables (only inputs to the frozen wrapper)
+```yaml
+template: GT-004 (Released, Active)
+module_id: MOD-007
+module_name: HRMS
+baseline_target: docs/40-module-baselines/MOD007_HRMS_BASELINE_v1.md
+sprint_prds:
+  - SPR-MOD-007-001-hrms-foundation-employee-master
+  - SPR-MOD-007-002-employment-lifecycle-hire-and-exit
+  - SPR-MOD-007-003-attendance-and-leave
+  - SPR-MOD-007-004-performance-and-appraisal
+  - SPR-MOD-007-005-learning-development-and-self-service
+  - SPR-MOD-007-006-hr-analytics-and-compliance
+audit_target: docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md
+```
 
-| Variable | Value |
-|---|---|
-| Module | MOD-007 HRMS |
-| Sprint ID | SPR-MOD-007-006 |
-| Sprint Index | 6 (final HRMS Stage 2 sprint) |
-| Sprint Plan | `docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md` |
-| Module PRD | `docs/20-module-prds/hrms/MODULE_PRD.md` |
-| Target slug | Resolved from Sprint Plan row for Sprint 6 |
-| Target file | `docs/30-sprint-prds/hrms/SPR-MOD-007-006-<slug>.md` |
-| Governance template | `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` |
-| Audit template | `docs/15-governance/templates/GT-005_REPOSITORY_AUDIT.md` |
-| Audit report | `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` (timestamp allocated at execution time) |
+All baseline content resolves verbatim from authoritative sources; validation IDs and counts bind dynamically from the released GT-004 template.
 
-All other sprint facts (title, scope, capabilities, entities, engines, ADRs, personas, APIs, integrations, published/consumed events, dependencies, acceptance criteria, exit criteria) SHALL be resolved verbatim from the Sprint Plan and Module PRD at execution time. Zero fabrication.
+## Lifecycle (GT-004 released template)
 
-## Wrapper Lifecycle (unchanged)
+1. **Preflight** — verify all Preconditions (framework Released, GT-004/GT-005 Active, Module PRD & Sprint Plan Approved, all 6 Sprint PRDs registered, latest GT-005 = Repository READY, no existing `MOD007_HRMS_BASELINE_v1.md`). Abort on first failure.
+2. **Dependency Resolution** — resolve the GT-004 → GT-003 edge dynamically via the Governance Template Dependency Matrix.
+3. **Sprint Collection** — enumerate the six Sprint PRDs; assert 1:1 with Sprint Plan.
+4. **Cross-Sprint Validation** — execute every GT-004 VAL-NNN rule (capability coverage, engine/ADR/event reconciliation, traceability, uniqueness, metadata, structural conformance, placeholder discipline, determinism).
+5. **Baseline Assembly** — compose `MOD007_HRMS_BASELINE_v1.md` deterministically from Module PRD, Sprint Plan, and six Sprint PRDs. Preserve ownership boundaries and authoritative identifiers. No reinterpretation.
+6. **Registration** — update only the surfaces declared by GT-004:
+   - `docs/40-module-baselines/README.md`
+   - `docs/DOCUMENT_INDEX.md`
+   - `docs/MODULE_BASELINE_CATALOG.md`
+   - `docs/_meta.json`
+7. **Verification** — self-check against GT-004 verification standard.
+8. **Repository Audit (GT-005)** — emit `REPOSITORY_AUDIT_<UTC-ISO8601>.md`; require every declared audit profile PASS and Repository READY.
+9. **Completion** — append execution record to `.lovable/plan.md`.
 
-1. **Preconditions** — Confirm Wrapper v1.0 frozen; prior audit (`...T000800Z.md`) = All PASS; no open blockers.
-2. **Snapshot** — Read Sprint Plan Sprint 6 row and Module PRD sections it references.
-3. **Resolution** — Extract slug, scope, capabilities, entities, engines, ADRs, personas, APIs, integrations, events, dependencies, acceptance/exit criteria from authoritative sources.
-4. **Authoring** — Produce target Sprint PRD using the released GT-003 canonical structure; no invented facts.
-5. **Registration** — Update `README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
-6. **Validation** — Run every validation rule declared by the released GT-003 template (dynamic rule binding).
-7. **Audit** — Emit the audit report per GT-005 with a UTC-ISO8601 timestamp allocated at execution time; all profiles must PASS.
-8. **Finalization** — Append Execution Record to `.lovable/plan.md`; declare Repository READY for Pass 9.4.0 (HRMS Baseline Consolidation via GT-004).
+## Rollback
+On any failure after Registration, apply the **GT-004 Runtime Rollback Rule** in reverse order (`_meta.json` → `MODULE_BASELINE_CATALOG.md` → `DOCUMENT_INDEX.md` → `README.md` → remove partially authored baseline artifact), then evaluate Repository Status.
+
+## Authoritative Sources (read-only)
+Module PRD, Sprint Plan, six Sprint PRDs, `ENGINE_CATALOG.md`, `ENGINE_USAGE_MATRIX.md`, `ADR_INDEX.md`, `event-catalog.md`. Missing references → **PRECONDITION-FAIL**.
+
+## Zero-Fabrication Constraint
+No fabricated capabilities, entities, engines, ADRs, APIs, integrations, permissions, workflows, or events. All identifiers copied verbatim.
+
+## Execution Record (appended to `.lovable/plan.md`)
+
+```yaml
+execution_status: READY_FOR_PUBLICATION
+next_template: GT-005
+next_target: MOD007_HRMS_BASELINE_v1
+handoff_state: READY
+execution_id: <allocated>
+audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
+repository_revision_after: <allocated>
+snapshot_digest: <allocated>
+```
 
 ## Success Criteria
+- Baseline authored using the released GT-004 canonical structure.
+- Six Sprint PRDs consolidated without information loss.
+- Zero fabricated identifiers; ownership boundaries preserved.
+- GT-004 validation PASS · GT-005 audit PASS · Repository READY.
+- Governance Framework v1.0 unchanged.
 
-- Target Sprint PRD authored using the released GT-003 canonical structure, with all content sourced.
-- Registration consistent across all 4 surfaces.
-- GT-005 audit: All profiles PASS.
-- Zero governance/template/wrapper changes.
-- Execution Record appended to `.lovable/plan.md`.
+## Non-Goals
+No edits to Sprint PRDs, Module PRD, Governance Framework, GT templates, Dependency Matrix, or Event Catalog. No implementation code.
 
-## Next
-
-On completion, Stage 2 for MOD-007 HRMS is complete. Next pass is **9.4.0 — GT-004 Baseline Consolidation for MOD-007**, followed by **9.4.1 Publication Audit**, then the planned combined CRM + HRMS retrospective.
-
----
-
-## Execution Record — Pass 9.3.5
-
-- **Executed:** 2026-07-14T00:09:00Z
-- **Execution ID:** `GT003-MOD007-006-20260714T000900Z-001`
-- **Wrapper:** GT-003 Execution Wrapper v1.0 (FROZEN)
-- **Sprint PRD Authored:** `docs/30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance.md`
-- **Slug Resolved From Sprint Plan:** `hr-analytics-and-compliance` (per `MOD-007_SPRINT_PLAN.md` §2 title "HR Analytics & Compliance")
-- **Registration Surfaces Updated:**
-  - `docs/30-sprint-prds/hrms/README.md` — Sprint 6 row transitioned Reserved → Draft
-  - `docs/SPRINT_CATALOG.md` — Sprint 6 row appended
-  - `docs/DOCUMENT_INDEX.md` — Sprint 6 entry appended
-  - `docs/_meta.json` — Sprint 6 sidebar entry appended under HRMS group
-- **Audit Report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000900Z.md` — All profiles PASS
-- **Governance Assets Modified:** None (`docs/15-governance/**` untouched)
-- **Result:** Repository READY. HRMS Stage 2 **complete** (6/6 sprints authored). Next pass: **9.4.0 — GT-004 Baseline Consolidation for MOD-007 HRMS**.
+## Roadmap
+- **Pass 9.4.1** — Execute GT-005 to publish `MOD007_HRMS_BASELINE_v1`.
+- **Post-MOD-007 Retrospective** (read-only) — Combined CRM + HRMS review; enhancements become Wrapper v1.1 without touching historical executions.
+- **Next module** — Resume GT-002/GT-003 pipeline under unchanged FROZEN Wrapper v1.0.
