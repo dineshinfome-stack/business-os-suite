@@ -1,43 +1,86 @@
-# Pass 9.1.2 — Execute GT-003 for SPR-MOD-006-003 (Opportunities) — COMPLETE
+# Pass 9.1.3 — Execute GT-003 for SPR-MOD-006-004 (Activities & Communications) — v2
+
+## Objective
+
+Invoke the released GT-003 template to author `SPR-MOD-006-004-activities-communications.md`, complete transactional registration, execute GT-003 validation, and emit a GT-005 Repository Audit report. Inherits the GT-003 Execution Wrapper established in Pass 9.1.1.
+
+## Execution Wrapper (Inherited)
+
+```yaml
+execution_id: GT003-MOD006-004-20260714-001
+parent_result_id: GT003-MOD006-003-20260713-001
+execution_schema_version: 3
+execution_mode: released
+lock:
+  inherit: true
+```
+
+## Preconditions (abort on first failure)
+
+- Governance Framework v1.0 frozen; GT-003 Active.
+- SPR-MOD-006-001, -002, -003 all exist, GT-003 PASS, GT-005 PASS.
+- No corrective execution exists for prior CRM sprints.
+- SPR-MOD-006-004 is `Planned` in `docs/30-sprint-prds/crm/README.md` and `MOD-006_SPRINT_PLAN.md`.
+- No `docs/15-governance/**` changes planned this pass.
+
+## Deliverable 1 — Sprint PRD
+
+File: `docs/30-sprint-prds/crm/SPR-MOD-006-004-activities-communications.md`, authored using the released GT-003 18-section structure.
+
+**Sprint Objective:** Activities & Communications — authoritative scope resolved at execution time from the CRM Sprint Plan §SPR-MOD-006-004 and Module PRD (typical anchors: tasks, meetings, calls, notes, reminders, timeline, communication log, activity APIs & events, audit).
+
+**Bounded-Context Rules**
+- Owns: Activity, Task, Meeting, Call, Reminder, Communication Log.
+- Consumes: Account, Contact (Sprint 1); Lead (Sprint 2); Opportunity (Sprint 3).
+- Forbidden to author/redefine: Customer master, Opportunity entities, Sales Orders, Quotations, Invoices, GL transactions.
+
+**Configuration Source:** Activity configuration resolves from the CRM Module PRD and prior CRM Sprint PRDs — no duplication.
+
+**Event Resolution:** All published/consumed events resolved **verbatim** from CRM Module PRD §8 and the repository Event Catalog. If a required event is absent → abort with `PRECONDITION-FAIL` and refer the gap upstream. No invented names.
+
+**Engine Allocation:** Stated via Module PRD Engine Allocation (not pinned by this pass); resolved verbatim from the Module PRD at execution time.
+
+## Deliverable 2 — Transactional Registration
+
+Applicable surfaces (4):
+- `docs/30-sprint-prds/crm/README.md` — flip Sprint 4 row Planned → Authored (Draft).
+- `docs/SPRINT_CATALOG.md` — append Sprint 4 row.
+- `docs/DOCUMENT_INDEX.md` — append Sprint 4 entry.
+- `docs/_meta.json` — append Sprint 4 sidebar entry.
+
+`docs/DOCUMENT_TRACEABILITY.md` remains **Present but N/A** under the current repository design (consistent with Passes 9.1.0–9.1.2). Same-pass rollback semantics apply.
+
+## Deliverable 3 — GT-003 Validation
+
+Execute the complete validation rule set declared by the released GT-003 template. Validation is bound dynamically to the template — no fixed count is asserted by this plan. All declared rules are expected to PASS; Repository expected READY.
+
+## Deliverable 4 — GT-005 Repository Audit
+
+Execute the released GT-005 audit profile unchanged. Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`. Expected: all declared audit rules PASS, Repository READY, Confidence MEDIUM (D3 waiver inherited).
 
 ## Execution Outputs
 
 ```yaml
 execution_status: READY_FOR_NEXT_SPRINT
-result_id: GT003-MOD006-003-20260713-001
-parent_result_id: GT003-MOD006-002-20260713-001
-execution_manifest_sha256: <computed at write time>
-audit_report_id: REPOSITORY_AUDIT_20260713T000200Z
-audit_report_sha256: <computed at write time>
-execution_duration_ms: <sandbox non-instrumented>
-repository_revision_after: null   # D3 waiver — inherited from Pass 9.1.0
 next_template: GT-003
-next_target: SPR-MOD-006-004
+next_target: SPR-MOD-006-005
 handoff_state: READY
 ```
 
-## Artifacts Emitted
+Append execution record to `.lovable/plan.md`.
 
-- Sprint PRD: `docs/30-sprint-prds/crm/SPR-MOD-006-003-opportunities.md`
-- Registration updates (4 applicable surfaces):
-  - `docs/30-sprint-prds/crm/README.md`
-  - `docs/SPRINT_CATALOG.md`
-  - `docs/DOCUMENT_INDEX.md`
-  - `docs/_meta.json`
-- Audit report: `docs/50-audit-reports/REPOSITORY_AUDIT_20260713T000200Z.md`
+## Success Criteria
 
-`docs/DOCUMENT_TRACEABILITY.md` remains a governance-level traceability guide and is treated as N/A for per-sprint registration under the current repository design (consistent with Passes 9.1.0 and 9.1.1). Verified in audit item A-REG-05.
+- Sprint PRD conforms to released GT-003.
+- Activity/communication ownership boundaries preserved; no forbidden entities authored.
+- All events resolved verbatim from authoritative catalogs.
+- All 4 applicable registration surfaces updated transactionally.
+- Every declared GT-003 validation rule PASS; every declared GT-005 audit rule PASS; Repository READY.
+- Governance Framework unchanged.
 
-## Validation Result
+## Roadmap
 
-- GT-003 validation: **15/15 PASS** (VAL-001..VAL-014 including VAL-013A/B).
-- GT-005 audit: **18/18 PASS** (governance, repository, registration, traceability, integrity profiles).
-- Repository Status: **READY**. Confidence: **MEDIUM** (D3 waiver inherited).
-
-## Reusable Execution Wrapper — inherited from Pass 9.1.1
-
-The `gt003_execution_wrapper` recorded in the Pass 9.1.1 plan is inherited without modification for Passes 9.1.2..9.1.5. Each subsequent CRM Stage 2 pass supplies only the sprint-specific inputs (sprint_id, objective, upstream_dependencies, bounded_context_rules, expected_outputs); all other envelope, preflight, precondition, registration, validation, and audit machinery remain unchanged.
-
-## Next Pass
-
-Pass 9.1.3 — Execute GT-003 for SPR-MOD-006-004 (Activities) via the Execution Wrapper. Continue sequentially through SPR-MOD-006-005..006, then GT-004 + GT-005 to publish `MOD006_CRM_BASELINE_v1`.
+- Pass 9.1.4 — Execute GT-003 for SPR-MOD-006-005 using the objective reserved in the CRM Sprint Plan.
+- Pass 9.1.5 — Execute GT-003 for SPR-MOD-006-006 using the objective reserved in the CRM Sprint Plan.
+- Pass 9.2.0 — Execute GT-004 for MOD-006 (CRM Baseline Consolidation).
+- Pass 9.2.1 — Execute GT-005 for the completed CRM baseline; publish `MOD006_CRM_BASELINE_v1`.
