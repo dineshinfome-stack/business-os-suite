@@ -1,107 +1,127 @@
-# Pass 9.1.4 — Execute GT-003 for SPR-MOD-006-005 (Campaigns) — v2
+# Pass 9.1.5 — Execute GT-003 for SPR-MOD-006-006 (v2)
 
-## Objective
+Final CRM Stage 2 sprint. Inherits the GT-003 Execution Wrapper established in Pass 9.1.1 and continued through 9.1.4.
 
-Invoke the released GT-003 template to author `SPR-MOD-006-005-campaigns.md` (Campaigns — campaigns, segmentation, sends), complete transactional registration, execute GT-003 validation, and emit a GT-005 Repository Audit report. Inherits the GT-003 Execution Wrapper established in Pass 9.1.1.
-
-## Execution Wrapper (Inherited)
+## Execution Wrapper
 
 ```yaml
-execution_id: GT003-MOD006-005-20260714-001
-parent_result_id: GT003-MOD006-004-20260714-001
+execution_id: GT003-MOD006-006-20260714-001
+parent_result_id: GT003-MOD006-005-20260714-001
 execution_schema_version: 3
 execution_mode: released
 lock:
   inherit: true
 ```
 
-## Preconditions (abort on first failure)
+## Step 1 — Preconditions (abort on first failure)
 
-- Governance Framework v1.0 Released; GT-003 and GT-005 Active; Dependency Matrix v1.0.2 unchanged.
-- CRM Module PRD and CRM Sprint Plan unchanged since Pass 9.1.3.
-- SPR-MOD-006-001..004 exist, validated, no open corrective execution.
-- SPR-MOD-006-005 is `Planned` in `docs/30-sprint-prds/crm/README.md` and `MOD-006_SPRINT_PLAN.md`.
-- Repository status READY. No `docs/15-governance/**` changes planned this pass.
+Read-only verification, no writes:
 
-## Deliverable 1 — Sprint PRD
+- Governance Framework v1.0 = Released; GT-003, GT-005 = Active.
+- Dependency Matrix v1.0.2 unchanged.
+- `docs/20-module-prds/crm/MODULE_PRD.md` unchanged since Pass 9.1.4.
+- `docs/30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md` unchanged since Pass 9.1.4.
+- SPR-MOD-006-001 … 005 present, validated, no open corrective execution.
+- SPR-MOD-006-006 is Reserved/Planned across all registration surfaces.
+- Repository status = READY.
 
-File: `docs/30-sprint-prds/crm/SPR-MOD-006-005-campaigns.md`, authored using the released GT-003 18-section structure.
+On any failure → `PRECONDITION-FAIL`, no artifacts written, upstream remediation requested.
 
-**Sprint Objective (from CRM Sprint Plan §SPR-MOD-006-005):** Campaigns — campaigns, segmentation, sends. Scope/capabilities/engines/ADRs/events/acceptance criteria/deliverables resolved dynamically at execution time from Module PRD + Sprint Plan + Engine Catalog + Engine Usage Matrix + ADR Index + Event Catalog. No fabrication.
+## Step 2 — Authoritative Resolution (zero fabrication)
 
-**Bounded-Context Rules**
-- Owns: entities allocated to SPR-MOD-006-005 by the Module PRD (typically Campaign, Segment, Campaign Member, Send/Dispatch record).
-- Consumes: Account, Contact (S1); Lead (S2); Opportunity (S3); Activity (S4) as required.
-- Forbidden to author/redefine: Customer Master, Account, Contact, Lead, Opportunity, Sales Order, Quotation, Invoice, Voucher, GL Transactions (unless explicitly allocated).
+Resolve slug, objective, capabilities, engines, ADRs, published/consumed events, acceptance criteria, deliverables, dependencies, APIs, integrations, and traceability dynamically from the **canonical repository paths** (matching those used and validated in Passes 9.1.0–9.1.4):
 
-**Event Resolution:** Every published/consumed event resolved **verbatim** from CRM Module PRD Event Allocation and the repository Event Catalog. On any missing authoritative reference → abort with `PRECONDITION-FAIL` and refer upstream. No invented names.
+- CRM Module PRD — `docs/20-module-prds/crm/MODULE_PRD.md` (entity + event allocation, engine/ADR bindings)
+- CRM Sprint Plan — `docs/30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md` (SPR-MOD-006-006 row)
+- Engine Catalog — `docs/10-erp-core/ENGINE_CATALOG.md`
+- Engine Usage Matrix — `docs/ENGINE_USAGE_MATRIX.md`
+- ADR Index — `docs/11-adrs/ADR_INDEX.md`
+- Repository Event Catalog — `docs/02-architecture/event-catalog.md`
 
-## Deliverable 2 — Transactional Registration
+Every event name resolved verbatim. Missing authoritative reference → `PRECONDITION-FAIL`, no substitutes.
 
-Applicable surfaces (4):
-- `docs/30-sprint-prds/crm/README.md` — flip Sprint 5 row Planned → Authored (Draft).
-- `docs/SPRINT_CATALOG.md` — append Sprint 5 row.
-- `docs/DOCUMENT_INDEX.md` — append Sprint 5 entry.
-- `docs/_meta.json` — append Sprint 5 sidebar entry.
+## Step 3 — Bounded Context Enforcement
 
-`docs/DOCUMENT_TRACEABILITY.md` remains **Present but N/A** (consistent with Passes 9.1.0–9.1.3). Same-pass rollback semantics on failure.
+- Author only entities allocated to SPR-MOD-006-006 by the CRM Module PRD.
+- Consume upstream sprint outputs (S1 Foundation, S2 Leads, S3 Opportunities, S4 Activities, S5 Campaigns) without redefinition.
+- Do not redefine entities owned by Customer Master, Sales, Accounting, Inventory, Projects, HRMS unless explicitly allocated.
 
-## Deliverable 3 — GT-003 Validation
+## Step 4 — Deliverable 1: Sprint PRD
 
-Execute the complete validation rule set declared by the released GT-003 template. Validation bound dynamically — no fixed count asserted. All declared rules expected PASS; Repository expected READY.
+Create:
 
-## Deliverable 4 — GT-005 Repository Audit
+```
+docs/30-sprint-prds/crm/SPR-MOD-006-006-<slug>.md
+```
 
-Execute the released GT-005 audit unchanged. Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`. Expected: all declared rules PASS, Repository READY, Confidence MEDIUM (D3 waiver inherited).
+Slug resolved verbatim from CRM Sprint Plan. Structure bound dynamically to released GT-003 v1.0 18-section canonical structure.
 
-## Execution Outputs
+## Step 5 — Deliverable 2: Transactional Registration
+
+Update in a single transaction (rollback on any failure):
+
+1. `docs/30-sprint-prds/crm/README.md` — flip Sprint 6 row Planned → Authored (Draft).
+2. `docs/SPRINT_CATALOG.md` — append Sprint 6 row.
+3. `docs/DOCUMENT_INDEX.md` — append Sprint 6 entry.
+4. `docs/_meta.json` — append Sprint 6 sidebar entry.
+
+`docs/DOCUMENT_TRACEABILITY.md` remains Present but N/A per current governance (consistent with Passes 9.1.0–9.1.4).
+
+## Step 6 — Deliverable 3: GT-003 Validation
+
+Execute the complete validation rule set declared by released GT-003 v1.0. Bind identifiers and count dynamically — no hardcoded values. Expected: every declared rule PASS, Repository READY.
+
+## Step 7 — Deliverable 4: GT-005 Repository Audit
+
+Execute released GT-005 unmodified. Emit:
+
+```
+docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md
+```
+
+Expected: every declared audit rule PASS, Repository READY, Confidence MEDIUM (D3 inherited).
+
+## Step 8 — Execution Record & Handoff
+
+Append execution record to `.lovable/plan.md`:
 
 ```yaml
-execution_status: READY_FOR_NEXT_SPRINT
-next_template: GT-003
-next_target: SPR-MOD-006-006
+execution_status: READY_FOR_GT004
+next_template: GT-004
+next_target: MOD-006
 handoff_state: READY
-
 handoff_contract:
-  upstream_execution: GT003-MOD006-005
+  upstream_pass: 9.1.5
+  upstream_sprint: SPR-MOD-006-006
   downstream_requires:
-    - Sprint PRD registered
+    - All CRM Sprint PRDs authored
+    - Sprint registrations complete
     - GT-003 validation PASS
     - GT-005 audit PASS
     - Repository READY
 ```
 
-Append execution record to `.lovable/plan.md`.
-
 ## Success Criteria
 
-- Sprint PRD conforms to released GT-003; scope matches CRM Sprint Plan.
-- No fabricated capabilities, events, engines, ADRs, or APIs.
-- Ownership boundaries preserved.
-- All 4 applicable registration surfaces updated transactionally.
-- Every declared GT-003 validation rule PASS; every declared GT-005 audit rule PASS; Repository READY.
-- Handoff contract satisfied — Pass 9.1.5 receives explicit prerequisites.
+- Sprint PRD conforms to released GT-003.
+- Scope matches CRM Sprint Plan; no fabricated capabilities/events/engines/ADRs/APIs.
+- Ownership boundaries preserved across CRM sprints and cross-module.
+- Transactional registration completed on all 4 applicable surfaces.
+- Every declared GT-003 validation rule PASS.
+- Every declared GT-005 audit rule PASS.
+- Repository READY.
+- **CRM Stage 2 complete and `READY_FOR_GT004` handoff satisfied.**
 - Governance Framework unchanged.
 
 ## Roadmap
 
-- Pass 9.1.5 — Execute GT-003 for SPR-MOD-006-006 (Customer 360 & Analytics).
-- Pass 9.2.0 — Execute GT-004 for MOD-006 (CRM Baseline Consolidation).
-- Pass 9.2.1 — Execute GT-005 audit and publish `MOD006_CRM_BASELINE_v1`.
-- Pass 9.3.0 — Resume module implementation with MOD-007 HRMS.
+- **Pass 9.2.0** — GT-004 for MOD-006 (CRM Baseline Consolidation).
+- **Pass 9.2.1** — GT-005 Repository Audit + publish `MOD006_CRM_BASELINE_v1`.
+- **Pass 9.3.0** — Resume with MOD-007 HRMS Stage 2 (GT-003).
 
----
+## Technical Notes
 
-## Execution Record — Pass 9.1.4 (2026-07-14)
-
-- **Sprint PRD:** `docs/30-sprint-prds/crm/SPR-MOD-006-005-campaigns.md` authored via GT-003 v1.0 (execution_id `GT003-MOD006-005-20260714-001`; parent `GT003-MOD006-004-20260714-001`).
-- **Events (verbatim from CRM Module PRD §8):** published `CampaignSent`; consumed `account.*` / `contact.*` from `SPR-MOD-006-001`. No invented names.
-- **Bounded context:** MOD-006 CRM Campaigns owns Campaign, Segment, Segment Membership Snapshot, Campaign Send, Send Exclusion Record. Marketing-consent, Lead, Opportunity, Activity/Meeting, Customer, Sales, Voucher surfaces referenced or forbidden per §1.1.2. Campaign Send explicitly not an Activity.
-- **Registration (4/4 surfaces, transactional):** `docs/30-sprint-prds/crm/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`. `docs/DOCUMENT_TRACEABILITY.md` present but N/A (consistent with Passes 9.1.0–9.1.3).
-- **GT-003 Validation:** all declared v1.0 rules PASS (VAL-001..VAL-014 including VAL-013A/B). Validation bound dynamically to released template — no fixed count asserted.
-- **GT-005 Repository Audit:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000100Z.md`, all declared v1.0 audit rules PASS across governance, repository, registration, traceability, integrity profiles.
-- **Repository Status:** READY. Confidence: MEDIUM (D3 waiver inherited).
-- **Handoff Contract:**
-  - `upstream_execution: GT003-MOD006-005-20260714-001`
-  - `downstream_requires: [Sprint PRD registered, GT-003 validation PASS, GT-005 audit PASS, Repository READY]` — all satisfied.
-- **Next Pass:** 9.1.5 — Execute GT-003 for `SPR-MOD-006-006` (Customer 360 & Analytics) via the reusable Execution Wrapper.
+- No governance assets modified during this pass.
+- Authoritative reads occur before any write; writes performed transactionally with rollback on validation or audit failure.
+- Timestamps use UTC ISO-8601 compact form for audit filenames.
+- Canonical source paths in Step 2 match Passes 9.1.0–9.1.4 (`docs/10-erp-core/`, `docs/11-adrs/`, `docs/02-architecture/`), preventing preflight path drift.
