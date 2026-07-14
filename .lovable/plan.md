@@ -1,138 +1,187 @@
-# AR-001 — Post-CRM Architectural Review (Read-Only) — v5
+# Pass 9.3.0 — Execute GT-003 for SPR-MOD-007-001 — v3
 
-Advisory architecture review sitting outside the GT-002 → GT-003 → GT-004 → GT-005 execution lifecycle. Read-only; produces a structured chat report only. Uses MOD-006 CRM as the completed reference implementation. **Core template workflow is treated as stable — the review focuses on ecosystem operability, observability, and scalability around it.**
+Execute released GT-003 v1.0 to author the first HRMS Sprint PRD under unchanged Governance Framework v1.0. Adopts terminal CRM execution discipline (Passes 9.1.5 v3, 9.2.0, 9.2.1 v3) verbatim: normative-source precedence, preflight snapshot integrity, idempotent registration invariants, explicit lock lifecycle, post-commit re-verification, and enriched execution record for auditability.
 
-## Classification
+## Authoritative Title Reconciliation
 
-```yaml
-review_id: AR-001
-review_type: Architecture Review
-review_spec_version: 1.1
-review_mode: read-only
-lifecycle_position: outside-execution-pipeline
-governance_touch: none
-templates_touched: none
-core_workflow_status: stable-do-not-modify   # GT-002..GT-005 out of scope for change
-writes: none
-implementation: none
-constraint: preserve Governance Framework v1.0 compatibility (no redesign)
-```
+The user prompt titles the sprint "Employee Master & Organization Assignment". `docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md §2` reserves the identifier as **"SPR-MOD-007-001 — HRMS Foundation & Employee Master"**. Per that plan's declared Normative Source Precedence and the zero-fabrication rule, the **Sprint Plan wins**. Organization assignment is covered inherently via Position/Department/Grade/Shift masters + HR operations configuration listed for Sprint 1.
 
-## Scope
+- **Filename:** `docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md`
 
-Read-only architectural review of the Business OS methodology using MOD-006 CRM as the completed reference implementation. Deliverable is a single structured report in chat — no files created or edited. The review evaluates **the ecosystem around GT-002..GT-005**, not the templates themselves.
-
-## Constraints
-
-- **Read-only.** No repository, governance, template, document, or registration modifications.
-- **No implementation.** SHALL NOT include implementation plans, code changes, document rewrites, migrations, or executable follow-up passes. Recommendations are advisory only.
-- **No framework redesign.** SHALL NOT recommend replacing or redesigning Governance Framework v1.0. Recommendations may improve operability, documentation, metrics, tooling, and automation while preserving v1.0 compatibility.
-- **Core workflow stability.** SHALL NOT recommend changes to GT-002, GT-003, GT-004, or GT-005 template semantics, validation rules, or execution order. Ecosystem-level recommendations only.
-- **No hidden assumptions.** Only repository evidence; unsupported claims labeled forward-looking.
-- **Evidence rule.** Every recommendation SHALL cite the artifact(s) it derives from. Recommendations not supported by reviewed artifacts SHALL be explicitly labeled `forward-looking opinion`.
-
-## Step 1 — Read-Only Source Set
-
-Batch-read (no writes):
-
-- Governance: `docs/15-governance/GOVERNANCE_FRAMEWORK_RELEASE_v1.0.md`, `GOVERNANCE_FRAMEWORK_MANIFEST.json`, `GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0.md`, `GOVERNANCE_TEMPLATE_STANDARD.md`, `GOVERNANCE_TEMPLATE_LIFECYCLE.md`, `GOVERNANCE_TEMPLATE_CAPABILITIES.md`, `GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` (+ `.yaml`), `GOVERNANCE_TEMPLATE_REGISTRY.md`, `GOVERNANCE_TEMPLATE_INDEX.md`, `README.md`.
-- Templates (read only, not for change proposals): `templates/GT-002..GT-005`.
-- CRM reference: `docs/20-module-prds/crm/MODULE_PRD.md`, `docs/30-sprint-prds/crm/MOD-006_SPRINT_PLAN.md`, `SPR-MOD-006-001..006`, `docs/40-module-baselines/MOD006_CRM_BASELINE_v1.md`.
-- Peer baselines (for comparative maturity): `MOD001..MOD005`, `MOD019` under `docs/40-module-baselines/`.
-- Registration surfaces: `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`, `docs/MODULE_CATALOG.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/SPRINT_CATALOG.md`, `docs/40-module-baselines/README.md`, `docs/30-sprint-prds/crm/README.md`.
-- Cross-cutting matrices: `docs/ENGINE_USAGE_MATRIX.md`, `docs/ADR_IMPACT_MATRIX.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md`, `docs/DOCUMENT_TRACEABILITY.md`, `docs/DOCUMENT_OWNERSHIP_MATRIX.md`, `docs/REPOSITORY_MAP.md`.
-- Audits: `docs/50-audit-reports/REPOSITORY_AUDIT_2026071{3,4}T*Z.md`.
-- Workflow spec: `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`.
-- Execution log: `.lovable/plan.md` (Passes 8.x–9.2.0).
-
-## Step 2 — Analysis Dimensions (ecosystem-focused)
-
-Evaluate against CRM as reference implementation:
-
-1. **Operational Documentation** — presence/absence of a Governance Operations Manual answering: execute GT-00x, recover from failure, author a corrective pass, upgrade Governance versions, introduce a new module, retire a template, perform repository recovery.
-2. **Repository Health Metrics** — whether measurable KPIs exist (module/stage/sprint/baseline/publication completion; GT-00x success rates; corrective-pass count; orphan documents; registration drift; automated vs. manual steps).
-3. **Executive Visibility** — presence of a consolidated master roadmap (module × stage matrix) beyond the existing per-artifact catalogs.
-4. **Cross-Module Integration** — readiness to run structured integration reviews (CRM ↔ Sales/Projects/HRMS/Inventory) validating event contracts, ownership boundaries, shared engines, duplicate capabilities.
-5. **Decision & Change History** — whether an Architecture Decision History and Governance Change Log exist alongside ADRs and template versioning.
-6. **Reference Module Designation** — criteria formalizing why CRM is the reference, and how future modules qualify.
-7. **Governance Testability** — feasibility of a synthetic governance test suite (missing plan, duplicate sprint ID, broken event, baseline drift) exercising GT-00x negative paths without live executions.
-8. **AI Execution Guidance** — whether an AI Execution Guide codifies execution order, mandatory validations, forbidden modifications, rollback behavior, prompt conventions, repository assumptions.
-9. **Parallel Execution Readiness** — module ownership, lock scope, merge order, conflict resolution, registration sequencing, audit dependencies for concurrent contributors/agents.
-10. **Automation Leverage** — deterministic candidates ranked by leverage × risk (preflight, transactional registration, audit emission, publication manifest, CI gates).
-11. **Scalability** — 40+ modules, 250+ Sprint PRDs, hundreds of audits: bottlenecks, drift risks, catalog explosion.
-12. **Framework Stability Discipline** — evidence that core GT-002..GT-005 has stabilized (change velocity, corrective-pass count, matrix churn).
-
-## Step 3 — Recommendation Schema
-
-Every recommendation SHALL use:
+## Execution Wrapper
 
 ```yaml
-recommendation_id: R-NNN
-title: <string>
-dimension: <1..12>
-category: operations | metrics | roadmap | integration | history | reference | testing | ai-guidance | parallelism | automation | scalability | stability
-evidence: [<artifact path> | "forward-looking opinion"]
-priority: P0 | P1 | P2 | P3
-impact: High | Medium | Low
-effort: Low | Medium | High
-confidence: High | Medium | Low         # High = repeated evidence; Low = inferred from limited examples
-depends_on: [R-NNN, ...]                # acyclic
-governance_v1_compatible: true          # invariant; SHALL be true
-touches_core_workflow: false            # invariant; SHALL be false (ecosystem-only)
+execution_id: GT003-MOD007-001-20260714T000400Z-001
+parent_result_id: GT002-MOD007-20260713-001
+execution_schema_version: 3
+execution_mode: released
+lock:
+  inherit: true
+  scope:
+    - SPR-MOD-007-001
+    - MOD-007-registration-surfaces
+  lock_release:
+    always_on:
+      - success
+      - rollback
+      - abort
+      - precondition_fail
+      - inconsistent
 ```
 
-## Step 4 — Maturity Matrices
+## Step 1 — Preconditions (read-only, abort on FAIL)
 
-Overall Readiness Score (0–100) plus:
+- Governance Framework v1.0 Released; GT-003 & GT-005 Active; Dependency Matrix v1.0.2 unchanged.
+- `docs/20-module-prds/hrms/MODULE_PRD.md` Approved (Pass 9.0.0).
+- `docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md` Approved.
+- `SPR-MOD-007-001` reserved, unauthored; no HRMS baseline exists.
+- Repository READY per most recent GT-005 audit; no open corrective pass.
+- No existing file at target path.
 
-**Primary axes:** Governance · Execution · Repository · Automation · Scalability · **Operability** · **Observability**.
+## Step 1A — Preflight Snapshot (integrity freeze)
 
-**Execution quality axes:** Repeatability · Determinism · Maintainability · Extensibility · Parallel Execution.
+Compute and freeze SHA-256 digests of:
 
-Each axis 0–10 with cited evidence.
+**Frozen authoritative artifacts (SHALL remain byte-identical through Step 8):**
+- HRMS Module PRD
+- HRMS Sprint Plan
+- GT-003 template
+- GT-005 template
+- `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` (+ `.yaml`)
+- Capabilities Registry — canonical path `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` (single artifact; this name is used consistently throughout this plan)
 
-## Step 5 — Deliverable (chat report, no files written)
+**Registration surfaces (expected to change only at Step 5 commit):**
+- `docs/30-sprint-prds/hrms/README.md`
+- `docs/SPRINT_CATALOG.md`
+- `docs/DOCUMENT_INDEX.md`
+- `docs/_meta.json`
 
-1. Executive Summary
-2. Observed Strengths to Preserve (CRM reference practices worth protecting from future refactors)
-3. Risks
-4. Improvement Opportunities — grouped by the twelve dimensions; each entry uses the Recommendation Schema; observations vs. forward-looking opinions clearly separated. Expected candidate areas (advisory, not prescriptive): Governance Operations Manual, Repository Health Metrics, Business OS Master Roadmap, Cross-Module Integration Review protocol, Architecture Decision History, Governance Change Log, Reference Module Criteria, Governance Test Suite, AI Execution Guide, Parallel Module Development rules.
-5. Recommended Ecosystem Operating Model — how the pieces above compose around the stable GT-002..GT-005 core; explicitly identifies what SHALL NOT change in the core workflow.
-6. Automation Roadmap — phased: P0 preflight & health metrics → P1 transactional registration wrapper → P2 audit generation → P3 publication manifest → P4 parallel execution & CI gates.
-7. Long-Term Scalability Assessment (40+ modules, 250+ sprints).
-8. Suggested Post-CRM Sequencing (advisory) — options to consider before scaling to further modules; e.g. publish CRM, capture lessons, invest in operations manual and AI guide, then resume module execution; periodic AR every 5–10 completed modules rather than per-module. Presented as options, not mandates; SHALL NOT gate Pass 9.3.0.
-9. Overall Readiness Score (0–100) with sub-scores across both maturity matrices, plus a Verdict: Proceed / Proceed with Minor Improvements / Pause for Framework Revision — with justification.
+Re-verify all digests immediately before Step 5 commit. If any frozen authoritative digest changes → **PRECONDITION-FAIL**, roll back, release lock, abort.
+
+## Step 2 — Authoritative Resolution (zero fabrication)
+
+Read only:
+- HRMS Module PRD; HRMS Sprint Plan (§2 SPR-MOD-007-001 row, §4 allocation, §5 engines)
+- `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`
+- `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md`
+- `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` (upstream)
+- Capabilities Registry (`docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md`)
+
+All capabilities, engines (`ENG-001..008, 012, 024`), ADRs (`ADR-011, 014, 032`), personas, master data (Employee, Position, Department, Grade, Shift), and configuration items resolve verbatim from the Sprint Plan row. Sprint 1 publishes no new events (Sprint Plan §2 lists none for 001). Any missing reference → **PRECONDITION-FAIL**; no substitutions.
+
+## Step 3 — Bounded Context Enforcement
+
+- **HRMS owns:** Employee Master, Employment Profile, Position, Department, Grade, Shift masters, org assignment, HR operations configuration (approval hierarchies, shift patterns, notice periods).
+- **Consumes read-only:** Identity/Authorization/Permission Management (`ENG-001..003`, MOD-001).
+- **Forbidden and asserted absent:** payroll processing (MOD-008), accounting/GL posting or voucher creation (MOD-002 via `ENG-015`/`ENG-016`), project resource allocation, CRM customer records.
+
+## Step 4 — Deliverable (Sprint PRD)
+
+Author `docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md` conforming exactly to released GT-003 v1.0 structure and frontmatter (governance metadata, `related_engines`, `related_adrs`, `dependencies`, capabilities, boundaries, exit criteria, published/consumed events). Frontmatter records `execution_id`, `parent_result_id`, and `preflight_snapshot_digest`.
+
+## Step 5 — Transactional Registration (idempotent)
+
+Update exclusively:
+- `docs/30-sprint-prds/hrms/README.md`
+- `docs/SPRINT_CATALOG.md`
+- `docs/DOCUMENT_INDEX.md`
+- `docs/_meta.json`
+
+Rollback SHALL follow the **GT-003 Runtime Rollback Rule** exactly.
+
+Idempotency invariants:
+- Exactly one row per surface for `SPR-MOD-007-001`.
+- `_meta.json` remains valid JSON; no duplicate sidebar entries.
+- Parent module = `MOD-007`; status = `Draft`.
+
+`DOCUMENT_TRACEABILITY.md` remains N/A by design.
+
+## Step 6 — GT-003 Validation (dynamically bound)
+
+Execute every validation rule declared by released GT-003; identifiers and count bound dynamically. Abort on any FAIL. No hardcoded counts.
+
+## Step 7 — GT-005 Repository Audit
+
+Emit `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000400Z.md`. Expected: Repository READY, Confidence MEDIUM (D3 inherited), every declared audit rule PASS (dynamically bound).
+
+## Step 8 — Post-Commit Snapshot Re-verification
+
+Re-compute Step 1A digests. **Only registration surfaces are expected to change. All frozen authoritative artifacts SHALL remain byte-identical.** Any drift in a frozen artifact → mark pass **INCONSISTENT**, roll back registration via GT-003 Runtime Rollback Rule, release lock, abort.
+
+## Step 9 — Execution Record & Handoff
+
+Append to `.lovable/plan.md`:
+
+```yaml
+execution_id: GT003-MOD007-001-20260714T000400Z-001
+execution_status: READY_FOR_NEXT_SPRINT
+snapshot_digest: <sha256 of concatenated frozen-artifact digests>
+repository_revision_after: <post-commit repo revision marker>
+audit_report_id: REPOSITORY_AUDIT_20260714T000400Z
+next_template: GT-003
+next_target: SPR-MOD-007-002
+handoff_state: READY
+handoff_contract:
+  upstream_pass: 9.3.0
+  downstream_requires:
+    - SPR-MOD-007-001 registered on 4 surfaces (idempotent)
+    - GT-003 validation PASS (dynamically bound)
+    - GT-005 audit PASS (dynamically bound)
+    - Preflight snapshot verified pre- and post-commit
+    - Frozen authoritative artifacts byte-identical
+    - Repository READY
+```
 
 ## Success Criteria
 
-- Zero writes; zero governance / template / registration / core-workflow mutations.
-- Every recommendation carries `evidence`, `priority`, `impact`, `effort`, `confidence`, `depends_on`, `governance_v1_compatible: true`, `touches_core_workflow: false`.
-- Observations vs. forward-looking opinions clearly separated.
-- All 12 dimensions and 9 deliverable sections covered.
-- Both maturity matrices populated with cited evidence.
-- Explicit verdict with justification.
-- Post-CRM sequencing presented as advisory options only; does not gate Pass 9.3.0.
+- Sprint PRD title/slug/scope match `MOD-007_SPRINT_PLAN.md §2 SPR-MOD-007-001` verbatim.
+- Zero fabricated identifiers.
+- Ownership boundaries preserved; no forbidden concerns present.
+- Transactional registration across the 4 GT-003 surfaces.
+- **Execution is idempotent.**
+- Preflight snapshot verified pre- and post-commit; frozen artifacts byte-identical.
+- Every declared GT-003 & GT-005 rule PASS (dynamically bound).
+- Lock released on every terminal state per `lock_release.always_on`.
+- Repository READY; Governance Framework unchanged.
+
+## Roadmap
+
+- **Pass 9.3.1** — GT-003 for `SPR-MOD-007-002` (Employment Lifecycle).
+- **Pass 9.3.2 … 9.3.5** — Sprints 003..006 per HRMS Sprint Plan §2.
+- **Pass 9.4.0** — GT-004 MOD-007 Baseline Consolidation.
+- **Pass 9.4.1** — GT-005 publication of `MOD007_HRMS_BASELINE_v1`.
 
 ## Non-Goals
 
-- No new or modified governance templates, versions, capabilities, or matrix rows.
-- No changes to GT-002..GT-005 semantics, validation rules, or execution order.
-- No file creation (no operations manual, no metrics dashboard, no roadmap, no test suite, no AI guide — those may be *recommended* by AR-001 but SHALL NOT be *authored* by it).
-- No changes to CRM artifacts or registration surfaces.
-- No Governance Framework redesign.
-- No implementation, migration, or code changes.
+- No governance/template/matrix/capabilities-registry changes.
+- No Module PRD or Sprint Plan edits.
+- No implementation code.
+- No changes to unrelated modules or CRM artifacts.
 
-## Handoff
+## Changes vs v2
 
-AR-001 output is advisory. Default forward path remains **Pass 9.3.0 — Execute GT-003 for `SPR-MOD-007-001`** under unchanged Governance Framework v1.0. AR-001 does not gate that pass; any ecosystem work (operations manual, metrics, roadmap, etc.) is scheduled independently based on the review's prioritized recommendations.
+1. **Capabilities Registry naming** — unified to `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` everywhere (Step 1A, Step 2).
+2. **Step 8 wording** hardened: "Only registration surfaces are expected to change. All frozen authoritative artifacts SHALL remain byte-identical."
+3. **Lock release semantics** — added `lock_release.always_on: [success, rollback, abort, precondition_fail, inconsistent]` to the execution wrapper.
+4. **Rollback inheritance** — Step 5 now explicitly inherits the **GT-003 Runtime Rollback Rule** rather than restating mechanics.
+5. **Idempotency as success criterion** — "Execution is idempotent" added to Success Criteria.
+6. **Execution record enriched** with `snapshot_digest`, `repository_revision_after`, and `audit_report_id` at the top level; handoff contract now asserts frozen-artifact byte-identity.
 
-## Changes vs v4
+---
 
-1. `review_spec_version` bumped to 1.1; added `core_workflow_status: stable-do-not-modify` to Classification.
-2. New **Core workflow stability** constraint — no changes proposed to GT-002..GT-005 semantics/rules/order.
-3. Analysis Dimensions expanded from 8 to 12 to cover the ten ecosystem areas (Operations Manual, Health Metrics, Master Roadmap, Cross-Module Integration, Decision History, Reference Module Criteria, Governance Testability, AI Execution Guide, Parallel Execution, Automation) plus retained Scalability and a new Framework Stability Discipline dimension.
-4. Recommendation Schema adds `category` and `touches_core_workflow: false` invariant.
-5. Maturity Matrices add **Operability** and **Observability** primary axes.
-6. Deliverable §5 renamed to **Recommended Ecosystem Operating Model** (was Standard Execution Protocol) to reflect ecosystem-around-stable-core framing.
-7. New Deliverable §8 **Suggested Post-CRM Sequencing** captures the advisory roadmap (publish CRM → lessons → operations manual & AI guide → resume with HRMS → periodic AR every 5–10 modules) as options, not mandates.
-8. Non-Goals clarified: AR-001 may *recommend* new operational documents but SHALL NOT *author* them.
+## Pass 9.3.0 — Execution Record
+
+- **Execution ID:** `GT003-MOD007-001-20260714T000400Z-001`
+- **Template:** GT-003 v1.0 (Sprint Authoring)
+- **Target:** `SPR-MOD-007-001 — HRMS Foundation & Employee Master`
+- **Artifact:** `docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md`
+- **Registration surfaces updated (4/4):**
+  - `docs/30-sprint-prds/hrms/README.md` — Sprint 1 row Reserved → Draft (linked).
+  - `docs/SPRINT_CATALOG.md` — appended MOD-007 Sprint 1 row (People).
+  - `docs/DOCUMENT_INDEX.md` — appended Delivery / Authoritative entry.
+  - `docs/_meta.json` — appended HRMS sprint sidebar entry.
+- **Validation:** Every declared GT-003 v1.0 rule PASS (bound to released template).
+- **Audit:** Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000400Z.md` — every declared GT-005 v1.0 audit rule PASS.
+- **Repository Status:** READY. Confidence MEDIUM (D3 waiver inherited).
+- **Handoff Contract Satisfied For:** Pass 9.3.1 — GT-003 execution for `SPR-MOD-007-002` (Employment Lifecycle — Hire & Exit).
+- **Governance / Baselines Immutability:** Confirmed — no `docs/15-governance/**` or `docs/40-module-baselines/**` content mutated.
