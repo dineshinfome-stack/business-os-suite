@@ -41,7 +41,7 @@ The authoritative Stage 1 Sprint Plan for MOD-006 is [`MOD-006_SPRINT_PLAN.md`](
 | SPR-MOD-006-002 | Sprint 2 | Leads (capture, qualification, conversion) | Authored (Draft) — [`SPR-MOD-006-002-leads.md`](./SPR-MOD-006-002-leads.md) | SPR-MOD-006-001 |
 | SPR-MOD-006-003 | Sprint 3 | Opportunities (pipeline, win/loss) | Authored (Draft) — [`SPR-MOD-006-003-opportunities.md`](./SPR-MOD-006-003-opportunities.md) | SPR-MOD-006-001, SPR-MOD-006-002 |
 | SPR-MOD-006-004 | Sprint 4 | Activities & Communications (activity, task, meeting tracking) | Authored (Draft) — [`SPR-MOD-006-004-activities-communications.md`](./SPR-MOD-006-004-activities-communications.md) | SPR-MOD-006-001 |
-| SPR-MOD-006-005 | Sprint 5 | Campaigns (campaigns, segmentation, sends) | Planned | SPR-MOD-006-001 |
+| SPR-MOD-006-005 | Sprint 5 | Campaigns (campaigns, segmentation, sends) | Authored (Draft) — [`SPR-MOD-006-005-campaigns.md`](./SPR-MOD-006-005-campaigns.md) | SPR-MOD-006-001 |
 | SPR-MOD-006-006 | Sprint 6 | Customer 360 & Analytics (read model, reports, dashboards) | Planned | SPR-MOD-006-001 … SPR-MOD-006-005 |
 
 The `Estimated Sprint Count` for this module is reconciled to **6** by the Stage 1 Sprint Plan. Goals and dependencies above mirror the plan and will be refined only through amendments to the plan itself.
