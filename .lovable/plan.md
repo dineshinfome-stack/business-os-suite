@@ -111,3 +111,32 @@ Execute Pass 9.3.4 by binding **Part B** into the FROZEN **GT-003 Execution Wrap
 - **Pass 9.4.0** — GT-004 MOD-007 Baseline Consolidation.
 - **Pass 9.4.1** — GT-005 Publication of `MOD007_HRMS_BASELINE_v1`.
 - **Post-MOD-007 Retrospective** — Combined CRM + HRMS review to determine whether Wrapper v1.1 is warranted. Until then, Wrapper v1.0 remains frozen.
+
+---
+
+## Execution Record — Pass 9.3.4
+
+```yaml
+execution_record:
+  schema_version: 1.0
+  wrapper_version: 1.0
+  wrapper_frozen: true
+  pass_id: 9.3.4
+  execution_id: GT003-MOD007-005-20260714T000800Z-001
+  parent_execution_id: GT003-MOD007-004-20260714T000700Z-001
+  module: MOD-007
+  sprint_id: SPR-MOD-007-005
+  target_file: docs/30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service.md
+  registration_surfaces:
+    - docs/30-sprint-prds/hrms/README.md (Sprint 5 row: Reserved → Draft)
+    - docs/SPRINT_CATALOG.md (Sprint 5 row appended)
+    - docs/DOCUMENT_INDEX.md (Sprint 5 entry appended)
+    - docs/_meta.json (HRMS sprint group entry appended)
+  audit_report: docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000800Z.md
+  gt003_validation: PASS
+  gt005_audit: PASS (all five profiles)
+  repository_status: READY
+  governance_touched: false
+  wrapper_touched: false
+  next_pass: 9.3.5 (SPR-MOD-007-006 — HR Analytics & Compliance)
+```
