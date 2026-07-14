@@ -1118,6 +1118,10 @@
           "path": "30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit"
         },
         {
+          "title": "SPR-MOD-007-003 — Attendance & Leave",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave"
+        },
+        {
           "title": "MOD-008 Payroll",
           "path": "30-sprint-prds/payroll/README"
         },
