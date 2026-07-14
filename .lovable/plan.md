@@ -74,3 +74,32 @@ No edits to Sprint PRDs, Module PRD, Governance Framework, GT templates, Depende
 - **Pass 9.4.1** — Execute GT-005 to publish `MOD007_HRMS_BASELINE_v1`.
 - **Post-MOD-007 Retrospective** (read-only) — Combined CRM + HRMS review; enhancements become Wrapper v1.1 without touching historical executions.
 - **Next module** — Resume GT-002/GT-003 pipeline under unchanged FROZEN Wrapper v1.0.
+
+---
+
+## Execution Record — Pass 9.4.0 (GT-004 Baseline Consolidation for MOD-007 HRMS)
+
+```yaml
+execution_status: READY_FOR_PUBLICATION
+next_template: GT-005
+next_target: MOD007_HRMS_BASELINE_v1
+handoff_state: READY
+execution_id: GT004-MOD007-20260714-001
+parent_execution_id: GT003-MOD007-006-20260714T000900Z-001
+audit_report_id: REPOSITORY_AUDIT_20260714T001000Z
+repository_revision_after: <unavailable in sandboxed environment; D3 waiver>
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per GT-004 §7 Step 1>
+baseline_authored: docs/40-module-baselines/MOD007_HRMS_BASELINE_v1.md
+sprints_consolidated: 6
+registration_surfaces_updated:
+  - docs/40-module-baselines/README.md
+  - docs/MODULE_BASELINE_CATALOG.md
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+gt004_validation: PASS
+gt005_audit: PASS
+repository_status: READY
+module_state: FROZEN
+```
+
+Pass 9.4.0 executed under released GT-004 template: authored `MOD007_HRMS_BASELINE_v1.md`, consolidated six Sprint PRDs (`SPR-MOD-007-001` … `SPR-MOD-007-006`), registered on all 4 surfaces, emitted `REPOSITORY_AUDIT_20260714T001000Z.md` (all profiles PASS), and appended execution record — **MOD-007 HRMS is FROZEN**. Repository READY for Pass 9.4.1 (GT-005 Publication Audit).
