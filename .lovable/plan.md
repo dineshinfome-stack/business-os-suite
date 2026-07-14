@@ -251,3 +251,50 @@ Effort moves from process refinement → module production. Wrapper stability is
 ## Decision Gate
 
 If Passes 9.3.2 → 9.4.1 complete with no execution-blocking issues, and the post-MOD-007 retrospective raises no defects, Wrapper v1.0 is **permanently frozen**. Any future improvements become Wrapper v1.1 and SHALL NOT modify historical executions.
+
+---
+
+## Execution Record — Pass 9.3.1 (GT-003 for SPR-MOD-007-002)
+
+```yaml
+execution_record:
+  schema_version: 1.0
+  execution_id: GT003-MOD007-002-20260714T000500Z-001
+  parent_execution_id: GT003-MOD007-001-20260714T000400Z-001
+  pass_id: 9.3.1
+  wrapper_version: 1.0
+  wrapper_status: FROZEN
+  wrapper_compatibility: { minimum: 1.0, maximum: 1.x }
+  template: GT-003 v1.0
+  audit_template: GT-005 v1.0
+  target_artifact: docs/30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit.md
+  registration_surfaces_updated:
+    - docs/30-sprint-prds/hrms/README.md
+    - docs/SPRINT_CATALOG.md
+    - docs/DOCUMENT_INDEX.md
+    - docs/_meta.json
+  events_published: [EmployeeHired, EmployeeExited]
+  events_consumed: []
+  deferred_risks:
+    - R-EV-01  # event-catalog stub does not yet enumerate EmployeeHired/EmployeeExited
+    - R-EV-02  # cross-module subscription is downstream-sprint responsibility
+  audit_report_id: REPOSITORY_AUDIT_20260714T000500Z
+  audit_result: PASS
+  gt003_validation_result: PASS
+  repository_status: READY
+  execution_status: READY_FOR_NEXT_SPRINT
+  next_template: GT-003
+  next_target: SPR-MOD-007-003
+  handoff_state: READY
+  handoff_contract:
+    upstream_pass: 9.3.1
+    downstream_requires:
+      - Sprint 2 registered on every surface listed in `registration_surfaces` (idempotent) — SATISFIED
+      - GT-003 validation PASS — SATISFIED
+      - GT-005 audit PASS — SATISFIED
+      - Frozen authoritative artifacts semantically identical — SATISFIED
+      - Repository READY — SATISFIED
+  lock_state: RELEASED
+```
+
+**Result:** Pass 9.3.1 complete. `SPR-MOD-007-002 — Employment Lifecycle (Hire & Exit)` authored, registered across 4 surfaces, validated against GT-003 v1.0, and audited via GT-005 v1.0 (all PASS). Repository READY. Wrapper v1.0 (FROZEN) successfully applied — first execution under freeze validates the specification. Ready to proceed to **Pass 9.3.2** (SPR-MOD-007-003 Attendance & Leave).
