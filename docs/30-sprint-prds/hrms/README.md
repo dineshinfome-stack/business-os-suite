@@ -37,7 +37,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-007-NNN`**, where `NNN`
 | [SPR-MOD-007-002](./SPR-MOD-007-002-employment-lifecycle-hire-and-exit.md) | Sprint 2 | Employment Lifecycle (Hire & Exit) | Draft | SPR-MOD-007-001 |
 | [SPR-MOD-007-003](./SPR-MOD-007-003-attendance-and-leave.md) | Sprint 3 | Attendance & Leave | Draft | SPR-MOD-007-001 |
 | [SPR-MOD-007-004](./SPR-MOD-007-004-performance-and-appraisal.md) | Sprint 4 | Performance & Appraisal | Draft | SPR-MOD-007-001 |
-| SPR-MOD-007-005 | Sprint 5 | Learning & Development and Self-Service | Reserved | SPR-MOD-007-001, SPR-MOD-007-003 |
+| [SPR-MOD-007-005](./SPR-MOD-007-005-learning-development-and-self-service.md) | Sprint 5 | Learning & Development and Self-Service | Draft | SPR-MOD-007-001, SPR-MOD-007-003 |
 | SPR-MOD-007-006 | Sprint 6 | HR Analytics & Compliance | Reserved | SPR-MOD-007-001 … SPR-MOD-007-005 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is reconciled to **6** by the MOD-007 Sprint Plan (up from the prior `5`).
