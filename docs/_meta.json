@@ -1122,6 +1122,10 @@
           "path": "30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave"
         },
         {
+          "title": "SPR-MOD-007-004 — Performance & Appraisal",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal"
+        },
+        {
           "title": "MOD-008 Payroll",
           "path": "30-sprint-prds/payroll/README"
         },
