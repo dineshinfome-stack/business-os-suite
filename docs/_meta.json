@@ -1130,6 +1130,10 @@
           "path": "30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service"
         },
         {
+          "title": "SPR-MOD-007-006 — HR Analytics & Compliance",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance"
+        },
+        {
           "title": "MOD-008 Payroll",
           "path": "30-sprint-prds/payroll/README"
         },
