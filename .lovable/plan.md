@@ -1,187 +1,300 @@
-# Pass 9.3.0 — Execute GT-003 for SPR-MOD-007-001 — v3
+# Pass 9.3.1 — Execute GT-003 for SPR-MOD-007-002 (Wrapper v1.0 FROZEN) — final
 
-Execute released GT-003 v1.0 to author the first HRMS Sprint PRD under unchanged Governance Framework v1.0. Adopts terminal CRM execution discipline (Passes 9.1.5 v3, 9.2.0, 9.2.1 v3) verbatim: normative-source precedence, preflight snapshot integrity, idempotent registration invariants, explicit lock lifecycle, post-commit re-verification, and enriched execution record for auditability.
+Execute released GT-003 v1.0 to author the second HRMS Sprint PRD. **GT-003 Execution Wrapper v1.0 is Feature Complete and FROZEN.** No further methodology refinements during MOD-007. This pass binds Execution Variables into Wrapper v1.0 as-is.
 
-## Authoritative Title Reconciliation
+## Changes vs previous revision
 
-The user prompt titles the sprint "Employee Master & Organization Assignment". `docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md §2` reserves the identifier as **"SPR-MOD-007-001 — HRMS Foundation & Employee Master"**. Per that plan's declared Normative Source Precedence and the zero-fabrication rule, the **Sprint Plan wins**. Organization assignment is covered inherently via Position/Department/Grade/Shift masters + HR operations configuration listed for Sprint 1.
+1. **Normative inheritance** — Part A is described as *"normatively inherited from Wrapper v1.0"* rather than referencing a specific historical pass, so future extraction to `.lovable/execution/GT003_WRAPPER_v1.yaml` requires no plan edits.
+2. **Post-HRMS retrospective** — a single CRM+HRMS retrospective is added to the roadmap as the trigger for any future Wrapper v1.1 review.
 
-- **Filename:** `docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md`
+Nothing else changes. Per user guidance, effort now shifts to execution.
 
-## Execution Wrapper
-
-```yaml
-execution_id: GT003-MOD007-001-20260714T000400Z-001
-parent_result_id: GT002-MOD007-20260713-001
-execution_schema_version: 3
-execution_mode: released
-lock:
-  inherit: true
-  scope:
-    - SPR-MOD-007-001
-    - MOD-007-registration-surfaces
-  lock_release:
-    always_on:
-      - success
-      - rollback
-      - abort
-      - precondition_fail
-      - inconsistent
-```
-
-## Step 1 — Preconditions (read-only, abort on FAIL)
-
-- Governance Framework v1.0 Released; GT-003 & GT-005 Active; Dependency Matrix v1.0.2 unchanged.
-- `docs/20-module-prds/hrms/MODULE_PRD.md` Approved (Pass 9.0.0).
-- `docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md` Approved.
-- `SPR-MOD-007-001` reserved, unauthored; no HRMS baseline exists.
-- Repository READY per most recent GT-005 audit; no open corrective pass.
-- No existing file at target path.
-
-## Step 1A — Preflight Snapshot (integrity freeze)
-
-Compute and freeze SHA-256 digests of:
-
-**Frozen authoritative artifacts (SHALL remain byte-identical through Step 8):**
-- HRMS Module PRD
-- HRMS Sprint Plan
-- GT-003 template
-- GT-005 template
-- `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` (+ `.yaml`)
-- Capabilities Registry — canonical path `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` (single artifact; this name is used consistently throughout this plan)
-
-**Registration surfaces (expected to change only at Step 5 commit):**
-- `docs/30-sprint-prds/hrms/README.md`
-- `docs/SPRINT_CATALOG.md`
-- `docs/DOCUMENT_INDEX.md`
-- `docs/_meta.json`
-
-Re-verify all digests immediately before Step 5 commit. If any frozen authoritative digest changes → **PRECONDITION-FAIL**, roll back, release lock, abort.
-
-## Step 2 — Authoritative Resolution (zero fabrication)
-
-Read only:
-- HRMS Module PRD; HRMS Sprint Plan (§2 SPR-MOD-007-001 row, §4 allocation, §5 engines)
-- `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`
-- `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md`
-- `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` (upstream)
-- Capabilities Registry (`docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md`)
-
-All capabilities, engines (`ENG-001..008, 012, 024`), ADRs (`ADR-011, 014, 032`), personas, master data (Employee, Position, Department, Grade, Shift), and configuration items resolve verbatim from the Sprint Plan row. Sprint 1 publishes no new events (Sprint Plan §2 lists none for 001). Any missing reference → **PRECONDITION-FAIL**; no substitutions.
-
-## Step 3 — Bounded Context Enforcement
-
-- **HRMS owns:** Employee Master, Employment Profile, Position, Department, Grade, Shift masters, org assignment, HR operations configuration (approval hierarchies, shift patterns, notice periods).
-- **Consumes read-only:** Identity/Authorization/Permission Management (`ENG-001..003`, MOD-001).
-- **Forbidden and asserted absent:** payroll processing (MOD-008), accounting/GL posting or voucher creation (MOD-002 via `ENG-015`/`ENG-016`), project resource allocation, CRM customer records.
-
-## Step 4 — Deliverable (Sprint PRD)
-
-Author `docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md` conforming exactly to released GT-003 v1.0 structure and frontmatter (governance metadata, `related_engines`, `related_adrs`, `dependencies`, capabilities, boundaries, exit criteria, published/consumed events). Frontmatter records `execution_id`, `parent_result_id`, and `preflight_snapshot_digest`.
-
-## Step 5 — Transactional Registration (idempotent)
-
-Update exclusively:
-- `docs/30-sprint-prds/hrms/README.md`
-- `docs/SPRINT_CATALOG.md`
-- `docs/DOCUMENT_INDEX.md`
-- `docs/_meta.json`
-
-Rollback SHALL follow the **GT-003 Runtime Rollback Rule** exactly.
-
-Idempotency invariants:
-- Exactly one row per surface for `SPR-MOD-007-001`.
-- `_meta.json` remains valid JSON; no duplicate sidebar entries.
-- Parent module = `MOD-007`; status = `Draft`.
-
-`DOCUMENT_TRACEABILITY.md` remains N/A by design.
-
-## Step 6 — GT-003 Validation (dynamically bound)
-
-Execute every validation rule declared by released GT-003; identifiers and count bound dynamically. Abort on any FAIL. No hardcoded counts.
-
-## Step 7 — GT-005 Repository Audit
-
-Emit `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000400Z.md`. Expected: Repository READY, Confidence MEDIUM (D3 inherited), every declared audit rule PASS (dynamically bound).
-
-## Step 8 — Post-Commit Snapshot Re-verification
-
-Re-compute Step 1A digests. **Only registration surfaces are expected to change. All frozen authoritative artifacts SHALL remain byte-identical.** Any drift in a frozen artifact → mark pass **INCONSISTENT**, roll back registration via GT-003 Runtime Rollback Rule, release lock, abort.
-
-## Step 9 — Execution Record & Handoff
-
-Append to `.lovable/plan.md`:
+## Governance Freeze Declaration
 
 ```yaml
-execution_id: GT003-MOD007-001-20260714T000400Z-001
-execution_status: READY_FOR_NEXT_SPRINT
-snapshot_digest: <sha256 of concatenated frozen-artifact digests>
-repository_revision_after: <post-commit repo revision marker>
-audit_report_id: REPOSITORY_AUDIT_20260714T000400Z
-next_template: GT-003
-next_target: SPR-MOD-007-002
-handoff_state: READY
-handoff_contract:
-  upstream_pass: 9.3.0
-  downstream_requires:
-    - SPR-MOD-007-001 registered on 4 surfaces (idempotent)
-    - GT-003 validation PASS (dynamically bound)
-    - GT-005 audit PASS (dynamically bound)
-    - Preflight snapshot verified pre- and post-commit
-    - Frozen authoritative artifacts byte-identical
-    - Repository READY
+wrapper_freeze:
+  wrapper: GT-003 Execution Wrapper v1.0
+  status: FROZEN — Feature Complete
+  declared_at_pass: 9.3.1
+  change_policy:
+    minor_wording: defer
+    formatting: defer
+    naming: defer
+    structural: defer_to_wrapper_v1_1
+    only_permitted_change_during_HRMS:
+      - execution-blocking governance defect
+      - execution failure exposing a missing invariant
+      - GT-003 itself changes
+      - Governance Framework v1.x changes
+  decision_gate:
+    condition: "No execution-blocking issues across Passes 9.3.2 → 9.4.1"
+    outcome: "Wrapper v1.0 permanently frozen; future improvements become Wrapper v1.1 and SHALL NOT modify historical executions."
 ```
 
-## Success Criteria
+## Architectural Hierarchy (stable)
 
-- Sprint PRD title/slug/scope match `MOD-007_SPRINT_PLAN.md §2 SPR-MOD-007-001` verbatim.
-- Zero fabricated identifiers.
-- Ownership boundaries preserved; no forbidden concerns present.
-- Transactional registration across the 4 GT-003 surfaces.
-- **Execution is idempotent.**
-- Preflight snapshot verified pre- and post-commit; frozen artifacts byte-identical.
-- Every declared GT-003 & GT-005 rule PASS (dynamically bound).
-- Lock released on every terminal state per `lock_release.always_on`.
-- Repository READY; Governance Framework unchanged.
-
-## Roadmap
-
-- **Pass 9.3.1** — GT-003 for `SPR-MOD-007-002` (Employment Lifecycle).
-- **Pass 9.3.2 … 9.3.5** — Sprints 003..006 per HRMS Sprint Plan §2.
-- **Pass 9.4.0** — GT-004 MOD-007 Baseline Consolidation.
-- **Pass 9.4.1** — GT-005 publication of `MOD007_HRMS_BASELINE_v1`.
-
-## Non-Goals
-
-- No governance/template/matrix/capabilities-registry changes.
-- No Module PRD or Sprint Plan edits.
-- No implementation code.
-- No changes to unrelated modules or CRM artifacts.
-
-## Changes vs v2
-
-1. **Capabilities Registry naming** — unified to `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` everywhere (Step 1A, Step 2).
-2. **Step 8 wording** hardened: "Only registration surfaces are expected to change. All frozen authoritative artifacts SHALL remain byte-identical."
-3. **Lock release semantics** — added `lock_release.always_on: [success, rollback, abort, precondition_fail, inconsistent]` to the execution wrapper.
-4. **Rollback inheritance** — Step 5 now explicitly inherits the **GT-003 Runtime Rollback Rule** rather than restating mechanics.
-5. **Idempotency as success criterion** — "Execution is idempotent" added to Success Criteria.
-6. **Execution record enriched** with `snapshot_digest`, `repository_revision_after`, and `audit_report_id` at the top level; handoff contract now asserts frozen-artifact byte-identity.
+```text
+Governance Framework
+       │
+   GT Templates
+       │
+Execution Specification (Wrapper v1.0 — FROZEN)
+       │
+Execution Data (Variables)
+       │
+    Execution
+```
 
 ---
 
-## Pass 9.3.0 — Execution Record
+## Part A — Canonical GT-003 Execution Wrapper v1.0 (FROZEN)
 
-- **Execution ID:** `GT003-MOD007-001-20260714T000400Z-001`
-- **Template:** GT-003 v1.0 (Sprint Authoring)
-- **Target:** `SPR-MOD-007-001 — HRMS Foundation & Employee Master`
-- **Artifact:** `docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md`
-- **Registration surfaces updated (4/4):**
-  - `docs/30-sprint-prds/hrms/README.md` — Sprint 1 row Reserved → Draft (linked).
-  - `docs/SPRINT_CATALOG.md` — appended MOD-007 Sprint 1 row (People).
-  - `docs/DOCUMENT_INDEX.md` — appended Delivery / Authoritative entry.
-  - `docs/_meta.json` — appended HRMS sprint sidebar entry.
-- **Validation:** Every declared GT-003 v1.0 rule PASS (bound to released template).
-- **Audit:** Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000400Z.md` — every declared GT-005 v1.0 audit rule PASS.
-- **Repository Status:** READY. Confidence MEDIUM (D3 waiver inherited).
-- **Handoff Contract Satisfied For:** Pass 9.3.1 — GT-003 execution for `SPR-MOD-007-002` (Employment Lifecycle — Hire & Exit).
-- **Governance / Baselines Immutability:** Confirmed — no `docs/15-governance/**` or `docs/40-module-baselines/**` content mutated.
+Wrapper body is **normatively inherited from Wrapper v1.0** and reproduced here for auditability. Contents SHALL NOT be edited during HRMS. Any semantic change requires Wrapper v1.1.
+
+```yaml
+execution_wrapper:
+  version: 1.0
+  status: FROZEN
+  identity_rule: "SHALL remain semantically identical unless superseded by Wrapper v1.1."
+  compatibility: { minimum: 1.0, maximum: 1.x }
+  governance_baseline: Governance Framework v1.0
+  template: GT-003 v1.0
+  audit_template: GT-005 v1.0
+
+execution_lifecycle:
+  - Preconditions
+  - Snapshot Freeze
+  - Authoritative Resolution (zero fabrication)
+  - Sprint Authoring (GT-003 canonical structure)
+  - Transactional Registration (idempotent)
+  - GT-003 Validation (dynamically bound)
+  - GT-005 Repository Audit (dynamically bound)
+  - Post-Commit Snapshot Re-verification
+  - Execution Finalization
+
+execution_finalization:
+  components: [execution_record, audit_linkage, handoff, lock_release]
+
+lock:
+  inherit: true
+  lock_release:
+    always_on: [success, rollback, abort, precondition_fail, inconsistent]
+
+registration_surfaces:
+  - docs/30-sprint-prds/<module-slug>/README.md
+  - docs/SPRINT_CATALOG.md
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+non_registration_surface:
+  - docs/DOCUMENT_TRACEABILITY.md   # N/A by design for per-sprint registration
+
+repository_invariants:
+  registration_transactional: true
+  registration_idempotent: true
+  authoritative_artifacts_immutable: true
+  governance_artifacts_immutable: true
+  repository_ready_required: true
+  gt003_validation_pass_required: true
+  gt005_audit_pass_required: true
+  lock_released_on_terminal_state: true
+
+execution_invariants:
+  zero_fabrication: true
+  normative_source_precedence: true
+  snapshot_integrity: true
+  transactional_registration: true
+  idempotent_registration: true
+  bounded_context_enforcement: true
+  dynamic_validation_binding: true
+  dynamic_audit_binding: true
+  metadata_only_registration: true
+  rollback_on_failure: true
+
+frozen_authoritative_artifacts:
+  - <module>_MODULE_PRD.md
+  - <module>_SPRINT_PLAN.md
+  - upstream sprint PRD(s) declared by Sprint Plan
+  - GT-003 template
+  - GT-005 template
+  - docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md (+ .yaml)
+  - docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md
+  - docs/02-architecture/event-catalog.md
+
+event_resolution_policy:
+  rule: "Published/consumed events resolve verbatim from Event Catalog and Module PRD."
+  missing_event_handling:
+    action: record_as_deferred_repository_risk
+    identifier_prefix: R-EV-
+    definition: "Deferred Repository Risk (Events) — execution-record observation, not a governance artifact."
+    forbid: [modify event-catalog, modify Module PRD, modify Sprint Plan]
+
+authoring_structure: "released GT-003 v1.0 canonical structure"
+frontmatter_carries: [execution_id, parent_execution_id, preflight_snapshot_digest]
+
+rollback:
+  rule: "GT-003 Runtime Rollback Rule (inherited verbatim)."
+  drift_of_frozen_artifact_pre_commit: precondition_fail
+  drift_of_frozen_artifact_post_commit: inconsistent
+
+success_criteria:
+  - Repository Invariants satisfied
+  - Execution Invariants satisfied
+  - Sprint-specific authoritative resolution completed (title/slug/scope/engines/ADRs/events resolved verbatim from Sprint Plan row)
+
+non_goals:
+  - No governance/template/matrix/capabilities/event-catalog changes
+  - No Module PRD or Sprint Plan edits
+  - No implementation code
+  - No changes to unrelated modules
+
+execution_record_schema:
+  version: 1.0
+  shape:
+    execution_id: <string>
+    execution_status: READY_FOR_NEXT_SPRINT | ROLLED_BACK | INCONSISTENT | ABORTED
+    snapshot_digest: <sha256>
+    repository_revision_after: <marker>
+    audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
+    deferred_risks: [<R-EV-* entries or empty>]
+    next_template: GT-003
+    next_target: <next SPR-MOD-NNN-XXX>
+    handoff_state: READY
+    handoff_contract:
+      upstream_pass: <pass-id>
+      downstream_requires:
+        - Sprint registered on every surface listed in `registration_surfaces` (idempotent)
+        - GT-003 validation PASS (dynamically bound)
+        - GT-005 audit PASS (dynamically bound)
+        - Preflight snapshot verified pre- and post-commit
+        - Frozen authoritative artifacts semantically identical
+        - Repository READY
+```
+
+---
+
+## Part B — Pass 9.3.1 Execution Variables
+
+```yaml
+execution_variables:
+  wrapper_version: 1.0
+  wrapper_compatibility: { minimum: 1.0, maximum: 1.x }
+  execution_record_schema_version: 1.0
+  pass_id: 9.3.1
+  module: MOD-007
+  module_slug: hrms
+  sprint_id: SPR-MOD-007-002
+  parent_execution_id: GT003-MOD007-001-20260714T000400Z-001
+  execution_id: GT003-MOD007-002-20260714T000500Z-001
+  audit_timestamp: 20260714T000500Z
+  audit_report: docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000500Z.md
+  target_file: docs/30-sprint-prds/hrms/SPR-MOD-007-002-<slug-from-sprint-plan>.md
+  title_source: docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md §2 row SPR-MOD-007-002
+  authoritative_sources:
+    - docs/20-module-prds/hrms/MODULE_PRD.md
+    - docs/30-sprint-prds/hrms/MOD-007_SPRINT_PLAN.md
+    - docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md
+    - docs/10-erp-core/ENGINE_CATALOG.md
+    - docs/ENGINE_USAGE_MATRIX.md
+    - docs/11-adrs/ADR_INDEX.md
+    - docs/02-architecture/event-catalog.md
+    - docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md
+    - docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md
+  upstream_sprint: SPR-MOD-007-001
+  next_target: SPR-MOD-007-003
+  bounded_context:
+    in_scope:
+      - onboarding workflow
+      - exit clearance
+      - lifecycle approvals
+      - offer / appointment / exit letters
+      - employment attachments
+      - employment state transitions on the S1 Employee master
+    consumes_read_only:
+      - Employee/Position/Department/Grade/Shift masters (SPR-MOD-007-001)
+      - Identity/Authorization (MOD-001)
+    forbidden:
+      - attendance capture
+      - leave management
+      - payroll (MOD-008)
+      - accounting/GL posting (MOD-002)
+      - full & final settlement financials
+```
+
+All engines, ADRs, capabilities, personas, published/consumed events, and exit criteria resolve verbatim at execution time from `authoritative_sources`.
+
+---
+
+## Part C — Binding
+
+Execute Pass 9.3.1 by binding **Part B** into the FROZEN **Part A**. Each stage of `execution_lifecycle` runs exactly as the wrapper specifies, terminating in Execution Finalization. Nothing sprint-specific is restated outside Part B.
+
+## Execution Priority
+
+Effort moves from process refinement → module production. Wrapper stability is validated through repeated execution across diverse modules, not through further theoretical refinement.
+
+## Roadmap
+
+- **Pass 9.3.2 … 9.3.5** — HRMS Sprints 003..006 (Execution Variables only; wrapper unchanged).
+- **Pass 9.4.0** — GT-004 MOD-007 Baseline Consolidation.
+- **Pass 9.4.1** — GT-005 publication of `MOD007_HRMS_BASELINE_v1`.
+- **Post-MOD-007 retrospective** — single combined CRM + HRMS retrospective; sole trigger for any future Wrapper v1.1 review.
+- **Subsequent modules** (Projects, Inventory, Procurement, Manufacturing, Service, Accounting, …) — proceed under unchanged Wrapper v1.0 per Sprint Roadmap.
+
+## Deferred Improvements Register (roadmap only — not executed during HRMS)
+
+- Extract Wrapper v1.0 to `.lovable/execution/GT003_WRAPPER_v1.yaml`.
+- Share `execution_record_schema` across GT-003 / GT-004 / GT-005.
+- Machine-readable execution manifest.
+- Automated execution from `wrapper.yaml` + `variables.yaml` (no manual prompt).
+- CI integration; repository digest automation.
+
+## Decision Gate
+
+If Passes 9.3.2 → 9.4.1 complete with no execution-blocking issues, and the post-MOD-007 retrospective raises no defects, Wrapper v1.0 is **permanently frozen**. Any future improvements become Wrapper v1.1 and SHALL NOT modify historical executions.
+
+---
+
+## Execution Record — Pass 9.3.1 (GT-003 for SPR-MOD-007-002)
+
+```yaml
+execution_record:
+  schema_version: 1.0
+  execution_id: GT003-MOD007-002-20260714T000500Z-001
+  parent_execution_id: GT003-MOD007-001-20260714T000400Z-001
+  pass_id: 9.3.1
+  wrapper_version: 1.0
+  wrapper_status: FROZEN
+  wrapper_compatibility: { minimum: 1.0, maximum: 1.x }
+  template: GT-003 v1.0
+  audit_template: GT-005 v1.0
+  target_artifact: docs/30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit.md
+  registration_surfaces_updated:
+    - docs/30-sprint-prds/hrms/README.md
+    - docs/SPRINT_CATALOG.md
+    - docs/DOCUMENT_INDEX.md
+    - docs/_meta.json
+  events_published: [EmployeeHired, EmployeeExited]
+  events_consumed: []
+  deferred_risks:
+    - R-EV-01  # event-catalog stub does not yet enumerate EmployeeHired/EmployeeExited
+    - R-EV-02  # cross-module subscription is downstream-sprint responsibility
+  audit_report_id: REPOSITORY_AUDIT_20260714T000500Z
+  audit_result: PASS
+  gt003_validation_result: PASS
+  repository_status: READY
+  execution_status: READY_FOR_NEXT_SPRINT
+  next_template: GT-003
+  next_target: SPR-MOD-007-003
+  handoff_state: READY
+  handoff_contract:
+    upstream_pass: 9.3.1
+    downstream_requires:
+      - Sprint 2 registered on every surface listed in `registration_surfaces` (idempotent) — SATISFIED
+      - GT-003 validation PASS — SATISFIED
+      - GT-005 audit PASS — SATISFIED
+      - Frozen authoritative artifacts semantically identical — SATISFIED
+      - Repository READY — SATISFIED
+  lock_state: RELEASED
+```
+
+**Result:** Pass 9.3.1 complete. `SPR-MOD-007-002 — Employment Lifecycle (Hire & Exit)` authored, registered across 4 surfaces, validated against GT-003 v1.0, and audited via GT-005 v1.0 (all PASS). Repository READY. Wrapper v1.0 (FROZEN) successfully applied — first execution under freeze validates the specification. Ready to proceed to **Pass 9.3.2** (SPR-MOD-007-003 Attendance & Leave).
