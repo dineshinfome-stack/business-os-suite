@@ -95,3 +95,35 @@ handoff_contract:
 2. Step 4 — removed "16 sections" restatement; GT-004 remains authoritative for baseline structure.
 3. Step 8 — `next_target` set to `MOD-006` (module scope); added `publication_target: MOD006_CRM_BASELINE_v1` (document artifact).
 4. Roadmap — Pass 9.3.0 corrected to GT-003 for `SPR-MOD-007-001` (GT-002 for MOD-007 already executed in Pass 9.0.0).
+
+---
+
+## Execution Record — Pass 9.2.0
+
+| Pass | Description | Execution ID | Result | Audit |
+|---|---|---|---|---|
+| 9.2.0 | Execute GT-004 for MOD-006 CRM (Baseline Consolidation) | GT004-MOD006-20260714-001 | PASS | REPOSITORY_AUDIT_20260714T000300Z |
+
+```yaml
+execution_status: READY_FOR_PUBLICATION
+next_template: GT-005
+next_target: MOD-006
+publication_target: MOD006_CRM_BASELINE_v1
+handoff_state: READY
+handoff_contract:
+  upstream_pass: 9.2.0
+  downstream_requires:
+    - CRM Baseline registered on 4 GT-004 surfaces
+    - GT-004 validation PASS (dynamically bound)
+    - GT-005 audit PASS (dynamically bound)
+    - Repository READY
+```
+
+Deliverables:
+- Created `docs/40-module-baselines/MOD006_CRM_BASELINE_v1.md`.
+- Updated `docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
+- Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000300Z.md`.
+
+Roadmap:
+- Pass 9.2.1 — Execute GT-005 for CRM Baseline publication (target MOD-006; publication artifact `MOD006_CRM_BASELINE_v1`).
+- Pass 9.3.0 — Execute GT-003 for `SPR-MOD-007-001` (MOD-007 HRMS Stage 2 begins; GT-002 already complete for MOD-007).
