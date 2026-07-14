@@ -63,3 +63,30 @@ No edits to Sprint PRDs, Module PRD, Baseline, Governance Framework, GT template
 
 ## Execution Intent
 Upon success: MOD-007 transitions FROZEN → PUBLISHED; HRMS governance pipeline complete; repository READY for execution of the next GT-002 module pipeline with no methodology changes.
+
+---
+
+## Execution Record — Pass 9.4.1 (GT-005 Publication for MOD007_HRMS_BASELINE_v1)
+
+```yaml
+execution_status: MODULE_COMPLETE
+next_template: GT-002
+next_target: <next Business OS module — to be selected at start of next pipeline>
+handoff_state: READY
+execution_id: GT005-MOD007-20260714-001
+parent_execution_id: GT004-MOD007-20260714-001
+audit_report_id: REPOSITORY_AUDIT_20260714T001100Z
+repository_revision_after: <unavailable in sandboxed environment; D3 waiver inherited>
+snapshot_digest: sha256:<computed at execution; publication does not modify baseline content>
+publication_target: MOD007_HRMS_BASELINE_v1
+publication_state: PUBLISHED
+lifecycle_transition: FROZEN -> PUBLISHED
+sprints_consolidated: 6
+gt005_validation: PASS
+gt005_audit: PASS
+repository_status: READY
+module_state: PUBLISHED
+governance_framework_changes: none
+```
+
+Pass 9.4.1 executed under released GT-005 template: verified GT-004 registration surfaces, confirmed baseline content unchanged, emitted `REPOSITORY_AUDIT_20260714T001100Z.md` (all profiles PASS), and appended execution record. **`MOD007_HRMS_BASELINE_v1` is PUBLISHED** and **MOD-007 HRMS lifecycle is COMPLETE**. Governance Framework v1.0, GT-003 Execution Wrapper v1.0, GT-004, and GT-005 remain unchanged. Repository READY for the Combined CRM + HRMS Retrospective (read-only), followed by execution of the next GT-002 module pipeline.
