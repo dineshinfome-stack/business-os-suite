@@ -82,7 +82,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-007-004 | Sprint 4 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal.md`](30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal.md) | People |
 | SPR-MOD-007-005 | Sprint 5 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service.md`](30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service.md) | People |
 | SPR-MOD-007-006 | Sprint 6 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance.md`](30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance.md) | People |
-| SPR-MOD-008-001 | Sprint 1 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.1)_ | People |
+| SPR-MOD-008-001 | Sprint 1 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures.md`](30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures.md) | People |
 | SPR-MOD-008-002 | Sprint 2 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.2)_ | People |
 | SPR-MOD-008-003 | Sprint 3 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.3)_ | People |
 | SPR-MOD-008-004 | Sprint 4 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.4)_ | People |

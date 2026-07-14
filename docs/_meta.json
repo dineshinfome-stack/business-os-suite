@@ -1142,6 +1142,10 @@
           "path": "30-sprint-prds/payroll/MOD-008_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-008-001 — Payroll Foundation & Salary Structures",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures"
+        },
+        {
           "title": "MOD-009 Manufacturing",
           "path": "30-sprint-prds/manufacturing/README"
         },

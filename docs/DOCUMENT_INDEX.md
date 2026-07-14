@@ -332,6 +332,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-007-004 — Performance & Appraisal | Delivery | Draft | Authoritative | `docs/30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal.md` |
 | SPR-MOD-007-005 — Learning & Development and Self-Service | Delivery | Draft | Authoritative | `docs/30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service.md` |
 | SPR-MOD-007-006 — HR Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance.md` |
+| SPR-MOD-008-001 — Payroll Foundation & Salary Structures | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
