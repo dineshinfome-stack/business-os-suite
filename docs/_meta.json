@@ -1110,6 +1110,10 @@
           "path": "30-sprint-prds/hrms/MOD-007_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-007-001 — HRMS Foundation & Employee Master",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master"
+        },
+        {
           "title": "MOD-008 Payroll",
           "path": "30-sprint-prds/payroll/README"
         },
