@@ -1090,6 +1090,10 @@
           "path": "30-sprint-prds/crm/SPR-MOD-006-003-opportunities"
         },
         {
+          "title": "SPR-MOD-006-004 — Activities & Communications",
+          "path": "30-sprint-prds/crm/SPR-MOD-006-004-activities-communications"
+        },
+        {
           "title": "MOD-007 HRMS",
           "path": "30-sprint-prds/hrms/README"
         },
