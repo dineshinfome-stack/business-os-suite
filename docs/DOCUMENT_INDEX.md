@@ -327,6 +327,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-007-001 — HRMS Foundation & Employee Master | Delivery | Draft | Authoritative | `docs/30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md` |
 | SPR-MOD-007-002 — Employment Lifecycle (Hire & Exit) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit.md` |
 | SPR-MOD-007-003 — Attendance & Leave | Delivery | Draft | Authoritative | `docs/30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave.md` |
+| SPR-MOD-007-004 — Performance & Appraisal | Delivery | Draft | Authoritative | `docs/30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
