@@ -88,3 +88,50 @@ Execute Pass 9.3.2 by binding **Part B** into the FROZEN **Part A**. Each stage 
 - **Pass 9.3.5** — SPR-MOD-007-006.
 - **Pass 9.4.0 / 9.4.1** — GT-004 baseline consolidation and GT-005 publication of `MOD007_HRMS_BASELINE_v1`.
 - **Long-term** — Execution Variables could later be generated automatically from the Sprint Plan row, reducing manual authorship to the `resolution` block only.
+
+---
+
+## Execution Record — Pass 9.3.2 (GT-003 for SPR-MOD-007-003)
+
+```yaml
+execution_record:
+  schema_version: 1.0
+  execution_id: GT003-MOD007-003-20260714T000600Z-001
+  parent_execution_id: GT003-MOD007-002-20260714T000500Z-001
+  pass_id: 9.3.2
+  wrapper_version: 1.0
+  wrapper_status: FROZEN
+  wrapper_compatibility: { minimum: 1.0, maximum: 1.x }
+  template: GT-003 v1.0
+  audit_template: GT-005 v1.0
+  target_artifact: docs/30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave.md
+  registration_surfaces_updated:
+    - docs/30-sprint-prds/hrms/README.md
+    - docs/SPRINT_CATALOG.md
+    - docs/DOCUMENT_INDEX.md
+    - docs/_meta.json
+  events_published: [AttendanceMarked, LeaveApproved]
+  events_consumed: []
+  deferred_risks:
+    - R-EV-01  # event-catalog stub does not yet enumerate AttendanceMarked/LeaveApproved
+    - R-EV-02  # cross-module subscription is downstream-sprint responsibility
+  audit_report_id: REPOSITORY_AUDIT_20260714T000600Z
+  audit_result: PASS
+  gt003_validation_result: PASS
+  repository_status: READY
+  execution_status: READY_FOR_NEXT_SPRINT
+  next_template: GT-003
+  next_target: SPR-MOD-007-004
+  handoff_state: READY
+  handoff_contract:
+    upstream_pass: 9.3.2
+    downstream_requires:
+      - Sprint 3 registered on every surface listed in `registration_surfaces` (idempotent) — SATISFIED
+      - GT-003 validation PASS — SATISFIED
+      - GT-005 audit PASS — SATISFIED
+      - Frozen authoritative artifacts semantically identical — SATISFIED
+      - Repository READY — SATISFIED
+  lock_state: RELEASED
+```
+
+**Result:** Pass 9.3.2 complete. `SPR-MOD-007-003 — Attendance & Leave` authored, registered across 4 surfaces, validated against GT-003 v1.0, and audited via GT-005 v1.0 (all PASS). Repository READY. Second execution under FROZEN Wrapper v1.0. Ready to proceed to **Pass 9.3.3** (SPR-MOD-007-004 Performance & Appraisal).
