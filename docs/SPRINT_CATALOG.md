@@ -76,6 +76,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-006-004 | Sprint 4 | MOD-006 CRM | Draft | [`30-sprint-prds/crm/SPR-MOD-006-004-activities-communications.md`](30-sprint-prds/crm/SPR-MOD-006-004-activities-communications.md) | Revenue |
 | SPR-MOD-006-005 | Sprint 5 | MOD-006 CRM | Draft | [`30-sprint-prds/crm/SPR-MOD-006-005-campaigns.md`](30-sprint-prds/crm/SPR-MOD-006-005-campaigns.md) | Revenue |
 | SPR-MOD-006-006 | Sprint 6 | MOD-006 CRM | Draft | [`30-sprint-prds/crm/SPR-MOD-006-006-customer-360-analytics.md`](30-sprint-prds/crm/SPR-MOD-006-006-customer-360-analytics.md) | Revenue |
+| SPR-MOD-007-001 | Sprint 1 | MOD-007 HRMS | Draft | [`30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md`](30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master.md) | People |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
