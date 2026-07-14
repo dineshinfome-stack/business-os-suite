@@ -125,3 +125,36 @@ handoff_contract:
 - Authoritative reads occur before any write; writes performed transactionally with rollback on validation or audit failure.
 - Timestamps use UTC ISO-8601 compact form for audit filenames.
 - Canonical source paths in Step 2 match Passes 9.1.0–9.1.4 (`docs/10-erp-core/`, `docs/11-adrs/`, `docs/02-architecture/`), preventing preflight path drift.
+
+---
+
+## Execution Record — Pass 9.1.5 (2026-07-14)
+
+- **Sprint PRD:** `docs/30-sprint-prds/crm/SPR-MOD-006-006-customer-360-analytics.md` authored via GT-003 v1.0 (execution_id `GT003-MOD006-006-20260714-001`; parent `GT003-MOD006-005-20260714-001`).
+- **Slug:** `customer-360-analytics` — resolved verbatim from CRM Sprint Plan §SPR-MOD-006-006.
+- **Events (verbatim resolution):**
+  - Published: **none** — Read-Model-Only Invariant (§1.1.4). CRM Module PRD §8 event union is fully realized by upstream CRM sprints (`LeadCreated`→S2, `OpportunityWon`/`OpportunityLost`→S3, `ActivityLogged`→S4, `CampaignSent`→S5).
+  - Consumed (verbatim from CRM Module PRD §8 and authoritative event catalog): `account.*`/`contact.*` from S1; `LeadCreated` from S2; `OpportunityWon`/`OpportunityLost` from S3; `ActivityLogged` from S4; `CampaignSent` from S5; `SalesInvoiceIssued` from MOD-003 Sales; `ServiceTicketClosed` from MOD-016 Service Desk. No invented names.
+- **Bounded context:** MOD-006 CRM Customer 360 & Analytics owns the Customer 360 read model, CRM operational reports (Pipeline, Win/Loss, Activity Report, Campaign Effectiveness, Customer 360 — verbatim from Module PRD §9), CRM dashboards, CRM exports, and the CRM audit-readiness surface. Cross-module KPI catalog remains owned by MOD-017 Analytics (No-KPI-Redefinition Invariant §1.1.6). Sales, Service Desk, Accounting, and upstream CRM sprint entities consumed read-only.
+- **Registration (4/4 surfaces, transactional):** `docs/30-sprint-prds/crm/README.md` (Sprint 6 row Planned → Authored (Draft)), `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`. `docs/DOCUMENT_TRACEABILITY.md` present but N/A (consistent with Passes 9.1.0–9.1.4).
+- **GT-003 Validation:** all declared v1.0 rules PASS (VAL-001..VAL-014 including VAL-013A/B). Validation bound dynamically to the released template — no fixed count asserted.
+- **GT-005 Repository Audit:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260714T000200Z.md`, all declared v1.0 audit rules PASS across governance, repository, registration, traceability, integrity profiles.
+- **Repository Status:** READY. Confidence: MEDIUM (D3 waiver inherited). Governance Framework v1.0 unchanged. Dependency Matrix v1.0.2 unchanged.
+- **CRM Stage 2 Completion:** All six CRM Stage 2 Sprint PRDs (`SPR-MOD-006-001..006`) authored, validated, and audit-clean. `READY_FOR_GT004` handoff satisfied.
+- **Handoff Contract:**
+  ```yaml
+  execution_status: READY_FOR_GT004
+  next_template: GT-004
+  next_target: MOD-006
+  handoff_state: READY
+  handoff_contract:
+    upstream_pass: 9.1.5
+    upstream_sprint: SPR-MOD-006-006
+    downstream_requires:
+      - All CRM Sprint PRDs authored           # satisfied (S1..S6)
+      - Sprint registrations complete          # satisfied (4/4 applicable surfaces)
+      - GT-003 validation PASS                 # satisfied
+      - GT-005 audit PASS                      # satisfied (REPOSITORY_AUDIT_20260714T000200Z)
+      - Repository READY                       # satisfied
+  ```
+- **Next Pass:** 9.2.0 — Execute GT-004 for MOD-006 (CRM Baseline Consolidation → publish `MOD006_CRM_BASELINE_v1`).
