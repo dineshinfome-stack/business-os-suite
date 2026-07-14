@@ -319,6 +319,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-019-006 — Warehouse Labor, Equipment & Analytics | Delivery | Draft | Authoritative | `docs/30-sprint-prds/warehouse/SPR-MOD-019-006-warehouse-labor-equipment-analytics.md` |
 | SPR-MOD-006-001 — CRM Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/crm/SPR-MOD-006-001-crm-foundation.md` |
 | SPR-MOD-006-002 — Leads | Delivery | Draft | Authoritative | `docs/30-sprint-prds/crm/SPR-MOD-006-002-leads.md` |
+| SPR-MOD-006-003 — Opportunities | Delivery | Draft | Authoritative | `docs/30-sprint-prds/crm/SPR-MOD-006-003-opportunities.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
