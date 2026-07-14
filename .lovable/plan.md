@@ -108,3 +108,50 @@ No governance changes. No GT template modifications. No Dependency Matrix change
 - Pass 9.4.0 — GT-004 MOD-007 Baseline Consolidation.
 - Pass 9.4.1 — GT-005 Publication of `MOD007_HRMS_BASELINE_v1`.
 - Post-MOD-007 Retrospective — Combined CRM + HRMS review to evaluate whether Wrapper v1.1 is warranted, and whether Execution Variables should evolve into a machine-readable `execution_manifest`. Until then, Wrapper v1.0 remains frozen and unchanged.
+
+---
+
+## Execution Record — Pass 9.3.3 (GT-003 for SPR-MOD-007-004)
+
+```yaml
+execution_record:
+  schema_version: 1.0
+  execution_id: GT003-MOD007-004-20260714T000700Z-001
+  parent_execution_id: GT003-MOD007-003-20260714T000600Z-001
+  pass_id: 9.3.3
+  wrapper_version: 1.0
+  wrapper_status: FROZEN
+  wrapper_compatibility: { minimum: 1.0, maximum: 1.x }
+  template: GT-003 v1.0
+  audit_template: GT-005 v1.0
+  target_artifact: docs/30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal.md
+  registration_surfaces_updated:
+    - docs/30-sprint-prds/hrms/README.md
+    - docs/SPRINT_CATALOG.md
+    - docs/DOCUMENT_INDEX.md
+    - docs/_meta.json
+  events_published: [AppraisalCompleted]
+  events_consumed: []
+  deferred_risks:
+    - R-EV-01  # event-catalog stub does not yet enumerate AppraisalCompleted
+    - R-EV-02  # cross-module subscription is downstream-sprint responsibility
+  audit_report_id: REPOSITORY_AUDIT_20260714T000700Z
+  audit_result: PASS
+  gt003_validation_result: PASS
+  repository_status: READY
+  execution_status: READY_FOR_NEXT_SPRINT
+  next_template: GT-003
+  next_target: SPR-MOD-007-005
+  handoff_state: READY
+  handoff_contract:
+    upstream_pass: 9.3.3
+    downstream_requires:
+      - Sprint 4 registered on every surface listed in `registration_surfaces` (idempotent) — SATISFIED
+      - GT-003 validation PASS — SATISFIED
+      - GT-005 audit PASS — SATISFIED
+      - Frozen authoritative artifacts semantically identical — SATISFIED
+      - Repository READY — SATISFIED
+  lock_state: RELEASED
+```
+
+**Result:** Pass 9.3.3 complete. `SPR-MOD-007-004 — Performance & Appraisal` authored, registered across 4 surfaces, validated against GT-003 v1.0, and audited via GT-005 v1.0 (all PASS). Repository READY. Third execution under FROZEN Wrapper v1.0. Ready to proceed to **Pass 9.3.4** (SPR-MOD-007-005 Learning & Development and Self-Service).
