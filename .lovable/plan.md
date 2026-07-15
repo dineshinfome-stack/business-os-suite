@@ -1,13 +1,14 @@
-# OR-003 — Mid-Payroll Execution Observation (Read-Only)
+# SR-003 v1.1 — Suggestions & Recommendations (Read-Only, Advisory)
 
-A read-only execution health review of the Payroll governance pipeline at its mid-point. Delivered as a chat report only. **No repository writes, no governance changes, no template changes, no wrapper changes.**
+Advisory chat-only report drawing on completed execution evidence from CRM (MOD-006), HRMS (MOD-007), and the completed portion of Payroll (MOD-008), plus OR-002, RR-001, and OR-003. **No repository writes, no governance/template/wrapper changes, no historical-artifact edits.**
 
 ## Classification
 
 ```yaml
-review_id: OR-003
-review_type: Execution Observation
-review_mode: read-only
+review_id: SR-003
+review_version: v1.1
+review_type: Suggestions and Recommendations
+review_mode: advisory
 writes: none
 governance_touch: none
 templates_touched: none
@@ -17,53 +18,63 @@ repository_mutation: none
 
 ## Scope of Evidence
 
-- Pass 10.0.0 — GT-002 Payroll Stage 1
-- Pass 10.0.1 — SPR-MOD-008-001
-- Pass 10.0.2 — SPR-MOD-008-002
-- Pass 10.0.3 — SPR-MOD-008-003
-- Corresponding GT-005 Repository Audit reports (`REPOSITORY_AUDIT_20260714T001200Z` … latest Payroll audit)
-- Payroll registration surfaces (README, `SPRINT_CATALOG`, `DOCUMENT_INDEX`, `_meta.json`) as reflected in the audit reports
+- CRM pipeline (Passes 9.1.0 → 9.2.1) — Sprints 001–006, `MOD006_CRM_BASELINE_v1`, publication audit.
+- HRMS pipeline (Passes 9.0.0, 9.3.0 → 9.4.1) — Sprints 001–006, `MOD007_HRMS_BASELINE_v1`, publication audit.
+- Payroll pipeline through the latest completed pass (10.0.0 → 10.0.2) — Module PRD, Sprint Plan, Sprints 001–002, corresponding audits `...001200Z`, `...001300Z`, `...001400Z`.
+- Read-only reviews: **OR-002** (HRMS), **RR-001** (Combined CRM+HRMS), **OR-003 v1.1** (Payroll).
 
 ## Delivery
 
-- Chat report only.
-- No files created, modified, or deleted.
-- No governance, template, or wrapper artifacts touched.
+- Chat report only. No files created, modified, or deleted.
+- No governance, template, wrapper, registry, catalog, or historical artifacts touched.
+- Recommendations strictly separated from observations. Deferred ideas explicitly marked **"Wrapper v1.1 Planning"**.
 
-## Objectives
+## Evaluation Areas
 
-- Evaluate whether the Payroll pipeline continues to execute with the stability demonstrated by CRM and HRMS.
-- Report observed execution behavior only.
-- Do not redesign templates, propose governance changes, or generate execution plans.
-
-## Review Areas
-
-1. **Execution Stability** — verify every Payroll GT-003 execution followed the Wrapper v1.0 lifecycle: Preconditions → Snapshot Freeze → Authoritative Resolution → Sprint Authoring → Registration → Validation → Audit → Finalization. Identify any stage variation.
-2. **Repository Consistency** — registration consistency, ordering, idempotency, READY transitions, execution-record consistency, audit consistency.
-3. **Validation Health** — GT-003 validation behavior, GT-005 audit profiles, recurring warnings, corrective actions, validation determinism.
-4. **Wrapper v1.0 Behavior** — observe determinism, zero fabrication, transactional registration, snapshot integrity, authoritative resolution, parameterization stability. Do not recommend modifications.
-5. **Payroll Module Quality** — sprint decomposition consistency, Module PRD alignment, Sprint Plan traceability, dependency isolation, ownership boundaries, event consistency.
-6. **Cross-Module Consistency** — compare Payroll execution characteristics against the completed CRM and HRMS pipelines. Focus on execution behavior, not business functionality.
-7. **Positive Trends** — execution strengths only.
-8. **Risks** — observed risks only. If none, explicitly state "No execution risks observed." Improvement ideas recorded only as *Deferred until Wrapper v1.1 planning*.
-9. **Recommendation** — whether execution should continue unchanged through Pass 10.0.4, 10.0.5, 10.0.6. No redesign proposals, no governance changes.
-10. **Scores** — qualitative scores for Governance Stability, Repository Health, Wrapper Stability, Validation Health, Execution Determinism; plus Overall Health Score and Confidence Level. Explicitly observational only, not acceptance criteria.
-11. **Verdict** — one of: `Continue unchanged` / `Continue with observations` / `Pause for corrective action`. No execution plan output.
+1. **Execution Efficiency** — opportunities to reduce prompt/variable overhead while preserving identical wrapper behavior (e.g., minimal Execution Variables pattern from Pass 9.3.2 onward). No GT / Wrapper redesign.
+2. **Governance Stability** — comment on whether Governance Framework v1.0 remains sufficient for continued module execution; recommend changes only if a demonstrated execution problem exists.
+3. **Wrapper Stability** — evaluate Wrapper v1.0 predictability across observed GT-003 executions; any suggested improvements deferred to Wrapper v1.1.
+4. **Repository Operations** — observations on registration idempotency, audit generation, execution records, four-surface consistency.
+5. **Validation Process** — comments on determinism, audit consistency (including the GT-003 audit frontmatter uniformity gap surfaced by OR-003 v1.1), recurring observations, corrective actions. No validation-rule redesign.
+6. **Execution Cadence** — assess whether GT-002 → GT-003 → GT-004 → GT-005 with OR / RR checkpoints remains appropriate.
+7. **Recommendations** — split into:
+   - **Immediate** — zero-governance-change items only.
+   - **Deferred** — explicitly marked *Wrapper v1.1 Planning*.
+8. **Items Explicitly Not Recommended** — call out changes that should NOT be made now (Framework mods, GT redesign, Wrapper changes, Registry restructuring, Event Catalog redesign) unless supported by evidence.
+9. **Overall Assessment** — Strengths / Weaknesses / Risks / Opportunities, evidence-based.
+10. **Final Recommendation** — one of: `Continue unchanged` / `Continue with operational recommendations` / `Pause for corrective action`, with a brief rationale.
 
 ## Success Criteria
 
-- Read-only review; zero repository writes.
-- Zero governance, wrapper, or template changes.
-- Observations separated from recommendations.
-- Any improvement ideas explicitly marked *Deferred until Wrapper v1.1 planning*.
+- Read-only; zero repository writes.
+- No governance, wrapper, or template changes.
+- Recommendations clearly separated from observations.
+- Deferred ideas explicitly marked *Wrapper v1.1 Planning*.
 
 ## Non-Goals
 
 - No execution plan.
-- No template or wrapper redesign.
+- No GT template changes.
 - No governance evolution.
 - No business-functionality review.
+- No implementation guidance.
 
-## Cadence Note
+## Advisory Note on Governance Sequence (Non-Adopting)
 
-One mid-module OR checkpoint per module (matches OR-002 for HRMS). After OR-003, execution resumes through Pass 10.0.4 → 10.0.6, then GT-004 Baseline Consolidation (Pass 10.1.0) and GT-005 Publication (Pass 10.1.1).
+The following sequence is offered as an **advisory recommendation only**, not a policy change enacted by this document:
+
+```text
+GT-002  Module Authoring
+GT-003  Sprint Authoring (under FROZEN Wrapper v1.0)
+GT-004  Baseline Consolidation
+GT-005  Publication
+OR      Mid-module Observation (read-only)
+RR      Module Retrospective (read-only)
+SR      Strategic Suggestions & Recommendations (read-only, advisory)
+```
+
+For future governance evolution, SR may serve as the final optional advisory checkpoint alongside OR and RR. Formal adoption — if desired — should be considered during **Wrapper v1.1 planning**, not enacted from within this read-only report. Nothing in SR-003 modifies the current governance framework.
+
+## Cadence After SR-003
+
+Execution resumes through Passes 10.0.3 → 10.0.6 (remaining Payroll Sprint PRDs), then GT-004 Baseline Consolidation (Pass 10.1.0) and GT-005 Publication (Pass 10.1.1) for `MOD008_PAYROLL_BASELINE_v1`.
