@@ -1146,6 +1146,10 @@
           "path": "30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures"
         },
         {
+          "title": "SPR-MOD-008-002 — Payroll Cycles & Runs",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs"
+        },
+        {
           "title": "MOD-009 Manufacturing",
           "path": "30-sprint-prds/manufacturing/README"
         },
