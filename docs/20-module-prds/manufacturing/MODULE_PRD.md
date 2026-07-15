@@ -81,6 +81,13 @@ derived_from: "docs/20-module-prds/manufacturing/MODULE_PRD.md (pre-freeze, upda
 - Primary owner: **Operations**.
 - Governance: Product + Architecture review per `docs/DOCUMENT_OWNERSHIP_MATRIX.md`.
 
+**Governance Boundaries (out-of-scope).**
+
+- **Inventory movements, stock ledgers, and reservations** are owned by **MOD-005 Inventory**. Manufacturing consumes material availability from MOD-005 and emits production events that MOD-005 consumes for stock updates; it does not maintain the stock ledger.
+- **Financial postings** for production, sub-contract, and yield/scrap events are the exclusive authority of **MOD-002 Accounting** via the Voucher Engine (`ENG-015`) and Posting Engine (`ENG-016`). Manufacturing emits events and does not write journal entries directly.
+- **Identity, authentication, roles, and permissions** remain owned by **MOD-001 Platform Administration** via `ENG-001`, `ENG-002`, `ENG-003`. Manufacturing consumes identity read-only; it does not mint credentials or grant application permissions.
+- **Cross-module KPI definitions** are owned by **MOD-017 Analytics**. Manufacturing surfaces its own operational reports (§9) but consumes cross-module KPIs from MOD-017.
+
 ## 3. Personas
 
 **Primary Users.**
