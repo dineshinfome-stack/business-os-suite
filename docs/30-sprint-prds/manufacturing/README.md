@@ -39,7 +39,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-009-NNN`**, where `NNN`
 | SPR-MOD-009-003 | Sprint 3 | Work Orders & Shopfloor Execution | Draft ([`SPR-MOD-009-003`](./SPR-MOD-009-003-work-orders-and-shopfloor-execution.md)) | SPR-MOD-009-002 |
 | SPR-MOD-009-004 | Sprint 4 | Sub-contracting | Draft ([`SPR-MOD-009-004`](./SPR-MOD-009-004-sub-contracting.md)) | SPR-MOD-009-001 |
 | SPR-MOD-009-005 | Sprint 5 | Quality, Yield & Scrap | Draft ([`SPR-MOD-009-005`](./SPR-MOD-009-005-quality-yield-and-scrap.md)) | SPR-MOD-009-003 |
-| SPR-MOD-009-006 | Sprint 6 | Manufacturing Analytics & Compliance | Planned | SPR-MOD-009-001 … SPR-MOD-009-005 |
+| SPR-MOD-009-006 | Sprint 6 | Manufacturing Analytics & Compliance | Draft ([`SPR-MOD-009-006`](./SPR-MOD-009-006-manufacturing-analytics-and-compliance.md)) | SPR-MOD-009-001 … SPR-MOD-009-005 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6** and is fully covered by the MOD-009 Sprint Plan.
 
