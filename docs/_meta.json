@@ -1158,6 +1158,10 @@
           "path": "30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances"
         },
         {
+          "title": "SPR-MOD-008-005 — Payslip Generation & Disbursement",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement"
+        },
+        {
           "title": "MOD-009 Manufacturing",
           "path": "30-sprint-prds/manufacturing/README"
         },
