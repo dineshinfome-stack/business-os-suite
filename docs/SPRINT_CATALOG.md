@@ -98,6 +98,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-010-002 | Sprint 2 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests.md`](30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests.md) | Delivery |
 | SPR-MOD-010-003 | Sprint 3 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort.md`](30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort.md) | Delivery |
 | SPR-MOD-010-004 | Sprint 4 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing.md`](30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing.md) | Delivery |
+| SPR-MOD-010-005 | Sprint 5 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance.md`](30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance.md) | Delivery |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
