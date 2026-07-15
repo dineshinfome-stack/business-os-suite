@@ -1208,6 +1208,10 @@
           "path": "30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup"
         },
         {
+          "title": "SPR-MOD-010-002 \u2014 Tasks, Milestones & Change Requests",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests"
+        },
+        {
           "title": "MOD-011 AMC",
           "path": "30-sprint-prds/amc/README"
         },

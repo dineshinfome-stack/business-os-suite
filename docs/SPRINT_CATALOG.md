@@ -95,6 +95,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-009-005 | Sprint 5 | MOD-009 Manufacturing | Draft | [`30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap.md`](30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap.md) | Operations |
 | SPR-MOD-009-006 | Sprint 6 | MOD-009 Manufacturing | Draft | [`30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance.md`](30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance.md) | Operations |
 | SPR-MOD-010-001 | Sprint 1 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup.md`](30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup.md) | Delivery |
+| SPR-MOD-010-002 | Sprint 2 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests.md`](30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests.md) | Delivery |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
