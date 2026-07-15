@@ -1204,6 +1204,10 @@
           "path": "30-sprint-prds/projects/MOD-010_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-010-001 \u2014 Projects Foundation (Project & Resource Setup)",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup"
+        },
+        {
           "title": "MOD-011 AMC",
           "path": "30-sprint-prds/amc/README"
         },
