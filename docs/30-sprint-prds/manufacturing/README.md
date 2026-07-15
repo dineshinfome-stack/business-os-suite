@@ -4,9 +4,10 @@ summary: "Sprint PRDs for Manufacturing (MOD-009). Sprint identifiers are prefix
 layer: "delivery"
 owner: "Operations"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-15"
 module_id: "MOD-009"
 sprint_prefix: "SPR-MOD-009-"
+sprint_plan: "MOD-009_SPRINT_PLAN.md"
 tags: ["sprint", "prd", "readme"]
 document_type: "Sprint Module Guide"
 ---
@@ -21,25 +22,27 @@ document_type: "Sprint Module Guide"
 - **Module Name:** Manufacturing
 - **Module README:** [`../../20-module-prds/manufacturing/README.md`](../../20-module-prds/manufacturing/README.md)
 - **Module PRD (authoritative):** [`../../20-module-prds/manufacturing/MODULE_PRD.md`](../../20-module-prds/manufacturing/MODULE_PRD.md)
+- **Sprint Plan (Stage 1):** [`./MOD-009_SPRINT_PLAN.md`](./MOD-009_SPRINT_PLAN.md)
 
 ## Sprint Identifier Prefix
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-009-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-009-001`, `SPR-MOD-009-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Sprint Reservations
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+> Reservations below correspond to the approved [MOD-009 Sprint Plan (Stage 1)](./MOD-009_SPRINT_PLAN.md). Each row is a **planning reservation** — the identifier is reserved for later Stage 2 authoring but is **not** an authored Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-009-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-009)_ | Planned | _(to be defined)_ |
-| SPR-MOD-009-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-009)_ | Planned | _(to be defined)_ |
-| SPR-MOD-009-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-009)_ | Planned | _(to be defined)_ |
-| SPR-MOD-009-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-009)_ | Planned | _(to be defined)_ |
-| SPR-MOD-009-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-009)_ | Planned | _(to be defined)_ |
-| SPR-MOD-009-006 | Sprint 6 | _(to be defined in Pass 8.x — parent MOD-009)_ | Planned | _(to be defined)_ |
+| SPR-MOD-009-001 | Sprint 1 | Manufacturing Foundation (BOM & Routing) | Planned | `MOD001_PLATFORM_BASELINE_v1`, `MOD005_INVENTORY_BASELINE_v1` |
+| SPR-MOD-009-002 | Sprint 2 | Production Planning & Scheduling | Planned | SPR-MOD-009-001 |
+| SPR-MOD-009-003 | Sprint 3 | Work Orders & Shopfloor Execution | Planned | SPR-MOD-009-002 |
+| SPR-MOD-009-004 | Sprint 4 | Sub-contracting | Planned | SPR-MOD-009-001 |
+| SPR-MOD-009-005 | Sprint 5 | Quality, Yield & Scrap | Planned | SPR-MOD-009-003 |
+| SPR-MOD-009-006 | Sprint 6 | Manufacturing Analytics & Compliance | Planned | SPR-MOD-009-001 … SPR-MOD-009-005 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **6** and is fully covered by the MOD-009 Sprint Plan.
+
 
 ## Authoring Rules
 
