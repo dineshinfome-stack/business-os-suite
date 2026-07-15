@@ -59,3 +59,17 @@ Include `previous_audit_report_id` (resolved to the latest successful GT-003 aud
 
 ### Roadmap
 11.0.6 remaining Manufacturing sprint → 11.1.0 GT-004 Baseline → 11.1.1 GT-005 Publication. Optional OR/RR/SR reviews per cadence.
+
+---
+
+## Execution Record — Pass 11.0.5 (2026-07-15)
+
+- **Status:** COMPLETE — READY_FOR_NEXT_SPRINT
+- **Artifact:** `docs/30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap.md` (Draft)
+- **Registration surfaces updated:** `docs/30-sprint-prds/manufacturing/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- **Audit report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001100Z.md` (19/19 PASS, Repository READY)
+- **Previous audit:** `REPOSITORY_AUDIT_20260715T001000Z`
+- **Execution ID:** `GT003-MOD009-005-20260715T001100Z-001`
+- **Parent Result ID:** `GT003-MOD009-004-20260715T001000Z-001`
+- **Governance:** v1.0 unchanged · GT-003 Wrapper v1.0 FROZEN · No governance/template/wrapper edits · No implementation code
+- **Next Pass:** 11.0.6 — GT-003 for `SPR-MOD-009-006` (Manufacturing Analytics & Compliance)
