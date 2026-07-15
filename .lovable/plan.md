@@ -1,110 +1,46 @@
-# Pass 10.1.1 — GT-005 Publication for MOD-008 Payroll Baseline v1
+# Plan — Post-GT-005 Repository Verification (MOD-008 Payroll)
 
-## Objective
+Strictly read-only. No files created, modified, or deleted. No governance change. No execution pass identifier assigned. Deliverable is a chat-only verification report.
 
-Publish `MOD008_PAYROLL_BASELINE_v1` as the official released baseline using the released GT-005 template, identical in scope to the CRM (MOD-006) and HRMS (MOD-007) publication passes. No governance evolution, no new Tier-0 documents, no template changes, no wrapper changes, no implementation code.
+## Approach
 
-All publication content SHALL resolve verbatim at execution time from authoritative artifacts. Publication metadata fields SHALL bind dynamically from the released GT-005 template. Zero fabrication.
+Resolve every fact verbatim from authoritative artifacts. Zero fabrication. If a fact cannot be resolved from a source file, mark it "unresolved" rather than infer.
 
-## Execution Variables
+## Sources to read
 
-- template: GT-005 (Released, Active)
-- module_id: MOD-008
-- module_name: Payroll
-- publication_target: `docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md`
-- previous_audit: `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T000400Z.md`
-- audit_report: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
+- `docs/15-governance/GOVERNANCE_FRAMEWORK_RELEASE_v1.0.md`
+- `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json`
+- `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md`
+- `docs/15-governance/GOVERNANCE_TEMPLATE_INDEX.md`
+- `docs/15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE.md`
+- `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md`
+- `docs/15-governance/templates/GT-005_REPOSITORY_AUDIT.md`
+- `docs/40-module-baselines/MOD006_CRM_BASELINE_v1.md`
+- `docs/40-module-baselines/MOD007_HRMS_BASELINE_v1.md`
+- `docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md`
+- `docs/40-module-baselines/README.md`
+- `docs/MODULE_BASELINE_CATALOG.md`
+- `docs/DOCUMENT_INDEX.md`
+- `docs/_meta.json`
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T000500Z.md` (Payroll publication)
+- Prior GT-005 publication audits for CRM and HRMS
+- `.lovable/plan.md` (execution history)
 
-## Non-Goals (Explicit)
+## Deliverable — chat-only report sections
 
-This pass does NOT introduce, modify, or draft:
+1. Repository State — status, framework version, GT-001..GT-005 lifecycle, Wrapper v1.0 status, latest audit ID, published modules list, next-module readiness.
+2. GT-005 Consistency Review — side-by-side CRM/HRMS/Payroll comparison: lifecycle steps, publication surfaces, metadata fields, execution record shape, audit profiles. Differences classified as Expected / Repository evolution / Potential inconsistency.
+3. Registration Consistency — enumerate MOD-008 rows across the 4 GT-004 registration surfaces; check for orphans, duplicates, resolvable references.
+4. Traceability — walk Framework → GT-005 → MOD-008 PRD → Sprint Plan → 6 Sprint PRDs → Baseline → Publication Audit → `.lovable/plan.md` execution record. Report any broken links.
+5. Audit Review — restate profile results from `REPOSITORY_AUDIT_20260715T000500Z.md`, list any informational/non-blocking items, confirm READY.
+6. Confidence Analysis — explain MEDIUM and D3 waiver inheritance chain (source pass, rationale, whether informational, action recommended). Reference the waiver block in the audit front-matter.
+7. Governance Review — confirm no mutation of `docs/15-governance/**`, templates, Wrapper, or Dependency Matrix during Pass 10.1.1.
+8. Repository Health — one-line rating per dimension (governance, registration, traceability, metadata, publication, completeness, readiness).
+9. Recommendations — Immediate / Optional / Future Governance (Repository Manifest, AI Bootstrap flagged explicitly as separate future initiatives, not current state).
+10. Final Report — overall health, readiness, risks, recommended next pass (retrospective RR-002 or GT-002 for next module), approval statement.
 
-- `REPOSITORY_MANIFEST.md` or any new Tier-0 governance document
-- AI Bootstrap capability
-- Repository Timeline, Statistics, or Health Dashboard surfaces
-- Governance Framework, Template Standard, Capabilities Registry, or Dependency Matrix changes
-- GT-001..GT-005 template edits
-- Canonical Execution Wrapper v1.0 changes (FROZEN)
-- Module PRD, Sprint Plan, Sprint PRD, or Baseline body edits
-- Any implementation code
+## Constraints
 
-Introducing a Repository Manifest or AI bootstrap surface is deferred to a separate future governance initiative (e.g., GF-001) and is out of scope here.
-
-## Lifecycle (Released GT-005)
-
-1. **Preflight** — Verify the currently released Governance Framework and currently active GT-005 template; verify GT-001..GT-004 Active; verify MOD-008 Stage 3 complete (Baseline authored via Pass 10.1.0); verify prior audit `REPOSITORY_AUDIT_20260715T000400Z.md` = Repository READY with no open corrective actions; verify baseline currently in `Ready-for-Publication` state. Abort on first failure.
-2. **Dependency Resolution** — Resolve GT-005 dependencies dynamically via the Governance Template Dependency Matrix and authoritative governance artifacts. Zero hard-coded assumptions.
-3. **Validation** — Execute every validation rule declared by the released GT-005 template against the baseline and its registration surfaces.
-4. **Baseline Freeze** — Transition `MOD008_PAYROLL_BASELINE_v1.md` front matter to its Released publication state using the publication metadata fields defined by the released GT-005 template. The baseline body remains unchanged.
-5. **Publication Registration** — Apply publication status updates only to repository surfaces that are part of the released GT-005 publication contract or that have established precedent in prior GT-005 executions for MOD-006 and MOD-007. Resolved dynamically per surface — no new publication surfaces introduced. Candidate surfaces (each conditional on precedent):
-   - `docs/40-module-baselines/README.md`
-   - `docs/MODULE_BASELINE_CATALOG.md`
-   - `docs/DOCUMENT_INDEX.md`
-   - `docs/_meta.json`
-   - `docs/MODULE_CATALOG.md` (only if prior GT-005 passes updated module publication status here)
-6. **Verification** — Execute every verification requirement declared by the released GT-005 template.
-7. **GT-005 Repository Audit** — Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`; every audit profile PASS and Repository READY.
-8. **Execution Finalization** — Append the execution record (including `previous_audit` reference) to `.lovable/plan.md`; release execution lock.
-
-## Rollback
-
-On failure at any step after Baseline Freeze, revert the baseline front matter to its pre-publication state and remove any artifacts created during the failed publication pass that are not referenced by a successful execution record (partial audit reports, partial registration edits). Reverse registration order. Repository Status evaluated only after rollback completes.
-
-## Success Criteria
-
-- Baseline published via GT-005 canonical lifecycle, identical in scope to MOD-006 and MOD-007 publication passes.
-- Publication metadata fields inherited dynamically from the released GT-005 template.
-- Baseline body unchanged.
-- Registration updates confined to the released GT-005 publication contract and precedent from prior GT-005 executions.
-- GT-005 validation PASS; audit PASS across all profiles; Repository READY.
-- Governance Framework v1.0, GT templates, and Wrapper v1.0 unchanged.
-- No new Tier-0 governance documents created.
-
-## Execution Record (to be allocated)
-
-```yaml
-execution_id: GT005-MOD008-<UTC-ISO8601>-001
-template: GT-005
-target: MOD008_PAYROLL_BASELINE_v1
-target_path: docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md
-previous_audit: REPOSITORY_AUDIT_20260715T000400Z
-audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
-audit_report_path: docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md
-publication_status: PUBLISHED
-handoff_state: READY
-registration_surfaces_updated: <resolved dynamically per precedent>
-governance_unchanged: true
-```
-
-## Roadmap After This Pass
-
-- Optional read-only post-MOD-008 retrospective (CRM + HRMS + Payroll).
-- Separate future governance initiative (e.g., GF-001) may evaluate introducing a Repository Manifest / AI bootstrap surface. Out of scope here.
-- Next Business OS module — resume GT-002 Stage 1 under unchanged Framework v1.0 and FROZEN Wrapper v1.0.
-
----
-
-## Execution Record — Pass 10.1.1
-
-```yaml
-execution_id: GT005-MOD008-20260715T000500Z-001
-template: GT-005
-template_version: v1.0
-target: MOD008_PAYROLL_BASELINE_v1
-target_path: docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md
-previous_audit: REPOSITORY_AUDIT_20260715T000400Z
-parent_audit_id: REPOSITORY_AUDIT_20260715T000400Z
-parent_execution_id: GT004-MOD008-20260715T000400Z-001
-audit_report_id: REPOSITORY_AUDIT_20260715T000500Z
-audit_report_path: docs/50-audit-reports/REPOSITORY_AUDIT_20260715T000500Z.md
-publication_status: PUBLISHED
-lifecycle_transition: FROZEN → PUBLISHED
-handoff_state: READY
-registration_surfaces_updated: []   # Per GT-005 precedent (MOD-006, MOD-007): baseline body unchanged; GT-004 registration surfaces already reflect the baseline; no new publication surfaces introduced.
-audit_result: PASS
-repository_status: READY
-confidence: MEDIUM
-d_waivers: [D3]
-governance_unchanged: true
-wrapper_unchanged: true
-```
+- Read-only. No `code--write`, no `code--line_replace`, no `mv`/`rm`, no state-changing shell commands.
+- No new audit report file; findings delivered in chat only, since this is not a GT-005 execution.
+- No new execution record appended to `.lovable/plan.md`.
