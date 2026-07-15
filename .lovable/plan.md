@@ -79,3 +79,24 @@ snapshot_digest: <allocated>
 - Pass 11.1.1 — GT-005 Publication (`MOD009_MANUFACTURING_BASELINE_v1`)
 - Optional OR / RR / SR read-only reviews
 - Next Business OS module — resume GT-002 Stage 1 under unchanged Governance v1.0 and FROZEN Wrapper v1.0
+
+---
+
+## Execution Record — Pass 11.1.0
+
+```yaml
+execution_status: READY_FOR_PUBLICATION
+next_template: GT-005
+next_target: MOD009_MANUFACTURING_BASELINE_v1
+handoff_state: READY
+execution_id: GT004-MOD009-20260715-001
+audit_report_id: REPOSITORY_AUDIT_20260715T001300Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T001200Z
+repository_revision_after: post-pass-11.1.0
+snapshot_digest: sha256:frozen-authoritative-artifacts-per-gt004
+```
+
+- Baseline authored: `docs/40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1.md`
+- Registered on 4 GT-004 surfaces: `docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- Audit report: `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001300Z.md` (23/23 PASS, Repository READY)
+- MOD-009 Manufacturing Stage 3 complete
