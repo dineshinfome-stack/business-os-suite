@@ -1,17 +1,17 @@
-## Pass 11.0.3 — GT-003 for SPR-MOD-009-003 (FROZEN Wrapper v1.0)
+## Pass 11.0.5 — GT-003 for SPR-MOD-009-005 (FROZEN Wrapper v1.0)
 
-Author Manufacturing Sprint 3 PRD using released GT-003 under FROZEN Wrapper v1.0. Zero fabrication — all sprint facts resolve verbatim from authoritative sources.
+Author Manufacturing Sprint 5 PRD using released GT-003 under FROZEN Wrapper v1.0. Zero fabrication — all sprint facts resolve verbatim from authoritative sources.
 
 ### Execution Variables
 - template: GT-003 (Active), Wrapper v1.0 FROZEN
 - module: MOD-009 Manufacturing
-- sprint_id: SPR-MOD-009-003
-- sprint_target: `docs/30-sprint-prds/manufacturing/SPR-MOD-009-003-<slug>.md` (slug resolved from Sprint Plan)
+- sprint_id: SPR-MOD-009-005
+- sprint_target: `docs/30-sprint-prds/manufacturing/SPR-MOD-009-005-<slug>.md` (slug resolved from Sprint Plan)
 - audit: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md`
 
 ### Lifecycle (FROZEN Wrapper v1.0)
 
-1. **Preconditions** — verify Governance v1.0 Released, GT-003 Active, Wrapper v1.0 FROZEN, Pass 11.0.2 complete, latest successful GT-003 Repository Audit READY, `SPR-MOD-009-003` enumerated in Sprint Plan, no open correctives. Abort with `PRECONDITION-FAIL` (exit 20) on first failure.
+1. **Preconditions** — verify Governance v1.0 Released, GT-003 Active, Wrapper v1.0 FROZEN, Pass 11.0.4 complete, latest successful GT-003 Repository Audit READY, `SPR-MOD-009-005` enumerated in Sprint Plan, no open correctives. Abort with `PRECONDITION-FAIL` (exit 20) on first failure.
 2. **Snapshot Freeze** — capture revision id + authoritative-source digests.
 3. **Authoritative Resolution** — resolve slug, scope, capabilities, entities, engines, ADRs, published/consumed events, upstream/downstream deps, personas, acceptance & exit criteria exclusively from:
    - `docs/20-module-prds/manufacturing/MODULE_PRD.md`
@@ -37,7 +37,7 @@ On failure after Registration, apply Runtime Rollback inherited from FROZEN Wrap
 - Sprint-specific content resolved exclusively from authoritative sources
 - Bidirectional traceability preserved
 - Registration on GT-003 surfaces only
-- Every GT-003 validation rule PASS (INFO where permitted)
+- Execute every validation rule declared by the released GT-003 template; all required validations PASS (INFO where permitted by the template)
 - GT-005 audit PASS, Repository READY
 - Governance/templates/wrapper unchanged
 
@@ -48,7 +48,7 @@ No governance evolution, no template/wrapper edits, no Module PRD or Sprint Plan
 ```yaml
 execution_status: READY_FOR_NEXT_SPRINT
 next_template: GT-003
-next_target: SPR-MOD-009-004
+next_target: SPR-MOD-009-006
 handoff_state: READY
 execution_id: <allocated>
 audit_report_id: REPOSITORY_AUDIT_<UTC>
@@ -58,58 +58,18 @@ snapshot_digest: <allocated>
 Include `previous_audit_report_id` (resolved to the latest successful GT-003 audit) only if defined by the released GT-003 template.
 
 ### Roadmap
-11.0.4–11.0.6 remaining Manufacturing sprints → 11.1.0 GT-004 Baseline → 11.1.1 GT-005 Publication. Optional OR/RR/SR reviews per cadence.
+11.0.6 remaining Manufacturing sprint → 11.1.0 GT-004 Baseline → 11.1.1 GT-005 Publication. Optional OR/RR/SR reviews per cadence.
 
-### Execution Record — Pass 11.0.3 (2026-07-15T00:09:00Z)
+---
 
-```yaml
-execution_status: READY_FOR_NEXT_SPRINT
-executed_pass: "11.0.3"
-executed_template: "GT-003 v1.0 (Active)"
-execution_wrapper: "GT-003 Execution Wrapper v1.0 (FROZEN)"
-target_artifact: "docs/30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution.md"
-execution_id: "GT003-MOD009-003-20260715T000900Z-001"
-parent_result_id: "GT003-MOD009-002-20260715T000800Z-001"
-audit_report_id: "REPOSITORY_AUDIT_20260715T000900Z"
-previous_audit_report_id: "REPOSITORY_AUDIT_20260715T000800Z"
-repository_status: READY
-registration_surfaces_updated:
-  - "docs/30-sprint-prds/manufacturing/README.md"
-  - "docs/SPRINT_CATALOG.md"
-  - "docs/DOCUMENT_INDEX.md"
-  - "docs/_meta.json"
-governance_unchanged: true
-wrapper_unchanged: true
-next_template: "GT-003"
-next_target: "SPR-MOD-009-004"
-handoff_state: READY
-```
+## Execution Record — Pass 11.0.5 (2026-07-15)
 
-MOD-009 Sprint 3 authored under FROZEN Wrapper v1.0. Ready for Pass 11.0.4.
-
-### Execution Record — Pass 11.0.4 (2026-07-15T00:10:00Z)
-
-```yaml
-execution_status: READY_FOR_NEXT_SPRINT
-executed_pass: "11.0.4"
-executed_template: "GT-003 v1.0 (Active)"
-execution_wrapper: "GT-003 Execution Wrapper v1.0 (FROZEN)"
-target_artifact: "docs/30-sprint-prds/manufacturing/SPR-MOD-009-004-sub-contracting.md"
-execution_id: "GT003-MOD009-004-20260715T001000Z-001"
-parent_result_id: "GT003-MOD009-003-20260715T000900Z-001"
-audit_report_id: "REPOSITORY_AUDIT_20260715T001000Z"
-previous_audit_report_id: "REPOSITORY_AUDIT_20260715T000900Z"
-repository_status: READY
-registration_surfaces_updated:
-  - "docs/30-sprint-prds/manufacturing/README.md"
-  - "docs/SPRINT_CATALOG.md"
-  - "docs/DOCUMENT_INDEX.md"
-  - "docs/_meta.json"
-governance_unchanged: true
-wrapper_unchanged: true
-next_template: "GT-003"
-next_target: "SPR-MOD-009-005"
-handoff_state: READY
-```
-
-MOD-009 Sprint 4 authored under FROZEN Wrapper v1.0. Ready for Pass 11.0.5.
+- **Status:** COMPLETE — READY_FOR_NEXT_SPRINT
+- **Artifact:** `docs/30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap.md` (Draft)
+- **Registration surfaces updated:** `docs/30-sprint-prds/manufacturing/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- **Audit report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001100Z.md` (19/19 PASS, Repository READY)
+- **Previous audit:** `REPOSITORY_AUDIT_20260715T001000Z`
+- **Execution ID:** `GT003-MOD009-005-20260715T001100Z-001`
+- **Parent Result ID:** `GT003-MOD009-004-20260715T001000Z-001`
+- **Governance:** v1.0 unchanged · GT-003 Wrapper v1.0 FROZEN · No governance/template/wrapper edits · No implementation code
+- **Next Pass:** 11.0.6 — GT-003 for `SPR-MOD-009-006` (Manufacturing Analytics & Compliance)

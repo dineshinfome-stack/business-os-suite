@@ -1190,6 +1190,10 @@
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-004-sub-contracting"
         },
         {
+          "title": "SPR-MOD-009-005 — Quality, Yield & Scrap",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap"
+        },
+        {
           "title": "MOD-010 Projects",
           "path": "30-sprint-prds/projects/README"
         },
