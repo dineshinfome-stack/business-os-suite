@@ -1212,6 +1212,10 @@
           "path": "30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests"
         },
         {
+          "title": "SPR-MOD-010-003 \u2014 Timesheets & Effort",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort"
+        },
+        {
           "title": "MOD-011 AMC",
           "path": "30-sprint-prds/amc/README"
         },
