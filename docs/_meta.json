@@ -1178,6 +1178,10 @@
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing"
         },
         {
+          "title": "SPR-MOD-009-002 — Production Planning & Scheduling",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-002-production-planning-and-scheduling"
+        },
+        {
           "title": "MOD-010 Projects",
           "path": "30-sprint-prds/projects/README"
         },
