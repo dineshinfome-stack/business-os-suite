@@ -40,7 +40,7 @@ The authoritative sprint sequence for MOD-010 is defined in the Stage 1 Sprint P
 | SPR-MOD-010-002 | Sprint 2 | Tasks, Milestones & Change Requests | Draft (authored: [`SPR-MOD-010-002-tasks-milestones-and-change-requests.md`](./SPR-MOD-010-002-tasks-milestones-and-change-requests.md)) | SPR-MOD-010-001 |
 | SPR-MOD-010-003 | Sprint 3 | Timesheets & Effort | Draft (authored: [`SPR-MOD-010-003-timesheets-and-effort.md`](./SPR-MOD-010-003-timesheets-and-effort.md)) | SPR-MOD-010-001 |
 | SPR-MOD-010-004 | Sprint 4 | Budgets, Costs & Project Billing | Draft (authored: [`SPR-MOD-010-004-budgets-costs-and-project-billing.md`](./SPR-MOD-010-004-budgets-costs-and-project-billing.md)) | SPR-MOD-010-002, SPR-MOD-010-003 |
-| SPR-MOD-010-005 | Sprint 5 | Projects Analytics & Compliance | Planned | SPR-MOD-010-001 … 004 |
+| SPR-MOD-010-005 | Sprint 5 | Projects Analytics & Compliance | Draft (authored: [`SPR-MOD-010-005-projects-analytics-and-compliance.md`](./SPR-MOD-010-005-projects-analytics-and-compliance.md)) | SPR-MOD-010-001 … 004 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Goals above are the Stage 1 planning baseline; refinements permitted during Stage 2 MUST update `MOD-010_SPRINT_PLAN.md` first.
 

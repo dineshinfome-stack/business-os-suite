@@ -352,6 +352,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-010-002 — Tasks, Milestones & Change Requests | Delivery | Draft | Authoritative | `docs/30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests.md` |
 | SPR-MOD-010-003 — Timesheets & Effort | Delivery | Draft | Authoritative | `docs/30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort.md` |
 | SPR-MOD-010-004 — Budgets, Costs & Project Billing | Delivery | Draft | Authoritative | `docs/30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing.md` |
+| SPR-MOD-010-005 — Projects Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
