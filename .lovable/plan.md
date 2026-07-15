@@ -80,3 +80,34 @@ No governance evolution. No GT template mods. No wrapper mods. No Module PRD or 
 - **Pass 10.0.6** — GT-003 for `SPR-MOD-008-006`
 - **Pass 10.1.0** — GT-004 Baseline Consolidation (`MOD008_PAYROLL_BASELINE_v1`)
 - **Pass 10.1.1** — GT-005 Publication
+
+---
+
+## Execution Record — Pass 10.0.3 (FINAL)
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+executed_pass: 10.0.3
+template: GT-003
+template_version: v1.0
+wrapper: FROZEN GT-003 Execution Wrapper v1.0
+target_sprint: SPR-MOD-008-003
+sprint_prd: docs/30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations.md
+registration_surfaces_updated:
+  - docs/30-sprint-prds/payroll/README.md
+  - docs/SPRINT_CATALOG.md
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+gt_003_validation: PASS
+gt_005_audit_report: docs/50-audit-reports/REPOSITORY_AUDIT_20260715T000000Z.md
+gt_005_result: PASS (16/16)
+repository_status: READY
+governance_framework: unchanged
+gt_templates: unchanged
+wrapper: unchanged
+next_template: GT-003
+next_target: SPR-MOD-008-004
+handoff_state: READY
+execution_id: GT003-MOD008-003-20260715T000000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260715T000000Z
+```
