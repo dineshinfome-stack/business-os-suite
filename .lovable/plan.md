@@ -68,3 +68,28 @@ snapshot_digest: <allocated>
 - Pass 10.1.1 — GT-005 Publication for `MOD008_PAYROLL_BASELINE_v1`.
 - Optional read-only post-MOD-008 retrospective (CRM + HRMS + Payroll).
 - Next Business OS module — resume GT-002 Stage 1 under unchanged Framework v1.0 and FROZEN Wrapper v1.0.
+
+---
+
+## Execution Record — Pass 10.1.0
+
+```yaml
+execution_id: GT004-MOD008-20260715T000400Z-001
+template: GT-004
+target: MOD008_PAYROLL_BASELINE_v1
+target_path: docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md
+audit_report_id: REPOSITORY_AUDIT_20260715T000400Z
+audit_report_path: docs/50-audit-reports/REPOSITORY_AUDIT_20260715T000400Z.md
+execution_status: READY_FOR_PUBLICATION
+next_template: GT-005
+next_target: MOD008_PAYROLL_BASELINE_v1
+handoff_state: READY
+registration_surfaces_updated:
+  - docs/40-module-baselines/README.md
+  - docs/MODULE_BASELINE_CATALOG.md
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+validation_result: PASS (23/23)
+repository_status: READY
+governance_unchanged: true
+```
