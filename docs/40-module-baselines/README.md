@@ -58,6 +58,7 @@ Every baseline mirrors the same section order (see [`MOD001_PLATFORM_BASELINE_v1
 | [`MOD006_CRM_BASELINE_v1`](./MOD006_CRM_BASELINE_v1.md) | MOD-006 CRM | 1.0 | Baseline |
 | [`MOD007_HRMS_BASELINE_v1`](./MOD007_HRMS_BASELINE_v1.md) | MOD-007 HRMS | 1.0 | Baseline |
 | [`MOD008_PAYROLL_BASELINE_v1`](./MOD008_PAYROLL_BASELINE_v1.md) | MOD-008 Payroll | 1.0 | Baseline |
+| [`MOD009_MANUFACTURING_BASELINE_v1`](./MOD009_MANUFACTURING_BASELINE_v1.md) | MOD-009 Manufacturing | 1.0 | Baseline |
 | [`MOD019_WAREHOUSE_BASELINE_v1`](./MOD019_WAREHOUSE_BASELINE_v1.md) | MOD-019 Warehouse | 1.0 | Baseline |
 
 The full index across all modules lives in [`docs/MODULE_BASELINE_CATALOG.md`](../MODULE_BASELINE_CATALOG.md).
