@@ -1194,6 +1194,10 @@
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap"
         },
         {
+          "title": "SPR-MOD-009-006 — Manufacturing Analytics & Compliance",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance"
+        },
+        {
           "title": "MOD-010 Projects",
           "path": "30-sprint-prds/projects/README"
         },
