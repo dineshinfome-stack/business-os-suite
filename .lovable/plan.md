@@ -87,3 +87,34 @@ Include `previous_audit_report_id` only if declared by released GT-003 template.
 - Pass 12.1.1 — GT-005 Publication (MOD010_PROJECTS_BASELINE_v1)
 - Pass 13.0.0 — GT-002 Stage 1 for next module resolved dynamically from `docs/MODULE_CATALOG.md`
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 12.0.5
+
+```yaml
+execution_status: READY_FOR_BASELINE_CONSOLIDATION
+template: GT-003
+template_version: v1.0
+module: MOD-010 Projects
+sprint_id: SPR-MOD-010-005
+next_template: GT-004
+next_target: MOD010_PROJECTS_BASELINE_v1
+handoff_state: READY
+execution_id: GT003-MOD010-005-20260715T011000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260715T011000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T010000Z
+repository_revision_after: pass-12.0.5
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0 Step 2>
+stage_2_status: COMPLETE (5/5 Sprint PRDs authored)
+```
+
+**Deliverables emitted:**
+- `docs/30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance.md` (new)
+- `docs/30-sprint-prds/projects/README.md` (Sprint 5 row → Draft)
+- `docs/SPRINT_CATALOG.md` (row inserted)
+- `docs/DOCUMENT_INDEX.md` (row inserted)
+- `docs/_meta.json` (entry inserted)
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T011000Z.md` (20/20 PASS, Repository READY)
+
+Governance Framework v1.0, GT templates, and Execution Wrapper v1.0 unchanged.
