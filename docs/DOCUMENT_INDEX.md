@@ -221,6 +221,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD006_CRM_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD006_CRM_BASELINE_v1.md` |
 | MOD007_HRMS_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD007_HRMS_BASELINE_v1.md` |
 | MOD008_PAYROLL_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md` |
+| MOD009_MANUFACTURING_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1.md` |
 | MOD019_WAREHOUSE_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
 | Module Baselines — Layer README | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/README.md` |
