@@ -1182,6 +1182,10 @@
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-002-production-planning-and-scheduling"
         },
         {
+          "title": "SPR-MOD-009-003 — Work Orders & Shopfloor Execution",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution"
+        },
+        {
           "title": "MOD-010 Projects",
           "path": "30-sprint-prds/projects/README"
         },

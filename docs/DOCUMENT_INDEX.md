@@ -342,6 +342,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-008-006 — Payroll Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance.md` |
 | SPR-MOD-009-001 — Manufacturing Foundation (BOM & Routing) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing.md` |
 | SPR-MOD-009-002 — Production Planning & Scheduling | Delivery | Draft | Authoritative | `docs/30-sprint-prds/manufacturing/SPR-MOD-009-002-production-planning-and-scheduling.md` |
+| SPR-MOD-009-003 — Work Orders & Shopfloor Execution | Delivery | Draft | Authoritative | `docs/30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |

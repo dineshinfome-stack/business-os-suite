@@ -59,3 +59,30 @@ Include `previous_audit_report_id` (resolved to the latest successful GT-003 aud
 
 ### Roadmap
 11.0.4–11.0.6 remaining Manufacturing sprints → 11.1.0 GT-004 Baseline → 11.1.1 GT-005 Publication. Optional OR/RR/SR reviews per cadence.
+
+### Execution Record — Pass 11.0.3 (2026-07-15T00:09:00Z)
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+executed_pass: "11.0.3"
+executed_template: "GT-003 v1.0 (Active)"
+execution_wrapper: "GT-003 Execution Wrapper v1.0 (FROZEN)"
+target_artifact: "docs/30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution.md"
+execution_id: "GT003-MOD009-003-20260715T000900Z-001"
+parent_result_id: "GT003-MOD009-002-20260715T000800Z-001"
+audit_report_id: "REPOSITORY_AUDIT_20260715T000900Z"
+previous_audit_report_id: "REPOSITORY_AUDIT_20260715T000800Z"
+repository_status: READY
+registration_surfaces_updated:
+  - "docs/30-sprint-prds/manufacturing/README.md"
+  - "docs/SPRINT_CATALOG.md"
+  - "docs/DOCUMENT_INDEX.md"
+  - "docs/_meta.json"
+governance_unchanged: true
+wrapper_unchanged: true
+next_template: "GT-003"
+next_target: "SPR-MOD-009-004"
+handoff_state: READY
+```
+
+MOD-009 Sprint 3 authored under FROZEN Wrapper v1.0. Ready for Pass 11.0.4.
