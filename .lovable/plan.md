@@ -80,3 +80,27 @@ Include `previous_audit_report_id` only if declared by released GT-005.
 - Pass 13.1.0 — GT-004 Baseline Consolidation
 - Pass 13.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only repository reviews per established cadence
+
+---
+
+## Execution Record — Pass 12.1.1
+
+```yaml
+execution_status: COMPLETE
+template: GT-005
+template_version: v1.0
+module: MOD-010 Projects
+target: MOD010_PROJECTS_BASELINE_v1
+publication_status: PUBLISHED
+next_template: GT-002
+next_target: <next unpublished Business OS module resolved from docs/MODULE_CATALOG.md at Pass 13.0.0>
+handoff_state: READY
+execution_id: GT005-MOD010-20260715T013000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260715T013000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T012000Z
+repository_revision_after: pass-12.1.1
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0 Step 2>
+lifecycle_transition: FROZEN -> PUBLISHED
+```
+
+MOD-010 Projects lifecycle COMPLETE. Registration surfaces byte-identical to Pass 12.1.0 (publication does not mutate baseline body or GT-004 registration, per MOD-007/008/009 precedent). Next pass: 13.0.0 — GT-002 Stage 1 for next Business OS module resolved dynamically.
