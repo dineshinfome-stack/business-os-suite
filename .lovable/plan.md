@@ -1,77 +1,81 @@
-## Pass 11.0.6 — GT-003 for SPR-MOD-009-006 (FROZEN Wrapper v1.0)
+# Pass 11.1.0 — GT-004 Baseline Consolidation for MOD-009 Manufacturing
 
-Author Manufacturing Sprint 6 PRD (final MOD-009 Stage 2 sprint) using released GT-003 under FROZEN Wrapper v1.0. Zero fabrication — all sprint facts resolve verbatim from authoritative sources.
+## Objective
 
-### Execution Variables
-- template: GT-003 (Active), Wrapper v1.0 FROZEN
-- module: MOD-009 Manufacturing
-- sprint_id: SPR-MOD-009-006
-- sprint_target: `docs/30-sprint-prds/manufacturing/SPR-MOD-009-006-<slug>.md` (slug resolved from Sprint Plan)
-- audit: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md`
+Consolidate the six approved MOD-009 Manufacturing Sprint PRDs into `docs/40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1.md` using the Released GT-004 template under Governance Framework v1.0. Zero fabrication — all content resolves verbatim from authoritative sources at execution time.
 
-### Lifecycle (FROZEN Wrapper v1.0)
+## Execution Variables
 
-1. **Preconditions** — verify Governance v1.0 Released, GT-003 Active, Wrapper v1.0 FROZEN, Pass 11.0.5 complete, latest successful GT-003 audit READY, `SPR-MOD-009-006` enumerated in Sprint Plan, no open correctives. Abort with `PRECONDITION-FAIL` (exit 20) on first failure.
-2. **Snapshot Freeze** — capture revision id + authoritative-source digests.
-3. **Authoritative Resolution** — resolve slug, scope, capabilities, entities, engines, ADRs, published/consumed events, upstream/downstream deps, personas, acceptance & exit criteria exclusively from:
+- template: GT-004 (Released, Active)
+- module_id: MOD-009
+- module_name: Manufacturing
+- baseline_target: `docs/40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1.md`
+- sprint_prds: SPR-MOD-009-001 … SPR-MOD-009-006
+- audit_report: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md`
+- previous_audit: resolved dynamically (currently `REPOSITORY_AUDIT_20260715T001200Z.md`)
+
+## Lifecycle (Released GT-004)
+
+1. **Preflight** — verify Governance v1.0 Released; GT-004/GT-005 Active; MOD-009 Stage 2 complete (6/6); latest audit Repository READY; all six Sprint PRDs registered on GT-003 surfaces; no pre-existing `MOD009_MANUFACTURING_BASELINE_v1.md`; no open corrective executions. Abort on first failure (`PRECONDITION-FAIL`, exit 20).
+
+2. **Dependency Resolution** — resolve GT-004 dependencies dynamically via the Governance Template Dependency Matrix (R25) and confirm GT-003 Active in the matching SemVer range.
+
+3. **Sprint Collection** — enumerate SPR-MOD-009-001 … 006 and assert 1:1 correspondence with the approved Sprint Plan.
+
+4. **Cross-Sprint Validation** — execute every validation rule declared by the Released GT-004 template (dynamic binding — no hard-coded rule count). Includes structural, traceability, capability coverage, engine/ADR/event reconciliation, ownership, metadata, determinism, and placeholder discipline.
+
+5. **Baseline Assembly** — author the Baseline in the Released GT-004 canonical structure. Preserve authoritative identifiers, ownership boundaries, capability coverage, bidirectional traceability, and source integrity. Resolve all ownership relationships and content exclusively from the authoritative repository artifacts:
    - `docs/20-module-prds/manufacturing/MODULE_PRD.md`
    - `docs/30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN.md`
-   - `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`
-   - `docs/11-adrs/ADR_INDEX.md`, `docs/02-architecture/event-catalog.md`
-   - `docs/MODULE_CATALOG.md`
-4. **Sprint Authoring** — author Sprint PRD in released GT-003 canonical structure. Preserve Sprint↔Sprint Plan and Sprint↔Module PRD traceability, authoritative identifiers, ownership boundaries, dependency isolation.
-5. **Transactional Registration** — update only GT-003 registration surfaces:
-   - `docs/30-sprint-prds/manufacturing/README.md`
-   - `docs/SPRINT_CATALOG.md`
+   - `docs/30-sprint-prds/manufacturing/SPR-MOD-009-001..006-*.md`
+
+6. **Registration** — update only GT-004 registration surfaces:
+   - `docs/40-module-baselines/README.md`
+   - `docs/MODULE_BASELINE_CATALOG.md`
    - `docs/DOCUMENT_INDEX.md`
    - `docs/_meta.json`
-6. **GT-003 Validation** — execute every validation rule declared by the released GT-003 template via dynamic rule binding.
-7. **GT-005 Repository Audit** — emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md`; require all profiles PASS + Repository READY.
-8. **Finalization** — append execution record to `.lovable/plan.md`; release lock.
 
-### Rollback
-On failure after Registration, apply Runtime Rollback inherited from FROZEN Wrapper v1.0. No wrapper behavior modified.
+7. **Verification** — execute every verification requirement declared by the Released GT-004 template.
 
-### Success Criteria
-- Sprint PRD in released GT-003 canonical structure
-- Sprint-specific content resolved exclusively from authoritative sources
-- Bidirectional traceability preserved
-- Registration on GT-003 surfaces only
-- Every validation rule declared by the released GT-003 template executes; all required validations PASS (INFO where permitted)
-- GT-005 audit PASS, Repository READY
-- MOD-009 Manufacturing Stage 2 complete (6/6)
-- Governance/templates/wrapper unchanged
+8. **GT-005 Repository Audit** — emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md`. Require every audit profile PASS and Repository READY.
 
-### Non-Goals
-No governance evolution, no template/wrapper edits, no Module PRD or Sprint Plan edits, no GT-004/GT-005 publication, no implementation code.
+9. **Execution Finalization** — append execution record to `.lovable/plan.md`; release execution lock.
 
-### Execution Record (shape)
+## Rollback
+
+On failure after Registration, apply the Released GT-004 Runtime Rollback procedure in reverse order (`_meta.json` → `MODULE_BASELINE_CATALOG.md` → `DOCUMENT_INDEX.md` → `docs/40-module-baselines/README.md` → delete created Baseline). Wrapper behavior unchanged.
+
+## Success Criteria
+
+- Baseline authored in Released GT-004 canonical structure.
+- All six Manufacturing Sprint PRDs consolidated without information loss.
+- Content resolved exclusively from authoritative sources.
+- Ownership boundaries and bidirectional traceability preserved.
+- Execute every validation rule declared by the Released GT-004 template; all required validations PASS (INFO where permitted by the template).
+- GT-005 Repository Audit PASS; Repository READY.
+- MOD-009 Stage 3 complete.
+- Governance Framework v1.0, GT templates, and Wrapper v1.0 unchanged.
+
+## Non-Goals
+
+No Sprint PRD / Module PRD / Sprint Plan edits. No GT-005 Publication (Pass 11.1.1). No governance, template, or wrapper evolution. No implementation code.
+
+## Execution Record
+
 ```yaml
-execution_status: READY_FOR_BASELINE_CONSOLIDATION
-next_template: GT-004
+execution_status: READY_FOR_PUBLICATION
+next_template: GT-005
 next_target: MOD009_MANUFACTURING_BASELINE_v1
 handoff_state: READY
 execution_id: <allocated>
 audit_report_id: REPOSITORY_AUDIT_<UTC>
+previous_audit_report_id: <resolved dynamically if declared by GT-004>
 repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
-Include `previous_audit_report_id` (resolved to the latest successful GT-003 audit) only if defined by the released GT-003 template.
 
-### Roadmap
-11.1.0 GT-004 Baseline (`MOD009_MANUFACTURING_BASELINE_v1`) → 11.1.1 GT-005 Publication. Optional OR/RR/SR reviews per cadence.
+## Roadmap
 
----
-
-## Execution Record — Pass 11.0.6 (2026-07-15)
-
-- **Status:** COMPLETE — READY_FOR_BASELINE_CONSOLIDATION
-- **Artifact:** `docs/30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance.md` (Draft)
-- **Registration surfaces updated:** `docs/30-sprint-prds/manufacturing/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
-- **Audit report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001200Z.md` (20/20 PASS, Repository READY)
-- **Previous audit:** `REPOSITORY_AUDIT_20260715T001100Z`
-- **Execution ID:** `GT003-MOD009-006-20260715T001200Z-001`
-- **Parent Result ID:** `GT003-MOD009-005-20260715T001100Z-001`
-- **Milestone:** MOD-009 Manufacturing **Stage 2 COMPLETE** (6/6 Sprint PRDs authored)
-- **Governance:** v1.0 unchanged · GT-003 Wrapper v1.0 FROZEN · No governance/template/wrapper edits · No implementation code
-- **Next Pass:** 11.1.0 — GT-004 Baseline Consolidation (`MOD009_MANUFACTURING_BASELINE_v1`)
+- Pass 11.1.1 — GT-005 Publication (`MOD009_MANUFACTURING_BASELINE_v1`)
+- Optional OR / RR / SR read-only reviews
+- Next Business OS module — resume GT-002 Stage 1 under unchanged Governance v1.0 and FROZEN Wrapper v1.0
