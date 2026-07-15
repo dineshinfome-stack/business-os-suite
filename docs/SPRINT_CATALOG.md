@@ -85,7 +85,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-008-001 | Sprint 1 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures.md`](30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures.md) | People |
 | SPR-MOD-008-002 | Sprint 2 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs.md`](30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs.md) | People |
 | SPR-MOD-008-003 | Sprint 3 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations.md`](30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations.md) | People |
-| SPR-MOD-008-004 | Sprint 4 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.4)_ | People |
+| SPR-MOD-008-004 | Sprint 4 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md`](30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md) | People |
 | SPR-MOD-008-005 | Sprint 5 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.5)_ | People |
 | SPR-MOD-008-006 | Sprint 6 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.6)_ | People |
 
