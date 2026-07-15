@@ -1,50 +1,60 @@
-# Pass 10.0.6 — Execute GT-003 for SPR-MOD-008-006 under FROZEN Wrapper v1.0
+# Pass 10.1.0 — GT-004 Baseline Consolidation for MOD-008 Payroll
 
-Author the sixth and final Payroll Sprint PRD using the released **GT-003** template under the **FROZEN GT-003 Execution Wrapper v1.0**. No governance evolution, no template changes, no wrapper changes, no implementation code.
+## Objective
 
-## Execution Variables (minimal)
+Consolidate the six approved MOD-008 Payroll Sprint PRDs into the authoritative Module Baseline `MOD008_PAYROLL_BASELINE_v1.md` using the released GT-004 template. No governance, template, wrapper, or implementation-code changes.
 
-- template: GT-003 (Released, Active) — Wrapper v1.0 FROZEN
+## Execution Variables
+
+- template: GT-004 (Released, Active)
 - module_id: MOD-008
 - module_name: Payroll
-- sprint_id: SPR-MOD-008-006
-- module_prd: `docs/20-module-prds/payroll/MODULE_PRD.md`
-- sprint_plan: `docs/30-sprint-prds/payroll/MOD-008_SPRINT_PLAN.md`
-- sprint_target: `docs/30-sprint-prds/payroll/SPR-MOD-008-006-<slug-from-sprint-plan>.md`
+- baseline_target: `docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md`
+- sprint_prds: SPR-MOD-008-001 … SPR-MOD-008-006
 - audit_report: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 
-All sprint-specific facts (scope, capabilities, entities, engines, ADRs, published/consumed events, dependencies, personas, acceptance criteria, exit criteria) SHALL resolve verbatim at execution time from the Module PRD, Sprint Plan, Engine Catalog, Engine Usage Matrix, ADR Index, Event Catalog, and Module Catalog. **Zero fabrication.**
+All baseline content resolves verbatim from authoritative artifacts at execution time. Zero fabrication.
 
----
+## Lifecycle (Released GT-004)
 
-## Lifecycle (FROZEN Wrapper v1.0)
-
-1. **Preconditions** — Governance v1.0 Released; GT-003 Active; Wrapper v1.0 FROZEN; Pass 10.0.5 completed; latest audit `REPOSITORY_AUDIT_20260715T000200Z.md` reports Repository READY; Sprint Plan enumerates `SPR-MOD-008-006`; no open corrective executions. Abort on first fail (`PRECONDITION-FAIL`, exit 20).
-2. **Snapshot Freeze** — Capture repository revision + authoritative-source digests.
-3. **Authoritative Resolution** — Resolve the sprint slug, scope, capabilities, entities, engines, ADRs, published/consumed events, upstream/downstream dependencies, personas, acceptance criteria, and exit criteria **verbatim** from the authoritative sources (Module PRD, Sprint Plan, Engine Catalog, Engine Usage Matrix, ADR Index, Event Catalog, Module Catalog). No identifiers are hard-coded in this execution plan.
-4. **Sprint Authoring** — Author the Sprint PRD in released GT-003 canonical structure; preserve Sprint PRD ↔ Sprint Plan and Sprint PRD ↔ Module PRD bidirectional traceability; preserve ownership boundaries and authoritative identifiers.
-5. **Transactional Registration** — Update only:
-   - `docs/30-sprint-prds/payroll/README.md`
-   - `docs/SPRINT_CATALOG.md`
+1. **Preflight** — Verify Framework v1.0 Released; GT-004 + GT-005 Active; MOD-008 Stage 2 complete (6/6); latest audit `REPOSITORY_AUDIT_20260715T000300Z.md` = Repository READY; all Sprint PRDs registered on all four surfaces; no pre-existing `MOD008_PAYROLL_BASELINE_v1.md`; no open corrective executions. Abort on first failure (`PRECONDITION-FAIL`, exit 20).
+2. **Dependency Resolution** — Resolve GT-004 dependencies dynamically via `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` and authoritative governance artifacts (R25).
+3. **Sprint Collection** — Enumerate SPR-MOD-008-001…006; assert 1:1 correspondence with the approved MOD-008 Sprint Plan.
+4. **Cross-Sprint Validation** — Execute every VAL rule declared by the released GT-004 template (capability coverage, traceability, ownership boundaries, engine reconciliation, ADR reconciliation, event reconciliation, metadata consistency, structural conformance, uniqueness, determinism, placeholder discipline).
+5. **Baseline Assembly** — Deterministically compose `MOD008_PAYROLL_BASELINE_v1.md` from the Module PRD, Sprint Plan, and six Sprint PRDs using GT-004's canonical structure. Preserve authoritative identifiers, ownership boundaries, and source traceability.
+6. **Registration** — Update only the four GT-004 registration surfaces:
+   - `docs/40-module-baselines/README.md`
+   - `docs/MODULE_BASELINE_CATALOG.md`
    - `docs/DOCUMENT_INDEX.md`
    - `docs/_meta.json`
-6. **GT-003 Validation** — Execute every validation rule from the released GT-003 template via dynamic rule binding.
-7. **GT-005 Repository Audit** — Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`; require all profiles PASS and Repository READY.
-8. **Execution Finalization** — Append execution record to `.lovable/plan.md`; release execution lock.
-
----
+7. **Verification** — Execute every verification requirement declared by the released GT-004 template.
+8. **GT-005 Repository Audit** — Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`; every audit profile PASS and Repository READY.
+9. **Execution Finalization** — Append the execution record to `.lovable/plan.md`; release execution lock.
 
 ## Rollback
 
-On failure after Registration, apply the Runtime Rollback procedure inherited from FROZEN GT-003 Execution Wrapper v1.0. Wrapper behavior remains unchanged.
+On failure after Registration, apply GT-004's Runtime Rollback (reverse order: `_meta.json` → `MODULE_BASELINE_CATALOG.md` → `DOCUMENT_INDEX.md` → `40-module-baselines/README.md` → delete Baseline). Repository Status evaluated only after rollback completes.
 
----
+## Success Criteria
 
-## Execution Record
+- Baseline authored via GT-004 canonical structure.
+- All six Payroll Sprint PRDs consolidated without information loss.
+- Baseline content resolved exclusively from authoritative sources.
+- Ownership boundaries and authoritative identifiers preserved.
+- GT-004 validation PASS; GT-005 audit PASS across all profiles.
+- Registration completed on all four surfaces.
+- Repository READY.
+- Governance Framework v1.0, GT templates, and Wrapper v1.0 unchanged.
+
+## Non-Goals
+
+No Sprint PRD, Module PRD, or Sprint Plan modifications. No governance evolution. No GT template or wrapper changes. No publication. No implementation code.
+
+## Execution Record (to be allocated)
 
 ```yaml
-execution_status: READY_FOR_BASELINE_CONSOLIDATION
-next_template: GT-004
+execution_status: READY_FOR_PUBLICATION
+next_template: GT-005
 next_target: MOD008_PAYROLL_BASELINE_v1
 handoff_state: READY
 execution_id: <allocated>
@@ -53,61 +63,8 @@ repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
 
----
+## Roadmap After This Pass
 
-## Success Criteria
-
-- Sprint PRD authored in released GT-003 canonical structure.
-- Sprint-specific content resolved exclusively from authoritative sources.
-- Bidirectional traceability preserved.
-- Four registration surfaces updated.
-- All GT-003 validation rules PASS (INFO where permitted).
-- GT-005 Repository Audit PASS; Repository READY.
-- Payroll Stage 2 Sprint Authoring complete (6/6 Sprint PRDs).
-- Governance Framework, GT templates, and Wrapper v1.0 unchanged.
-
----
-
-## Non-Goals
-
-No governance evolution. No GT template modifications. No wrapper modifications. No Module PRD or Sprint Plan edits. No baseline authoring. No publication. No implementation code.
-
----
-
-## Roadmap
-
-- **Pass 10.1.0** — GT-004 Baseline Consolidation (`MOD008_PAYROLL_BASELINE_v1`)
-- **Pass 10.1.1** — GT-005 Publication
-- **Post-MOD-008 Retrospective** (read-only, optional) — Review Payroll execution outcomes alongside prior modules without modifying Governance Framework v1.0 or Wrapper v1.0.
-
----
-
-## Execution Record — Pass 10.0.6 (FINAL)
-
-```yaml
-execution_status: READY_FOR_BASELINE_CONSOLIDATION
-executed_pass: 10.0.6
-template: GT-003
-template_version: v1.0
-wrapper: FROZEN GT-003 Execution Wrapper v1.0
-target_sprint: SPR-MOD-008-006
-sprint_prd: docs/30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance.md
-registration_surfaces_updated:
-  - docs/30-sprint-prds/payroll/README.md
-  - docs/SPRINT_CATALOG.md
-  - docs/DOCUMENT_INDEX.md
-  - docs/_meta.json
-gt_003_validation: PASS
-gt_005_audit_report: docs/50-audit-reports/REPOSITORY_AUDIT_20260715T000300Z.md
-gt_005_result: PASS (16/16)
-repository_status: READY
-payroll_stage_2: COMPLETE (6/6 Sprint PRDs)
-governance_framework: unchanged
-gt_templates: unchanged
-wrapper: unchanged
-next_template: GT-004
-next_target: MOD008_PAYROLL_BASELINE_v1
-handoff_state: READY
-execution_id: GT003-MOD008-006-20260715T000300Z-001
-audit_report_id: REPOSITORY_AUDIT_20260715T000300Z
-```
+- Pass 10.1.1 — GT-005 Publication for `MOD008_PAYROLL_BASELINE_v1`.
+- Optional read-only post-MOD-008 retrospective (CRM + HRMS + Payroll).
+- Next Business OS module — resume GT-002 Stage 1 under unchanged Framework v1.0 and FROZEN Wrapper v1.0.
