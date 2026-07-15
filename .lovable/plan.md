@@ -42,3 +42,42 @@ No REPOSITORY_MANIFEST, AI Bootstrap, timeline, stats, dashboard, governance/fra
 - Audit report identifier
 - Repository READY confirmation
 - **Recommended next execution**: Begin Pass 12.0.0 by executing the released GT-002 template for the next Business OS module resolved dynamically from `docs/MODULE_CATALOG.md`, under the unchanged Governance Framework v1.0 and FROZEN Wrapper v1.0.
+
+---
+
+### Execution Record — Pass 11.1.1 (GT-005 Publication for MOD-009 Manufacturing)
+
+```yaml
+execution_id: GT005-MOD009-20260715T001400Z-001
+template: GT-005
+template_version: v1.0
+target: MOD009_MANUFACTURING_BASELINE_v1
+target_path: docs/40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1.md
+previous_audit: REPOSITORY_AUDIT_20260715T001300Z
+audit_report_id: REPOSITORY_AUDIT_20260715T001400Z
+audit_report_path: docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001400Z.md
+parent_execution_id: GT004-MOD009-20260715-001
+publication_status: PUBLISHED
+lifecycle_transition: FROZEN -> PUBLISHED
+handoff_state: READY
+registration_surfaces_updated: []   # GT-004 registration already sufficient; publication is idempotent per GT-005 precedent
+baseline_body_changed: false
+governance_unchanged: true
+wrapper_unchanged: true
+templates_unchanged: true
+confidence: MEDIUM
+d_waivers: [D3]
+result: PASS
+```
+
+- **Preflight** — Governance Framework v1.0 Released; GT-001..GT-005 Active; MOD-009 Stage 3 complete; previous audit `REPOSITORY_AUDIT_20260715T001300Z` = Repository READY. PASS.
+- **Dependency Resolution** — GT-005 dependencies resolved dynamically from the Governance Template Dependency Matrix (v1.0.2). PASS.
+- **Validation** — All rules declared by released GT-005 v1.0 across the five audit profiles PASS.
+- **Baseline Freeze** — Baseline body byte-identical to Pass 11.1.0 state; publication metadata bound dynamically via the GT-005 audit contract (no in-file front-matter mutation required, per MOD-008 precedent).
+- **Publication Registration** — GT-004 registration on `docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, and `docs/_meta.json` already satisfies the released GT-005 publication contract. `docs/MODULE_CATALOG.md` was not modified by prior GT-005 executions and is not modified here. Idempotent — no duplicate rows introduced.
+- **Verification** — Every GT-005 verification requirement satisfied.
+- **Repository Audit** — Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001400Z.md`. All profiles PASS. Repository READY.
+- **Governance Boundaries** — Manufacturing ownership preserved; no stock-ledger writes (MOD-005), no journal entries (MOD-002), no identity redefinition (MOD-001), no cross-module KPI ownership claim (MOD-017).
+
+**MOD-009 Manufacturing lifecycle is COMPLETE.** Baseline v1 is Published. Governance Framework v1.0, GT-001..GT-005, and FROZEN Wrapper v1.0 are unchanged. Recommended next execution: Pass 12.0.0 — execute released GT-002 for the next Business OS module resolved dynamically from `docs/MODULE_CATALOG.md`.
+
