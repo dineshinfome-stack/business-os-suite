@@ -1,17 +1,17 @@
-## Pass 11.0.5 — GT-003 for SPR-MOD-009-005 (FROZEN Wrapper v1.0)
+## Pass 11.0.6 — GT-003 for SPR-MOD-009-006 (FROZEN Wrapper v1.0)
 
-Author Manufacturing Sprint 5 PRD using released GT-003 under FROZEN Wrapper v1.0. Zero fabrication — all sprint facts resolve verbatim from authoritative sources.
+Author Manufacturing Sprint 6 PRD (final MOD-009 Stage 2 sprint) using released GT-003 under FROZEN Wrapper v1.0. Zero fabrication — all sprint facts resolve verbatim from authoritative sources.
 
 ### Execution Variables
 - template: GT-003 (Active), Wrapper v1.0 FROZEN
 - module: MOD-009 Manufacturing
-- sprint_id: SPR-MOD-009-005
-- sprint_target: `docs/30-sprint-prds/manufacturing/SPR-MOD-009-005-<slug>.md` (slug resolved from Sprint Plan)
+- sprint_id: SPR-MOD-009-006
+- sprint_target: `docs/30-sprint-prds/manufacturing/SPR-MOD-009-006-<slug>.md` (slug resolved from Sprint Plan)
 - audit: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md`
 
 ### Lifecycle (FROZEN Wrapper v1.0)
 
-1. **Preconditions** — verify Governance v1.0 Released, GT-003 Active, Wrapper v1.0 FROZEN, Pass 11.0.4 complete, latest successful GT-003 Repository Audit READY, `SPR-MOD-009-005` enumerated in Sprint Plan, no open correctives. Abort with `PRECONDITION-FAIL` (exit 20) on first failure.
+1. **Preconditions** — verify Governance v1.0 Released, GT-003 Active, Wrapper v1.0 FROZEN, Pass 11.0.5 complete, latest successful GT-003 audit READY, `SPR-MOD-009-006` enumerated in Sprint Plan, no open correctives. Abort with `PRECONDITION-FAIL` (exit 20) on first failure.
 2. **Snapshot Freeze** — capture revision id + authoritative-source digests.
 3. **Authoritative Resolution** — resolve slug, scope, capabilities, entities, engines, ADRs, published/consumed events, upstream/downstream deps, personas, acceptance & exit criteria exclusively from:
    - `docs/20-module-prds/manufacturing/MODULE_PRD.md`
@@ -37,8 +37,9 @@ On failure after Registration, apply Runtime Rollback inherited from FROZEN Wrap
 - Sprint-specific content resolved exclusively from authoritative sources
 - Bidirectional traceability preserved
 - Registration on GT-003 surfaces only
-- Execute every validation rule declared by the released GT-003 template; all required validations PASS (INFO where permitted by the template)
+- Every validation rule declared by the released GT-003 template executes; all required validations PASS (INFO where permitted)
 - GT-005 audit PASS, Repository READY
+- MOD-009 Manufacturing Stage 2 complete (6/6)
 - Governance/templates/wrapper unchanged
 
 ### Non-Goals
@@ -46,9 +47,9 @@ No governance evolution, no template/wrapper edits, no Module PRD or Sprint Plan
 
 ### Execution Record (shape)
 ```yaml
-execution_status: READY_FOR_NEXT_SPRINT
-next_template: GT-003
-next_target: SPR-MOD-009-006
+execution_status: READY_FOR_BASELINE_CONSOLIDATION
+next_template: GT-004
+next_target: MOD009_MANUFACTURING_BASELINE_v1
 handoff_state: READY
 execution_id: <allocated>
 audit_report_id: REPOSITORY_AUDIT_<UTC>
@@ -58,18 +59,19 @@ snapshot_digest: <allocated>
 Include `previous_audit_report_id` (resolved to the latest successful GT-003 audit) only if defined by the released GT-003 template.
 
 ### Roadmap
-11.0.6 remaining Manufacturing sprint → 11.1.0 GT-004 Baseline → 11.1.1 GT-005 Publication. Optional OR/RR/SR reviews per cadence.
+11.1.0 GT-004 Baseline (`MOD009_MANUFACTURING_BASELINE_v1`) → 11.1.1 GT-005 Publication. Optional OR/RR/SR reviews per cadence.
 
 ---
 
-## Execution Record — Pass 11.0.5 (2026-07-15)
+## Execution Record — Pass 11.0.6 (2026-07-15)
 
-- **Status:** COMPLETE — READY_FOR_NEXT_SPRINT
-- **Artifact:** `docs/30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap.md` (Draft)
+- **Status:** COMPLETE — READY_FOR_BASELINE_CONSOLIDATION
+- **Artifact:** `docs/30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance.md` (Draft)
 - **Registration surfaces updated:** `docs/30-sprint-prds/manufacturing/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
-- **Audit report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001100Z.md` (19/19 PASS, Repository READY)
-- **Previous audit:** `REPOSITORY_AUDIT_20260715T001000Z`
-- **Execution ID:** `GT003-MOD009-005-20260715T001100Z-001`
-- **Parent Result ID:** `GT003-MOD009-004-20260715T001000Z-001`
+- **Audit report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001200Z.md` (20/20 PASS, Repository READY)
+- **Previous audit:** `REPOSITORY_AUDIT_20260715T001100Z`
+- **Execution ID:** `GT003-MOD009-006-20260715T001200Z-001`
+- **Parent Result ID:** `GT003-MOD009-005-20260715T001100Z-001`
+- **Milestone:** MOD-009 Manufacturing **Stage 2 COMPLETE** (6/6 Sprint PRDs authored)
 - **Governance:** v1.0 unchanged · GT-003 Wrapper v1.0 FROZEN · No governance/template/wrapper edits · No implementation code
-- **Next Pass:** 11.0.6 — GT-003 for `SPR-MOD-009-006` (Manufacturing Analytics & Compliance)
+- **Next Pass:** 11.1.0 — GT-004 Baseline Consolidation (`MOD009_MANUFACTURING_BASELINE_v1`)
