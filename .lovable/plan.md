@@ -112,3 +112,38 @@ snapshot_digest: <allocated>
 - Pass 12.1.0 — GT-004 Baseline Consolidation
 - Pass 12.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 12.0.1
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-010 Projects
+sprint_id: SPR-MOD-010-001
+sprint_slug: projects-foundation-project-and-resource-setup
+next_template: GT-003
+next_target: SPR-MOD-010-002
+handoff_state: READY
+execution_id: GT003-MOD010-001-20260715T001600Z-001
+audit_report_id: REPOSITORY_AUDIT_20260715T001600Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T001500Z
+governance_specification: v1.0
+execution_wrapper: v1.0-FROZEN
+outcome: PASS
+checklist_items: 19
+passed: 19
+remediated: 0
+failed: 0
+outstanding_risks: 0
+repository_status: READY
+deliverables:
+  - docs/30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup.md
+  - docs/30-sprint-prds/projects/README.md (Sprint 1 row updated)
+  - docs/SPRINT_CATALOG.md (row inserted)
+  - docs/DOCUMENT_INDEX.md (row inserted)
+  - docs/_meta.json (entry inserted)
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001600Z.md
+```
