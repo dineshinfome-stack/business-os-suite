@@ -1186,6 +1186,10 @@
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution"
         },
         {
+          "title": "SPR-MOD-009-004 — Sub-contracting",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-004-sub-contracting"
+        },
+        {
           "title": "MOD-010 Projects",
           "path": "30-sprint-prds/projects/README"
         },
