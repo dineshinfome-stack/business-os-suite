@@ -340,6 +340,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-008-004 — Reimbursements & Advances | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md` |
 | SPR-MOD-008-005 — Payslip Generation & Disbursement | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement.md` |
 | SPR-MOD-008-006 — Payroll Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance.md` |
+| SPR-MOD-009-001 — Manufacturing Foundation (BOM & Routing) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |

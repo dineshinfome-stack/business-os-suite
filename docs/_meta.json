@@ -1174,6 +1174,10 @@
           "path": "30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-009-001 — Manufacturing Foundation (BOM & Routing)",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing"
+        },
+        {
           "title": "MOD-010 Projects",
           "path": "30-sprint-prds/projects/README"
         },

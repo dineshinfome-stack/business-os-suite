@@ -34,7 +34,7 @@ All Sprint PRDs in this folder use the prefix **`SPR-MOD-009-NNN`**, where `NNN`
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-009-001 | Sprint 1 | Manufacturing Foundation (BOM & Routing) | Planned | `MOD001_PLATFORM_BASELINE_v1`, `MOD005_INVENTORY_BASELINE_v1` |
+| SPR-MOD-009-001 | Sprint 1 | Manufacturing Foundation (BOM & Routing) | Draft ([`SPR-MOD-009-001`](./SPR-MOD-009-001-manufacturing-foundation-bom-and-routing.md)) | `MOD001_PLATFORM_BASELINE_v1`, `MOD005_INVENTORY_BASELINE_v1` |
 | SPR-MOD-009-002 | Sprint 2 | Production Planning & Scheduling | Planned | SPR-MOD-009-001 |
 | SPR-MOD-009-003 | Sprint 3 | Work Orders & Shopfloor Execution | Planned | SPR-MOD-009-002 |
 | SPR-MOD-009-004 | Sprint 4 | Sub-contracting | Planned | SPR-MOD-009-001 |

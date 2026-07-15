@@ -88,6 +88,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-008-004 | Sprint 4 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md`](30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md) | People |
 | SPR-MOD-008-005 | Sprint 5 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement.md`](30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement.md) | People |
 | SPR-MOD-008-006 | Sprint 6 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance.md`](30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance.md) | People |
+| SPR-MOD-009-001 | Sprint 1 | MOD-009 Manufacturing | Draft | [`30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing.md`](30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing.md) | Operations |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
