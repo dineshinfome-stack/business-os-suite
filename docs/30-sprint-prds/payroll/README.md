@@ -37,7 +37,7 @@ The Stage 1 Sprint Plan for MOD-008 is authored at [`MOD-008_SPRINT_PLAN.md`](./
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
 | [SPR-MOD-008-001](./SPR-MOD-008-001-payroll-foundation-and-salary-structures.md) | Sprint 1 | Payroll Foundation & Salary Structures | Draft | `MOD001_PLATFORM_BASELINE_v1`, `MOD007_HRMS_BASELINE_v1` |
-| SPR-MOD-008-002 | Sprint 2 | Payroll Cycles & Runs | Planned | SPR-MOD-008-001 |
+| [SPR-MOD-008-002](./SPR-MOD-008-002-payroll-cycles-and-runs.md) | Sprint 2 | Payroll Cycles & Runs | Draft | SPR-MOD-008-001 |
 | SPR-MOD-008-003 | Sprint 3 | Statutory Computations | Planned | SPR-MOD-008-002 |
 | SPR-MOD-008-004 | Sprint 4 | Reimbursements & Advances | Planned | SPR-MOD-008-001, SPR-MOD-008-002 |
 | SPR-MOD-008-005 | Sprint 5 | Payslip Generation & Disbursement | Planned | SPR-MOD-008-002, SPR-MOD-008-003, SPR-MOD-008-004 |
