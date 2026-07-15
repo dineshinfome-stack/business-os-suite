@@ -1216,6 +1216,10 @@
           "path": "30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort"
         },
         {
+          "title": "SPR-MOD-010-004 \u2014 Budgets, Costs & Project Billing",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing"
+        },
+        {
           "title": "MOD-011 AMC",
           "path": "30-sprint-prds/amc/README"
         },
