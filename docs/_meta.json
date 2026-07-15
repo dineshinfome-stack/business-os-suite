@@ -1154,6 +1154,10 @@
           "path": "30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations"
         },
         {
+          "title": "SPR-MOD-008-004 — Reimbursements & Advances",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances"
+        },
+        {
           "title": "MOD-009 Manufacturing",
           "path": "30-sprint-prds/manufacturing/README"
         },
