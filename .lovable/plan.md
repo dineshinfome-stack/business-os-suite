@@ -74,3 +74,23 @@ snapshot_digest: <allocated>
 - Pass 12.1.0 — GT-004 Baseline Consolidation
 - Pass 12.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per cadence
+
+---
+
+## Execution Record — Pass 12.0.4
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-010 Projects
+sprint_id: SPR-MOD-010-004
+next_template: GT-003
+next_target: SPR-MOD-010-005
+handoff_state: READY
+execution_id: GT003-MOD010-004-20260715T010000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260715T010000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T001800Z
+repository_revision_after: <allocated>
+snapshot_digest: <allocated>
+```
