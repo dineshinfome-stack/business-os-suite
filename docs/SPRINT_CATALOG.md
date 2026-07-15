@@ -87,8 +87,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-008-003 | Sprint 3 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations.md`](30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations.md) | People |
 | SPR-MOD-008-004 | Sprint 4 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md`](30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md) | People |
 | SPR-MOD-008-005 | Sprint 5 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement.md`](30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement.md) | People |
-| SPR-MOD-008-005 | Sprint 5 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.5)_ | People |
-| SPR-MOD-008-006 | Sprint 6 | MOD-008 Payroll | Planned | _(reservation — Sprint PRD to be authored in Pass 10.0.6)_ | People |
+| SPR-MOD-008-006 | Sprint 6 | MOD-008 Payroll | Draft | [`30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance.md`](30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance.md) | People |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
