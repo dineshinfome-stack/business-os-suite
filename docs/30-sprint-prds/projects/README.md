@@ -26,19 +26,23 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-010-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-010-001`, `SPR-MOD-010-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Stage 1 Sprint Plan
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The authoritative sprint sequence for MOD-010 is defined in the Stage 1 Sprint Plan: [`MOD-010_SPRINT_PLAN.md`](./MOD-010_SPRINT_PLAN.md).
+
+## Reserved Sprint Identifiers
+
+> Sprint identifiers below are **reservations** from the approved Stage 1 Sprint Plan. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-010-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-010)_ | Planned | _(to be defined)_ |
-| SPR-MOD-010-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-010)_ | Planned | _(to be defined)_ |
-| SPR-MOD-010-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-010)_ | Planned | _(to be defined)_ |
-| SPR-MOD-010-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-010)_ | Planned | _(to be defined)_ |
-| SPR-MOD-010-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-010)_ | Planned | _(to be defined)_ |
+| SPR-MOD-010-001 | Sprint 1 | Projects Foundation (Project & Resource Setup) | Planned | — |
+| SPR-MOD-010-002 | Sprint 2 | Tasks, Milestones & Change Requests | Planned | SPR-MOD-010-001 |
+| SPR-MOD-010-003 | Sprint 3 | Timesheets & Effort | Planned | SPR-MOD-010-001 |
+| SPR-MOD-010-004 | Sprint 4 | Budgets, Costs & Project Billing | Planned | SPR-MOD-010-002, SPR-MOD-010-003 |
+| SPR-MOD-010-005 | Sprint 5 | Projects Analytics & Compliance | Planned | SPR-MOD-010-001 … 004 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Goals above are the Stage 1 planning baseline; refinements permitted during Stage 2 MUST update `MOD-010_SPRINT_PLAN.md` first.
 
 ## Authoring Rules
 
