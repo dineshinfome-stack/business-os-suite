@@ -1220,6 +1220,10 @@
           "path": "30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing"
         },
         {
+          "title": "SPR-MOD-010-005 \u2014 Projects Analytics & Compliance",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance"
+        },
+        {
           "title": "MOD-011 AMC",
           "path": "30-sprint-prds/amc/README"
         },
