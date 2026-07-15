@@ -1275,6 +1275,10 @@
           "path": "40-module-baselines/MOD007_HRMS_BASELINE_v1"
         },
         {
+          "title": "MOD008_PAYROLL_BASELINE_v1",
+          "path": "40-module-baselines/MOD008_PAYROLL_BASELINE_v1"
+        },
+        {
           "title": "MOD019_WAREHOUSE_BASELINE_v1",
           "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
         }
