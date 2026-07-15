@@ -44,6 +44,7 @@ A future `Stage` column (Planning / Authoring / Baseline) MAY be introduced once
 | MOD005_INVENTORY_BASELINE_v1 | MOD-005 Inventory | 1.0 | Baseline | `docs/20-module-prds/inventory/MODULE_PRD.md` | SPR-MOD-005-001 … SPR-MOD-005-006 | [`40-module-baselines/MOD005_INVENTORY_BASELINE_v1.md`](40-module-baselines/MOD005_INVENTORY_BASELINE_v1.md) |
 | MOD006_CRM_BASELINE_v1 | MOD-006 CRM | 1.0 | Baseline | `docs/20-module-prds/crm/MODULE_PRD.md` | SPR-MOD-006-001 … SPR-MOD-006-006 | [`40-module-baselines/MOD006_CRM_BASELINE_v1.md`](40-module-baselines/MOD006_CRM_BASELINE_v1.md) |
 | MOD007_HRMS_BASELINE_v1 | MOD-007 HRMS | 1.0 | Baseline | `docs/20-module-prds/hrms/MODULE_PRD.md` | SPR-MOD-007-001 … SPR-MOD-007-006 | [`40-module-baselines/MOD007_HRMS_BASELINE_v1.md`](40-module-baselines/MOD007_HRMS_BASELINE_v1.md) |
+| MOD008_PAYROLL_BASELINE_v1 | MOD-008 Payroll | 1.0 | Baseline | `docs/20-module-prds/payroll/MODULE_PRD.md` | SPR-MOD-008-001 … SPR-MOD-008-006 | [`40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md`](40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md) |
 
 ## References
 
