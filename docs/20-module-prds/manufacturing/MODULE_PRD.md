@@ -4,18 +4,24 @@ summary: "Authoritative business specification for the Manufacturing bounded con
 layer: "business"
 owner: "Operations"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-15"
+legacy_updated: "2026-07-05"
 module_id: "MOD-009"
 module: "Manufacturing"
 domain: "Operations"
 bounded_context: "Production and Planning"
+governance_specification: "v1.0"
+template_standard: "v1.3"
+lifecycle_state: "Active"
+sprint_authority: "docs/30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN.md"
 depends_on: ["docs/canon.md", "docs/10-erp-core/ENGINE_CATALOG.md", "docs/11-adrs/ADR_INDEX.md", "docs/02-architecture/quality-attributes.md"]
-related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-007", "ENG-010", "ENG-011", "ENG-012", "ENG-014", "ENG-017", "ENG-021", "ENG-024", "ENG-008", "ENG-013", "ENG-015", "ENG-020", "ENG-022", "ENG-023", "ENG-025", "ENG-026", "ENG-027"]
-related_adrs: ["ADR-011", "ADR-032"]
-related_modules: ["MOD-001", "MOD-005", "MOD-005", "MOD-002", "MOD-017"]
+related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-006", "ENG-007", "ENG-008", "ENG-010", "ENG-011", "ENG-012", "ENG-013", "ENG-014", "ENG-015", "ENG-017", "ENG-020", "ENG-021", "ENG-022", "ENG-023", "ENG-024", "ENG-025", "ENG-026", "ENG-027"]
+related_adrs: ["ADR-011", "ADR-014", "ADR-032"]
+related_modules: ["MOD-001", "MOD-002", "MOD-005", "MOD-017"]
 referenced_by: []
 tags: ["module", "prd"]
 document_type: "Module PRD"
+derived_from: "docs/20-module-prds/manufacturing/MODULE_PRD.md (pre-freeze, updated 2026-07-05)"
 ---
 
 # MOD-009 — Manufacturing Module PRD
