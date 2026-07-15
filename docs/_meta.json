@@ -1162,6 +1162,10 @@
           "path": "30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement"
         },
         {
+          "title": "SPR-MOD-008-006 — Payroll Analytics & Compliance",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance"
+        },
+        {
           "title": "MOD-009 Manufacturing",
           "path": "30-sprint-prds/manufacturing/README"
         },
