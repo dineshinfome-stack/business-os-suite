@@ -82,3 +82,28 @@ snapshot_digest: <allocated>
 - Pass 12.1.0 — GT-004 Baseline Consolidation
 - Pass 12.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 12.0.3
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-010 Projects
+sprint_id: SPR-MOD-010-003
+next_template: GT-003
+next_target: SPR-MOD-010-004
+handoff_state: READY
+execution_id: GT003-MOD010-003-20260715T001800Z-001
+audit_report_id: REPOSITORY_AUDIT_20260715T001800Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T001700Z
+repository_revision_after: post-pass-12.0.3
+snapshot_digest: sha256:frozen-authoritative-sources-20260715T001800Z
+```
+
+Artifacts:
+- `docs/30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort.md`
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260715T001800Z.md` (19/19 PASS, Repository READY)
+- Registration surfaces: README (Projects sprints), SPRINT_CATALOG, DOCUMENT_INDEX, _meta.json
