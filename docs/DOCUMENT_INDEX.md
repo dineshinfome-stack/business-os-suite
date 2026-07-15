@@ -350,6 +350,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-009-006 — Manufacturing Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance.md` |
 | SPR-MOD-010-001 — Projects Foundation (Project & Resource Setup) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup.md` |
 | SPR-MOD-010-002 — Tasks, Milestones & Change Requests | Delivery | Draft | Authoritative | `docs/30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests.md` |
+| SPR-MOD-010-003 — Timesheets & Effort | Delivery | Draft | Authoritative | `docs/30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
