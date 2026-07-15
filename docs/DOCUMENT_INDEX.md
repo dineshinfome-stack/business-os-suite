@@ -336,6 +336,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-008-002 — Payroll Cycles & Runs | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs.md` |
 | SPR-MOD-008-003 — Statutory Computations | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations.md` |
 | SPR-MOD-008-004 — Reimbursements & Advances | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances.md` |
+| SPR-MOD-008-005 — Payslip Generation & Disbursement | Delivery | Draft | Authoritative | `docs/30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement.md` |
 | Sprint PRD Template | Template | Approved | Reference | `docs/99-templates/sprint-prd-template.md` |
 | SRS | Business Blueprint | Approved | Authoritative | `docs/01-master/srs.md` |
 | Success Metrics | Business Blueprint | Approved | Authoritative | `docs/01-master/success-metrics.md` |
