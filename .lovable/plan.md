@@ -121,3 +121,24 @@ Include `previous_audit_report_id` only if declared by the released GT-004 templ
 - Pass 12.1.1 — GT-005 Publication (`MOD010_PROJECTS_BASELINE_v1`), activates when GT-004 handoff resolves to Ready-for-Publication.
 - Pass 13.0.0 — GT-002 Stage 1 for the next Business OS module resolved dynamically.
 - Optional OR / RR / SR read-only reviews per established cadence.
+
+---
+
+## Execution Record — Pass 12.1.0
+
+```yaml
+execution_status: READY_FOR_PUBLICATION
+template: GT-004
+template_version: v1.0
+module: MOD-010 Projects
+target: MOD010_PROJECTS_BASELINE_v1
+next_template: GT-005
+next_target: MOD010_PROJECTS_BASELINE_v1 (Publication)
+handoff_state: READY
+execution_id: GT004-MOD010-20260715-001
+audit_report_id: REPOSITORY_AUDIT_20260715T012000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T011000Z
+repository_revision_after: pass-12.1.0
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0 Step 2>
+stage_3_status: COMPLETE (Baseline authored, registered, and audited)
+```
