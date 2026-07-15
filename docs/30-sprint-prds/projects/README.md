@@ -37,7 +37,7 @@ The authoritative sprint sequence for MOD-010 is defined in the Stage 1 Sprint P
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
 | SPR-MOD-010-001 | Sprint 1 | Projects Foundation (Project & Resource Setup) | Draft (authored: [`SPR-MOD-010-001-projects-foundation-project-and-resource-setup.md`](./SPR-MOD-010-001-projects-foundation-project-and-resource-setup.md)) | — |
-| SPR-MOD-010-002 | Sprint 2 | Tasks, Milestones & Change Requests | Planned | SPR-MOD-010-001 |
+| SPR-MOD-010-002 | Sprint 2 | Tasks, Milestones & Change Requests | Draft (authored: [`SPR-MOD-010-002-tasks-milestones-and-change-requests.md`](./SPR-MOD-010-002-tasks-milestones-and-change-requests.md)) | SPR-MOD-010-001 |
 | SPR-MOD-010-003 | Sprint 3 | Timesheets & Effort | Planned | SPR-MOD-010-001 |
 | SPR-MOD-010-004 | Sprint 4 | Budgets, Costs & Project Billing | Planned | SPR-MOD-010-002, SPR-MOD-010-003 |
 | SPR-MOD-010-005 | Sprint 5 | Projects Analytics & Compliance | Planned | SPR-MOD-010-001 … 004 |
