@@ -81,3 +81,30 @@ governance_unchanged: true
 - Optional read-only post-MOD-008 retrospective (CRM + HRMS + Payroll).
 - Separate future governance initiative (e.g., GF-001) may evaluate introducing a Repository Manifest / AI bootstrap surface. Out of scope here.
 - Next Business OS module — resume GT-002 Stage 1 under unchanged Framework v1.0 and FROZEN Wrapper v1.0.
+
+---
+
+## Execution Record — Pass 10.1.1
+
+```yaml
+execution_id: GT005-MOD008-20260715T000500Z-001
+template: GT-005
+template_version: v1.0
+target: MOD008_PAYROLL_BASELINE_v1
+target_path: docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md
+previous_audit: REPOSITORY_AUDIT_20260715T000400Z
+parent_audit_id: REPOSITORY_AUDIT_20260715T000400Z
+parent_execution_id: GT004-MOD008-20260715T000400Z-001
+audit_report_id: REPOSITORY_AUDIT_20260715T000500Z
+audit_report_path: docs/50-audit-reports/REPOSITORY_AUDIT_20260715T000500Z.md
+publication_status: PUBLISHED
+lifecycle_transition: FROZEN → PUBLISHED
+handoff_state: READY
+registration_surfaces_updated: []   # Per GT-005 precedent (MOD-006, MOD-007): baseline body unchanged; GT-004 registration surfaces already reflect the baseline; no new publication surfaces introduced.
+audit_result: PASS
+repository_status: READY
+confidence: MEDIUM
+d_waivers: [D3]
+governance_unchanged: true
+wrapper_unchanged: true
+```
