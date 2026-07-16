@@ -82,3 +82,42 @@ Include `previous_audit_report_id` only if declared by the released GT-002 templ
 - Pass 15.1.0 — GT-004 Baseline Consolidation
 - Pass 15.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 15.0.0 (GT-002 Stage 1 — MOD-013 Assets)
+
+```yaml
+execution_status: READY_FOR_SPRINT_AUTHORING
+template: GT-002
+template_version: v1.0
+mode: legacy-reconciliation
+target_module: MOD-013 Assets
+target_module_folder: assets
+next_template: GT-003
+next_target: SPR-MOD-013-001 (Asset Foundation — Register, Capitalization & Insurance)
+handoff_state: READY
+execution_id: GT002-MOD013-20260716T019000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T019000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T018000Z
+repository_revision_after: 20260716T019000Z
+snapshot_digest: mod013-stage1-20260716T019000Z
+```
+
+**Deliverables produced:**
+
+- `docs/20-module-prds/assets/MODULE_PRD.md` (reconciled to Governance v1.0)
+- `docs/30-sprint-prds/assets/MOD-013_SPRINT_PLAN.md` (authored; 4 sprints reserved)
+- `docs/30-sprint-prds/assets/README.md` (reservations table)
+- `docs/DOCUMENT_INDEX.md` (Sprint Plan registered)
+- `docs/_meta.json` (Sprint Plan registered; JSON valid)
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T019000Z.md` (18/18 PASS; Repository READY)
+
+**Key Decisions:**
+
+- Sprint decomposition: 001 Foundation (Register + Capitalization + Insurance), 002 Depreciation, 003 Maintenance/Transfer/Disposal, 004 Analytics & Compliance.
+- Insurance and warranty grouped with the Register foundation sprint (both operate on the Asset master directly and share the Insurance Policy master).
+- `ENG-015` Voucher and `ENG-016` Posting excluded from all MOD-013 sprints; ledger effects owned by MOD-002 via event bindings.
+- Cross-module KPI definitions remain owned by MOD-017; MOD-013 surfaces operational reports only.
+
+**MOD-013 Assets Stage 1: COMPLETE.** Ready for Stage 2 authoring (Pass 15.0.1).
