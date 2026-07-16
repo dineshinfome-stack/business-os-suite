@@ -74,3 +74,24 @@ Include `previous_audit_report_id` only if declared by GT-003.
 - Pass 13.1.1 — GT-005 Publication (MOD011_AMC_BASELINE_v1)
 - Pass 14.0.0 — GT-002 Stage 1 for next module (resolved dynamically)
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 13.0.4
+
+```yaml
+execution_status: READY_FOR_BASELINE_CONSOLIDATION
+template: GT-003
+template_version: v1.0
+module: MOD-011 AMC
+sprint_id: SPR-MOD-011-004
+next_template: GT-004
+next_target: MOD011_AMC_BASELINE_v1
+handoff_state: READY
+execution_id: GT003-MOD011-004-20260716T004000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T004000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T003000Z
+repository_revision_after: pass-13.0.4
+snapshot_digest: sha256:frozen-authoritative-sources-13.0.4
+stage_status: MOD-011 Stage 2 COMPLETE (4/4 Sprint PRDs)
+```
