@@ -40,7 +40,7 @@ The authoritative Stage 1 planning artifact for MOD-012 Field Service is [`MOD-0
 | [SPR-MOD-012-002](./SPR-MOD-012-002-dispatch-and-scheduling.md) | Sprint 2 | Dispatch & Scheduling | Draft | SPR-MOD-012-001 |
 | [SPR-MOD-012-003](./SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure.md) | Sprint 3 | Mobile Visit Execution (Spares, Signatures, Closure) | Draft | SPR-MOD-012-002 |
 | [SPR-MOD-012-004](./SPR-MOD-012-004-sla-and-escalation.md) | Sprint 4 | SLA & Escalation | Draft | SPR-MOD-012-001, SPR-MOD-012-003 |
-| SPR-MOD-012-005 | Sprint 5 | Field Service Analytics & Compliance | Reserved | SPR-MOD-012-001 … SPR-MOD-012-004 |
+| [SPR-MOD-012-005](./SPR-MOD-012-005-field-service-analytics-and-compliance.md) | Sprint 5 | Field Service Analytics & Compliance | Draft | SPR-MOD-012-001 … SPR-MOD-012-004 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**; the Sprint Plan aligns to **5**.
 
