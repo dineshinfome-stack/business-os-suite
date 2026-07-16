@@ -85,3 +85,33 @@ Include `previous_audit_report_id` only if declared by released GT-003.
 - Pass 15.1.0 — GT-004 Baseline Consolidation
 - Pass 15.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per governance cadence
+
+---
+
+## Execution Record — Pass 15.0.1
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-013 Assets
+sprint_id: SPR-MOD-013-001
+sprint_title: "Asset Foundation (Register, Capitalization & Insurance)"
+next_template: GT-003
+next_target: SPR-MOD-013-002 (Depreciation: Methods & Runs)
+handoff_state: READY
+execution_id: GT003-MOD013-001-20260716T020000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T020000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T019000Z
+repository_revision_after: sandbox
+snapshot_digest: "sha256:<computed at execution>"
+registration_surfaces_updated:
+  - docs/30-sprint-prds/assets/README.md
+  - docs/SPRINT_CATALOG.md
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+deliverables:
+  - docs/30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T020000Z.md
+validation: "All GT-003 validations PASS (INFO where permitted); GT-005 audit PASS; Repository READY."
+```
