@@ -100,6 +100,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-010-004 | Sprint 4 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing.md`](30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing.md) | Delivery |
 | SPR-MOD-010-005 | Sprint 5 | MOD-010 Projects | Draft | [`30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance.md`](30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance.md) | Delivery |
 | SPR-MOD-011-001 | Sprint 1 | MOD-011 AMC | Draft | [`30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements.md`](30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements.md) | Service |
+| SPR-MOD-011-002 | Sprint 2 | MOD-011 AMC | Draft | [`30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling.md`](30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling.md) | Service |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
