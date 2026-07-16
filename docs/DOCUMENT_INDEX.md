@@ -107,6 +107,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-011 AMC — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/amc/MOD-011_SPRINT_PLAN.md` |
 | SPR-MOD-011-001 — AMC Foundation (Contracts & Entitlements) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements.md` |
 | SPR-MOD-011-002 — Preventive Visit Scheduling | Delivery | Draft | Authoritative | `docs/30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling.md` |
+| SPR-MOD-011-003 — Contract Billing & Renewals | Delivery | Draft | Authoritative | `docs/30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
