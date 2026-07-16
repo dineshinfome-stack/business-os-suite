@@ -1284,6 +1284,10 @@
           "path": "30-sprint-prds/assets/MOD-013_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-013-001 \u2014 Asset Foundation (Register, Capitalization & Insurance)",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance"
+        },
+        {
           "title": "MOD-014 Fleet",
           "path": "30-sprint-prds/fleet/README"
         },

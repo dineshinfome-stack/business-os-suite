@@ -116,6 +116,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-012-004 — SLA & Escalation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation.md` |
 | SPR-MOD-012-005 — Field Service Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance.md` |
 | MOD-013 Assets — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/assets/MOD-013_SPRINT_PLAN.md` |
+| SPR-MOD-013-001 — Asset Foundation (Register, Capitalization & Insurance) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
