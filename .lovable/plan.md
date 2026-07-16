@@ -86,3 +86,28 @@ Include `previous_audit_report_id` only if declared by GT-003.
 - Pass 13.1.0 — GT-004 Baseline Consolidation
 - Pass 13.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 13.0.3
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-011 AMC
+sprint_id: SPR-MOD-011-003
+next_template: GT-003
+next_target: SPR-MOD-011-004 (AMC Analytics & Compliance)
+handoff_state: READY
+execution_id: GT003-MOD011-003-20260716T003000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T003000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T002000Z
+repository_revision_after: post-13.0.3
+snapshot_digest: sha256:computed-at-execution
+```
+
+Deliverables:
+- `docs/30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals.md` (authored)
+- Registration surfaces updated: `docs/30-sprint-prds/amc/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T003000Z.md` (30/30 PASS, Repository READY)
