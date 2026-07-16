@@ -104,6 +104,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-008 Payroll — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/payroll/MOD-008_SPRINT_PLAN.md` |
 | MOD-009 Manufacturing — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN.md` |
 | MOD-010 Projects — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/projects/MOD-010_SPRINT_PLAN.md` |
+| MOD-011 AMC — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/amc/MOD-011_SPRINT_PLAN.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
