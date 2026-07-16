@@ -1288,6 +1288,10 @@
           "path": "30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance"
         },
         {
+          "title": "SPR-MOD-013-002 \u2014 Depreciation (Methods & Runs)",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs"
+        },
+        {
           "title": "MOD-014 Fleet",
           "path": "30-sprint-prds/fleet/README"
         },
