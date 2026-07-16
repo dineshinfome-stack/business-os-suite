@@ -108,6 +108,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-012-003 | Sprint 3 | MOD-012 Field Service | Draft | [`30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure.md`](30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure.md) | Service |
 | SPR-MOD-012-004 | Sprint 4 | MOD-012 Field Service | Draft | [`30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation.md`](30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation.md) | Service |
 | SPR-MOD-012-005 | Sprint 5 | MOD-012 Field Service | Draft | [`30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance.md`](30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance.md) | Service |
+| SPR-MOD-013-001 | Sprint 1 | MOD-013 Assets | Draft | [`30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md`](30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md) | Operations |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
