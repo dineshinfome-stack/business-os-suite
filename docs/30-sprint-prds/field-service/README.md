@@ -36,7 +36,7 @@ The authoritative Stage 1 planning artifact for MOD-012 Field Service is [`MOD-0
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-012-001 | Sprint 1 | Field Service Foundation (Tickets & Field Workforce) | Reserved | Frozen `MOD001_PLATFORM_BASELINE_v1`, `MOD005_INVENTORY_BASELINE_v1`, `MOD011_AMC_BASELINE_v1` |
+| [SPR-MOD-012-001](./SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce.md) | Sprint 1 | Field Service Foundation (Tickets & Field Workforce) | Draft | Frozen `MOD001_PLATFORM_BASELINE_v1`, `MOD005_INVENTORY_BASELINE_v1`, `MOD011_AMC_BASELINE_v1` |
 | SPR-MOD-012-002 | Sprint 2 | Dispatch & Scheduling | Reserved | SPR-MOD-012-001 |
 | SPR-MOD-012-003 | Sprint 3 | Mobile Visit Execution (Spares, Signatures, Closure) | Reserved | SPR-MOD-012-002 |
 | SPR-MOD-012-004 | Sprint 4 | SLA & Escalation | Reserved | SPR-MOD-012-001, SPR-MOD-012-003 |
