@@ -85,3 +85,33 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 13.1.0 — GT-004 Baseline Consolidation
 - Pass 13.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only repository reviews per established governance cadence
+
+---
+
+## Execution Record — Pass 13.0.2
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-011 AMC
+sprint_id: SPR-MOD-011-002
+next_template: GT-003
+next_target: SPR-MOD-011-003 (Contract Billing & Renewals) per MOD-011_SPRINT_PLAN.md §2
+handoff_state: READY
+execution_id: GT003-MOD011-002-20260716T002000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T001000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T002000Z
+repository_revision_after: post-pass-13.0.2
+snapshot_digest: sha256:<computed at execution; frozen per FROZEN Wrapper v1.0 Step 2>
+```
+
+Deliverables:
+- `docs/30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling.md` (authored)
+- `docs/30-sprint-prds/amc/README.md` (SPR-MOD-011-002 row → Draft)
+- `docs/SPRINT_CATALOG.md` (row inserted)
+- `docs/DOCUMENT_INDEX.md` (row inserted)
+- `docs/_meta.json` (entry inserted; JSON valid)
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T002000Z.md` (27/27 PASS, Repository READY)
+
+Governance envelope unchanged: Governance Framework v1.0 Released, GT-001..GT-005 Active, Execution Wrapper v1.0 FROZEN.
