@@ -84,3 +84,25 @@ snapshot_digest: <allocated>
 - Pass 14.1.0 — GT-004 Baseline Consolidation.
 - Pass 14.1.1 — GT-005 Publication.
 - Optional OR / RR / SR read-only reviews per established governance cadence.
+
+---
+
+## Execution Record — Pass 14.0.0 (MOD-012 Field Service Stage 1 Authoring)
+
+- **Executed:** 2026-07-16T01:10:00Z
+- **Execution ID:** GT002-MOD012-20260716T011000Z-001
+- **Target Module (resolved):** MOD-012 Field Service — next unpublished module per `docs/MODULE_CATALOG.md` and `docs/SPRINT_ROADMAP.md`.
+- **Legacy Reconciliation:** `docs/20-module-prds/field-service/MODULE_PRD.md` front matter upgraded to Governance v1.0 (`governance_specification`, `template_standard`, `lifecycle_state`, `sprint_authority`, `derived_from`, `legacy_updated`). Duplicate `MOD-005` in `related_modules` removed.
+- **Artifacts Authored:**
+  - `docs/30-sprint-prds/field-service/MOD-012_SPRINT_PLAN.md` — 5-sprint Stage 1 plan (Foundation → Dispatch → Mobile Execution → SLA & Escalation → Analytics).
+- **Registration Surfaces Updated:**
+  - `docs/30-sprint-prds/field-service/README.md` — replaced planning placeholders with Sprint Plan reference and reserved sprint sequence.
+  - `docs/DOCUMENT_INDEX.md` — Sprint Plan row registered.
+  - `docs/_meta.json` — Sprint Plan entry registered (JSON validated).
+- **Audit Report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T011000Z.md` — 18/18 PASS; Repository READY.
+- **Key Decisions:**
+  - Ownership boundaries recapitulated: MOD-001 (identity), MOD-005 (item master), MOD-011 (AMC contract/entitlement/preventive-visit), MOD-016 (service-desk ticket), MOD-002 (ledger), MOD-017 (cross-module KPIs).
+  - `ENG-015` Voucher and `ENG-016` Posting are explicitly not consumed by any MOD-012 sprint; ledger effects flow through MOD-002 rule bindings triggered by `FieldVisitCompleted` and `SpareConsumed`.
+  - Sprint 003 consolidates Visit execution, Spare Consumption, and Closure Report under the Visit-to-closure and Spare-consumption processes; signature/checklist and van-stock rules originate here.
+  - Sprint 005 is read-model only, per the AMC Analytics precedent.
+- **Status:** MOD-012 Field Service Stage 1 COMPLETE. Ready for Pass 14.0.1 (SPR-MOD-012-001 authoring).
