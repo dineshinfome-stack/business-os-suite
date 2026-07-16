@@ -1240,6 +1240,10 @@
           "path": "30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling"
         },
         {
+          "title": "SPR-MOD-011-003 \u2014 Contract Billing & Renewals",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals"
+        },
+        {
           "title": "MOD-012 Field Service",
           "path": "30-sprint-prds/field-service/README"
         },
