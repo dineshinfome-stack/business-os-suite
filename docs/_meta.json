@@ -1357,6 +1357,10 @@
           "path": "40-module-baselines/MOD010_PROJECTS_BASELINE_v1"
         },
         {
+          "title": "MOD011_AMC_BASELINE_v1",
+          "path": "40-module-baselines/MOD011_AMC_BASELINE_v1"
+        },
+        {
           "title": "MOD019_WAREHOUSE_BASELINE_v1",
           "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
         }
