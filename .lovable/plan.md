@@ -96,3 +96,27 @@ Include `previous_audit_report_id` only if declared by GT-003.
 - Pass 14.1.0 — GT-004 Baseline Consolidation
 - Pass 14.1.1 — GT-005 Publication
 - Optional OR/RR/SR reviews per established cadence
+
+---
+
+## Execution Record — Pass 14.0.1
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-012 Field Service
+sprint_id: SPR-MOD-012-001
+sprint_slug: field-service-foundation-tickets-and-field-workforce
+sprint_prd_path: docs/30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce.md
+next_template: GT-003
+next_target: SPR-MOD-012-002 (Dispatch & Scheduling)
+handoff_state: READY
+execution_id: GT003-MOD012-001-20260716T012000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T012000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T011000Z
+repository_revision_after: <allocated>
+snapshot_digest: sha256:<computed at execution>
+validation_result: PASS (30/30)
+repository_status: READY
+```
