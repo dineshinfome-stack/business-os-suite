@@ -78,3 +78,24 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 14.1.1 — GT-005 Publication
 - Pass 15.0.0 — GT-002 Stage 1 for the next unpublished Business OS module (resolved dynamically from authoritative repository sources)
 - Optional OR / RR / SR read-only reviews per governance cadence
+
+---
+
+## Execution Record — Pass 14.0.5
+
+```yaml
+execution_status: READY_FOR_BASELINE_CONSOLIDATION
+template: GT-003
+template_version: v1.0
+module: MOD-012 Field Service
+sprint_id: SPR-MOD-012-005
+next_template: GT-004
+next_target: MOD012_FIELD_SERVICE_BASELINE_v1
+handoff_state: READY
+execution_id: GT003-MOD012-005-20260716T016000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T016000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T015000Z
+repository_revision_after: pass-14.0.5
+snapshot_digest: sha256:pass-14.0.5-frozen-inputs
+stage2_status: COMPLETE (5/5 sprints authored)
+```
