@@ -93,3 +93,31 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 15.1.1 — GT-005 Publication
 - Pass 16.0.0 — GT-002 Stage 1 for the next unpublished Business OS module (resolved dynamically)
 - Optional OR / RR / SR read-only reviews per established governance cadence
+
+---
+
+## Execution Record — Pass 15.0.3
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-013 Assets
+sprint_id: SPR-MOD-013-003
+sprint_slug: maintenance-transfer-and-disposal
+next_template: GT-003
+next_target: SPR-MOD-013-004 (per MOD-013_SPRINT_PLAN.md §2)
+handoff_state: READY
+execution_id: GT003-MOD013-003-20260716T022000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T022000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T021000Z
+repository_revision_after: HEAD
+snapshot_digest: sha256:<computed-at-commit>
+deliverables:
+  - docs/30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal.md
+  - docs/30-sprint-prds/assets/README.md (updated)
+  - docs/SPRINT_CATALOG.md (updated)
+  - docs/DOCUMENT_INDEX.md (updated)
+  - docs/_meta.json (updated; JSON valid)
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T022000Z.md
+```
