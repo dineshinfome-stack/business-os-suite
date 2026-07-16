@@ -1,17 +1,17 @@
-# Pass 15.0.2 — GT-003 for SPR-MOD-013-002 (MOD-013 Assets)
+# Pass 15.0.3 — GT-003 for SPR-MOD-013-003 (MOD-013 Assets)
 
-Author the second MOD-013 Assets Sprint PRD using the released GT-003 v1.0 template under the FROZEN Execution Wrapper v1.0. Zero fabrication. All sprint-specific content resolves exclusively from authoritative repository sources at execution time.
+Author the third MOD-013 Assets Sprint PRD using the released GT-003 v1.0 template under the FROZEN Execution Wrapper v1.0. Zero fabrication. All sprint-specific content resolves exclusively from authoritative repository sources at execution time.
 
 ## Governance Envelope
 
 - Governance Framework v1.0 — Released
 - GT-003 v1.0 — Active
 - Execution Wrapper v1.0 — FROZEN
-- Previous audit: `REPOSITORY_AUDIT_20260716T020000Z.md` — Repository READY
+- Previous audit: `REPOSITORY_AUDIT_20260716T021000Z.md` — Repository READY
 
 ## Lifecycle
 
-1. **Preconditions** — Verify Framework Released, GT-003 Active, Wrapper FROZEN, Pass 15.0.1 complete, previous audit READY, SPR-MOD-013-002 enumerated in the approved Sprint Plan, no open corrective executions. Abort on first failure (PRECONDITION-FAIL, exit 20).
+1. **Preconditions** — Verify Framework Released, GT-003 Active, Wrapper FROZEN, Pass 15.0.2 complete, previous audit READY, SPR-MOD-013-003 enumerated in the approved Sprint Plan, no open corrective executions. Abort on first failure (PRECONDITION-FAIL, exit 20).
 2. **Snapshot Freeze** — Capture repository revision, authoritative source digests, and snapshot metadata declared by the released GT-003 template.
 3. **Authoritative Resolution** — Resolve sprint slug, scope, capabilities, entities, business rules, engines, ADRs, published/consumed events, upstream/downstream dependencies, personas, acceptance criteria, exit criteria, ownership boundaries, and requirement identifiers exclusively from:
    - `docs/20-module-prds/assets/MODULE_PRD.md`
@@ -23,7 +23,7 @@ Author the second MOD-013 Assets Sprint PRD using the released GT-003 v1.0 templ
    - `docs/MODULE_CATALOG.md`
 
    No inferred business content. Sprint scope, canonical slug, ownership boundaries, capability allocation, and implementation scope resolve exclusively from the approved Sprint Plan and Module PRD at execution time. No sprint-specific facts are introduced by this execution plan.
-4. **Sprint Authoring** — Author `docs/30-sprint-prds/assets/SPR-MOD-013-002-<slug>.md` using the released GT-003 canonical structure. Preserve Sprint ↔ Sprint Plan and Sprint ↔ Module PRD traceability, authoritative identifiers, ownership boundaries, dependency isolation, and deterministic ordering.
+4. **Sprint Authoring** — Author `docs/30-sprint-prds/assets/SPR-MOD-013-003-<slug>.md` using the released GT-003 canonical structure. Preserve Sprint ↔ Sprint Plan and Sprint ↔ Module PRD traceability, authoritative identifiers, ownership boundaries, dependency isolation, and deterministic ordering.
 5. **Transactional Registration** — Update only GT-003-declared surfaces:
    - `docs/30-sprint-prds/assets/README.md`
    - `docs/SPRINT_CATALOG.md`
@@ -62,7 +62,7 @@ No Module PRD edits. No Sprint Plan edits. No GT-004 Baseline. No GT-005 Publica
 
 ## Deliverables
 
-- `docs/30-sprint-prds/assets/SPR-MOD-013-002-<slug>.md`
+- `docs/30-sprint-prds/assets/SPR-MOD-013-003-<slug>.md`
 - Updated GT-003 registration surfaces
 - `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 - Execution record appended to `.lovable/plan.md`
@@ -74,7 +74,7 @@ execution_status: READY_FOR_NEXT_SPRINT
 template: GT-003
 template_version: v1.0
 module: MOD-013 Assets
-sprint_id: SPR-MOD-013-002
+sprint_id: SPR-MOD-013-003
 next_template: GT-003
 next_target: <resolved dynamically per released GT-003 lifecycle>
 handoff_state: READY
@@ -88,36 +88,36 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 
 ## Roadmap
 
-- Pass 15.0.3 — GT-003 for the next approved MOD-013 sprint
-- Remaining GT-003 Sprint PRDs for MOD-013
+- Pass 15.0.4 — GT-003 for the next approved MOD-013 sprint
 - Pass 15.1.0 — GT-004 Baseline Consolidation
 - Pass 15.1.1 — GT-005 Publication
+- Pass 16.0.0 — GT-002 Stage 1 for the next unpublished Business OS module (resolved dynamically)
 - Optional OR / RR / SR read-only reviews per established governance cadence
 
 ---
 
-## Execution Record — Pass 15.0.2
+## Execution Record — Pass 15.0.3
 
 ```yaml
 execution_status: READY_FOR_NEXT_SPRINT
 template: GT-003
 template_version: v1.0
 module: MOD-013 Assets
-sprint_id: SPR-MOD-013-002
-sprint_slug: depreciation-methods-and-runs
+sprint_id: SPR-MOD-013-003
+sprint_slug: maintenance-transfer-and-disposal
 next_template: GT-003
-next_target: SPR-MOD-013-003 (per MOD-013_SPRINT_PLAN.md §2)
+next_target: SPR-MOD-013-004 (per MOD-013_SPRINT_PLAN.md §2)
 handoff_state: READY
-execution_id: GT003-MOD013-002-20260716T021000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260716T021000Z
-previous_audit_report_id: REPOSITORY_AUDIT_20260716T020000Z
+execution_id: GT003-MOD013-003-20260716T022000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T022000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T021000Z
 repository_revision_after: HEAD
 snapshot_digest: sha256:<computed-at-commit>
 deliverables:
-  - docs/30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs.md
+  - docs/30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal.md
   - docs/30-sprint-prds/assets/README.md (updated)
   - docs/SPRINT_CATALOG.md (updated)
   - docs/DOCUMENT_INDEX.md (updated)
   - docs/_meta.json (updated; JSON valid)
-  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T021000Z.md
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T022000Z.md
 ```

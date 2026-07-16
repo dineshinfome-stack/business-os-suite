@@ -38,7 +38,7 @@ The Stage 1 Sprint Plan for MOD-013 is authored at [`MOD-013_SPRINT_PLAN.md`](./
 | --- | --- | --- | --- | --- |
 | [SPR-MOD-013-001](./SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md) | Sprint 1 | Asset Foundation (Register, Capitalization & Insurance) | Draft | Frozen `MOD001_PLATFORM_BASELINE_v1`, `MOD002_ACCOUNTING_BASELINE_v1` |
 | [SPR-MOD-013-002](./SPR-MOD-013-002-depreciation-methods-and-runs.md) | Sprint 2 | Depreciation (Methods & Runs) | Draft | `SPR-MOD-013-001` |
-| SPR-MOD-013-003 | Sprint 3 | Maintenance, Transfer & Disposal | Reserved | `SPR-MOD-013-001`, `SPR-MOD-013-002` |
+| [SPR-MOD-013-003](./SPR-MOD-013-003-maintenance-transfer-and-disposal.md) | Sprint 3 | Maintenance, Transfer & Disposal | Draft | `SPR-MOD-013-001`, `SPR-MOD-013-002` |
 | SPR-MOD-013-004 | Sprint 4 | Assets Analytics & Compliance | Reserved | `SPR-MOD-013-001`, `SPR-MOD-013-002`, `SPR-MOD-013-003` |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**; this plan aligns to **4**.

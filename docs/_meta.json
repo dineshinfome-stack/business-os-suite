@@ -1292,6 +1292,10 @@
           "path": "30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs"
         },
         {
+          "title": "SPR-MOD-013-003 \u2014 Maintenance, Transfer & Disposal",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal"
+        },
+        {
           "title": "MOD-014 Fleet",
           "path": "30-sprint-prds/fleet/README"
         },
