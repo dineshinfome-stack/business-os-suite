@@ -104,6 +104,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-011-003 | Sprint 3 | MOD-011 AMC | Draft | [`30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals.md`](30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals.md) | Service |
 | SPR-MOD-011-004 | Sprint 4 | MOD-011 AMC | Draft | [`30-sprint-prds/amc/SPR-MOD-011-004-amc-analytics-and-compliance.md`](30-sprint-prds/amc/SPR-MOD-011-004-amc-analytics-and-compliance.md) | Service |
 | SPR-MOD-012-001 | Sprint 1 | MOD-012 Field Service | Draft | [`30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce.md`](30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce.md) | Service |
+| SPR-MOD-012-002 | Sprint 2 | MOD-012 Field Service | Draft | [`30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling.md`](30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling.md) | Service |
 
 Sprint PRDs are authored iteratively in Pass 8.x. Each new sprint MUST be registered here and in its module subfolder README under `docs/30-sprint-prds/<module>/README.md`.
 
