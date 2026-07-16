@@ -1236,6 +1236,10 @@
           "path": "30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements"
         },
         {
+          "title": "SPR-MOD-011-002 \u2014 Preventive Visit Scheduling",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling"
+        },
+        {
           "title": "MOD-012 Field Service",
           "path": "30-sprint-prds/field-service/README"
         },

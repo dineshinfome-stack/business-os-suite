@@ -37,7 +37,7 @@ The authoritative sprint sequence for MOD-011 is defined in the Stage 1 Sprint P
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
 | SPR-MOD-011-001 | Sprint 1 | AMC Foundation (Contracts & Entitlements) | Draft | — |
-| SPR-MOD-011-002 | Sprint 2 | Preventive Visit Scheduling | Reserved | SPR-MOD-011-001 |
+| SPR-MOD-011-002 | Sprint 2 | Preventive Visit Scheduling | Draft | SPR-MOD-011-001 |
 | SPR-MOD-011-003 | Sprint 3 | Contract Billing & Renewals | Reserved | SPR-MOD-011-001 |
 | SPR-MOD-011-004 | Sprint 4 | AMC Analytics & Compliance | Reserved | SPR-MOD-011-001 … 003 |
 
