@@ -4,7 +4,7 @@ summary: "Sprint PRDs for Field Service (MOD-012). Sprint identifiers are prefix
 layer: "delivery"
 owner: "Service"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-16"
 module_id: "MOD-012"
 sprint_prefix: "SPR-MOD-012-"
 tags: ["sprint", "prd", "readme"]
@@ -26,19 +26,23 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-012-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-012-001`, `SPR-MOD-012-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Stage 1 Sprint Plan
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The authoritative Stage 1 planning artifact for MOD-012 Field Service is [`MOD-012_SPRINT_PLAN.md`](./MOD-012_SPRINT_PLAN.md). It defines the sprint sequence, engine/ADR consumption, cross-module boundaries, and exit criteria that govern Stage 2 Sprint PRD authoring.
+
+## Sprint Sequence (Reserved)
+
+> Each row is a **planning reservation** authored by the Stage 1 Sprint Plan. Rows become active Sprint PRDs only when the corresponding file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-012-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-012)_ | Planned | _(to be defined)_ |
-| SPR-MOD-012-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-012)_ | Planned | _(to be defined)_ |
-| SPR-MOD-012-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-012)_ | Planned | _(to be defined)_ |
-| SPR-MOD-012-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-012)_ | Planned | _(to be defined)_ |
-| SPR-MOD-012-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-012)_ | Planned | _(to be defined)_ |
+| SPR-MOD-012-001 | Sprint 1 | Field Service Foundation (Tickets & Field Workforce) | Reserved | Frozen `MOD001_PLATFORM_BASELINE_v1`, `MOD005_INVENTORY_BASELINE_v1`, `MOD011_AMC_BASELINE_v1` |
+| SPR-MOD-012-002 | Sprint 2 | Dispatch & Scheduling | Reserved | SPR-MOD-012-001 |
+| SPR-MOD-012-003 | Sprint 3 | Mobile Visit Execution (Spares, Signatures, Closure) | Reserved | SPR-MOD-012-002 |
+| SPR-MOD-012-004 | Sprint 4 | SLA & Escalation | Reserved | SPR-MOD-012-001, SPR-MOD-012-003 |
+| SPR-MOD-012-005 | Sprint 5 | Field Service Analytics & Compliance | Reserved | SPR-MOD-012-001 … SPR-MOD-012-004 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**; the Sprint Plan aligns to **5**.
 
 ## Authoring Rules
 
