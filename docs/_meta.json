@@ -1260,6 +1260,10 @@
           "path": "30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce"
         },
         {
+          "title": "SPR-MOD-012-002 \u2014 Dispatch & Scheduling",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling"
+        },
+        {
           "title": "MOD-013 Assets",
           "path": "30-sprint-prds/assets/README"
         },
