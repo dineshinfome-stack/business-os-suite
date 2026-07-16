@@ -105,6 +105,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-009 Manufacturing — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN.md` |
 | MOD-010 Projects — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/projects/MOD-010_SPRINT_PLAN.md` |
 | MOD-011 AMC — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/amc/MOD-011_SPRINT_PLAN.md` |
+| SPR-MOD-011-001 — AMC Foundation (Contracts & Entitlements) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 

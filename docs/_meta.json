@@ -1232,6 +1232,10 @@
           "path": "30-sprint-prds/amc/MOD-011_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-011-001 \u2014 AMC Foundation (Contracts & Entitlements)",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements"
+        },
+        {
           "title": "MOD-012 Field Service",
           "path": "30-sprint-prds/field-service/README"
         },

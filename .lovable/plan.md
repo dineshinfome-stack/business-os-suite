@@ -1,101 +1,112 @@
-# Pass 13.0.0 — GT-002 Stage 1 Authoring for Next Business OS Module
+# Pass 13.0.1 — GT-003 for SPR-MOD-011-001 (AMC Foundation)
 
-## Objective
-Execute released GT-002 to author Stage 1 artifacts (Module PRD + Sprint Plan) for the next Business OS module, resolved dynamically from authoritative repository sources. Zero fabrication. No governance evolution.
+Author the first Sprint PRD for MOD-011 AMC using released **GT-003 v1.0** under **FROZEN Execution Wrapper v1.0**. Zero fabrication — all content resolved from authoritative repository sources.
 
 ## Governance Envelope
 - Governance Framework v1.0 — Released
-- GT-001..GT-005 — Active
-- Execution Wrapper v1.0 — FROZEN
-- Previous audit: `REPOSITORY_AUDIT_20260715T013000Z.md` — Repository READY
+- GT-003 v1.0 — Active
+- Wrapper v1.0 — FROZEN
+- Previous audit: `REPOSITORY_AUDIT_20260716T000000Z.md` — Repository READY
 
 ## Lifecycle
 
-### 1. Preconditions
-Verify Governance Framework v1.0 Released; GT-002 Active; Wrapper v1.0 FROZEN; GT-004/GT-005 Active; previous audit READY; no open corrective executions. Resolve the next target module dynamically from authoritative repository sources in accordance with the released GT-002 lifecycle and Governance Framework; do not embed repository selection logic in this execution plan. Abort on first fail (`PRECONDITION-FAIL`, exit 20).
+1. **Preconditions** — Verify Governance v1.0 Released, GT-003 Active, Wrapper FROZEN, Pass 13.0.0 complete, prior audit READY, `SPR-MOD-011-001` enumerated in Sprint Plan, no open corrective executions. Abort on first failure (`PRECONDITION-FAIL`, exit 20).
 
-### 2. Repository Snapshot
-Capture repository revision identifier, source digests, and any additional snapshot metadata declared by the released GT-002 template.
+2. **Snapshot Freeze** — Capture repository revision, authoritative-source digests, and snapshot metadata declared by released GT-003.
 
-### 3. Dependency Resolution
-Resolve dynamically from: Governance Template Dependency Matrix, Capabilities Registry, Engine Catalog, Engine Usage Matrix, ADR Index, Event Catalog, Module Catalog. No inline hard-coded identifiers.
+3. **Authoritative Resolution (source-driven)** — Resolve dynamically from:
+   - `docs/20-module-prds/amc/MODULE_PRD.md`
+   - `docs/30-sprint-prds/amc/MOD-011_SPRINT_PLAN.md`
+   - `docs/10-erp-core/ENGINE_CATALOG.md`
+   - `docs/ENGINE_USAGE_MATRIX.md`
+   - `docs/11-adrs/ADR_INDEX.md`
+   - `docs/02-architecture/event-catalog.md`
+   - `docs/MODULE_CATALOG.md`
+   
+   Resolved dynamically: slug, scope, capabilities, entities, engines, ADRs, published/consumed events, upstream/downstream deps, personas, acceptance & exit criteria. No inferred business content.
 
-### 4. Module Authoring
-Author `docs/20-module-prds/<module_folder>/MODULE_PRD.md` per GT-002 canonical structure. If a legacy PRD exists → GT-002 legacy reconciliation path (delegating to GT-001 where defined); else greenfield. Resolve capabilities, engines, ADRs, events, personas, ownership boundaries, related modules, dependencies, and traceability exclusively from authoritative sources. No inferred business content.
+4. **Sprint Authoring** — Author `docs/30-sprint-prds/amc/SPR-MOD-011-001-<slug>.md` using the released GT-003 canonical structure. Preserve Sprint↔Plan↔Module PRD traceability, authoritative identifiers, ownership boundaries, dependency isolation.
 
-### 5. Sprint Planning
-Author `docs/30-sprint-prds/<module_folder>/<MOD-NNN>_SPRINT_PLAN.md` per GT-002 canonical structure. Generate deterministic sprint decomposition while preserving complete bidirectional capability traceability defined by the released GT-002 template, together with dependency ordering, ownership boundaries, and completion criteria.
+5. **Transactional Registration** — Update only GT-003-declared surfaces:
+   - `docs/30-sprint-prds/amc/README.md`
+   - `docs/SPRINT_CATALOG.md`
+   - `docs/DOCUMENT_INDEX.md`
+   - `docs/_meta.json`
 
-### 6. Registration
-Update GT-002 surfaces only: `docs/20-module-prds/README.md`, `docs/30-sprint-prds/<module_folder>/README.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`. Additional surfaces only if declared by the released GT-002 template.
+6. **GT-003 Validation** — Execute every validation rule declared by released GT-003 via dynamic rule binding. No hard-coded count.
 
-### 7. GT-002 Validation
-Execute every validation rule declared by the released GT-002 template via dynamic rule binding. No hard-coded validation count.
+7. **GT-005 Repository Audit** — Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`. Require every profile PASS and Repository READY.
 
-### 8. GT-005 Repository Audit
-Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`. Require every audit profile PASS and Repository READY.
-
-### 9. Execution Finalization
-Append execution record to `.lovable/plan.md`; release execution lock.
+8. **Execution Finalization** — Append execution record to `.lovable/plan.md`. Release execution lock.
 
 ## Rollback
-On failure after Registration, execute the released GT-002 Runtime Rollback procedure and restore the repository to its pre-execution state. Wrapper behavior unchanged.
+On failure after Registration, execute Wrapper v1.0 Runtime Rollback and restore pre-execution state. Wrapper unchanged.
 
 ## Success Criteria
-- Module PRD authored using the released GT-002 canonical structure
-- Sprint Plan authored using the released GT-002 canonical structure
-- Content resolved exclusively from authoritative repository sources
-- Registration limited to GT-002-declared surfaces
-- Every validation rule declared by the released GT-002 template executes successfully, with all required validations PASS (INFO where permitted)
-- GT-005 Repository Audit PASS; Repository READY
-- Governance Framework v1.0, GT templates, and Wrapper v1.0 unchanged
+- Sprint PRD authored per released GT-003 canonical structure
+- Content resolved exclusively from authoritative sources
+- Bidirectional traceability preserved
+- Registration limited to GT-003-declared surfaces
+- Every GT-003 validation rule executes successfully (all required PASS; INFO where permitted)
+- GT-005 audit PASS, Repository READY
+- Governance v1.0, GT templates, Wrapper v1.0 unchanged
 
 ## Non-Goals
-No GT-003 Sprint PRDs, GT-004 Baseline, GT-005 Publication, governance evolution, GT template modifications, Wrapper modifications, or implementation code.
+No Module PRD edits, Sprint Plan edits, GT-004 Baseline, GT-005 Publication, governance evolution, template/wrapper modifications, or implementation code.
 
 ## Deliverables
-- `docs/20-module-prds/<module_folder>/MODULE_PRD.md`
-- `docs/30-sprint-prds/<module_folder>/<MOD-NNN>_SPRINT_PLAN.md`
-- Updated GT-002 registration surfaces
+- `docs/30-sprint-prds/amc/SPR-MOD-011-001-<slug>.md`
+- Updated GT-003 registration surfaces
 - `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 - Execution record appended to `.lovable/plan.md`
 
 ## Execution Record (shape)
+
 ```yaml
-execution_status: READY_FOR_SPRINT_AUTHORING
-template: GT-002
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
 template_version: v1.0
-target_module: <resolved dynamically from authoritative repository sources>
+module: MOD-011 AMC
+sprint_id: SPR-MOD-011-001
 next_template: GT-003
-next_target: <resolved dynamically according to the released GT-002 handoff rules>
+next_target: <resolved dynamically per released GT-003 handoff>
 handoff_state: READY
 execution_id: <allocated>
 audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
 repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
-Include `previous_audit_report_id` only if declared by the released GT-002 template.
+
+Include `previous_audit_report_id` only if declared by released GT-003.
 
 ## Roadmap
-- Pass 13.0.1 — GT-003 for Sprint 001 of the selected module (per GT-002 handoff)
+- Pass 13.0.2 — GT-003 for next approved AMC sprint
 - Remaining GT-003 Sprint PRDs
-- Pass 13.1.0 — GT-004 Baseline Consolidation
+- Pass 13.1.0 — GT-004 Baseline
 - Pass 13.1.1 — GT-005 Publication
-- Optional OR / RR / SR read-only reviews per established governance cadence
+- Optional OR / RR / SR reviews per cadence
 
-## Execution Record — Pass 13.0.0
+---
+
+## Execution Record — Pass 13.0.1
 
 ```yaml
-execution_status: READY_FOR_SPRINT_AUTHORING
-template: GT-002
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
 template_version: v1.0
-target_module: MOD-011 AMC
+module: MOD-011 AMC
+sprint_id: SPR-MOD-011-001
 next_template: GT-003
-next_target: SPR-MOD-011-001 (AMC Foundation — Contracts & Entitlements)
+next_target: SPR-MOD-011-002 (Preventive Visit Scheduling)
 handoff_state: READY
-execution_id: GT002-MOD011-20260716T000000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260716T000000Z
-previous_audit_report_id: REPOSITORY_AUDIT_20260715T013000Z
-repository_revision_after: pass-13.0.0
-snapshot_digest: mod-011-stage-1
+execution_id: GT003-MOD011-001-20260716T001000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T001000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T000000Z
+repository_revision_after: post-pass-13.0.1
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0 Step 2>
 ```
+
+- Authored `docs/30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements.md` under GT-003 v1.0.
+- Updated 4 GT-003 registration surfaces: `docs/30-sprint-prds/amc/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
+- Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T001000Z.md` — 24/24 PASS, Repository READY.
+- No governance / template / wrapper mutation.
