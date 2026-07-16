@@ -4,7 +4,7 @@ summary: "Sprint PRDs for AMC (MOD-011). Sprint identifiers are prefixed SPR-MOD
 layer: "delivery"
 owner: "Service"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-16"
 module_id: "MOD-011"
 sprint_prefix: "SPR-MOD-011-"
 tags: ["sprint", "prd", "readme"]
@@ -26,18 +26,22 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-011-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-011-001`, `SPR-MOD-011-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Stage 1 Sprint Plan
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The authoritative sprint sequence for MOD-011 is defined in the Stage 1 Sprint Plan: [`MOD-011_SPRINT_PLAN.md`](./MOD-011_SPRINT_PLAN.md).
+
+## Reserved Sprint Identifiers
+
+> Sprint identifiers below are **reservations** from the approved Stage 1 Sprint Plan. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-011-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-011)_ | Planned | _(to be defined)_ |
-| SPR-MOD-011-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-011)_ | Planned | _(to be defined)_ |
-| SPR-MOD-011-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-011)_ | Planned | _(to be defined)_ |
-| SPR-MOD-011-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-011)_ | Planned | _(to be defined)_ |
+| SPR-MOD-011-001 | Sprint 1 | AMC Foundation (Contracts & Entitlements) | Reserved | — |
+| SPR-MOD-011-002 | Sprint 2 | Preventive Visit Scheduling | Reserved | SPR-MOD-011-001 |
+| SPR-MOD-011-003 | Sprint 3 | Contract Billing & Renewals | Reserved | SPR-MOD-011-001 |
+| SPR-MOD-011-004 | Sprint 4 | AMC Analytics & Compliance | Reserved | SPR-MOD-011-001 … 003 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**. Goals above are the Stage 1 planning baseline; refinements permitted during Stage 2 MUST update `MOD-011_SPRINT_PLAN.md` first.
 
 ## Authoring Rules
 
