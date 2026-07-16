@@ -111,6 +111,9 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-013-001 | Sprint 1 | MOD-013 Assets | Draft | [`30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md`](30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md) | Operations |
 | SPR-MOD-013-002 | Sprint 2 | MOD-013 Assets | Draft | [`30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs.md`](30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs.md) | Operations |
 | SPR-MOD-013-003 | Sprint 3 | MOD-013 Assets | Draft | [`30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal.md`](30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal.md) | Operations |
+| SPR-MOD-013-004 | Sprint 4 | MOD-013 Assets | Draft | [`30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance.md`](30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance.md) | Operations |
+
+
 
 
 
