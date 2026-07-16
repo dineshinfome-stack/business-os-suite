@@ -1,18 +1,18 @@
-# Pass 14.0.3 — GT-003 for SPR-MOD-012-003 (Mobile Visit Execution)
+# Pass 14.0.4 — GT-003 for SPR-MOD-012-004 (SLA & Escalation)
 
-Author the third MOD-012 Field Service Sprint PRD using the released GT-003 v1.0 template under the FROZEN Execution Wrapper v1.0. All sprint-specific content resolves exclusively from authoritative repository sources.
+Author the fourth MOD-012 Field Service Sprint PRD using the released GT-003 v1.0 template under the FROZEN Execution Wrapper v1.0. All sprint-specific content resolves exclusively from authoritative repository sources.
 
 ## Governance Envelope
 
 - Governance Framework v1.0 — Released
 - GT-003 v1.0 — Active
 - Execution Wrapper v1.0 — FROZEN
-- Previous audit: `REPOSITORY_AUDIT_20260716T013000Z.md` — Repository READY
+- Previous audit: `REPOSITORY_AUDIT_20260716T014000Z.md` — Repository READY
 
 ## Lifecycle
 
 ### 1. Preconditions
-Verify Governance v1.0 Released, GT-003 Active, Wrapper FROZEN, Pass 14.0.2 complete, previous audit READY, SPR-MOD-012-003 enumerated in the approved Sprint Plan, no open corrective executions. Abort on first failure (PRECONDITION-FAIL, exit 20).
+Verify Governance v1.0 Released, GT-003 Active, Wrapper FROZEN, Pass 14.0.3 complete, previous audit READY, SPR-MOD-012-004 enumerated in the approved Sprint Plan, no open corrective executions. Abort on first failure (PRECONDITION-FAIL, exit 20).
 
 ### 2. Snapshot Freeze
 Capture repository revision, authoritative source digests, and snapshot metadata declared by the released GT-003 template.
@@ -27,10 +27,10 @@ Resolve sprint metadata exclusively from:
 - `docs/02-architecture/event-catalog.md`
 - `docs/MODULE_CATALOG.md`
 
-Dynamically resolve: sprint slug, scope, capabilities, entities, business rules, engines, ADRs, published/consumed events, upstream/downstream dependencies, personas, acceptance criteria, exit criteria. No sprint-specific facts introduced by this plan.
+All sprint-specific metadata (including sprint slug, scope, capabilities, entities, business rules, engines, ADRs, published/consumed events, upstream/downstream dependencies, personas, acceptance criteria, and exit criteria) shall resolve exclusively from the approved Sprint Plan, Module PRD, and supporting governance catalogs. No sprint-specific facts are introduced by this execution plan.
 
 ### 4. Sprint Authoring
-Author `docs/30-sprint-prds/field-service/SPR-MOD-012-003-<slug>.md` using the released GT-003 canonical structure. Preserve Sprint ↔ Sprint Plan and Sprint ↔ Module PRD traceability, authoritative identifiers, ownership boundaries, dependency isolation, deterministic ordering.
+Author `docs/30-sprint-prds/field-service/SPR-MOD-012-004-<slug>.md` using the released GT-003 canonical structure. Preserve Sprint ↔ Sprint Plan and Sprint ↔ Module PRD traceability, authoritative identifiers, ownership boundaries, dependency isolation, deterministic ordering.
 
 ### 5. Transactional Registration
 Update only GT-003-declared surfaces:
@@ -64,7 +64,7 @@ On failure after Registration, execute the Runtime Rollback procedure inherited 
 No Module PRD edits, no Sprint Plan edits, no GT-004 Baseline, no GT-005 Publication, no governance evolution, no GT/Wrapper modifications, no implementation code.
 
 ## Deliverables
-- `docs/30-sprint-prds/field-service/SPR-MOD-012-003-<slug>.md`
+- `docs/30-sprint-prds/field-service/SPR-MOD-012-004-<slug>.md`
 - Updated GT-003 registration surfaces
 - `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 - Execution record appended to `.lovable/plan.md`
@@ -76,7 +76,7 @@ execution_status: READY_FOR_NEXT_SPRINT
 template: GT-003
 template_version: v1.0
 module: MOD-012 Field Service
-sprint_id: SPR-MOD-012-003
+sprint_id: SPR-MOD-012-004
 next_template: GT-003
 next_target: <resolved dynamically per released GT-003 handoff rules>
 handoff_state: READY
@@ -89,7 +89,6 @@ snapshot_digest: <allocated>
 Include `previous_audit_report_id` only if declared by the released GT-003 template.
 
 ## Roadmap
-- Pass 14.0.4 — GT-003 for SPR-MOD-012-004
 - Pass 14.0.5 — GT-003 for SPR-MOD-012-005 (if defined by the Sprint Plan)
 - Pass 14.1.0 — GT-004 Baseline Consolidation
 - Pass 14.1.1 — GT-005 Publication
@@ -97,22 +96,22 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 
 ---
 
-## Execution Record — Pass 14.0.3
+## Execution Record — Pass 14.0.4
 
 ```yaml
 execution_status: READY_FOR_NEXT_SPRINT
 template: GT-003
 template_version: v1.0
 module: MOD-012 Field Service
-sprint_id: SPR-MOD-012-003
+sprint_id: SPR-MOD-012-004
 next_template: GT-003
-next_target: SPR-MOD-012-004 (SLA & Escalation)
+next_target: SPR-MOD-012-005 (Field Service Analytics & Compliance)
 handoff_state: READY
-execution_id: GT003-MOD012-003-20260716T014000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260716T014000Z
-previous_audit_report_id: REPOSITORY_AUDIT_20260716T013000Z
-repository_revision_after: pass-14.0.3
+execution_id: GT003-MOD012-004-20260716T015000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T015000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T014000Z
+repository_revision_after: pass-14.0.4
 snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0 Step 2>
 ```
 
-**Summary.** Authored `docs/30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure.md` under GT-003 v1.0. Updated 4 registration surfaces: `docs/30-sprint-prds/field-service/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (JSON validated). Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T014000Z.md` (all profiles PASS; Repository READY). MOD-012 Stage 2 progress: **3 / 5 Sprints authored**. Next: Pass 14.0.4 (`SPR-MOD-012-004` SLA & Escalation).
+**Summary.** Authored `docs/30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation.md` under GT-003 v1.0. Updated 4 registration surfaces: `docs/30-sprint-prds/field-service/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (JSON validated). Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T015000Z.md` (all profiles PASS; Repository READY). MOD-012 Stage 2 progress: **4 / 5 Sprints authored**. Next: Pass 14.0.5 (`SPR-MOD-012-005` Field Service Analytics & Compliance).
