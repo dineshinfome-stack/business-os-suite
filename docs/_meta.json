@@ -1272,6 +1272,10 @@
           "path": "30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation"
         },
         {
+          "title": "SPR-MOD-012-005 \u2014 Field Service Analytics & Compliance",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance"
+        },
+        {
           "title": "MOD-013 Assets",
           "path": "30-sprint-prds/assets/README"
         },
