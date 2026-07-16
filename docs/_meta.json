@@ -1296,6 +1296,10 @@
           "path": "30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal"
         },
         {
+          "title": "SPR-MOD-013-004 \u2014 Assets Analytics & Compliance",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance"
+        },
+        {
           "title": "MOD-014 Fleet",
           "path": "30-sprint-prds/fleet/README"
         },
