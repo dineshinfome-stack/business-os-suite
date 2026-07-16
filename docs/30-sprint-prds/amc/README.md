@@ -39,7 +39,7 @@ The authoritative sprint sequence for MOD-011 is defined in the Stage 1 Sprint P
 | SPR-MOD-011-001 | Sprint 1 | AMC Foundation (Contracts & Entitlements) | Draft | — |
 | SPR-MOD-011-002 | Sprint 2 | Preventive Visit Scheduling | Draft | SPR-MOD-011-001 |
 | SPR-MOD-011-003 | Sprint 3 | Contract Billing & Renewals | Draft | SPR-MOD-011-001 |
-| SPR-MOD-011-004 | Sprint 4 | AMC Analytics & Compliance | Reserved | SPR-MOD-011-001 … 003 |
+| SPR-MOD-011-004 | Sprint 4 | AMC Analytics & Compliance | Draft | SPR-MOD-011-001 … 003 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**. Goals above are the Stage 1 planning baseline; refinements permitted during Stage 2 MUST update `MOD-011_SPRINT_PLAN.md` first.
 

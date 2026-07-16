@@ -1244,6 +1244,10 @@
           "path": "30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals"
         },
         {
+          "title": "SPR-MOD-011-004 \u2014 AMC Analytics & Compliance",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-004-amc-analytics-and-compliance"
+        },
+        {
           "title": "MOD-012 Field Service",
           "path": "30-sprint-prds/field-service/README"
         },
