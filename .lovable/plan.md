@@ -94,3 +94,25 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 14.1.0 — GT-004 Baseline Consolidation
 - Pass 14.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 14.0.3
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-012 Field Service
+sprint_id: SPR-MOD-012-003
+next_template: GT-003
+next_target: SPR-MOD-012-004 (SLA & Escalation)
+handoff_state: READY
+execution_id: GT003-MOD012-003-20260716T014000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T014000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T013000Z
+repository_revision_after: pass-14.0.3
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0 Step 2>
+```
+
+**Summary.** Authored `docs/30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure.md` under GT-003 v1.0. Updated 4 registration surfaces: `docs/30-sprint-prds/field-service/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (JSON validated). Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T014000Z.md` (all profiles PASS; Repository READY). MOD-012 Stage 2 progress: **3 / 5 Sprints authored**. Next: Pass 14.0.4 (`SPR-MOD-012-004` SLA & Escalation).
