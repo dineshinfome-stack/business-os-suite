@@ -123,3 +123,25 @@ snapshot_digest: <allocated>
 - Pass 13.1.1 — GT-005 Publication of `MOD011_AMC_BASELINE_v1` (activates when GT-004 handoff resolves to `READY_FOR_PUBLICATION`)
 - Pass 14.0.0 — GT-002 Stage 1 for the next Business OS module (resolved dynamically)
 - Optional OR / RR / SR read-only reviews per established cadence
+
+---
+
+## Execution Record — Pass 13.1.0
+
+```yaml
+execution_status: READY_FOR_PUBLICATION
+template: GT-004
+template_version: v1.0
+module: MOD-011 AMC
+target: MOD011_AMC_BASELINE_v1
+next_template: GT-005
+next_target: MOD011_AMC_BASELINE_v1 (Publication)
+handoff_state: READY
+execution_id: GT004-MOD011-20260716T005000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T004000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T005000Z
+repository_revision_after: pass-13.1.0
+snapshot_digest: mod011-baseline-v1-30of30-pass
+```
+
+**Result.** MOD-011 AMC Stage 3 COMPLETE. `MOD011_AMC_BASELINE_v1` authored, 4 registration surfaces updated, GT-005 audit `REPOSITORY_AUDIT_20260716T005000Z` emitted (30/30 PASS, Repository READY). Handoff → Pass 13.1.1 (GT-005 Publication).
