@@ -85,3 +85,28 @@ Include `previous_audit_report_id` only if declared by released GT-003.
 - Pass 13.1.0 — GT-004 Baseline
 - Pass 13.1.1 — GT-005 Publication
 - Optional OR / RR / SR reviews per cadence
+
+---
+
+## Execution Record — Pass 13.0.1
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-011 AMC
+sprint_id: SPR-MOD-011-001
+next_template: GT-003
+next_target: SPR-MOD-011-002 (Preventive Visit Scheduling)
+handoff_state: READY
+execution_id: GT003-MOD011-001-20260716T001000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T001000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T000000Z
+repository_revision_after: post-pass-13.0.1
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0 Step 2>
+```
+
+- Authored `docs/30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements.md` under GT-003 v1.0.
+- Updated 4 GT-003 registration surfaces: `docs/30-sprint-prds/amc/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
+- Emitted `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T001000Z.md` — 24/24 PASS, Repository READY.
+- No governance / template / wrapper mutation.
