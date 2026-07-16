@@ -1264,6 +1264,10 @@
           "path": "30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling"
         },
         {
+          "title": "SPR-MOD-012-003 \u2014 Mobile Visit Execution (Spares, Signatures, Closure)",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure"
+        },
+        {
           "title": "MOD-013 Assets",
           "path": "30-sprint-prds/assets/README"
         },

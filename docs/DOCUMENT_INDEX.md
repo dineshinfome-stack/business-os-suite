@@ -112,6 +112,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-012 Field Service — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/field-service/MOD-012_SPRINT_PLAN.md` |
 | SPR-MOD-012-001 — Field Service Foundation (Tickets & Field Workforce) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce.md` |
 | SPR-MOD-012-002 — Dispatch & Scheduling | Delivery | Draft | Authoritative | `docs/30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling.md` |
+| SPR-MOD-012-003 — Mobile Visit Execution (Spares, Signatures, Closure) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
