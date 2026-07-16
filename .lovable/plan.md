@@ -82,3 +82,20 @@ Include `previous_audit_report_id` only if declared by the released GT-002 templ
 - Pass 13.1.0 — GT-004 Baseline Consolidation
 - Pass 13.1.1 — GT-005 Publication
 - Optional OR / RR / SR read-only reviews per established governance cadence
+
+## Execution Record — Pass 13.0.0
+
+```yaml
+execution_status: READY_FOR_SPRINT_AUTHORING
+template: GT-002
+template_version: v1.0
+target_module: MOD-011 AMC
+next_template: GT-003
+next_target: SPR-MOD-011-001 (AMC Foundation — Contracts & Entitlements)
+handoff_state: READY
+execution_id: GT002-MOD011-20260716T000000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T000000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260715T013000Z
+repository_revision_after: pass-13.0.0
+snapshot_digest: mod-011-stage-1
+```
