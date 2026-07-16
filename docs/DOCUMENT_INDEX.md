@@ -236,6 +236,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD009_MANUFACTURING_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1.md` |
 | MOD010_PROJECTS_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD010_PROJECTS_BASELINE_v1.md` |
 | MOD011_AMC_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD011_AMC_BASELINE_v1.md` |
+| MOD012_FIELD_SERVICE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1.md` |
 | MOD019_WAREHOUSE_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
 | Module Baselines — Layer README | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/README.md` |
