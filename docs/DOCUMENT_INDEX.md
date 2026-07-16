@@ -118,6 +118,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-013 Assets — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/assets/MOD-013_SPRINT_PLAN.md` |
 | SPR-MOD-013-001 — Asset Foundation (Register, Capitalization & Insurance) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance.md` |
 | SPR-MOD-013-002 — Depreciation (Methods & Runs) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs.md` |
+| SPR-MOD-013-003 — Maintenance, Transfer & Disposal | Delivery | Draft | Authoritative | `docs/30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
