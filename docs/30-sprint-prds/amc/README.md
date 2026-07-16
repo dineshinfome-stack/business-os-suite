@@ -4,7 +4,7 @@ summary: "Sprint PRDs for AMC (MOD-011). Sprint identifiers are prefixed SPR-MOD
 layer: "delivery"
 owner: "Service"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-16"
 module_id: "MOD-011"
 sprint_prefix: "SPR-MOD-011-"
 tags: ["sprint", "prd", "readme"]
