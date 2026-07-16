@@ -92,3 +92,16 @@ Include `previous_audit_report_id` only if declared by released GT-004.
 - Pass 14.1.1 — GT-005 Publication of MOD012_FIELD_SERVICE_BASELINE_v1 (on GT-004 handoff to publication readiness)
 - Pass 15.0.0 — GT-002 Stage 1 for next unpublished Business OS module (resolved dynamically)
 - Optional OR/RR/SR read-only reviews per governance cadence
+
+---
+
+## Execution Record — Pass 14.1.0 (Completed)
+
+- **Pass:** 14.1.0 — GT-004 Baseline Consolidation for MOD-012 Field Service
+- **Status:** COMPLETE — READY_FOR_PUBLICATION
+- **Artifact Created:** `docs/40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1.md` (v1.0, Frozen)
+- **Sprints Consolidated:** SPR-MOD-012-001 … SPR-MOD-012-005 (5/5)
+- **Registration Surfaces Updated:** `docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (JSON validated)
+- **Audit Report:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T017000Z.md` — 18/18 PASS; Repository READY
+- **Key Decisions:** Reference-only consolidation; no new capabilities/engines/ADRs/events. ENG-015/ENG-016 excluded (ledger owned by MOD-002). MOD-017 retains cross-module KPI ownership.
+- **Next Pass:** 14.1.1 — GT-005 Publication for `MOD012_FIELD_SERVICE_BASELINE_v1`.
