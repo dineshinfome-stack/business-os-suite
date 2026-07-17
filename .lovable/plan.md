@@ -1,88 +1,99 @@
-# Pass 18.0.2 — GT-003 Sprint Authoring for SPR-MOD-016-002 (Ticket Capture & Lifecycle)
+## Pass 18.0.3 — GT-003 for SPR-MOD-016-003 (SLA Enforcement & Escalations)
 
-Author the second Service Desk Sprint PRD under Governance Framework v1.0, GT-003 v1.0, FROZEN Wrapper v1.0. Zero governance evolution, zero scope expansion.
+Author the third MOD-016 Service Desk Sprint PRD under Governance Framework v1.0, GT-003 v1.0, and FROZEN Execution Wrapper v1.0. Zero governance evolution, zero implementation, zero scope expansion.
 
-## Preflight
+### 1. Preflight
+- Confirm Framework v1.0 Released, GT-003 v1.0 Active, Wrapper v1.0 FROZEN.
+- Confirm MOD-016 Stage 1 complete; Sprints 001 and 002 complete.
+- Confirm previous audit `REPOSITORY_AUDIT_20260717T080000Z` = READY.
+- Confirm `MOD-016_SPRINT_PLAN.md`, `SPR-MOD-016-001`, `SPR-MOD-016-002` exist; no file yet for Sprint 003.
+- Abort on PRECONDITION-FAIL.
 
-Verify: GT-003 v1.0 Active; Wrapper FROZEN; MOD-016 Sprint Plan approved; SPR-MOD-016-001 complete; previous audit `REPOSITORY_AUDIT_20260717T070000Z` = READY; no existing SPR-MOD-016-002; no open corrective executions.
-
-## Authoritative Sources (read-only)
-
+### 2. Authoritative Sources (read-only)
 - `docs/20-module-prds/service-desk/MODULE_PRD.md`
 - `docs/30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN.md`
-- `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md` (S1 authorities & structure precedent)
+- `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md`
+- `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md`
+- Released Governance Framework v1.0 and GT-003 v1.0.
 
-## Sprint 002 Scope (exact allocation)
+### 3. Sprint 003 Scope (allocation only)
+Authorities: SLA clock lifecycle, timer calculation, Response/Resolution SLA tracking, Pause/Resume, breach detection, Escalation Matrix execution, escalation history, SLA status, SLA audit trail.
 
-Authorities: Service Ticket transaction; multi-channel capture; ticket lifecycle state machine; parent/child relations; close-with-open-child-task rule; Customer/Contact/Asset/Location association; attachment registration; initial assignment/routing invocation; ticket creation audit trail.
+Business rules: Pause on Customer Waiting; auto-resume on customer response; respect Business Hours from Sprint 001; execute Escalation Matrix deterministically across levels; record each breach threshold exactly once.
 
-Events published: `ServiceTicketCreated`, `ServiceTicketUpdated`, `ServiceTicketClosed`. Upstream consumption per Module PRD.
+Events published: `SLAPaused`, `SLAResumed`, `SLABreached`, `EscalationTriggered`.
+Events consumed: Sprint 002 ticket lifecycle events (`ServiceTicketCreated`, `ServiceTicketUpdated`, `ServiceTicketClosed`) and any upstream events approved by the Module PRD.
 
-Integrations (inbound channels + master consumption per Module PRD): Email, Chat, WhatsApp, Voice; Customer master, Asset master.
+Dependencies: Sprint 001 configuration authorities (SLA Policy, Business Hours, Escalation Matrix), Sprint 002 Service Ticket lifecycle, approved workflow/rules/automation engines per Module PRD.
 
-Recapitulate ownership boundaries (S1 owns Category/SLA Policy masters; MOD-001 owns Identity; MOD-002 owns Ledger; MOD-006 owns Customer master; MOD-013 owns Asset master; MOD-017 owns cross-module KPIs). No S3–S5 capabilities (SLA countdown/escalation execution, KB/Macros/CSAT, Analytics) introduced.
+No KB, Macros, CSAT, or Analytics capabilities (Sprints 004–005).
 
-## Deliverables
+### 4. Deliverables
+Author `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md` using GT-003 sections only: Header, Purpose, Scope, Functional Requirements, Business Rules, Master Data, Transactions (if applicable), Events, Integrations, Dependencies, Acceptance Criteria, Traceability, Ownership Boundaries, Non-Goals, References.
 
-Create: `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md` using GT-003 sections: Header, Purpose, Scope, Functional Requirements, Business Rules, Master Data, Transactions, Events, Integrations, Dependencies, Acceptance Criteria, Traceability, Ownership Boundaries, Non-Goals, References.
+Update registration surfaces:
+- `docs/30-sprint-prds/service-desk/README.md` (Sprint 003 status)
+- `docs/SPRINT_CATALOG.md`
+- `docs/DOCUMENT_INDEX.md`
+- `docs/_meta.json` (JSON-valid; GT-003 registration only)
 
-Update: `docs/30-sprint-prds/service-desk/README.md` (S2 row → Draft), `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (JSON-valid).
+Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` per GT-005 spec. Append GT-003 execution record to `.lovable/plan.md`.
 
-Emit: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md` per GT-005.
+### 5. Validation
+Run all GT-003 validations via dynamic rule binding: scope-to-plan match; SLA behaviour derived only from Module PRD; correct Sprint 001/002 references; escalation logic confined to Sprint 003; no orphan/out-of-scope requirements; no ownership reassignment; consistent event graph; full bidirectional traceability; Repository Audit PASS → READY. INFO permitted only where GT-003 allows. No hard-coded validation IDs or counts.
 
-Append GT-003 execution record to `.lovable/plan.md`.
+### 6. Rollback
+On post-registration failure execute GT-003 Runtime Rollback: reverse-order surface restoration, remove partial artifacts, restore repository to pre-execution state, Wrapper unchanged.
 
-## Validation
+### 7. Non-Goals
+No Sprint Plan / Sprint 001 / Sprint 002 / Module PRD edits. No baseline or publication. No implementation. No governance/template/wrapper changes. No Sprint 004–005 capabilities.
 
-All GT-003 checks via dynamic binding: scope = Sprint Plan allocation; S1 authorities correctly referenced; cross-module deps correct; events consistent with Module PRD; bidirectional traceability complete; no orphan/out-of-scope; no ownership reassignment. Repository Audit PASS → READY.
+### 8. Success Criteria
+Sprint PRD sourced exclusively from Module PRD + Sprint Plan + Sprints 001–002 authorities; scope matches allocation; boundaries recapitulated; full traceability; registration limited to declared surfaces; all validations PASS; Repository READY; Framework/Templates/Wrapper unchanged.
 
-## Rollback
-
-On post-registration failure: reverse-order restore of registration surfaces; remove partial artifact; restore pre-execution state.
-
-## Non-Goals
-
-No modifications to Sprint Plan, S1 PRD, Module PRD, Wrapper, or GT templates. No baseline/publication. No S3–S5 scope. No implementation code.
-
-## Execution Record
+### 9. Execution Record shape
 
 ```yaml
 execution_status: READY_FOR_STAGE_2
 template: GT-003
 template_version: v1.0
 module: MOD-016 Service Desk
-sprint: SPR-MOD-016-002
+sprint: SPR-MOD-016-003
 stage: Sprint Authoring
 next_template: GT-003
-next_target: <resolved dynamically per GT-003 lifecycle>
+next_target: <resolved dynamically per released GT-003 lifecycle>
 handoff_state: READY
 execution_id: <allocated>
-audit_report_id: REPOSITORY_AUDIT_<UTC>
+audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
+# previous_audit_report_id included only if declared by released GT-003
 repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
 
-## Roadmap
-
-S2 COMPLETE on PASS → S3 SLA Enforcement & Escalations → S4 → S5 → GT-004 Baseline → GT-005 Publication.
+### 10. Roadmap
+- GT-003 Sprint 003 COMPLETE on PASS.
+- Next: GT-003 Sprint 004 — Knowledge Base, Macros & CSAT.
+- Then Sprint 005 Analytics → GT-004 Baseline → GT-005 Publication.
 
 ---
 
-## Execution Record — Pass 18.0.2 (GT-003 Sprint Authoring — SPR-MOD-016-002)
+## Pass 18.0.3 — Execution Record
 
 ```yaml
 execution_status: READY_FOR_STAGE_2
 template: GT-003
 template_version: v1.0
 module: MOD-016 Service Desk
-sprint: SPR-MOD-016-002
+sprint: SPR-MOD-016-003
 stage: Sprint Authoring
 next_template: GT-003
-next_target: SPR-MOD-016-003 (SLA Enforcement & Escalations)
+next_target: SPR-MOD-016-004 (Knowledge Base, Macros & CSAT)
 handoff_state: READY
-execution_id: GT003-MOD016-002-20260717T080000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260717T080000Z
-previous_audit_report_id: REPOSITORY_AUDIT_20260717T070000Z
-repository_revision_after: pass-18.0.2
-snapshot_digest: sha256:pass-18.0.2-post
+execution_id: GT003-MOD016-003-20260717T090000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T090000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T080000Z
+repository_revision_after: pass-18.0.3
+snapshot_digest: sha256:pass-18.0.3-frozen-authoritative-artifacts
 ```
+
+Authored `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md`. Registration surfaces (`docs/30-sprint-prds/service-desk/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`) updated. Audit `REPOSITORY_AUDIT_20260717T090000Z` = 20/20 PASS, Repository READY.

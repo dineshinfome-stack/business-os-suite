@@ -123,6 +123,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-015-005 | Sprint 5 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance.md`](30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance.md) | Revenue |
 | SPR-MOD-016-001 | Sprint 1 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md) | Service |
 | SPR-MOD-016-002 | Sprint 2 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md) | Service |
+| SPR-MOD-016-003 | Sprint 3 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md) | Service |
 
 
 

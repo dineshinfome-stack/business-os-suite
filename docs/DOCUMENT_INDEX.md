@@ -134,6 +134,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-016 Service Desk — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN.md` |
 | SPR-MOD-016-001 — Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md` |
 | SPR-MOD-016-002 — Ticket Capture & Lifecycle | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md` |
+| SPR-MOD-016-003 — SLA Enforcement & Escalations | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
