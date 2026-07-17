@@ -116,6 +116,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-014-002 | Sprint 2 | MOD-014 Fleet | Draft | [`30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution.md`](30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution.md) | Operations |
 | SPR-MOD-014-003 | Sprint 3 | MOD-014 Fleet | Draft | [`30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance.md`](30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance.md) | Operations |
 | SPR-MOD-014-004 | Sprint 4 | MOD-014 Fleet | Draft | [`30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance.md`](30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance.md) | Operations |
+| SPR-MOD-015-001 | Sprint 1 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md`](30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md) | Revenue |
 
 
 

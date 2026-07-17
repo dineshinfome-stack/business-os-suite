@@ -32,7 +32,7 @@ The authoritative Stage 1 Sprint Plan for this module is [`MOD-015_SPRINT_PLAN.m
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-015-001 | Sprint 1 | POS Foundation (Stores, Counters & Configuration) | Reserved | — |
+| SPR-MOD-015-001 | Sprint 1 | [POS Foundation (Stores, Counters & Configuration)](./SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md) | Draft | — |
 | SPR-MOD-015-002 | Sprint 2 | Cart, Pricing, Discounts & Offline Sale | Reserved | SPR-MOD-015-001 |
 | SPR-MOD-015-003 | Sprint 3 | Multi-Tender Payments & Receipts | Reserved | SPR-MOD-015-001, SPR-MOD-015-002 |
 | SPR-MOD-015-004 | Sprint 4 | Offers, Loyalty & Returns | Reserved | SPR-MOD-015-001..003 |
