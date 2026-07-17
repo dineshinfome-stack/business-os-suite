@@ -126,6 +126,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-014-003 — Fuel & Maintenance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance.md` |
 | SPR-MOD-014-004 — Fleet Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance.md` |
 | MOD-015 POS — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/pos/MOD-015_SPRINT_PLAN.md` |
+| SPR-MOD-015-001 — POS Foundation (Stores, Counters & Configuration) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
