@@ -89,3 +89,39 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 16.0.4 — GT-003 for SPR-MOD-014-004
 - Pass 16.1.0 — GT-004 Baseline Consolidation
 - Pass 16.1.1 — GT-005 Publication
+
+---
+
+## Execution Record — Pass 16.0.1
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-014 Fleet
+sprint_id: SPR-MOD-014-001
+sprint_slug: fleet-foundation-vehicles-drivers-compliance-and-insurance
+next_template: GT-003
+next_target: SPR-MOD-014-002 (Trip Planning & Execution) — per MOD-014_SPRINT_PLAN.md §2
+handoff_state: READY
+execution_id: GT003-MOD014-001-20260716T027000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T026000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T027000Z
+repository_revision_after: <allocated>
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0 Step 2>
+deliverables:
+  - docs/30-sprint-prds/fleet/SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance.md
+  - docs/30-sprint-prds/fleet/README.md (SPR-MOD-014-001 reservation → Draft with link)
+  - docs/SPRINT_CATALOG.md (SPR-MOD-014-001 row appended)
+  - docs/DOCUMENT_INDEX.md (SPR-MOD-014-001 row appended)
+  - docs/_meta.json (SPR-MOD-014-001 sidebar entry appended; JSON valid)
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T027000Z.md
+invariant_preservation:
+  governance_framework: unchanged
+  gt_templates: unchanged
+  frozen_wrapper: unchanged
+  module_prd: unchanged
+  sprint_plan: unchanged
+```
+
+**Outcome.** MOD-014 Fleet Sprint 1 (`SPR-MOD-014-001` — Fleet Foundation: Vehicles, Drivers, Compliance & Insurance) authored under GT-003 v1.0; registration updated on 4 surfaces; GT-005 audit PASS (16/16); Repository READY. Next: Pass 16.0.2 — GT-003 for `SPR-MOD-014-002`.
