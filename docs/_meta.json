@@ -1400,6 +1400,10 @@
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION"
         },
         {
+          "title": "SPR-MOD-017-004 \u2014 Scheduled Distribution, Reporting & Export",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT"
+        },
+        {
           "title": "MOD-018 AI Workspace",
           "path": "30-sprint-prds/ai/README"
         },
