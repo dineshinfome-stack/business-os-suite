@@ -246,7 +246,7 @@
       ]
     },
     {
-      "label": "04 Domains \u2014 Foundation",
+      "label": "04 Domains — Foundation",
       "items": [
         {
           "title": "Authentication",
@@ -295,7 +295,7 @@
       ]
     },
     {
-      "label": "04 Domains \u2014 Other",
+      "label": "04 Domains — Other",
       "items": [
         {
           "title": "Accounting",
@@ -364,7 +364,7 @@
       ]
     },
     {
-      "label": "05 ADRs (Legacy \u2014 Superseded)",
+      "label": "05 ADRs (Legacy — Superseded)",
       "items": [
         {
           "title": "Legacy ADR Template",
@@ -585,10 +585,10 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Index",
+      "label": "10 ERP Core — Index",
       "items": [
         {
-          "title": "ERP Core Engines \u2014 Index",
+          "title": "ERP Core Engines — Index",
           "path": "10-erp-core/README"
         },
         {
@@ -598,7 +598,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Foundation",
+      "label": "10 ERP Core — Foundation",
       "items": [
         {
           "title": "Identity Engine",
@@ -627,7 +627,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Document",
+      "label": "10 ERP Core — Document",
       "items": [
         {
           "title": "Document Engine",
@@ -644,7 +644,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Workflow",
+      "label": "10 ERP Core — Workflow",
       "items": [
         {
           "title": "Workflow Engine",
@@ -669,7 +669,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Financial",
+      "label": "10 ERP Core — Financial",
       "items": [
         {
           "title": "Voucher Engine",
@@ -694,7 +694,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Intelligence",
+      "label": "10 ERP Core — Intelligence",
       "items": [
         {
           "title": "Search Engine",
@@ -711,7 +711,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Integration",
+      "label": "10 ERP Core — Integration",
       "items": [
         {
           "title": "Integration Engine",
@@ -728,7 +728,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 Data Exchange",
+      "label": "10 ERP Core — Data Exchange",
       "items": [
         {
           "title": "Import Engine",
@@ -741,7 +741,7 @@
       ]
     },
     {
-      "label": "10 ERP Core \u2014 AI",
+      "label": "10 ERP Core — AI",
       "items": [
         {
           "title": "AI Copilot Engine",
@@ -912,31 +912,31 @@
           "path": "30-sprint-prds/platform/README"
         },
         {
-          "title": "MOD-001 \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-001 — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/platform/MOD-001_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-001-001 \u2014 Tenancy Foundation",
+          "title": "SPR-MOD-001-001 — Tenancy Foundation",
           "path": "30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation"
         },
         {
-          "title": "SPR-MOD-001-002 \u2014 Organization Structure",
+          "title": "SPR-MOD-001-002 — Organization Structure",
           "path": "30-sprint-prds/platform/SPR-MOD-001-002-organization-structure"
         },
         {
-          "title": "SPR-MOD-001-003 \u2014 Users, Roles & Permissions",
+          "title": "SPR-MOD-001-003 — Users, Roles & Permissions",
           "path": "30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions"
         },
         {
-          "title": "SPR-MOD-001-004 \u2014 Configuration Hierarchy",
+          "title": "SPR-MOD-001-004 — Configuration Hierarchy",
           "path": "30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy"
         },
         {
-          "title": "SPR-MOD-001-005 \u2014 Localization Packs",
+          "title": "SPR-MOD-001-005 — Localization Packs",
           "path": "30-sprint-prds/platform/SPR-MOD-001-005-localization-packs"
         },
         {
-          "title": "SPR-MOD-001-006 \u2014 Audit Review & Platform Administration",
+          "title": "SPR-MOD-001-006 — Audit Review & Platform Administration",
           "path": "30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration"
         },
         {
@@ -944,31 +944,31 @@
           "path": "30-sprint-prds/accounting/README"
         },
         {
-          "title": "MOD-002 \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-002 — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-002-001 \u2014 Accounting Foundation",
+          "title": "SPR-MOD-002-001 — Accounting Foundation",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation"
         },
         {
-          "title": "SPR-MOD-002-002 \u2014 Voucher Framework",
+          "title": "SPR-MOD-002-002 — Voucher Framework",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework"
         },
         {
-          "title": "SPR-MOD-002-003 \u2014 Journal & Ledger Posting",
+          "title": "SPR-MOD-002-003 — Journal & Ledger Posting",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting"
         },
         {
-          "title": "SPR-MOD-002-004 \u2014 Financial Statements",
+          "title": "SPR-MOD-002-004 — Financial Statements",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements"
         },
         {
-          "title": "SPR-MOD-002-005 \u2014 Taxation & Compliance Foundation",
+          "title": "SPR-MOD-002-005 — Taxation & Compliance Foundation",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation"
         },
         {
-          "title": "SPR-MOD-002-006 \u2014 Period Close & Audit",
+          "title": "SPR-MOD-002-006 — Period Close & Audit",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit"
         },
         {
@@ -976,31 +976,31 @@
           "path": "30-sprint-prds/sales/README"
         },
         {
-          "title": "MOD-003 Sales \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-003 Sales — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/sales/MOD-003_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-003-001 \u2014 Sales Foundation",
+          "title": "SPR-MOD-003-001 — Sales Foundation",
           "path": "30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation"
         },
         {
-          "title": "SPR-MOD-003-002 \u2014 Quotations & Sales Orders",
+          "title": "SPR-MOD-003-002 — Quotations & Sales Orders",
           "path": "30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders"
         },
         {
-          "title": "SPR-MOD-003-003 \u2014 Delivery & Fulfillment",
+          "title": "SPR-MOD-003-003 — Delivery & Fulfillment",
           "path": "30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment"
         },
         {
-          "title": "SPR-MOD-003-004 \u2014 Sales Invoicing",
+          "title": "SPR-MOD-003-004 — Sales Invoicing",
           "path": "30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing"
         },
         {
-          "title": "SPR-MOD-003-005 \u2014 Returns & Customer Adjustments",
+          "title": "SPR-MOD-003-005 — Returns & Customer Adjustments",
           "path": "30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments"
         },
         {
-          "title": "SPR-MOD-003-006 \u2014 Sales Analytics & Controls",
+          "title": "SPR-MOD-003-006 — Sales Analytics & Controls",
           "path": "30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls"
         },
         {
@@ -1008,31 +1008,31 @@
           "path": "30-sprint-prds/purchase/README"
         },
         {
-          "title": "MOD-004 Purchase \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-004 Purchase — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/purchase/MOD-004_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-004-001 \u2014 Purchase Foundation",
+          "title": "SPR-MOD-004-001 — Purchase Foundation",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation"
         },
         {
-          "title": "SPR-MOD-004-002 \u2014 Requisitions, RFQs & Purchase Orders",
+          "title": "SPR-MOD-004-002 — Requisitions, RFQs & Purchase Orders",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders"
         },
         {
-          "title": "SPR-MOD-004-003 \u2014 Goods Receipt & Inspection",
+          "title": "SPR-MOD-004-003 — Goods Receipt & Inspection",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection"
         },
         {
-          "title": "SPR-MOD-004-004 \u2014 Vendor Billing & Commercial 3-Way Match",
+          "title": "SPR-MOD-004-004 — Vendor Billing & Commercial 3-Way Match",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match"
         },
         {
-          "title": "SPR-MOD-004-005 \u2014 Purchase Returns & Vendor Adjustments",
+          "title": "SPR-MOD-004-005 — Purchase Returns & Vendor Adjustments",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments"
         },
         {
-          "title": "SPR-MOD-004-006 \u2014 Purchase Analytics & Controls",
+          "title": "SPR-MOD-004-006 — Purchase Analytics & Controls",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls"
         },
         {
@@ -1040,31 +1040,31 @@
           "path": "30-sprint-prds/inventory/README"
         },
         {
-          "title": "MOD-005 Inventory \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-005 Inventory — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/inventory/MOD-005_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-005-001 \u2014 Inventory Foundation",
+          "title": "SPR-MOD-005-001 — Inventory Foundation",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation"
         },
         {
-          "title": "SPR-MOD-005-002 \u2014 Inventory Receipts & Putaway",
+          "title": "SPR-MOD-005-002 — Inventory Receipts & Putaway",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway"
         },
         {
-          "title": "SPR-MOD-005-003 \u2014 Inventory Issues, Transfers & Reservations",
+          "title": "SPR-MOD-005-003 — Inventory Issues, Transfers & Reservations",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations"
         },
         {
-          "title": "SPR-MOD-005-004 \u2014 Inventory Adjustments & Stock Counting",
+          "title": "SPR-MOD-005-004 — Inventory Adjustments & Stock Counting",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting"
         },
         {
-          "title": "SPR-MOD-005-005 \u2014 Inventory Valuation & Replenishment",
+          "title": "SPR-MOD-005-005 — Inventory Valuation & Replenishment",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment"
         },
         {
-          "title": "SPR-MOD-005-006 \u2014 Inventory Analytics & Operational Controls",
+          "title": "SPR-MOD-005-006 — Inventory Analytics & Operational Controls",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls"
         },
         {
@@ -1072,31 +1072,31 @@
           "path": "30-sprint-prds/crm/README"
         },
         {
-          "title": "MOD-006 CRM \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-006 CRM — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/crm/MOD-006_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-006-001 \u2014 CRM Foundation",
+          "title": "SPR-MOD-006-001 — CRM Foundation",
           "path": "30-sprint-prds/crm/SPR-MOD-006-001-crm-foundation"
         },
         {
-          "title": "SPR-MOD-006-002 \u2014 Leads",
+          "title": "SPR-MOD-006-002 — Leads",
           "path": "30-sprint-prds/crm/SPR-MOD-006-002-leads"
         },
         {
-          "title": "SPR-MOD-006-003 \u2014 Opportunities",
+          "title": "SPR-MOD-006-003 — Opportunities",
           "path": "30-sprint-prds/crm/SPR-MOD-006-003-opportunities"
         },
         {
-          "title": "SPR-MOD-006-004 \u2014 Activities & Communications",
+          "title": "SPR-MOD-006-004 — Activities & Communications",
           "path": "30-sprint-prds/crm/SPR-MOD-006-004-activities-communications"
         },
         {
-          "title": "SPR-MOD-006-005 \u2014 Campaigns",
+          "title": "SPR-MOD-006-005 — Campaigns",
           "path": "30-sprint-prds/crm/SPR-MOD-006-005-campaigns"
         },
         {
-          "title": "SPR-MOD-006-006 \u2014 Customer 360 & Analytics",
+          "title": "SPR-MOD-006-006 — Customer 360 & Analytics",
           "path": "30-sprint-prds/crm/SPR-MOD-006-006-customer-360-analytics"
         },
         {
@@ -1104,31 +1104,31 @@
           "path": "30-sprint-prds/hrms/README"
         },
         {
-          "title": "MOD-007 HRMS \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-007 HRMS — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/hrms/MOD-007_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-007-001 \u2014 HRMS Foundation & Employee Master",
+          "title": "SPR-MOD-007-001 — HRMS Foundation & Employee Master",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master"
         },
         {
-          "title": "SPR-MOD-007-002 \u2014 Employment Lifecycle (Hire & Exit)",
+          "title": "SPR-MOD-007-002 — Employment Lifecycle (Hire & Exit)",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit"
         },
         {
-          "title": "SPR-MOD-007-003 \u2014 Attendance & Leave",
+          "title": "SPR-MOD-007-003 — Attendance & Leave",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave"
         },
         {
-          "title": "SPR-MOD-007-004 \u2014 Performance & Appraisal",
+          "title": "SPR-MOD-007-004 — Performance & Appraisal",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal"
         },
         {
-          "title": "SPR-MOD-007-005 \u2014 Learning & Development and Self-Service",
+          "title": "SPR-MOD-007-005 — Learning & Development and Self-Service",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service"
         },
         {
-          "title": "SPR-MOD-007-006 \u2014 HR Analytics & Compliance",
+          "title": "SPR-MOD-007-006 — HR Analytics & Compliance",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance"
         },
         {
@@ -1136,31 +1136,31 @@
           "path": "30-sprint-prds/payroll/README"
         },
         {
-          "title": "MOD-008 Payroll \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-008 Payroll — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/payroll/MOD-008_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-008-001 \u2014 Payroll Foundation & Salary Structures",
+          "title": "SPR-MOD-008-001 — Payroll Foundation & Salary Structures",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures"
         },
         {
-          "title": "SPR-MOD-008-002 \u2014 Payroll Cycles & Runs",
+          "title": "SPR-MOD-008-002 — Payroll Cycles & Runs",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs"
         },
         {
-          "title": "SPR-MOD-008-003 \u2014 Statutory Computations",
+          "title": "SPR-MOD-008-003 — Statutory Computations",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations"
         },
         {
-          "title": "SPR-MOD-008-004 \u2014 Reimbursements & Advances",
+          "title": "SPR-MOD-008-004 — Reimbursements & Advances",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances"
         },
         {
-          "title": "SPR-MOD-008-005 \u2014 Payslip Generation & Disbursement",
+          "title": "SPR-MOD-008-005 — Payslip Generation & Disbursement",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement"
         },
         {
-          "title": "SPR-MOD-008-006 \u2014 Payroll Analytics & Compliance",
+          "title": "SPR-MOD-008-006 — Payroll Analytics & Compliance",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance"
         },
         {
@@ -1168,31 +1168,31 @@
           "path": "30-sprint-prds/manufacturing/README"
         },
         {
-          "title": "MOD-009 Manufacturing \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-009 Manufacturing — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-009-001 \u2014 Manufacturing Foundation (BOM & Routing)",
+          "title": "SPR-MOD-009-001 — Manufacturing Foundation (BOM & Routing)",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing"
         },
         {
-          "title": "SPR-MOD-009-002 \u2014 Production Planning & Scheduling",
+          "title": "SPR-MOD-009-002 — Production Planning & Scheduling",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-002-production-planning-and-scheduling"
         },
         {
-          "title": "SPR-MOD-009-003 \u2014 Work Orders & Shopfloor Execution",
+          "title": "SPR-MOD-009-003 — Work Orders & Shopfloor Execution",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution"
         },
         {
-          "title": "SPR-MOD-009-004 \u2014 Sub-contracting",
+          "title": "SPR-MOD-009-004 — Sub-contracting",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-004-sub-contracting"
         },
         {
-          "title": "SPR-MOD-009-005 \u2014 Quality, Yield & Scrap",
+          "title": "SPR-MOD-009-005 — Quality, Yield & Scrap",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap"
         },
         {
-          "title": "SPR-MOD-009-006 \u2014 Manufacturing Analytics & Compliance",
+          "title": "SPR-MOD-009-006 — Manufacturing Analytics & Compliance",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance"
         },
         {
@@ -1200,27 +1200,27 @@
           "path": "30-sprint-prds/projects/README"
         },
         {
-          "title": "MOD-010 Projects \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-010 Projects — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/projects/MOD-010_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-010-001 \u2014 Projects Foundation (Project & Resource Setup)",
+          "title": "SPR-MOD-010-001 — Projects Foundation (Project & Resource Setup)",
           "path": "30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup"
         },
         {
-          "title": "SPR-MOD-010-002 \u2014 Tasks, Milestones & Change Requests",
+          "title": "SPR-MOD-010-002 — Tasks, Milestones & Change Requests",
           "path": "30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests"
         },
         {
-          "title": "SPR-MOD-010-003 \u2014 Timesheets & Effort",
+          "title": "SPR-MOD-010-003 — Timesheets & Effort",
           "path": "30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort"
         },
         {
-          "title": "SPR-MOD-010-004 \u2014 Budgets, Costs & Project Billing",
+          "title": "SPR-MOD-010-004 — Budgets, Costs & Project Billing",
           "path": "30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing"
         },
         {
-          "title": "SPR-MOD-010-005 \u2014 Projects Analytics & Compliance",
+          "title": "SPR-MOD-010-005 — Projects Analytics & Compliance",
           "path": "30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance"
         },
         {
@@ -1228,23 +1228,23 @@
           "path": "30-sprint-prds/amc/README"
         },
         {
-          "title": "MOD-011 AMC \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-011 AMC — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/amc/MOD-011_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-011-001 \u2014 AMC Foundation (Contracts & Entitlements)",
+          "title": "SPR-MOD-011-001 — AMC Foundation (Contracts & Entitlements)",
           "path": "30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements"
         },
         {
-          "title": "SPR-MOD-011-002 \u2014 Preventive Visit Scheduling",
+          "title": "SPR-MOD-011-002 — Preventive Visit Scheduling",
           "path": "30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling"
         },
         {
-          "title": "SPR-MOD-011-003 \u2014 Contract Billing & Renewals",
+          "title": "SPR-MOD-011-003 — Contract Billing & Renewals",
           "path": "30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals"
         },
         {
-          "title": "SPR-MOD-011-004 \u2014 AMC Analytics & Compliance",
+          "title": "SPR-MOD-011-004 — AMC Analytics & Compliance",
           "path": "30-sprint-prds/amc/SPR-MOD-011-004-amc-analytics-and-compliance"
         },
         {
@@ -1252,27 +1252,27 @@
           "path": "30-sprint-prds/field-service/README"
         },
         {
-          "title": "MOD-012 Field Service \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-012 Field Service — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/field-service/MOD-012_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-012-001 \u2014 Field Service Foundation (Tickets & Field Workforce)",
+          "title": "SPR-MOD-012-001 — Field Service Foundation (Tickets & Field Workforce)",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce"
         },
         {
-          "title": "SPR-MOD-012-002 \u2014 Dispatch & Scheduling",
+          "title": "SPR-MOD-012-002 — Dispatch & Scheduling",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling"
         },
         {
-          "title": "SPR-MOD-012-003 \u2014 Mobile Visit Execution (Spares, Signatures, Closure)",
+          "title": "SPR-MOD-012-003 — Mobile Visit Execution (Spares, Signatures, Closure)",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure"
         },
         {
-          "title": "SPR-MOD-012-004 \u2014 SLA & Escalation",
+          "title": "SPR-MOD-012-004 — SLA & Escalation",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation"
         },
         {
-          "title": "SPR-MOD-012-005 \u2014 Field Service Analytics & Compliance",
+          "title": "SPR-MOD-012-005 — Field Service Analytics & Compliance",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance"
         },
         {
@@ -1280,23 +1280,23 @@
           "path": "30-sprint-prds/assets/README"
         },
         {
-          "title": "MOD-013 Assets \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-013 Assets — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/assets/MOD-013_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-013-001 \u2014 Asset Foundation (Register, Capitalization & Insurance)",
+          "title": "SPR-MOD-013-001 — Asset Foundation (Register, Capitalization & Insurance)",
           "path": "30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance"
         },
         {
-          "title": "SPR-MOD-013-002 \u2014 Depreciation (Methods & Runs)",
+          "title": "SPR-MOD-013-002 — Depreciation (Methods & Runs)",
           "path": "30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs"
         },
         {
-          "title": "SPR-MOD-013-003 \u2014 Maintenance, Transfer & Disposal",
+          "title": "SPR-MOD-013-003 — Maintenance, Transfer & Disposal",
           "path": "30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal"
         },
         {
-          "title": "SPR-MOD-013-004 \u2014 Assets Analytics & Compliance",
+          "title": "SPR-MOD-013-004 — Assets Analytics & Compliance",
           "path": "30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance"
         },
         {
@@ -1304,23 +1304,23 @@
           "path": "30-sprint-prds/fleet/README"
         },
         {
-          "title": "MOD-014 Fleet \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-014 Fleet — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/fleet/MOD-014_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-014-001 \u2014 Fleet Foundation (Vehicles, Drivers, Compliance & Insurance)",
+          "title": "SPR-MOD-014-001 — Fleet Foundation (Vehicles, Drivers, Compliance & Insurance)",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance"
         },
         {
-          "title": "SPR-MOD-014-002 \u2014 Trip Planning & Execution",
+          "title": "SPR-MOD-014-002 — Trip Planning & Execution",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution"
         },
         {
-          "title": "SPR-MOD-014-003 \u2014 Fuel & Maintenance",
+          "title": "SPR-MOD-014-003 — Fuel & Maintenance",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance"
         },
         {
-          "title": "SPR-MOD-014-004 \u2014 Fleet Analytics & Compliance",
+          "title": "SPR-MOD-014-004 — Fleet Analytics & Compliance",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance"
         },
         {
@@ -1328,27 +1328,27 @@
           "path": "30-sprint-prds/pos/README"
         },
         {
-          "title": "MOD-015 POS \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-015 POS — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/pos/MOD-015_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-015-001 \u2014 POS Foundation (Stores, Counters & Configuration)",
+          "title": "SPR-MOD-015-001 — POS Foundation (Stores, Counters & Configuration)",
           "path": "30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration"
         },
         {
-          "title": "SPR-MOD-015-002 \u2014 Cart, Pricing, Discounts & Offline Sale",
+          "title": "SPR-MOD-015-002 — Cart, Pricing, Discounts & Offline Sale",
           "path": "30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale"
         },
         {
-          "title": "SPR-MOD-015-003 \u2014 Multi-Tender Payments & Receipts",
+          "title": "SPR-MOD-015-003 — Multi-Tender Payments & Receipts",
           "path": "30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts"
         },
         {
-          "title": "SPR-MOD-015-004 \u2014 Offers, Loyalty & Returns",
+          "title": "SPR-MOD-015-004 — Offers, Loyalty & Returns",
           "path": "30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns"
         },
         {
-          "title": "SPR-MOD-015-005 \u2014 Day Close, Analytics & Compliance",
+          "title": "SPR-MOD-015-005 — Day Close, Analytics & Compliance",
           "path": "30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance"
         },
         {
@@ -1356,27 +1356,27 @@
           "path": "30-sprint-prds/service-desk/README"
         },
         {
-          "title": "MOD-016 Service Desk \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-016 Service Desk — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-016-001 \u2014 Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing)",
+          "title": "SPR-MOD-016-001 — Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing)",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION"
         },
         {
-          "title": "SPR-MOD-016-002 \u2014 Ticket Capture & Lifecycle",
+          "title": "SPR-MOD-016-002 — Ticket Capture & Lifecycle",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE"
         },
         {
-          "title": "SPR-MOD-016-003 \u2014 SLA Enforcement & Escalations",
+          "title": "SPR-MOD-016-003 — SLA Enforcement & Escalations",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS"
         },
         {
-          "title": "SPR-MOD-016-004 \u2014 Knowledge Base, Macros & CSAT",
+          "title": "SPR-MOD-016-004 — Knowledge Base, Macros & CSAT",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT"
         },
         {
-          "title": "SPR-MOD-016-005 \u2014 Service Analytics & Compliance",
+          "title": "SPR-MOD-016-005 — Service Analytics & Compliance",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE"
         },
         {
@@ -1384,24 +1384,28 @@
           "path": "30-sprint-prds/analytics/README"
         },
         {
-          "title": "MOD-017 Analytics \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-017 Analytics — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/analytics/MOD-017_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-017-001 \u2014 Analytics Foundation & Data Marts",
+          "title": "SPR-MOD-017-001 — Analytics Foundation & Data Marts",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS"
         },
         {
-          "title": "SPR-MOD-017-002 \u2014 KPI Framework & Metric Catalog",
+          "title": "SPR-MOD-017-002 — KPI Framework & Metric Catalog",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG"
         },
         {
-          "title": "SPR-MOD-017-003 \u2014 Dashboards & Visualization",
+          "title": "SPR-MOD-017-003 — Dashboards & Visualization",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION"
         },
         {
-          "title": "SPR-MOD-017-004 \u2014 Scheduled Distribution, Reporting & Export",
+          "title": "SPR-MOD-017-004 — Scheduled Distribution, Reporting & Export",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT"
+        },
+        {
+          "title": "SPR-MOD-017-005 — Analytical Models & Cross-Module Analytics",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS"
         },
         {
           "title": "MOD-018 AI Workspace",
@@ -1412,31 +1416,31 @@
           "path": "30-sprint-prds/warehouse/README"
         },
         {
-          "title": "MOD-019 \u2014 Sprint Plan (Stage 1)",
+          "title": "MOD-019 — Sprint Plan (Stage 1)",
           "path": "30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-019-001 \u2014 Warehouse Foundation",
+          "title": "SPR-MOD-019-001 — Warehouse Foundation",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation"
         },
         {
-          "title": "SPR-MOD-019-002 \u2014 Inbound Execution",
+          "title": "SPR-MOD-019-002 — Inbound Execution",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution"
         },
         {
-          "title": "SPR-MOD-019-003 \u2014 Storage & Slotting",
+          "title": "SPR-MOD-019-003 — Storage & Slotting",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting"
         },
         {
-          "title": "SPR-MOD-019-004 \u2014 Outbound Execution",
+          "title": "SPR-MOD-019-004 — Outbound Execution",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-004-outbound-execution"
         },
         {
-          "title": "SPR-MOD-019-005 \u2014 Yard, Dock & Load-Out",
+          "title": "SPR-MOD-019-005 — Yard, Dock & Load-Out",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-005-yard-dock-load-out"
         },
         {
-          "title": "SPR-MOD-019-006 \u2014 Warehouse Labor, Equipment & Analytics",
+          "title": "SPR-MOD-019-006 — Warehouse Labor, Equipment & Analytics",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-006-warehouse-labor-equipment-analytics"
         }
       ]
