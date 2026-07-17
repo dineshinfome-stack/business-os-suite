@@ -1420,6 +1420,10 @@
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION"
         },
         {
+          "title": "SPR-MOD-018-002 — Retrieval Workspaces (RAG)",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG"
+        },
+        {
           "title": "MOD-019 Warehouse",
           "path": "30-sprint-prds/warehouse/README"
         },
