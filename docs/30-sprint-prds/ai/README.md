@@ -26,19 +26,23 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-018-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-018-001`, `SPR-MOD-018-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Sprint Plan (Stage 1)
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The authoritative sprint sequence for MOD-018 is defined by [`MOD-018_SPRINT_PLAN.md`](./MOD-018_SPRINT_PLAN.md) (Stage 1 — GT-002).
+
+## Planned Sprints
+
+> Each row represents a planning reservation from the approved Sprint Plan. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-018-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-018)_ | Planned | _(to be defined)_ |
-| SPR-MOD-018-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-018)_ | Planned | _(to be defined)_ |
-| SPR-MOD-018-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-018)_ | Planned | _(to be defined)_ |
-| SPR-MOD-018-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-018)_ | Planned | _(to be defined)_ |
-| SPR-MOD-018-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-018)_ | Planned | _(to be defined)_ |
+| SPR-MOD-018-001 | Sprint 1 | Prompt Library & AI Workspace Foundation | Planned | — |
+| SPR-MOD-018-002 | Sprint 2 | Retrieval Workspaces (RAG) | Planned | SPR-MOD-018-001 |
+| SPR-MOD-018-003 | Sprint 3 | Tool Calling on Module Capabilities | Planned | SPR-MOD-018-001, SPR-MOD-018-002 |
+| SPR-MOD-018-004 | Sprint 4 | Copilot Surfaces & Conversations | Planned | SPR-MOD-018-001, SPR-MOD-018-002, SPR-MOD-018-003 |
+| SPR-MOD-018-005 | Sprint 5 | Governance: Human-Approval Gates, Cost & Safety | Planned | SPR-MOD-018-001, SPR-MOD-018-002, SPR-MOD-018-003, SPR-MOD-018-004 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5** and is preserved by the Sprint Plan.
 
 ## Authoring Rules
 
