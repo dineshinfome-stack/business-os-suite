@@ -94,3 +94,30 @@ Include `previous_audit_report_id` only if declared by GT-003. Defer to template
 - Pass 17.0.2 — GT-003 Sprint 002 for MOD-015 POS
 - Continue Sprints 003–005 → GT-004 Baseline → GT-005 Publication
 - Optional OR/RR/SR reviews per cadence
+
+---
+
+## Execution Record — Pass 17.0.1
+
+```yaml
+execution_status: READY_FOR_STAGE_2
+template: GT-003
+template_version: v1.0
+module: MOD-015 POS
+sprint: SPR-MOD-015-001 (POS Foundation — Stores, Counters & Configuration)
+next_template: GT-003
+next_target: SPR-MOD-015-002 (Cart, Pricing, Discounts & Offline Sale)
+handoff_state: READY
+execution_id: GT003-MOD015-001-20260716T034000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T033000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T034000Z
+repository_revision_after: allocated
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0 Step 2>
+deliverables:
+  - docs/30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md
+  - docs/30-sprint-prds/pos/README.md (Sprint 001 registered)
+  - docs/SPRINT_CATALOG.md (Sprint 001 registered)
+  - docs/DOCUMENT_INDEX.md (Sprint 001 registered)
+  - docs/_meta.json (Sprint 001 registered; JSON valid)
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T034000Z.md (19/19 PASS; Repository READY)
+```
