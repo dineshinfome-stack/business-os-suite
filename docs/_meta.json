@@ -1592,6 +1592,10 @@
           "path": "60-solution-design/web/WEB-001_ANALYTICS"
         },
         {
+          "title": "WEB-002 — AI Workspace",
+          "path": "60-solution-design/web/WEB-002_AI_WORKSPACE"
+        },
+        {
           "title": "MOB Specifications — Index",
           "path": "60-solution-design/mobile/README"
         },
