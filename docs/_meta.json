@@ -1428,6 +1428,10 @@
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES"
         },
         {
+          "title": "SPR-MOD-018-004 — Copilot Surfaces & Conversations",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS"
+        },
+        {
           "title": "MOD-019 Warehouse",
           "path": "30-sprint-prds/warehouse/README"
         },
