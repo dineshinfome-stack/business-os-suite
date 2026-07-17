@@ -80,3 +80,22 @@ Include `previous_audit_report_id` only if declared by released GT-003.
 ## Roadmap
 - Pass 16.1.0 — GT-004 Baseline Consolidation
 - Pass 16.1.1 — GT-005 Publication
+
+---
+
+## Execution Record — Pass 16.0.4
+
+```yaml
+execution_status: READY_FOR_BASELINE
+template: GT-003
+template_version: v1.0
+module: MOD-014 Fleet
+sprint_id: SPR-MOD-014-004
+next_template: GT-004
+next_target: MOD-014 Fleet Baseline Consolidation (Pass 16.1.0)
+handoff_state: READY
+execution_id: GT003-MOD014-004-20260716T030000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T029000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T030000Z
+mod_014_stage_2_progress: 4/4 sprints complete
+```
