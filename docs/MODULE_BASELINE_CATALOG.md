@@ -52,6 +52,7 @@ A future `Stage` column (Planning / Authoring / Baseline) MAY be introduced once
 | MOD013_ASSETS_BASELINE_v1 | MOD-013 Assets | 1.0 | Baseline | `docs/20-module-prds/assets/MODULE_PRD.md` | SPR-MOD-013-001 … SPR-MOD-013-004 | [`40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`](40-module-baselines/MOD013_ASSETS_BASELINE_v1.md) |
 | MOD014_FLEET_BASELINE_v1 | MOD-014 Fleet | 1.0 | Baseline | `docs/20-module-prds/fleet/MODULE_PRD.md` | SPR-MOD-014-001 … SPR-MOD-014-004 | [`40-module-baselines/MOD014_FLEET_BASELINE_v1.md`](40-module-baselines/MOD014_FLEET_BASELINE_v1.md) |
 | MOD015_POS_BASELINE_v1 | MOD-015 POS | 1.0 | Baseline | `docs/20-module-prds/pos/MODULE_PRD.md` | SPR-MOD-015-001 … SPR-MOD-015-005 | [`40-module-baselines/MOD015_POS_BASELINE_v1.md`](40-module-baselines/MOD015_POS_BASELINE_v1.md) |
+| MOD016_SERVICE_DESK_BASELINE_v1 | MOD-016 Service Desk | 1.0 | Baseline | `docs/20-module-prds/service-desk/MODULE_PRD.md` | SPR-MOD-016-001 … SPR-MOD-016-005 | [`40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1.md`](40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1.md) |
 
 ## References
 
