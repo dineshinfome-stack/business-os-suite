@@ -1604,6 +1604,10 @@
           "path": "60-solution-design/mobile/MOB-001_ANALYTICS"
         },
         {
+          "title": "MOB-002 — AI Workspace",
+          "path": "60-solution-design/mobile/MOB-002_AI_WORKSPACE"
+        },
+        {
           "title": "API Specifications — Index",
           "path": "60-solution-design/api/README"
         },
