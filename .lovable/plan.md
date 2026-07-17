@@ -97,3 +97,28 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 17.0.4 — GT-003 Sprint 004 for MOD-015 POS
 - Continue remaining GT-003 sprints → GT-004 Baseline Consolidation → GT-005 Publication
 - Optional OR / RR / SR read-only governance reviews per established cadence
+
+---
+
+## Execution Record — Pass 17.0.3 (completed)
+
+```yaml
+execution_status: READY_FOR_STAGE_2
+template: GT-003
+template_version: v1.0
+module: MOD-015 POS
+sprint: SPR-MOD-015-003 — Multi-Tender Payments & Receipts
+next_template: GT-003
+next_target: <resolved dynamically according to the released GT-003 lifecycle>
+handoff_state: READY
+execution_id: GT003-MOD015-003-20260717T010000Z-001
+parent_result_id: GT003-MOD015-002-20260717T000000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T010000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T000000Z
+artifact: docs/30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts.md
+registration_surfaces_updated:
+  - docs/30-sprint-prds/pos/README.md
+  - docs/SPRINT_CATALOG.md
+  - docs/DOCUMENT_INDEX.md
+  - docs/_meta.json
+```
