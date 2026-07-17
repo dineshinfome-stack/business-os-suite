@@ -32,7 +32,7 @@ The authoritative Stage 1 Sprint Plan for this module is [`MOD-016_SPRINT_PLAN.m
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-016-001 | Sprint 1 | Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing) | Reserved | — |
+| SPR-MOD-016-001 | Sprint 1 | Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing) | Draft — [`sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md`](./sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md) | — |
 | SPR-MOD-016-002 | Sprint 2 | Ticket Capture & Lifecycle | Reserved | SPR-MOD-016-001 |
 | SPR-MOD-016-003 | Sprint 3 | SLA Enforcement & Escalations | Reserved | SPR-MOD-016-001, SPR-MOD-016-002 |
 | SPR-MOD-016-004 | Sprint 4 | Knowledge Base, Macros & CSAT | Reserved | SPR-MOD-016-001, SPR-MOD-016-002 |

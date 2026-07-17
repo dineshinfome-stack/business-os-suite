@@ -121,6 +121,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-015-003 | Sprint 3 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts.md`](30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts.md) | Revenue |
 | SPR-MOD-015-004 | Sprint 4 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns.md`](30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns.md) | Revenue |
 | SPR-MOD-015-005 | Sprint 5 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance.md`](30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance.md) | Revenue |
+| SPR-MOD-016-001 | Sprint 1 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION.md) | Service |
 
 
 

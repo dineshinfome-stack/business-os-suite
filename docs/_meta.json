@@ -1360,6 +1360,10 @@
           "path": "30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-016-001 \u2014 Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing)",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION"
+        },
+        {
           "title": "MOD-017 Analytics",
           "path": "30-sprint-prds/analytics/README"
         },
