@@ -1320,6 +1320,10 @@
           "path": "30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance"
         },
         {
+          "title": "SPR-MOD-014-004 \u2014 Fleet Analytics & Compliance",
+          "path": "30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance"
+        },
+        {
           "title": "MOD-015 POS",
           "path": "30-sprint-prds/pos/README"
         },

@@ -124,6 +124,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-014-001 — Fleet Foundation (Vehicles, Drivers, Compliance & Insurance) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/fleet/SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance.md` |
 | SPR-MOD-014-002 — Trip Planning & Execution | Delivery | Draft | Authoritative | `docs/30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution.md` |
 | SPR-MOD-014-003 — Fuel & Maintenance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance.md` |
+| SPR-MOD-014-004 — Fleet Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 

@@ -39,7 +39,7 @@ The Stage 1 Sprint Plan for MOD-014 Fleet is authored at [`MOD-014_SPRINT_PLAN.m
 | [SPR-MOD-014-001](./SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance.md) | Sprint 1 | Fleet Foundation (Vehicles, Drivers, Compliance & Insurance) | Draft | MOD-001, MOD-002 baselines |
 | [SPR-MOD-014-002](./SPR-MOD-014-002-trip-planning-and-execution.md) | Sprint 2 | Trip Planning & Execution | Draft | SPR-MOD-014-001 |
 | [SPR-MOD-014-003](./SPR-MOD-014-003-fuel-and-maintenance.md) | Sprint 3 | Fuel & Maintenance | Draft | SPR-MOD-014-001, SPR-MOD-014-002 |
-| SPR-MOD-014-004 | Sprint 4 | Fleet Analytics & Compliance | Reserved | SPR-MOD-014-001, SPR-MOD-014-002, SPR-MOD-014-003 |
+| [SPR-MOD-014-004](./SPR-MOD-014-004-fleet-analytics-and-compliance.md) | Sprint 4 | Fleet Analytics & Compliance | Draft | SPR-MOD-014-001, SPR-MOD-014-002, SPR-MOD-014-003 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**; this reservation set aligns to **4**.
 
