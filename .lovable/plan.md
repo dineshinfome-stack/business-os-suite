@@ -60,3 +60,26 @@ audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
 repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
+
+## Execution Record — Pass 17.0.4
+
+```
+execution_status: READY_FOR_STAGE_2
+template: GT-003
+template_version: v1.0
+module: MOD-015 POS
+sprint: SPR-MOD-015-004 — Offers, Loyalty & Returns
+next_template: GT-003
+next_target: SPR-MOD-015-005 — Day Close, Analytics & Compliance
+handoff_state: READY
+execution_id: GT003-MOD015-004-20260717T020000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T020000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T010000Z
+repository_revision_after: pass-17.0.4
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0>
+```
+
+- Sprint PRD authored: `docs/30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns.md`
+- Registration surfaces updated: `docs/30-sprint-prds/pos/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (JSON-valid).
+- Audit emitted: `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T020000Z.md` (19/19 PASS; Repository READY).
+- Key allocations recapitulated (not evolved): Offer & Loyalty Program Master Authority; POS Return Transaction & Return-Window Authority; `OfferPublished` consumption / `POSReturnProcessed` publication; Loyalty-platform integration via `ENG-023`; ledger effects remain owned by MOD-002 via `POSReturnProcessed`; payment reversal execution remains owned by SPR-MOD-015-003.
