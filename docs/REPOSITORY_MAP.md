@@ -133,6 +133,13 @@ docs/
 - **Purpose:** Frozen Module Baselines produced at Stage 3 of the module implementation workflow. Consolidates the Sprint PRDs delivered, the engines and ADRs consumed, and freezes the module for downstream consumption.
 - **Authority:** Authoritative and versioned. Future changes require a new baseline revision (e.g. `_v2`) rather than in-place edits. `MODULE_BASELINE_CATALOG.md` is the derived index.
 
+### Solution Design (Phase 3)
+
+- **Path:** `docs/60-solution-design/` (framework charter `README.md`, `SOLUTION_DESIGN_CATALOG.md`, and family folders `web/`, `mobile/`, `api/`)
+- **Owner:** Architecture Office
+- **Purpose:** Phase 3 platform specifications (WEB / MOB / API). Each specification derives exclusively from a Published Module and introduces no business requirements.
+- **Authority:** Authoritative for platform design; consumes GT-002 → GT-005 artifacts read-only. `SOLUTION_DESIGN_CATALOG.md` is the derived registration index.
+
 ### Reference Documents
 
 - **Path:** `docs/06-integrations/`, `docs/07-reports/`, `docs/08-business-rules/`, `docs/09-ai/`, `docs/11-erd/`, `docs/12-ui-components/`, `docs/13-workflows/`, `docs/14-localization/`, `docs/99-templates/`
