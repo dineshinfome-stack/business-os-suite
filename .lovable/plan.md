@@ -95,3 +95,27 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 17.0.3 — GT-003 Sprint 003 for MOD-015 POS
 - Continue remaining GT-003 sprints → GT-004 Baseline Consolidation → GT-005 Publication
 - Optional OR / RR / SR read-only governance reviews per established cadence
+
+---
+
+## Pass 17.0.2 — Execution Record
+
+```yaml
+execution_status: READY_FOR_STAGE_2
+template: GT-003
+template_version: v1.0
+module: MOD-015 POS
+sprint: SPR-MOD-015-002 — Cart, Pricing, Discounts & Offline Sale
+next_template: GT-003
+next_target: <resolved dynamically according to the released GT-003 lifecycle>
+handoff_state: READY
+execution_id: GT003-MOD015-002-20260717T000000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T000000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T034000Z
+repository_revision_after: <allocated>
+snapshot_digest: <allocated>
+```
+
+- Artifact: `docs/30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale.md`
+- Registration surfaces updated: `docs/30-sprint-prds/pos/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- Audit: `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T000000Z.md` (19/19 PASS; Repository READY)
