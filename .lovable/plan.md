@@ -96,3 +96,13 @@ Include `previous_audit_report_id` only if declared by released GT-004 template.
 - Pass 15.1.1 — GT-005 Publication of MOD013_ASSETS_BASELINE_v1 (activates when GT-004 handoff resolves to publication readiness)
 - Pass 16.0.0 — GT-002 Stage 1 for next unpublished module (resolved dynamically)
 - Optional OR / RR / SR read-only reviews per established cadence
+
+## Execution Record — Pass 15.1.0 (2026-07-16T02:40:00Z)
+
+- **Status:** COMPLETE — `READY_FOR_PUBLICATION`
+- **Template:** GT-004 v1.0 under Governance Framework v1.0 (Wrapper FROZEN v1.0)
+- **Artifact:** `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`
+- **Registration surfaces updated:** `docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- **Audit:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T024000Z.md` (18/18 PASS; Repository READY)
+- **Key consolidations:** 21 engines (ENG-015/016 excluded per ledger isolation); 2 ADRs (ADR-011, ADR-032); MOD-017 retains cross-module KPI ownership.
+- **Next:** Pass 15.1.1 — GT-005 Publication for `MOD013_ASSETS_BASELINE_v1`.
