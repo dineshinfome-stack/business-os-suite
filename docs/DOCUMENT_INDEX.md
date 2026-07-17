@@ -131,6 +131,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-015-003 — Multi-Tender Payments & Receipts | Delivery | Draft | Authoritative | `docs/30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts.md` |
 | SPR-MOD-015-004 — Offers, Loyalty & Returns | Delivery | Draft | Authoritative | `docs/30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns.md` |
 | SPR-MOD-015-005 — Day Close, Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance.md` |
+| MOD-016 Service Desk — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
