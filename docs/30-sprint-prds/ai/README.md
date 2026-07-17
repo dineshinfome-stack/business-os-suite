@@ -38,7 +38,7 @@ The authoritative sprint sequence for MOD-018 is defined by [`MOD-018_SPRINT_PLA
 | --- | --- | --- | --- | --- |
 | SPR-MOD-018-001 | Sprint 1 | Prompt Library & AI Workspace Foundation | Draft | — |
 | SPR-MOD-018-002 | Sprint 2 | Retrieval Workspaces (RAG) | Draft | SPR-MOD-018-001 |
-| SPR-MOD-018-003 | Sprint 3 | Tool Calling on Module Capabilities | Planned | SPR-MOD-018-001, SPR-MOD-018-002 |
+| SPR-MOD-018-003 | Sprint 3 | Tool Calling on Module Capabilities | Draft | SPR-MOD-018-001, SPR-MOD-018-002 |
 | SPR-MOD-018-004 | Sprint 4 | Copilot Surfaces & Conversations | Planned | SPR-MOD-018-001, SPR-MOD-018-002, SPR-MOD-018-003 |
 | SPR-MOD-018-005 | Sprint 5 | Governance: Human-Approval Gates, Cost & Safety | Planned | SPR-MOD-018-001, SPR-MOD-018-002, SPR-MOD-018-003, SPR-MOD-018-004 |
 
