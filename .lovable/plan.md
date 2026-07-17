@@ -1,67 +1,77 @@
-## Pass 23.0.4 — GT-003 Sprint 003 Authoring: MOD-018 AI Workspace (Tool Calling on Module Capabilities)
+## Pass 23.0.5 — GT-003 Sprint 004 Authoring: MOD-018 AI Workspace (Copilot Surfaces & Conversations)
 
-Author Sprint 003 following the pattern established by Sprints 001–002. Zero governance evolution, zero implementation, zero scope expansion.
+Execute GT-003 v1.0 authoring for **SPR-MOD-018-004**, deriving scope exclusively from the approved Module PRD and Sprint Plan §Sprint 004.
 
-### Preflight (read-only)
-- Verify `docs/20-module-prds/ai/MODULE_PRD.md`, `docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md`, Sprint 001 PRD, and Sprint 002 PRD all exist and are approved.
-- Confirm `REPOSITORY_AUDIT_20260718T010000Z` = READY.
-- Re-read Sprint Plan §Sprint 003 to extract exact authorities, engines, ADRs, events, configuration keys, and exit criteria.
+### 1. Preflight (verify, read-only)
+- `docs/20-module-prds/ai/MODULE_PRD.md` — approved.
+- `docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md` — approved.
+- Sprint 001, 002, 003 PRDs — exist, approved (dependency/traceability references only).
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T020000Z.md` — READY.
 
-### Deliverable
-Create `docs/30-sprint-prds/ai/sprints/SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES.md` using the GT-003 template, mirroring the Sprint 001/002 structure:
+### 2. Authoring
+Create `docs/30-sprint-prds/ai/sprints/SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS.md` mirroring Sprints 001–003 structure.
 
-1. Metadata
-2. Purpose & Scope
-3. Traceability (Module PRD §§, Sprint Plan §Sprint 003)
-4. Sprint 003 Authorities — derived verbatim from the approved Sprint Plan allocation for Tool Calling on Module Capabilities (Tool Definition master, AI Tool Call transaction, Tool-call-with-approval process).
-5. Business Processes — Tool-call-with-approval as allocated by the approved Module PRD and Sprint Plan. Any engine participation and ADR references shall be included only if explicitly allocated by the approved authoritative artifacts.
-6. Business Rules — governance-neutral wording, restated verbatim from the approved Module PRD where applicable (approval gate on AI-initiated state changes; versioning and audit of tool definitions; module-level authorization at tool-invocation time).
-7. Events — subset of the Module PRD §8 published-event union allocated to Sprint 003.
-8. Configuration — subset of Module PRD §10 keys allocated to Sprint 003 (approval policies and related toggles).
-9. Ownership & Dependencies — MOD-018 owns the Sprint 003 authorities exclusively; Sprint 001 and Sprint 002 artifacts referenced for traceability only; no ownership reassignment.
-10. Engines Consumed — subset of the MOD-018 engine union allocated to Sprint 003 by the approved artifacts.
-11. ADRs Consumed — subset of the MOD-018 ADR union allocated to Sprint 003 by the approved artifacts.
-12. Validations — using the released GT-003 validation model with dynamic rule binding. Do not hard-code validation identifiers or validation counts.
-13. Sprint Exit Criteria — verbatim from Sprint Plan §Sprint 003.
-14. References.
+**Authorities (Sprint Plan §Sprint 004, verbatim):**
+- AI Conversation transaction authority.
+- Prompt-to-response business process authority.
+- `AIConversationStarted` event publication authority.
+- Per-tenant copilot surface enablement (consumed from Sprint 001 configuration; no new authority).
 
-All engine/ADR/event/configuration lists must be subsets of the corresponding Module PRD unions.
+**Business Rules (governance-neutral, from Module PRD §7 subset applicable):**
+- Prompts and tool definitions consumed by conversations remain versioned and audited (inherited from 001/003 — restated read-only).
+- AI-provider integration occurs exclusively through the `ENG-028` provider abstraction.
 
-### Registration (GT-003 surfaces only)
-- `docs/30-sprint-prds/ai/README.md` — mark SPR-MOD-018-003 Draft
-- `docs/SPRINT_CATALOG.md` — register SPR-MOD-018-003
-- `docs/DOCUMENT_INDEX.md` — register SPR-MOD-018-003
-- `docs/_meta.json` — add navigation entry; validate JSON
+**Events published:** `AIConversationStarted`.
+**Events consumed:** module domain events as retrieval inputs (per Module PRD §8).
 
-### Audit & Execution Record
-- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` — Repository Audit PASS in accordance with the released Repository Audit specification, referencing `REPOSITORY_AUDIT_20260718T010000Z` as predecessor.
-- Append GT-003 execution record to `.lovable/plan.md` with `execution_status: COMPLETE`, `next_target: MOD-018 Sprint 004`, `handoff_state: READY`.
+**Configuration:** `Enabled surfaces per tenant` (consumed read-only; owned by Sprint 001).
 
-### Guardrails
-- Exclusive derivation from Module PRD + Sprint Plan; no Sprint 004–005 leakage (Copilot Surfaces and Governance/Safety remain untouched).
-- Governance-neutral business-rule wording.
-- No new authorities beyond the Sprint Plan §Sprint 003 allocation.
-- Bidirectional traceability preserved.
-- No implementation guidance, architectural redesign, or governance evolution.
+**Engines consumed (subset from Sprint Plan):** `ENG-002`, `ENG-004`, `ENG-005`, `ENG-006`, `ENG-017`, `ENG-024`, `ENG-028`, plus optional `ENG-025`, `ENG-007`, `ENG-008`.
 
-### Rollback
-On any post-registration failure, execute the released GT-003 Runtime Rollback: reverse registration updates, remove partial Sprint 003 artifacts, and restore the repository to its pre-execution state.
+**ADRs consumed:** `ADR-011`, `ADR-032`, `ADR-014`.
 
-### Completion
-Pass 23.0.4 COMPLETE → Repository READY → Next: GT-003 Sprint 004 Authoring (AI Conversations & Copilot Surfaces).
-### Execution Record — Pass 23.0.4 (GT-003 Sprint 003 Authoring, MOD-018)
+**Upstream sprint dependencies:** SPR-MOD-018-001, -002, -003.
+
+**Sprint Exit Criteria:** verbatim from Sprint Plan §Sprint 004.
+
+**Validations:** dynamic binding to GT-003 v1.0 validation model (no hard-coded VAL-IDs or counts).
+
+### 3. Registration
+- `docs/30-sprint-prds/ai/README.md` — mark SPR-MOD-018-004 as Draft.
+- `docs/SPRINT_CATALOG.md` — register Sprint 004.
+- `docs/DOCUMENT_INDEX.md` — register Sprint 004.
+- `docs/_meta.json` — add nav entry; validate JSON.
+
+### 4. Audit & Execution Record
+- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T030000Z.md`, referencing `REPOSITORY_AUDIT_20260718T020000Z` as predecessor, with **Repository Audit PASS** in accordance with the released Repository Audit specification.
+- Append GT-003 execution record to `.lovable/plan.md` with `execution_status: COMPLETE`, `next_target: MOD-018 Sprint 005`, `handoff_state: READY`.
+
+### 5. Guardrails
+- No Sprint 005 leakage (no AI Approval transaction, cost budgets, approval policies, safety governance, or AI reports).
+- Governance-neutral wording; no new authorities beyond Sprint Plan §Sprint 004; no implementation, architecture, or governance evolution.
+
+### 6. Rollback
+On post-registration failure, execute GT-003 Runtime Rollback: reverse registrations, remove Sprint 004 artifact, restore pre-execution state.
+
+### 7. Completion
+Repository READY for **GT-003 Sprint 005 Authoring** (AI Governance, Approval Policies & Operational Controls).
+---
+
+## GT-003 Execution Record — Pass 23.0.5
 
 ```yaml
 execution_status: COMPLETE
 template: GT-003
 template_version: v1.0
 module: MOD-018 AI Workspace
-stage: Sprint 003 Authoring
+stage: Sprint 004 Authoring
+sprint_id: SPR-MOD-018-004
+execution_id: GT003-MOD018-004-20260718T030000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260718T030000Z
+predecessor_audit_report_id: REPOSITORY_AUDIT_20260718T020000Z
+repository_revision_after: <computed at execution>
+snapshot_digest: sha256:<computed at execution>
 next_template: GT-003
-next_target: MOD-018 Sprint 004
+next_target: MOD-018 Sprint 005
 handoff_state: READY
-execution_id: GT003-MOD018-003-20260718T020000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260718T020000Z
-repository_revision_after: <allocated-at-commit>
-snapshot_digest: <allocated-at-commit>
 ```
