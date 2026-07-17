@@ -128,7 +128,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-016-005 | Sprint 5 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md) | Service |
 | SPR-MOD-017-001 | Sprint 1 | MOD-017 Analytics | Draft | [`30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS.md`](30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS.md) | Insights |
 | SPR-MOD-017-002 | Sprint 2 | MOD-017 Analytics | Draft | [`30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG.md`](30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG.md) | Insights |
-| SPR-MOD-017-003 | Sprint 3 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
+| SPR-MOD-017-003 | Sprint 3 | MOD-017 Analytics | Draft | [`30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION.md`](30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION.md) | Insights |
 | SPR-MOD-017-004 | Sprint 4 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
 | SPR-MOD-017-005 | Sprint 5 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
 
