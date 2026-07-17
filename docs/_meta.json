@@ -1602,6 +1602,10 @@
         {
           "title": "API Specifications — Index",
           "path": "60-solution-design/api/README"
+        },
+        {
+          "title": "API-001 — Analytics",
+          "path": "60-solution-design/api/API-001_ANALYTICS"
         }
       ]
     },

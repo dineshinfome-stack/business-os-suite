@@ -31,7 +31,10 @@ Every API specification MUST reference: Published Module, Module PRD, Sprint Pla
 
 ## Current Specifications
 
-_No specifications authored yet._
+| Spec ID | Source Module | Lifecycle State | Owner | Updated |
+| --- | --- | --- | --- | --- |
+| [API-001](./API-001_ANALYTICS.md) | MOD-017 Analytics | Active | Insights | 2026-07-18 |
+
 
 ## References
 
