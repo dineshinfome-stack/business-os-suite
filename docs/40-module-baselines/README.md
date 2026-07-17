@@ -63,6 +63,7 @@ Every baseline mirrors the same section order (see [`MOD001_PLATFORM_BASELINE_v1
 | [`MOD011_AMC_BASELINE_v1`](./MOD011_AMC_BASELINE_v1.md) | MOD-011 AMC | 1.0 | Baseline |
 | [`MOD012_FIELD_SERVICE_BASELINE_v1`](./MOD012_FIELD_SERVICE_BASELINE_v1.md) | MOD-012 Field Service | 1.0 | Baseline |
 | [`MOD013_ASSETS_BASELINE_v1`](./MOD013_ASSETS_BASELINE_v1.md) | MOD-013 Assets | 1.0 | Baseline |
+| [`MOD014_FLEET_BASELINE_v1`](./MOD014_FLEET_BASELINE_v1.md) | MOD-014 Fleet | 1.0 | Baseline |
 | [`MOD019_WAREHOUSE_BASELINE_v1`](./MOD019_WAREHOUSE_BASELINE_v1.md) | MOD-019 Warehouse | 1.0 | Baseline |
 
 The full index across all modules lives in [`docs/MODULE_BASELINE_CATALOG.md`](../MODULE_BASELINE_CATALOG.md).
