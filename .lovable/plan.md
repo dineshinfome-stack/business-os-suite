@@ -71,3 +71,31 @@ Include `previous_audit_report_id` only if declared by released GT-005. Defer to
 ## Roadmap
 - Pass 17.0.0 — GT-002 Stage 1 for the next unpublished Business OS module (dynamically resolved)
 - Optional OR / RR / SR read-only reviews per cadence
+
+## Execution Record — Pass 16.1.1
+
+```yaml
+execution_status: COMPLETE
+template: GT-005
+template_version: v1.0
+module: MOD-014 Fleet
+publication_state: PUBLISHED
+next_template: GT-002
+next_target: Pass 17.0.0 — GT-002 Stage 1 Authoring for the next unpublished Business OS module (dynamically resolved from docs/MODULE_CATALOG.md and docs/MODULE_BASELINE_CATALOG.md)
+handoff_state: COMPLETE
+execution_id: GT005-MOD014-20260716T032000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T031000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T032000Z
+repository_revision_after: pass-16.1.1
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0 Step 2>
+deliverables:
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T032000Z.md
+  - .lovable/plan.md (execution record appended)
+notes:
+  - Publication is byte-identical to Pass 16.1.0 baseline state; no baseline body or registration surface content modified.
+  - Scope parity preserved with prior GT-005 publications (MOD-006 through MOD-013).
+  - Governance Framework v1.0, GT templates, and Execution Wrapper v1.0 unchanged.
+```
+
+**MOD-014 Fleet lifecycle: COMPLETE. Baseline v1: PUBLISHED.**
+
