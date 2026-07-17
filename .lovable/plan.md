@@ -90,3 +90,37 @@ On any post-registration failure, execute the released GT-005 Runtime Rollback: 
 ## 10. Completion
 
 Upon PASS: GT-005 Module Publication COMPLETE. MOD-017 Analytics reaches the terminal lifecycle state defined by GT-005. The complete governance lifecycle for MOD-017 (GT-002 → GT-005) is finished. No further governance actions required for MOD-017 unless initiated through a separately approved governance process.
+
+---
+
+## GT-005 Execution Record — Pass 22.0.2 (MOD-017 Analytics Module Publication)
+
+```text
+execution_status: COMPLETE
+template: GT-005
+template_version: v1.0
+module: MOD-017 Analytics
+stage: Module Publication
+next_template: NONE
+next_target: NONE
+handoff_state: COMPLETE
+execution_id: GT005-MOD017-20260717T220000Z-001
+parent_execution_id: GT004-MOD017-20260717T210000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T220000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T210000Z
+repository_revision_after: rev-20260717T220000Z-mod017-publication
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0>
+target_artifact: docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md
+source_baseline: MOD017_ANALYTICS_BASELINE_v1
+governance_specification: v1.0
+lifecycle_state: Published
+```
+
+- **Publication authored:** `docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md` (Published).
+- **Registration surfaces updated (GT-005):**
+  - `docs/45-module-publications/README.md` (new layer README)
+  - `docs/MODULE_PUBLICATION_CATALOG.md` (new catalog)
+  - `docs/DOCUMENT_INDEX.md`
+  - `docs/_meta.json` (valid JSON verified)
+- **Audit:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T220000Z.md` — 20/20 PASS.
+- **Terminal Status:** MOD-017 Analytics reaches `Published`; governance lifecycle GT-002 → GT-005 COMPLETE.
