@@ -138,6 +138,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-016-004 — Knowledge Base, Macros & CSAT | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT.md` |
 | SPR-MOD-016-005 — Service Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md` |
 | MOD-017 Analytics — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md` |
+| SPR-MOD-017-001 — Analytics Foundation & Data Marts | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
