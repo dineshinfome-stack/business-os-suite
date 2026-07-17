@@ -1564,6 +1564,10 @@
         {
           "title": "MOD-017 Analytics — Module Publication",
           "path": "45-module-publications/analytics/MOD-017_MODULE_PUBLICATION"
+        },
+        {
+          "title": "MOD-018 AI Workspace — Module Publication",
+          "path": "45-module-publications/ai/MOD-018_MODULE_PUBLICATION"
         }
       ]
     },
