@@ -142,6 +142,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-017-002 — KPI Framework & Metric Catalog | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG.md` |
 | SPR-MOD-017-003 — Dashboards & Visualization | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION.md` |
 | SPR-MOD-017-004 — Scheduled Distribution, Reporting & Export | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT.md` |
+| SPR-MOD-017-005 — Analytical Models & Cross-Module Analytics | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
