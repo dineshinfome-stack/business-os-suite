@@ -34,6 +34,9 @@ Every WEB specification MUST reference: Published Module, Module PRD, Sprint Pla
 | Spec ID | Source Module | Source Publication | Lifecycle State | Owner | Updated | Path |
 | --- | --- | --- | --- | --- | --- | --- |
 | WEB-001 | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 | [`WEB-001_ANALYTICS.md`](./WEB-001_ANALYTICS.md) |
+| WEB-002 | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 | [`WEB-002_AI_WORKSPACE.md`](./WEB-002_AI_WORKSPACE.md) |
+
+
 
 ## References
 
