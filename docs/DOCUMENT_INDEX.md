@@ -502,6 +502,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/mobile/README.md` |
 | MOB-001 — Analytics Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-001_ANALYTICS.md` |
 | API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
+| API-001 — Analytics API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-001_ANALYTICS.md` |
 
 
 
