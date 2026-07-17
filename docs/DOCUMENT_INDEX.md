@@ -262,6 +262,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD013_ASSETS_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md` |
 | MOD014_FLEET_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD014_FLEET_BASELINE_v1.md` |
 | MOD015_POS_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD015_POS_BASELINE_v1.md` |
+| MOD016_SERVICE_DESK_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1.md` |
 | MOD019_WAREHOUSE_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
 | Module Baselines — Layer README | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/README.md` |
