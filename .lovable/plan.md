@@ -1,123 +1,121 @@
-# Pass 17.0.1 — GT-003 Sprint 001 for MOD-015 POS
+## Pass 17.0.2 — GT-003 Sprint 002 for MOD-015 POS
 
-Author Sprint 001 PRD for MOD-015 POS under GT-003 v1.0 and FROZEN Execution Wrapper v1.0, resolved exclusively from authoritative repository artifacts.
+Author Sprint 002 exclusively from authoritative repository artifacts under GT-003 v1.0 and FROZEN Execution Wrapper v1.0. Zero fabrication. No governance evolution.
 
-## Governance Envelope
+### Governance Envelope
+
 - Governance Framework v1.0 — Released
 - GT-003 v1.0 — Active
 - Execution Wrapper v1.0 — FROZEN
-- Previous audit: `REPOSITORY_AUDIT_20260716T033000Z.md` (Repository READY)
-- GT-002 prerequisite (Pass 17.0.0): Complete
+- Previous audit: `REPOSITORY_AUDIT_20260716T034000Z.md` (Repository READY)
+- GT-003 Sprint 001 prerequisite (Pass 17.0.1): Complete
 
-## Lifecycle
+### Resolved Target (from approved Sprint Plan §2)
+
+- **Sprint ID**: SPR-MOD-015-002
+- **Title**: Cart, Pricing, Discounts & Offline Sale
+- **File**: `docs/30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale.md`
+
+### Scope (verbatim from Sprint Plan §2)
+
+- **In**: cart composition; pricing and discount evaluation; supervisor override rule; offline resilience for sale capture; POS Sale transaction lifecycle; `POSSaleCompleted` event publication.
+- **Out**: foundation masters (001); payments/receipts (003); offers/loyalty/returns (004); day close (005); ledger posting (MOD-002).
+- **Module PRD coverage**: §2 (Cart, pricing, discounts; Offline resilience; submodule Cart), §4 (Cart-to-checkout), §6 (POS Sale), §7 (supervisor-override rule), §8 (`POSSaleCompleted` — published).
+- **Engines**: ENG-002, ENG-004, ENG-005, ENG-006, ENG-007, ENG-010, ENG-011, ENG-012, ENG-017, ENG-018, ENG-019, ENG-024.
+- **ADRs**: ADR-011, ADR-032.
+- **Upstream dependency**: SPR-MOD-015-001.
+
+### Ownership Boundaries (recapitulated, not evolved)
+
+- Identity/permissions → MOD-001 (ENG-001/002/003).
+- Ledger effects of sale → MOD-002 via ENG-015/016 posting-rule bindings; MOD-015 publishes `POSSaleCompleted` only.
+- Item/price list/stock master → MOD-005 (read-only consumption).
+- Supervisor override for beyond-threshold discounts → ENG-011 Approval; deterministic enforcement via ENG-012.
+- Offline resilience → per POS configuration (ENG-005); deterministic reconciliation on reconnect.
+
+### Execution Lifecycle
+
 `preflight → resolving → authoring → registering → validating → auditing → complete | failed`
 
-## Execution Steps
+1. **Preflight** (abort on first failure, `PRECONDITION-FAIL`, exit 20): governance envelope intact; Pass 17.0.1 complete; previous audit READY; approved Sprint Plan present; SPR-MOD-015-002 not previously authored; no open corrective executions.
+2. **Snapshot Freeze**: capture repository revision, authoritative source digests, and snapshot metadata declared by the released GT-003 template.
+3. **Authoritative Resolution**: resolve scope, canonical slug, capability allocation, ownership boundaries, requirement IDs, engines, ADRs, events, dependencies, integration boundaries dynamically from `docs/20-module-prds/pos/MODULE_PRD.md` and `docs/30-sprint-prds/pos/MOD-015_SPRINT_PLAN.md`. Previously published Sprint PRDs consulted solely as structural precedent where permitted by GT-003. No business content inherited or inferred.
+4. **Sprint Authoring**: emit `docs/30-sprint-prds/pos/SPR-MOD-015-002-<resolved-slug>.md` using the released GT-003 canonical structure. Preserve deterministic ordering and full bidirectional traceability (capability ↔ sprint ↔ deliverable). No implementation content beyond the GT-003 lifecycle.
+5. **Registration**: update only GT-003-declared registration surfaces (Sprint README, Sprint Catalog if declared by the released GT-003 template, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`). No additional surfaces.
+6. **Validation**: execute every GT-003 validation and verification rule via dynamic rule binding. No hard-coded identifiers or counts. All required validations PASS; INFO only where GT-003 permits.
+7. **GT-005 Repository Audit**: emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` covering every audit profile declared by the released audit specification. Require every profile PASS and Repository READY.
+8. **Execution Finalization**: append execution record to `.lovable/plan.md`; release execution lock.
 
-### 1. Preflight
-Abort on first failure (`PRECONDITION-FAIL`, exit 20):
-- Governance Framework Released; GT-003 Active; Wrapper FROZEN
-- Pass 17.0.0 complete; previous audit READY
-- Approved Sprint Plan `docs/30-sprint-prds/pos/MOD-015_SPRINT_PLAN.md` present
-- Sprint 001 not previously authored; no open corrective executions
+### Rollback
 
-### 2. Snapshot Freeze
-Capture repository revision, authoritative source digests, and snapshot metadata per released GT-003 template.
+On failure after Registration: execute the released GT-003 Runtime Rollback — restore registration surfaces in reverse order, remove partially created Sprint PRD artifacts if required, restore the repository to its exact pre-execution state. Wrapper unchanged.
 
-### 3. Authoritative Resolution
-Resolve Sprint 001 exclusively from:
-- `docs/20-module-prds/pos/MODULE_PRD.md`
-- `docs/30-sprint-prds/pos/MOD-015_SPRINT_PLAN.md`
+### Success Criteria
 
-Extract: sprint scope, canonical slug, capability allocation, ownership boundaries, engines, ADRs, events, dependencies, integration boundaries.
-
-Previously published Sprint PRDs (Fleet 001, Field Service 001, AMC 001) may be consulted **solely as structural precedent** as permitted by GT-003. No business content inherited or inferred.
-
-### 4. Sprint Authoring
-Author `docs/30-sprint-prds/pos/SPR-MOD-015-001-<slug>.md` using GT-003 canonical structure. Preserve deterministic ordering and full bidirectional traceability (capability ↔ sprint ↔ deliverable). Scope limited to GT-003 lifecycle — no implementation content.
-
-### 5. Registration
-Update only GT-003-declared surfaces:
-- `docs/30-sprint-prds/pos/README.md`
-- `docs/SPRINT_CATALOG.md` (if declared)
-- `docs/DOCUMENT_INDEX.md`
-- `docs/_meta.json`
-
-### 6. Validation
-Execute every GT-003 validation via dynamic rule binding. No hard-coded IDs or counts. All required validations PASS; INFO only where GT-003 permits.
-
-### 7. GT-005 Repository Audit
-Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` covering every audit profile declared by the released audit specification. Require every profile PASS and Repository READY.
-
-### 8. Execution Finalization
-Append execution record to `.lovable/plan.md`; release execution lock.
-
-## Rollback
-On failure after Registration: execute GT-003 Runtime Rollback — restore registration surfaces in reverse order, remove partially created Sprint PRD, restore repository to exact pre-execution state. Wrapper unchanged.
-
-## Success Criteria
-- Sprint 001 PRD authored via GT-003 canonical structure
-- Scope resolved exclusively from authoritative artifacts
-- Complete bidirectional traceability
+- Sprint 002 PRD authored using the released GT-003 canonical structure
+- Sprint scope resolved exclusively from authoritative repository artifacts
+- Complete bidirectional traceability preserved
 - Registration limited to GT-003-declared surfaces
-- All GT-003 validations PASS (INFO where permitted)
-- GT-005 audit PASS; Repository READY
-- Governance Framework, GT templates, Wrapper unchanged
+- Every GT-003 validation and verification rule PASS (INFO where permitted)
+- GT-005 Repository Audit PASS; Repository READY
+- Governance Framework, GT templates, and Wrapper unchanged
 
-## Non-Goals
-No additional Sprint PRDs, no Module PRD edits, no Baseline, no GT-004, no governance evolution, no template/Wrapper edits, no implementation code.
+### Non-Goals
 
-## Deliverables
-- Sprint 001 PRD (path per GT-003)
-- Updated GT-003 registration surfaces
+No additional Sprint PRDs; no Module PRD modifications; no Baseline; no GT-004; no governance/template/wrapper evolution; no implementation code.
+
+### Deliverables
+
+- Sprint 002 PRD (path resolved by the released GT-003 template)
+- Updated GT-003-declared registration surfaces
 - `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 - Execution record appended to `.lovable/plan.md`
 
-## Execution Record (shape)
+### Execution Record (shape)
+
 ```yaml
 execution_status: READY_FOR_STAGE_2
 template: GT-003
 template_version: v1.0
 module: MOD-015 POS
-sprint: <resolved dynamically from approved Sprint Plan>
+sprint: SPR-MOD-015-002 — Cart, Pricing, Discounts & Offline Sale
 next_template: GT-003
-next_target: <resolved per GT-003 lifecycle>
+next_target: <resolved dynamically according to the released GT-003 lifecycle>
 handoff_state: READY
 execution_id: <allocated>
 audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
 repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
-Include `previous_audit_report_id` only if declared by GT-003. Defer to template-defined terminal values on conflict.
 
-## Roadmap
-- Pass 17.0.2 — GT-003 Sprint 002 for MOD-015 POS
-- Continue Sprints 003–005 → GT-004 Baseline → GT-005 Publication
-- Optional OR/RR/SR reviews per cadence
+Include `previous_audit_report_id` only if declared by the released GT-003 template. If the released GT-003 lifecycle specifies different terminal execution values, defer to the template-defined values.
+
+### Roadmap
+
+- Pass 17.0.3 — GT-003 Sprint 003 for MOD-015 POS
+- Continue remaining GT-003 sprints → GT-004 Baseline Consolidation → GT-005 Publication
+- Optional OR / RR / SR read-only governance reviews per established cadence
 
 ---
 
-## Execution Record — Pass 17.0.1
+## Pass 17.0.2 — Execution Record
 
 ```yaml
 execution_status: READY_FOR_STAGE_2
 template: GT-003
 template_version: v1.0
 module: MOD-015 POS
-sprint: SPR-MOD-015-001 (POS Foundation — Stores, Counters & Configuration)
+sprint: SPR-MOD-015-002 — Cart, Pricing, Discounts & Offline Sale
 next_template: GT-003
-next_target: SPR-MOD-015-002 (Cart, Pricing, Discounts & Offline Sale)
+next_target: <resolved dynamically according to the released GT-003 lifecycle>
 handoff_state: READY
-execution_id: GT003-MOD015-001-20260716T034000Z-001
-previous_audit_report_id: REPOSITORY_AUDIT_20260716T033000Z
-audit_report_id: REPOSITORY_AUDIT_20260716T034000Z
-repository_revision_after: allocated
-snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0 Step 2>
-deliverables:
-  - docs/30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md
-  - docs/30-sprint-prds/pos/README.md (Sprint 001 registered)
-  - docs/SPRINT_CATALOG.md (Sprint 001 registered)
-  - docs/DOCUMENT_INDEX.md (Sprint 001 registered)
-  - docs/_meta.json (Sprint 001 registered; JSON valid)
-  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T034000Z.md (19/19 PASS; Repository READY)
+execution_id: GT003-MOD015-002-20260717T000000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T000000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T034000Z
+repository_revision_after: <allocated>
+snapshot_digest: <allocated>
 ```
+
+- Artifact: `docs/30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale.md`
+- Registration surfaces updated: `docs/30-sprint-prds/pos/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- Audit: `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T000000Z.md` (19/19 PASS; Repository READY)

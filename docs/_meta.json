@@ -1336,6 +1336,10 @@
           "path": "30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration"
         },
         {
+          "title": "SPR-MOD-015-002 \u2014 Cart, Pricing, Discounts & Offline Sale",
+          "path": "30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale"
+        },
+        {
           "title": "MOD-016 Service Desk",
           "path": "30-sprint-prds/service-desk/README"
         },
