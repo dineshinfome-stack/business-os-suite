@@ -139,6 +139,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-016-005 — Service Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md` |
 | MOD-017 Analytics — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md` |
 | SPR-MOD-017-001 — Analytics Foundation & Data Marts | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS.md` |
+| SPR-MOD-017-002 — KPI Framework & Metric Catalog | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
