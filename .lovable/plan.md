@@ -1,101 +1,89 @@
-# Pass 16.0.4 — GT-003 Sprint Authoring for SPR-MOD-014-004 (MOD-014 Fleet)
+## Pass 16.1.0 — GT-004 Baseline Consolidation for MOD-014 Fleet
 
-## Objective
-Author the final MOD-014 Fleet Sprint PRD (SPR-MOD-014-004) under GT-003 v1.0 and FROZEN Execution Wrapper v1.0. Zero fabrication; all sprint-specific content resolves dynamically from authoritative repository sources.
+Execute GT-004 v1.0 under Governance Framework v1.0 / FROZEN Execution Wrapper v1.0 to produce the MOD-014 Fleet Module Baseline v1 exclusively from released repository artifacts. Zero fabrication. No governance evolution.
 
-## Governance Envelope
+### Governance envelope
 - Governance Framework v1.0 — Released
-- GT-003 v1.0 — Active
+- GT-004 v1.0 — Active
 - Execution Wrapper v1.0 — FROZEN
-- Previous audit: `REPOSITORY_AUDIT_20260716T029000Z.md` — Repository READY
+- Prior audit: `REPOSITORY_AUDIT_20260716T030000Z.md` (READY)
+- Stage 2 prerequisite: MOD-014 Sprint Plan sprints complete (Pass 16.0.4)
 
-## Lifecycle
-preflight → resolving → authoring → registering → validating → auditing → complete | failed
+### Lifecycle
+`preflight → resolving → consolidating → registering → validating → auditing → complete`
 
-## Steps
+### Steps
 
-1. **Preconditions** (abort on first failure, PRECONDITION-FAIL, exit 20): governance released; GT-003 Active; Wrapper FROZEN; Pass 16.0.3 complete; previous audit READY; SPR-MOD-014-004 enumerated in approved Sprint Plan; no open corrective executions.
+1. **Preflight** — Verify governance envelope, Pass 16.0.4 complete, prior audit READY, all Sprint PRDs declared in the approved MOD-014 Sprint Plan authored and registered, no open corrective executions, module eligible for GT-004. Abort on first failure (PRECONDITION-FAIL, exit 20).
 
-2. **Snapshot Freeze** — capture repository revision, source digests, and snapshot metadata per released GT-003.
+2. **Snapshot freeze** — Capture repository revision, authoritative source digests, and snapshot metadata as declared by the released GT-004 template under Wrapper v1.0.
 
-3. **Authoritative Resolution** — resolve exclusively from:
-   - `docs/20-module-prds/fleet/MODULE_PRD.md`
-   - `docs/30-sprint-prds/fleet/MOD-014_SPRINT_PLAN.md`
-   - `docs/10-erp-core/ENGINE_CATALOG.md`
-   - `docs/ENGINE_USAGE_MATRIX.md`
-   - `docs/11-adrs/ADR_INDEX.md`
-   - `docs/02-architecture/event-catalog.md`
-   - `docs/MODULE_CATALOG.md`
+3. **Authoritative resolution** — Resolve baseline content exclusively from authoritative repository artifacts dynamically determined at execution: Module PRD, approved Sprint Plan, all completed Sprint PRDs, Engine Catalog, Engine Usage Matrix, ADR Index, Event Catalog, architecture references, dependency metadata, ownership boundaries, requirement identifiers, published/consumed events, and integration references. Previously published module baselines MAY be consulted solely as structural precedent where permitted by the released GT-004 template; no business content is inherited or inferred.
 
-   Determine dynamically: slug, scope, capabilities, entities, rules, engines, ADRs, published/consumed events, upstream/downstream deps, personas, acceptance/exit criteria, ownership boundaries, requirement IDs. No inferred content.
+4. **Baseline consolidation** — Author the authoritative MOD-014 Fleet module baseline using the released GT-004 canonical structure. Resolve dynamically from authoritative repository artifacts:
+   - capability inventory
+   - master data authorities
+   - transaction authorities
+   - engine inventory
+   - ADR references
+   - published and consumed events
+   - ownership boundaries and dependency isolation
+   - read-model and audit-readiness surfaces
+   - sprint-to-capability traceability
+   - sprint-to-deliverable traceability
+   - requirement traceability and authoritative identifiers
+   - deterministic ordering
 
-4. **Sprint Authoring** — author `docs/30-sprint-prds/fleet/SPR-MOD-014-004-<slug>.md` using GT-003 canonical structure. Preserve bidirectional traceability (Sprint ↔ Sprint Plan ↔ Module PRD), authoritative identifiers, ownership boundaries, dependency isolation, deterministic ordering.
+5. **Registration** — Update only GT-004-declared registration surfaces:
+   - `docs/40-module-baselines/README.md`
+   - `docs/MODULE_BASELINE_CATALOG.md`
+   - `docs/DOCUMENT_INDEX.md`
+   - `docs/_meta.json` (validate JSON)
+   Additional surfaces only if declared by the released GT-004 template.
 
-5. **Registration** — update only GT-003-declared surfaces (README, SPRINT_CATALOG, DOCUMENT_INDEX, `_meta.json`, and any others GT-003 declares).
+6. **Validation** — Execute every validation and verification rule declared by the released GT-004 template via dynamic rule binding. No hard-coded identifiers, no hard-coded counts. All required validations PASS; INFO only where GT-004 permits.
 
-6. **Validation** — execute every GT-003 validation rule via dynamic binding. No hard-coded identifiers or counts. All required rules PASS; INFO only where GT-003 permits.
+7. **GT-005 Repository Audit** — Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` covering every audit profile declared by the released audit specification. Require every profile PASS and Repository READY.
 
-7. **GT-005 Repository Audit** — emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`. Every profile PASS; Repository READY.
+8. **Execution finalization** — Append execution record to `.lovable/plan.md`; release execution lock.
 
-8. **Execution Finalization** — append execution record to `.lovable/plan.md`; release execution lock.
+### Rollback
+On failure after Registration, execute the released GT-004 Runtime Rollback procedure: restore GT-004 registration surfaces in reverse order as defined by the template, remove partially created baseline artifacts if required, and restore the repository to its exact pre-execution state. Wrapper behavior unchanged.
 
-## Rollback
-On failure after Registration, execute the Wrapper v1.0 Runtime Rollback; restore GT-003 registration surfaces in reverse order per GT-003; restore repository to exact pre-execution state. Wrapper behavior unchanged.
-
-## Success Criteria
-- Sprint PRD authored via GT-003 canonical structure
-- Content resolved exclusively from authoritative sources
-- Bidirectional traceability preserved
-- Registration limited to GT-003-declared surfaces
-- Every GT-003 validation rule PASS (INFO where permitted)
-- GT-005 audit PASS; Repository READY
+### Success criteria
+- Authoritative module baseline authored using the released GT-004 canonical structure
+- Baseline resolved exclusively from authoritative repository artifacts
+- Complete traceability preserved
+- Registration limited to GT-004-declared surfaces
+- Every GT-004 validation and verification rule PASS (INFO where permitted)
+- GT-005 Repository Audit PASS; Repository READY
 - Governance Framework, GT templates, and Wrapper unchanged
 
-## Non-Goals
-No Module PRD or Sprint Plan edits; no GT-004 baseline; no GT-005 publication; no governance evolution; no template/wrapper modifications; no implementation code.
+### Non-goals
+No Sprint PRD authoring, no Module PRD modifications, no GT-005 Publication, no governance evolution, no template modifications, no Wrapper modifications, no implementation code.
 
-## Deliverables
-- `docs/30-sprint-prds/fleet/SPR-MOD-014-004-<slug>.md`
-- Updated GT-003 registration surfaces
+### Deliverables
+- MOD-014 Fleet Baseline v1 (path resolved by the released GT-004 template)
+- Updated GT-004 registration surfaces
 - `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 - Execution record appended to `.lovable/plan.md`
 
-## Execution Record (shape)
+### Execution record (shape)
 ```yaml
-execution_status: READY_FOR_BASELINE   # subject to released GT-003 terminal status
-template: GT-003
+execution_status: READY_FOR_PUBLICATION
+template: GT-004
 template_version: v1.0
 module: MOD-014 Fleet
-sprint_id: SPR-MOD-014-004
-next_template: GT-004                  # or as GT-003 lifecycle derives dynamically
-next_target: <resolved dynamically per released GT-003 lifecycle>
+next_template: GT-005
+next_target: <resolved dynamically according to the released GT-004 lifecycle>
 handoff_state: READY
 execution_id: <allocated>
 audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
 repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
-Include `previous_audit_report_id` only if declared by released GT-003.
+Include `previous_audit_report_id` only if declared by the released GT-004 template. If the released GT-004 lifecycle specifies a different terminal execution status or handoff, defer to template-defined values.
 
-## Roadmap
-- Pass 16.1.0 — GT-004 Baseline Consolidation
-- Pass 16.1.1 — GT-005 Publication
-
----
-
-## Execution Record — Pass 16.0.4
-
-```yaml
-execution_status: READY_FOR_BASELINE
-template: GT-003
-template_version: v1.0
-module: MOD-014 Fleet
-sprint_id: SPR-MOD-014-004
-next_template: GT-004
-next_target: MOD-014 Fleet Baseline Consolidation (Pass 16.1.0)
-handoff_state: READY
-execution_id: GT003-MOD014-004-20260716T030000Z-001
-previous_audit_report_id: REPOSITORY_AUDIT_20260716T029000Z
-audit_report_id: REPOSITORY_AUDIT_20260716T030000Z
-mod_014_stage_2_progress: 4/4 sprints complete
-```
+### Roadmap
+- Pass 16.1.1 — GT-005 Publication for MOD-014 Fleet
+- Optional OR/RR/SR read-only governance reviews per established cadence
