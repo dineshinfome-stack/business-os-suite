@@ -4,7 +4,7 @@ summary: "Catalog of every Sprint PRD (SPR-MOD-NNN-NNN): stable identifier, iter
 layer: "platform"
 owner: "Platform"
 status: "approved"
-updated: "2026-07-10"
+updated: "2026-07-17"
 tags: ["sprint", "catalog", "index"]
 document_type: "Governance Guide"
 ---
