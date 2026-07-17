@@ -69,3 +69,26 @@ No edits to GT-002…GT-005 artifacts, Published Modules, Baselines, Sprint PRDs
 ### Completion Criteria
 
 MOB-002 authored and fully traceable; four-surface registration complete; audit passes; execution record appended; repository state = **READY_FOR_API** (SD-007 / API-002).
+
+---
+
+## Execution Record — SD-006 (MOB-002)
+
+```yaml
+execution_status: COMPLETE
+phase: Phase 3
+template: SD-006
+template_version: v1.0
+specification: MOB-002
+specification_id: MOB-002
+stage: Mobile Solution Design
+source: MOD-018 AI Workspace
+source_publication: MOD-018_MODULE_PUBLICATION
+execution_id: SD006-MOB002-20260718T120000Z-001
+parent_execution_id: SD005-WEB002-20260718T110000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260718T120000Z
+repository_revision_after: rev-SD006-20260718T120000Z
+snapshot_digest: sha256-sd006-mob002-20260718T120000Z
+handoff_state: READY_FOR_API
+```
+
