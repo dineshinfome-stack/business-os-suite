@@ -24,6 +24,7 @@ Numbering derives from the source module's `MOD-<NNN>`. No independent numeric r
 | Spec ID | Family | Source Module | Source Publication | Lifecycle State | Owner | Updated |
 | --- | --- | --- | --- | --- | --- | --- |
 | [WEB-001](./web/WEB-001_ANALYTICS.md) | WEB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
+| [MOB-001](./mobile/MOB-001_ANALYTICS.md) | MOB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
 
 Registration is additive. Each new specification adds one row per family and links to the artefact under `docs/60-solution-design/{web,mobile,api}/`.
 

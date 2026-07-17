@@ -1596,6 +1596,10 @@
           "path": "60-solution-design/mobile/README"
         },
         {
+          "title": "MOB-001 — Analytics",
+          "path": "60-solution-design/mobile/MOB-001_ANALYTICS"
+        },
+        {
           "title": "API Specifications — Index",
           "path": "60-solution-design/api/README"
         }
