@@ -1527,6 +1527,20 @@
       ]
     },
     {
+      "label": "45 Module Publications",
+      "items": [
+        {
+          "title": "README",
+          "path": "45-module-publications/README"
+        },
+        {
+          "title": "MOD-017 Analytics — Module Publication",
+          "path": "45-module-publications/analytics/MOD-017_MODULE_PUBLICATION"
+        }
+      ]
+    },
+
+    {
       "label": "12 UI Components",
       "items": [
         {
