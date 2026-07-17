@@ -1,82 +1,77 @@
-## Pass 23.0.6 — GT-003 Sprint 005 Authoring: MOD-018 AI Workspace (Governance: Human-Approval Gates, Cost & Safety)
+## Pass 24.0.1 — GT-004 Module Baseline Consolidation: MOD-018 AI Workspace
 
-Execute GT-003 v1.0 authoring for **SPR-MOD-018-005**, deriving scope exclusively from the approved Module PRD and Sprint Plan §Sprint 005.
+Execute GT-004 v1.0 to consolidate the approved MOD-018 Module PRD, Sprint Plan, and Sprint PRDs 001–005 into a single authoritative Module Baseline. No new authorities, rules, engines, ADRs, events, or configuration keys.
 
-### 1. Preflight (verify, read-only)
-- `docs/20-module-prds/ai/MODULE_PRD.md` — approved.
-- `docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md` — approved.
-- Sprint 001–004 PRDs — exist, approved (dependency/traceability references only).
-- `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T030000Z.md` — READY.
-- No open corrective executions.
+### 1. Preflight (read-only)
+- Verify approved artifacts exist and are READY:
+  - `docs/20-module-prds/ai/MODULE_PRD.md`
+  - `docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md`
+  - `docs/30-sprint-prds/ai/sprints/SPR-MOD-018-001..005*.md`
+  - `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T040000Z.md` (READY)
+- Verify GT-003 registration surfaces synchronized (`README.md`, `SPRINT_CATALOG.md`, `DOCUMENT_INDEX.md`, `_meta.json`).
+- Reference approved GT-004 baseline template and previously approved module baselines for structural consistency only. Do not derive requirements, authorities, or allocations from precedent modules.
 - Abort on any PRECONDITION-FAIL.
 
-### 2. Authoring
-Create `docs/30-sprint-prds/ai/sprints/SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY.md` mirroring the structure of Sprints 001–004.
+### 2. Baseline Authoring
+Create `docs/40-module-baselines/MOD-018_AI_WORKSPACE_BASELINE.md` per the released GT-004 template, consolidating exclusively from the approved Module PRD and Sprint PRDs 001–005:
 
-**Authorities (Sprint Plan §Sprint 005, verbatim):**
-- AI Approval transaction authority.
-- Human-approval-gate business process authority (built on `ENG-011` per `ADR-042`).
-- Cost governance authority (per-tenant quotas, rate limits, attribution per `ADR-045`).
-- Safety governance authority (derived from the approved Module PRD and Sprint Plan allocations).
-- `AIApprovalGranted` and `AIApprovalDenied` event publication authority.
+- Module purpose & scope
+- Functional capability inventory
+- Authority allocation across Sprints 001–005:
+  - S001: Prompt Master, Prompt Version Master, review-and-publish process, enabled-surfaces config
+  - S002: Retrieval Corpus Master, retrieval build/refresh process, refresh cadence config
+  - S003: Tool Definition Master, AI Tool Call transaction, tool-call-with-approval process
+  - S004: AI Conversation transaction, prompt-to-response process, `AIConversationStarted` publication
+  - S005: AI Approval transaction, approval-gate rule, Approval Policies/Cost Budgets config, safety governance, `AIApprovalGranted`/`AIApprovalDenied` publications
+- Business process allocation
+- Business rule inventory
+- Event catalog: published and consumed
+- Configuration inventory
+- Ownership boundaries (MOD-018 vs shared/consumed modules)
+- Sprint allocation matrix (authority → sprint)
+- Engine allocation matrix — derived exclusively from the approved Module PRD and Sprint PRDs
+- ADR allocation matrix — derived exclusively from the approved Module PRD and Sprint PRDs
+- External dependencies
+- Cross-module dependencies
+- Traceability matrix (Module PRD sections ↔ Sprint PRDs, bidirectional)
+- Validation summary (dynamic rule binding per GT-004 model)
+- References
 
-**Business Rules (governance-neutral, from Module PRD §7):**
-- AI-initiated state changes must pass an approval gate unless explicitly whitelisted (enforcement authority).
-- Prompts and tool definitions consumed remain versioned and audited (restated read-only from Sprints 001/003).
-- AI-provider integration occurs exclusively through the `ENG-028` provider abstraction.
+### 3. Validation (dynamic GT-004 model)
+- Every Module PRD authority allocated to exactly one Sprint PRD (or explicitly shared).
+- Every Sprint PRD traces back to Module PRD sections.
+- No orphan authorities, processes, rules, events, config keys, engines, ADRs.
+- No duplicate ownership.
+- Sprint allocations complete and internally consistent.
+- Bidirectional traceability links.
+- No hard-coded validation IDs or counts.
 
-**Events published:** `AIApprovalGranted`, `AIApprovalDenied`.
-**Events consumed:** `AIToolCallRequested` (from Sprint 003) as approval trigger input; module domain events as governance inputs (per Module PRD §8).
+### 4. Registration (GT-004 surfaces only)
+- `docs/40-module-baselines/README.md` — add MOD-018 entry.
+- `docs/MODULE_BASELINE_CATALOG.md` — register baseline.
+- `docs/DOCUMENT_INDEX.md` — add baseline entry.
+- `docs/_meta.json` — add navigation entry; validate JSON.
 
-**Configuration (subset from Module PRD §10):** `Cost budgets`, `Approval policies` (owned by Sprint 005). `Enabled surfaces per tenant` and `Retrieval refresh cadence` referenced read-only from Sprints 001/002.
+### 5. Audit & Execution Record
+- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md`, predecessor `REPOSITORY_AUDIT_20260718T040000Z`, Repository Audit PASS.
+- Append GT-004 record to `.lovable/plan.md`:
+  ```
+  execution_status: COMPLETE
+  template: GT-004
+  template_version: v1.0
+  module: MOD-018 AI Workspace
+  stage: Module Baseline Consolidation
+  next_template: GT-005
+  next_target: MOD-018 Module Publication
+  handoff_state: READY
+  ```
+  Allocate `execution_id`, `audit_report_id`, `repository_revision_after`, `snapshot_digest` per template.
 
-**Engines consumed (subset from Sprint Plan):** `ENG-002`, `ENG-004`, `ENG-005`, `ENG-011`, `ENG-024`, `ENG-028`, plus optional `ENG-013`, `ENG-025` as allocated.
+### 6. Guardrails
+No governance evolution, implementation guidance, architecture redesign, scope expansion, new authorities, external authority sources, or GT-005 activities. Consolidation only.
 
-**ADRs consumed:** `ADR-042` (Human Approval Boundary), `ADR-045` (AI Cost Governance), `ADR-032`, `ADR-014`.
+### 7. Rollback
+On post-registration failure: execute GT-004 Runtime Rollback — reverse `_meta.json`, `MODULE_BASELINE_CATALOG.md`, `DOCUMENT_INDEX.md`, `README.md`, then delete baseline file; restore pre-execution state.
 
-**Upstream sprint dependencies:** SPR-MOD-018-001 through -004.
-
-**Sprint Exit Criteria:** verbatim from Sprint Plan §Sprint 005.
-
-**Validations:** dynamic binding to GT-003 v1.0 validation model (no hard-coded VAL-IDs or counts).
-
-### 3. Registration
-- `docs/30-sprint-prds/ai/README.md` — mark SPR-MOD-018-005 as Draft.
-- `docs/SPRINT_CATALOG.md` — register Sprint 005.
-- `docs/DOCUMENT_INDEX.md` — register Sprint 005.
-- `docs/_meta.json` — add nav entry; validate JSON.
-
-### 4. Audit & Execution Record
-- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T040000Z.md`, referencing `REPOSITORY_AUDIT_20260718T030000Z` as predecessor, with **Repository Audit PASS** per the released Repository Audit specification.
-- Append GT-003 execution record to `.lovable/plan.md` with `execution_status: COMPLETE`, `next_template: GT-004`, `next_target: MOD-018 Module Baseline`, `handoff_state: READY`.
-
-### 5. Guardrails
-- No new authorities beyond Sprint Plan §Sprint 005; governance-neutral wording; no additional sources of authority outside the approved governance chain; no implementation, architecture, or governance evolution.
-- No GT-004/GT-005 activities.
-
-### 6. Rollback
-On post-registration failure, execute GT-003 Runtime Rollback: reverse registrations, remove Sprint 005 artifact, restore pre-execution state.
-
-### 7. Completion
-All five MOD-018 Sprint PRDs complete. Repository READY for **GT-004 MOD-018 Module Baseline Consolidation**.
-
----
-
-## GT-003 Execution Record — Pass 23.0.6
-
-```yaml
-execution_status: COMPLETE
-template: GT-003
-template_version: v1.0
-module: MOD-018 AI Workspace
-stage: Sprint 005 Authoring
-sprint_id: SPR-MOD-018-005
-execution_id: GT003-MOD018-005-20260718T040000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260718T040000Z
-predecessor_audit_report_id: REPOSITORY_AUDIT_20260718T030000Z
-repository_revision_after: <computed at execution>
-snapshot_digest: sha256:<computed at execution>
-next_template: GT-004
-next_target: MOD-018 Module Baseline
-handoff_state: READY
-```
+### 8. Completion
+MOD-018 Module Baseline established; repository READY; next: GT-005 MOD-018 Module Publication.
