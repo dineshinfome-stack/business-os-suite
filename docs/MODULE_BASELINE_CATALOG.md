@@ -54,6 +54,7 @@ A future `Stage` column (Planning / Authoring / Baseline) MAY be introduced once
 | MOD015_POS_BASELINE_v1 | MOD-015 POS | 1.0 | Baseline | `docs/20-module-prds/pos/MODULE_PRD.md` | SPR-MOD-015-001 … SPR-MOD-015-005 | [`40-module-baselines/MOD015_POS_BASELINE_v1.md`](40-module-baselines/MOD015_POS_BASELINE_v1.md) |
 | MOD016_SERVICE_DESK_BASELINE_v1 | MOD-016 Service Desk | 1.0 | Baseline | `docs/20-module-prds/service-desk/MODULE_PRD.md` | SPR-MOD-016-001 … SPR-MOD-016-005 | [`40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1.md`](40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1.md) |
 | MOD017_ANALYTICS_BASELINE_v1 | MOD-017 Analytics | 1.0 | Baseline | `docs/20-module-prds/analytics/MODULE_PRD.md` | SPR-MOD-017-001 … SPR-MOD-017-005 | [`40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md`](40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md) |
+| MOD018_AI_WORKSPACE_BASELINE_v1 | MOD-018 AI Workspace | 1.0 | Baseline | `docs/20-module-prds/ai/MODULE_PRD.md` | SPR-MOD-018-001 … SPR-MOD-018-005 | [`40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md`](40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md) |
 
 ## References
 
