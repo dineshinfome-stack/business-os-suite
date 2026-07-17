@@ -44,3 +44,26 @@ No additional Sprint PRDs, no Module PRD / Sprint Plan / GT template / Wrapper e
 ## Success Criteria
 
 Sprint 005 PRD authored in canonical GT-003 shape; scope resolved exclusively from authoritative artifacts; full bidirectional traceability; registration limited to GT-003 surfaces; all validations PASS; GT-005 audit PASS; Repository READY; governance/templates/wrapper unchanged. Roadmap next: Pass 17.1.0 (GT-004 Baseline) → Pass 17.1.1 (GT-005 Publication).
+
+## Execution Record — Pass 17.0.5
+
+```
+execution_status: READY_FOR_STAGE_3
+template: GT-003
+template_version: v1.0
+module: MOD-015 POS
+sprint: SPR-MOD-015-005 — Day Close, Analytics & Compliance
+next_template: GT-004
+next_target: MOD-015 POS Module Baseline Consolidation (Pass 17.1.0)
+handoff_state: READY
+execution_id: GT003-MOD015-005-20260717T030000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T030000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T020000Z
+repository_revision_after: pass-17.0.5
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0>
+```
+
+- Sprint PRD authored: `docs/30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance.md` (final MOD-015 sprint).
+- Registration surfaces updated: `docs/30-sprint-prds/pos/README.md`, `docs/SPRINT_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (JSON-valid).
+- Audit emitted: `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T030000Z.md` (20/20 PASS; Repository READY).
+- Key allocations recapitulated (not evolved): Cash Deposit & Day Close Transaction Authority; mismatched-cash approval rule via `ENG-012`+`ENG-011`; POS operational reports/dashboards/exports authority via `ENG-021`/`ENG-022`/`ENG-027`; KPI catalog consumed read-only from MOD-017 via `ENG-023`; `POSDayClosed` publication / `InventoryLowStock` consumption; audit-readiness surface and POS module read model authority; ledger effects remain owned by MOD-002 (triggered via `POSDayClosed`); MOD-015 Stage 2 COMPLETE.
