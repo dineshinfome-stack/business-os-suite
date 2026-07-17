@@ -26,18 +26,19 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-016-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-016-001`, `SPR-MOD-016-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Stage 1 Sprint Plan
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The authoritative Stage 1 Sprint Plan for this module is [`MOD-016_SPRINT_PLAN.md`](./MOD-016_SPRINT_PLAN.md). Rows below are reservations aligned to that plan; a Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-016-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-016)_ | Planned | _(to be defined)_ |
-| SPR-MOD-016-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-016)_ | Planned | _(to be defined)_ |
-| SPR-MOD-016-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-016)_ | Planned | _(to be defined)_ |
-| SPR-MOD-016-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-016)_ | Planned | _(to be defined)_ |
+| SPR-MOD-016-001 | Sprint 1 | Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing) | Reserved | — |
+| SPR-MOD-016-002 | Sprint 2 | Ticket Capture & Lifecycle | Reserved | SPR-MOD-016-001 |
+| SPR-MOD-016-003 | Sprint 3 | SLA Enforcement & Escalations | Reserved | SPR-MOD-016-001, SPR-MOD-016-002 |
+| SPR-MOD-016-004 | Sprint 4 | Knowledge Base, Macros & CSAT | Reserved | SPR-MOD-016-001, SPR-MOD-016-002 |
+| SPR-MOD-016-005 | Sprint 5 | Service Analytics & Compliance | Reserved | SPR-MOD-016-001..004 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**; the Stage 1 Sprint Plan refines this to **5** for cohesion. Row counts and goals here are planning reservations and will be refined when each Sprint PRD is authored in the corresponding Pass 18.0.x phase.
 
 ## Authoring Rules
 
