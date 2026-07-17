@@ -1409,6 +1409,10 @@
           "path": "40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1"
         },
         {
+          "title": "MOD013_ASSETS_BASELINE_v1",
+          "path": "40-module-baselines/MOD013_ASSETS_BASELINE_v1"
+        },
+        {
           "title": "MOD019_WAREHOUSE_BASELINE_v1",
           "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
         }
