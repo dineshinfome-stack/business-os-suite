@@ -1364,6 +1364,10 @@
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION"
         },
         {
+          "title": "SPR-MOD-016-002 \u2014 Ticket Capture & Lifecycle",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE"
+        },
+        {
           "title": "MOD-017 Analytics",
           "path": "30-sprint-prds/analytics/README"
         },
