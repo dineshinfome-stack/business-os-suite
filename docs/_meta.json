@@ -1316,6 +1316,10 @@
           "path": "30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution"
         },
         {
+          "title": "SPR-MOD-014-003 \u2014 Fuel & Maintenance",
+          "path": "30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance"
+        },
+        {
           "title": "MOD-015 POS",
           "path": "30-sprint-prds/pos/README"
         },
