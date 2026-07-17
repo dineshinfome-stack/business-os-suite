@@ -79,3 +79,34 @@ Include `previous_audit_report_id` only if declared by released GT-002. Defer to
 - Pass 17.0.1 — GT-003 Sprint 001 for MOD-015 POS
 - Continue GT-003 → GT-004 → GT-005 lifecycle
 - Optional OR / RR / SR read-only reviews per cadence
+
+## Execution Record — Pass 17.0.0
+
+```yaml
+execution_status: READY_FOR_STAGE_2
+template: GT-002
+template_version: v1.0
+module: MOD-015 POS
+next_template: GT-003
+next_target: Pass 17.0.1 — GT-003 Stage 2 Sprint PRD authoring for SPR-MOD-015-001 (POS Foundation: Stores, Counters & Configuration)
+handoff_state: READY
+execution_id: GT002-MOD015-20260716T033000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T032000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T033000Z
+repository_revision_after: pass-17.0.0
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0 Step 2>
+deliverables:
+  - docs/20-module-prds/pos/MODULE_PRD.md (reconciled)
+  - docs/30-sprint-prds/pos/MOD-015_SPRINT_PLAN.md (authored)
+  - docs/30-sprint-prds/pos/README.md (updated)
+  - docs/DOCUMENT_INDEX.md (updated)
+  - docs/_meta.json (updated)
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T033000Z.md
+notes:
+  - MOD-015 POS Stage 1 authoring complete under GT-002 v1.0.
+  - Sprint count = 5 aligned to SPRINT_ROADMAP.md estimate.
+  - Ledger effects owned by MOD-002 via posting-rule bindings triggered by POS-published events.
+  - Cross-module KPI definitions consumed read-only from MOD-017 Analytics.
+```
+
+**MOD-015 POS Stage 1: COMPLETE. Ready for GT-003 Sprint 001 authoring.**
