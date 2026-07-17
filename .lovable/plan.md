@@ -87,3 +87,33 @@ With allocated `execution_id`, `audit_report_id`, `repository_revision_after`, `
 - Seven new framework docs exist and are registered on navigation surfaces (index, meta, map) with an additive cross-reference from the workflow doc.
 - Audit emitted with dynamic checklist, all PASS.
 - `.lovable/plan.md` updated; repository state `READY` for authoring `WEB/MOB/API-<NNN>` per Published Module.
+
+---
+
+## SD-001 Execution Record — Phase 3 Platform Solution Design Framework
+
+- execution_status: COMPLETE
+- phase: Phase 3
+- template: SD-001
+- template_version: v1.0
+- stage: Platform Solution Design Framework
+- execution_id: SD001-PHASE3-20260718T070000Z-001
+- parent_execution_id: GT005-MOD018-20260718T060000Z-001
+- audit_report_id: REPOSITORY_AUDIT_20260718T070000Z
+- previous_audit_report_id: REPOSITORY_AUDIT_20260718T060000Z
+- framework_root: docs/60-solution-design/
+- artefacts_authored:
+    - docs/60-solution-design/README.md
+    - docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md
+    - docs/60-solution-design/web/README.md
+    - docs/60-solution-design/mobile/README.md
+    - docs/60-solution-design/api/README.md
+- registration_surfaces_updated:
+    - docs/DOCUMENT_INDEX.md
+    - docs/REPOSITORY_MAP.md
+    - docs/_meta.json
+    - docs/MODULE_IMPLEMENTATION_WORKFLOW.md (additive cross-reference only)
+- repository_revision_after: post-SD001-PHASE3-20260718T070000Z
+- snapshot_digest: sha256:sd001-phase3-framework-v1-20260718T070000Z
+- next_phase: Module Solution Specifications
+- handoff_state: READY
