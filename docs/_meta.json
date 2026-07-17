@@ -1392,6 +1392,10 @@
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS"
         },
         {
+          "title": "SPR-MOD-017-002 \u2014 KPI Framework & Metric Catalog",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG"
+        },
+        {
           "title": "MOD-018 AI Workspace",
           "path": "30-sprint-prds/ai/README"
         },
