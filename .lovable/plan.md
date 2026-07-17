@@ -89,3 +89,35 @@ On any post-registration failure, execute the released GT-004 Runtime Rollback p
 ## 10. Roadmap
 
 GT-004 Module Baseline Consolidation COMPLETE upon PASS. Next: **GT-005 — MOD-017 Module Publication**. Upon successful GT-005 completion, MOD-017 Analytics reaches Repository Published status and its governance lifecycle is complete.
+
+---
+
+## GT-004 Execution Record — Pass 22.0.1 (MOD-017 Analytics Module Baseline Consolidation)
+
+```text
+execution_status: READY_FOR_STAGE_2
+template: GT-004
+template_version: v1.0
+module: MOD-017 Analytics
+stage: Module Baseline Consolidation
+next_template: GT-005
+next_target: MOD-017 Module Publication
+handoff_state: READY
+execution_id: GT004-MOD017-20260717T210000Z-001
+parent_execution_id: GT003-MOD017-005-20260717T200000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T210000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T200000Z
+repository_revision_after: rev-20260717T210000Z-mod017-baseline
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0>
+target_artifact: docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md
+governance_specification: v1.0
+```
+
+- **Baseline authored:** `docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md` (Frozen).
+- **Registration surfaces updated (GT-004):**
+  - `docs/40-module-baselines/README.md`
+  - `docs/MODULE_BASELINE_CATALOG.md`
+  - `docs/DOCUMENT_INDEX.md`
+  - `docs/_meta.json` (valid JSON verified)
+- **Audit:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T210000Z.md` — 20/20 PASS.
+- **Status:** MOD-017 Stage 3 COMPLETE; Repository READY for GT-005 MOD-017 Module Publication.
