@@ -78,3 +78,28 @@ snapshot_digest: <allocated>
 
 - MOD-015 POS lifecycle COMPLETE upon PASS.
 - Next: GT-002 for the next unpublished module, or scheduled read-only OR/RR/SR governance reviews.
+
+## Execution Record — Pass 17.1.1
+
+```
+execution_status: PUBLISHED
+template: GT-005
+template_version: v1.0
+module: MOD-015 POS
+stage: Module Publication
+publication_state: RELEASED
+next_template: <resolved dynamically according to the released repository lifecycle>
+next_target: <resolved dynamically according to the released repository lifecycle>
+handoff_state: COMPLETE
+execution_id: GT005-MOD015-20260717T050000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T050000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T040000Z
+repository_revision_after: pass-17.1.1
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0>
+```
+
+- Publication target: `docs/40-module-baselines/MOD015_POS_BASELINE_v1.md` (Frozen → PUBLISHED). Baseline content byte-identical to Pass 17.1.0 state; publication does not alter baseline body.
+- Registration parity preserved: no new publication surfaces introduced (scope parity with MOD-006 through MOD-014). GT-004 registration surfaces (`docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`) already reflect the baseline and remain unchanged this pass.
+- Audit emitted: `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T050000Z.md` (Governance / Repository / Registration / Traceability / Integrity profiles — all PASS; Repository READY; Confidence MEDIUM with D3 waiver inherited).
+- Governance envelope unchanged: Framework v1.0, GT-003 Wrapper v1.0 FROZEN, GT-004 v1.0, GT-005 v1.0 all intact. Zero authoring, zero consolidation, zero governance evolution, zero implementation.
+- MOD-015 POS lifecycle **COMPLETE**. Next: GT-002 Stage 1 Authoring for the next unpublished module, or scheduled read-only OR/RR/SR governance reviews.
