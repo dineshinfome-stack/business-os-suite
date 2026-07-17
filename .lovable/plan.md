@@ -1,87 +1,73 @@
-# Pass 15.1.0 — GT-004 Baseline Consolidation for MOD-013 Assets
+# Pass 15.1.1 — GT-005 Publication for MOD-013 Assets Baseline v1
 
 ## Objective
 
-Consolidate approved MOD-013 Stage 1 + Stage 2 artifacts into `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md` using released GT-004 v1.0 under Governance Framework v1.0 and FROZEN Execution Wrapper v1.0. Zero fabrication; all content resolves exclusively from authoritative repository sources.
+Publish `MOD013_ASSETS_BASELINE_v1` as the official Released baseline using the released GT-005 v1.0 lifecycle under Governance Framework v1.0 and the FROZEN Execution Wrapper v1.0. Follow the byte-identical publication precedent established for MOD-008 through MOD-012.
 
 ## Governance Envelope
 
 - Governance Framework v1.0 — Released
-- GT-004 v1.0 — Active; GT-005 v1.0 — Active
+- GT-005 v1.0 — Active
 - Execution Wrapper v1.0 — FROZEN
-- Previous audit: `REPOSITORY_AUDIT_20260716T023000Z.md` — Repository READY
+- Previous audit: `REPOSITORY_AUDIT_20260716T024000Z.md` — Repository READY (GT-004 consolidation)
 
-## Execution Variables
+## Lifecycle
 
-- template: GT-004 v1.0
-- module_id: MOD-013 / module_name: Assets
-- baseline_target: `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`
-- sprint_prds: resolved dynamically from approved Sprint Plan
-- audit_report: `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
-
-## Lifecycle (GT-004 canonical)
-
-`preflight → resolving → collecting → validating → assembling → registering → verifying → auditing → complete | failed`
+`preflight → resolving → validating → publishing → registering → verifying → auditing → complete`
 
 ## Steps
 
-1. **Preflight** — verify Governance/GTs/Wrapper state, MOD-013 Stage 2 complete (4/4), latest audit READY, all approved `SPR-MOD-013-*` registered, no existing MOD-013 baseline, no open corrective executions; validate GT-004 inputs and capability identifiers against released Capabilities Registry. Abort PRECONDITION-FAIL (exit 20) on first failure.
-2. **Dependency Resolution** — resolve `depends_on_templates` dynamically from `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md`; confirm all edges Active and SemVer-compatible.
-3. **Sprint Collection** — enumerate all approved `SPR-MOD-013-*` from `MOD-013_SPRINT_PLAN.md`; verify 1:1 correspondence, capability allocation completeness, Module PRD consistency, no orphan capabilities.
-4. **Cross-Sprint Validation** — execute every validation rule declared by released GT-004 via dynamic rule binding (structural, capability coverage, engine/ADR/event reconciliation, cross-reference integrity, uniqueness, registration completeness, traceability, metadata, canonical shape, dependency reconciliation, placeholder discipline, repository consistency, determinism). No hard-coded IDs or counts.
-5. **Baseline Assembly** — author `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md` using released GT-004 canonical structure; content resolves only from Module PRD, Sprint Plan, and every approved SPR-MOD-013-* PRD. Preserve authoritative identifiers, ownership boundaries, capability coverage, and bidirectional traceability. No synthesis.
-6. **Registration** — update only GT-004-declared registration surfaces:
-   - `docs/40-module-baselines/README.md`
-   - `docs/MODULE_BASELINE_CATALOG.md`
-   - `docs/DOCUMENT_INDEX.md`
-   - `docs/_meta.json`
-7. **Verification** — execute every verification requirement declared by released GT-004; all required checks PASS; INFO only where permitted.
-8. **GT-005 Repository Audit** — emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`; every profile PASS; Repository READY.
-9. **Finalization** — append execution record to `.lovable/plan.md`; release execution lock.
+1. **Preflight** — Verify Governance v1.0 Released, GT-005 Active, Wrapper FROZEN, MOD-013 baseline exists at `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`, lifecycle state `READY_FOR_PUBLICATION`, prior audit READY, no open corrective executions.
+
+2. **Authoritative Resolution** — Resolve publication metadata exclusively from the approved baseline and its authoritative sources (Module PRD, Sprint Plan, 4 Sprint PRDs). No inferred content.
+
+3. **Publication Validation** — Execute all validation rules declared by GT-005: baseline integrity, registration completeness, lifecycle consistency, metadata completeness, cross-reference integrity, canonical publication structure, repository consistency.
+
+4. **Publication** — Per precedent (MOD-008 through MOD-012), publication is certified via audit report and execution record; baseline body remains byte-identical to the GT-004 approved output. No content mutation.
+
+5. **Registration** — Update only GT-005-declared registration surfaces as resolved by the released template.
+
+6. **Verification** — Execute every GT-005 verification requirement; all required checks PASS.
+
+7. **GT-005 Repository Audit** — Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` covering the five audit profiles (governance, repository, registration, traceability, integrity); require every profile PASS and Repository READY.
+
+8. **Execution Finalization** — Append execution record to `.lovable/plan.md`; release execution lock.
 
 ## Rollback
 
-If Verification or Repository Audit fails after Registration, execute released GT-004 Runtime Rollback. Restore registration surfaces in reverse order:
-
-1. `docs/_meta.json`
-2. `docs/MODULE_BASELINE_CATALOG.md`
-3. `docs/DOCUMENT_INDEX.md`
-4. `docs/40-module-baselines/README.md`
-
-Remove generated baseline if required. Restore repository to exact pre-execution state. Wrapper unchanged.
-
-## Success Criteria
-
-- Baseline authored using released GT-004 canonical structure
-- All approved Sprint PRDs consolidated without information loss
-- Content resolved exclusively from authoritative repository sources
-- Ownership boundaries preserved
-- Bidirectional Sprint ↔ Module ↔ Baseline traceability preserved
-- Every GT-004 validation rule PASS (INFO where permitted)
-- GT-005 Repository Audit PASS; Repository READY
-- Governance Framework, GT templates, and Wrapper unchanged
-
-## Non-Goals
-
-No edits to Module PRD, Sprint Plan, or Sprint PRDs. No GT-005 Publication. No governance evolution. No GT template or Wrapper modifications. No implementation code.
+On failure after Registration, execute GT-005 Runtime Rollback: restore GT-005 registration surfaces in reverse order, remove the publication artifact if declared by GT-005, preserve the approved baseline, restore repository to pre-execution state.
 
 ## Deliverables
 
-- `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`
-- Updated GT-004 registration surfaces (4)
+- Published MOD-013 artifact (location resolved by GT-005)
+- Updated GT-005-declared registration surfaces
 - `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md`
 - Execution record appended to `.lovable/plan.md`
 
-## Execution Record (shape)
+## Non-Goals
+
+No edits to Module PRD, Sprint Plan, Sprint PRDs, or Baseline body. No governance evolution. No GT/Wrapper modifications. No implementation code.
+
+## Success Criteria
+
+- Publication completed via released GT-005 canonical procedure
+- Baseline body byte-identical to GT-004 approved output
+- Registration limited to GT-005-declared surfaces
+- All GT-005 validation and verification rules PASS (INFO where permitted)
+- GT-005 Repository Audit PASS; Repository READY
+- MOD-013 lifecycle advances per released GT-005 handoff rules
+- Governance Framework, GT templates, and Wrapper unchanged
+
+## Execution Record Shape
 
 ```yaml
-execution_status: <resolved by released GT-004 handoff rules>
-template: GT-004
+execution_status: <resolved by released GT-005 handoff rules>
+template: GT-005
 template_version: v1.0
 module: MOD-013 Assets
-target: MOD013_ASSETS_BASELINE_v1
-next_template: <resolved by released GT-004>
-next_target: <resolved dynamically per released GT-004 lifecycle>
+publication_target: <resolved dynamically>
+next_template: <resolved by released GT-005>
+next_target: <resolved dynamically>
 handoff_state: READY
 execution_id: <allocated>
 audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
@@ -89,20 +75,29 @@ repository_revision_after: <allocated>
 snapshot_digest: <allocated>
 ```
 
-Include `previous_audit_report_id` only if declared by released GT-004 template.
+`previous_audit_report_id` included only if declared by GT-005.
 
 ## Roadmap
 
-- Pass 15.1.1 — GT-005 Publication of MOD013_ASSETS_BASELINE_v1 (activates when GT-004 handoff resolves to publication readiness)
-- Pass 16.0.0 — GT-002 Stage 1 for next unpublished module (resolved dynamically)
-- Optional OR / RR / SR read-only reviews per established cadence
+- Pass 16.0.0 — GT-002 Stage 1 for the next unpublished Business OS module (resolved dynamically)
+- Optional OR / RR / SR read-only repository reviews per established cadence
 
-## Execution Record — Pass 15.1.0 (2026-07-16T02:40:00Z)
+## Execution Record — Pass 15.1.1 (COMPLETE)
 
-- **Status:** COMPLETE — `READY_FOR_PUBLICATION`
-- **Template:** GT-004 v1.0 under Governance Framework v1.0 (Wrapper FROZEN v1.0)
-- **Artifact:** `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`
-- **Registration surfaces updated:** `docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
-- **Audit:** `docs/50-audit-reports/REPOSITORY_AUDIT_20260716T024000Z.md` (18/18 PASS; Repository READY)
-- **Key consolidations:** 21 engines (ENG-015/016 excluded per ledger isolation); 2 ADRs (ADR-011, ADR-032); MOD-017 retains cross-module KPI ownership.
-- **Next:** Pass 15.1.1 — GT-005 Publication for `MOD013_ASSETS_BASELINE_v1`.
+```yaml
+execution_status: PUBLISHED
+template: GT-005
+template_version: v1.0
+module: MOD-013 Assets
+publication_target: docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md
+next_template: GT-002
+next_target: <resolved dynamically at Pass 16.0.0 from docs/MODULE_CATALOG.md and docs/SPRINT_ROADMAP.md>
+handoff_state: READY
+execution_id: GT005-MOD013-20260716T025000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260716T025000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T024000Z
+repository_revision_after: <unavailable in sandbox — D3 waiver>
+snapshot_digest: <unavailable in sandbox — D3 waiver>
+```
+
+**MOD-013 Assets lifecycle COMPLETE.** Baseline v1 PUBLISHED. Repository READY for Pass 16.0.0.
