@@ -1388,6 +1388,10 @@
           "path": "30-sprint-prds/analytics/MOD-017_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-017-001 \u2014 Analytics Foundation & Data Marts",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS"
+        },
+        {
           "title": "MOD-018 AI Workspace",
           "path": "30-sprint-prds/ai/README"
         },
