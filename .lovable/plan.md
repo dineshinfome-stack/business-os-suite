@@ -1,119 +1,85 @@
-# Pass 26.0.1 — Phase 3 Foundation: Platform Solution Design Framework (SD-001 v1.0)
+# Pass 27.0.1 — SD-002: WEB-001 Analytics Solution Design Specification
 
-Establish Phase 3 governance for platform specifications (Web / Mobile / API) without authoring any module-specific specs. All artifacts are framework-level only and derive from the published business definition (GT-002 → GT-005).
+## Source Selection
 
-## Scope
+Per `MODULE_PUBLICATION_CATALOG.md`, two modules are Published:
+- **MOD-017 Analytics** (first published)
+- MOD-018 AI Workspace
 
-- Create the `docs/60-solution-design/` tree and its framework documents.
-- Register the new tree on repository-wide navigation surfaces (additive only).
-- Emit the standard audit and append the execution record.
-- No module specs. No modification of published modules or GT-002–GT-005 artifacts.
+Following sequential publication order, **WEB-001 = MOD-017 Analytics**.
 
-## Deliverables
+## Deliverable
 
-### 1. New folders (registered, no module specs inside)
+Create `docs/60-solution-design/web/WEB-001_ANALYTICS.md` derived exclusively from:
+- `docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md`
+- `docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md`
+- `docs/30-sprint-prds/analytics/` (Sprints 001–005)
+- `docs/20-module-prds/analytics/MODULE_PRD.md`
 
-```text
-docs/60-solution-design/
-├── README.md
-├── SOLUTION_DESIGN_CATALOG.md
-├── web/
-│   └── README.md
-├── mobile/
-│   └── README.md
-└── api/
-    └── README.md
+Sections A–K as specified: Overview, Personas, User Journeys, Navigation Structure, Screen Inventory, Forms, Dashboards, Responsive Behaviour, Accessibility, Security Considerations, Traceability Matrix.
+
+Constraints: no new business requirements, no mockups, no implementation, no framework decisions.
+
+## Registration
+
+- `docs/60-solution-design/web/README.md` — add WEB-001 row under Current Specifications
+- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` — register WEB-001
+- `docs/DOCUMENT_INDEX.md` — add entry
+- `docs/_meta.json` — add nav entry under "60 Solution Design" group (validate JSON)
+
+## Audit
+
+Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md` with dynamic Verification Metadata + Check/Result/Action table + Verification Summary (Checklist Items = Passed + Remediated + Failed; READY only if Failed=0 and Outstanding Risks=0).
+
+Checks (dynamically enumerated):
+1. Preconditions — SD-001 COMPLETE; MOD-017 Published; GT-002…GT-005 artifacts present.
+2. Source authority — every WEB-001 element traces to Published Module.
+3. No new business requirements introduced.
+4. Coverage — all published capabilities represented in Screen Inventory / Journeys.
+5. Sections A–K present and non-empty.
+6. Registration completeness across all four surfaces.
+7. `_meta.json` valid JSON.
+8. Metadata frontmatter integrity (title, summary, layer, owner, status, updated, tags, document_type, source_module, source_publication).
+9. Traceability matrix maps every feature → capability → sprint.
+10. Guardrails respected (no edits to GT-002..GT-005 artifacts, no Mobile/API specs, no code, no mockups).
+
+## Execution Record
+
+Append to `.lovable/plan.md`:
+
 ```
-
-### 2. `docs/60-solution-design/README.md` — Phase 3 framework charter
-
-Sections:
-1. Purpose and scope of Phase 3 — Solution Design.
-2. Platform Design Lifecycle: Published Module → WEB → MOB → API → Solution Design Complete. Each spec cites its Published Module as sole business authority.
-3. Specification families (WEB / MOB / API) with the purpose lists from the request (user journeys, offline behavior, REST endpoints, etc.).
-4. Repository layout of `docs/60-solution-design/`.
-5. Naming standards: `WEB-<NNN>`, `MOB-<NNN>`, `API-<NNN>`, numbers aligned to the corresponding `MOD-<NNN>` in `MODULE_PUBLICATION_CATALOG.md`.
-6. Traceability rules — every spec must link Module PRD, Sprint Plan, Sprint PRDs, Module Baseline, Module Publication. No new business requirements.
-7. Platform Design Principles (business-first, platform-independent business logic, reusable components, responsive, API-first, accessibility, security-by-design, multi-tenant, AI-assisted UX where applicable).
-8. Validation framework — dynamic (no hard-coded counts): traceability, business-definition consistency, platform coverage, repository registration, metadata integrity.
-9. Guardrails (verbatim from the request §11).
-10. Cross-references to `MODULE_PUBLICATION_CATALOG.md`, `MODULE_BASELINE_CATALOG.md`, and `MODULE_IMPLEMENTATION_WORKFLOW.md` (as read-only pointers; this pass does not evolve that workflow).
-
-### 3. `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`
-
-- Registration table: Spec ID, Family (WEB/MOB/API), Source Module ID, Source Publication, Lifecycle State, Owner, Updated.
-- **Planned Coverage Rule (dynamic):** "One planned WEB, MOB, and API specification per Published Module listed in `MODULE_PUBLICATION_CATALOG.md`." No hard-coded numeric range. Numbering derives from the source module's `MOD-<NNN>`.
-- Empty registration table (no specs authored in this pass).
-
-### 4. `web/README.md`, `mobile/README.md`, `api/README.md`
-
-Short family index stubs stating purpose, naming (`WEB-<NNN>` / `MOB-<NNN>` / `API-<NNN>`), the "one spec per Published Module" coverage rule, traceability requirement to the Published Module, and a note that no specs exist yet.
-
-### 5. Registration surfaces (additive navigation only)
-
-- `docs/DOCUMENT_INDEX.md` — add entries for the four framework docs and three family READMEs.
-- `docs/_meta.json` — add navigation group **"60 Solution Design"** with children for README, catalog, and web/mobile/api family READMEs. JSON validated.
-- `docs/REPOSITORY_MAP.md` — add the `60-solution-design/` branch to the map.
-- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` — **add a cross-reference only** to the Phase 3 Solution Design Framework. This is a navigation pointer; no workflow rules, stages, or governance semantics are altered.
-
-### 6. Audit and execution record
-
-- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` following the standard verification-report format (Metadata header, Check / Result / Action table, Verification Summary with `Checklist Items = Passed + Remediated + Failed`). Dynamic checklist covering: file existence, frontmatter integrity, registration on each surface, JSON validity, "one-per-published-module" planned-coverage rule present, and guardrail compliance (no module specs authored, no published-module edits, no business-rule changes, workflow document only cross-referenced). Repository Status: READY only if Failed = 0 and Outstanding Risks = 0.
-- Append execution record to `.lovable/plan.md`:
-
-```yaml
 execution_status: COMPLETE
 phase: Phase 3
-template: SD-001
+template: SD-002
 template_version: v1.0
-stage: Platform Solution Design Framework
-next_phase: Module Solution Specifications
-handoff_state: READY
+specification: WEB-001
+stage: Web Solution Design
+source: MOD-017 Analytics
+handoff_state: READY_FOR_MOB
 ```
 
-With allocated `execution_id`, `audit_report_id`, `repository_revision_after`, `snapshot_digest`.
+Allocate `specification_id`, `execution_id`, `audit_report_id`, `repository_revision_after`, `snapshot_digest` at execution time.
 
-## Guardrails (enforced during execution)
+## Out of Scope
 
-- No edits to `docs/20-module-prds/`, `docs/30-sprint-prds/`, `docs/40-module-baselines/`, `docs/45-module-publications/`.
-- No module Web/Mobile/API specifications authored.
-- No UI mockups, endpoint definitions, or mobile screen designs.
-- No implementation or code generation.
-- `MODULE_IMPLEMENTATION_WORKFLOW.md` receives an additive cross-reference only; no rule, stage, or semantic change.
-- No hard-coded module ranges; planned coverage is derived dynamically from `MODULE_PUBLICATION_CATALOG.md`.
-
-## Completion criteria
-
-- Seven new framework docs exist and are registered on navigation surfaces (index, meta, map) with an additive cross-reference from the workflow doc.
-- Audit emitted with dynamic checklist, all PASS.
-- `.lovable/plan.md` updated; repository state `READY` for authoring `WEB/MOB/API-<NNN>` per Published Module.
+No MOB-001, no API-001, no edits to Published Module / Baseline / Sprint PRDs / Module PRD, no visual mockups, no framework or code decisions.
 
 ---
 
-## SD-001 Execution Record — Phase 3 Platform Solution Design Framework
+## Pass 27.0.1 — SD-002 WEB-001 Analytics — Execution Record
 
-- execution_status: COMPLETE
-- phase: Phase 3
-- template: SD-001
-- template_version: v1.0
-- stage: Platform Solution Design Framework
-- execution_id: SD001-PHASE3-20260718T070000Z-001
-- parent_execution_id: GT005-MOD018-20260718T060000Z-001
-- audit_report_id: REPOSITORY_AUDIT_20260718T070000Z
-- previous_audit_report_id: REPOSITORY_AUDIT_20260718T060000Z
-- framework_root: docs/60-solution-design/
-- artefacts_authored:
-    - docs/60-solution-design/README.md
-    - docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md
-    - docs/60-solution-design/web/README.md
-    - docs/60-solution-design/mobile/README.md
-    - docs/60-solution-design/api/README.md
-- registration_surfaces_updated:
-    - docs/DOCUMENT_INDEX.md
-    - docs/REPOSITORY_MAP.md
-    - docs/_meta.json
-    - docs/MODULE_IMPLEMENTATION_WORKFLOW.md (additive cross-reference only)
-- repository_revision_after: post-SD001-PHASE3-20260718T070000Z
-- snapshot_digest: sha256:sd001-phase3-framework-v1-20260718T070000Z
-- next_phase: Module Solution Specifications
-- handoff_state: READY
+execution_status: COMPLETE
+phase: Phase 3
+template: SD-002
+template_version: v1.0
+specification: WEB-001
+specification_id: WEB-001
+stage: Web Solution Design
+source: MOD-017 Analytics
+source_publication: MOD-017_MODULE_PUBLICATION
+execution_id: SD002-WEB001-20260718T080000Z-001
+parent_execution_id: SD001-PHASE3-20260718T070000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260718T080000Z
+repository_revision_after: post-SD002-WEB001
+snapshot_digest: sd002-web001-20260718T080000Z
+handoff_state: READY_FOR_MOB
