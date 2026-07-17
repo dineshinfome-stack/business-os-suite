@@ -39,7 +39,7 @@ Approved Stage 1 planning artifact: [`MOD-017_SPRINT_PLAN.md`](./MOD-017_SPRINT_
 | SPR-MOD-017-001 | Sprint 1 | Analytics Foundation & Data Marts | Draft | — |
 | SPR-MOD-017-002 | Sprint 2 | KPI Framework & Metric Catalog | Draft | SPR-MOD-017-001 |
 | SPR-MOD-017-003 | Sprint 3 | Dashboards & Visualization | Draft | SPR-MOD-017-001, SPR-MOD-017-002 |
-| SPR-MOD-017-004 | Sprint 4 | Scheduled Distribution, Reporting & Export | Reserved | SPR-MOD-017-001..003 |
+| SPR-MOD-017-004 | Sprint 4 | Scheduled Distribution, Reporting & Export | Draft | SPR-MOD-017-001..003 |
 | SPR-MOD-017-005 | Sprint 5 | Analytical Models, Cross-Module Analytics & Compliance | Reserved | SPR-MOD-017-001..004 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**, matching the approved Sprint Plan.
@@ -66,3 +66,4 @@ The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5*
 - [`./sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS.md`](./sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS.md)
 - [`./sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG.md`](./sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG.md)
 - [`./sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION.md`](./sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION.md)
+- [`./sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT.md`](./sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT.md)
