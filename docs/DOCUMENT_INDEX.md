@@ -136,6 +136,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-016-002 — Ticket Capture & Lifecycle | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md` |
 | SPR-MOD-016-003 — SLA Enforcement & Escalations | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md` |
 | SPR-MOD-016-004 — Knowledge Base, Macros & CSAT | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT.md` |
+| SPR-MOD-016-005 — Service Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
