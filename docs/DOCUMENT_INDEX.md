@@ -120,6 +120,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-013-002 — Depreciation (Methods & Runs) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs.md` |
 | SPR-MOD-013-003 — Maintenance, Transfer & Disposal | Delivery | Draft | Authoritative | `docs/30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal.md` |
 | SPR-MOD-013-004 — Assets Analytics & Compliance | Delivery | Draft | Authoritative | `docs/30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance.md` |
+| MOD-014 Fleet — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/fleet/MOD-014_SPRINT_PLAN.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
