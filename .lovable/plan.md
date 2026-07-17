@@ -87,3 +87,28 @@ Include `previous_audit_report_id` only if declared by the released GT-004 templ
 ### Roadmap
 - Pass 16.1.1 — GT-005 Publication for MOD-014 Fleet
 - Optional OR/RR/SR read-only governance reviews per established cadence
+
+## Execution Record — Pass 16.1.0
+
+```yaml
+execution_status: READY_FOR_PUBLICATION
+template: GT-004
+template_version: v1.0
+module: MOD-014 Fleet
+next_template: GT-005
+next_target: Pass 16.1.1 — GT-005 Publication for MOD014_FLEET_BASELINE_v1
+handoff_state: READY
+execution_id: GT004-MOD014-20260716T031000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T030000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T031000Z
+repository_revision_after: pass-16.1.0
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0 Step 2>
+deliverables:
+  - docs/40-module-baselines/MOD014_FLEET_BASELINE_v1.md
+  - docs/40-module-baselines/README.md (updated)
+  - docs/MODULE_BASELINE_CATALOG.md (updated)
+  - docs/DOCUMENT_INDEX.md (updated)
+  - docs/_meta.json (updated)
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T031000Z.md
+mod_014_stage_3_progress: BASELINE_CONSOLIDATED (Pass 16.1.0 complete; Publication pending Pass 16.1.1)
+```
