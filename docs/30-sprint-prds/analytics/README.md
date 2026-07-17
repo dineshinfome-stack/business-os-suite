@@ -4,7 +4,7 @@ summary: "Sprint PRDs for Analytics (MOD-017). Sprint identifiers are prefixed S
 layer: "delivery"
 owner: "Insights"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-17"
 module_id: "MOD-017"
 sprint_prefix: "SPR-MOD-017-"
 tags: ["sprint", "prd", "readme"]
@@ -26,19 +26,23 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-017-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-017-001`, `SPR-MOD-017-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Sprint Plan (Stage 1)
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+Approved Stage 1 planning artifact: [`MOD-017_SPRINT_PLAN.md`](./MOD-017_SPRINT_PLAN.md). It defines sprint boundaries, dependencies, capability allocation, and engine/ADR consumption for MOD-017.
+
+## Sprint Roster
+
+> Each row reserves a Sprint identifier per the approved Sprint Plan. A Sprint ID becomes active Sprint PRD documentation only when a corresponding file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-017-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-017)_ | Planned | _(to be defined)_ |
-| SPR-MOD-017-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-017)_ | Planned | _(to be defined)_ |
-| SPR-MOD-017-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-017)_ | Planned | _(to be defined)_ |
-| SPR-MOD-017-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-017)_ | Planned | _(to be defined)_ |
-| SPR-MOD-017-005 | Sprint 5 | _(to be defined in Pass 8.x — parent MOD-017)_ | Planned | _(to be defined)_ |
+| SPR-MOD-017-001 | Sprint 1 | Analytics Foundation & Data Marts | Reserved | — |
+| SPR-MOD-017-002 | Sprint 2 | KPI Framework & Metric Catalog | Reserved | SPR-MOD-017-001 |
+| SPR-MOD-017-003 | Sprint 3 | Dashboards & Visualization | Reserved | SPR-MOD-017-001, SPR-MOD-017-002 |
+| SPR-MOD-017-004 | Sprint 4 | Scheduled Distribution, Reporting & Export | Reserved | SPR-MOD-017-001..003 |
+| SPR-MOD-017-005 | Sprint 5 | Analytical Models, Cross-Module Analytics & Compliance | Reserved | SPR-MOD-017-001..004 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**, matching the approved Sprint Plan.
 
 ## Authoring Rules
 

@@ -4,7 +4,7 @@ summary: "Catalog of every Sprint PRD (SPR-MOD-NNN-NNN): stable identifier, iter
 layer: "platform"
 owner: "Platform"
 status: "approved"
-updated: "2026-07-10"
+updated: "2026-07-17"
 tags: ["sprint", "catalog", "index"]
 document_type: "Governance Guide"
 ---
@@ -126,6 +126,11 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-016-003 | Sprint 3 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md) | Service |
 | SPR-MOD-016-004 | Sprint 4 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT.md) | Service |
 | SPR-MOD-016-005 | Sprint 5 | MOD-016 Service Desk | Draft | [`30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md`](30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md) | Service |
+| SPR-MOD-017-001 | Sprint 1 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
+| SPR-MOD-017-002 | Sprint 2 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
+| SPR-MOD-017-003 | Sprint 3 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
+| SPR-MOD-017-004 | Sprint 4 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
+| SPR-MOD-017-005 | Sprint 5 | MOD-017 Analytics | Reserved | [`30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md) | Insights |
 
 
 
