@@ -1,6 +1,6 @@
 ---
 title: "WEB Specifications — Family Index"
-summary: "Index of Phase 3 WEB specifications. No specifications authored at framework establishment; one WEB spec is planned per Published Module."
+summary: "Index of Phase 3 WEB specifications. One WEB spec is planned per Published Module."
 layer: "platform"
 owner: "Architecture Office"
 status: "approved"
@@ -31,7 +31,9 @@ Every WEB specification MUST reference: Published Module, Module PRD, Sprint Pla
 
 ## Current Specifications
 
-_No specifications authored yet._
+| Spec ID | Source Module | Source Publication | Lifecycle State | Owner | Updated | Path |
+| --- | --- | --- | --- | --- | --- | --- |
+| WEB-001 | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 | [`WEB-001_ANALYTICS.md`](./WEB-001_ANALYTICS.md) |
 
 ## References
 

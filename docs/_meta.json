@@ -1588,6 +1588,10 @@
           "path": "60-solution-design/web/README"
         },
         {
+          "title": "WEB-001 — Analytics",
+          "path": "60-solution-design/web/WEB-001_ANALYTICS"
+        },
+        {
           "title": "MOB Specifications — Index",
           "path": "60-solution-design/mobile/README"
         },

@@ -498,6 +498,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Phase 3 Solution Design Framework — README | Solution Design | Approved | Authoritative | `docs/60-solution-design/README.md` |
 | Solution Design Catalog | Solution Design | Approved | Derived | `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` |
 | WEB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/web/README.md` |
+| WEB-001 — Analytics Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-001_ANALYTICS.md` |
 | MOB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/mobile/README.md` |
 | API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
 
