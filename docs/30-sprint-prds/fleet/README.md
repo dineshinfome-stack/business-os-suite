@@ -26,18 +26,22 @@ document_type: "Sprint Module Guide"
 
 All Sprint PRDs in this folder use the prefix **`SPR-MOD-014-NNN`**, where `NNN` is a zero-padded sequential number within the module (e.g. `SPR-MOD-014-001`, `SPR-MOD-014-002`, …). Identifiers are permanent and never reused.
 
-## Planning Placeholders
+## Stage 1 Sprint Plan
 
-> Each row represents a planned sprint placeholder for roadmap purposes only. The existence of a row does not constitute creation or approval of a Sprint PRD. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
+The Stage 1 Sprint Plan for MOD-014 Fleet is authored at [`MOD-014_SPRINT_PLAN.md`](./MOD-014_SPRINT_PLAN.md). It is the authoritative source for sprint reservations, capability allocation, and exit criteria for this module.
+
+## Sprint Reservations
+
+> Each row is a reservation from the Stage 1 Sprint Plan. A Sprint ID becomes active documentation only when a corresponding Sprint PRD file is authored under this folder and registered in `docs/SPRINT_CATALOG.md`.
 
 | Sprint ID | Iteration | Goal | Status | Dependencies |
 | --- | --- | --- | --- | --- |
-| SPR-MOD-014-001 | Sprint 1 | _(to be defined in Pass 8.x — parent MOD-014)_ | Planned | _(to be defined)_ |
-| SPR-MOD-014-002 | Sprint 2 | _(to be defined in Pass 8.x — parent MOD-014)_ | Planned | _(to be defined)_ |
-| SPR-MOD-014-003 | Sprint 3 | _(to be defined in Pass 8.x — parent MOD-014)_ | Planned | _(to be defined)_ |
-| SPR-MOD-014-004 | Sprint 4 | _(to be defined in Pass 8.x — parent MOD-014)_ | Planned | _(to be defined)_ |
+| SPR-MOD-014-001 | Sprint 1 | Fleet Foundation (Vehicles, Drivers, Compliance & Insurance) | Reserved | MOD-001, MOD-002 baselines |
+| SPR-MOD-014-002 | Sprint 2 | Trip Planning & Execution | Reserved | SPR-MOD-014-001 |
+| SPR-MOD-014-003 | Sprint 3 | Fuel & Maintenance | Reserved | SPR-MOD-014-001, SPR-MOD-014-002 |
+| SPR-MOD-014-004 | Sprint 4 | Fleet Analytics & Compliance | Reserved | SPR-MOD-014-001, SPR-MOD-014-002, SPR-MOD-014-003 |
 
-The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
+The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**; this reservation set aligns to **4**.
 
 ## Authoring Rules
 
