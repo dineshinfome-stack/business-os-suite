@@ -36,7 +36,7 @@ The authoritative Stage 1 Sprint Plan for this module is [`MOD-015_SPRINT_PLAN.m
 | SPR-MOD-015-002 | Sprint 2 | [Cart, Pricing, Discounts & Offline Sale](./SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale.md) | Draft | SPR-MOD-015-001 |
 | SPR-MOD-015-003 | Sprint 3 | [Multi-Tender Payments & Receipts](./SPR-MOD-015-003-multi-tender-payments-and-receipts.md) | Draft | SPR-MOD-015-001, SPR-MOD-015-002 |
 | SPR-MOD-015-004 | Sprint 4 | [Offers, Loyalty & Returns](./SPR-MOD-015-004-offers-loyalty-and-returns.md) | Draft | SPR-MOD-015-001..003 |
-| SPR-MOD-015-005 | Sprint 5 | Day Close, Analytics & Compliance | Reserved | SPR-MOD-015-001..004 |
+| SPR-MOD-015-005 | Sprint 5 | [Day Close, Analytics & Compliance](./SPR-MOD-015-005-day-close-analytics-and-compliance.md) | Draft | SPR-MOD-015-001..004 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **5**. Row counts and goals here are initial planning estimates and will be refined when each Sprint PRD is authored in the corresponding Pass 8.x phase.
 
