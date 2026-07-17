@@ -1312,6 +1312,10 @@
           "path": "30-sprint-prds/fleet/SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance"
         },
         {
+          "title": "SPR-MOD-014-002 \u2014 Trip Planning & Execution",
+          "path": "30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution"
+        },
+        {
           "title": "MOD-015 POS",
           "path": "30-sprint-prds/pos/README"
         },
