@@ -51,6 +51,7 @@ A future `Stage` column (Planning / Authoring / Baseline) MAY be introduced once
 | MOD012_FIELD_SERVICE_BASELINE_v1 | MOD-012 Field Service | 1.0 | Baseline | `docs/20-module-prds/field-service/MODULE_PRD.md` | SPR-MOD-012-001 … SPR-MOD-012-005 | [`40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1.md`](40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1.md) |
 | MOD013_ASSETS_BASELINE_v1 | MOD-013 Assets | 1.0 | Baseline | `docs/20-module-prds/assets/MODULE_PRD.md` | SPR-MOD-013-001 … SPR-MOD-013-004 | [`40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`](40-module-baselines/MOD013_ASSETS_BASELINE_v1.md) |
 | MOD014_FLEET_BASELINE_v1 | MOD-014 Fleet | 1.0 | Baseline | `docs/20-module-prds/fleet/MODULE_PRD.md` | SPR-MOD-014-001 … SPR-MOD-014-004 | [`40-module-baselines/MOD014_FLEET_BASELINE_v1.md`](40-module-baselines/MOD014_FLEET_BASELINE_v1.md) |
+| MOD015_POS_BASELINE_v1 | MOD-015 POS | 1.0 | Baseline | `docs/20-module-prds/pos/MODULE_PRD.md` | SPR-MOD-015-001 … SPR-MOD-015-005 | [`40-module-baselines/MOD015_POS_BASELINE_v1.md`](40-module-baselines/MOD015_POS_BASELINE_v1.md) |
 
 ## References
 
