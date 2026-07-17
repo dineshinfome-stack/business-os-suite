@@ -107,3 +107,31 @@ Include `previous_audit_report_id` only if declared by the released GT-003 templ
 - Pass 16.0.4 — GT-003 for `SPR-MOD-014-004`
 - Pass 16.1.0 — GT-004 Baseline Consolidation
 - Pass 16.1.1 — GT-005 Publication
+
+---
+
+## Execution Record — Pass 16.0.3
+
+```yaml
+execution_status: READY_FOR_NEXT_SPRINT
+template: GT-003
+template_version: v1.0
+module: MOD-014 Fleet
+sprint_id: SPR-MOD-014-003
+next_template: GT-003
+next_target: SPR-MOD-014-004 (Fleet Analytics & Compliance)
+handoff_state: READY
+execution_id: GT003-MOD014-003-20260716T029000Z-001
+previous_audit_report_id: REPOSITORY_AUDIT_20260716T028000Z
+audit_report_id: REPOSITORY_AUDIT_20260716T029000Z
+repository_revision_after: pass-16.0.3
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0 Step 2>
+deliverables:
+  - docs/30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance.md
+  - docs/30-sprint-prds/fleet/README.md (updated)
+  - docs/SPRINT_CATALOG.md (updated)
+  - docs/DOCUMENT_INDEX.md (updated)
+  - docs/_meta.json (updated)
+  - docs/50-audit-reports/REPOSITORY_AUDIT_20260716T029000Z.md
+mod_014_stage_2_progress: 3/4 sprints authored
+```
