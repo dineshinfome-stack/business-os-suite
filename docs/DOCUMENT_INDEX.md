@@ -495,6 +495,13 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-018 AI Workspace — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/ai/MODULE_PRD.md` |
 | MOD-019 Warehouse — Guide | Module PRDs | Approved | Reference | `docs/20-module-prds/warehouse/README.md` |
 | MOD-019 Warehouse — PRD | Module PRDs | Approved | Authoritative | `docs/20-module-prds/warehouse/MODULE_PRD.md` |
+| Phase 3 Solution Design Framework — README | Solution Design | Approved | Authoritative | `docs/60-solution-design/README.md` |
+| Solution Design Catalog | Solution Design | Approved | Derived | `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` |
+| WEB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/web/README.md` |
+| MOB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/mobile/README.md` |
+| API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
+
+
 
 ## References
 
