@@ -1348,6 +1348,10 @@
           "path": "30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns"
         },
         {
+          "title": "SPR-MOD-015-005 \u2014 Day Close, Analytics & Compliance",
+          "path": "30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance"
+        },
+        {
           "title": "MOD-016 Service Desk",
           "path": "30-sprint-prds/service-desk/README"
         },
