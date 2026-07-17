@@ -145,6 +145,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | SPR-MOD-017-005 — Analytical Models & Cross-Module Analytics | Delivery | Draft | Authoritative | `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS.md` |
 | MOD-018 AI Workspace — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md` |
 | SPR-MOD-018-001 — Prompt Library & AI Workspace Foundation | Delivery | Draft | Authoritative | `docs/30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION.md` |
+| SPR-MOD-018-002 — Retrieval Workspaces (RAG) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/ai/sprints/SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
