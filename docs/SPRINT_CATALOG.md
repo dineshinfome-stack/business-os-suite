@@ -131,6 +131,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-017-003 | Sprint 3 | MOD-017 Analytics | Draft | [`30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION.md`](30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION.md) | Insights |
 | SPR-MOD-017-004 | Sprint 4 | MOD-017 Analytics | Draft | [`30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT.md`](30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT.md) | Insights |
 | SPR-MOD-017-005 | Sprint 5 | MOD-017 Analytics | Draft | [`30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS.md`](30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS.md) | Insights |
+| SPR-MOD-018-001 | Sprint 1 | MOD-018 AI Workspace | Draft | [`30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION.md`](30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION.md) | AI Platform |
 
 
 
