@@ -4,7 +4,7 @@ summary: "Sprint PRDs for Analytics (MOD-017). Sprint identifiers are prefixed S
 layer: "delivery"
 owner: "Insights"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-17"
 module_id: "MOD-017"
 sprint_prefix: "SPR-MOD-017-"
 tags: ["sprint", "prd", "readme"]
