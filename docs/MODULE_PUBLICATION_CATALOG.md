@@ -34,6 +34,7 @@ This catalog SHOULD be updated whenever a Module Publication is authored or supe
 | Publication ID | Module | Source Baseline | Status | Path |
 | --- | --- | --- | --- | --- |
 | MOD-017_MODULE_PUBLICATION | MOD-017 Analytics | MOD017_ANALYTICS_BASELINE_v1 | Published | [`45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md`](45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md) |
+| MOD-018_MODULE_PUBLICATION | MOD-018 AI Workspace | MOD018_AI_WORKSPACE_BASELINE_v1 | Published | [`45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md`](45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md) |
 
 ## References
 
