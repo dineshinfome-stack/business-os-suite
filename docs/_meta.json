@@ -1545,6 +1545,10 @@
           "path": "40-module-baselines/MOD017_ANALYTICS_BASELINE_v1"
         },
         {
+          "title": "MOD018_AI_WORKSPACE_BASELINE_v1",
+          "path": "40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1"
+        },
+        {
           "title": "MOD019_WAREHOUSE_BASELINE_v1",
           "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
         }
