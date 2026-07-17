@@ -1,94 +1,91 @@
-## Pass 21.0.5 — GT-003 Sprint Authoring: SPR-MOD-017-005
+# Pass 22.0.1 — GT-004 Module Baseline Consolidation: MOD-017 Analytics
 
-Author Sprint 005 of MOD-017 Analytics (Analytical Models & Cross-Module Analytics) under Governance v1.0, GT-003 v1.0, and FROZEN Execution Wrapper v1.0. Zero governance evolution, zero implementation, zero architecture redesign, zero scope expansion.
+Consolidate MOD-017 Analytics under Governance Framework v1.0, GT-004 v1.0, and the FROZEN Execution Wrapper v1.0. Zero governance evolution, zero implementation, zero architecture redesign, zero scope expansion.
 
-### 1. Preflight (read-only)
-- Verify `docs/20-module-prds/analytics/MODULE_PRD.md` exists.
-- Verify `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md` exists.
-- Verify `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T190000Z.md` = READY.
-- Verify Sprint PRDs 001–004 exist under `docs/30-sprint-prds/analytics/sprints/`.
-- Verify no existing `SPR-MOD-017-005*` file.
-- Verify no open corrective executions; repository integrity intact.
-- Abort on any PRECONDITION-FAIL.
+## 1. Preflight (read-only)
 
-### 2. Authoritative Sources
-Derive Sprint 005 exclusively from the Module PRD, Sprint Plan (Sprint 005 allocation), Governance v1.0, and GT-003 v1.0. Prior sprint PRDs referenced only as structural templates — no requirements, authorities, ownership, or scope may be inherited.
+Verify existence and readiness of:
+- `docs/20-module-prds/analytics/MODULE_PRD.md`
+- `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`
+- Sprint PRDs `SPR-MOD-017-001` … `SPR-MOD-017-005` under `docs/30-sprint-prds/analytics/sprints/`
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T200000Z.md` = READY
+- No open corrective executions; repository integrity intact
 
-### 3. Deliverable — Sprint PRD
-Create `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS.md` using only GT-003-approved sections:
+Abort on any PRECONDITION-FAIL.
 
-- **Header** — Sprint ID, Module (MOD-017), Stage (Sprint Authoring), Template (GT-003 v1.0), Status using the GT-003 template-defined lifecycle terminology, applied consistently across the PRD and all four registration surfaces.
-- **Purpose** — Establish exactly the two authorities allocated by the approved Sprint Plan:
-  - Analytical Models Authority
-  - Cross-Module Analytics Authority
-- **Scope** — Analytical Model definitions, metadata, lifecycle, ownership, execution metadata, versioning, validation; cross-module analytical views, cross-module aggregation definitions, trend analysis definitions, comparative analytics definitions. Exclude everything outside Sprint 005 allocation.
-- **Functional Requirements** — Model management, definition/version management, cross-module analytical view management, trend analysis, comparative analysis, model validation, execution configuration, cross-module aggregation configuration. Explicitly exclude ML, AI, predictive AI, generative AI, autonomous decision-making, workflow orchestration, new operational transactions, and implementation behavior unless the Module PRD allocates them.
-- **Business Rules** — Uniqueness, version traceability, read-model-only consumption, auditability, aggregations preserve source ownership, execution complies with authorization policies (only rules derivable from the Module PRD).
-- **Master Data** — Analytical Model, Model Version, Analytical View, Aggregation Definition (only those allocated).
-- **Transactions** — If none allocated, explicitly state: "No transactional authority is established in this sprint."
-- **Events** — Publish only those allocated (e.g., AnalyticalModelCreated/Updated, ModelExecutionCompleted, CrossModuleAnalyticsGenerated); consume only upstream events allocated by the Module PRD. Do not invent events.
-- **Integrations / Engines** — Only engines allocated (from ENG-001 Identity, ENG-002 Authorization, ENG-003 Permission, ENG-004 Audit, ENG-005 Configuration, ENG-024 Event). Platform engines remain platform-owned.
-- **Dependencies** — Module PRD, Sprint Plan, SPR-MOD-017-001..004, released platform engines.
-- **Acceptance Criteria** — At least one AC per Functional Requirement and per Business Rule.
-- **Traceability** — Bidirectional Module PRD ↔ Sprint Plan ↔ Sprint PRD.
-- **Ownership Boundaries** — MOD-017 owns Sprint 005 authorities; Sprints 001–004 authorities unchanged; source-domain masters remain with originating modules; platform engines platform-owned; Analytics remains a read-model-only consumer. No reassignment.
-- **Non-Goals** — KPI/Dashboard/Visualization/Distribution/Reporting/Export changes; Module Baseline; Module Publication; Implementation; Governance evolution.
-- **References** — Module PRD, Sprint Plan, Governance v1.0, GT-003 v1.0.
+## 2. Authoritative Sources
 
-### 4. Registration (GT-003 surfaces only)
-Update to the GT-003 template-defined initial lifecycle state, applied consistently across:
-- `docs/30-sprint-prds/analytics/README.md`
-- `docs/SPRINT_CATALOG.md`
-- `docs/DOCUMENT_INDEX.md`
-- `docs/_meta.json` (validate JSON)
+Derive the baseline exclusively from the approved MODULE_PRD, MOD-017 Sprint Plan, Sprint PRDs 001–005, released Governance Framework v1.0, and released GT-004 v1.0. Introduce no authorities, ownership, or scope beyond the approved artifacts.
 
-Lifecycle terminology derives from the released GT-003 template — no hard-coded transition wording. No additional registration surfaces.
+## 3. Deliverable — Module Baseline
 
-### 5. Audit + Execution Record
-- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` per GT-005 spec.
-- Append GT-003 execution record to `.lovable/plan.md`:
-  ```
-  execution_status: READY_FOR_STAGE_2
-  template: GT-003
-  template_version: v1.0
-  module: MOD-017 Analytics
-  sprint: SPR-MOD-017-005
-  stage: Sprint Authoring
-  next_template: GT-004
-  next_target: MOD-017 Module Baseline Consolidation
-  handoff_state: READY
-  execution_id: <allocated>
-  audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
-  repository_revision_after: <allocated>
-  snapshot_digest: <allocated>
-  ```
+Create `docs/40-module-baselines/analytics/MOD-017_MODULE_BASELINE.md` using only the sections defined by the released GT-004 template, consolidating without modification or expansion:
 
-### 6. Validation (dynamic rule binding)
-Enforce: exclusive derivation from Module PRD and Sprint Plan; exact Sprint 005 allocation; only the two allocated authorities; no duplicated ownership; no orphan requirements; no scope expansion; no governance evolution; ownership boundaries preserved; read-model-only invariant; complete bidirectional traceability; registration limited to four surfaces; all GT-003 validations PASS; Repository Audit PASS; Repository READY. No hard-coded validation IDs or counts.
+- Module purpose and scope
+- Approved authorities from Sprints 001–005:
+  - S1: Data Mart Master Authority; Analytics Foundation Configuration Authority
+  - S2: KPI Framework Authority; KPI Metric Catalog Authority
+  - S3: Dashboard Authority; Visualization Authority
+  - S4: Distribution Authority; Reporting Authority; Export Authority
+  - S5: Analytical Models Authority; Cross-Module Analytics Authority
+- Functional requirements and business rules
+- Master data authorities and transaction authorities established by the approved Sprint PRDs
+- Published and consumed events per approved Sprint PRDs
+- Integration & Platform Engine Usage — consolidate only the platform engines allocated by the approved Module PRD and established through Sprint PRDs 001–005; platform engines remain platform-owned
+- Dependencies, acceptance criteria references, traceability
+- Ownership boundaries, non-goals, references
 
-### 7. Rollback
-On any post-registration failure: execute GT-003 Runtime Rollback — reverse all four surface updates, remove partial Sprint PRD artifacts, restore pre-execution state; Wrapper behavior unchanged.
+Consolidation-only artifact — no new requirements, no reinterpretation.
 
-### 8. Roadmap
-Sprint 005 COMPLETE on PASS → GT-004 MOD-017 Module Baseline Consolidation → GT-005 MOD-017 Publication.
+## 4. Consolidation Rules
 
----
+Ensure no duplicated requirements/authorities, no conflicting business rules or ownership, no orphan traceability, no missing sprint-derived authority, no scope expansion, no architectural change, no governance evolution. Merge cross-sprint duplicates into a single authoritative statement preserving intent.
 
-## GT-003 Execution Record — SPR-MOD-017-005
+## 5. Ownership Validation
 
-```
+Preserve:
+- MOD-017 owns only its allocated authorities
+- Source-domain master ownership remains with originating modules
+- Platform engines remain platform-owned
+- Analytics operates as read-model-only consumer
+- Read-only surface to MOD-018 AI Workspace unchanged (as established by approved Sprint PRDs)
+
+No ownership reassignment.
+
+## 6. Registration (GT-004 surfaces only)
+
+Update only the registration surfaces defined by the released GT-004 specification (e.g., module-baselines README, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` with JSON validation, and any additional GT-004-mandated surface such as a module baseline catalog if defined). Use lifecycle terminology per the GT-004 template consistently across the baseline and registration artifacts. Introduce no additional surfaces.
+
+## 7. Audit + Execution Record
+
+- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` per the released GT-005 Repository Audit specification
+- Append the GT-004 execution record to `.lovable/plan.md`:
+
+```text
 execution_status: READY_FOR_STAGE_2
-template: GT-003
+template: GT-004
 template_version: v1.0
 module: MOD-017 Analytics
-sprint: SPR-MOD-017-005
-stage: Sprint Authoring
-next_template: GT-004
-next_target: MOD-017 Module Baseline Consolidation
+stage: Module Baseline Consolidation
+next_template: GT-005
+next_target: MOD-017 Module Publication
 handoff_state: READY
-execution_id: GT003-MOD017-005-20260717T200000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260717T200000Z
-previous_audit_report_id: REPOSITORY_AUDIT_20260717T190000Z
-repository_revision_after: rev-20260717T200000Z
-snapshot_digest: sha256:20260717T200000Z-mod017-sprint005
+execution_id: <allocated>
+audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
+repository_revision_after: <allocated>
+snapshot_digest: <allocated>
 ```
+
+Include additional fields only if required by the released GT-004 template.
+
+## 8. Validation (dynamic rule binding)
+
+Execute all GT-004 validations via dynamic rule binding. Require: exclusive derivation from approved authoritative artifacts; complete consolidation of Sprints 001–005; no duplicated/orphan requirements or authorities; no ownership conflicts; no scope expansion; no governance evolution; read-model-only invariant preserved; complete bidirectional traceability; registration limited to GT-004-defined surfaces; all GT-004 validations PASS; Repository Audit PASS; Repository READY. No hard-coded validation identifiers or counts.
+
+## 9. Rollback
+
+On any post-registration failure, execute the released GT-004 Runtime Rollback procedure: reverse all GT-004 registration updates, remove partial baseline artifacts, restore the repository to its exact pre-execution state, and preserve Wrapper behavior unchanged.
+
+## 10. Roadmap
+
+GT-004 Module Baseline Consolidation COMPLETE upon PASS. Next: **GT-005 — MOD-017 Module Publication**. Upon successful GT-005 completion, MOD-017 Analytics reaches Repository Published status and its governance lifecycle is complete.
