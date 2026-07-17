@@ -95,3 +95,26 @@ No new sprints, no Module PRD / Sprint Plan edits, no capability or ownership ch
 ## Roadmap
 
 - **Pass 17.1.1** — GT-005 Module Publication for MOD-015 POS
+
+## Execution Record — Pass 17.1.0
+
+```
+execution_status: READY_FOR_STAGE_3
+template: GT-004
+template_version: v1.0
+module: MOD-015 POS
+stage: Module Baseline Consolidation
+next_template: GT-005
+next_target: <resolved dynamically according to the released GT-005 lifecycle>
+handoff_state: READY
+execution_id: GT004-MOD015-20260717T040000Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T040000Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T030000Z
+repository_revision_after: pass-17.1.0
+snapshot_digest: sha256:<computed at execution per FROZEN Wrapper v1.0>
+```
+
+- Module Baseline authored: `docs/40-module-baselines/MOD015_POS_BASELINE_v1.md` consolidating SPR-MOD-015-001..005 under GT-004 v1.0. Baseline Authority Clause established; ownership boundaries recapitulated verbatim (MOD-001 identity/permissions; MOD-002 ledger via `ENG-015`/`ENG-016`; MOD-005 inventory master; MOD-017 KPI catalog).
+- Registration surfaces updated (GT-004 §5): `docs/40-module-baselines/README.md`, `docs/DOCUMENT_INDEX.md`, `docs/MODULE_BASELINE_CATALOG.md`, `docs/_meta.json` (JSON-valid).
+- Engine union across 5 sprints: ENG-001, 002, 003, 004, 005, 006, 007, 010, 011, 012, 017, 018, 019, 021, 022, 023, 024, 025, 027. ADR union: ADR-011, ADR-032. Events published: `POSSaleCompleted`, `POSReturnProcessed`, `POSDayClosed`. Events consumed: `OfferPublished`, `InventoryLowStock`.
+- Audit emitted: `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T040000Z.md` (20/20 PASS; Repository READY). MOD-015 Stage 3 (Baseline Consolidation) COMPLETE; baseline Frozen.
