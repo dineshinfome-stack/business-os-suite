@@ -1424,6 +1424,10 @@
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG"
         },
         {
+          "title": "SPR-MOD-018-003 — Tool Calling on Module Capabilities",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES"
+        },
+        {
           "title": "MOD-019 Warehouse",
           "path": "30-sprint-prds/warehouse/README"
         },
