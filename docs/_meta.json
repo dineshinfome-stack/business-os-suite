@@ -1432,6 +1432,10 @@
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS"
         },
         {
+          "title": "SPR-MOD-018-005 — Governance: Human-Approval Gates, Cost & Safety",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY"
+        },
+        {
           "title": "MOD-019 Warehouse",
           "path": "30-sprint-prds/warehouse/README"
         },
