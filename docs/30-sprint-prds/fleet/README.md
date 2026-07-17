@@ -4,7 +4,7 @@ summary: "Sprint PRDs for Fleet (MOD-014). Sprint identifiers are prefixed SPR-M
 layer: "delivery"
 owner: "Operations"
 status: "approved"
-updated: "2026-07-05"
+updated: "2026-07-16"
 module_id: "MOD-014"
 sprint_prefix: "SPR-MOD-014-"
 tags: ["sprint", "prd", "readme"]
