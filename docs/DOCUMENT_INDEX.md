@@ -271,9 +271,13 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD016_SERVICE_DESK_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1.md` |
 | MOD017_ANALYTICS_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md` |
 | MOD019_WAREHOUSE_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md` |
+| MOD-017_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
 | Module Baselines — Layer README | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/README.md` |
 | Module Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_CATALOG.md` |
+| Module Publication Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_PUBLICATION_CATALOG.md` |
+| Module Publications — Layer README | Module Publication | Approved | Authoritative | `docs/45-module-publications/README.md` |
+
 | Module Dependency Matrix | Cross-cutting | Draft | Derived | `docs/module-dependency-matrix.md` |
 | Module PRD Template | Template | Approved | Reference | `docs/99-templates/module-prd-template.md` |
 | Multi-Tenant Architecture | Architecture | Approved | Authoritative | `docs/02-architecture/multi-tenant-architecture.md` |
