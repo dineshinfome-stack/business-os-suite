@@ -1396,6 +1396,10 @@
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG"
         },
         {
+          "title": "SPR-MOD-017-003 \u2014 Dashboards & Visualization",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION"
+        },
+        {
           "title": "MOD-018 AI Workspace",
           "path": "30-sprint-prds/ai/README"
         },
