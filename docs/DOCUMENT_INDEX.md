@@ -128,6 +128,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD-015 POS — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/pos/MOD-015_SPRINT_PLAN.md` |
 | SPR-MOD-015-001 — POS Foundation (Stores, Counters & Configuration) | Delivery | Draft | Authoritative | `docs/30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md` |
 | SPR-MOD-015-002 — Cart, Pricing, Discounts & Offline Sale | Delivery | Draft | Authoritative | `docs/30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale.md` |
+| SPR-MOD-015-003 — Multi-Tender Payments & Receipts | Delivery | Draft | Authoritative | `docs/30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts.md` |
 | MOD-019 Warehouse — Sprint Plan (Stage 1) | Delivery | Approved | Authoritative | `docs/30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN.md` |
 
 
