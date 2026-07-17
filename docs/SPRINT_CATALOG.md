@@ -118,6 +118,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Sprint PRD is added, r
 | SPR-MOD-014-004 | Sprint 4 | MOD-014 Fleet | Draft | [`30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance.md`](30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance.md) | Operations |
 | SPR-MOD-015-001 | Sprint 1 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md`](30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration.md) | Revenue |
 | SPR-MOD-015-002 | Sprint 2 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale.md`](30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale.md) | Revenue |
+| SPR-MOD-015-003 | Sprint 3 | MOD-015 POS | Draft | [`30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts.md`](30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts.md) | Revenue |
 
 
 
