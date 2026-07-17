@@ -1,120 +1,66 @@
-## Pass 21.0 — GT-002 Sprint Planning for MOD-017 Analytics
+## Pass 21.0.1 — GT-003 Sprint Authoring for SPR-MOD-017-001
 
-Author the Sprint Plan for MOD-017 Analytics under Governance Framework v1.0, GT-002 v1.0, and FROZEN Execution Wrapper v1.0. Zero governance evolution, zero implementation, zero scope expansion.
+### Preflight (read-only)
+- Confirm `docs/20-module-prds/analytics/MODULE_PRD.md` and `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md` exist.
+- Confirm previous audit `REPOSITORY_AUDIT_20260717T140000Z` = Repository READY.
+- Confirm no existing `SPR-MOD-017-001*` file under `docs/30-sprint-prds/analytics/sprints/`.
+- Abort on any PRECONDITION-FAIL.
 
-### 1. Preflight (abort on PRECONDITION-FAIL)
-- Governance Framework v1.0 = Released
-- GT-002 v1.0 = Active
-- Execution Wrapper v1.0 = FROZEN
-- MOD-016 lifecycle COMPLETE through GT-005 (audit `REPOSITORY_AUDIT_20260717T130000Z` = READY)
-- Approved `docs/20-module-prds/analytics/MODULE_PRD.md` exists
-- No existing `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`
-- No open corrective executions
-- Repository integrity intact
+### Authoritative source re-read
+- `docs/20-module-prds/analytics/MODULE_PRD.md` — extract Sprint 001 allocation (Data Mart authority, Analytics Foundation Configuration authority, allocated engines, allocated events).
+- `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md` — bind Sprint 001 boundary exactly as approved.
+- One prior Sprint 001 PRD (e.g., MOD-016 Sprint 001) as structural template reference only.
 
-### 2. Authoritative Sources (read-only)
-- `docs/20-module-prds/analytics/MODULE_PRD.md`
-- Released Governance Framework v1.0
-- Released GT-002 v1.0
+### Deliverable — Sprint PRD
+Create `docs/30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS.md` using only GT-003-approved sections:
 
-No Sprint PRDs, Baselines, or other modules constitute planning authority.
+- **Header** — Sprint ID, module, stage, template, version, status.
+- **Purpose** — Establish Data Mart Master Authority and Analytics Foundation Configuration Authority.
+- **Scope** — In-scope authorities as allocated; out-of-scope items deferred to Sprints 002–005.
+- **Functional Requirements** — Data Mart definition, metadata, source registration, refresh cadence config, retention config, active/inactive lifecycle; analytics configuration; refresh scheduling; environment-level settings; configuration validation.
+- **Business Rules** — verbatim from user allocation (unique definition, configurable cadence/retention, active-only refresh, auditable config, read-model only, source data immutable).
+- **Master Data** — Data Mart Definition, Data Source Registration, Refresh Configuration, Retention Policy, Analytics Environment Configuration.
+- **Transactions** — N/A (read-model only; explicit statement).
+- **Events** — Publish: `DataMartCreated`, `DataMartUpdated`, `DataMartRefreshConfigured` (+ Retention/Lifecycle events as allocated by Module PRD). Consume: only upstream platform events allocated.
+- **Integrations** — ENG-005, ENG-004, ENG-024, ENG-020, ENG-001, ENG-002, ENG-003 as consumers only.
+- **Dependencies** — Platform engines Released; MOD-017 PRD Approved; Sprint Plan Approved.
+- **Acceptance Criteria** — one criterion per functional requirement and per business rule.
+- **Traceability** — bidirectional matrix (Module PRD ↕ Sprint Plan ↕ Sprint PRD).
+- **Ownership Boundaries** — recapitulated per user allocation; no reassignment.
+- **Non-Goals** — KPI framework, dashboards, distribution, models, cross-module analytics, transactional authority.
+- **References** — Module PRD, Sprint Plan, Governance v1.0, GT-003 v1.0.
 
-### 3. Sprint Breakdown (derived from Module PRD §2 submodules KPIs, Dashboards, Marts, Distribution, Models; capabilities §2; entities §5; transactions §6; rules §7)
+### Registration (GT-003 surfaces only)
+- `docs/30-sprint-prds/analytics/README.md` — mark SPR-MOD-017-001 status Authored, add link to Sprint PRD.
+- `docs/SPRINT_CATALOG.md` — update SPR-MOD-017-001 row (status → Authored, link, timestamp).
+- `docs/DOCUMENT_INDEX.md` — register the new Sprint PRD.
+- `docs/_meta.json` — add JSON-valid entry for the new Sprint PRD.
 
-| Sprint | Title | Scope Anchor in Module PRD |
-|---|---|---|
-| SPR-MOD-017-001 | Analytics Foundation & Data Marts | Marts submodule; §5 Data Mart master; §10 retention & refresh cadence configuration; ENG-005 Configuration; §11 NFRs baseline |
-| SPR-MOD-017-002 | KPI Framework & Metric Catalog | KPIs submodule; §5 KPI master (versioned catalog); §7 single-catalog + classification rules; §9 KPI trends; ADR-032 sensitive-KPI access |
-| SPR-MOD-017-003 | Dashboards & Visualization | Dashboards submodule; §5 Dashboard master; §6 Dashboard View transaction; §7 freshness declaration; ENG-022 Dashboard Engine |
-| SPR-MOD-017-004 | Scheduled Distribution, Reporting & Export | Distribution submodule; §5 Distribution List master; §6 Report Run transaction; §8 ReportPublished/DashboardShared events; ENG-027 Export |
-| SPR-MOD-017-005 | Analytical Models, Cross-Module Analytics & Compliance | Models submodule; §6 Model Run transaction; §8 ModelRunCompleted, event-consumption of all module domain events; §9 Executive Overview, Anomaly Highlights; §11 compliance/retention |
+### Audit + Execution Record
+- Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC>.md` per GT-005 spec (20-item checklist, Verification Summary, Repository Status: READY).
+- Append GT-003 execution record to `.lovable/plan.md` with `execution_status: READY_FOR_STAGE_2`, `next_target: SPR-MOD-017-002`.
 
-All capabilities in §2, all masters in §5, all transactions in §6, all events in §8, all reports in §9, and all configuration keys in §10 are allocated exactly once. No overlap, no orphan requirement.
+### Non-Goals
+No Module PRD or Sprint Plan changes; no Sprint 002–005; no baseline; no implementation; no governance evolution.
 
-### 4. Deliverable
-Create `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md` using only released GT-002 sections:
-Header · Purpose · Scope · Sprint Breakdown · Sprint Objectives · Authority Allocation · Dependencies · Traceability · Ownership Boundaries · Non-Goals · References.
+### Rollback
+On post-registration failure, revert registration edits, remove partial Sprint PRD, restore prior state.
 
-**Ownership Boundaries (recapitulated, not evolved).**
-- MOD-017 owns KPI catalog, Dashboard master, Data Mart master, Distribution List master, and Report/Dashboard/Model Run transactions.
-- Ledger posting → ENG-016 (owned by MOD-002).
-- Numbering → ENG-017; Audit → ENG-004; Workflow → ENG-010; Approval → ENG-011; Rules → ENG-012; Config → ENG-005; Authorization/Permissions → ENG-002/003 per ADR-032.
-- Domain masters (Customer, Vendor, Item, Employee, Asset, etc.) remain owned by their source modules; MOD-017 consumes read-only via marts.
-- Analytics is read-model-only w.r.t. source-module transactional truth.
+### GT-003 Execution Record — Pass 21.0.1
 
-### 5. Registration (GT-002 surfaces only)
-- `docs/30-sprint-prds/analytics/README.md`
-- `docs/SPRINT_CATALOG.md`
-- `docs/DOCUMENT_INDEX.md`
-- `docs/_meta.json` (JSON-valid, GT-002 registration entries only)
-
-Emit `docs/50-audit-reports/REPOSITORY_AUDIT_<UTC-ISO8601>.md` per released GT-005 Repository Audit spec. Append GT-002 execution record to `.lovable/plan.md`.
-
-### 6. Validation (dynamic rule binding)
-- Sprint Plan derived exclusively from approved Module PRD
-- Complete allocation, no duplication, no orphan requirement
-- No scope expansion, no governance evolution
-- Clear ownership boundaries
-- Bidirectional traceability Module PRD ↕ Sprint Plan
-- Registration limited to GT-002 surfaces
-- All GT-002 validations PASS; INFO only where permitted
-- Repository Audit PASS; Repository READY
-- No hard-coded validation identifiers or counts
-
-### 7. Rollback
-On any post-registration failure, execute released GT-002 Runtime Rollback: reverse registration updates, remove partial artifacts, restore repository to pre-execution state, preserve Wrapper unchanged.
-
-### 8. Non-Goals
-No Module PRD modification, Sprint PRD authoring, Baseline creation, Publication, implementation, governance evolution, GT/Wrapper evolution, or cross-module ownership change.
-
-### 9. Execution Record (shape)
-```text
-execution_status: READY_FOR_STAGE_1
-template: GT-002
+```
+execution_status: READY_FOR_STAGE_2
+template: GT-003
 template_version: v1.0
 module: MOD-017 Analytics
-stage: Sprint Planning
+sprint: SPR-MOD-017-001
+stage: Sprint Authoring
 next_template: GT-003
-next_target: <resolved dynamically per released GT-003 lifecycle>
+next_target: SPR-MOD-017-002 (KPI Framework & Metric Catalog)
 handoff_state: READY
-execution_id: <allocated>
-audit_report_id: REPOSITORY_AUDIT_<UTC-ISO8601>
-repository_revision_after: <allocated>
-snapshot_digest: <allocated>
+execution_id: GT003-MOD017-001-20260717T151727Z-001
+audit_report_id: REPOSITORY_AUDIT_20260717T151727Z
+previous_audit_report_id: REPOSITORY_AUDIT_20260717T140000Z
+repository_revision_after: rev-20260717T151727Z
+snapshot_digest: sha256:<computed at execution; frozen authoritative artifacts snapshotted per FROZEN Wrapper v1.0>
 ```
-(`previous_audit_report_id` included only if declared by released GT-002 template.)
-
-### 10. Success Criteria
-Plan authored from approved PRD; complete non-overlapping allocation; ownership boundaries clear; bidirectional traceability; registration limited to GT-002 surfaces; all validations PASS; Repository Audit PASS; Repository READY; Governance/GT/Wrapper unchanged.
-
-### 11. Roadmap
-GT-002 MOD-017 Sprint Planning COMPLETE upon PASS → GT-003 Sprint Authoring (dynamic per approved Sprint Plan) → GT-004 Baseline Consolidation → GT-005 Publication.
-
----
-
-## Pass 21.0 — GT-002 Execution Record
-
-```text
-execution_status: READY_FOR_STAGE_1
-template: GT-002
-template_version: v1.0
-module: MOD-017 Analytics
-stage: Sprint Planning
-next_template: GT-003
-next_target: SPR-MOD-017-001 — Analytics Foundation & Data Marts (resolved dynamically per the released GT-003 lifecycle against the approved MOD-017 Sprint Plan)
-handoff_state: READY
-execution_id: GT002-MOD017-20260717T140000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260717T140000Z
-previous_audit_report_id: REPOSITORY_AUDIT_20260717T130000Z
-repository_revision_after: pass-21.0-mod017-sprint-plan
-snapshot_digest: mod017-sprint-plan-v1-20260717T140000Z
-```
-
-Artifacts:
-
-- `docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md` (authored)
-- `docs/30-sprint-prds/analytics/README.md` (Sprint Plan reference + roster updated)
-- `docs/SPRINT_CATALOG.md` (SPR-MOD-017-001..005 reserved rows added)
-- `docs/DOCUMENT_INDEX.md` (Sprint Plan row added)
-- `docs/_meta.json` (Sprint Plan entry added; JSON-valid)
-- `docs/50-audit-reports/REPOSITORY_AUDIT_20260717T140000Z.md` (20/20 PASS)
