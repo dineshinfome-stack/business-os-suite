@@ -36,7 +36,7 @@ The authoritative Stage 1 Sprint Plan for this module is [`MOD-016_SPRINT_PLAN.m
 | SPR-MOD-016-002 | Sprint 2 | Ticket Capture & Lifecycle | Draft — [`sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md`](./sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE.md) | SPR-MOD-016-001 |
 | SPR-MOD-016-003 | Sprint 3 | SLA Enforcement & Escalations | Draft — [`sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md`](./sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS.md) | SPR-MOD-016-001, SPR-MOD-016-002 |
 | SPR-MOD-016-004 | Sprint 4 | Knowledge Base, Macros & CSAT | Draft — [`sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT.md`](./sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT.md) | SPR-MOD-016-001, SPR-MOD-016-002, SPR-MOD-016-003 |
-| SPR-MOD-016-005 | Sprint 5 | Service Analytics & Compliance | Reserved | SPR-MOD-016-001..004 |
+| SPR-MOD-016-005 | Sprint 5 | Service Analytics & Compliance | Draft — [`sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md`](./sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE.md) | SPR-MOD-016-001, SPR-MOD-016-002, SPR-MOD-016-003, SPR-MOD-016-004 |
 
 The `Estimated Sprint Count` for this module in `docs/SPRINT_ROADMAP.md` is **4**; the Stage 1 Sprint Plan refines this to **5** for cohesion. Row counts and goals here are planning reservations and will be refined when each Sprint PRD is authored in the corresponding Pass 18.0.x phase.
 
