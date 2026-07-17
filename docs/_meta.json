@@ -1416,6 +1416,10 @@
           "path": "30-sprint-prds/ai/MOD-018_SPRINT_PLAN"
         },
         {
+          "title": "SPR-MOD-018-001 — Prompt Library & AI Workspace Foundation",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION"
+        },
+        {
           "title": "MOD-019 Warehouse",
           "path": "30-sprint-prds/warehouse/README"
         },
