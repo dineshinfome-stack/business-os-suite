@@ -1372,6 +1372,10 @@
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS"
         },
         {
+          "title": "SPR-MOD-016-004 \u2014 Knowledge Base, Macros & CSAT",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT"
+        },
+        {
           "title": "MOD-017 Analytics",
           "path": "30-sprint-prds/analytics/README"
         },
