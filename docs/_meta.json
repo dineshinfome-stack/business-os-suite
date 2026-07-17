@@ -1573,6 +1573,33 @@
     },
 
     {
+      "label": "60 Solution Design",
+      "items": [
+        {
+          "title": "README",
+          "path": "60-solution-design/README"
+        },
+        {
+          "title": "Solution Design Catalog",
+          "path": "60-solution-design/SOLUTION_DESIGN_CATALOG"
+        },
+        {
+          "title": "WEB Specifications — Index",
+          "path": "60-solution-design/web/README"
+        },
+        {
+          "title": "MOB Specifications — Index",
+          "path": "60-solution-design/mobile/README"
+        },
+        {
+          "title": "API Specifications — Index",
+          "path": "60-solution-design/api/README"
+        }
+      ]
+    },
+
+
+    {
       "label": "12 UI Components",
       "items": [
         {

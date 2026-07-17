@@ -391,3 +391,4 @@ Stages do not overlap. No Sprint PRD may be authored before Stage 1 approval; no
 - [`docs/DOCUMENT_TRACEABILITY.md`](./DOCUMENT_TRACEABILITY.md)
 - [`docs/20-module-prds/README.md`](./20-module-prds/README.md)
 - [`docs/30-sprint-prds/README.md`](./30-sprint-prds/README.md)
+- [`docs/60-solution-design/README.md`](./60-solution-design/README.md) — Phase 3 Platform Solution Design Framework (cross-reference only; downstream consumer of Published Modules, does not modify this workflow).
