@@ -41,6 +41,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Governance Template Capabilities Registry | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` |
 | Governance Template Dependency Matrix | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` |
 | Governance Template Dependency Matrix (YAML export) | Cross-cutting | Approved | Derived | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` |
+| Governance Frontmatter Standard | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md` |
 | GT-002 — Stage 1 Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` |
 | GT-003 — Sprint Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` |
 | GT-004 — Baseline Consolidation Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md` |
