@@ -508,6 +508,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | WEB-002 — AI Workspace Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-002_AI_WORKSPACE.md` |
 | MOB-002 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-002_AI_WORKSPACE.md` |
 | API-002 — AI Workspace API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-002_AI_WORKSPACE.md` |
+| WEB-003 — Platform Administration Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-003_PLATFORM_ADMINISTRATION.md` |
 
 
 

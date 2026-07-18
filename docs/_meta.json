@@ -1600,6 +1600,10 @@
           "path": "60-solution-design/web/WEB-002_AI_WORKSPACE"
         },
         {
+          "title": "WEB-003 — Platform Administration",
+          "path": "60-solution-design/web/WEB-003_PLATFORM_ADMINISTRATION"
+        },
+        {
           "title": "MOB Specifications — Index",
           "path": "60-solution-design/mobile/README"
         },
