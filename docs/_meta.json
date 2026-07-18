@@ -1592,40 +1592,40 @@
           "path": "60-solution-design/web/README"
         },
         {
-          "title": "WEB-001 — Analytics",
-          "path": "60-solution-design/web/WEB-001_ANALYTICS"
+          "title": "WEB-017 — Analytics",
+          "path": "60-solution-design/web/WEB-017_ANALYTICS"
         },
         {
-          "title": "WEB-002 — AI Workspace",
-          "path": "60-solution-design/web/WEB-002_AI_WORKSPACE"
+          "title": "WEB-018 — AI Workspace",
+          "path": "60-solution-design/web/WEB-018_AI_WORKSPACE"
         },
         {
-          "title": "WEB-003 — Platform Administration",
-          "path": "60-solution-design/web/WEB-003_PLATFORM_ADMINISTRATION"
+          "title": "WEB-001 — Platform Administration",
+          "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION"
         },
         {
           "title": "MOB Specifications — Index",
           "path": "60-solution-design/mobile/README"
         },
         {
-          "title": "MOB-001 — Analytics",
-          "path": "60-solution-design/mobile/MOB-001_ANALYTICS"
+          "title": "MOB-017 — Analytics",
+          "path": "60-solution-design/mobile/MOB-017_ANALYTICS"
         },
         {
-          "title": "MOB-002 — AI Workspace",
-          "path": "60-solution-design/mobile/MOB-002_AI_WORKSPACE"
+          "title": "MOB-018 — AI Workspace",
+          "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE"
         },
         {
           "title": "API Specifications — Index",
           "path": "60-solution-design/api/README"
         },
         {
-          "title": "API-001 — Analytics",
-          "path": "60-solution-design/api/API-001_ANALYTICS"
+          "title": "API-017 — Analytics",
+          "path": "60-solution-design/api/API-017_ANALYTICS"
         },
         {
-          "title": "API-002 — AI Workspace",
-          "path": "60-solution-design/api/API-002_AI_WORKSPACE"
+          "title": "API-018 — AI Workspace",
+          "path": "60-solution-design/api/API-018_AI_WORKSPACE"
         }
       ]
     },

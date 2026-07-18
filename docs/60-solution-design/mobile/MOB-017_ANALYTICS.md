@@ -1,7 +1,7 @@
 ---
-title: "MOB-001 — Analytics Mobile Solution Design Specification"
-summary: "Phase 3 Mobile Solution Design specification for MOD-017 Analytics. Derived exclusively from the Analytics Module Publication (with WEB-001 referenced only for journey and terminology consistency). Defines mobile personas, journeys, navigation, screen inventory, forms, offline & synchronization, device capabilities, accessibility, and user-facing security expectations. Introduces no new business requirements."
-spec_id: "MOB-001"
+title: "MOB-017 — Analytics Mobile Solution Design Specification"
+summary: "Phase 3 Mobile Solution Design specification for MOD-017 Analytics. Derived exclusively from the Analytics Module Publication (with WEB-017 referenced only for journey and terminology consistency). Defines mobile personas, journeys, navigation, screen inventory, forms, offline & synchronization, device capabilities, accessibility, and user-facing security expectations. Introduces no new business requirements."
+spec_id: "MOB-017"
 family: "MOB"
 source_module: "MOD-017"
 source_module_name: "Analytics"
@@ -10,14 +10,14 @@ source_baseline: "MOD017_ANALYTICS_BASELINE_v1"
 source_module_prd: "docs/20-module-prds/analytics/MODULE_PRD.md"
 source_sprint_plan: "docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md"
 source_sprints: ["SPR-MOD-017-001", "SPR-MOD-017-002", "SPR-MOD-017-003", "SPR-MOD-017-004", "SPR-MOD-017-005"]
-related_web_spec: "WEB-001"
+related_web_spec: "WEB-017"
 version: "1.0"
 status: "Active"
 lifecycle_state: "Active"
 owner: "Insights"
 layer: "platform"
 updated: "2026-07-18"
-tags: ["solution-design", "mobile", "phase-3", "MOB-001", "MOD-017", "analytics", "SD-003"]
+tags: ["solution-design", "mobile", "phase-3", "MOB-017", "MOD-017", "analytics", "SD-003"]
 document_type: "Mobile Solution Design Specification"
 template: "SD-003"
 template_version: "v1.0"
@@ -26,9 +26,9 @@ related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-00
 related_adrs: ["ADR-011", "ADR-014", "ADR-032", "ADR-081"]
 ---
 
-# MOB-001 — Analytics Mobile Solution Design Specification
+# MOB-017 — Analytics Mobile Solution Design Specification
 
-> **Reference derivation only.** MOB-001 is a Mobile-surface projection of the Analytics Module Publication [`MOD-017_MODULE_PUBLICATION`](../../45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. [`WEB-001`](../web/WEB-001_ANALYTICS.md) is referenced only to maintain consistency of journeys and terminology; it is not a business source. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and MOB-001 is corrected in the same change.
+> **Reference derivation only.** MOB-017 is a Mobile-surface projection of the Analytics Module Publication [`MOD-017_MODULE_PUBLICATION`](../../45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. [`WEB-017`](../web/WEB-017_ANALYTICS.md) is referenced only to maintain consistency of journeys and terminology; it is not a business source. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and MOB-017 is corrected in the same change.
 
 ## A. Overview
 
@@ -48,7 +48,7 @@ Mobile-native surface (phone and tablet form factors) covering:
 - Notification handling for `DashboardShared`, `ReportPublished`, and `ModelRunCompleted` signals per the Distribution Authority and Notification Engine (`ENG-025`).
 - Offline availability limited strictly to what the Published Module supports (cached read-only viewing and queued read-only requests).
 
-Out of scope for MOB-001: Web surfaces (belongs to WEB-001), API contracts (belongs to API-001), UI mockups, framework decisions, and any business-rule authoring.
+Out of scope for MOB-017: Web surfaces (belongs to WEB-017), API contracts (belongs to API-017), UI mockups, framework decisions, and any business-rule authoring.
 
 ### A.3 Source Published Module
 
@@ -58,7 +58,7 @@ Out of scope for MOB-001: Web surfaces (belongs to WEB-001), API contracts (belo
 - **Module PRD:** [`docs/20-module-prds/analytics/MODULE_PRD.md`](../../20-module-prds/analytics/MODULE_PRD.md)
 - **Sprint Plan:** [`docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](../../30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md)
 - **Sprint PRDs:** `SPR-MOD-017-001` … `SPR-MOD-017-005`
-- **Related Web Specification:** [`WEB-001`](../web/WEB-001_ANALYTICS.md) — consistency reference only.
+- **Related Web Specification:** [`WEB-017`](../web/WEB-017_ANALYTICS.md) — consistency reference only.
 
 ### A.4 Version
 
@@ -67,11 +67,11 @@ Out of scope for MOB-001: Web surfaces (belongs to WEB-001), API contracts (belo
 
 ### A.5 Traceability References
 
-See §K for the complete feature-to-capability-to-sprint-to-WEB-001 traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → MOB-001; WEB-001 referenced for consistency).
+See §K for the complete feature-to-capability-to-sprint-to-WEB-017 traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → MOB-017; WEB-017 referenced for consistency).
 
 ## B. Mobile Personas
 
-Personas are inherited from the Module PRD §3 and the Sprint PRD family; MOB-001 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC). This section describes mobile-specific responsibilities, permissions, and scenarios only.
+Personas are inherited from the Module PRD §3 and the Sprint PRD family; MOB-017 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC). This section describes mobile-specific responsibilities, permissions, and scenarios only.
 
 ### B.1 Business User (all modules)
 
@@ -111,9 +111,9 @@ Personas are inherited from the Module PRD §3 and the Sprint PRD family; MOB-00
 
 ## C. Mobile User Journeys
 
-Every journey is derived from a capability in Module Publication §3 and the transaction lifecycles in Module Publication §8. MOB-001 defines Mobile-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines. Where a Web equivalent exists, the corresponding WEB-001 journey is noted parenthetically for consistency.
+Every journey is derived from a capability in Module Publication §3 and the transaction lifecycles in Module Publication §8. MOB-017 defines Mobile-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines. Where a Web equivalent exists, the corresponding WEB-017 journey is noted parenthetically for consistency.
 
-### C.1 Journey — View Dashboard and Drill-down (WEB-001 §C.1)
+### C.1 Journey — View Dashboard and Drill-down (WEB-017 §C.1)
 
 - **Entry Points:** Mobile Home; direct deep link to a dashboard; `DashboardShared` notification; embedded card on a persona home surface.
 - **Primary Flow:** User opens Dashboards → selects dashboard → dashboard renders with declared freshness indicator → user applies filter / grouping → user drills down from a widget to the underlying KPI or Analytical View.
@@ -122,7 +122,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** If offline, most-recently-viewed dashboards render from cache with an offline indicator; freshness expectation is displayed as of the cached snapshot. Drill-down targets that require live data show an offline-not-available state until reconnected.
 - **Exception Flows:** Insufficient permission → access-denied state; freshness expectation not met → stale-data indicator; sensitive-KPI redaction where row-level access is not granted.
 
-### C.2 Journey — Browse KPI Catalog (WEB-001 §C.2)
+### C.2 Journey — Browse KPI Catalog (WEB-017 §C.2)
 
 - **Entry Points:** KPI Catalog tab; KPI reference from a dashboard widget; cross-module KPI reference from another module's mobile surface.
 - **Primary Flow:** User opens KPI Catalog → searches / filters by classification, ownership, or lifecycle state → opens a KPI Master → views definition, version history (single Active version indicated), sensitive classification, and current value.
@@ -131,7 +131,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Recently opened KPI details are available read-only from cache with a "cached at" indicator; live value refresh requires connectivity.
 - **Exception Flows:** Sensitive-KPI classification hides value pending row-level access; archived / inactive versions are read-only; access-denied where policy prohibits.
 
-### C.3 Journey — Review a Report Run and Download an Artifact (WEB-001 §C.8, §C.9)
+### C.3 Journey — Review a Report Run and Download an Artifact (WEB-017 §C.8, §C.9)
 
 - **Entry Points:** `ReportPublished` notification; Reports tab → Report Runs; direct deep link.
 - **Primary Flow:** User opens Report Run detail → inspects lifecycle state, distribution outcomes, and artifact reference → downloads the permitted artifact to device via the platform file-handling surface.
@@ -140,7 +140,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Downloaded artifacts remain available offline in the device's file handling surface; opening Run detail while offline shows cached metadata with an offline indicator; new downloads require connectivity.
 - **Exception Flows:** Delivery failure state surfaced with reviewer notes; sensitive-KPI redaction applies to any exported payload; permission denied on the payload.
 
-### C.4 Journey — Manage Subscriptions to Distributions (WEB-001 §C.7)
+### C.4 Journey — Manage Subscriptions to Distributions (WEB-017 §C.7)
 
 - **Entry Points:** Reports tab → Subscriptions; Report Definition detail → Subscribe.
 - **Primary Flow:** User selects a Distribution List for which subscription is permitted → confirms subscription preferences (channel selection where the Distribution Authority permits self-service) → saves.
@@ -149,7 +149,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Subscribe / unsubscribe requests are queued while offline; on reconnect the queued action is submitted; conflict resolution follows §G.
 - **Exception Flows:** Distribution List not subscribable per policy; approval required per policy → surfaces the pending-approval state.
 
-### C.5 Journey — Handle an Approval Notification (WEB-001 §C.3, §C.7, §C.10)
+### C.5 Journey — Handle an Approval Notification (WEB-017 §C.3, §C.7, §C.10)
 
 - **Entry Points:** Push notification for a pending approval (KPI activation, Report publication, Model activation).
 - **Primary Flow:** User opens the approval notification → reviews the pending item read-only on mobile → approves or rejects with reviewer notes via `ENG-011`.
@@ -158,7 +158,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Approve / reject actions are not submitted offline; the action is retained locally and clearly indicated as pending submission until reconnected.
 - **Exception Flows:** Item no longer eligible (state changed elsewhere) → surfaces a conflict state; access denied.
 
-### C.6 Journey — View Anomaly Highlights and Cross-Module Views (WEB-001 §C.11)
+### C.6 Journey — View Anomaly Highlights and Cross-Module Views (WEB-017 §C.11)
 
 - **Entry Points:** Anomaly Highlights tab / entry; deep link from a `ModelRunCompleted` notification.
 - **Primary Flow:** User opens the view → freshness indicator displays → user filters cross-module aggregations → drills down to the source module reference where the source-module surface is authorized on mobile.
@@ -176,7 +176,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Same cached-viewing rules as §C.1 and §C.3 apply.
 - **Exception Flows:** Same as §C.1 and §C.3.
 
-### C.8 Journey — Compliance & Retention Audit-Readiness on Mobile (WEB-001 §C.12)
+### C.8 Journey — Compliance & Retention Audit-Readiness on Mobile (WEB-017 §C.12)
 
 - **Entry Points:** Audit-Readiness entry (audit persona only).
 - **Primary Flow:** Auditor opens the audit-readiness surface → filters by time range / entity / actor within tenant scope → inspects KPI catalog version history, dashboard freshness declarations, and Report / Model Run history — read-only.
@@ -187,7 +187,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 
 ## D. Mobile Navigation
 
-Navigation groups are derived from Module Publication §3 (Approved Scope) and §7–§8 (Master Data / Transaction Authorities). MOB-001 does not prescribe an information architecture beyond what the Published Module supports. Behaviour only — no visual designs.
+Navigation groups are derived from Module Publication §3 (Approved Scope) and §7–§8 (Master Data / Transaction Authorities). MOB-017 does not prescribe an information architecture beyond what the Published Module supports. Behaviour only — no visual designs.
 
 ### D.1 Bottom Navigation (Primary)
 
@@ -371,7 +371,7 @@ Each row: purpose, business capability, primary actions, displayed business info
 
 ## F. Mobile Forms
 
-Forms on mobile are limited to actions supported by the Published Module and appropriate for a mobile form factor. Field lists derive from the Master Data and Transaction Authorities in Module Publication §7–§8. Validation is business-level (declarative rules resolved via `ENG-012`); technical validation is out of scope. Authoring of KPI, Dashboard, Report Definition, Distribution List / Channel, Export Configuration, Analytical Model, Model Execution Configuration, Data Mart, and Analytics Foundation Configuration remains Web-primary and is not surfaced as mobile forms in MOB-001.
+Forms on mobile are limited to actions supported by the Published Module and appropriate for a mobile form factor. Field lists derive from the Master Data and Transaction Authorities in Module Publication §7–§8. Validation is business-level (declarative rules resolved via `ENG-012`); technical validation is out of scope. Authoring of KPI, Dashboard, Report Definition, Distribution List / Channel, Export Configuration, Analytical Model, Model Execution Configuration, Data Mart, and Analytics Foundation Configuration remains Web-primary and is not surfaced as mobile forms in MOB-017.
 
 ### F.1 Subscription Preference Form
 
@@ -423,7 +423,7 @@ Forms on mobile are limited to actions supported by the Published Module and app
 
 ## G. Offline & Synchronization
 
-Offline capabilities are strictly limited to what the Published Module supports. MOD-017 is a **read-model-only consumer** (Publication §2, §4, §13) and mutates no source-module transaction. MOB-001 therefore constrains offline behaviour to read-only consumption and to user-preference actions the module already supports.
+Offline capabilities are strictly limited to what the Published Module supports. MOD-017 is a **read-model-only consumer** (Publication §2, §4, §13) and mutates no source-module transaction. MOB-017 therefore constrains offline behaviour to read-only consumption and to user-preference actions the module already supports.
 
 ### G.1 Offline Availability
 
@@ -461,14 +461,14 @@ Actions **not** queued offline: Approval decisions (§F.2 — held locally as cl
 
 ## H. Device Capabilities
 
-Only device capabilities justified by the Published Module are surfaced. MOB-001 introduces no capability beyond those consumed by the Publication's engine set (§11).
+Only device capabilities justified by the Published Module are surfaced. MOB-017 introduces no capability beyond those consumed by the Publication's engine set (§11).
 
 - **Notifications** — Push notifications for `DashboardShared`, `ReportPublished`, `ModelRunCompleted`, and pending approvals, dispatched via `ENG-025` per the Distribution Authority. User preferences are captured in §F.3.
-- **File Attachments** — Download of permitted Report / Export artifacts to the device's platform file-handling surface, produced via `ENG-021` / `ENG-027`. No upload capability is surfaced by MOD-017 and none is added by MOB-001.
-- **Biometric Authentication Entry** — Biometric unlock is offered only as an entry point into the authenticated session established by `ENG-001` per `ADR-032`. MOB-001 does not define authentication mechanics; biometrics are an entry convenience only.
-- **Device Storage** — Used exclusively for the cache described in §G and for downloaded artifacts. No persistent storage of Analytics master data is introduced by MOB-001.
+- **File Attachments** — Download of permitted Report / Export artifacts to the device's platform file-handling surface, produced via `ENG-021` / `ENG-027`. No upload capability is surfaced by MOD-017 and none is added by MOB-017.
+- **Biometric Authentication Entry** — Biometric unlock is offered only as an entry point into the authenticated session established by `ENG-001` per `ADR-032`. MOB-017 does not define authentication mechanics; biometrics are an entry convenience only.
+- **Device Storage** — Used exclusively for the cache described in §G and for downloaded artifacts. No persistent storage of Analytics master data is introduced by MOB-017.
 
-Capabilities **not** surfaced (no published business requirement supports them): camera, barcode / QR scanning, GPS / location, contact / calendar access, microphone, and any hardware sensor. These MUST NOT be introduced by MOB-001.
+Capabilities **not** surfaced (no published business requirement supports them): camera, barcode / QR scanning, GPS / location, contact / calendar access, microphone, and any hardware sensor. These MUST NOT be introduced by MOB-017.
 
 ## I. Accessibility
 
@@ -487,7 +487,7 @@ User-facing mobile security expectations derived from Module Publication §4 aut
 
 ### J.1 Authentication Entry Points
 
-- Access to Analytics on mobile requires authenticated identity per `ENG-001`. Unauthenticated launches direct to the platform-level sign-in surface owned by MOD-001; MOB-001 does not define authentication mechanics.
+- Access to Analytics on mobile requires authenticated identity per `ENG-001`. Unauthenticated launches direct to the platform-level sign-in surface owned by MOD-001; MOB-017 does not define authentication mechanics.
 - Biometric unlock (§H) is an entry convenience only; it does not substitute for the platform authentication mechanism.
 
 ### J.2 Session Awareness
@@ -505,8 +505,8 @@ User-facing mobile security expectations derived from Module Publication §4 aut
 ### J.4 Secure Handling of Business Data
 
 - On-device cache (§G) stores only content the user was authorized to view at capture time; sign-out clears the cache within the platform envelope.
-- Downloaded artifacts are handed to the platform file-handling surface; MOB-001 does not define file-storage mechanics.
-- Screenshots and screen-recording follow the platform convention for sensitive-KPI surfaces; no mechanism is defined by MOB-001.
+- Downloaded artifacts are handed to the platform file-handling surface; MOB-017 does not define file-storage mechanics.
+- Screenshots and screen-recording follow the platform convention for sensitive-KPI surfaces; no mechanism is defined by MOB-017.
 
 ### J.5 Audit Visibility
 
@@ -518,9 +518,9 @@ User-facing mobile security expectations derived from Module Publication §4 aut
 
 ## K. Traceability Matrix
 
-Every MOB-001 feature is traced to the Published Module capability, the originating Sprint(s), and the related WEB-001 section for consistency reference only. WEB-001 is not a business source.
+Every MOB-017 feature is traced to the Published Module capability, the originating Sprint(s), and the related WEB-017 section for consistency reference only. WEB-017 is not a business source.
 
-| MOB-001 Feature | Publication Capability (§3) | Sprint(s) | Related WEB-001 Section |
+| MOB-017 Feature | Publication Capability (§3) | Sprint(s) | Related WEB-017 Section |
 | --- | --- | --- | --- |
 | E.1 Mobile Home | Dashboards; KPI catalog | SPR-MOD-017-002, 003 | E.1 |
 | E.2 Dashboards Catalog | Dashboards and drill-downs | SPR-MOD-017-003 | E.2 |
@@ -543,7 +543,7 @@ Every MOB-001 feature is traced to the Published Module capability, the originat
 | F.2 Approval Decision Form | Approval-gated lifecycle transitions | SPR-MOD-017-002, 004, 005 | C.3, C.7, C.10 |
 | F.3 Notification Preferences Form | Notification Engine consumption | SPR-MOD-017-004 | (Web preferences equivalent) |
 | F.4 Filter / Scope Form | Read-only viewing surfaces | SPR-MOD-017-002, 003, 005 | E.3, E.7, E.20, E.21, E.24 |
-| G Offline & Synchronization | Read-model-only boundary | SPR-MOD-017-001, 005 | (No direct WEB-001 equivalent) |
+| G Offline & Synchronization | Read-model-only boundary | SPR-MOD-017-001, 005 | (No direct WEB-017 equivalent) |
 | H.Notifications | Distribution Authority; `ENG-025` | SPR-MOD-017-003, 004, 005 | J.4 |
 | H.File Attachments | Export Authority; `ENG-027` | SPR-MOD-017-004 | E.16, F.8 |
 | H.Biometric Entry | Identity Engine entry per `ADR-032` | SPR-MOD-017-001 | J.1 |
@@ -556,7 +556,7 @@ Every MOB-001 feature is traced to the Published Module capability, the originat
 - [`docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md`](../../40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md)
 - [`docs/20-module-prds/analytics/MODULE_PRD.md`](../../20-module-prds/analytics/MODULE_PRD.md)
 - [`docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](../../30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md)
-- [`docs/60-solution-design/web/WEB-001_ANALYTICS.md`](../web/WEB-001_ANALYTICS.md) — consistency reference only.
+- [`docs/60-solution-design/web/WEB-017_ANALYTICS.md`](../web/WEB-017_ANALYTICS.md) — consistency reference only.
 - [`docs/60-solution-design/README.md`](../README.md)
 - [`docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`](../SOLUTION_DESIGN_CATALOG.md)
 - [`docs/11-adrs/ADR_INDEX.md`](../../11-adrs/ADR_INDEX.md)

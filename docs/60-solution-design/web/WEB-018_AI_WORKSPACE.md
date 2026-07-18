@@ -1,7 +1,7 @@
 ---
-title: "WEB-002 — AI Workspace Web Solution Design Specification"
+title: "WEB-018 — AI Workspace Web Solution Design Specification"
 summary: "Phase 3 Web Solution Design specification for MOD-018 AI Workspace. Derived exclusively from the AI Workspace Module Publication. Defines Web-surface personas, journeys, navigation, screen inventory, forms, workspace collaboration, AI interaction experience, accessibility, and user-facing security expectations. Introduces no new business requirements."
-spec_id: "WEB-002"
+spec_id: "WEB-018"
 family: "WEB"
 source_module: "MOD-018"
 source_module_name: "AI Workspace"
@@ -16,7 +16,7 @@ lifecycle_state: "Active"
 owner: "AI Platform"
 layer: "platform"
 updated: "2026-07-18"
-tags: ["solution-design", "web", "phase-3", "WEB-002", "MOD-018", "ai-workspace", "SD-005"]
+tags: ["solution-design", "web", "phase-3", "WEB-018", "MOD-018", "ai-workspace", "SD-005"]
 document_type: "Web Solution Design Specification"
 template: "SD-005"
 template_version: "v1.0"
@@ -25,9 +25,9 @@ related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-00
 related_adrs: ["ADR-011", "ADR-014", "ADR-032", "ADR-081"]
 ---
 
-# WEB-002 — AI Workspace Web Solution Design Specification
+# WEB-018 — AI Workspace Web Solution Design Specification
 
-> **Reference derivation only.** WEB-002 is a Web-surface projection of the AI Workspace Module Publication [`MOD-018_MODULE_PUBLICATION`](../../45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and WEB-002 is corrected in the same change.
+> **Reference derivation only.** WEB-018 is a Web-surface projection of the AI Workspace Module Publication [`MOD-018_MODULE_PUBLICATION`](../../45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and WEB-018 is corrected in the same change.
 
 ## A. Overview
 
@@ -45,7 +45,7 @@ Web (desktop, tablet, mobile-browser responsive) surface covering:
 - Copilot Surfaces and AI Conversation transaction lifecycle.
 - Governance surfaces for AI Approval transactions, Approval Policies, Cost Budgets, Safety Governance, and operational reports (AI Adoption, Tool-Call Success Rate, Cost per Surface, Approval Latency).
 
-Out of scope for WEB-002: Mobile-native surfaces (belongs to MOB-002), API contracts (belongs to API-002), UI mockups, framework decisions, and any business-rule authoring.
+Out of scope for WEB-018: Mobile-native surfaces (belongs to MOB-018), API contracts (belongs to API-018), UI mockups, framework decisions, and any business-rule authoring.
 
 ### A.3 Source Published Module
 
@@ -63,11 +63,11 @@ Out of scope for WEB-002: Mobile-native surfaces (belongs to MOB-002), API contr
 
 ### A.5 Traceability References
 
-See §K for the complete feature-to-capability-to-sprint traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → WEB-002).
+See §K for the complete feature-to-capability-to-sprint traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → WEB-018).
 
 ## B. Web Personas
 
-Personas are inherited from the Module PRD §3 and Sprint PRD family; WEB-002 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC).
+Personas are inherited from the Module PRD §3 and Sprint PRD family; WEB-018 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC).
 
 ### B.1 Business User (all modules)
 
@@ -95,7 +95,7 @@ Personas are inherited from the Module PRD §3 and Sprint PRD family; WEB-002 in
 
 ## C. Web User Journeys
 
-Every journey is derived from a capability in the Module Publication §3 and a transaction lifecycle in Publication §8. WEB-002 defines Web-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines.
+Every journey is derived from a capability in the Module Publication §3 and a transaction lifecycle in Publication §8. WEB-018 defines Web-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines.
 
 ### C.1 Journey — Open a Copilot Surface and Submit a Prompt
 
@@ -501,7 +501,7 @@ Every form derives its fields from the Master Data and Transaction Authorities d
 
 ## G. Workspace Collaboration
 
-Collaboration is supported only where the Module Publication permits it. WEB-002 introduces no new collaboration surfaces beyond those authorized by Publication §3–§4.
+Collaboration is supported only where the Module Publication permits it. WEB-018 introduces no new collaboration surfaces beyond those authorized by Publication §3–§4.
 
 - **Shared Workspaces:** Prompt Library, Retrieval Workspaces, and Tool Definitions are tenant-scoped shared workspaces for AI Stewards. Copilot Surfaces are per-user by default but expose sharing within tenant scope for AI Conversations.
 - **AI Session Continuity:** AI Conversation transactions persist across sessions; users resume prior conversations without re-establishing context.
@@ -549,7 +549,7 @@ Aligned to `ADR-081` (Accessibility Standard). No implementation guidance; objec
 - **Responsive Behaviour:** Copilot Surfaces, Conversations catalog, Prompt Library, and Approvals Inbox reflow across desktop, tablet, and mobile browser widths without loss of content or actions. Authoring surfaces for Prompts, Retrieval Corpora, Tool Definitions, and Approval Policies remain reachable on smaller widths in a compact single-column layout; complex authoring may be deferred to larger widths.
 - **Localization:** All labels resolvable via `ENG-006`; layout tolerates text expansion.
 
-Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-002 and belong to MOB-002.
+Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-018 and belong to MOB-018.
 
 ## J. Security Considerations
 
@@ -557,7 +557,7 @@ User-facing security expectations derived from Module Publication §4 authoritie
 
 ### J.1 Authentication Entry Points
 
-- Access to AI Workspace requires authenticated identity per `ENG-001`. Unauthenticated navigation is redirected to the platform-level sign-in surface owned by MOD-001; WEB-002 does not define authentication mechanics.
+- Access to AI Workspace requires authenticated identity per `ENG-001`. Unauthenticated navigation is redirected to the platform-level sign-in surface owned by MOD-001; WEB-018 does not define authentication mechanics.
 
 ### J.2 Authorization Visibility
 
@@ -588,9 +588,9 @@ User-facing security expectations derived from Module Publication §4 authoritie
 
 ## K. Traceability Matrix
 
-Every WEB-002 feature maps to a Module Publication capability and one or more originating Sprints. Capability rows are derived from `MOD-018_MODULE_PUBLICATION` §3, §4, §7, §8, §9.
+Every WEB-018 feature maps to a Module Publication capability and one or more originating Sprints. Capability rows are derived from `MOD-018_MODULE_PUBLICATION` §3, §4, §7, §8, §9.
 
-| WEB-002 Feature | Business Capability (Publication §) | Originating Sprint(s) |
+| WEB-018 Feature | Business Capability (Publication §) | Originating Sprint(s) |
 | --- | --- | --- |
 | AI Workspace Home (§E.1) | Copilot Surfaces; Governance overview (§3) | SPR-MOD-018-004, 005 |
 | Copilot Surface / Prompt Submission (§E.2, §F.4); prompt-to-response journey (§C.1) | Prompt-to-response process; AI Conversation transaction; `AIConversationStarted` (§4.4, §8, §9) | SPR-MOD-018-004 |
@@ -613,7 +613,7 @@ Every WEB-002 feature maps to a Module Publication capability and one or more or
 | Accessibility (§I) | ADR-081 Accessibility Standard (§11) | SPR-MOD-018-001, 004 |
 | Security Considerations (§J) | ADR-011, ADR-014, ADR-032 (§11); Retrieval-authorization-at-query-time; AI-initiated approval-gate rule (§4.2, §4.3) | SPR-MOD-018-001, 002, 003, 004, 005 |
 
-No WEB-002 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. WEB-002 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-018_MODULE_PUBLICATION`.
+No WEB-018 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. WEB-018 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-018_MODULE_PUBLICATION`.
 
 ## References
 

@@ -1,7 +1,7 @@
 ---
-title: "API-002 — AI Workspace API Solution Design Specification"
-summary: "Business-level API Solution Design Specification for MOD-018 AI Workspace, derived exclusively from MOD-018_MODULE_PUBLICATION. Cross-consistent with WEB-002 and MOB-002. Introduces no new business requirements, authorities, endpoints, protocols, schemas, or code."
-spec_id: "API-002"
+title: "API-018 — AI Workspace API Solution Design Specification"
+summary: "Business-level API Solution Design Specification for MOD-018 AI Workspace, derived exclusively from MOD-018_MODULE_PUBLICATION. Cross-consistent with WEB-018 and MOB-018. Introduces no new business requirements, authorities, endpoints, protocols, schemas, or code."
+spec_id: "API-018"
 family: "API"
 source_module: "MOD-018"
 source_publication: "MOD-018_MODULE_PUBLICATION"
@@ -9,13 +9,13 @@ source_baseline: "MOD018_AI_WORKSPACE_BASELINE_v1"
 source_module_prd: "docs/20-module-prds/ai/MODULE_PRD.md"
 source_sprint_plan: "docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md"
 source_sprints: ["SPR-MOD-018-001", "SPR-MOD-018-002", "SPR-MOD-018-003", "SPR-MOD-018-004", "SPR-MOD-018-005"]
-related_web_spec: "WEB-002"
-related_mobile_spec: "MOB-002"
+related_web_spec: "WEB-018"
+related_mobile_spec: "MOB-018"
 layer: "platform"
 owner: "AI Platform"
 status: "Active"
 updated: "2026-07-18"
-tags: ["solution-design", "api", "phase-3", "SD-007", "API-002", "MOD-018", "ai-workspace"]
+tags: ["solution-design", "api", "phase-3", "SD-007", "API-018", "MOD-018", "ai-workspace"]
 document_type: "API Solution Design Specification"
 template: "SD-007"
 template_version: "v1.0"
@@ -24,9 +24,9 @@ related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-00
 related_adrs: ["ADR-011", "ADR-014", "ADR-032"]
 ---
 
-# API-002 — AI Workspace API Solution Design Specification
+# API-018 — AI Workspace API Solution Design Specification
 
-> **Business-level specification.** This document describes API behaviour at the business capability level only. It introduces no new business requirements, authorities, master data, transactions, events, engines, ADRs, protocols, endpoints, payload schemas, or infrastructure design. All content is traceable to [`MOD-018_MODULE_PUBLICATION`](../../45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md). WEB-002 and MOB-002 are referenced only to preserve cross-platform terminology and workflow consistency.
+> **Business-level specification.** This document describes API behaviour at the business capability level only. It introduces no new business requirements, authorities, master data, transactions, events, engines, ADRs, protocols, endpoints, payload schemas, or infrastructure design. All content is traceable to [`MOD-018_MODULE_PUBLICATION`](../../45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md). WEB-018 and MOB-018 are referenced only to preserve cross-platform terminology and workflow consistency.
 
 ## A. Overview
 
@@ -48,8 +48,8 @@ Only consumer categories supported by the Published Module are enumerated. No ne
 
 | Consumer | Provenance | Business Purpose | Interaction Responsibilities | Authorization Expectations |
 | --- | --- | --- | --- | --- |
-| **AI Workspace Web Application** | WEB-002; Publication §3 | Web surface used by Business Users, AI Stewards, Auditors, and Security Officers to author prompts, run copilots, review approvals, and inspect governance. | Submit prompt requests, tool-call requests, approval decisions, retrieval-refresh requests; consume conversation responses and governance dashboards. | Authenticated via `ENG-001`; scoped by `ENG-002`/`ENG-003` per `ADR-032`. |
-| **AI Workspace Mobile Application** | MOB-002; Publication §3 | Mobile surface used by the same four personas for interactive copilot use, approval participation, and read-only governance visibility. | Submit prompts, participate in approval decisions, view conversations, view read-only prompts / retrieval / tool / governance surfaces. Offline queued actions limited to preferences and refresh-requests. | Same as Web. Offline decisions are never applied for approvals or tool-call decisions. |
+| **AI Workspace Web Application** | WEB-018; Publication §3 | Web surface used by Business Users, AI Stewards, Auditors, and Security Officers to author prompts, run copilots, review approvals, and inspect governance. | Submit prompt requests, tool-call requests, approval decisions, retrieval-refresh requests; consume conversation responses and governance dashboards. | Authenticated via `ENG-001`; scoped by `ENG-002`/`ENG-003` per `ADR-032`. |
+| **AI Workspace Mobile Application** | MOB-018; Publication §3 | Mobile surface used by the same four personas for interactive copilot use, approval participation, and read-only governance visibility. | Submit prompts, participate in approval decisions, view conversations, view read-only prompts / retrieval / tool / governance surfaces. Offline queued actions limited to preferences and refresh-requests. | Same as Web. Offline decisions are never applied for approvals or tool-call decisions. |
 | **Internal Business OS Services** | Publication §12; upstream modules MOD-001…MOD-017, MOD-019 | Embedded copilot surfaces inside source modules consume MOD-018 read-only and subscribe to published events. | Initiate conversations from embedded surfaces; consume published events read-only. Never mutate MOD-018 masters. | Authenticated and authorized under the invoking user's identity. |
 | **Authorized AI Platform Services** | Publication §11 (ENG-028), §4.3, §4.4 | Provider-integration surface — the only path by which model provider calls occur. | Fulfil prompt-to-response composition and tool execution requests strictly under the approval-gate rule. No direct provider SDK use exists in MOD-018 itself. | Isolated per `ADR-011`; audit-visible via `ENG-004`. |
 | **Approved External Integrations** | Publication §11 (ENG-023) | External systems approved to invoke MOD-018 capabilities (e.g. inbound retrieval refresh triggers, outbound governance notifications). | Interact only through published integration surfaces; every state change is subject to the approval-gate rule where the Published Module requires it. | Named integrations only; anonymous/public consumers are out of scope. |
@@ -189,14 +189,14 @@ Governance expectations only; no implementation strategy.
 - **Backward Compatibility.** Every published API capability MUST remain backward compatible until formally deprecated. Business-visible entities and lifecycle states enumerated in §D are compatibility-critical. Prompt Versions and Tool Definition lifecycles preserve immutability semantics for consumers.
 - **Workspace Continuity.** In-flight conversations, pending approvals, and active retrieval corpora MUST continue to function across compatible changes. No silent break of an active workspace is permitted.
 - **Published Capability Evolution.** Any change that alters a business capability, master data lifecycle, transaction lifecycle, event, or authorization boundary is a governed change and requires a new Module Baseline version (Publication §16). Non-authoritative refinements follow the additive-only convention.
-- **Cross-Platform Consistency.** WEB-002, MOB-002, and this specification MUST remain aligned. A change to any capability triggers a consumer impact assessment across all three surfaces.
+- **Cross-Platform Consistency.** WEB-018, MOB-018, and this specification MUST remain aligned. A change to any capability triggers a consumer impact assessment across all three surfaces.
 - **Deprecation Governance.** Deprecation follows the governance lifecycle `Active → Deprecated → Archived` and is reflected in the Module Publication and this specification. No silent removal is permitted.
 
 ## J. Cross-Platform Alignment
 
-Terminology and business workflows are aligned across WEB-002, MOB-002, and this specification. The mapping below preserves consistency; it introduces no new alignment obligations beyond those in the Published Module.
+Terminology and business workflows are aligned across WEB-018, MOB-018, and this specification. The mapping below preserves consistency; it introduces no new alignment obligations beyond those in the Published Module.
 
-| API Capability (this document) | WEB-002 Section | MOB-002 Section |
+| API Capability (this document) | WEB-018 Section | MOB-018 Section |
 | --- | --- | --- |
 | C.1 Prompt Library Services | E. Screen Inventory (Prompt Library); F. Forms (Prompt Authoring) | E. Mobile Screen Inventory (Prompt Library, read/review); F. Mobile Forms (Prompt review handoff) |
 | C.2 Retrieval Services | E. Screen Inventory (Retrieval Corpora); F. Forms (Retrieval Corpus) | E. Mobile Screen Inventory (Retrieval status, refresh request); C. Mobile Journeys (refresh request) |
@@ -208,7 +208,7 @@ Terminology and business workflows are aligned across WEB-002, MOB-002, and this
 Cross-cutting alignments:
 
 - **Personas.** Business roles are inherited from Publication §3 in all three specifications (Business User, AI Steward, Auditor, Security Officer); no new personas introduced here.
-- **Authorization Visibility.** WEB-002 §J, MOB-002 §J, and this §F share the same authorization model rooted in `ADR-032`.
+- **Authorization Visibility.** WEB-018 §J, MOB-018 §J, and this §F share the same authorization model rooted in `ADR-032`.
 - **Approval Behaviour.** The tool-call-with-approval process is identical across surfaces; approvals are never applied offline.
 - **Audit Visibility.** All three specifications share the same audit posture via `ENG-004` / `ADR-014`.
 - **Read-Model-Only Boundary.** Preserved identically across web, mobile, and API surfaces.
@@ -216,9 +216,9 @@ Cross-cutting alignments:
 
 ## K. Traceability Matrix
 
-Every API capability maps to the Published Module, a business capability, originating Sprints, and — where applicable — WEB-002 and MOB-002 sections. No orphan capabilities. No baseline-introduced items.
+Every API capability maps to the Published Module, a business capability, originating Sprints, and — where applicable — WEB-018 and MOB-018 sections. No orphan capabilities. No baseline-introduced items.
 
-| API Capability | Publication § | Business Capability | Sprint(s) | WEB-002 § | MOB-002 § |
+| API Capability | Publication § | Business Capability | Sprint(s) | WEB-018 § | MOB-018 § |
 | --- | --- | --- | --- | --- | --- |
 | C.1 Prompt Library Services | §3, §4.1, §7 | Prompt Library, Prompt Versions, Enabled Surfaces | SPR-MOD-018-001 | E, F | E, F |
 | C.2 Retrieval Services | §3, §4.2, §7 | Retrieval Corpora, Refresh Cadence, Query-time Authorization | SPR-MOD-018-002 | E, F, C | C, E |
@@ -240,7 +240,7 @@ Every API capability maps to the Published Module, a business capability, origin
 - [`docs/40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md`](../../40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md)
 - [`docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md`](../../30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md)
 - [`docs/20-module-prds/ai/MODULE_PRD.md`](../../20-module-prds/ai/MODULE_PRD.md)
-- [`docs/60-solution-design/web/WEB-002_AI_WORKSPACE.md`](../web/WEB-002_AI_WORKSPACE.md) — consistency reference only.
-- [`docs/60-solution-design/mobile/MOB-002_AI_WORKSPACE.md`](../mobile/MOB-002_AI_WORKSPACE.md) — consistency reference only.
+- [`docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md`](../web/WEB-018_AI_WORKSPACE.md) — consistency reference only.
+- [`docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md`](../mobile/MOB-018_AI_WORKSPACE.md) — consistency reference only.
 - [`docs/60-solution-design/README.md`](../README.md)
 - [`docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`](../SOLUTION_DESIGN_CATALOG.md)

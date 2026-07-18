@@ -221,7 +221,7 @@ Compact matrix of every registered template, its version, and the artifact famil
 | First Release | v1.0 — Pass 26.0.1 |
 | Latest Revision | v1.0 — Pass 26.0.1 |
 | Superseded By | — |
-| Used By | WEB-001 (Analytics), WEB-002 (AI Workspace) |
+| Used By | WEB-017 (Analytics), WEB-018 (AI Workspace) |
 | Notes | Web Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Historical `template` values `SD-002`, `SD-005` project to this canonical value per §6.1 of the standard. |
 
 
@@ -239,7 +239,7 @@ Compact matrix of every registered template, its version, and the artifact famil
 | First Release | v1.0 — Pass 26.0.1 |
 | Latest Revision | v1.0 — Pass 26.0.1 |
 | Superseded By | — |
-| Used By | MOB-001 (Analytics), MOB-002 (AI Workspace) |
+| Used By | MOB-017 (Analytics), MOB-018 (AI Workspace) |
 | Notes | Mobile Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Historical `template` values `SD-003`, `SD-006` project to this canonical value per §6.1 of the standard. |
 
 
@@ -257,5 +257,5 @@ Compact matrix of every registered template, its version, and the artifact famil
 | First Release | v1.0 — Pass 26.0.1 |
 | Latest Revision | v1.0 — Pass 26.0.1 |
 | Superseded By | — |
-| Used By | API-001 (Analytics), API-002 (AI Workspace) |
+| Used By | API-017 (Analytics), API-018 (AI Workspace) |
 | Notes | API Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Historical `template` values `SD-004`, `SD-007` project to this canonical value per §6.1 of the standard. |
