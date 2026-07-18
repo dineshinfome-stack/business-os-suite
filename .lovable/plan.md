@@ -1,129 +1,125 @@
-# Pass 37.1.0 — GT-005 Module Publication (MOD-002 Accounting)
+# Pass 37.2.0 — WEB-002 Accounting Solution Design (v2)
 
-**Repository State:** `MOD002_LIFECYCLE_INITIATED` → `MOD002_PUBLICATION_COMPLETE`
-**Nature:** Publication consolidation. Read-only over Stage 1–3 inputs. Zero Solution Design, zero governance evolution.
-
-## Assumptions
-
-1. Repository enters in state `MOD002_LIFECYCLE_INITIATED`.
-2. Pass 37.0.0 kickoff completed successfully.
-3. MOD-001 remains the frozen, certified reference implementation.
-4. Publication inputs come exclusively from authoritative repository artifacts.
-5. No concurrent repository modifications occur during execution.
-6. Missing or incomplete prerequisites halt publication and are reported as blocking findings (not corrected here).
-7. Pass scope is MOD-002 publication only — no WEB/MOB/API authoring.
+**Repository State:** `MOD002_PUBLICATION_COMPLETE` → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
+**Nature:** Solution Design pass. Zero governance evolution, zero implementation, zero new business requirements.
 
 ## Objective
 
-Author the canonical GT-005 Module Publication for **MOD-002 Accounting** by consolidating approved Stage 1–3 inputs into the standardized publication format established by MOD-001. The publication freezes the implementation contract for downstream WEB/MOB/API Solution Design.
+Author the canonical WEB-002 Solution Design for MOD-002 Accounting, deriving exclusively from the approved GT-005 Module Publication and mirroring the WEB-001 reference implementation pattern.
+
+## Resolved Open Questions
+
+1. **Filename:** `WEB-002_ACCOUNTING.md` (canonical post-33.1.0 short form, consistent with `WEB-001_PLATFORM_ADMINISTRATION.md`).
+2. **Screen IDs:** Retain WEB-001 page-based inventory. No `MOD<NNN>-SCR-<NNN>` identifiers — those remain Mobile-scoped per SCREEN_IDENTIFIER_STANDARD v1.0.
 
 ## Authoritative Inputs (read-only)
 
-- `docs/20-module-prds/accounting/MODULE_PRD.md`
+- `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` (sole functional contract)
 - `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`
-- `docs/30-sprint-prds/accounting/MOD-002_SPRINT_PLAN.md`
-- `docs/30-sprint-prds/accounting/SPR-MOD-002-001..006-*.md` (6 Sprint PRDs)
-- `docs/10-erp-core/ENGINE_CATALOG.md` and referenced engine specs
-- `docs/11-adrs/ADR_INDEX.md` and referenced ADRs
-- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
-- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` (reference pattern)
-- `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`, `FINDING_SEVERITY_STANDARD.md`
-- `docs/50-audit-reports/MOD002_LIFECYCLE_KICKOFF_20260719T020000Z.md`
-- `docs/50-audit-reports/MOD002_KICKOFF_VERIFICATION_20260719T030000Z.md`
+- `docs/20-module-prds/accounting/MODULE_PRD.md`
+- `docs/30-sprint-prds/accounting/*` (Sprint Plan + 6 Sprint PRDs)
+- `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` (reference pattern)
+- `docs/11-adrs/ADR_INDEX.md`, `docs/10-erp-core/ENGINE_CATALOG.md`
+- Governance standards: `SD-001`, `GOVERNANCE_FRONTMATTER_STANDARD`, `FINDING_SEVERITY_STANDARD`, `SCREEN_IDENTIFIER_STANDARD`
 
 ## Deliverables
 
-### A. GT-005 Module Publication
+### A. WEB-002 Solution Design
 
-Create `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` mirroring the MOD-001 GT-005 structure:
+Create `docs/60-solution-design/web/WEB-002_ACCOUNTING.md` mirroring WEB-001 structure:
 
-1. Repository Metadata (frontmatter per GOVERNANCE_FRONTMATTER_STANDARD)
-2. Pass Classification
-3. Module Overview
-4. Business Objectives
-5. Scope
-6. Out of Scope
-7. Functional Domains (General Ledger, AP, AR, Banking, Tax, Period Close)
-8. Sprint Mapping (Sprints 001–006 → domains → authorities)
-9. Baseline Summary (consolidated from MOD002 Baseline v1)
-10. Engine Dependencies (required + optional from Module PRD §12)
-11. ADR References (ADR-011, ADR-014, ADR-032, plus any baseline-cited ADRs)
-12. Cross-module Dependencies (depends on MOD-001; provides to MOD-003/004/008/015/017)
-13. Acceptance Criteria
-14. Implementation Order (WEB-002 → MOB-002 → API-002)
-15. Publication Status
-16. Repository State Transition
+1. Frontmatter (`spec_id: WEB-002`, `template: SD-001_WEB_SPEC`, `template_version: 1.0`, status, dependencies)
+2. Pass Classification · Purpose · Scope · Business Context
+3. User Personas (Accountant, Controller, CFO, Auditor, AP Clerk, AR Clerk, Tax Officer)
+4. Functional Domains — 1:1 to MOD-002 Publication §4 authorities: GL Foundation, Vouchers, Journals, Statements, Taxation, Period Close
+5. Information Architecture · Navigation Model
+6. Screen Inventory (page-based, no stable screen IDs)
+7. Page Specifications · User Workflows
+8. UI Component Architecture · Validation Rules
+9. Permissions & RBAC · State Management
+10. Search & Filtering · Reporting & Dashboards · Notifications
+11. Error Handling · Responsive Design · Accessibility (WCAG 2.1 AA per ADR-081)
+12. Engine Integration Mapping (14 engines)
+13. Cross-module Integration (MOD-003, MOD-004, MOD-008, MOD-015, MOD-017)
+14. Non-functional Requirements
+15. **Design Constraints** (new subsection, adopted from validation feedback):
+    - Introduces no business requirements beyond GT-005
+    - Introduces no implementation-specific technology decisions unless already established by an ADR
+    - Preserves traceability to every GT-005 authority
+    - Remains implementation-independent (multiple compliant web implementations possible)
+16. Acceptance Criteria
+17. Traceability Matrix — 5-column: `MOD-002 Authority | Sprint | Page | Engine(s) | ADR(s)`
+18. Repository State Transition
 
-### B. Publication Registration (minimum surfaces only)
+### B. Registration Surfaces
 
-Update only what the existing publication workflow requires:
-- `docs/MODULE_PUBLICATION_CATALOG.md` — add MOD-002 row.
-- `docs/45-module-publications/README.md` — list the new publication if the file lists siblings.
-- `docs/_meta.json` — register under the "45 Module Publications" group.
-- `docs/DOCUMENT_INDEX.md` — add entry if MOD-001 publication is indexed there.
-- `.lovable/plan.md` — append Pass 37.1.0 execution record with Pass Classification.
+- `docs/60-solution-design/web/README.md`
+- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`
+- `docs/_meta.json`
+- `docs/DOCUMENT_INDEX.md`
+- `.lovable/plan.md` (execution record with Pass Classification)
 
-No governance standards, templates, or unrelated catalogs are modified.
+No governance standards, templates, or unrelated catalogs modified.
 
-### C. Publication Verification Report
+### C. Verification Report
 
-Create `docs/50-audit-reports/MOD002_PUBLICATION_VERIFICATION_20260719T040000Z.md` with 10 checks using the FINDING_SEVERITY_STANDARD v1.0 vocabulary:
+Create `docs/50-audit-reports/WEB002_SOLUTION_DESIGN_VERIFICATION_20260719T050000Z.md`.
 
-1. Publication frontmatter valid.
-2. Publication conforms to GT-005 structure (MOD-001 parity).
-3. All authoritative inputs referenced.
-4. Sprint hierarchy consistent with Sprint Plan and 6 Sprint PRDs.
-5. Baseline references valid.
-6. ADR references valid.
-7. Engine references valid (against ENGINE_CATALOG).
-8. Implementation sequence matches MODULE_IMPLEMENTATION_WORKFLOW.
-9. Publication introduces no governance changes.
-10. Repository state transition authorized.
+| # | Check | Method |
+|---|-------|--------|
+| 1 | Frontmatter valid | Read |
+| 2 | Structure matches WEB-001 | Section diff |
+| 3 | Every functional requirement traces to GT-005 | Traceability scan |
+| 4 | No orphan functionality | Reverse trace |
+| 5 | Navigation consistent | Read |
+| 6 | Screen inventory covers all 6 domains | Enumerate |
+| 7 | RBAC consistent with publication | Cross-check |
+| 8 | Engine mappings valid (14 engines) | ENGINE_CATALOG match |
+| 9 | Cross-module integrations valid | MOD ref match |
+| 10 | Responsive requirements defined | Read |
+| 11 | Accessibility (WCAG 2.1 AA) defined | Read |
+| 12 | Design Constraints present | Read |
+| 13 | No governance modifications | Diff scope |
+| 14 | Repository state transition authorized | Confirm |
 
-Summary: **Passed / Remediated / Failed** counts; deterministic PASS rule (no MAJOR/CRITICAL).
+Summary: `Checklist Items = Passed + Remediated + Failed` per FINDING_SEVERITY_STANDARD. Certification: `MAJOR = 0 ∧ CRITICAL = 0`.
 
 ## Out of Scope
 
-WEB-002 / MOB-002 / API-002 Solution Design, Baseline or Sprint PRD revisions, ADR authoring, engine authoring, governance evolution, repository-wide audits, any MOD-001 changes.
+Mobile / API Solution Design, code generation, schema changes, ADR authoring, Baseline/Publication revisions, governance evolution, repository-wide audit, any MOD-001 modification.
 
 ## Exit Criteria
 
-- [ ] GT-005 Publication authored at the canonical path.
-- [ ] Publication matches MOD-001 reference pattern.
-- [ ] All authoritative inputs referenced.
-- [ ] Verification Report emitted with PASS outcome.
-- [ ] No unauthorized repository modifications.
-- [ ] Repository state advances to `MOD002_PUBLICATION_COMPLETE`.
-
-## Technical Notes
-
-- MOD-001 publication is the canonical reference pattern; deviations must be justified.
-- Publication is a consolidation artifact — no new functional requirements introduced.
-- Inconsistencies in Stage 1–3 artifacts are reported as blocking findings, not corrected here.
-- Success authorizes **Pass 37.2.0 — WEB-002 Accounting Solution Design**.
+- WEB-002 authored, mirrors WEB-001, includes Design Constraints subsection
+- 100% functional trace to GT-005 Publication §4
+- Verification report PASS with zero MAJOR/CRITICAL findings
+- All 5 registration surfaces updated
+- Repository state → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
+- Authorizes Pass 37.3.0 — MOB-002 Accounting Solution Design
 
 ---
 
-## Execution Record — Pass 37.1.0
+## Execution Record — Pass 37.2.0
 
-**Timestamp:** 2026-07-19T04:00:00Z
-**Pass Classification:** PUBLICATION / ADDITIVE / PUBLICATION_SCOPED / LOW risk
-**Repository State:** `MOD002_LIFECYCLE_INITIATED` → `MOD002_PUBLICATION_COMPLETE`
-**Outcome:** ✅ PASS (10/10 checks; 0 MAJOR, 0 CRITICAL)
+- **Pass:** 37.2.0 — WEB-002 Accounting Solution Design
+- **Pass Classification:** Solution Design (Web); zero governance evolution; zero implementation.
+- **Execution ID:** `WEB002-SD-20260719T050000Z-001`
+- **Parent Execution ID:** `GT005-MOD002-20260719T040000Z-001`
+- **Repository State:** `MOD002_PUBLICATION_COMPLETE` → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
 
-### Artifacts
+### Deliverables
 
-- Authored: `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md`
-- Emitted: `docs/50-audit-reports/MOD002_PUBLICATION_VERIFICATION_20260719T040000Z.md`
+- Authored `docs/60-solution-design/web/WEB-002_ACCOUNTING.md` (SD-001_WEB_SPEC v1.0). 7 personas, 11 journeys, 26 pages, 12 forms, 5-column traceability matrix covering all 22 authorities in `MOD-002_MODULE_PUBLICATION` §4. Includes Design Constraints subsection (§L).
+- Emitted `docs/50-audit-reports/WEB002_SOLUTION_DESIGN_VERIFICATION_20260719T050000Z.md` (14/14 PASS; 0 findings; MAJOR = 0, CRITICAL = 0).
 
-### Registration surfaces updated
+### Registration Surfaces Updated
 
-- `docs/MODULE_PUBLICATION_CATALOG.md`
-- `docs/45-module-publications/README.md`
-- `docs/_meta.json` (45 Module Publications group)
+- `docs/60-solution-design/web/README.md`
+- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`
 - `docs/DOCUMENT_INDEX.md`
+- `docs/_meta.json`
 - `.lovable/plan.md`
 
-### Next Executable Pass
+### Next
 
-**Pass 37.2.0 — WEB-002 Accounting Solution Design.**
+Repository READY for **Pass 37.3.0 — MOB-002 Accounting Solution Design**.

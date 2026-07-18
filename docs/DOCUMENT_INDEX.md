@@ -507,6 +507,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Solution Design Catalog | Solution Design | Approved | Derived | `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` |
 | WEB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/web/README.md` |
 | WEB-001 — Platform Administration Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` |
+| WEB-002 — Accounting Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-002_ACCOUNTING.md` |
 | WEB-017 — Analytics Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-017_ANALYTICS.md` |
 | WEB-018 — AI Workspace Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md` |
 | MOB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/mobile/README.md` |
