@@ -1,95 +1,124 @@
-## Pass 33.0.1 — SD-008: WEB-003 Platform Administration Solution Design
+## Pass 33.1.0 — Solution Design Identifier Alignment (Final, v4)
 
-**Repository State:** READY_FOR_PHASE_3_PLATFORM_ADMINISTRATION → READY_FOR_MOBILE
-**Template:** SD-001_WEB_SPEC v1.0
-**Authority:** MOD-001_MODULE_PUBLICATION
+Repository-wide controlled renumbering aligning WEB/MOB/API spec IDs with parent Module IDs. Identifier-only migration — zero content, governance-semantic, or traceability changes. Historical audits and execution records preserved immutably. Formalized as the **first Repository Migration**, establishing a reusable, schema-versioned migration governance surface.
 
-### Preflight (read-only)
+### Migration Map (reflects actual repository state)
 
-1. Read `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` — extract personas, capabilities, engines, ADRs, sprint sources.
-2. Read `docs/60-solution-design/web/WEB-002_AI_WORKSPACE.md` — structural precedent (section order, table shapes, tone).
-3. Read `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md` — confirm frontmatter conformance rules.
-4. Confirm `MOD-001` is listed Published in `docs/MODULE_PUBLICATION_CATALOG.md`.
-5. Confirm `SD-001_WEB_SPEC` v1.0 is registered in `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md`.
-6. Abort on any prerequisite failure.
+| Module | Old IDs | New IDs |
+| --- | --- | --- |
+| MOD-017 Analytics | WEB-001 / MOB-001 / API-001 | WEB-017 / MOB-017 / API-017 |
+| MOD-018 AI Workspace | WEB-002 / MOB-002 / API-002 | WEB-018 / MOB-018 / API-018 |
+| MOD-001 Platform Admin | WEB-003 (WEB only) | WEB-001 |
 
-### Author
+MOB-003 and API-003 do not yet exist and are out of scope for this migration.
 
-Create `docs/60-solution-design/web/WEB-003_PLATFORM_ADMINISTRATION.md` with:
+### Steps
 
-- Frontmatter per prompt (spec_id, source_publication, source_baseline, related_mobile_spec MOB-003, related_api_spec API-003, related_engines and related_adrs derived exclusively from MOD-001 publication).
-- Sections A–L mirroring WEB-002 structure:
-  - A Overview (purpose, scope, design principles, business boundary)
-  - B Personas — only those in MOD-001 publication (Platform Admin, Tenant Admin, Company Admin, Auditor, Security Officer, IdP/Support external)
-  - C User Journeys (tenant onboarding, company/branch setup, financial year open/close, user invite/deactivate, role grant/revoke, configuration change w/ audit)
-  - D Menu Hierarchy (primary/secondary, administration workspace)
-  - E Screen Inventory (per capability: purpose, entry point, primary actions, related capability)
-  - F Form Inventory (create/edit/review/approval/configuration; business fields + business validation only)
-  - G Collaboration (approvals via ENG-011, notifications via ENG-025, audit participation via ENG-004)
-  - H Accessibility (ADR-081 as referenced by publication)
-  - I Localization (ENG-006 tenant packs, per publication)
-  - J Security & Authorization (ENG-001/002/003, ADR-032 RBAC+ABAC, ENG-004 audit visibility)
-  - K Cross-Platform Alignment (MOB-003 planned, API-003 planned; consistency only)
-  - L Traceability Matrix (Publication Section | Business Capability | Source Sprint | WEB Section | Planned MOB Section | Planned API Section)
+1. **Preflight (read-only)**
+   - Inventory `docs/60-solution-design/{web,mobile,api}/`.
+   - Repository-wide grep for `WEB-00[123]`, `MOB-00[12]`, `API-00[12]`.
+   - Classify hits: **mutable** (current-state artifacts) vs **immutable** (prior audits under `docs/50-audit-reports/`, prior `.lovable/plan.md` execution records).
 
-Guardrails: no endpoints, DTOs, code, framework/UI library decisions, DB, deployment, or new business rules. Every row of §L must resolve to MOD-001 published authority.
+2. **Two-phase rename (collision-safe)**
+   - Phase A: rename current spec files and update mutable references → temporary tokens `WEB-T001/T002/T003`, `MOB-T001/T002`, `API-T001/T002`.
+   - Phase B: temporary tokens → final canonical IDs per the migration map.
 
-### Register (four surfaces)
+3. **Frontmatter update (renamed specs only)**
+   Update `spec_id`, `related_web_spec`, `related_mobile_spec`, `related_api_spec`. No other fields touched.
 
-1. `docs/60-solution-design/web/README.md` — append WEB-003 row.
-2. `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` — register WEB-003.
-3. `docs/DOCUMENT_INDEX.md` — register WEB-003.
-4. `docs/_meta.json` — add under `60 Solution Design → Web`; validate JSON.
+4. **Mutable registration surfaces**
+   - `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` — rebuild registration table sorted by Module ID.
+   - `docs/60-solution-design/{web,mobile,api}/README.md` — update current-specifications tables.
+   - `docs/DOCUMENT_INDEX.md` — replace IDs and link paths.
+   - `docs/_meta.json` — rename entries under `60 Solution Design → Web/Mobile/API`; JSON must remain valid.
+   - In-body cross-references inside the renamed specs.
 
-### Audit
+5. **Historical preservation (do NOT rewrite)**
+   - Prior audit reports under `docs/50-audit-reports/`: byte-for-byte unchanged.
+   - Existing `.lovable/plan.md` execution records: unchanged.
+   - Reconciliation of any historical identifier is provided by the migration document + manifest (step 6).
 
-Create `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T150000Z.md` using the Repository Verification Reporting Standard:
+6. **Repository Migration Governance Surface (new — first migration)**
 
-- Verification Metadata header
-- Check / Result / Action table covering the 13-item dynamic checklist from the prompt (MOD-001 Published, Correct authority, Frontmatter Validation Checklist = PASS, SD-001_WEB_SPEC conformance, all sections present + non-empty, coverage = published capabilities, traceability complete, four-surface registration, _meta.json valid, no implementation content, no new business rules, guardrails satisfied)
-- Verification Summary (Checklist Items = Passed + Remediated + Failed; Outstanding Risks)
-- Repository Status = READY only if Failed = 0 and Outstanding Risks = 0
+   Author three artifacts under `docs/15-governance/`:
 
-### Execution Record
+   **a. Human-readable migration document** — `SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md`
+   Standard frontmatter. Purpose, effective date, execution ID, canonical Old → New → Reason → Effective From mapping, scope statement (identifier substitution only), historical preservation clause (prior audits and execution records reference old IDs by design and MUST NOT be edited retroactively; this document + manifest are the sole reconciliation surface), links to manifest and registry.
 
-Append to `.lovable/plan.md`:
+   **b. Machine-readable manifest** — `MIGRATION_MANIFEST_20260718.json`
+   Schema-versioned. Top-level `manifest_schema: "v1.0"` precedes all other fields so future migrations can evolve the structure (rollback metadata, dependency graphs, checksums, signatures) without breaking existing tooling. `verification` is a **post-execution report block**: emitted with `null` placeholders in the template, populated with observed values in Step 7 before commit.
 
-```text
-execution_status: COMPLETE
-phase: Solution Design
-template: SD-001_WEB_SPEC
-template_version: v1.0
-specification: WEB-003
-specification_id: WEB-003
-stage: Web Solution Design
-source: MOD-001 Platform Administration
-source_publication: MOD-001_MODULE_PUBLICATION
-source_baseline: MOD001_PLATFORM_BASELINE_v1
-parent_execution_id: <Pass 33.0.0 execution id>
-handoff_state: READY_FOR_MOBILE
-```
+   ```json
+   {
+     "manifest_schema": "v1.0",
+     "repository_version": "BusinessOS Repository v1",
+     "migration_id": "SD-ID-ALIGNMENT-20260718",
+     "status": "completed",
+     "effective_date": "2026-07-18",
+     "scope": "Solution Design Identifier Alignment",
+     "classification": {
+       "migration_type": "Identifier Alignment",
+       "repository_impact": "Medium",
+       "breaking_change": false,
+       "content_change": false,
+       "business_change": false,
+       "governance_change": false,
+       "requires_manual_review": false
+     },
+     "rules": [
+       { "module": "MOD-017", "family": "WEB", "old_spec": "WEB-001", "new_spec": "WEB-017" },
+       { "module": "MOD-017", "family": "MOB", "old_spec": "MOB-001", "new_spec": "MOB-017" },
+       { "module": "MOD-017", "family": "API", "old_spec": "API-001", "new_spec": "API-017" },
+       { "module": "MOD-018", "family": "WEB", "old_spec": "WEB-002", "new_spec": "WEB-018" },
+       { "module": "MOD-018", "family": "MOB", "old_spec": "MOB-002", "new_spec": "MOB-018" },
+       { "module": "MOD-018", "family": "API", "old_spec": "API-002", "new_spec": "API-018" },
+       { "module": "MOD-001", "family": "WEB", "old_spec": "WEB-003", "new_spec": "WEB-001" }
+     ],
+     "verification": {
+       "renamed_files": null,
+       "updated_documents": null,
+       "historical_documents_preserved": null,
+       "duplicate_spec_ids": null,
+       "broken_links": null,
+       "orphan_references": null,
+       "json_validation": null,
+       "_note": "Post-execution report block. Values populated in Step 7 from observed results; nulls indicate 'not yet measured'."
+     }
+   }
+   ```
 
-### Success Criteria
+   **c. Migration registry** — `MIGRATION_REGISTRY.md`
+   Repository-wide index. Standard frontmatter. Table columns: Migration ID | Date | Scope | Classification | Status | Manifest | Document. First row = this migration. Documents the schema-versioning convention: consumers dispatch on `manifest_schema`; unknown values require manual review. Positioned as the authoritative index for all future repository-wide migrations (module renumbering, engine renumbering, ADR renumbering, folder restructuring, governance refactors, repo splits/merges).
 
-WEB-003 authored, derived exclusively from MOD-001_MODULE_PUBLICATION, frontmatter conforms to Frontmatter Standard, four-surface registration complete, _meta.json valid, audit PASS with Failed=0, execution record appended, repository advances to READY_FOR_MOBILE.
+   Register all three files in `docs/15-governance/README.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (Governance group), and `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json`.
 
-Next: Pass 34.0.1 (MOB-003), Pass 35.0.1 (API-003).
+7. **Verification (produces manifest report block)**
+   - Re-grep every old token. Remaining hits must all be inside `docs/50-audit-reports/` or pre-existing `.lovable/plan.md` records.
+   - No duplicate `spec_id` anywhere.
+   - All Markdown links to renamed files resolve.
+   - `_meta.json` and `MIGRATION_MANIFEST_20260718.json` parse.
+   - Manifest contains `manifest_schema` and `repository_version` at top level.
+   - Migration document, manifest, and registry are cross-linked and discoverable from Governance README + DOCUMENT_INDEX.
+   - **Populate manifest `verification` block with observed counts, replacing every `null`, before commit.**
 
----
+8. **Audit report**
+   `docs/50-audit-reports/REPOSITORY_AUDIT_<timestamp>.md` per the Verification Reporting Standard. Check / Result / Action rows cover: per-module identifier alignment, no duplicate IDs, no orphan references in mutable surfaces, no broken links, Frontmatter Validation Checklist PASS on renamed specs, catalog updated, three family READMEs updated, DOCUMENT_INDEX updated, `_meta.json` valid, migration document authored + registered, manifest authored + JSON-valid + `manifest_schema` present + `verification` block populated (no residual `null`) + registered, migration registry authored + registered, historical audits/execution records unchanged (directory listing + byte check), traceability preserved (spot-check three specs), diff proves only identifier fields + in-body cross-refs changed, no governance/implementation semantic changes. Status READY only if Failed = 0 and Outstanding Risks = 0.
 
-## Pass 33.0.1 — Execution Record
+9. **Execution record (append-only)**
+   Append Pass 33.1.0 execution record to `.lovable/plan.md`. No prior entries edited.
 
-execution_status: COMPLETE
-phase: Solution Design
-template: SD-001_WEB_SPEC
-template_version: v1.0
-specification: WEB-003
-specification_id: WEB-003
-stage: Web Solution Design
-source: MOD-001 Platform Administration
-source_publication: MOD-001_MODULE_PUBLICATION
-source_baseline: MOD001_PLATFORM_BASELINE_v1
-parent_execution_id: GT005-MOD001-20260718T140000Z-001
-execution_id: SD001WEB-WEB003-20260718T150000Z-001
-audit_report_id: REPOSITORY_AUDIT_20260718T150000Z
-handoff_state: READY_FOR_MOBILE
+### Files Affected
+
+- **Renamed** (7): three Analytics specs, three AI Workspace specs, `WEB-003_PLATFORM_ADMINISTRATION.md → WEB-001_PLATFORM_ADMINISTRATION.md`.
+- **Identifier-updated**: Solution Design Catalog, three family READMEs, DOCUMENT_INDEX, `_meta.json`, Governance README, `GOVERNANCE_FRAMEWORK_MANIFEST.json`, in-body cross-refs in renamed specs.
+- **New (3)**: migration document, schema-versioned manifest JSON, migration registry.
+- **New (2)**: audit report, appended execution record.
+- **Untouched**: all prior audit reports, all prior `.lovable/plan.md` execution entries.
+
+### Guardrails
+
+Identifier substitution only, on mutable surfaces only. No business, architecture, ADR, engine, governance-semantic, or traceability changes. Historical audit and execution artifacts are immutable. Manifest `verification` block is a post-execution report — templates ship with `null`, execution populates observed values.
+
+### Post-state
+
+Handoff state: `READY_FOR_MOBILE`. Roadmap: Pass 34.0.1 authors new `MOB-001` (Platform Administration Mobile); Pass 35.0.1 authors new `API-001`; then `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`. Convention going forward: `MOD-NNN → WEB-NNN / MOB-NNN / API-NNN`. Schema-versioned Migration Governance Surface (document + manifest + registry) becomes the reusable pattern for all future repository-wide migrations.
