@@ -29,7 +29,25 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 
 Assets included in Release v1.0 are frozen per §4 of the Release Manifest. Changes require a new Governance Framework Release (Major or Minor) per §5.
 
+Frontmatter conventions consumed by every record below are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md).
+
+## "Applies To" Summary
+
+Compact matrix of every registered template, its version, and the artifact families it authors. Detailed records follow in [Records](#records).
+
+| Template | Version | Applies To | Owning Governance Document | Lifecycle |
+|---|---|---|---|---|
+| GT-001 | v1.1 | Legacy reconciliation corrective passes | Governance Framework v1.0 | Active |
+| GT-002 | v1.0 | Module PRDs, Sprint Plans (Stage 1 Authoring) | Governance Framework v1.0 | Active |
+| GT-003 | v1.0 | Sprint PRDs (Stage 2 Authoring) | Governance Framework v1.0 | Active |
+| GT-004 | v1.0 | Module Baselines (Stage 3 Consolidation) | Governance Framework v1.0 | Active |
+| GT-005 | v1.0 | Repository Audits & Module Publications (terminal) | Governance Framework v1.0 | Active |
+| SD-001_WEB_SPEC | v1.0 | Web Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
+| SD-001_MOB_SPEC | v1.0 | Mobile Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
+| SD-001_API_SPEC | v1.0 | API Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
+
 ## Record Schema
+
 
 | Field | Description |
 |---|---|
@@ -187,3 +205,57 @@ Assets included in Release v1.0 are frozen per §4 of the Release Manifest. Chan
 | Superseded By | — |
 | Used By | — |
 | Notes | Terminal governance template. Repository-wide governance audit contract. 18 validation rules (VAL-001..VAL-018). 14-check template verification (TVAL-001..TVAL-014). Depends on GT-001..GT-004 (EDGE-005..008 Active). R2 filename convention, R3 audit_report_schema, R4 repository_snapshot, R7 audit_summary, R8 audit_scope, R9 report_sha256, R10 frozen audit_profiles vocabulary. Result enum: `PASS \| FAIL \| WAIVED`. |
+
+
+### SD-001_WEB_SPEC — Web Solution Design Specification
+
+| Field | Value |
+|---|---|
+| Template ID | SD-001_WEB_SPEC |
+| Template Name | Web Solution Design Specification |
+| Current Version | v1.0 |
+| Status | Active |
+| Compatible Governance Version | v1.0 |
+| Owner | Architecture Office |
+| Lifecycle State | Active |
+| First Release | v1.0 — Pass 26.0.1 |
+| Latest Revision | v1.0 — Pass 26.0.1 |
+| Superseded By | — |
+| Used By | WEB-001 (Analytics), WEB-002 (AI Workspace) |
+| Notes | Web Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Historical `template` values `SD-002`, `SD-005` project to this canonical value per §6.1 of the standard. |
+
+
+### SD-001_MOB_SPEC — Mobile Solution Design Specification
+
+| Field | Value |
+|---|---|
+| Template ID | SD-001_MOB_SPEC |
+| Template Name | Mobile Solution Design Specification |
+| Current Version | v1.0 |
+| Status | Active |
+| Compatible Governance Version | v1.0 |
+| Owner | Architecture Office |
+| Lifecycle State | Active |
+| First Release | v1.0 — Pass 26.0.1 |
+| Latest Revision | v1.0 — Pass 26.0.1 |
+| Superseded By | — |
+| Used By | MOB-001 (Analytics), MOB-002 (AI Workspace) |
+| Notes | Mobile Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Historical `template` values `SD-003`, `SD-006` project to this canonical value per §6.1 of the standard. |
+
+
+### SD-001_API_SPEC — API Solution Design Specification
+
+| Field | Value |
+|---|---|
+| Template ID | SD-001_API_SPEC |
+| Template Name | API Solution Design Specification |
+| Current Version | v1.0 |
+| Status | Active |
+| Compatible Governance Version | v1.0 |
+| Owner | Architecture Office |
+| Lifecycle State | Active |
+| First Release | v1.0 — Pass 26.0.1 |
+| Latest Revision | v1.0 — Pass 26.0.1 |
+| Superseded By | — |
+| Used By | API-001 (Analytics), API-002 (AI Workspace) |
+| Notes | API Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Historical `template` values `SD-004`, `SD-007` project to this canonical value per §6.1 of the standard. |

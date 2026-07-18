@@ -41,6 +41,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Governance Template Capabilities Registry | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES.md` |
 | Governance Template Dependency Matrix | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` |
 | Governance Template Dependency Matrix (YAML export) | Cross-cutting | Approved | Derived | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` |
+| Governance Frontmatter Standard | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md` |
 | GT-002 — Stage 1 Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` |
 | GT-003 — Sprint Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` |
 | GT-004 — Baseline Consolidation Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md` |
@@ -278,6 +279,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD017_ANALYTICS_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md` |
 | MOD018_AI_WORKSPACE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md` |
 | MOD019_WAREHOUSE_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md` |
+| MOD-001_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` |
 | MOD-017_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md` |
 | MOD-018_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |

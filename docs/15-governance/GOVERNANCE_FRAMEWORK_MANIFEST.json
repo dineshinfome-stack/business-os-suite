@@ -132,6 +132,17 @@
       "lifecycle": "Active",
       "sha256": "sha256:bec7428ad6ce1b925eeb842aed560ff3a2920c4ba4c0026bcc93b048d42ef5cf",
       "sha_scope": "file-bytes"
+    },
+    {
+      "id": "FRONTMATTER_STANDARD",
+      "name": "Governance Frontmatter Standard",
+      "path": "docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md",
+      "version": "v1.0",
+      "lifecycle": "Active",
+      "sha256": "sha256:FRONTMATTER-STANDARD-v1.0:computed-at-commit",
+      "sha_scope": "file-bytes",
+      "release_pass": "33.0.-1",
+      "notes": "Repository-wide canonical standard for spec_id / template / template_version and the Mandatory Frontmatter Validation Checklist. Referenced by GT-002..GT-005 and the SD-001 template family."
     }
   ],
   "manifest_sha256": "sha256:manifest-v1.0:computed-over-canonical-assets-array"
