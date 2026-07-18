@@ -503,15 +503,15 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Phase 3 Solution Design Framework — README | Solution Design | Approved | Authoritative | `docs/60-solution-design/README.md` |
 | Solution Design Catalog | Solution Design | Approved | Derived | `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` |
 | WEB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/web/README.md` |
+| WEB-001 — Platform Administration Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` |
 | WEB-017 — Analytics Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-017_ANALYTICS.md` |
+| WEB-018 — AI Workspace Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md` |
 | MOB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/mobile/README.md` |
 | MOB-017 — Analytics Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-017_ANALYTICS.md` |
+| MOB-018 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md` |
 | API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
 | API-017 — Analytics API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-017_ANALYTICS.md` |
-| WEB-018 — AI Workspace Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md` |
-| MOB-018 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md` |
 | API-018 — AI Workspace API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-018_AI_WORKSPACE.md` |
-| WEB-001 — Platform Administration Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` |
 
 
 
