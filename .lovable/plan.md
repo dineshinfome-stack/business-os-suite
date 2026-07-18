@@ -1,125 +1,96 @@
-# Pass 37.2.0 — WEB-002 Accounting Solution Design (v2)
+## Pass 37.3.0 — MOB-002 Accounting Solution Design
 
-**Repository State:** `MOD002_PUBLICATION_COMPLETE` → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
-**Nature:** Solution Design pass. Zero governance evolution, zero implementation, zero new business requirements.
+**State transition:** `MOD002_WEB_SOLUTION_DESIGN_COMPLETE` → `MOD002_MOBILE_SOLUTION_DESIGN_COMPLETE`
 
-## Objective
+**Nature:** Mobile Solution Design authoring. Zero governance evolution, zero implementation, zero new business scope.
 
-Author the canonical WEB-002 Solution Design for MOD-002 Accounting, deriving exclusively from the approved GT-005 Module Publication and mirroring the WEB-001 reference implementation pattern.
+### Authoritative Inputs (read-only)
 
-## Resolved Open Questions
+- `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` — sole functional contract (22 authorities, 14 engines, 8 ADRs)
+- `docs/60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION.md` — canonical mobile pattern
+- `docs/60-solution-design/web/WEB-002_ACCOUNTING.md` — web parity reference (26 pages, 11 journeys, 12 forms)
+- `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`, MOD-002 Module PRD, Sprint PRDs
+- Governance: SD-001, GOVERNANCE_FRONTMATTER_STANDARD, FINDING_SEVERITY_STANDARD, SCREEN_IDENTIFIER_STANDARD
 
-1. **Filename:** `WEB-002_ACCOUNTING.md` (canonical post-33.1.0 short form, consistent with `WEB-001_PLATFORM_ADMINISTRATION.md`).
-2. **Screen IDs:** Retain WEB-001 page-based inventory. No `MOD<NNN>-SCR-<NNN>` identifiers — those remain Mobile-scoped per SCREEN_IDENTIFIER_STANDARD v1.0.
+### Deliverable A — MOB-002 Solution Design
 
-## Authoritative Inputs (read-only)
+**Create:** `docs/60-solution-design/mobile/MOB-002_ACCOUNTING.md`
 
-- `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` (sole functional contract)
-- `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`
-- `docs/20-module-prds/accounting/MODULE_PRD.md`
-- `docs/30-sprint-prds/accounting/*` (Sprint Plan + 6 Sprint PRDs)
-- `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` (reference pattern)
-- `docs/11-adrs/ADR_INDEX.md`, `docs/10-erp-core/ENGINE_CATALOG.md`
-- Governance standards: `SD-001`, `GOVERNANCE_FRONTMATTER_STANDARD`, `FINDING_SEVERITY_STANDARD`, `SCREEN_IDENTIFIER_STANDARD`
+Frontmatter: `spec_id: MOB-002`, `template: SD-001_MOBILE_SPEC`, `template_version: 1.0`, status, dependencies, Pass Classification.
 
-## Deliverables
+Structure mirrors MOB-001; parity with WEB-002. Sections:
 
-### A. WEB-002 Solution Design
+1. Purpose · Scope · Business Context
+2. Mobile Personas — Accountant, Controller, CFO, Auditor, AP Clerk, AR Clerk, Tax Officer (7)
+3. Mobile Navigation Architecture (tab-based; 5 primary tabs)
+4. Mobile Information Architecture
+5. Screen Inventory — canonical `MOD002-SCR-NNN` IDs covering all 6 WEB-002 domains (Foundation, Vouchers, Journals & Ledgers, Financial Statements, Taxation, Period Close & Audit); each screen row: ID, Name, Purpose, Primary Persona, Navigation Entry, Related Workflow, GT-005 Authority Mapping. Target ~28-32 screens (mobile-scoped subset of WEB-002 pages, adapted for form-factor)
+6. Screen Specifications
+7. Mobile User Journeys — mirrors WEB-002 C.1–C.11 adapted for mobile
+8. Forms & Data Entry Optimization — numeric keypad (amounts), attachment capture (voucher docs via ENG-008), date pickers, search, inline validation; barcode/QR **only if authorized by publication** (else omit)
+9. Mobile UI Component Architecture
+10. Permissions & RBAC — from ENG-002/003 + ADR-032
+11. Offline Behaviour — cached ledgers/masters (read), offline voucher draft capture (if supported by publication — else read-only offline), sync-on-reconnect, conflict surfacing per ADR-083 opted-in flows; document only what publication/ADRs authorize
+12. Device Capability Integration — biometric auth, camera for attachment capture, secure upload, push for approvals/period-close alerts (only where ENG-025 / ADRs permit)
+13. State Management
+14. Search & Filtering
+15. Notifications (ENG-025)
+16. Error Handling
+17. Accessibility — ADR-081 baseline
+18. Responsive Mobile Layout
+19. Engine Integration Mapping — all 14 engines from Publication §11
+20. Cross-module Integration — MOD-001, MOD-003, MOD-004, MOD-008, MOD-015, MOD-017
+21. Non-functional Requirements
+22. Design Constraints — no new business requirements; no tech decisions absent ADR; parity with GT-005 and WEB-002; implementation-independent
+23. Acceptance Criteria
+24. **Traceability Matrix** (6 columns): GT-005 Authority | Sprint | Screen ID | Workflow | Engine(s) | ADR(s) — one row per Publication §4 authority (22 rows)
+25. Repository State Transition
 
-Create `docs/60-solution-design/web/WEB-002_ACCOUNTING.md` mirroring WEB-001 structure:
+Upstream inconsistencies are reported as blocking findings, not corrected.
 
-1. Frontmatter (`spec_id: WEB-002`, `template: SD-001_WEB_SPEC`, `template_version: 1.0`, status, dependencies)
-2. Pass Classification · Purpose · Scope · Business Context
-3. User Personas (Accountant, Controller, CFO, Auditor, AP Clerk, AR Clerk, Tax Officer)
-4. Functional Domains — 1:1 to MOD-002 Publication §4 authorities: GL Foundation, Vouchers, Journals, Statements, Taxation, Period Close
-5. Information Architecture · Navigation Model
-6. Screen Inventory (page-based, no stable screen IDs)
-7. Page Specifications · User Workflows
-8. UI Component Architecture · Validation Rules
-9. Permissions & RBAC · State Management
-10. Search & Filtering · Reporting & Dashboards · Notifications
-11. Error Handling · Responsive Design · Accessibility (WCAG 2.1 AA per ADR-081)
-12. Engine Integration Mapping (14 engines)
-13. Cross-module Integration (MOD-003, MOD-004, MOD-008, MOD-015, MOD-017)
-14. Non-functional Requirements
-15. **Design Constraints** (new subsection, adopted from validation feedback):
-    - Introduces no business requirements beyond GT-005
-    - Introduces no implementation-specific technology decisions unless already established by an ADR
-    - Preserves traceability to every GT-005 authority
-    - Remains implementation-independent (multiple compliant web implementations possible)
-16. Acceptance Criteria
-17. Traceability Matrix — 5-column: `MOD-002 Authority | Sprint | Page | Engine(s) | ADR(s)`
-18. Repository State Transition
+### Deliverable B — Registration Surfaces
 
-### B. Registration Surfaces
+- `docs/60-solution-design/mobile/README.md` — add MOB-002 row
+- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` — add MOB-002 row
+- `docs/_meta.json` — add MOB-002 under mobile group
+- `docs/DOCUMENT_INDEX.md` — add MOB-002 entry
+- `.lovable/plan.md` — append execution record `MOB002-SD-<timestamp>-001`
 
-- `docs/60-solution-design/web/README.md`
-- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`
-- `docs/_meta.json`
-- `docs/DOCUMENT_INDEX.md`
-- `.lovable/plan.md` (execution record with Pass Classification)
+No governance standards, templates, or unrelated catalogs touched.
 
-No governance standards, templates, or unrelated catalogs modified.
+### Deliverable C — Verification Report
 
-### C. Verification Report
+**Create:** `docs/50-audit-reports/MOB002_SOLUTION_DESIGN_VERIFICATION_<timestamp>.md`
 
-Create `docs/50-audit-reports/WEB002_SOLUTION_DESIGN_VERIFICATION_20260719T050000Z.md`.
+16-check Check / Result / Action table per repository verification standard: frontmatter, structure vs MOB-001, GT-005 parity, WEB-002 parity, no orphan functionality, canonical screen IDs, journey coverage, RBAC, engine mappings, cross-module refs, offline documented, device capabilities authorized, accessibility, Design Constraints present, no governance mods, state transition authorized.
 
-| # | Check | Method |
-|---|-------|--------|
-| 1 | Frontmatter valid | Read |
-| 2 | Structure matches WEB-001 | Section diff |
-| 3 | Every functional requirement traces to GT-005 | Traceability scan |
-| 4 | No orphan functionality | Reverse trace |
-| 5 | Navigation consistent | Read |
-| 6 | Screen inventory covers all 6 domains | Enumerate |
-| 7 | RBAC consistent with publication | Cross-check |
-| 8 | Engine mappings valid (14 engines) | ENGINE_CATALOG match |
-| 9 | Cross-module integrations valid | MOD ref match |
-| 10 | Responsive requirements defined | Read |
-| 11 | Accessibility (WCAG 2.1 AA) defined | Read |
-| 12 | Design Constraints present | Read |
-| 13 | No governance modifications | Diff scope |
-| 14 | Repository state transition authorized | Confirm |
+**Verification Summary:** `Checklist Items = Passed + Remediated + Failed`
+**Certification rule:** `MAJOR = 0 ∧ CRITICAL = 0` per FINDING_SEVERITY_STANDARD.
 
-Summary: `Checklist Items = Passed + Remediated + Failed` per FINDING_SEVERITY_STANDARD. Certification: `MAJOR = 0 ∧ CRITICAL = 0`.
+### Exit Criteria
 
-## Out of Scope
+- MOB-002 authored with canonical structure and Screen IDs
+- Parity with GT-005 and WEB-002 verified
+- Offline/device capabilities documented only where authorized
+- Verification passes with MAJOR=0, CRITICAL=0
+- Registration surfaces updated
+- State → `MOD002_MOBILE_SOLUTION_DESIGN_COMPLETE`
+- Authorizes Pass 37.4.0 — API-002 Accounting
 
-Mobile / API Solution Design, code generation, schema changes, ADR authoring, Baseline/Publication revisions, governance evolution, repository-wide audit, any MOD-001 modification.
+### Out of Scope
 
-## Exit Criteria
-
-- WEB-002 authored, mirrors WEB-001, includes Design Constraints subsection
-- 100% functional trace to GT-005 Publication §4
-- Verification report PASS with zero MAJOR/CRITICAL findings
-- All 5 registration surfaces updated
-- Repository state → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
-- Authorizes Pass 37.3.0 — MOB-002 Accounting Solution Design
+API design, code, DB schema, ADRs, engines, GT-005/WEB-002/baseline revisions, governance evolution, MOD-001 changes.
 
 ---
 
-## Execution Record — Pass 37.2.0
+## Execution Record — MOB002-SD-20260719T060000Z-001
 
-- **Pass:** 37.2.0 — WEB-002 Accounting Solution Design
-- **Pass Classification:** Solution Design (Web); zero governance evolution; zero implementation.
-- **Execution ID:** `WEB002-SD-20260719T050000Z-001`
-- **Parent Execution ID:** `GT005-MOD002-20260719T040000Z-001`
-- **Repository State:** `MOD002_PUBLICATION_COMPLETE` → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
-
-### Deliverables
-
-- Authored `docs/60-solution-design/web/WEB-002_ACCOUNTING.md` (SD-001_WEB_SPEC v1.0). 7 personas, 11 journeys, 26 pages, 12 forms, 5-column traceability matrix covering all 22 authorities in `MOD-002_MODULE_PUBLICATION` §4. Includes Design Constraints subsection (§L).
-- Emitted `docs/50-audit-reports/WEB002_SOLUTION_DESIGN_VERIFICATION_20260719T050000Z.md` (14/14 PASS; 0 findings; MAJOR = 0, CRITICAL = 0).
-
-### Registration Surfaces Updated
-
-- `docs/60-solution-design/web/README.md`
-- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`
-- `docs/DOCUMENT_INDEX.md`
-- `docs/_meta.json`
-- `.lovable/plan.md`
-
-### Next
-
-Repository READY for **Pass 37.3.0 — MOB-002 Accounting Solution Design**.
+- **Pass ID:** 37.3.0
+- **Pass Classification:** Solution Design — Mobile — Read/Author with scoped verification
+- **Parent Execution:** WEB002-SD-20260719T050000Z-001
+- **Deliverables:**
+  - Authored `docs/60-solution-design/mobile/MOB-002_ACCOUNTING.md` (spec_id `MOB-002`, template `SD-001_MOBILE_SPEC` v1.0, 34 canonical Screen IDs `MOD002-SCR-001` … `MOD002-SCR-083`, 13 journeys, 15 form sections, 22 authorities in 6-col traceability §N).
+  - Emitted `docs/50-audit-reports/MOB002_SOLUTION_DESIGN_VERIFICATION_20260719T060000Z.md` (16/16 PASS; MAJOR=0, CRITICAL=0).
+  - Registered on `docs/60-solution-design/mobile/README.md`, `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`, `docs/_meta.json`, `docs/DOCUMENT_INDEX.md`.
+- **Repository State:** `MOD002_WEB_SOLUTION_DESIGN_COMPLETE` → `MOD002_MOBILE_SOLUTION_DESIGN_COMPLETE`.
+- **Authorizes:** Pass 37.4.0 — API-002 Accounting Solution Design.

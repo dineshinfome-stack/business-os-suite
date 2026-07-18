@@ -1620,6 +1620,10 @@
           "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION"
         },
         {
+          "title": "MOB-002 — Accounting",
+          "path": "60-solution-design/mobile/MOB-002_ACCOUNTING"
+        },
+        {
           "title": "MOB-017 — Analytics",
           "path": "60-solution-design/mobile/MOB-017_ANALYTICS"
         },
