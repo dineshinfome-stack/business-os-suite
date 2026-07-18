@@ -1,124 +1,143 @@
-## Pass 33.1.0 — Solution Design Identifier Alignment (Final, v4)
+# Pass 34.0.1 — SD-009: MOB-001 Platform Administration (v5)
 
-Repository-wide controlled renumbering aligning WEB/MOB/API spec IDs with parent Module IDs. Identifier-only migration — zero content, governance-semantic, or traceability changes. Historical audits and execution records preserved immutably. Formalized as the **first Repository Migration**, establishing a reusable, schema-versioned migration governance surface.
+Two clearly separated deliverables: (A) Governance evolution — a dedicated Screen Identifier Standard as a new repository-wide governance artifact; (B) Solution Design execution — author `MOB-001_PLATFORM_ADMINISTRATION.md` using that standard. Completes the Mobile leg of MOD-001 under canonical identifiers established in Pass 33.1.0.
 
-### Migration Map (reflects actual repository state)
+## Authoritative Inputs (read-only)
 
-| Module | Old IDs | New IDs |
-| --- | --- | --- |
-| MOD-017 Analytics | WEB-001 / MOB-001 / API-001 | WEB-017 / MOB-017 / API-017 |
-| MOD-018 AI Workspace | WEB-002 / MOB-002 / API-002 | WEB-018 / MOB-018 / API-018 |
-| MOD-001 Platform Admin | WEB-003 (WEB only) | WEB-001 |
+- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` — scope authority
+- `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` — web parity reference
+- `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md`, `MOB-017_ANALYTICS.md` — mobile authoring precedents
+- `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`, `GOVERNANCE_TEMPLATE_REGISTRY.md`, `GOVERNANCE_FRAMEWORK_MANIFEST.json`, `README.md`
 
-MOB-003 and API-003 do not yet exist and are out of scope for this migration.
+No requirements introduced beyond MOD-001 publication.
 
-### Steps
+---
 
-1. **Preflight (read-only)**
-   - Inventory `docs/60-solution-design/{web,mobile,api}/`.
-   - Repository-wide grep for `WEB-00[123]`, `MOB-00[12]`, `API-00[12]`.
-   - Classify hits: **mutable** (current-state artifacts) vs **immutable** (prior audits under `docs/50-audit-reports/`, prior `.lovable/plan.md` execution records).
+## Deliverable A — Governance: Screen Identifier Standard
 
-2. **Two-phase rename (collision-safe)**
-   - Phase A: rename current spec files and update mutable references → temporary tokens `WEB-T001/T002/T003`, `MOB-T001/T002`, `API-T001/T002`.
-   - Phase B: temporary tokens → final canonical IDs per the migration map.
+Create a **dedicated** governance artifact — do NOT extend the Frontmatter Standard. Screen IDs are internal content identifiers, not frontmatter metadata; keeping them separate preserves clean separation of concerns and leaves room for future identifier standards (UI components, workflows, reports, dashboards, notifications).
 
-3. **Frontmatter update (renamed specs only)**
-   Update `spec_id`, `related_web_spec`, `related_mobile_spec`, `related_api_spec`. No other fields touched.
+### New file
 
-4. **Mutable registration surfaces**
-   - `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` — rebuild registration table sorted by Module ID.
-   - `docs/60-solution-design/{web,mobile,api}/README.md` — update current-specifications tables.
-   - `docs/DOCUMENT_INDEX.md` — replace IDs and link paths.
-   - `docs/_meta.json` — rename entries under `60 Solution Design → Web/Mobile/API`; JSON must remain valid.
-   - In-body cross-references inside the renamed specs.
+`docs/15-governance/SCREEN_IDENTIFIER_STANDARD.md` (v1.0) with standard governance frontmatter and sections:
 
-5. **Historical preservation (do NOT rewrite)**
-   - Prior audit reports under `docs/50-audit-reports/`: byte-for-byte unchanged.
-   - Existing `.lovable/plan.md` execution records: unchanged.
-   - Reconciliation of any historical identifier is provided by the migration document + manifest (step 6).
+1. Purpose & Scope — applies to all Mobile Solution Design specifications (`SD-001_MOB_SPEC`) from Pass 34.0.1 forward; may be extended in future to Web/API specs by separate governance pass.
+2. Identifier Syntax — `MOD<NNN>-SCR-<NNN>`, three-digit zero-padded, module-scoped. Example: `MOD001-SCR-001`.
+3. Numbering Rules — sequential per module starting at 001; no gaps introduced by re-numbering.
+4. Immutability — once assigned, a Screen ID MUST NOT be re-numbered. Deprecated screens retain their ID and are marked deprecated in the Screen Hierarchy.
+5. Grandfathering — existing MOB-017 and MOB-018 specifications are not renumbered; a future governance pass may adopt the convention retroactively (out of scope here).
+6. Lifecycle — Active | Deprecated | Removed (with retained ID reservation).
+7. Validation Rules — uniqueness within a spec; well-formedness (regex `^MOD\d{3}-SCR-\d{3}$`); every Screen ID referenced elsewhere in the spec MUST be defined in the Screen Hierarchy (bidirectional consistency).
+8. Examples.
+9. References — Frontmatter Standard, Template Registry, this convention's registry entry.
 
-6. **Repository Migration Governance Surface (new — first migration)**
+### Governance registration (references only, no embedding)
 
-   Author three artifacts under `docs/15-governance/`:
+- `docs/15-governance/README.md` — add a "Screen Identifier Standard" entry to the folder layout and cross-reference list.
+- `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` — under `SD-001_MOB_SPEC`, add a "References" note pointing to `SCREEN_IDENTIFIER_STANDARD.md`.
+- `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json` — register the new standard document (JSON must remain valid).
+- `docs/DOCUMENT_INDEX.md` and `docs/_meta.json` — register under Governance group.
 
-   **a. Human-readable migration document** — `SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md`
-   Standard frontmatter. Purpose, effective date, execution ID, canonical Old → New → Reason → Effective From mapping, scope statement (identifier substitution only), historical preservation clause (prior audits and execution records reference old IDs by design and MUST NOT be edited retroactively; this document + manifest are the sole reconciliation surface), links to manifest and registry.
+---
 
-   **b. Machine-readable manifest** — `MIGRATION_MANIFEST_20260718.json`
-   Schema-versioned. Top-level `manifest_schema: "v1.0"` precedes all other fields so future migrations can evolve the structure (rollback metadata, dependency graphs, checksums, signatures) without breaking existing tooling. `verification` is a **post-execution report block**: emitted with `null` placeholders in the template, populated with observed values in Step 7 before commit.
+## Deliverable B — Specification: MOB-001
 
-   ```json
-   {
-     "manifest_schema": "v1.0",
-     "repository_version": "BusinessOS Repository v1",
-     "migration_id": "SD-ID-ALIGNMENT-20260718",
-     "status": "completed",
-     "effective_date": "2026-07-18",
-     "scope": "Solution Design Identifier Alignment",
-     "classification": {
-       "migration_type": "Identifier Alignment",
-       "repository_impact": "Medium",
-       "breaking_change": false,
-       "content_change": false,
-       "business_change": false,
-       "governance_change": false,
-       "requires_manual_review": false
-     },
-     "rules": [
-       { "module": "MOD-017", "family": "WEB", "old_spec": "WEB-001", "new_spec": "WEB-017" },
-       { "module": "MOD-017", "family": "MOB", "old_spec": "MOB-001", "new_spec": "MOB-017" },
-       { "module": "MOD-017", "family": "API", "old_spec": "API-001", "new_spec": "API-017" },
-       { "module": "MOD-018", "family": "WEB", "old_spec": "WEB-002", "new_spec": "WEB-018" },
-       { "module": "MOD-018", "family": "MOB", "old_spec": "MOB-002", "new_spec": "MOB-018" },
-       { "module": "MOD-018", "family": "API", "old_spec": "API-002", "new_spec": "API-018" },
-       { "module": "MOD-001", "family": "WEB", "old_spec": "WEB-003", "new_spec": "WEB-001" }
-     ],
-     "verification": {
-       "renamed_files": null,
-       "updated_documents": null,
-       "historical_documents_preserved": null,
-       "duplicate_spec_ids": null,
-       "broken_links": null,
-       "orphan_references": null,
-       "json_validation": null,
-       "_note": "Post-execution report block. Values populated in Step 7 from observed results; nulls indicate 'not yet measured'."
-     }
-   }
-   ```
+Create `docs/60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION.md`.
 
-   **c. Migration registry** — `MIGRATION_REGISTRY.md`
-   Repository-wide index. Standard frontmatter. Table columns: Migration ID | Date | Scope | Classification | Status | Manifest | Document. First row = this migration. Documents the schema-versioning convention: consumers dispatch on `manifest_schema`; unknown values require manual review. Positioned as the authoritative index for all future repository-wide migrations (module renumbering, engine renumbering, ADR renumbering, folder restructuring, governance refactors, repo splits/merges).
+### Frontmatter
 
-   Register all three files in `docs/15-governance/README.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json` (Governance group), and `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json`.
+- `spec_id: MOB-001`
+- `template: SD-001_MOB_SPEC`
+- `template_version: v1.0`
+- `module_id: MOD-001`
+- `related_web_spec: WEB-001`
+- `related_api_spec: API-001` (forward reference — Pass 35.0.1)
 
-7. **Verification (produces manifest report block)**
-   - Re-grep every old token. Remaining hits must all be inside `docs/50-audit-reports/` or pre-existing `.lovable/plan.md` records.
-   - No duplicate `spec_id` anywhere.
-   - All Markdown links to renamed files resolve.
-   - `_meta.json` and `MIGRATION_MANIFEST_20260718.json` parse.
-   - Manifest contains `manifest_schema` and `repository_version` at top level.
-   - Migration document, manifest, and registry are cross-linked and discoverable from Governance README + DOCUMENT_INDEX.
-   - **Populate manifest `verification` block with observed counts, replacing every `null`, before commit.**
+### Content sections
 
-8. **Audit report**
-   `docs/50-audit-reports/REPOSITORY_AUDIT_<timestamp>.md` per the Verification Reporting Standard. Check / Result / Action rows cover: per-module identifier alignment, no duplicate IDs, no orphan references in mutable surfaces, no broken links, Frontmatter Validation Checklist PASS on renamed specs, catalog updated, three family READMEs updated, DOCUMENT_INDEX updated, `_meta.json` valid, migration document authored + registered, manifest authored + JSON-valid + `manifest_schema` present + `verification` block populated (no residual `null`) + registered, migration registry authored + registered, historical audits/execution records unchanged (directory listing + byte check), traceability preserved (spot-check three specs), diff proves only identifier fields + in-body cross-refs changed, no governance/implementation semantic changes. Status READY only if Failed = 0 and Outstanding Risks = 0.
+1. Mobile Architecture (native shell, offline-first cache, secure storage)
+2. Personas — Platform Admin, Tenant Admin, Company Admin, Auditor, Security Officer
+3. Navigation Model (tab + drawer covering Tenancy, Org Structure, Users/Roles, Configuration, Localization, Audit Review)
+4. **Screen Hierarchy & Inventory** — canonical inventory. Every screen carries a stable ID `MOD001-SCR-NNN` per the Screen Identifier Standard. Every Screen ID reference elsewhere in this document MUST resolve here.
+5. User Journeys (invite user, grant/revoke role, approve config change, review audit event, activate locale pack, close financial year) — cite Screen IDs.
+6. Mobile UX Patterns
+7. Offline Behaviour & Synchronization
+8. Authentication & Session Handling (SSO handoff, biometric unlock)
+9. Push Notification Integration (via ENG-025)
+10. Platform Capabilities & Device Permissions
+11. Error Handling
+12. Performance Expectations
+13. Accessibility (ADR-081)
+14. Security (ADR-011, ADR-014, ADR-032)
+15. Mobile API Interaction (references API-001 forward)
+16. **Traceability Matrix** — standardized 5-column repository standard:
 
-9. **Execution record (append-only)**
-   Append Pass 33.1.0 execution record to `.lovable/plan.md`. No prior entries edited.
+    | MOD Capability | Screen ID(s) | Engine(s) | ADR(s) | Notes |
 
-### Files Affected
+    One row per MOD-001 capability. Every `Screen ID(s)` entry MUST reference a screen defined in section 4.
+17. Web/Mobile Parity Notes (deltas vs WEB-001)
+18. References — includes `SCREEN_IDENTIFIER_STANDARD.md`
 
-- **Renamed** (7): three Analytics specs, three AI Workspace specs, `WEB-003_PLATFORM_ADMINISTRATION.md → WEB-001_PLATFORM_ADMINISTRATION.md`.
-- **Identifier-updated**: Solution Design Catalog, three family READMEs, DOCUMENT_INDEX, `_meta.json`, Governance README, `GOVERNANCE_FRAMEWORK_MANIFEST.json`, in-body cross-refs in renamed specs.
-- **New (3)**: migration document, schema-versioned manifest JSON, migration registry.
-- **New (2)**: audit report, appended execution record.
-- **Untouched**: all prior audit reports, all prior `.lovable/plan.md` execution entries.
+### Registration surfaces
 
-### Guardrails
+- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` — add MOB-001 row
+- `docs/60-solution-design/mobile/README.md` — add MOB-001
+- `docs/DOCUMENT_INDEX.md` — add MOB-001 row
+- `docs/_meta.json` — add MOB-001 under 60 Solution Design → Mobile (JSON valid)
 
-Identifier substitution only, on mutable surfaces only. No business, architecture, ADR, engine, governance-semantic, or traceability changes. Historical audit and execution artifacts are immutable. Manifest `verification` block is a post-execution report — templates ship with `null`, execution populates observed values.
+---
 
-### Post-state
+## Validation
 
-Handoff state: `READY_FOR_MOBILE`. Roadmap: Pass 34.0.1 authors new `MOB-001` (Platform Administration Mobile); Pass 35.0.1 authors new `API-001`; then `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`. Convention going forward: `MOD-NNN → WEB-NNN / MOB-NNN / API-NNN`. Schema-versioned Migration Governance Surface (document + manifest + registry) becomes the reusable pattern for all future repository-wide migrations.
+- Frontmatter conforms to `GOVERNANCE_FRONTMATTER_STANDARD.md`; `spec_id = MOB-001` unique.
+- Cross-refs to WEB-001, MOD-001, forward API-001 resolve.
+- Screen Identifier Standard authored, registered on all four governance surfaces, JSON manifest valid.
+- **Screen IDs:** every screen in section 4 has a unique, well-formed `MOD001-SCR-NNN` id (regex check); no duplicates.
+- **Traceability completeness:** every MOD-001 capability appears in the matrix.
+- **Bidirectional consistency:** every Screen ID referenced in the Traceability Matrix and in User Journeys is defined in section 4; no phantom references.
+- Web/Mobile alignment preserved vs WEB-001; no scope beyond published module.
+
+## Audit
+
+`docs/50-audit-reports/SD_MOB001_PLATFORM_ADMINISTRATION_AUDIT_20260718T170000Z.md` per Verification Reporting Standard. Checks include:
+
+```text
+Check                                           | Result
+------------------------------------------------|-------
+Screen Identifier Standard authored             | PASS
+Screen Identifier Standard registered (4 surfs) | PASS
+Frontmatter validation (MOB-001)                | PASS
+Template compliance (SD-001_MOB_SPEC v1.0)      | PASS
+Screen IDs unique & well-formed (regex)         | PASS
+Module traceability (MOD-001 capabilities)      | PASS
+Traceability matrix 5-column standard           | PASS
+Traceability ↔ Screen Hierarchy consistency     | PASS
+Cross-reference validation                      | PASS
+Registration surfaces updated                   | PASS
+_meta.json + GOVERNANCE_FRAMEWORK_MANIFEST valid| PASS
+Mobile/Web alignment (WEB-001)                  | PASS
+No orphan references                            | PASS
+Grandfathering respected (MOB-017/018 untouched)| PASS
+```
+
+Status READY only if Failed = 0 and Outstanding Risks = 0.
+
+## Execution Record
+
+Append Pass 34.0.1 entry to `.lovable/plan.md`:
+
+- execution_status: COMPLETE
+- phase: Solution Design + Governance evolution
+- new_governance_artifact: `SCREEN_IDENTIFIER_STANDARD.md` v1.0
+- specification: MOB-001_PLATFORM_ADMINISTRATION (template SD-001_MOB_SPEC v1.0)
+- module: MOD-001
+- repository_state_before: SOLUTION_DESIGN_IDENTIFIERS_ALIGNED
+- repository_state_after: READY_FOR_API
+
+## Guardrails
+
+Governance evolution is limited to introducing the Screen Identifier Standard (identifier format + lifecycle + validation only). Zero business, architecture, or module-scope changes. Frontmatter Standard is not modified. Existing MOB-017 / MOB-018 specs are grandfathered and untouched. Documentation-only; no app code changes.
+
+## Success Criteria
+
+Dedicated Screen Identifier Standard registered as a repository-wide governance artifact; MOB-001 authored using stable `MOD001-SCR-NNN` IDs with a 5-column standardized Traceability Matrix and enforced bidirectional consistency against the Screen Hierarchy; all four registration surfaces updated for both the standard and the spec; audit passes (Failed=0, Risks=0); execution record appended; repository advances to `READY_FOR_API`.
