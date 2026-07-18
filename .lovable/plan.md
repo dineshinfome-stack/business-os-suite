@@ -1,152 +1,62 @@
-# Pass 36.0.1 — Reference Implementation Certification (MOD-001) — v2
+# Pass 36.1.0 — Governance Enhancement: Finding Severity Standard
 
-Adopting **Option 1 (Recommended)**: keep Pass 36.0.1 a *pure* read-only certification. The Finding Severity Taxonomy is defined **locally inside the certification report** for this run and defers permanent adoption to a dedicated governance pass (Pass 36.1.0).
+**Repository State (in):** `REFERENCE_IMPLEMENTATION_CERTIFIED`
+**Repository State (out):** `FINDING_SEVERITY_STANDARD_ADOPTED`
+**Nature:** Pure governance pass. Zero implementation, zero spec authoring, zero remediation of F-01 (deferred to Pass 36.2.0).
 
 ## Objective
 
-Certify MOD-001 as the repository's reference implementation by a read-only review of `MOD-001_MODULE_PUBLICATION`, `WEB-001`, `MOB-001`, and `API-001` against their upstream chain. Zero edits to any Solution Design specification. Zero governance evolution. Zero scope expansion. Zero implementation.
+Promote the report-scoped Finding Severity Taxonomy declared inside `REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md` into a permanent, repository-wide governance standard, so every future audit, certification, and verification pass consumes a single canonical severity vocabulary and certification rule.
 
-## Guardrails (strict)
+## Scope
 
-- Read-only over all MOD-001 artefacts and their upstream chain (Module PRD, Sprint Plan, Sprint PRDs, Baseline, Publication).
-- No content edits to WEB-001, MOB-001, API-001, or the Publication.
-- No new governance standard file is created; no governance surface is modified.
-- The Finding Severity Taxonomy applies **only to this certification report** (locally declared) and is proposed — not adopted — for permanent governance.
-- Terminal audit validates the certification pass mechanics; the CERTIFIED / REMEDIATION_REQUIRED outcome is a business result of the report, not an audit failure.
+In scope:
+- Authoring one new governance standard document.
+- Registering it on all four governance surfaces.
+- Cross-linking existing audit/verification templates and prior certification report.
+- Terminal read-only repository audit for Pass mechanics.
+
+Out of scope (explicitly deferred):
+- Remediation of MINOR finding F-01 → Pass 36.2.0.
+- Retro-editing historical audits (immutable). New standard applies prospectively; historical report-scoped taxonomy remains valid via grandfather clause.
+- Any Solution Design, Sprint PRD, Baseline, or Publication edits.
 
 ## Deliverables
 
-### A. Locally-Declared Finding Severity Taxonomy (report-scoped)
+### D1 — New governance standard
+`docs/15-governance/FINDING_SEVERITY_STANDARD.md` (v1.0), containing:
+- **Severity taxonomy** — `INFO`, `MINOR`, `MAJOR`, `CRITICAL` with precise definitions, example patterns, and disposition rules (who may close, remediation SLA class).
+- **Certification rule (canonical):** repository/module is CERTIFIED iff `Failed = 0 ∧ Outstanding Risks = 0 ∧ MAJOR = 0 ∧ CRITICAL = 0`. MINOR findings are non-blocking and MUST be tracked as scheduled remediation. INFO is advisory.
+- **Verification Summary invariant:** `Checklist Items = Passed + Remediated + Failed` (unchanged from repository-wide Verification Reporting Standard).
+- **Findings register columns:** `ID | Severity | Area | Description | Disposition | Remediation Pass`.
+- **Applicability matrix:** applies to repository audits (GT-005), certification reports, sprint verification passes, module baseline verifications, and migration audits.
+- **Grandfather clause:** report-scoped taxonomies used in audits dated ≤ 2026-07-18 remain valid and are considered semantically equivalent to this standard. No retro-edits.
+- **Interaction with existing standards:** references Verification Reporting Standard (in `MODULE_IMPLEMENTATION_WORKFLOW.md`) and audit template `GT-005`.
 
-The certification report declares the taxonomy in its own §Taxonomy section, marked "Report-Scoped — proposed for permanent adoption under a future governance pass":
+### D2 — Governance surface registrations
+- `docs/15-governance/README.md` — add row for the new standard.
+- `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json` — add manifest entry (id, path, version, status Active, adopted 2026-07-19).
+- `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` — add "Applies To" matrix row (audits, certifications, verifications).
+- `docs/DOCUMENT_INDEX.md` — register document.
+- `docs/_meta.json` — register under the 15 Governance group in ordinal position.
 
-- **INFO** — Observational; no impact on certification.
-- **MINOR** — Documentation inconsistency only; does not affect repository correctness; certification may proceed; recorded as technical debt.
-- **MAJOR** — Repository standard violated; certification blocked until remediated.
-- **CRITICAL** — Broken traceability, invalid governance, or missing authoritative artefact; certification fails immediately.
+### D3 — Template cross-links (reference only, no semantic changes)
+- `docs/15-governance/templates/GT-005_REPOSITORY_AUDIT.md` — add a Reference line pointing to the new standard as the canonical severity vocabulary.
+- Prior certification report (`REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md`) is immutable; not edited. The new standard's grandfather clause acknowledges its report-scoped taxonomy.
 
-Deterministic certification rule (report-scoped):
+### D4 — Terminal audit
+`docs/50-audit-reports/REPOSITORY_AUDIT_20260719T000000Z.md` — read-only Pass 36.1.0 mechanics audit using the Verification Reporting Standard. Expected ~12 checks covering: standard authored at correct path, taxonomy complete, certification rule stated, invariant stated, applicability matrix present, grandfather clause present, four registration surfaces updated, template cross-link added, no spec/baseline/publication edited, no F-01 remediation attempted, repository state transition recorded, roadmap names Pass 36.2.0 as next.
 
-```text
-REFERENCE_IMPLEMENTATION_CERTIFIED  ⇔  Failed = 0  ∧  Outstanding Risks = 0
-                                       ∧  MAJOR = 0  ∧  CRITICAL = 0
-MINOR findings permitted; recorded as technical debt.
-```
+### D5 — Execution record
+Append Pass 36.1.0 entry to `.lovable/plan.md`.
 
-The report explicitly cites its successor pass (Pass 36.1.0) as the mechanism for permanent adoption.
+## Technical Details
 
-### B. Cross-Platform Consistency Review
+- **Document type / template:** new governance standard; frontmatter follows `GOVERNANCE_FRONTMATTER_STANDARD` — `document_type: "Governance Standard"`, `status: "Active"`, `version: "1.0"`, owner `Architecture Office`, `updated: 2026-07-19`.
+- **Naming:** `FINDING_SEVERITY_STANDARD.md` — matches sibling standards (`GOVERNANCE_FRONTMATTER_STANDARD.md`, `SCREEN_IDENTIFIER_STANDARD.md`).
+- **Ordering in `_meta.json`:** placed alphabetically within the 15 Governance group, adjacent to other `*_STANDARD.md` entries.
+- **Roadmap after this pass:** Pass 36.2.0 — Migration Corrections (F-01 WEB-001 stale `MOB-003`/`API-003` frontmatter → canonical `MOB-001`/`API-001`), then begin next Published Module Solution Design set using MOD-001 as certified reference.
 
-Read-only matrix across Publication ↔ WEB-001 ↔ MOB-001 ↔ API-001 for terminology, personas, journeys, authorization boundaries, ownership conventions (Event / Configuration / Localization / Audit), and lifecycle vocabulary. Each cell is `Aligned` or a classified finding.
+## Verification (in the terminal audit)
 
-### C. Traceability Certification
-
-For every Publication §4 authority confirm:
-
-- WEB-001 screen coverage,
-- MOB-001 screen coverage under `MOD001-SCR-NNN`,
-- API-001 endpoint coverage under `API001-EP-NNN`,
-- Engine + ADR citations consistent across surfaces.
-
-Any capability missing coverage on any surface = **MAJOR**.
-
-### D. Reference Pattern Verification
-
-Verify MOD-001 exemplifies each active repository standard. Renamed items per validator feedback:
-
-- Governance Frontmatter Standard compliance.
-- Template Registry compliance.
-- Screen Identifier Standard compliance (MOB-001 uses `MOD001-SCR-NNN`).
-- **Endpoint Identifier Compliance** — verify API-001 uses `API001-EP-NNN` consistently (spec-local convention, not a separate governance artefact).
-- **Migration Registry Identifier Consistency** — verify current canonical identifiers (MOD-001 / WEB-001 / MOB-001 / API-001) match the Migration Registry's post-migration canonical values; does not revalidate the migration itself.
-- Repository Audit Standard compliance across the terminal audits already emitted for MOD-001.
-
-Each item produces one row with a classified result.
-
-### E. Certification Report
-
-New file: `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md`.
-
-Structure:
-
-1. Metadata (subject, upstream chain, taxonomy citation, scope disclaimer).
-2. §Taxonomy (report-scoped, proposed-only).
-3. 15-check contract (5 checks each for §B / §C / §D).
-4. Findings register — `ID | Area | Description | Severity | Evidence | Recommended Remediation`.
-5. Verification Summary — Checklist Items, Passed, Remediated, Failed, Outstanding Risks, INFO / MINOR / MAJOR / CRITICAL counts. Invariant: Passed + Remediated + Failed = Checklist Items.
-6. Certification Outcome per the report-scoped rule.
-7. Roadmap position and next-pass recommendation.
-
-### F. WEB-001 Frontmatter Observation — Classification
-
-The observation carried forward from Pass 35.0.1 (WEB-001 frontmatter still references `MOB-003` / `API-003`, pre-Pass 33.1.0) is classified inside the report:
-
-- Body of WEB-001 and every registration surface already resolve to `MOB-001` / `API-001`.
-- Publication authority, engine wiring, ADR citations, screen and endpoint coverage are unaffected.
-- Proposed classification: **MINOR** — documentation inconsistency; recorded as technical debt; recommended remediation via a dedicated Migration Corrections pass.
-
-The report does not perform the correction.
-
-### G. Terminal Audit
-
-`REPOSITORY_AUDIT_20260718T200000Z.md` — audits certification-pass mechanics only:
-
-- Deliverables B–F present and well-formed.
-- No edits to any MOD-001 artefact; no governance surface modified.
-- Report structure honours the standard Check / Result / Action table with the Passed + Remediated + Failed = Checklist Items invariant.
-- Certification outcome is derivable from the findings register via the report-scoped rule.
-
-### H. Execution Record
-
-Append Pass 36.0.1 to `.lovable/plan.md`: certification outcome, MINOR-finding register, and explicit next-step recommendation of **Pass 36.1.0 — Governance Enhancement: Finding Severity Standard** to permanently adopt the taxonomy.
-
-## Files Touched (write scope)
-
-- `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md` (new).
-- `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T200000Z.md` (new).
-- `.lovable/plan.md` (append).
-
-No other files are created, modified, or deleted. `docs/15-governance/`, `docs/60-solution-design/`, `docs/DOCUMENT_INDEX.md`, and `docs/_meta.json` are untouched.
-
-## Repository State Transition
-
-- Prior: `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`
-- On CERTIFIED outcome: **`REFERENCE_IMPLEMENTATION_CERTIFIED`**
-- On REMEDIATION_REQUIRED: state unchanged; report enumerates blocking findings and recommends a scoped remediation pass.
-
-## Roadmap
-
-```text
-PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE                  ✅
-      ↓
-Pass 36.0.1  Reference Implementation Certification (RO)   ◀ this pass
-      ↓
-REFERENCE_IMPLEMENTATION_CERTIFIED  (expected — MINOR only)
-      ↓
-Pass 36.1.0  Governance Enhancement:
-             Finding Severity Standard (permanent adoption)
-      ↓
-Pass 36.2.0  Migration Corrections
-             (WEB-001 frontmatter, and any peers found)
-      ↓
-Next Published Module — WEB → MOB → API using MOD-001 as gold-standard reference
-```
-
----
-
-## Pass 36.0.1 — Execution Record (2026-07-18T19:00:00Z / 20:00:00Z)
-
-- **Nature:** Pure read-only certification. No MOD-001 artefact, Publication, Baseline, or governance surface modified.
-- **Deliverables:**
-  - Certification report: `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md`.
-  - Terminal audit: `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T200000Z.md` — **12 / 12 PASS**.
-- **Certification Outcome:** ✅ **REFERENCE_IMPLEMENTATION_CERTIFIED**.
-- **Report-Scoped Taxonomy:** INFO / MINOR / MAJOR / CRITICAL declared inside the certification report only; permanent adoption deferred to Pass 36.1.0.
-- **Verification Summary (Certification Report):** 15 checks — Passed 14, Failed 1 (MINOR, non-blocking), Remediated 0, Outstanding Risks 0. MAJOR = 0, CRITICAL = 0 ⇒ CERTIFIED.
-- **Findings Register (technical debt):**
-  - `F-01` MINOR — WEB-001 frontmatter carries stale `related_mobile_spec: MOB-003` / `related_api_spec: API-003` (pre-Pass 33.1.0). Body & registration surfaces already canonical. Remediation scheduled under Pass 36.2.0.
-- **Repository State:** `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE` → **`REFERENCE_IMPLEMENTATION_CERTIFIED`**.
-- **Next Passes:**
-  - **Pass 36.1.0** — Governance Enhancement: permanent adoption of the Finding Severity Standard.
-  - **Pass 36.2.0** — Migration Corrections: sweep WEB-001 frontmatter and Migration Registry peers for stale pre-alignment identifiers.
-  - Then: next Published Module using MOD-001 as gold-standard reference.
+Each check states expected evidence in one line; result column PASS/REMEDIATED/FAILED; action column empty on PASS. Summary reports `Passed + Remediated + Failed = Checklist Items` and `Outstanding Risks = 0` for READY.
