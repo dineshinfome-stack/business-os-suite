@@ -1600,6 +1600,10 @@
           "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION"
         },
         {
+          "title": "WEB-002 — Accounting",
+          "path": "60-solution-design/web/WEB-002_ACCOUNTING"
+        },
+        {
           "title": "WEB-017 — Analytics",
           "path": "60-solution-design/web/WEB-017_ANALYTICS"
         },
