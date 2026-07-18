@@ -29,7 +29,25 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 
 Assets included in Release v1.0 are frozen per §4 of the Release Manifest. Changes require a new Governance Framework Release (Major or Minor) per §5.
 
+Frontmatter conventions consumed by every record below are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md).
+
+## "Applies To" Summary
+
+Compact matrix of every registered template, its version, and the artifact families it authors. Detailed records follow in [Records](#records).
+
+| Template | Version | Applies To | Owning Governance Document | Lifecycle |
+|---|---|---|---|---|
+| GT-001 | v1.1 | Legacy reconciliation corrective passes | Governance Framework v1.0 | Active |
+| GT-002 | v1.0 | Module PRDs, Sprint Plans (Stage 1 Authoring) | Governance Framework v1.0 | Active |
+| GT-003 | v1.0 | Sprint PRDs (Stage 2 Authoring) | Governance Framework v1.0 | Active |
+| GT-004 | v1.0 | Module Baselines (Stage 3 Consolidation) | Governance Framework v1.0 | Active |
+| GT-005 | v1.0 | Repository Audits & Module Publications (terminal) | Governance Framework v1.0 | Active |
+| SD-001_WEB_SPEC | v1.0 | Web Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
+| SD-001_MOB_SPEC | v1.0 | Mobile Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
+| SD-001_API_SPEC | v1.0 | API Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
+
 ## Record Schema
+
 
 | Field | Description |
 |---|---|
