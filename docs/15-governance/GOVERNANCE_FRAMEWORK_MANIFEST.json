@@ -154,6 +154,17 @@
       "sha_scope": "file-bytes",
       "release_pass": "34.0.1",
       "notes": "Repository-wide canonical standard for module-scoped Screen Identifiers (MOD<NNN>-SCR-<NNN>). Applies to SD-001_MOB_SPEC from MOB-001 forward; MOB-017 and MOB-018 grandfathered. Independent of the Frontmatter Standard."
+    },
+    {
+      "id": "FINDING_SEVERITY_STANDARD",
+      "name": "Finding Severity Standard",
+      "path": "docs/15-governance/FINDING_SEVERITY_STANDARD.md",
+      "version": "v1.0",
+      "lifecycle": "Active",
+      "sha256": "sha256:FINDING-SEVERITY-STANDARD-v1.0:computed-at-commit",
+      "sha_scope": "file-bytes",
+      "release_pass": "36.1.0",
+      "notes": "Repository-wide canonical Finding Severity Taxonomy (INFO/MINOR/MAJOR/CRITICAL), certification rule (CERTIFIED iff Failed=0 AND Outstanding Risks=0 AND MAJOR=0 AND CRITICAL=0), and Findings Register columns. Applies prospectively to repository audits, certification reports, sprint verifications, baseline verifications, and migration audits from Pass 36.1.0 forward. Grandfathers report-scoped taxonomies in artifacts dated on or before 2026-07-18 (notably REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z). Independent of the Frontmatter Standard and Screen Identifier Standard."
     }
   ],
   "manifest_sha256": "sha256:manifest-v1.0:computed-over-canonical-assets-array"

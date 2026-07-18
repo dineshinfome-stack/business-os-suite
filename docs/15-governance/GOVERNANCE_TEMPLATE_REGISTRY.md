@@ -29,7 +29,7 @@ Authoritative per-template record. One entry per template. Fields are verbatim a
 
 Assets included in Release v1.0 are frozen per §4 of the Release Manifest. Changes require a new Governance Framework Release (Major or Minor) per §5.
 
-Frontmatter conventions consumed by every record below are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md).
+Frontmatter conventions consumed by every record below are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md). Screen Identifier conventions consumed by Mobile Solution Design specifications are defined in [`SCREEN_IDENTIFIER_STANDARD.md`](./SCREEN_IDENTIFIER_STANDARD.md). Finding severity classification and the canonical certification rule consumed by every audit, certification, and verification artifact are defined in [`FINDING_SEVERITY_STANDARD.md`](./FINDING_SEVERITY_STANDARD.md).
 
 ## "Applies To" Summary
 
@@ -45,6 +45,7 @@ Compact matrix of every registered template, its version, and the artifact famil
 | SD-001_WEB_SPEC | v1.0 | Web Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
 | SD-001_MOB_SPEC | v1.0 | Mobile Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
 | SD-001_API_SPEC | v1.0 | API Solution Design Specifications | Platform Solution Design Framework (SD-001) | Active |
+| FINDING_SEVERITY_STANDARD | v1.0 | Repository audits, certification reports, sprint verifications, baseline verifications, migration audits | Governance Framework v1.0 | Active |
 
 ## Record Schema
 
