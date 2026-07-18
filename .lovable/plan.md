@@ -101,3 +101,29 @@ WEB-002 / MOB-002 / API-002 Solution Design, Baseline or Sprint PRD revisions, A
 - Publication is a consolidation artifact — no new functional requirements introduced.
 - Inconsistencies in Stage 1–3 artifacts are reported as blocking findings, not corrected here.
 - Success authorizes **Pass 37.2.0 — WEB-002 Accounting Solution Design**.
+
+---
+
+## Execution Record — Pass 37.1.0
+
+**Timestamp:** 2026-07-19T04:00:00Z
+**Pass Classification:** PUBLICATION / ADDITIVE / PUBLICATION_SCOPED / LOW risk
+**Repository State:** `MOD002_LIFECYCLE_INITIATED` → `MOD002_PUBLICATION_COMPLETE`
+**Outcome:** ✅ PASS (10/10 checks; 0 MAJOR, 0 CRITICAL)
+
+### Artifacts
+
+- Authored: `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md`
+- Emitted: `docs/50-audit-reports/MOD002_PUBLICATION_VERIFICATION_20260719T040000Z.md`
+
+### Registration surfaces updated
+
+- `docs/MODULE_PUBLICATION_CATALOG.md`
+- `docs/45-module-publications/README.md`
+- `docs/_meta.json` (45 Module Publications group)
+- `docs/DOCUMENT_INDEX.md`
+- `.lovable/plan.md`
+
+### Next Executable Pass
+
+**Pass 37.2.0 — WEB-002 Accounting Solution Design.**
