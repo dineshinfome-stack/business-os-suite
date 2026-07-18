@@ -1770,6 +1770,10 @@
           "path": "15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX"
         },
         {
+          "title": "Governance Frontmatter Standard",
+          "path": "15-governance/GOVERNANCE_FRONTMATTER_STANDARD"
+        },
+        {
           "title": "GT-002 Stage 1 Authoring",
           "path": "15-governance/templates/GT-002_STAGE1_AUTHORING"
         },
