@@ -27,8 +27,12 @@ docs/15-governance/
 ├── GOVERNANCE_TEMPLATE_STANDARD.md      Canonical 16-section template spec
 ├── GOVERNANCE_TEMPLATE_LIFECYCLE.md     Draft → Review → Active → Deprecated → Archived + SemVer
 ├── GOVERNANCE_TEMPLATE_REGISTRY.md      Per-template records (13 fields)
-└── GOVERNANCE_TEMPLATE_INDEX.md         Tabular summary
+├── GOVERNANCE_TEMPLATE_INDEX.md         Tabular summary
+└── GOVERNANCE_FRONTMATTER_STANDARD.md   Repository-wide spec_id / template / template_version standard
 ```
+
+Repository-wide frontmatter conventions (`spec_id`, `template`, `template_version`, Mandatory Frontmatter Validation Checklist) are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md) and consumed by every downstream audit.
+
 
 ## Lifecycle (summary)
 
