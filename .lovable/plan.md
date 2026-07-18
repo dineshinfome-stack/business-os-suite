@@ -80,3 +80,17 @@ No governance standards, templates, or unrelated catalogs touched.
 ### Out of Scope
 
 API design, code, DB schema, ADRs, engines, GT-005/WEB-002/baseline revisions, governance evolution, MOD-001 changes.
+
+---
+
+## Execution Record — MOB002-SD-20260719T060000Z-001
+
+- **Pass ID:** 37.3.0
+- **Pass Classification:** Solution Design — Mobile — Read/Author with scoped verification
+- **Parent Execution:** WEB002-SD-20260719T050000Z-001
+- **Deliverables:**
+  - Authored `docs/60-solution-design/mobile/MOB-002_ACCOUNTING.md` (spec_id `MOB-002`, template `SD-001_MOBILE_SPEC` v1.0, 34 canonical Screen IDs `MOD002-SCR-001` … `MOD002-SCR-083`, 13 journeys, 15 form sections, 22 authorities in 6-col traceability §N).
+  - Emitted `docs/50-audit-reports/MOB002_SOLUTION_DESIGN_VERIFICATION_20260719T060000Z.md` (16/16 PASS; MAJOR=0, CRITICAL=0).
+  - Registered on `docs/60-solution-design/mobile/README.md`, `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`, `docs/_meta.json`, `docs/DOCUMENT_INDEX.md`.
+- **Repository State:** `MOD002_WEB_SOLUTION_DESIGN_COMPLETE` → `MOD002_MOBILE_SOLUTION_DESIGN_COMPLETE`.
+- **Authorizes:** Pass 37.4.0 — API-002 Accounting Solution Design.
