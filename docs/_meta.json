@@ -1592,16 +1592,16 @@
           "path": "60-solution-design/web/README"
         },
         {
+          "title": "WEB-001 — Platform Administration",
+          "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION"
+        },
+        {
           "title": "WEB-017 — Analytics",
           "path": "60-solution-design/web/WEB-017_ANALYTICS"
         },
         {
           "title": "WEB-018 — AI Workspace",
           "path": "60-solution-design/web/WEB-018_AI_WORKSPACE"
-        },
-        {
-          "title": "WEB-001 — Platform Administration",
-          "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION"
         },
         {
           "title": "MOB Specifications — Index",
