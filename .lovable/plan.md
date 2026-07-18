@@ -131,3 +131,22 @@ Pass 36.2.0  Migration Corrections
       ↓
 Next Published Module — WEB → MOB → API using MOD-001 as gold-standard reference
 ```
+
+---
+
+## Pass 36.0.1 — Execution Record (2026-07-18T19:00:00Z / 20:00:00Z)
+
+- **Nature:** Pure read-only certification. No MOD-001 artefact, Publication, Baseline, or governance surface modified.
+- **Deliverables:**
+  - Certification report: `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md`.
+  - Terminal audit: `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T200000Z.md` — **12 / 12 PASS**.
+- **Certification Outcome:** ✅ **REFERENCE_IMPLEMENTATION_CERTIFIED**.
+- **Report-Scoped Taxonomy:** INFO / MINOR / MAJOR / CRITICAL declared inside the certification report only; permanent adoption deferred to Pass 36.1.0.
+- **Verification Summary (Certification Report):** 15 checks — Passed 14, Failed 1 (MINOR, non-blocking), Remediated 0, Outstanding Risks 0. MAJOR = 0, CRITICAL = 0 ⇒ CERTIFIED.
+- **Findings Register (technical debt):**
+  - `F-01` MINOR — WEB-001 frontmatter carries stale `related_mobile_spec: MOB-003` / `related_api_spec: API-003` (pre-Pass 33.1.0). Body & registration surfaces already canonical. Remediation scheduled under Pass 36.2.0.
+- **Repository State:** `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE` → **`REFERENCE_IMPLEMENTATION_CERTIFIED`**.
+- **Next Passes:**
+  - **Pass 36.1.0** — Governance Enhancement: permanent adoption of the Finding Severity Standard.
+  - **Pass 36.2.0** — Migration Corrections: sweep WEB-001 frontmatter and Migration Registry peers for stale pre-alignment identifiers.
+  - Then: next Published Module using MOD-001 as gold-standard reference.
