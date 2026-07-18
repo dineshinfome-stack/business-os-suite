@@ -285,6 +285,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD018_AI_WORKSPACE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md` |
 | MOD019_WAREHOUSE_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md` |
 | MOD-001_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` |
+| MOD-002_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` |
 | MOD-017_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md` |
 | MOD-018_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
