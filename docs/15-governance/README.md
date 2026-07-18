@@ -28,10 +28,11 @@ docs/15-governance/
 ├── GOVERNANCE_TEMPLATE_LIFECYCLE.md     Draft → Review → Active → Deprecated → Archived + SemVer
 ├── GOVERNANCE_TEMPLATE_REGISTRY.md      Per-template records (13 fields)
 ├── GOVERNANCE_TEMPLATE_INDEX.md         Tabular summary
-└── GOVERNANCE_FRONTMATTER_STANDARD.md   Repository-wide spec_id / template / template_version standard
+├── GOVERNANCE_FRONTMATTER_STANDARD.md   Repository-wide spec_id / template / template_version standard
+└── SCREEN_IDENTIFIER_STANDARD.md        Repository-wide Screen ID standard (MOB specs, MOB-001+)
 ```
 
-Repository-wide frontmatter conventions (`spec_id`, `template`, `template_version`, Mandatory Frontmatter Validation Checklist) are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md) and consumed by every downstream audit.
+Repository-wide frontmatter conventions (`spec_id`, `template`, `template_version`, Mandatory Frontmatter Validation Checklist) are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md) and consumed by every downstream audit. Repository-wide Screen Identifier conventions (`MOD<NNN>-SCR-<NNN>`) are defined in [`SCREEN_IDENTIFIER_STANDARD.md`](./SCREEN_IDENTIFIER_STANDARD.md) and consumed by Mobile Solution Design audits from MOB-001 forward.
 
 
 ## Lifecycle (summary)

@@ -1608,6 +1608,10 @@
           "path": "60-solution-design/mobile/README"
         },
         {
+          "title": "MOB-001 — Platform Administration",
+          "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION"
+        },
+        {
           "title": "MOB-017 — Analytics",
           "path": "60-solution-design/mobile/MOB-017_ANALYTICS"
         },
@@ -1776,6 +1780,10 @@
         {
           "title": "Governance Frontmatter Standard",
           "path": "15-governance/GOVERNANCE_FRONTMATTER_STANDARD"
+        },
+        {
+          "title": "Screen Identifier Standard",
+          "path": "15-governance/SCREEN_IDENTIFIER_STANDARD"
         },
         {
           "title": "Migration Registry",

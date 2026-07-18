@@ -143,6 +143,17 @@
       "sha_scope": "file-bytes",
       "release_pass": "33.0.-1",
       "notes": "Repository-wide canonical standard for spec_id / template / template_version and the Mandatory Frontmatter Validation Checklist. Referenced by GT-002..GT-005 and the SD-001 template family."
+    },
+    {
+      "id": "SCREEN_IDENTIFIER_STANDARD",
+      "name": "Screen Identifier Standard",
+      "path": "docs/15-governance/SCREEN_IDENTIFIER_STANDARD.md",
+      "version": "v1.0",
+      "lifecycle": "Active",
+      "sha256": "sha256:SCREEN-IDENTIFIER-STANDARD-v1.0:computed-at-commit",
+      "sha_scope": "file-bytes",
+      "release_pass": "34.0.1",
+      "notes": "Repository-wide canonical standard for module-scoped Screen Identifiers (MOD<NNN>-SCR-<NNN>). Applies to SD-001_MOB_SPEC from MOB-001 forward; MOB-017 and MOB-018 grandfathered. Independent of the Frontmatter Standard."
     }
   ],
   "manifest_sha256": "sha256:manifest-v1.0:computed-over-canonical-assets-array"
