@@ -1,143 +1,138 @@
-# Pass 34.0.1 — SD-009: MOB-001 Platform Administration (v5)
+## Pass 36.0.1 — Reference Implementation Certification (MOD-001)
 
-Two clearly separated deliverables: (A) Governance evolution — a dedicated Screen Identifier Standard as a new repository-wide governance artifact; (B) Solution Design execution — author `MOB-001_PLATFORM_ADMINISTRATION.md` using that standard. Completes the Mobile leg of MOD-001 under canonical identifiers established in Pass 33.1.0.
+Read-only certification of the completed MOD-001 Platform Administration suite (Publication → WEB-001 → MOB-001 → API-001) as the repository's canonical reference implementation for all future Solution Design work. Zero governance evolution, zero business changes, zero SD content edits, zero registration restructuring.
 
-## Authoritative Inputs (read-only)
+**Precondition.** Pass 35.0.1 (API-001) must be COMPLETE and repository state must be `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`. If API-001 is not yet authored, this pass blocks and Pass 35.0.1 executes first.
 
-- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` — scope authority
-- `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` — web parity reference
-- `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md`, `MOB-017_ANALYTICS.md` — mobile authoring precedents
-- `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`, `GOVERNANCE_TEMPLATE_REGISTRY.md`, `GOVERNANCE_FRAMEWORK_MANIFEST.json`, `README.md`
+### Authoritative Inputs (read-only)
 
-No requirements introduced beyond MOD-001 publication.
+- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md`
+- `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md`
+- `docs/60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION.md`
+- `docs/60-solution-design/api/API-001_PLATFORM_ADMINISTRATION.md`
+- `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`
+- `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md`
+- `docs/15-governance/SCREEN_IDENTIFIER_STANDARD.md`
+- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`, per-family READMEs
+- `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- Historical audits for MOD-001 (Publication, WEB, MOB, API) under `docs/50-audit-reports/`
 
----
+No content in these inputs is modified.
 
-## Deliverable A — Governance: Screen Identifier Standard
+### Deliverable A — Cross-Platform Consistency Review
 
-Create a **dedicated** governance artifact — do NOT extend the Frontmatter Standard. Screen IDs are internal content identifiers, not frontmatter metadata; keeping them separate preserves clean separation of concerns and leaves room for future identifier standards (UI components, workflows, reports, dashboards, notifications).
+For every MOD-001 §2/§4 capability, verify represented in WEB-001, MOB-001, and API-001. Check for:
 
-### New file
+- Capability drift (each capability's business intent identical across all four artifacts).
+- Orphan requirements (nothing in WEB/MOB/API that lacks a MOD-001 anchor).
+- Terminology conflicts (persona names, authority names, transaction names identical).
+- Missing cross-references (WEB/MOB/API frontmatter `related_*` fields resolve).
+- Duplicate responsibilities (no capability owned by more than one authority statement).
 
-`docs/15-governance/SCREEN_IDENTIFIER_STANDARD.md` (v1.0) with standard governance frontmatter and sections:
+Output: consistency matrix (rows = capabilities; columns = Publication / WEB / MOB / API), embedded in the certification report.
 
-1. Purpose & Scope — applies to all Mobile Solution Design specifications (`SD-001_MOB_SPEC`) from Pass 34.0.1 forward; may be extended in future to Web/API specs by separate governance pass.
-2. Identifier Syntax — `MOD<NNN>-SCR-<NNN>`, three-digit zero-padded, module-scoped. Example: `MOD001-SCR-001`.
-3. Numbering Rules — sequential per module starting at 001; no gaps introduced by re-numbering.
-4. Immutability — once assigned, a Screen ID MUST NOT be re-numbered. Deprecated screens retain their ID and are marked deprecated in the Screen Hierarchy.
-5. Grandfathering — existing MOB-017 and MOB-018 specifications are not renumbered; a future governance pass may adopt the convention retroactively (out of scope here).
-6. Lifecycle — Active | Deprecated | Removed (with retained ID reservation).
-7. Validation Rules — uniqueness within a spec; well-formedness (regex `^MOD\d{3}-SCR-\d{3}$`); every Screen ID referenced elsewhere in the spec MUST be defined in the Screen Hierarchy (bidirectional consistency).
-8. Examples.
-9. References — Frontmatter Standard, Template Registry, this convention's registry entry.
+### Deliverable B — Traceability Certification
 
-### Governance registration (references only, no embedding)
+Verify end-to-end chain: Publication → WEB Traceability Matrix → MOB Traceability Matrix (5-col) → API Traceability Matrix (6-col). For each MOD-001 capability, confirm:
 
-- `docs/15-governance/README.md` — add a "Screen Identifier Standard" entry to the folder layout and cross-reference list.
-- `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md` — under `SD-001_MOB_SPEC`, add a "References" note pointing to `SCREEN_IDENTIFIER_STANDARD.md`.
-- `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json` — register the new standard document (JSON must remain valid).
-- `docs/DOCUMENT_INDEX.md` and `docs/_meta.json` — register under Governance group.
+- ≥1 WEB screen/journey row.
+- ≥1 MOB Screen ID row (well-formed `MOD001-SCR-NNN`, defined in MOB-001 §4 Screen Hierarchy).
+- ≥1 API endpoint row (each endpoint defined in API-001 Endpoint Inventory).
+- Engine and ADR citations agree with `MOD-001_MODULE_PUBLICATION.md`.
 
----
+Emit a Coverage Table (capability × platform) with zero blanks.
 
-## Deliverable B — Specification: MOB-001
+### Deliverable C — Reference Pattern Verification
 
-Create `docs/60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION.md`.
+Verify MOD-001 exemplifies every repository standard:
 
-### Frontmatter
+- Frontmatter (`GOVERNANCE_FRONTMATTER_STANDARD.md`): `spec_id`, `template`, `template_version`, `module_id`, `related_*` present and valid on WEB/MOB/API.
+- Naming: canonical identifiers `WEB-001`, `MOB-001`, `API-001` match parent `MOD-001`.
+- Registration: SD Catalog, per-family README, DOCUMENT_INDEX, `_meta.json` all contain WEB/MOB/API-001 rows; `_meta.json` parses.
+- SD Template compliance: WEB uses `SD-001_WEB_SPEC`, MOB uses `SD-001_MOB_SPEC`, API uses `SD-001_API_SPEC`, each at v1.0.
+- Traceability Matrix: WEB standard columns; MOB 5-col standard; API 6-col standard.
+- Screen Identifier Standard: `MOD001-SCR-NNN` regex compliance + bidirectional consistency (matrix ↔ hierarchy).
+- Endpoint Inventory: every API traceability endpoint defined in inventory (bidirectional).
+- Audit format: MOD-001 audits use Verification Reporting Standard (Metadata / Check-Result-Action / Verification Summary with arithmetic).
+- Execution Record: `.lovable/plan.md` contains entries for Publication, WEB, MOB, API passes.
 
-- `spec_id: MOB-001`
-- `template: SD-001_MOB_SPEC`
-- `template_version: v1.0`
-- `module_id: MOD-001`
-- `related_web_spec: WEB-001`
-- `related_api_spec: API-001` (forward reference — Pass 35.0.1)
+Output: Reference Pattern Checklist in the certification report, one row per standard with `Result | Evidence Path`.
 
-### Content sections
+### Deliverable D — Repository Certification Report
 
-1. Mobile Architecture (native shell, offline-first cache, secure storage)
-2. Personas — Platform Admin, Tenant Admin, Company Admin, Auditor, Security Officer
-3. Navigation Model (tab + drawer covering Tenancy, Org Structure, Users/Roles, Configuration, Localization, Audit Review)
-4. **Screen Hierarchy & Inventory** — canonical inventory. Every screen carries a stable ID `MOD001-SCR-NNN` per the Screen Identifier Standard. Every Screen ID reference elsewhere in this document MUST resolve here.
-5. User Journeys (invite user, grant/revoke role, approve config change, review audit event, activate locale pack, close financial year) — cite Screen IDs.
-6. Mobile UX Patterns
-7. Offline Behaviour & Synchronization
-8. Authentication & Session Handling (SSO handoff, biometric unlock)
-9. Push Notification Integration (via ENG-025)
-10. Platform Capabilities & Device Permissions
-11. Error Handling
-12. Performance Expectations
-13. Accessibility (ADR-081)
-14. Security (ADR-011, ADR-014, ADR-032)
-15. Mobile API Interaction (references API-001 forward)
-16. **Traceability Matrix** — standardized 5-column repository standard:
+Create `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md` with:
 
-    | MOD Capability | Screen ID(s) | Engine(s) | ADR(s) | Notes |
+1. Repository Metadata (state before/after, timestamp, pass id).
+2. Verification Scope (four artifacts + governance standards reviewed).
+3. Standards Reviewed (with checklist result table).
+4. Cross-Platform Consistency Matrix (Deliverable A).
+5. Traceability Coverage Table (Deliverable B).
+6. Reference Pattern Checklist (Deliverable C).
+7. Registration Validation (`_meta.json` parse result, 4-surface synchronization check).
+8. Audit & Execution History Preservation (list of prior audits, immutability confirmed).
+9. Verification Summary per repository standard (Checklist Items = Passed + Remediated + Failed; Failed = 0 required).
+10. Repository Readiness Assessment.
+11. Repository Status: `REFERENCE_IMPLEMENTATION_CERTIFIED` iff every check PASS and Outstanding Risks = 0.
 
-    One row per MOD-001 capability. Every `Screen ID(s)` entry MUST reference a screen defined in section 4.
-17. Web/Mobile Parity Notes (deltas vs WEB-001)
-18. References — includes `SCREEN_IDENTIFIER_STANDARD.md`
-
-### Registration surfaces
-
-- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` — add MOB-001 row
-- `docs/60-solution-design/mobile/README.md` — add MOB-001
-- `docs/DOCUMENT_INDEX.md` — add MOB-001 row
-- `docs/_meta.json` — add MOB-001 under 60 Solution Design → Mobile (JSON valid)
-
----
-
-## Validation
-
-- Frontmatter conforms to `GOVERNANCE_FRONTMATTER_STANDARD.md`; `spec_id = MOB-001` unique.
-- Cross-refs to WEB-001, MOD-001, forward API-001 resolve.
-- Screen Identifier Standard authored, registered on all four governance surfaces, JSON manifest valid.
-- **Screen IDs:** every screen in section 4 has a unique, well-formed `MOD001-SCR-NNN` id (regex check); no duplicates.
-- **Traceability completeness:** every MOD-001 capability appears in the matrix.
-- **Bidirectional consistency:** every Screen ID referenced in the Traceability Matrix and in User Journeys is defined in section 4; no phantom references.
-- Web/Mobile alignment preserved vs WEB-001; no scope beyond published module.
-
-## Audit
-
-`docs/50-audit-reports/SD_MOB001_PLATFORM_ADMINISTRATION_AUDIT_20260718T170000Z.md` per Verification Reporting Standard. Checks include:
+Minimum 15-check contract:
 
 ```text
-Check                                           | Result
-------------------------------------------------|-------
-Screen Identifier Standard authored             | PASS
-Screen Identifier Standard registered (4 surfs) | PASS
-Frontmatter validation (MOB-001)                | PASS
-Template compliance (SD-001_MOB_SPEC v1.0)      | PASS
-Screen IDs unique & well-formed (regex)         | PASS
-Module traceability (MOD-001 capabilities)      | PASS
-Traceability matrix 5-column standard           | PASS
-Traceability ↔ Screen Hierarchy consistency     | PASS
-Cross-reference validation                      | PASS
-Registration surfaces updated                   | PASS
-_meta.json + GOVERNANCE_FRAMEWORK_MANIFEST valid| PASS
-Mobile/Web alignment (WEB-001)                  | PASS
-No orphan references                            | PASS
-Grandfathering respected (MOB-017/018 untouched)| PASS
+Check                                                    | Result
+---------------------------------------------------------|-------
+MOD-001 Publication frontmatter valid                    | PASS
+WEB-001 frontmatter valid (SD-001_WEB_SPEC v1.0)         | PASS
+MOB-001 frontmatter valid (SD-001_MOB_SPEC v1.0)         | PASS
+API-001 frontmatter valid (SD-001_API_SPEC v1.0)         | PASS
+Capability coverage: Publication → WEB (100%)            | PASS
+Capability coverage: Publication → MOB (100%)            | PASS
+Capability coverage: Publication → API (100%)            | PASS
+Screen ID compliance (regex + bidirectional)             | PASS
+API Endpoint Inventory ↔ Traceability bidirectional      | PASS
+Traceability matrix column standards (WEB / 5-col / 6-col)| PASS
+Cross-references resolve (WEB↔MOB↔API↔MOD-001)           | PASS
+Registration surfaces synchronized (4)                   | PASS
+_meta.json parses                                        | PASS
+Terminology consistency (personas, authorities)          | PASS
+Audit & execution history preserved (immutable)          | PASS
 ```
 
-Status READY only if Failed = 0 and Outstanding Risks = 0.
+### Deliverable E — Execution Record
 
-## Execution Record
+Append Pass 36.0.1 to `.lovable/plan.md`:
 
-Append Pass 34.0.1 entry to `.lovable/plan.md`:
+- `execution_status: COMPLETE`
+- `phase: Repository Certification`
+- `reference_module: MOD-001`
+- `certified_artifacts: [MOD-001 Publication, WEB-001, MOB-001, API-001]`
+- `repository_state_before: PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`
+- `repository_state_after: REFERENCE_IMPLEMENTATION_CERTIFIED`
+- `handoff_state: REFERENCE_IMPLEMENTATION_CERTIFIED`
 
-- execution_status: COMPLETE
-- phase: Solution Design + Governance evolution
-- new_governance_artifact: `SCREEN_IDENTIFIER_STANDARD.md` v1.0
-- specification: MOB-001_PLATFORM_ADMINISTRATION (template SD-001_MOB_SPEC v1.0)
-- module: MOD-001
-- repository_state_before: SOLUTION_DESIGN_IDENTIFIERS_ALIGNED
-- repository_state_after: READY_FOR_API
+### Guardrails
 
-## Guardrails
+- Read-only verification. No writes to any authoritative input.
+- No governance changes, no business changes, no SD content edits, no registration restructuring.
+- Only two files are created: the certification report and the plan record append.
+- If any check FAILs, do not mark `REFERENCE_IMPLEMENTATION_CERTIFIED`; instead emit the report with `Status: REMEDIATION_REQUIRED`, enumerate defects with evidence paths, and halt — remediation is a subsequent pass, not part of 36.0.1.
 
-Governance evolution is limited to introducing the Screen Identifier Standard (identifier format + lifecycle + validation only). Zero business, architecture, or module-scope changes. Frontmatter Standard is not modified. Existing MOB-017 / MOB-018 specs are grandfathered and untouched. Documentation-only; no app code changes.
+### Success Criteria
 
-## Success Criteria
+- Certification report authored with all 15+ checks PASS.
+- Cross-platform consistency matrix has zero blanks.
+- Traceability coverage 100% across WEB/MOB/API.
+- Reference Pattern Checklist confirms MOD-001 exemplifies every repository standard.
+- Failed = 0, Outstanding Risks = 0.
+- Execution record appended.
+- Repository state advances to `REFERENCE_IMPLEMENTATION_CERTIFIED`.
 
-Dedicated Screen Identifier Standard registered as a repository-wide governance artifact; MOB-001 authored using stable `MOD001-SCR-NNN` IDs with a 5-column standardized Traceability Matrix and enforced bidirectional consistency against the Screen Hierarchy; all four registration surfaces updated for both the standard and the spec; audit passes (Failed=0, Risks=0); execution record appended; repository advances to `READY_FOR_API`.
+### Roadmap Position
+
+```text
+Pass 35.0.1  API-001 Platform Administration
+        ↓
+Pass 36.0.1  Reference Implementation Certification (MOD-001)   ◀ this pass
+        ↓
+REFERENCE_IMPLEMENTATION_CERTIFIED
+        ↓
+Next Published Module — WEB → MOB → API using MOD-001 as gold-standard reference
+```
