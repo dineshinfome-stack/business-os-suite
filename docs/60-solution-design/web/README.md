@@ -35,6 +35,7 @@ Every WEB specification MUST reference: Published Module, Module PRD, Sprint Pla
 | --- | --- | --- | --- | --- | --- | --- |
 | WEB-001 | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 | [`WEB-001_ANALYTICS.md`](./WEB-001_ANALYTICS.md) |
 | WEB-002 | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 | [`WEB-002_AI_WORKSPACE.md`](./WEB-002_AI_WORKSPACE.md) |
+| WEB-003 | MOD-001 Platform Administration | MOD-001_MODULE_PUBLICATION | Active | Architecture Office | 2026-07-18 | [`WEB-003_PLATFORM_ADMINISTRATION.md`](./WEB-003_PLATFORM_ADMINISTRATION.md) |
 
 
 

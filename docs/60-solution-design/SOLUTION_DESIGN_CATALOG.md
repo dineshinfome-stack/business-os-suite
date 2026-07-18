@@ -29,6 +29,7 @@ Numbering derives from the source module's `MOD-<NNN>`. No independent numeric r
 | [WEB-002](./web/WEB-002_AI_WORKSPACE.md) | WEB | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
 | [MOB-002](./mobile/MOB-002_AI_WORKSPACE.md) | MOB | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
 | [API-002](./api/API-002_AI_WORKSPACE.md) | API | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
+| [WEB-003](./web/WEB-003_PLATFORM_ADMINISTRATION.md) | WEB | MOD-001 Platform Administration | MOD-001_MODULE_PUBLICATION | Active | Architecture Office | 2026-07-18 |
 
 Registration is additive. Each new specification adds one row per family and links to the artefact under `docs/60-solution-design/{web,mobile,api}/`.
 
