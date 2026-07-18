@@ -29,6 +29,7 @@ Provide a single, stable, cross-repository reference for each module's published
 | Publication ID | Module | Baseline | Path |
 | --- | --- | --- | --- |
 | MOD-001_MODULE_PUBLICATION | MOD-001 Platform Administration | `MOD001_PLATFORM_BASELINE_v1` | [`platform/MOD-001_MODULE_PUBLICATION.md`](platform/MOD-001_MODULE_PUBLICATION.md) |
+| MOD-002_MODULE_PUBLICATION | MOD-002 Accounting | `MOD002_ACCOUNTING_BASELINE_v1` | [`accounting/MOD-002_MODULE_PUBLICATION.md`](accounting/MOD-002_MODULE_PUBLICATION.md) |
 | MOD-017_MODULE_PUBLICATION | MOD-017 Analytics | `MOD017_ANALYTICS_BASELINE_v1` | [`analytics/MOD-017_MODULE_PUBLICATION.md`](analytics/MOD-017_MODULE_PUBLICATION.md) |
 | MOD-018_MODULE_PUBLICATION | MOD-018 AI Workspace | `MOD018_AI_WORKSPACE_BASELINE_v1` | [`ai/MOD-018_MODULE_PUBLICATION.md`](ai/MOD-018_MODULE_PUBLICATION.md) |
 

@@ -1570,6 +1570,10 @@
           "path": "45-module-publications/platform/MOD-001_MODULE_PUBLICATION"
         },
         {
+          "title": "MOD-002 Accounting — Module Publication",
+          "path": "45-module-publications/accounting/MOD-002_MODULE_PUBLICATION"
+        },
+        {
           "title": "MOD-018 AI Workspace — Module Publication",
           "path": "45-module-publications/ai/MOD-018_MODULE_PUBLICATION"
         }
