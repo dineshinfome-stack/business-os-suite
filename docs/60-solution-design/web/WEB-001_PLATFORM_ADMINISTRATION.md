@@ -1,7 +1,7 @@
 ---
-title: "WEB-003 — Platform Administration Web Solution Design Specification"
+title: "WEB-001 — Platform Administration Web Solution Design Specification"
 summary: "Phase 3 Web Solution Design specification for MOD-001 Platform Administration. Derived exclusively from the Platform Administration Module Publication. Defines Web-surface personas, journeys, navigation, screen inventory, forms, collaboration, accessibility, localization, and user-facing security expectations. Introduces no new business requirements."
-spec_id: "WEB-003"
+spec_id: "WEB-001"
 family: "WEB"
 source_module: "MOD-001"
 source_module_name: "Platform Administration"
@@ -18,7 +18,7 @@ lifecycle_state: "Active"
 owner: "Architecture Office"
 layer: "platform"
 updated: "2026-07-18"
-tags: ["solution-design", "web", "phase-3", "WEB-003", "MOD-001", "platform-administration"]
+tags: ["solution-design", "web", "phase-3", "WEB-001", "MOD-001", "platform-administration"]
 document_type: "Web Solution Design Specification"
 template: "SD-001_WEB_SPEC"
 template_version: "v1.0"
@@ -27,9 +27,9 @@ related_engines: ["ENG-001", "ENG-004", "ENG-005", "ENG-006", "ENG-018", "ENG-02
 related_adrs: ["ADR-011", "ADR-012", "ADR-014", "ADR-032", "ADR-051"]
 ---
 
-# WEB-003 — Platform Administration Web Solution Design Specification
+# WEB-001 — Platform Administration Web Solution Design Specification
 
-> **Reference derivation only.** WEB-003 is a Web-surface projection of the Platform Administration Module Publication [`MOD-001_MODULE_PUBLICATION`](../../45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and WEB-003 is corrected in the same change.
+> **Reference derivation only.** WEB-001 is a Web-surface projection of the Platform Administration Module Publication [`MOD-001_MODULE_PUBLICATION`](../../45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and WEB-001 is corrected in the same change.
 
 ## A. Overview
 
@@ -48,7 +48,7 @@ Web (desktop, tablet, mobile-browser responsive) surface covering:
 - Localization Pack administration — pack authoring, activation, inheritance, regional defaults, locale resolution.
 - Audit Review surface — timeline, filtering, drill-down, and export over audit outputs owned by `ENG-004`.
 
-Out of scope for WEB-003: mobile-native surfaces (belongs to MOB-003), API contracts (belongs to API-003), UI mockups, framework decisions, authentication mechanics (SSO, MFA, identity federation), SIEM integration, external monitoring, and any business-rule authoring.
+Out of scope for WEB-001: mobile-native surfaces (belongs to MOB-003), API contracts (belongs to API-003), UI mockups, framework decisions, authentication mechanics (SSO, MFA, identity federation), SIEM integration, external monitoring, and any business-rule authoring.
 
 ### A.3 Source Published Module
 
@@ -66,7 +66,7 @@ Out of scope for WEB-003: mobile-native surfaces (belongs to MOB-003), API contr
 
 ### A.5 Design Principles
 
-- **Publication-derived only.** Every WEB-003 element traces to a capability, authority, master entity, or convention in `MOD-001_MODULE_PUBLICATION`.
+- **Publication-derived only.** Every WEB-001 element traces to a capability, authority, master entity, or convention in `MOD-001_MODULE_PUBLICATION`.
 - **Tenant isolation always visible.** Every surface displays the resolved tenant / organization / company / branch scope and enforces isolation per `ADR-011`.
 - **Effective configuration is transparent.** Every configuration surface reveals the resolved value and its originating scope in the hierarchy.
 - **Audit is read-only.** The audit review surface consumes `ENG-004` outputs; it never mutates audit state.
@@ -74,15 +74,15 @@ Out of scope for WEB-003: mobile-native surfaces (belongs to MOB-003), API contr
 
 ### A.6 Business Boundary
 
-WEB-003 covers only the Platform Administration bounded context. Business master data, transactions, and reports of downstream modules (MOD-002 … MOD-019) remain owned by those modules and are out of scope. Authentication mechanics, identity federation, SIEM integration, external monitoring, business intelligence workspaces (MOD-017), and alerting infrastructure beyond notification dispatch are explicitly out of scope per Publication §15.
+WEB-001 covers only the Platform Administration bounded context. Business master data, transactions, and reports of downstream modules (MOD-002 … MOD-019) remain owned by those modules and are out of scope. Authentication mechanics, identity federation, SIEM integration, external monitoring, business intelligence workspaces (MOD-017), and alerting infrastructure beyond notification dispatch are explicitly out of scope per Publication §15.
 
 ### A.7 Traceability References
 
-See §L for the complete feature-to-capability-to-sprint traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → WEB-003).
+See §L for the complete feature-to-capability-to-sprint traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → WEB-001).
 
 ## B. Web Personas
 
-Personas are inherited from the Module PRD §3 and the Module Publication; WEB-003 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` (referenced via `ADR-032` RBAC + ABAC) as applicable at platform scope.
+Personas are inherited from the Module PRD §3 and the Module Publication; WEB-001 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` (referenced via `ADR-032` RBAC + ABAC) as applicable at platform scope.
 
 ### B.1 Platform Administrator
 
@@ -116,12 +116,12 @@ Personas are inherited from the Module PRD §3 and the Module Publication; WEB-0
 
 ### B.6 External Actors (surfaced only where the Publication permits)
 
-- **Identity Provider / Directory Service:** Referenced by the User surface as external synchronization sources; WEB-003 defines no authentication mechanics per Publication §15.
+- **Identity Provider / Directory Service:** Referenced by the User surface as external synchronization sources; WEB-001 defines no authentication mechanics per Publication §15.
 - **Support:** Read-only observer surface (where activated) subject to tenant-isolation and audit-visibility rules.
 
 ## C. Web User Journeys
 
-Every journey is derived from a capability in Module Publication §3 and an authority in Publication §4. WEB-003 defines Web-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines.
+Every journey is derived from a capability in Module Publication §3 and an authority in Publication §4. WEB-001 defines Web-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines.
 
 ### C.1 Journey — Provision a Tenant
 
@@ -539,11 +539,11 @@ Every form derives its fields from the Master Data and Governance Convention aut
 
 ## G. Collaboration
 
-Collaboration is supported only where the Module Publication permits it. WEB-003 introduces no new collaboration surfaces beyond those authorized by Publication §4.
+Collaboration is supported only where the Module Publication permits it. WEB-001 introduces no new collaboration surfaces beyond those authorized by Publication §4.
 
 - **Shared Administration:** Tenancy, Organization Structure, Users/Roles, Configuration, and Localization surfaces are tenant-scoped shared workspaces for the administrator personas. Concurrent edits surface as validation-time conflict indicators; there is no free-form co-editing beyond scope-permitted draft handoffs.
 - **Delegated Administration:** Delegation of scope-bound administrative capability is available where the Permission Resolution Authority permits (§E.11). Delegations are audit-visible per `ADR-014`.
-- **Approval Interactions:** WEB-003 does not introduce an approval workflow surface. Where downstream modules require approvals, they own that surface. The Configuration Change lifecycle and Localization Pack lifecycle operate under the Configuration Ownership and Localization Ownership conventions rather than a multi-step Web approval flow.
+- **Approval Interactions:** WEB-001 does not introduce an approval workflow surface. Where downstream modules require approvals, they own that surface. The Configuration Change lifecycle and Localization Pack lifecycle operate under the Configuration Ownership and Localization Ownership conventions rather than a multi-step Web approval flow.
 - **Notifications:** User invitations, role changes, delegation changes, and localization activation notifications route via `ENG-006` (Notification Engine) as declared in Publication §11.
 - **Audit Participation:** Every collaboration action (grant, revocation, delegation, configuration publish, pack activation) is audit-visible per `ADR-014` via `ENG-004`.
 - **Handoff:** Draft state persists per author within scope; back-navigation and deep-links preserve scope and filter state so administrators can hand off drafts within a scope-authorized team.
@@ -559,7 +559,7 @@ Aligned to `ADR-081` (Accessibility Standard) as referenced by the Publication's
 - **Responsive Behaviour:** Catalogs (Tenants, Organizations, Users, Roles, Configuration Keys, Localization Packs, Audit Timeline) reflow across desktop, tablet, and mobile browser widths without loss of content or actions. Complex authoring (multi-scope Configuration change, Pack authoring) may be deferred to larger widths.
 - **Localization:** All labels resolvable via `ENG-018` (Localization Engine); layout tolerates text expansion.
 
-Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-003 and belong to MOB-003.
+Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-001 and belong to MOB-003.
 
 ## I. Localization
 
@@ -569,7 +569,7 @@ Derived from the Localization Pack Master Authority and Localization Pack Lifecy
 - **Regional Defaults:** Number, date, and currency formats surface as read-only indicators wherever the Publication's Regional Defaults apply; users cannot mutate defaults outside the Pack Activation surface at scope.
 - **Pack Activation Feedback:** After a Localization Pack activation, all subsequent Web reads reflect the updated resolution; drafts in progress display an indicator that the resolution has changed.
 - **Inheritance Transparency:** The Regional Defaults screen (§E.17) reveals the originating scope for each resolved default.
-- **No Regional Behaviour Beyond the Publication:** WEB-003 introduces no country-specific rules; regional behaviour is entirely governed by the activated Localization Pack.
+- **No Regional Behaviour Beyond the Publication:** WEB-001 introduces no country-specific rules; regional behaviour is entirely governed by the activated Localization Pack.
 
 ## J. Security & Authorization
 
@@ -577,7 +577,7 @@ User-facing security expectations derived from Module Publication §4 authoritie
 
 ### J.1 Authentication Entry Points
 
-- Access to Platform Administration requires authenticated identity per `ENG-001`. Unauthenticated navigation is redirected to the platform-level sign-in surface. WEB-003 does not define authentication mechanics per Publication §15 (SSO, MFA, identity federation are out of scope).
+- Access to Platform Administration requires authenticated identity per `ENG-001`. Unauthenticated navigation is redirected to the platform-level sign-in surface. WEB-001 does not define authentication mechanics per Publication §15 (SSO, MFA, identity federation are out of scope).
 
 ### J.2 Authorization Visibility
 
@@ -609,15 +609,15 @@ User-facing security expectations derived from Module Publication §4 authoritie
 
 ## K. Cross-Platform Alignment
 
-WEB-003 aligns with the planned Mobile (MOB-003) and API (API-003) specifications derived from the same Module Publication.
+WEB-001 aligns with the planned Mobile (MOB-003) and API (API-003) specifications derived from the same Module Publication.
 
-- **MOB-003 (planned):** Personas, entity vocabulary, lifecycle states, scope hierarchy, and audit visibility are intended to remain consistent with WEB-003. Mobile-native concerns (offline, push, camera, device capabilities) belong to MOB-003 and are out of scope here.
-- **API-003 (planned):** Business capabilities exposed by WEB-003 (Tenant, Organization, Company, Branch, Financial Year, User, Role, Permission, Configuration Key, Localization Pack, Audit Review) are intended to be exposed consistently to API consumers, subject to the same authorities and governance conventions. Endpoint contracts, transport, and payload schemas remain out of scope for WEB-003.
+- **MOB-003 (planned):** Personas, entity vocabulary, lifecycle states, scope hierarchy, and audit visibility are intended to remain consistent with WEB-001. Mobile-native concerns (offline, push, camera, device capabilities) belong to MOB-003 and are out of scope here.
+- **API-003 (planned):** Business capabilities exposed by WEB-001 (Tenant, Organization, Company, Branch, Financial Year, User, Role, Permission, Configuration Key, Localization Pack, Audit Review) are intended to be exposed consistently to API consumers, subject to the same authorities and governance conventions. Endpoint contracts, transport, and payload schemas remain out of scope for WEB-001.
 - **Consistency Rules:** All three surfaces share the same source authorities; any divergence must be reconciled at the Module Publication level, not at a family specification.
 
 ## L. Traceability Matrix
 
-Every WEB-003 feature maps to a Module Publication capability and one or more originating Sprints. Every row resolves to `MOD-001_MODULE_PUBLICATION`.
+Every WEB-001 feature maps to a Module Publication capability and one or more originating Sprints. Every row resolves to `MOD-001_MODULE_PUBLICATION`.
 
 | Publication Section | Business Capability | Source Sprint | WEB Section | Planned MOB Section | Planned API Section |
 | --- | --- | --- | --- | --- | --- |
@@ -639,7 +639,7 @@ Every WEB-003 feature maps to a Module Publication capability and one or more or
 | §11 | ADR-032 RBAC + ABAC | SPR-MOD-001-003 | §C.4, §C.9, §J.2, §J.4 | MOB-003 §J.2, §J.4 | API-003 authorization surface |
 | §11 | Accessibility Standard (`ADR-081`) as referenced by Publication ADR set | SPR-MOD-001-003 … 006 | §H | MOB-003 accessibility surface | n/a for API |
 
-No WEB-003 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. WEB-003 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-001_MODULE_PUBLICATION`.
+No WEB-001 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. WEB-001 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-001_MODULE_PUBLICATION`.
 
 ## References
 

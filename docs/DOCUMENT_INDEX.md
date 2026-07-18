@@ -42,6 +42,9 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Governance Template Dependency Matrix | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` |
 | Governance Template Dependency Matrix (YAML export) | Cross-cutting | Approved | Derived | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` |
 | Governance Frontmatter Standard | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md` |
+| Migration Registry | Cross-cutting | Active | Authoritative | `docs/15-governance/MIGRATION_REGISTRY.md` |
+| Solution Design Identifier Migration — 2026-07-18 | Cross-cutting | Executed | Authoritative | `docs/15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md` |
+| Solution Design Migration Manifest — 2026-07-18 | Cross-cutting | Executed | Authoritative | `docs/15-governance/MIGRATION_MANIFEST_20260718.json` |
 | GT-002 — Stage 1 Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-002_STAGE1_AUTHORING.md` |
 | GT-003 — Sprint Authoring Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-003_SPRINT_AUTHORING.md` |
 | GT-004 — Baseline Consolidation Template | Cross-cutting | Approved | Authoritative | `docs/15-governance/templates/GT-004_BASELINE_CONSOLIDATION.md` |
@@ -500,15 +503,15 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Phase 3 Solution Design Framework — README | Solution Design | Approved | Authoritative | `docs/60-solution-design/README.md` |
 | Solution Design Catalog | Solution Design | Approved | Derived | `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` |
 | WEB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/web/README.md` |
-| WEB-001 — Analytics Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-001_ANALYTICS.md` |
+| WEB-001 — Platform Administration Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` |
+| WEB-017 — Analytics Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-017_ANALYTICS.md` |
+| WEB-018 — AI Workspace Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md` |
 | MOB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/mobile/README.md` |
-| MOB-001 — Analytics Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-001_ANALYTICS.md` |
+| MOB-017 — Analytics Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-017_ANALYTICS.md` |
+| MOB-018 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md` |
 | API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
-| API-001 — Analytics API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-001_ANALYTICS.md` |
-| WEB-002 — AI Workspace Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-002_AI_WORKSPACE.md` |
-| MOB-002 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-002_AI_WORKSPACE.md` |
-| API-002 — AI Workspace API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-002_AI_WORKSPACE.md` |
-| WEB-003 — Platform Administration Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-003_PLATFORM_ADMINISTRATION.md` |
+| API-017 — Analytics API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-017_ANALYTICS.md` |
+| API-018 — AI Workspace API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-018_AI_WORKSPACE.md` |
 
 
 

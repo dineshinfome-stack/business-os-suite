@@ -1,7 +1,7 @@
 ---
-title: "API-001 — Analytics API Solution Design Specification"
-summary: "Business-level API Solution Design Specification for MOD-017 Analytics, derived exclusively from MOD-017_MODULE_PUBLICATION. Cross-consistent with WEB-001 and MOB-001. Introduces no new business requirements, authorities, endpoints, protocols, schemas, or code."
-spec_id: "API-001"
+title: "API-017 — Analytics API Solution Design Specification"
+summary: "Business-level API Solution Design Specification for MOD-017 Analytics, derived exclusively from MOD-017_MODULE_PUBLICATION. Cross-consistent with WEB-017 and MOB-017. Introduces no new business requirements, authorities, endpoints, protocols, schemas, or code."
+spec_id: "API-017"
 family: "API"
 source_module: "MOD-017"
 source_publication: "MOD-017_MODULE_PUBLICATION"
@@ -10,16 +10,16 @@ layer: "platform"
 owner: "Insights"
 status: "Active"
 updated: "2026-07-18"
-tags: ["solution-design", "api", "phase-3", "SD-004", "API-001", "MOD-017", "analytics"]
+tags: ["solution-design", "api", "phase-3", "SD-004", "API-017", "MOD-017", "analytics"]
 document_type: "API Solution Design Specification"
 template: "SD-004"
 template_version: "v1.0"
 version: "1.0"
 ---
 
-# API-001 — Analytics API Solution Design Specification
+# API-017 — Analytics API Solution Design Specification
 
-> **Business-level specification.** This document describes API behaviour at the business capability level only. It introduces no new business requirements, authorities, master data, transactions, events, engines, ADRs, protocols, endpoints, payload schemas, or infrastructure design. All content is traceable to [`MOD-017_MODULE_PUBLICATION`](../../45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md). WEB-001 and MOB-001 are referenced only to preserve cross-platform terminology consistency.
+> **Business-level specification.** This document describes API behaviour at the business capability level only. It introduces no new business requirements, authorities, master data, transactions, events, engines, ADRs, protocols, endpoints, payload schemas, or infrastructure design. All content is traceable to [`MOD-017_MODULE_PUBLICATION`](../../45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md). WEB-017 and MOB-017 are referenced only to preserve cross-platform terminology consistency.
 
 ## A. Overview
 
@@ -41,8 +41,8 @@ Only consumer categories supported by the Published Module are enumerated. No ne
 
 | Consumer | Provenance | Description |
 | --- | --- | --- |
-| **Analytics Web Application** | WEB-001; Publication §3 | Web surface used by Analysts, Data Stewards, Business Leads, Executives, and general Report Consumers. |
-| **Analytics Mobile Application** | MOB-001; Publication §3 | Mobile surface used by Business Leads, Executives, and Report Consumers for view/consumption scenarios. |
+| **Analytics Web Application** | WEB-017; Publication §3 | Web surface used by Analysts, Data Stewards, Business Leads, Executives, and general Report Consumers. |
+| **Analytics Mobile Application** | MOB-017; Publication §3 | Mobile surface used by Business Leads, Executives, and Report Consumers for view/consumption scenarios. |
 | **Business OS Internal Services** | Publication §12; upstream modules MOD-001…MOD-016, MOD-019 | Internal services consuming published events and read-only master data. Analytics itself consumes upstream domain events read-only. |
 | **MOD-018 AI Workspace** | Publication §12, §4.5 | Downstream consumer of Analytics read-only surface and events; does not mutate Analytics state. |
 | **Authorized External BI Integrations** | Module PRD §8 (External BI, via export); Publication §11 (ENG-023, ENG-027) | External BI tools consuming Analytics through the Export capability and approved integration surfaces. |
@@ -168,14 +168,14 @@ Governance expectations only; no implementation strategy.
 
 - **Backward Compatibility.** Every published API capability MUST remain backward compatible until formally deprecated. Business-visible entities and lifecycle states enumerated in §D are compatibility-critical.
 - **Published Interface Evolution.** Any change that alters a business capability, master data lifecycle, transaction lifecycle, event, or authorization boundary is a governed change and requires a new Module Baseline version (Publication §16). Non-authoritative refinements follow the additive-only convention.
-- **Consumer Impact Assessment.** WEB-001, MOB-001, MOD-018 AI Workspace, and Authorized External BI Integrations are named consumer surfaces. A consumer impact assessment MUST be produced for every governed change.
+- **Consumer Impact Assessment.** WEB-017, MOB-017, MOD-018 AI Workspace, and Authorized External BI Integrations are named consumer surfaces. A consumer impact assessment MUST be produced for every governed change.
 - **Deprecation Governance.** Deprecation follows the governance lifecycle `Active → Deprecated → Archived` and is reflected in the Module Publication and this specification. No silent removal is permitted.
 
 ## J. Cross-Platform Alignment
 
-Terminology and business workflows are aligned across WEB-001, MOB-001, and this specification. The mapping below preserves consistency; it introduces no new alignment obligations beyond those in the Published Module.
+Terminology and business workflows are aligned across WEB-017, MOB-017, and this specification. The mapping below preserves consistency; it introduces no new alignment obligations beyond those in the Published Module.
 
-| API Capability (this document) | WEB-001 Section | MOB-001 Section |
+| API Capability (this document) | WEB-017 Section | MOB-017 Section |
 | --- | --- | --- |
 | C.1 Data Marts & Analytics Foundation Services | E. Screen Inventory (Foundations/Data Marts); F. Forms (Data Mart authoring) | E. Mobile Screen Inventory (Foundations, read-only where applicable) |
 | C.2 KPI Framework & Metric Catalog Services | G. Dashboards (KPI Trends); E. Screen Inventory (KPI Catalog); F. Forms (KPI authoring) | E. Mobile Screen Inventory (KPI consumption); C. Mobile Journeys (KPI review) |
@@ -186,15 +186,15 @@ Terminology and business workflows are aligned across WEB-001, MOB-001, and this
 Cross-cutting alignments:
 
 - **Personas.** Business roles are inherited from Module PRD §3 in all three specifications; no new personas introduced here.
-- **Authorization Visibility.** WEB-001 §J, MOB-001 §J, and this §F share the same authorization model rooted in `ADR-032`.
+- **Authorization Visibility.** WEB-017 §J, MOB-017 §J, and this §F share the same authorization model rooted in `ADR-032`.
 - **Audit Visibility.** All three specifications share the same audit posture via `ENG-004` / `ADR-014`.
 - **Read-Model-Only Boundary.** Preserved identically across web, mobile, and API surfaces.
 
 ## K. Traceability Matrix
 
-Every API capability maps to the Published Module, a business capability, originating Sprints, and — where applicable — WEB-001 and MOB-001 sections. No orphan capabilities. No baseline-introduced items.
+Every API capability maps to the Published Module, a business capability, originating Sprints, and — where applicable — WEB-017 and MOB-017 sections. No orphan capabilities. No baseline-introduced items.
 
-| API Capability | Publication § | Business Capability | Sprint(s) | WEB-001 § | MOB-001 § |
+| API Capability | Publication § | Business Capability | Sprint(s) | WEB-017 § | MOB-017 § |
 | --- | --- | --- | --- | --- | --- |
 | C.1 Data Marts & Foundation | §3, §4.1, §7 | Analytics Foundations, Data Mart Master | SPR-MOD-017-001 | E, F | E |
 | C.2 KPI Framework & Metric Catalog | §3, §4.2, §7 | KPI Framework, Metric Catalog, Sensitive-KPI Classification | SPR-MOD-017-002 | E, F, G | C, E |
@@ -215,7 +215,7 @@ Every API capability maps to the Published Module, a business capability, origin
 - [`docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md`](../../40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md)
 - [`docs/30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md`](../../30-sprint-prds/analytics/MOD-017_SPRINT_PLAN.md)
 - [`docs/20-module-prds/analytics/MODULE_PRD.md`](../../20-module-prds/analytics/MODULE_PRD.md)
-- [`docs/60-solution-design/web/WEB-001_ANALYTICS.md`](../web/WEB-001_ANALYTICS.md) — consistency reference only.
-- [`docs/60-solution-design/mobile/MOB-001_ANALYTICS.md`](../mobile/MOB-001_ANALYTICS.md) — consistency reference only.
+- [`docs/60-solution-design/web/WEB-017_ANALYTICS.md`](../web/WEB-017_ANALYTICS.md) — consistency reference only.
+- [`docs/60-solution-design/mobile/MOB-017_ANALYTICS.md`](../mobile/MOB-017_ANALYTICS.md) — consistency reference only.
 - [`docs/60-solution-design/README.md`](../README.md)
 - [`docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`](../SOLUTION_DESIGN_CATALOG.md)

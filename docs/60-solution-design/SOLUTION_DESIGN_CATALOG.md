@@ -23,13 +23,13 @@ Numbering derives from the source module's `MOD-<NNN>`. No independent numeric r
 
 | Spec ID | Family | Source Module | Source Publication | Lifecycle State | Owner | Updated |
 | --- | --- | --- | --- | --- | --- | --- |
-| [WEB-001](./web/WEB-001_ANALYTICS.md) | WEB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
-| [MOB-001](./mobile/MOB-001_ANALYTICS.md) | MOB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
-| [API-001](./api/API-001_ANALYTICS.md) | API | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
-| [WEB-002](./web/WEB-002_AI_WORKSPACE.md) | WEB | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
-| [MOB-002](./mobile/MOB-002_AI_WORKSPACE.md) | MOB | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
-| [API-002](./api/API-002_AI_WORKSPACE.md) | API | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
-| [WEB-003](./web/WEB-003_PLATFORM_ADMINISTRATION.md) | WEB | MOD-001 Platform Administration | MOD-001_MODULE_PUBLICATION | Active | Architecture Office | 2026-07-18 |
+| [WEB-001](./web/WEB-001_PLATFORM_ADMINISTRATION.md) | WEB | MOD-001 Platform Administration | MOD-001_MODULE_PUBLICATION | Active | Architecture Office | 2026-07-18 |
+| [WEB-017](./web/WEB-017_ANALYTICS.md) | WEB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
+| [MOB-017](./mobile/MOB-017_ANALYTICS.md) | MOB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
+| [API-017](./api/API-017_ANALYTICS.md) | API | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
+| [WEB-018](./web/WEB-018_AI_WORKSPACE.md) | WEB | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
+| [MOB-018](./mobile/MOB-018_AI_WORKSPACE.md) | MOB | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
+| [API-018](./api/API-018_AI_WORKSPACE.md) | API | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 |
 
 Registration is additive. Each new specification adds one row per family and links to the artefact under `docs/60-solution-design/{web,mobile,api}/`.
 

@@ -1,7 +1,7 @@
 ---
-title: "MOB-002 — AI Workspace Mobile Solution Design Specification"
-summary: "Phase 3 Mobile Solution Design specification for MOD-018 AI Workspace. Derived exclusively from the AI Workspace Module Publication (with WEB-002 referenced only for terminology, workflow, and navigation consistency). Defines mobile personas, journeys, navigation, screen inventory, forms, collaboration, AI interaction experience, accessibility, and user-facing security expectations. Introduces no new business requirements."
-spec_id: "MOB-002"
+title: "MOB-018 — AI Workspace Mobile Solution Design Specification"
+summary: "Phase 3 Mobile Solution Design specification for MOD-018 AI Workspace. Derived exclusively from the AI Workspace Module Publication (with WEB-018 referenced only for terminology, workflow, and navigation consistency). Defines mobile personas, journeys, navigation, screen inventory, forms, collaboration, AI interaction experience, accessibility, and user-facing security expectations. Introduces no new business requirements."
+spec_id: "MOB-018"
 family: "MOB"
 source_module: "MOD-018"
 source_module_name: "AI Workspace"
@@ -10,14 +10,14 @@ source_baseline: "MOD018_AI_WORKSPACE_BASELINE_v1"
 source_module_prd: "docs/20-module-prds/ai/MODULE_PRD.md"
 source_sprint_plan: "docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md"
 source_sprints: ["SPR-MOD-018-001", "SPR-MOD-018-002", "SPR-MOD-018-003", "SPR-MOD-018-004", "SPR-MOD-018-005"]
-related_web_spec: "WEB-002"
+related_web_spec: "WEB-018"
 version: "1.0"
 status: "Active"
 lifecycle_state: "Active"
 owner: "AI Platform"
 layer: "platform"
 updated: "2026-07-18"
-tags: ["solution-design", "mobile", "phase-3", "MOB-002", "MOD-018", "ai-workspace", "SD-006"]
+tags: ["solution-design", "mobile", "phase-3", "MOB-018", "MOD-018", "ai-workspace", "SD-006"]
 document_type: "Mobile Solution Design Specification"
 template: "SD-006"
 template_version: "v1.0"
@@ -26,9 +26,9 @@ related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-00
 related_adrs: ["ADR-011", "ADR-014", "ADR-032", "ADR-081"]
 ---
 
-# MOB-002 — AI Workspace Mobile Solution Design Specification
+# MOB-018 — AI Workspace Mobile Solution Design Specification
 
-> **Reference derivation only.** MOB-002 is a Mobile-surface projection of the AI Workspace Module Publication [`MOD-018_MODULE_PUBLICATION`](../../45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. [`WEB-002`](../web/WEB-002_AI_WORKSPACE.md) is referenced only to maintain consistency of journeys, terminology, and navigation; it is not a business source. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and MOB-002 is corrected in the same change.
+> **Reference derivation only.** MOB-018 is a Mobile-surface projection of the AI Workspace Module Publication [`MOD-018_MODULE_PUBLICATION`](../../45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. [`WEB-018`](../web/WEB-018_AI_WORKSPACE.md) is referenced only to maintain consistency of journeys, terminology, and navigation; it is not a business source. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and MOB-018 is corrected in the same change.
 
 ## A. Overview
 
@@ -49,7 +49,7 @@ Mobile-native surface (phone and tablet form factors) covering:
 - Notification handling for `AIConversationStarted`, `AIToolCallRequested`, `AIApprovalGranted`, and `AIApprovalDenied` per Publication §9 and `ENG-025`.
 - Offline availability limited strictly to what the Published Module supports (cached read-only viewing and queued read-only preference edits).
 
-Out of scope for MOB-002: Web surfaces (belongs to WEB-002), API contracts (belongs to API-002), UI mockups, framework decisions, and any business-rule authoring. Complex authoring of Prompt Master, Retrieval Corpus, Tool Definition, Approval Policy, Cost Budget, and Safety Governance remains Web-primary.
+Out of scope for MOB-018: Web surfaces (belongs to WEB-018), API contracts (belongs to API-018), UI mockups, framework decisions, and any business-rule authoring. Complex authoring of Prompt Master, Retrieval Corpus, Tool Definition, Approval Policy, Cost Budget, and Safety Governance remains Web-primary.
 
 ### A.3 Source Published Module
 
@@ -59,7 +59,7 @@ Out of scope for MOB-002: Web surfaces (belongs to WEB-002), API contracts (belo
 - **Module PRD:** [`docs/20-module-prds/ai/MODULE_PRD.md`](../../20-module-prds/ai/MODULE_PRD.md)
 - **Sprint Plan:** [`docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md`](../../30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md)
 - **Sprint PRDs:** `SPR-MOD-018-001` … `SPR-MOD-018-005`
-- **Related Web Specification:** [`WEB-002`](../web/WEB-002_AI_WORKSPACE.md) — consistency reference only.
+- **Related Web Specification:** [`WEB-018`](../web/WEB-018_AI_WORKSPACE.md) — consistency reference only.
 
 ### A.4 Version
 
@@ -68,11 +68,11 @@ Out of scope for MOB-002: Web surfaces (belongs to WEB-002), API contracts (belo
 
 ### A.5 Traceability References
 
-See §K for the complete feature-to-capability-to-sprint-to-WEB-002 traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → MOB-002; WEB-002 referenced for consistency).
+See §K for the complete feature-to-capability-to-sprint-to-WEB-018 traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → MOB-018; WEB-018 referenced for consistency).
 
 ## B. Mobile Personas
 
-Personas are inherited from the Module PRD, the Module Publication, and the Sprint PRD family; MOB-002 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC). This section describes mobile-specific responsibilities, permissions, and scenarios only.
+Personas are inherited from the Module PRD, the Module Publication, and the Sprint PRD family; MOB-018 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC). This section describes mobile-specific responsibilities, permissions, and scenarios only.
 
 ### B.1 Business User (all modules)
 
@@ -100,9 +100,9 @@ Personas are inherited from the Module PRD, the Module Publication, and the Spri
 
 ## C. Mobile User Journeys
 
-Every journey is derived from a capability in Module Publication §3 and the transaction lifecycles in Publication §8. MOB-002 defines Mobile-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines. The corresponding WEB-002 journey is noted parenthetically for consistency only.
+Every journey is derived from a capability in Module Publication §3 and the transaction lifecycles in Publication §8. MOB-018 defines Mobile-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines. The corresponding WEB-018 journey is noted parenthetically for consistency only.
 
-### C.1 Journey — Submit a Prompt and Review the Response (WEB-002 §C.1)
+### C.1 Journey — Submit a Prompt and Review the Response (WEB-018 §C.1)
 
 - **Entry Points:** Mobile AI Workspace home; embedded copilot entry from a source-module mobile surface where `Enabled surfaces` is configured; deep link into an AI Conversation.
 - **Primary Flow:** User opens Copilot Surface → workspace context resolves (tenant / company / active source-module surface) → user composes and submits a prompt → AI Conversation transaction opens → provider integration proceeds exclusively via `ENG-028` → response renders with grounded references to Retrieved Context and any suggested Tool Call → `AIConversationStarted` emits via `ENG-024`.
@@ -111,7 +111,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Prompt submission requires connectivity; drafts are preserved locally and re-presented on reconnect; recently viewed conversations render read-only from cache with a "cached at" indicator; drill-down to grounded references may require connectivity.
 - **Exception Flows:** Copilot surface not enabled for tenant → access-denied state; sensitive-data redaction applies where the user lacks row-level access; provider unavailable → conversation reflects failure state without mutating source-module transactions.
 
-### C.2 Journey — Request a Tool Call (WEB-002 §C.2)
+### C.2 Journey — Request a Tool Call (WEB-018 §C.2)
 
 - **Entry Points:** Response surface within an AI Conversation offering a Tool Call suggestion; direct action on a registered Tool Definition where permitted.
 - **Primary Flow:** User confirms the Tool Call intent → AI Tool Call transaction opens → `AIToolCallRequested` emits via `ENG-024` → the tool-call-with-approval process routes via `ENG-011` per the Approval Policy → notification of resolution is delivered via `ENG-025`.
@@ -120,7 +120,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Tool Call requests are not submitted offline; a drafted request is retained locally and clearly indicated as pending submission until reconnected.
 - **Exception Flows:** Approval denied → state reflects `Denied`; policy timeout → policy-defined outcome recorded; source-module invocation rejected under the invoker's authorization → tool call reflects failure state without partial mutation.
 
-### C.3 Journey — Act on an AI Approval (WEB-002 §C.7)
+### C.3 Journey — Act on an AI Approval (WEB-018 §C.7)
 
 - **Entry Points:** Push notification for a pending AI Approval; Governance → Approvals tab; direct deep link.
 - **Primary Flow:** Approver opens the pending AI Approval → inspects requested Tool Definition, invocation context, retrieved grounding reference, requester identity, and policy in effect → acts `Granted` or `Denied` with reviewer notes → decision emits `AIApprovalGranted` or `AIApprovalDenied` via `ENG-024`.
@@ -129,7 +129,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Approve / deny actions are not submitted offline; the action is retained locally and clearly indicated as pending submission until reconnected.
 - **Exception Flows:** Approver lacks scope → action rejected; item no longer eligible (state changed elsewhere) → surfaces a conflict state.
 
-### C.4 Journey — Resume an AI Conversation (WEB-002 §C.1, §C.6)
+### C.4 Journey — Resume an AI Conversation (WEB-018 §C.1, §C.6)
 
 - **Entry Points:** Conversations tab; shared conversation link within tenant scope; deep link.
 - **Primary Flow:** User opens Conversation History → filters by source-module surface / participant / time range → opens a conversation → resumes at the last turn with grounded references intact.
@@ -138,7 +138,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Recently viewed conversations render from cache with an offline indicator; new turns require connectivity.
 - **Exception Flows:** Access denied where policy prohibits; artifacts outside retention are surfaced as archived.
 
-### C.5 Journey — Review the Prompt Publication Queue (WEB-002 §C.3, §C.11)
+### C.5 Journey — Review the Prompt Publication Queue (WEB-018 §C.3, §C.11)
 
 - **Entry Points:** Push notification for a pending Prompt Version review; Prompt Library → Review Queue.
 - **Primary Flow:** Reviewer opens the pending Prompt Version → inspects business purpose, safety classification, and version notes → acts `Approve` or `Reject` with reviewer notes via `ENG-011`.
@@ -147,7 +147,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Approve / reject actions are not submitted offline; retained locally and indicated as pending submission until reconnected.
 - **Exception Flows:** Prompt Version already resolved elsewhere → surfaces a conflict state; reviewer lacks scope → routing re-evaluated.
 
-### C.6 Journey — Monitor a Retrieval Corpus (WEB-002 §C.4)
+### C.6 Journey — Monitor a Retrieval Corpus (WEB-018 §C.4)
 
 - **Entry Points:** Retrieval tab; notification of a corpus refresh failure; deep link into a Retrieval Corpus.
 - **Primary Flow:** User opens Retrieval Corpora → selects a corpus → inspects lifecycle state, bound source read-model references, refresh cadence, last-refreshed indicator, and recent refresh outcomes.
@@ -156,7 +156,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Recently viewed corpus details render read-only from cache; refresh requests are queued while offline (§G).
 - **Exception Flows:** Refresh failure surfaced with reviewer notes; sensitive read models excluded per retrieval-authorization-at-query-time; access denied where policy prohibits.
 
-### C.7 Journey — Inspect Tool Definitions and Tool Calls (WEB-002 §C.5)
+### C.7 Journey — Inspect Tool Definitions and Tool Calls (WEB-018 §C.5)
 
 - **Entry Points:** Tool Calling tab; notification of a resolved Tool Call; deep link into a Tool Definition or Tool Call.
 - **Primary Flow:** User opens Tool Definitions or Tool Calls → filters by lifecycle state / requester / tool → opens a detail → reviews invocation constraints, approval-gate expectation, associated Approval, and source-module outcome.
@@ -165,7 +165,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Recently viewed details render read-only from cache; new detail loads require connectivity.
 - **Exception Flows:** Access denied where policy prohibits; whitelisted tools indicated per policy.
 
-### C.8 Journey — Review Governance Indicators on Mobile (WEB-002 §C.8, §C.9, §C.10)
+### C.8 Journey — Review Governance Indicators on Mobile (WEB-018 §C.8, §C.9, §C.10)
 
 - **Entry Points:** Governance tab; notification of a cost budget threshold or a safety governance change.
 - **Primary Flow:** User opens Governance → reviews Approval Policies, Cost Budgets, Safety Governance, and Operational Reports (AI Adoption, Tool-Call Success Rate, Cost per Surface, Approval Latency) read-only on mobile → drills into denied Tool Calls or pending approvals subject to authorization.
@@ -174,7 +174,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 - **Offline / Online Transitions:** Recently viewed report snapshots render from cache with a freshness indicator; new queries require connectivity.
 - **Exception Flows:** Access denied where policy prohibits; freshness indicator flags stale data.
 
-### C.9 Journey — Audit-Visible History on Mobile (WEB-002 §C.6)
+### C.9 Journey — Audit-Visible History on Mobile (WEB-018 §C.6)
 
 - **Entry Points:** Audit entry within Conversations, Prompt Library, Retrieval, or Tool Calling surfaces (Auditor persona and other authorized personas).
 - **Primary Flow:** User opens the audit-visible history surface for the target entity → filters by time range / actor / entity within tenant scope → inspects publication, lifecycle, refresh, conversation, tool-call, or approval history — read-only.
@@ -185,7 +185,7 @@ Every journey is derived from a capability in Module Publication §3 and the tra
 
 ## D. Mobile Navigation
 
-Navigation groups are derived from Module Publication §3 (Approved Scope), which enumerates the AI Workspace submodules: Copilot Surfaces, Retrieval, Tool Calling, Prompt Library, and Governance. MOB-002 does not prescribe an information architecture beyond what the Published Module supports. Behaviour only — no visual designs.
+Navigation groups are derived from Module Publication §3 (Approved Scope), which enumerates the AI Workspace submodules: Copilot Surfaces, Retrieval, Tool Calling, Prompt Library, and Governance. MOB-018 does not prescribe an information architecture beyond what the Published Module supports. Behaviour only — no visual designs.
 
 ### D.1 Bottom Navigation (Primary)
 
@@ -388,7 +388,7 @@ Each entry: purpose, business capability, primary actions, displayed business in
 
 ## F. Mobile Forms & User Interactions
 
-Forms on mobile are limited to actions supported by the Published Module and appropriate for a mobile form factor. Field lists derive from the Master Data and Transaction Authorities in Module Publication §7–§8. Validation is business-level; technical validation is out of scope. Authoring of Prompt Master, Retrieval Corpus, Tool Definition, Approval Policy, Cost Budget, and Safety Governance remains Web-primary and is not surfaced as mobile authoring forms in MOB-002.
+Forms on mobile are limited to actions supported by the Published Module and appropriate for a mobile form factor. Field lists derive from the Master Data and Transaction Authorities in Module Publication §7–§8. Validation is business-level; technical validation is out of scope. Authoring of Prompt Master, Retrieval Corpus, Tool Definition, Approval Policy, Cost Budget, and Safety Governance remains Web-primary and is not surfaced as mobile authoring forms in MOB-018.
 
 ### F.1 Prompt Submission Form
 
@@ -474,7 +474,7 @@ Forms on mobile are limited to actions supported by the Published Module and app
 
 ## G. Mobile Collaboration
 
-Collaboration on mobile is supported only where the Module Publication permits it (Publication §3–§4). MOB-002 introduces no new collaboration surfaces.
+Collaboration on mobile is supported only where the Module Publication permits it (Publication §3–§4). MOB-018 introduces no new collaboration surfaces.
 
 - **Shared Conversations:** AI Conversation transactions may be shared within tenant scope; conversation continuity persists across web and mobile sessions per the AI Conversation transaction authority.
 - **Prompt Review Handoffs:** The Prompt review-and-publish process (§C.5, §F.4) routes via `ENG-011`; assignment, notes, and completion notifications are surfaced on mobile via `ENG-025`.
@@ -534,7 +534,7 @@ User-facing mobile security expectations derived from Module Publication §4 aut
 
 ### J.1 Authentication Entry Points
 
-- Access to AI Workspace on mobile requires authenticated identity per `ENG-001`. Unauthenticated launches direct to the platform-level sign-in surface owned by MOD-001; MOB-002 does not define authentication mechanics.
+- Access to AI Workspace on mobile requires authenticated identity per `ENG-001`. Unauthenticated launches direct to the platform-level sign-in surface owned by MOD-001; MOB-018 does not define authentication mechanics.
 - Biometric unlock is an entry convenience only; it does not substitute for the platform authentication mechanism.
 
 ### J.2 Session Awareness
@@ -563,9 +563,9 @@ User-facing mobile security expectations derived from Module Publication §4 aut
 ### J.6 Secure Handling of Business Information
 
 - On-device cache (§G/§F) stores only content the user was authorized to view at capture time; sign-out clears the cache within the platform envelope.
-- Downloaded artefacts (where the copilot surface permits document reference via `ENG-007` / `ENG-008`) are handed to the platform file-handling surface; MOB-002 does not define file-storage mechanics.
+- Downloaded artefacts (where the copilot surface permits document reference via `ENG-007` / `ENG-008`) are handed to the platform file-handling surface; MOB-018 does not define file-storage mechanics.
 - Provider integration occurs exclusively via `ENG-028`; the mobile surface never surfaces provider identity or provider-native controls.
-- Screenshots and screen-recording follow the platform convention for sensitive surfaces; no mechanism is defined by MOB-002.
+- Screenshots and screen-recording follow the platform convention for sensitive surfaces; no mechanism is defined by MOB-018.
 
 ### J.7 Tenant Isolation
 
@@ -573,9 +573,9 @@ User-facing mobile security expectations derived from Module Publication §4 aut
 
 ## K. Traceability Matrix
 
-Every MOB-002 feature is traced to the Published Module capability, the originating Sprint(s), and the related WEB-002 section for consistency reference only. WEB-002 is not a business source.
+Every MOB-018 feature is traced to the Published Module capability, the originating Sprint(s), and the related WEB-018 section for consistency reference only. WEB-018 is not a business source.
 
-| MOB-002 Feature | Publication Capability (§) | Sprint(s) | Related WEB-002 Section |
+| MOB-018 Feature | Publication Capability (§) | Sprint(s) | Related WEB-018 Section |
 | --- | --- | --- | --- |
 | E.1 Mobile AI Workspace Home | Copilot Surfaces; Governance overview (§3) | SPR-MOD-018-004, 005 | E.1 |
 | E.2 Copilot Surface / F.1 Prompt Submission / C.1 Prompt-to-response | Prompt-to-response process; AI Conversation transaction; `AIConversationStarted` (§4.4, §8, §9) | SPR-MOD-018-004 | E.2, F.4, C.1 |
@@ -605,7 +605,7 @@ Every MOB-002 feature is traced to the Published Module capability, the originat
 | I Accessibility | ADR-081 Accessibility Standard (§11) | Applies to all sprints | I |
 | J Security | Authorities §4 + ADR-011, ADR-014, ADR-032 (§11); Retrieval-authorization-at-query-time; AI-initiated approval-gate rule (§4.2, §4.3) | Applies to all sprints | J |
 
-No MOB-002 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. MOB-002 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-018_MODULE_PUBLICATION`.
+No MOB-018 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. MOB-018 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-018_MODULE_PUBLICATION`.
 
 ## References
 
@@ -613,7 +613,7 @@ No MOB-002 feature is absent from the traceability matrix. No feature in the mat
 - [`docs/40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md`](../../40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md)
 - [`docs/20-module-prds/ai/MODULE_PRD.md`](../../20-module-prds/ai/MODULE_PRD.md)
 - [`docs/30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md`](../../30-sprint-prds/ai/MOD-018_SPRINT_PLAN.md)
-- [`docs/60-solution-design/web/WEB-002_AI_WORKSPACE.md`](../web/WEB-002_AI_WORKSPACE.md) — consistency reference only.
+- [`docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md`](../web/WEB-018_AI_WORKSPACE.md) — consistency reference only.
 - [`docs/60-solution-design/README.md`](../README.md)
 - [`docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`](../SOLUTION_DESIGN_CATALOG.md)
 - [`docs/11-adrs/ADR_INDEX.md`](../../11-adrs/ADR_INDEX.md)

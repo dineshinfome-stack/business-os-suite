@@ -1,7 +1,7 @@
 ---
-title: "WEB-001 — Analytics Web Solution Design Specification"
+title: "WEB-017 — Analytics Web Solution Design Specification"
 summary: "Phase 3 Web Solution Design specification for MOD-017 Analytics. Derived exclusively from the Analytics Module Publication. Defines user journeys, navigation, screen inventory, forms, dashboards, responsive behaviour, accessibility, and user-facing security expectations. Introduces no new business requirements."
-spec_id: "WEB-001"
+spec_id: "WEB-017"
 family: "WEB"
 source_module: "MOD-017"
 source_module_name: "Analytics"
@@ -16,7 +16,7 @@ lifecycle_state: "Active"
 owner: "Insights"
 layer: "platform"
 updated: "2026-07-18"
-tags: ["solution-design", "web", "phase-3", "WEB-001", "MOD-017", "analytics", "SD-002"]
+tags: ["solution-design", "web", "phase-3", "WEB-017", "MOD-017", "analytics", "SD-002"]
 document_type: "Web Solution Design Specification"
 template: "SD-002"
 template_version: "v1.0"
@@ -25,9 +25,9 @@ related_engines: ["ENG-001", "ENG-002", "ENG-003", "ENG-004", "ENG-005", "ENG-00
 related_adrs: ["ADR-011", "ADR-014", "ADR-032", "ADR-081"]
 ---
 
-# WEB-001 — Analytics Web Solution Design Specification
+# WEB-017 — Analytics Web Solution Design Specification
 
-> **Reference derivation only.** WEB-001 is a Web-surface projection of the Analytics Module Publication [`MOD-017_MODULE_PUBLICATION`](../../45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and WEB-001 is corrected in the same change.
+> **Reference derivation only.** WEB-017 is a Web-surface projection of the Analytics Module Publication [`MOD-017_MODULE_PUBLICATION`](../../45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md). It introduces no new business requirements, authorities, master data, transactions, events, engines, or ADRs. On any conflict with the Module Publication or its parent Module Baseline, the upstream artifact wins and WEB-017 is corrected in the same change.
 
 ## A. Overview
 
@@ -46,7 +46,7 @@ Web (desktop, tablet, mobile-browser responsive) surface covering:
 - Analytical Model lifecycle, execution, and Anomaly Highlights / trend / comparative views.
 - Compliance & retention audit-readiness surface.
 
-Out of scope for WEB-001: Mobile-native surfaces (belongs to MOB-001), API contracts (belongs to API-001), UI mockups, framework decisions, and any business-rule authoring.
+Out of scope for WEB-017: Mobile-native surfaces (belongs to MOB-017), API contracts (belongs to API-017), UI mockups, framework decisions, and any business-rule authoring.
 
 ### A.3 Source Published Module
 
@@ -64,11 +64,11 @@ Out of scope for WEB-001: Mobile-native surfaces (belongs to MOB-001), API contr
 
 ### A.5 Traceability References
 
-See §K for the complete feature-to-capability-to-sprint traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → WEB-001).
+See §K for the complete feature-to-capability-to-sprint traceability matrix. Frontmatter records the full chain (Module PRD → Sprint Plan → Sprint PRDs → Module Baseline → Module Publication → WEB-017).
 
 ## B. User Personas
 
-Personas are inherited from the Module PRD §3 and Sprint PRD family; WEB-001 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC).
+Personas are inherited from the Module PRD §3 and Sprint PRD family; WEB-017 introduces no new roles. Concrete grants remain enforced by `ENG-002` / `ENG-003` per `ADR-032` (RBAC + ABAC).
 
 ### B.1 Business User (all modules)
 
@@ -108,7 +108,7 @@ Personas are inherited from the Module PRD §3 and Sprint PRD family; WEB-001 in
 
 ## C. User Journeys
 
-Every journey is derived from a capability in the Module Publication §3 and the transaction lifecycles in Module Publication §8. WEB-001 defines Web-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines.
+Every journey is derived from a capability in the Module Publication §3 and the transaction lifecycles in Module Publication §8. WEB-017 defines Web-surface flows only; business rules, state legality, and authorization are owned by the Module Publication and enforced by platform engines.
 
 ### C.1 Journey — View Dashboard and Drill-down
 
@@ -517,7 +517,7 @@ Every form derives its fields from the Master Data and Transaction Authorities d
 
 ## G. Dashboards
 
-Dashboards are a first-class business capability of MOD-017; WEB-001 defines the Web-surface expectations only.
+Dashboards are a first-class business capability of MOD-017; WEB-017 defines the Web-surface expectations only.
 
 ### G.1 Executive Overview Dashboard
 
@@ -578,7 +578,7 @@ Web-surface responsive expectations only. No implementation guidance.
 - Authoring surfaces (KPI, Dashboard, Report Definition, Analytical Model) remain reachable but present a compact single-column layout; complex authoring may be deferred to desktop/tablet.
 - Freshness and sensitive-KPI indicators remain prominent.
 
-Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-001 and belong to MOB-001.
+Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-017 and belong to MOB-017.
 
 ## I. Accessibility
 
@@ -597,7 +597,7 @@ User-facing security expectations derived from Module Publication §4 authoritie
 
 ### J.1 Authentication Entry Points
 
-- Access to Analytics requires authenticated identity per `ENG-001`. Unauthenticated navigation is redirected to the platform-level sign-in surface owned by MOD-001; WEB-001 does not define authentication mechanics.
+- Access to Analytics requires authenticated identity per `ENG-001`. Unauthenticated navigation is redirected to the platform-level sign-in surface owned by MOD-001; WEB-017 does not define authentication mechanics.
 
 ### J.2 Authorization Visibility
 
@@ -624,9 +624,9 @@ User-facing security expectations derived from Module Publication §4 authoritie
 
 ## K. Traceability Matrix
 
-Every WEB-001 feature maps to a Module Publication capability and one or more originating Sprints. Capability rows are derived from `MOD-017_MODULE_PUBLICATION` §3, §7, §8, §9.
+Every WEB-017 feature maps to a Module Publication capability and one or more originating Sprints. Capability rows are derived from `MOD-017_MODULE_PUBLICATION` §3, §7, §8, §9.
 
-| WEB-001 Feature | Business Capability (Publication §) | Originating Sprint(s) |
+| WEB-017 Feature | Business Capability (Publication §) | Originating Sprint(s) |
 | --- | --- | --- |
 | Analytics Home (§E.1) | Analytics foundations; Dashboards (§3) | SPR-MOD-017-001, 003 |
 | Dashboards Catalog / Viewer / Authoring (§E.2–§E.4); Dashboards journey (§C.1, §C.4) | Dashboards and visualization; `DashboardShared` (§3, §4.3, §9) | SPR-MOD-017-003 |
@@ -644,7 +644,7 @@ Every WEB-001 feature maps to a Module Publication capability and one or more or
 | Responsive Behaviour (§H); Accessibility (§I) | ADR-081 Accessibility Standard (§11) | SPR-MOD-017-001, 003 |
 | Security Considerations (§J) | ADR-011, ADR-014, ADR-032 (§11); Sensitive-KPI Classification (§4.2) | SPR-MOD-017-001, 002, 003, 004, 005 |
 
-No WEB-001 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. WEB-001 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-017_MODULE_PUBLICATION`.
+No WEB-017 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. WEB-017 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-017_MODULE_PUBLICATION`.
 
 ## References
 

@@ -103,9 +103,9 @@ docs/
 
 ## 5. Naming Standards
 
-- **Web:** `WEB-<NNN>` (e.g. `WEB-001`, `WEB-018`)
-- **Mobile:** `MOB-<NNN>` (e.g. `MOB-001`, `MOB-018`)
-- **API:** `API-<NNN>` (e.g. `API-001`, `API-018`)
+- **Web:** `WEB-<NNN>` (e.g. `WEB-017`, `WEB-018`)
+- **Mobile:** `MOB-<NNN>` (e.g. `MOB-017`, `MOB-018`)
+- **API:** `API-<NNN>` (e.g. `API-017`, `API-018`)
 
 `<NNN>` MUST match the `MOD-<NNN>` identifier of the source Published Module listed in `docs/MODULE_PUBLICATION_CATALOG.md`. No independent numbering scheme is permitted.
 

@@ -1,0 +1,49 @@
+{
+  "$schema_version": "1.0",
+  "migration_id": "MIG-20260718-SD-IDENTIFIER-ALIGNMENT",
+  "date_utc": "2026-07-18",
+  "scope": "Solution Design WEB/MOB/API identifier alignment with parent Module IDs",
+  "authority": "Architecture Office",
+  "rationale": "Align Solution Design specification identifiers (WEB/MOB/API) with the numeric identifier of their parent Published Module so that MOD-NNN, WEB-NNN, MOB-NNN, and API-NNN share a common ordinal, enabling deterministic cross-surface lookup.",
+  "principles": [
+    "Immutable surfaces (prior audit reports, .lovable/plan.md) are preserved verbatim.",
+    "Historical identifiers remain valid in immutable surfaces and map to canonical identifiers via the projection table below.",
+    "All mutable surfaces are aligned in a single pass and validated by a terminal repository audit."
+  ],
+  "identifier_projection": [
+    { "family": "WEB", "legacy": "WEB-001", "canonical": "WEB-017", "module": "MOD-017", "artifact": "docs/60-solution-design/web/WEB-017_ANALYTICS.md" },
+    { "family": "WEB", "legacy": "WEB-002", "canonical": "WEB-018", "module": "MOD-018", "artifact": "docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md" },
+    { "family": "WEB", "legacy": "WEB-003", "canonical": "WEB-001", "module": "MOD-001", "artifact": "docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md" },
+    { "family": "MOB", "legacy": "MOB-001", "canonical": "MOB-017", "module": "MOD-017", "artifact": "docs/60-solution-design/mobile/MOB-017_ANALYTICS.md" },
+    { "family": "MOB", "legacy": "MOB-002", "canonical": "MOB-018", "module": "MOD-018", "artifact": "docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md" },
+    { "family": "API", "legacy": "API-001", "canonical": "API-017", "module": "MOD-017", "artifact": "docs/60-solution-design/api/API-017_ANALYTICS.md" },
+    { "family": "API", "legacy": "API-002", "canonical": "API-018", "module": "MOD-018", "artifact": "docs/60-solution-design/api/API-018_AI_WORKSPACE.md" }
+  ],
+  "mutable_surfaces_updated": [
+    "docs/60-solution-design/web/*.md",
+    "docs/60-solution-design/mobile/*.md",
+    "docs/60-solution-design/api/*.md",
+    "docs/60-solution-design/README.md",
+    "docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md",
+    "docs/60-solution-design/web/README.md",
+    "docs/60-solution-design/mobile/README.md",
+    "docs/60-solution-design/api/README.md",
+    "docs/DOCUMENT_INDEX.md",
+    "docs/_meta.json",
+    "docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md"
+  ],
+  "immutable_surfaces_preserved": [
+    "docs/50-audit-reports/*.md",
+    ".lovable/plan.md"
+  ],
+  "execution_method": "collision-safe two-phase rename: legacy -> temporary token -> canonical",
+  "validation": {
+    "terminal_audit": "REPOSITORY_AUDIT_20260718T160000Z",
+    "checks": [
+      "no legacy identifier remains in mutable surfaces",
+      "every canonical file exists at declared path",
+      "_meta.json parses as valid JSON",
+      "SD Catalog and per-family README tables are sorted by module ordinal"
+    ]
+  }
+}
