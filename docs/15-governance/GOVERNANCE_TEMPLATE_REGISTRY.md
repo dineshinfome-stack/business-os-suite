@@ -240,7 +240,7 @@ Compact matrix of every registered template, its version, and the artifact famil
 | Latest Revision | v1.0 — Pass 26.0.1 |
 | Superseded By | — |
 | Used By | MOB-017 (Analytics), MOB-018 (AI Workspace) |
-| Notes | Mobile Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Historical `template` values `SD-003`, `SD-006` project to this canonical value per §6.1 of the standard. |
+| Notes | Mobile Solution Design specification template under the SD-001 Platform Solution Design Framework. One spec per Published Module. Adopts `GOVERNANCE_FRONTMATTER_STANDARD.md`. Adopts [`SCREEN_IDENTIFIER_STANDARD.md`](./SCREEN_IDENTIFIER_STANDARD.md) v1.0 (Pass 34.0.1) for module-scoped Screen IDs of the form `MOD<NNN>-SCR-<NNN>`; MOB-017 and MOB-018 are grandfathered. Historical `template` values `SD-003`, `SD-006` project to this canonical value per §6.1 of the standard. |
 
 
 ### SD-001_API_SPEC — API Solution Design Specification

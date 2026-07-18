@@ -33,6 +33,7 @@ Every MOB specification MUST reference: Published Module, Module PRD, Sprint Pla
 
 | Spec ID | Source Module | Lifecycle State | Owner | Updated |
 | --- | --- | --- | --- | --- |
+| [MOB-001](./MOB-001_PLATFORM_ADMINISTRATION.md) | MOD-001 Platform Administration | Active | Architecture Office | 2026-07-18 |
 | [MOB-017](./MOB-017_ANALYTICS.md) | MOD-017 Analytics | Active | Insights | 2026-07-18 |
 | [MOB-018](./MOB-018_AI_WORKSPACE.md) | MOD-018 AI Workspace | Active | AI Platform | 2026-07-18 |
 

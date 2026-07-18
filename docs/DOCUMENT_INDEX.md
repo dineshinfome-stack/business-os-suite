@@ -42,6 +42,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Governance Template Dependency Matrix | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.md` |
 | Governance Template Dependency Matrix (YAML export) | Cross-cutting | Approved | Derived | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` |
 | Governance Frontmatter Standard | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md` |
+| Screen Identifier Standard | Cross-cutting | Active | Authoritative | `docs/15-governance/SCREEN_IDENTIFIER_STANDARD.md` |
 | Migration Registry | Cross-cutting | Active | Authoritative | `docs/15-governance/MIGRATION_REGISTRY.md` |
 | Solution Design Identifier Migration — 2026-07-18 | Cross-cutting | Executed | Authoritative | `docs/15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md` |
 | Solution Design Migration Manifest — 2026-07-18 | Cross-cutting | Executed | Authoritative | `docs/15-governance/MIGRATION_MANIFEST_20260718.json` |
@@ -507,6 +508,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | WEB-017 — Analytics Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-017_ANALYTICS.md` |
 | WEB-018 — AI Workspace Web Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/web/WEB-018_AI_WORKSPACE.md` |
 | MOB Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/mobile/README.md` |
+| MOB-001 — Platform Administration Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION.md` |
 | MOB-017 — Analytics Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-017_ANALYTICS.md` |
 | MOB-018 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md` |
 | API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
