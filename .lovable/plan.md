@@ -96,3 +96,30 @@ Mobile / API Solution Design, code generation, schema changes, ADR authoring, Ba
 - All 5 registration surfaces updated
 - Repository state → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
 - Authorizes Pass 37.3.0 — MOB-002 Accounting Solution Design
+
+---
+
+## Execution Record — Pass 37.2.0
+
+- **Pass:** 37.2.0 — WEB-002 Accounting Solution Design
+- **Pass Classification:** Solution Design (Web); zero governance evolution; zero implementation.
+- **Execution ID:** `WEB002-SD-20260719T050000Z-001`
+- **Parent Execution ID:** `GT005-MOD002-20260719T040000Z-001`
+- **Repository State:** `MOD002_PUBLICATION_COMPLETE` → `MOD002_WEB_SOLUTION_DESIGN_COMPLETE`
+
+### Deliverables
+
+- Authored `docs/60-solution-design/web/WEB-002_ACCOUNTING.md` (SD-001_WEB_SPEC v1.0). 7 personas, 11 journeys, 26 pages, 12 forms, 5-column traceability matrix covering all 22 authorities in `MOD-002_MODULE_PUBLICATION` §4. Includes Design Constraints subsection (§L).
+- Emitted `docs/50-audit-reports/WEB002_SOLUTION_DESIGN_VERIFICATION_20260719T050000Z.md` (14/14 PASS; 0 findings; MAJOR = 0, CRITICAL = 0).
+
+### Registration Surfaces Updated
+
+- `docs/60-solution-design/web/README.md`
+- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`
+- `docs/DOCUMENT_INDEX.md`
+- `docs/_meta.json`
+- `.lovable/plan.md`
+
+### Next
+
+Repository READY for **Pass 37.3.0 — MOB-002 Accounting Solution Design**.
