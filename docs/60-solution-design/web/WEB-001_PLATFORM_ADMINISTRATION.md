@@ -10,14 +10,14 @@ source_baseline: "MOD001_PLATFORM_BASELINE_v1"
 source_module_prd: "docs/20-module-prds/platform/MODULE_PRD.md"
 source_sprint_plan: "docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN.md"
 source_sprints: ["SPR-MOD-001-001", "SPR-MOD-001-002", "SPR-MOD-001-003", "SPR-MOD-001-004", "SPR-MOD-001-005", "SPR-MOD-001-006"]
-related_mobile_spec: "MOB-003"
-related_api_spec: "API-003"
+related_mobile_spec: "MOB-001"
+related_api_spec: "API-001"
 version: "1.0"
 status: "Active"
 lifecycle_state: "Active"
 owner: "Architecture Office"
 layer: "platform"
-updated: "2026-07-18"
+updated: "2026-07-19"
 tags: ["solution-design", "web", "phase-3", "WEB-001", "MOD-001", "platform-administration"]
 document_type: "Web Solution Design Specification"
 template: "SD-001_WEB_SPEC"
@@ -48,7 +48,7 @@ Web (desktop, tablet, mobile-browser responsive) surface covering:
 - Localization Pack administration — pack authoring, activation, inheritance, regional defaults, locale resolution.
 - Audit Review surface — timeline, filtering, drill-down, and export over audit outputs owned by `ENG-004`.
 
-Out of scope for WEB-001: mobile-native surfaces (belongs to MOB-003), API contracts (belongs to API-003), UI mockups, framework decisions, authentication mechanics (SSO, MFA, identity federation), SIEM integration, external monitoring, and any business-rule authoring.
+Out of scope for WEB-001: mobile-native surfaces (belongs to MOB-001), API contracts (belongs to API-001), UI mockups, framework decisions, authentication mechanics (SSO, MFA, identity federation), SIEM integration, external monitoring, and any business-rule authoring.
 
 ### A.3 Source Published Module
 
@@ -559,7 +559,7 @@ Aligned to `ADR-081` (Accessibility Standard) as referenced by the Publication's
 - **Responsive Behaviour:** Catalogs (Tenants, Organizations, Users, Roles, Configuration Keys, Localization Packs, Audit Timeline) reflow across desktop, tablet, and mobile browser widths without loss of content or actions. Complex authoring (multi-scope Configuration change, Pack authoring) may be deferred to larger widths.
 - **Localization:** All labels resolvable via `ENG-018` (Localization Engine); layout tolerates text expansion.
 
-Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-001 and belong to MOB-003.
+Mobile-native experiences (offline, push, camera, device capabilities) are out of scope for WEB-001 and belong to MOB-001.
 
 ## I. Localization
 
@@ -609,10 +609,10 @@ User-facing security expectations derived from Module Publication §4 authoritie
 
 ## K. Cross-Platform Alignment
 
-WEB-001 aligns with the planned Mobile (MOB-003) and API (API-003) specifications derived from the same Module Publication.
+WEB-001 aligns with the planned Mobile (MOB-001) and API (API-001) specifications derived from the same Module Publication.
 
-- **MOB-003 (planned):** Personas, entity vocabulary, lifecycle states, scope hierarchy, and audit visibility are intended to remain consistent with WEB-001. Mobile-native concerns (offline, push, camera, device capabilities) belong to MOB-003 and are out of scope here.
-- **API-003 (planned):** Business capabilities exposed by WEB-001 (Tenant, Organization, Company, Branch, Financial Year, User, Role, Permission, Configuration Key, Localization Pack, Audit Review) are intended to be exposed consistently to API consumers, subject to the same authorities and governance conventions. Endpoint contracts, transport, and payload schemas remain out of scope for WEB-001.
+- **MOB-001 (planned):** Personas, entity vocabulary, lifecycle states, scope hierarchy, and audit visibility are intended to remain consistent with WEB-001. Mobile-native concerns (offline, push, camera, device capabilities) belong to MOB-001 and are out of scope here.
+- **API-001 (planned):** Business capabilities exposed by WEB-001 (Tenant, Organization, Company, Branch, Financial Year, User, Role, Permission, Configuration Key, Localization Pack, Audit Review) are intended to be exposed consistently to API consumers, subject to the same authorities and governance conventions. Endpoint contracts, transport, and payload schemas remain out of scope for WEB-001.
 - **Consistency Rules:** All three surfaces share the same source authorities; any divergence must be reconciled at the Module Publication level, not at a family specification.
 
 ## L. Traceability Matrix
@@ -621,23 +621,23 @@ Every WEB-001 feature maps to a Module Publication capability and one or more or
 
 | Publication Section | Business Capability | Source Sprint | WEB Section | Planned MOB Section | Planned API Section |
 | --- | --- | --- | --- | --- | --- |
-| §3, §4.1 | Tenancy Model Authority; Tenant Isolation Rule Authority | SPR-MOD-001-001 | §C.1, §E.2–§E.4, §F.1 | MOB-003 §C.1, §E.2–§E.4, §F.1 | API-003 Tenancy service group |
-| §3, §4.2 | Organization / Company / Branch / Financial Year Master Authority; Organizational Hierarchy Lifecycle Authority | SPR-MOD-001-002 | §C.2, §C.7, §E.5–§E.8, §F.2–§F.3 | MOB-003 §C.2, §C.7, §E.5–§E.8 | API-003 Organization Structure service group |
-| §3, §4.3 | User Master Authority | SPR-MOD-001-003 | §C.3, §E.9, §F.4 | MOB-003 §C.3, §E.9 | API-003 User service group |
-| §3, §4.3 | Role Master Authority | SPR-MOD-001-003 | §C.4, §E.10, §F.5–§F.6 | MOB-003 §C.4, §E.10 | API-003 Role service group |
-| §3, §4.3 | Permission Resolution Authority per `ADR-032` | SPR-MOD-001-003 | §C.4, §C.9, §E.10–§E.11, §J.2, §J.4 | MOB-003 §C.4, §C.9, §E.10–§E.11 | API-003 Permission Resolution service group |
-| §3, §4.4 | Configuration Hierarchy Authority; Effective Configuration Resolution Authority | SPR-MOD-001-004 | §C.5, §E.12–§E.14, §F.7 | MOB-003 §C.5, §E.12–§E.14 | API-003 Configuration service group |
-| §4.4 | Event Ownership Convention Authority | SPR-MOD-001-004 | §D.1 (Governance), §E.18, §J.7 | MOB-003 Governance surface | API-003 Governance conventions surface |
-| §4.4 | Configuration Ownership Convention Authority | SPR-MOD-001-004 | §E.13, §E.18, §J.5 | MOB-003 §E.13, Governance surface | API-003 Configuration ownership surface |
-| §3, §4.5 | Localization Pack Master Authority; Localization Pack Lifecycle Authority | SPR-MOD-001-005 | §C.6, §E.15–§E.17, §F.8–§F.9, §I | MOB-003 §C.6, §E.15–§E.17 | API-003 Localization service group |
-| §4.5 | Localization Ownership Convention Authority | SPR-MOD-001-005 | §E.15, §E.18, §J.5 | MOB-003 §E.15, Governance surface | API-003 Localization ownership surface |
-| §3, §4.6 | Audit Review Surface Authority | SPR-MOD-001-006 | §C.8, §E.19–§E.21, §F.10 | MOB-003 §C.8, §E.19–§E.21 | API-003 Audit Review service group |
-| §4.6 | Audit Ownership Convention Authority | SPR-MOD-001-006 | §E.18, §J.6 | MOB-003 Governance surface | API-003 Audit ownership surface |
-| §9 | Published events (`TenantProvisioned`, `CompanyCreated`, `FinancialYearClosed`, `UserInvited`, `RoleGranted`, `ConfigurationChanged`) | SPR-MOD-001-001 … 006 | §C.1–§C.7, §J.6 | MOB-003 mirror | API-003 event exposure surface |
-| §11 | ADR-011 Multi-Tenant Isolation | SPR-MOD-001-001 | §J.3 | MOB-003 §J.3 | API-003 tenancy enforcement surface |
-| §11 | ADR-014 Audit Strategy | SPR-MOD-001-006 | §C.8, §E.19–§E.21, §J.6 | MOB-003 §C.8, §J.6 | API-003 Audit Review service group |
-| §11 | ADR-032 RBAC + ABAC | SPR-MOD-001-003 | §C.4, §C.9, §J.2, §J.4 | MOB-003 §J.2, §J.4 | API-003 authorization surface |
-| §11 | Accessibility Standard (`ADR-081`) as referenced by Publication ADR set | SPR-MOD-001-003 … 006 | §H | MOB-003 accessibility surface | n/a for API |
+| §3, §4.1 | Tenancy Model Authority; Tenant Isolation Rule Authority | SPR-MOD-001-001 | §C.1, §E.2–§E.4, §F.1 | MOB-001 §C.1, §E.2–§E.4, §F.1 | API-001 Tenancy service group |
+| §3, §4.2 | Organization / Company / Branch / Financial Year Master Authority; Organizational Hierarchy Lifecycle Authority | SPR-MOD-001-002 | §C.2, §C.7, §E.5–§E.8, §F.2–§F.3 | MOB-001 §C.2, §C.7, §E.5–§E.8 | API-001 Organization Structure service group |
+| §3, §4.3 | User Master Authority | SPR-MOD-001-003 | §C.3, §E.9, §F.4 | MOB-001 §C.3, §E.9 | API-001 User service group |
+| §3, §4.3 | Role Master Authority | SPR-MOD-001-003 | §C.4, §E.10, §F.5–§F.6 | MOB-001 §C.4, §E.10 | API-001 Role service group |
+| §3, §4.3 | Permission Resolution Authority per `ADR-032` | SPR-MOD-001-003 | §C.4, §C.9, §E.10–§E.11, §J.2, §J.4 | MOB-001 §C.4, §C.9, §E.10–§E.11 | API-001 Permission Resolution service group |
+| §3, §4.4 | Configuration Hierarchy Authority; Effective Configuration Resolution Authority | SPR-MOD-001-004 | §C.5, §E.12–§E.14, §F.7 | MOB-001 §C.5, §E.12–§E.14 | API-001 Configuration service group |
+| §4.4 | Event Ownership Convention Authority | SPR-MOD-001-004 | §D.1 (Governance), §E.18, §J.7 | MOB-001 Governance surface | API-001 Governance conventions surface |
+| §4.4 | Configuration Ownership Convention Authority | SPR-MOD-001-004 | §E.13, §E.18, §J.5 | MOB-001 §E.13, Governance surface | API-001 Configuration ownership surface |
+| §3, §4.5 | Localization Pack Master Authority; Localization Pack Lifecycle Authority | SPR-MOD-001-005 | §C.6, §E.15–§E.17, §F.8–§F.9, §I | MOB-001 §C.6, §E.15–§E.17 | API-001 Localization service group |
+| §4.5 | Localization Ownership Convention Authority | SPR-MOD-001-005 | §E.15, §E.18, §J.5 | MOB-001 §E.15, Governance surface | API-001 Localization ownership surface |
+| §3, §4.6 | Audit Review Surface Authority | SPR-MOD-001-006 | §C.8, §E.19–§E.21, §F.10 | MOB-001 §C.8, §E.19–§E.21 | API-001 Audit Review service group |
+| §4.6 | Audit Ownership Convention Authority | SPR-MOD-001-006 | §E.18, §J.6 | MOB-001 Governance surface | API-001 Audit ownership surface |
+| §9 | Published events (`TenantProvisioned`, `CompanyCreated`, `FinancialYearClosed`, `UserInvited`, `RoleGranted`, `ConfigurationChanged`) | SPR-MOD-001-001 … 006 | §C.1–§C.7, §J.6 | MOB-001 mirror | API-001 event exposure surface |
+| §11 | ADR-011 Multi-Tenant Isolation | SPR-MOD-001-001 | §J.3 | MOB-001 §J.3 | API-001 tenancy enforcement surface |
+| §11 | ADR-014 Audit Strategy | SPR-MOD-001-006 | §C.8, §E.19–§E.21, §J.6 | MOB-001 §C.8, §J.6 | API-001 Audit Review service group |
+| §11 | ADR-032 RBAC + ABAC | SPR-MOD-001-003 | §C.4, §C.9, §J.2, §J.4 | MOB-001 §J.2, §J.4 | API-001 authorization surface |
+| §11 | Accessibility Standard (`ADR-081`) as referenced by Publication ADR set | SPR-MOD-001-003 … 006 | §H | MOB-001 accessibility surface | n/a for API |
 
 No WEB-001 feature is absent from the traceability matrix. No feature in the matrix lacks an originating Sprint. WEB-001 introduces no capability, master data entity, transaction, event, engine, or ADR beyond those declared by `MOD-001_MODULE_PUBLICATION`.
 
