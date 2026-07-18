@@ -1,166 +1,119 @@
-# Pass 36.2.0 — Migration Corrections (F-01) & Post-Migration Normalization
+# Pass 37.0.0 — MOD-002 Accounting Lifecycle Kickoff (Planning Baseline)
 
-**Repository State (in):** `FINDING_SEVERITY_STANDARD_ADOPTED`
-**Repository State (out):** `MIGRATION_CORRECTIONS_COMPLETE`
+**Repository State (in):** `MIGRATION_CORRECTIONS_COMPLETE`
+**Repository State (out):** `MOD002_LIFECYCLE_INITIATED`
+**Nature:** Planning / kickoff pass. Zero authoring of MOD-002 artifacts. Zero governance evolution. Zero Solution Design work. Establishes the execution baseline that separates repository stabilization from module expansion.
 
-## Pass Classification
+## 1. Assumptions
 
-```
-pass_type:        MAINTENANCE
-change_type:      MECHANICAL
-repository_scope: NORMALIZATION
-risk_level:       LOW
-```
+This planning pass is executed under the following assumptions:
 
-Zero business, governance, template, or SD-scope change. Mechanical lexical corrections only.
+1. The repository enters this pass in the state `MIGRATION_CORRECTIONS_COMPLETE`.
+2. MOD-001 remains frozen as the certified, normalized reference implementation. No MOD-001 artifacts are modified during this pass.
+3. The authoritative repository structure and governance framework are unchanged from the completion of Pass 36.2.0.
+4. MOD-002 lifecycle readiness is determined solely from authoritative repository artifacts (Module PRD, Baseline, Sprint Plan, Sprint PRDs, ADRs, engines), not from assumptions or historical discussions.
+5. No concurrent repository modifications occur while this pass is executed.
+6. If any authoritative artifact is missing or incomplete, the kickoff record identifies the earliest executable lifecycle stage rather than attempting remediation within this pass.
+7. This pass is administrative only. It authorizes the MOD-002 lifecycle but does not create, modify, or publish any functional deliverables.
 
-## Pre-Plan Evidence
+## 2. Objective
 
-Sweep command (scope = `docs/`):
+Author a single kickoff record that:
 
-```
-rg -n "WEB-003|MOB-003|API-003" docs/
-```
+1. Confirms MOD-001 is the certified canonical reference implementation and that no residual stabilization work remains.
+2. Declares MOD-002 Accounting as the next module entering the lifecycle.
+3. Fixes the execution order (GT-002 → GT-003 → GT-004 → GT-005 → WEB → MOB → API) inherited from MOD-001.
+4. Enumerates the authoritative inputs MOD-002 must consume (Module PRD, Baseline, Sprint Plan, Sprint PRDs, ADRs, engines).
+5. Identifies any module-specific deltas from the MOD-001 pattern (expected: none beyond domain scope).
+6. Transitions repository state and records the pass in the execution log.
 
-Stale references appear in exactly one mutable artifact: `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` (frontmatter + body). Remaining matches are in **immutable surfaces** and MUST be preserved verbatim:
+No Sprint PRDs, no Publication, no Solution Design specs are authored in this pass. Those begin in Pass 37.1.x onward.
 
-- `docs/50-audit-reports/*` — historical audits (incl. F-01 certification report)
-- `docs/15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md` — legacy column intentional
-- `docs/15-governance/MIGRATION_MANIFEST_20260718.json` — legacy projection field intentional
-- `.lovable/plan.md` — execution records
+## 3. Authoritative Sources (read-only)
 
-## Deliverable A — Resolve F-01 (Deterministic Lexical Replacement)
+- `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` — pattern reference.
+- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` — publication template reference.
+- `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md` — reference implementation certification.
+- `docs/50-audit-reports/MIGRATION_CORRECTIONS_AUDIT_20260719T010000Z.md` — closing stabilization audit.
+- `docs/20-module-prds/` — MOD-002 Accounting Module PRD (existing Stage 1 artifact).
+- `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md` — existing baseline (verify presence and completeness).
+- `docs/30-sprint-prds/` — MOD-002 Sprint Plan and Sprint PRDs (verify existing state).
+- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md`, `docs/15-governance/FINDING_SEVERITY_STANDARD.md` — governance surfaces.
 
-Edit `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md`, replacing **every** occurrence:
+Pre-plan sweep determines which Stage 1–3 artifacts already exist for MOD-002, so the kickoff record accurately identifies the next executable pass.
 
-- `MOB-003` → `MOB-001`
-- `API-003` → `API-001`
+## 4. Inventory Vocabulary
 
-Applied across frontmatter (`related_mobile_spec`, `related_api_spec`) and body (Scope, Cross-Platform Alignment, Traceability Matrix, all other occurrences). `updated:` bumped to `2026-07-19`. **No other edits permitted.**
+Applied uniformly in the kickoff record to keep the inventory scannable and precise:
 
-Post-condition (must return zero):
+- **Status values:** `Present` | `Missing` | `Incomplete`.
+- **Verification depth:**
+  - `Verified` — existence confirmed (file present, frontmatter parses).
+  - `Reviewed` — content inspected for completeness against its Stage template.
+- Every inventory row carries both a Status and a Verification depth.
 
-```
-rg -n "MOB-003|API-003" docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md
-```
+## 5. Deliverables
 
-## Deliverable B — Repository-Wide Migration Sweep
+**A. Kickoff Record**
+- New file: `docs/50-audit-reports/MOD002_LIFECYCLE_KICKOFF_20260719T020000Z.md`.
+- Sections:
+  - Repository Metadata + Pass Classification (`pass_type: PLANNING`, `change_type: NONE`, `repository_scope: LIFECYCLE_TRANSITION`, `risk_level: LOW`).
+  - Assumptions (mirrors §1 of this plan for auditability).
+  - MOD-001 Closure Statement (references certification + migration audit; declares zero residual stabilization).
+  - MOD-002 Inventory: Module PRD, Baseline, Sprint Plan, Sprint PRDs, each with `Status` ∈ {Present, Missing, Incomplete} and `Depth` ∈ {Verified, Reviewed}.
+  - Execution Order: GT-002 → GT-003 → GT-004 → GT-005 → WEB-002 → MOB-002 → API-002 (canonical, aligned with parent Module ID per Pass 33.1.0).
+  - Module-Specific Deltas from the MOD-001 pattern: enumerated or explicitly declared `None`.
+  - Next Executable Pass: named on the basis of the inventory (e.g., GT-005 Publication if Stages 1–3 are complete, otherwise the earliest missing stage).
+  - Exit Criteria + Repository State transition.
 
-Read-only verification over `docs/`, matching the pre-plan sweep scope. Any residual references outside WEB-001 are **documented, not modified**; ambiguous references are recorded in the audit.
+**B. Registration**
+- Append kickoff entry to `.lovable/plan.md` execution log with Pass Classification.
+- No change to `_meta.json`, catalogs, or standards.
 
-## Deliverable C — Migration Verification
+**C. Terminal Verification — Scoped Kickoff Verification Report**
+- New file: `docs/50-audit-reports/MOD002_KICKOFF_VERIFICATION_20260719T030000Z.md`.
+- Scoped to the two artifacts this pass touches (kickoff record + `.lovable/plan.md`); a full repository audit is disproportionate for a planning-only pass with no repository-wide, governance, or structural changes.
+- Checklist:
+  1. Kickoff record exists and is well-formed (frontmatter parses; required sections present).
+  2. Assumptions section present and matches §1 of this plan.
+  3. Inventory complete (every authoritative input listed with Status + Depth).
+  4. Next executable pass determined unambiguously and consistent with the inventory.
+  5. No unintended file modifications outside kickoff record + `.lovable/plan.md`.
+  6. Immutable surfaces preserved (MOD-001 artifacts, prior audits, migration record/manifest).
+  7. Repository state transition valid (in-state matches current; out-state authorized).
+- Uses the `FINDING_SEVERITY_STANDARD` v1.0 vocabulary and the Verification Reporting Standard summary format (Checklist Items = Passed + Remediated + Failed).
 
-- Every `related_*` frontmatter reference in `docs/60-solution-design/**` resolves.
-- Canonical IDs match `MIGRATION_MANIFEST_20260718.json` projection.
-- Bidirectional cross-references consistent (WEB-001 ↔ MOB-001 ↔ API-001).
-- `docs/_meta.json` syntactically valid JSON (method captured in Appendix A).
-- `SOLUTION_DESIGN_CATALOG.md`, per-family READMEs, `DOCUMENT_INDEX.md` synchronized (no edits expected).
-- No obsolete `WEB-003 | MOB-003 | API-003` in mutable surfaces.
+## 6. Out of Scope
 
-## Deliverable D — Migration Audit
+- Authoring any MOD-002 Sprint PRD, Baseline revision, Publication, or Solution Design spec.
+- Any edit to MOD-001 artifacts (frozen post-stabilization).
+- Any governance standard authoring or template revision.
+- Any change to `docs/_meta.json`, `DOCUMENT_INDEX.md`, or catalogs.
+- A full repository-wide audit (a scoped Kickoff Verification Report is used instead; see §5C).
 
-Author `docs/50-audit-reports/MIGRATION_CORRECTIONS_AUDIT_20260719T010000Z.md` under the Verification Reporting Standard and Finding Severity Standard v1.0.
+## 7. Exit Criteria
 
-Sections, in order:
+- Kickoff record authored and internally consistent, including the Assumptions section.
+- MOD-002 authoritative inputs enumerated with `Status` + `Depth` per row.
+- Next executable pass identified unambiguously.
+- Kickoff Verification Report PASS (all checks; MAJOR = 0; CRITICAL = 0; Outstanding Risks = 0).
+- Repository state advances to `MOD002_LIFECYCLE_INITIATED`.
 
-1. **Repository Metadata** (incl. pass classification block above).
-2. **Audit Summary Table** — dashboard row-per-check (F-01 Resolved, Migration Sweep, Frontmatter Validation, Cross References, Repository Metadata, JSON Validation, Repository Ready) with PASS/FAIL and Repository Ready YES/NO.
-3. **Scope**.
-4. **Before / After Evidence** — literal block:
-   ```
-   Before: WEB-001 references MOB-003, API-003
-   After:  WEB-001 references MOB-001, API-001
-   ```
-5. **Corrections Applied**.
-6. **Sweep Results**.
-7. **Validation Checklist** — the ~12 verification activities enumerated below. Purpose: individual verification activities executed by the audit.
-8. **Success Metrics** —
-   ```
-   Mutable artifacts containing legacy identifiers:  Before 1 → After 0
-   Outstanding Certification Findings:               Before 1 → After 0
-   Repository State: FINDING_SEVERITY_STANDARD_ADOPTED → MIGRATION_CORRECTIONS_COMPLETE
-   ```
-9. **Outstanding Findings** (expected: none).
-10. **Verification Summary** (`Passed + Remediated + Failed = Checklist Items`).
-11. **Exit Criteria** — distinct from the Validation Checklist: the mandatory gating conditions required for repository state transition. Each condition ticked with an evidence pointer (audit section / command).
-12. **Repository Baseline Statement** — "Completion of Pass 36.2.0 establishes MOD-001 as the canonical, fully normalized reference implementation. Subsequent modules SHALL inherit the WEB → MOB → API Solution Design pattern unless superseded through an approved governance change."
-13. **Repository Snapshot** — values derived at execution time from authoritative repository contents (no hardcoded counts):
-    - Business Modules Published — enumerated from `docs/45-module-publications/**/MOD-*_MODULE_PUBLICATION.md` (or `MODULE_PUBLICATION_CATALOG.md` if authoritative).
-    - Solution Design Sets Published — enumerated from `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`.
-    - Governance Standards — enumerated from `docs/15-governance/*_STANDARD.md`.
-    - Open Findings, Outstanding Risks — from this audit's Verification Summary.
-    - Reference Implementation — `MOD-001`.
-    Each row records the source used, so future reruns re-derive rather than copy.
-14. **Next Authorized Workstream** — Repository State `MIGRATION_CORRECTIONS_COMPLETE`; Next Phase MOD-002 Publication; Execution Order `GT-002 → GT-003 → GT-004 → GT-005 → WEB → MOB → API`.
-15. **Repository Readiness**.
-16. **Appendix A — Verification Evidence** — verbatim pre- and post-correction `rg` commands with observed results, plus the method used to confirm `docs/_meta.json` is valid JSON (command/procedure recorded so a future reviewer can reproduce it), plus the enumeration commands used to derive Repository Snapshot values.
+## 8. Technical Notes
 
-### Validation Checklist (individual verification activities, ~12 items)
-
-1. F-01 resolved (WEB-001 frontmatter canonical).
-2. WEB-001 body free of legacy `MOB-003` / `API-003` (post-condition `rg` = 0).
-3. Frontmatter validation PASS.
-4. Cross-reference validation PASS (WEB-001 ↔ MOB-001 ↔ API-001).
-5. Migration Registry consistency PASS.
-6. SD Catalog synchronized.
-7. Per-family READMEs synchronized.
-8. `DOCUMENT_INDEX.md` synchronized.
-9. `_meta.json` syntactically valid (method recorded in Appendix A).
-10. No obsolete identifiers in mutable surfaces.
-11. Immutable surfaces preserved verbatim.
-12. Repository state transition valid.
-
-### Exit Criteria (mandatory state-transition gates)
-
-Repository may transition `FINDING_SEVERITY_STANDARD_ADOPTED → MIGRATION_CORRECTIONS_COMPLETE` only when ALL are true. These are gates on the state transition — distinct from the checklist activities that produce their evidence.
-
-- F-01 resolved.
-- WEB-001 contains no legacy `MOB-003` / `API-003`.
-- All `related_*` references resolve.
-- Migration Registry consistency verified.
-- Repository catalogs synchronized.
-- `_meta.json` syntactically valid.
-- Repository audit PASS.
-- MAJOR = 0.
-- CRITICAL = 0.
-- Outstanding Risks = 0.
-
-## Deliverable E — Execution Record
-
-Append Pass 36.2.0 entry to `.lovable/plan.md` with `execution_status: COMPLETE`, `finding_resolved: [F-01]`, pass classification block, state transition.
-
-## Guardrails
-
-Mechanical only. Every edit traceable to Pass 33.1.0 or F-01. Immutable surfaces untouched. Repository Snapshot values derived at execution time from authoritative sources — no hardcoded totals.
-
-## Files Touched
-
-- `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` (lexical replacement)
-- `docs/50-audit-reports/MIGRATION_CORRECTIONS_AUDIT_20260719T010000Z.md` (new)
-- `.lovable/plan.md` (append execution record)
-
-## Roadmap After This Pass
-
-Closes MOD-001 stabilization program: ✓ Identifier Migration ✓ Platform Completion ✓ Reference Certification ✓ Governance Standardization ✓ Migration Normalization. Next milestone: **MOD-002 Publication → WEB → MOB → API** using MOD-001 as certified, normalized reference implementation.
+- Reports follow the frontmatter contract of existing audit reports and the `FINDING_SEVERITY_STANDARD` v1.0 vocabulary.
+- "Next Executable Pass" is data-driven: set by reading MOD-002's existing artifact inventory, not assumed.
+- No lexical or structural edits to any MOD-001 file — the reference implementation remains frozen.
+- The Assumptions section establishes a reusable pattern for future lifecycle kickoff passes (MOD-003, MOD-004, …), making implicit execution context explicit and auditable.
+- The scoped Kickoff Verification Report is aligned with the Verification Reporting Standard and is precedent for future planning-only passes; repository-wide audits remain the default for passes that modify governance, structure, or multiple modules.
 
 ---
 
-## Execution Record — Pass 36.2.0 (2026-07-19T01:00:00Z)
+## Pass 37.0.0 — Execution Record
 
-```
-execution_status:  COMPLETE
-finding_resolved:  [F-01]
-pass_type:         MAINTENANCE
-change_type:       MECHANICAL
-repository_scope:  NORMALIZATION
-risk_level:        LOW
-state_transition:  FINDING_SEVERITY_STANDARD_ADOPTED -> MIGRATION_CORRECTIONS_COMPLETE
-```
-
-- Edited `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md`: replaced every `MOB-003` -> `MOB-001` and `API-003` -> `API-001` (frontmatter + body). Bumped `updated: 2026-07-18` -> `2026-07-19`. No other edits.
-- Post-condition `rg -n "MOB-003|API-003" docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md` returned zero matches.
-- Repository-wide mutable-surface sweep returned zero legacy identifiers. Immutable surfaces (`docs/50-audit-reports/*`, `docs/15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md`, `docs/15-governance/MIGRATION_MANIFEST_20260718.json`, `.lovable/plan.md` historical entries) preserved verbatim.
-- `docs/_meta.json` validated as syntactically valid JSON.
-- Repository Snapshot derived from authoritative sources at execution time: 3 Published Modules, 3 SD sets (9 spec files), 4 Governance Standards, 0 open findings, 0 outstanding risks.
-- Emitted terminal audit `docs/50-audit-reports/MIGRATION_CORRECTIONS_AUDIT_20260719T010000Z.md` (12/12 — Passed 11, Remediated 1, Failed 0). All Exit Criteria satisfied.
-- Repository state: `FINDING_SEVERITY_STANDARD_ADOPTED` -> **`MIGRATION_CORRECTIONS_COMPLETE`**. Next: MOD-002 lifecycle (GT-002 -> GT-003 -> GT-004 -> GT-005 -> WEB -> MOB -> API).
+- **Pass Classification:** `pass_type: PLANNING` · `change_type: NONE` · `repository_scope: LIFECYCLE_TRANSITION` · `risk_level: LOW`
+- **Repository State:** `MIGRATION_CORRECTIONS_COMPLETE` → `MOD002_LIFECYCLE_INITIATED`
+- **Kickoff Record:** `docs/50-audit-reports/MOD002_LIFECYCLE_KICKOFF_20260719T020000Z.md`
+- **Verification Report:** `docs/50-audit-reports/MOD002_KICKOFF_VERIFICATION_20260719T030000Z.md` — PASS (7/7; MAJOR 0; CRITICAL 0; Outstanding Risks 0)
+- **Inventory Outcome:** MOD-002 Stages 1–3 Present + Verified; Publication and SD (WEB/MOB/API) Missing.
+- **Next Executable Pass:** GT-005 Module Publication for MOD-002 Accounting.
