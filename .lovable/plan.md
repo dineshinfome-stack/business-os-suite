@@ -60,3 +60,14 @@ Append Pass 36.1.0 entry to `.lovable/plan.md`.
 ## Verification (in the terminal audit)
 
 Each check states expected evidence in one line; result column PASS/REMEDIATED/FAILED; action column empty on PASS. Summary reports `Passed + Remediated + Failed = Checklist Items` and `Outstanding Risks = 0` for READY.
+
+---
+
+## Execution Record — Pass 36.1.0 (2026-07-19T00:00:00Z)
+
+- Authored `docs/15-governance/FINDING_SEVERITY_STANDARD.md` v1.0.
+- Registered on four surfaces: `GOVERNANCE_FRAMEWORK_MANIFEST.json`, `GOVERNANCE_TEMPLATE_REGISTRY.md` ("Applies To" summary), `docs/15-governance/README.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
+- Cross-link to GT-005 recorded at the Registry surface to preserve `template_sha256` integrity of the frozen template body.
+- Emitted terminal audit `REPOSITORY_AUDIT_20260719T000000Z` (12/12 PASS; first audit consuming the canonical severity vocabulary).
+- No Solution Design, Sprint PRD, Baseline, or Publication modified. MINOR finding F-01 remains scheduled for Pass 36.2.0.
+- Repository state: `REFERENCE_IMPLEMENTATION_CERTIFIED` → **`FINDING_SEVERITY_STANDARD_ADOPTED`**.
