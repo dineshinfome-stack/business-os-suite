@@ -1614,6 +1614,10 @@
         {
           "title": "API-001 — Analytics",
           "path": "60-solution-design/api/API-001_ANALYTICS"
+        },
+        {
+          "title": "API-002 — AI Workspace",
+          "path": "60-solution-design/api/API-002_AI_WORKSPACE"
         }
       ]
     },
