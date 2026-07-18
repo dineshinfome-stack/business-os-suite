@@ -1,149 +1,133 @@
-## Pass 36.0.1 — Reference Implementation Certification (MOD-001)
+# Pass 36.0.1 — Reference Implementation Certification (MOD-001) — v2
 
-Read-only certification of the completed MOD-001 Platform Administration suite (Publication → WEB-001 → MOB-001 → API-001) as the repository's canonical reference implementation for all future Solution Design work. Zero governance evolution, zero business changes, zero SD content edits, zero registration restructuring.
+Adopting **Option 1 (Recommended)**: keep Pass 36.0.1 a *pure* read-only certification. The Finding Severity Taxonomy is defined **locally inside the certification report** for this run and defers permanent adoption to a dedicated governance pass (Pass 36.1.0).
 
-**Precondition.** Pass 35.0.1 (API-001) must be COMPLETE and repository state must be `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`. If API-001 is not yet authored, this pass blocks and Pass 35.0.1 executes first.
+## Objective
 
-### Authoritative Inputs (read-only)
+Certify MOD-001 as the repository's reference implementation by a read-only review of `MOD-001_MODULE_PUBLICATION`, `WEB-001`, `MOB-001`, and `API-001` against their upstream chain. Zero edits to any Solution Design specification. Zero governance evolution. Zero scope expansion. Zero implementation.
 
-- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md`
-- `docs/60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION.md`
-- `docs/60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION.md`
-- `docs/60-solution-design/api/API-001_PLATFORM_ADMINISTRATION.md`
-- `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`
-- `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md`
-- `docs/15-governance/SCREEN_IDENTIFIER_STANDARD.md`
-- `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`, per-family READMEs
-- `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
-- Historical audits for MOD-001 (Publication, WEB, MOB, API) under `docs/50-audit-reports/`
+## Guardrails (strict)
 
-No content in these inputs is modified.
+- Read-only over all MOD-001 artefacts and their upstream chain (Module PRD, Sprint Plan, Sprint PRDs, Baseline, Publication).
+- No content edits to WEB-001, MOB-001, API-001, or the Publication.
+- No new governance standard file is created; no governance surface is modified.
+- The Finding Severity Taxonomy applies **only to this certification report** (locally declared) and is proposed — not adopted — for permanent governance.
+- Terminal audit validates the certification pass mechanics; the CERTIFIED / REMEDIATION_REQUIRED outcome is a business result of the report, not an audit failure.
 
-### Deliverable A — Cross-Platform Consistency Review
+## Deliverables
 
-For every MOD-001 §2/§4 capability, verify represented in WEB-001, MOB-001, and API-001. Check for:
+### A. Locally-Declared Finding Severity Taxonomy (report-scoped)
 
-- Capability drift (each capability's business intent identical across all four artifacts).
-- Orphan requirements (nothing in WEB/MOB/API that lacks a MOD-001 anchor).
-- Terminology conflicts (persona names, authority names, transaction names identical).
-- Missing cross-references (WEB/MOB/API frontmatter `related_*` fields resolve).
-- Duplicate responsibilities (no capability owned by more than one authority statement).
+The certification report declares the taxonomy in its own §Taxonomy section, marked "Report-Scoped — proposed for permanent adoption under a future governance pass":
 
-Output: consistency matrix (rows = capabilities; columns = Publication / WEB / MOB / API), embedded in the certification report.
+- **INFO** — Observational; no impact on certification.
+- **MINOR** — Documentation inconsistency only; does not affect repository correctness; certification may proceed; recorded as technical debt.
+- **MAJOR** — Repository standard violated; certification blocked until remediated.
+- **CRITICAL** — Broken traceability, invalid governance, or missing authoritative artefact; certification fails immediately.
 
-### Deliverable B — Traceability Certification
-
-Verify end-to-end chain: Publication → WEB Traceability Matrix → MOB Traceability Matrix (5-col) → API Traceability Matrix (6-col). For each MOD-001 capability, confirm:
-
-- ≥1 WEB screen/journey row.
-- ≥1 MOB Screen ID row (well-formed `MOD001-SCR-NNN`, defined in MOB-001 §4 Screen Hierarchy).
-- ≥1 API endpoint row (each endpoint defined in API-001 Endpoint Inventory).
-- Engine and ADR citations agree with `MOD-001_MODULE_PUBLICATION.md`.
-
-Emit a Coverage Table (capability × platform) with zero blanks.
-
-### Deliverable C — Reference Pattern Verification
-
-Verify MOD-001 exemplifies every repository standard:
-
-- Frontmatter (`GOVERNANCE_FRONTMATTER_STANDARD.md`): `spec_id`, `template`, `template_version`, `module_id`, `related_*` present and valid on WEB/MOB/API.
-- Naming: canonical identifiers `WEB-001`, `MOB-001`, `API-001` match parent `MOD-001`.
-- Registration: SD Catalog, per-family README, DOCUMENT_INDEX, `_meta.json` all contain WEB/MOB/API-001 rows; `_meta.json` parses.
-- SD Template compliance: WEB uses `SD-001_WEB_SPEC`, MOB uses `SD-001_MOB_SPEC`, API uses `SD-001_API_SPEC`, each at v1.0.
-- Traceability Matrix: WEB standard columns; MOB 5-col standard; API 6-col standard.
-- Screen Identifier Standard: `MOD001-SCR-NNN` regex compliance + bidirectional consistency (matrix ↔ hierarchy).
-- Endpoint Inventory: every API traceability endpoint defined in inventory (bidirectional).
-- Audit format: MOD-001 audits use Verification Reporting Standard (Metadata / Check-Result-Action / Verification Summary with arithmetic).
-- Execution Record: `.lovable/plan.md` contains entries for Publication, WEB, MOB, API passes.
-
-Output: Reference Pattern Checklist in the certification report, one row per standard with `Result | Evidence Path`.
-
-### Deliverable D — Repository Certification Report
-
-Create `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md` with:
-
-1. Repository Metadata (state before/after, timestamp, pass id).
-2. Verification Scope (four artifacts + governance standards reviewed).
-3. Standards Reviewed (with checklist result table).
-4. Cross-Platform Consistency Matrix (Deliverable A).
-5. Traceability Coverage Table (Deliverable B).
-6. Reference Pattern Checklist (Deliverable C).
-7. Registration Validation (`_meta.json` parse result, 4-surface synchronization check).
-8. Audit & Execution History Preservation (list of prior audits, immutability confirmed).
-9. Verification Summary per repository standard (Checklist Items = Passed + Remediated + Failed; Failed = 0 required).
-10. Repository Readiness Assessment.
-11. Repository Status: `REFERENCE_IMPLEMENTATION_CERTIFIED` iff every check PASS and Outstanding Risks = 0.
-
-Minimum 15-check contract:
+Deterministic certification rule (report-scoped):
 
 ```text
-Check                                                    | Result
----------------------------------------------------------|-------
-MOD-001 Publication frontmatter valid                    | PASS
-WEB-001 frontmatter valid (SD-001_WEB_SPEC v1.0)         | PASS
-MOB-001 frontmatter valid (SD-001_MOB_SPEC v1.0)         | PASS
-API-001 frontmatter valid (SD-001_API_SPEC v1.0)         | PASS
-Capability coverage: Publication → WEB (100%)            | PASS
-Capability coverage: Publication → MOB (100%)            | PASS
-Capability coverage: Publication → API (100%)            | PASS
-Screen ID compliance (regex + bidirectional)             | PASS
-API Endpoint Inventory ↔ Traceability bidirectional      | PASS
-Traceability matrix column standards (WEB / 5-col / 6-col)| PASS
-Cross-references resolve (WEB↔MOB↔API↔MOD-001)           | PASS
-Registration surfaces synchronized (4)                   | PASS
-_meta.json parses                                        | PASS
-Terminology consistency (personas, authorities)          | PASS
-Audit & execution history preserved (immutable)          | PASS
+REFERENCE_IMPLEMENTATION_CERTIFIED  ⇔  Failed = 0  ∧  Outstanding Risks = 0
+                                       ∧  MAJOR = 0  ∧  CRITICAL = 0
+MINOR findings permitted; recorded as technical debt.
 ```
 
-### Deliverable E — Execution Record
+The report explicitly cites its successor pass (Pass 36.1.0) as the mechanism for permanent adoption.
 
-Append Pass 36.0.1 to `.lovable/plan.md`:
+### B. Cross-Platform Consistency Review
 
-- `execution_status: COMPLETE`
-- `phase: Repository Certification`
-- `reference_module: MOD-001`
-- `certified_artifacts: [MOD-001 Publication, WEB-001, MOB-001, API-001]`
-- `repository_state_before: PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`
-- `repository_state_after: REFERENCE_IMPLEMENTATION_CERTIFIED`
-- `handoff_state: REFERENCE_IMPLEMENTATION_CERTIFIED`
+Read-only matrix across Publication ↔ WEB-001 ↔ MOB-001 ↔ API-001 for terminology, personas, journeys, authorization boundaries, ownership conventions (Event / Configuration / Localization / Audit), and lifecycle vocabulary. Each cell is `Aligned` or a classified finding.
 
-### Guardrails
+### C. Traceability Certification
 
-- Read-only verification. No writes to any authoritative input.
-- No governance changes, no business changes, no SD content edits, no registration restructuring.
-- Only two files are created: the certification report and the plan record append.
-- If any check FAILs, do not mark `REFERENCE_IMPLEMENTATION_CERTIFIED`; instead emit the report with `Status: REMEDIATION_REQUIRED`, enumerate defects with evidence paths, and halt — remediation is a subsequent pass, not part of 36.0.1.
+For every Publication §4 authority confirm:
 
-### Success Criteria
+- WEB-001 screen coverage,
+- MOB-001 screen coverage under `MOD001-SCR-NNN`,
+- API-001 endpoint coverage under `API001-EP-NNN`,
+- Engine + ADR citations consistent across surfaces.
 
-- Certification report authored with all 15+ checks PASS.
-- Cross-platform consistency matrix has zero blanks.
-- Traceability coverage 100% across WEB/MOB/API.
-- Reference Pattern Checklist confirms MOD-001 exemplifies every repository standard.
-- Failed = 0, Outstanding Risks = 0.
-- Execution record appended.
-- Repository state advances to `REFERENCE_IMPLEMENTATION_CERTIFIED`.
+Any capability missing coverage on any surface = **MAJOR**.
 
-### Roadmap Position
+### D. Reference Pattern Verification
+
+Verify MOD-001 exemplifies each active repository standard. Renamed items per validator feedback:
+
+- Governance Frontmatter Standard compliance.
+- Template Registry compliance.
+- Screen Identifier Standard compliance (MOB-001 uses `MOD001-SCR-NNN`).
+- **Endpoint Identifier Compliance** — verify API-001 uses `API001-EP-NNN` consistently (spec-local convention, not a separate governance artefact).
+- **Migration Registry Identifier Consistency** — verify current canonical identifiers (MOD-001 / WEB-001 / MOB-001 / API-001) match the Migration Registry's post-migration canonical values; does not revalidate the migration itself.
+- Repository Audit Standard compliance across the terminal audits already emitted for MOD-001.
+
+Each item produces one row with a classified result.
+
+### E. Certification Report
+
+New file: `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md`.
+
+Structure:
+
+1. Metadata (subject, upstream chain, taxonomy citation, scope disclaimer).
+2. §Taxonomy (report-scoped, proposed-only).
+3. 15-check contract (5 checks each for §B / §C / §D).
+4. Findings register — `ID | Area | Description | Severity | Evidence | Recommended Remediation`.
+5. Verification Summary — Checklist Items, Passed, Remediated, Failed, Outstanding Risks, INFO / MINOR / MAJOR / CRITICAL counts. Invariant: Passed + Remediated + Failed = Checklist Items.
+6. Certification Outcome per the report-scoped rule.
+7. Roadmap position and next-pass recommendation.
+
+### F. WEB-001 Frontmatter Observation — Classification
+
+The observation carried forward from Pass 35.0.1 (WEB-001 frontmatter still references `MOB-003` / `API-003`, pre-Pass 33.1.0) is classified inside the report:
+
+- Body of WEB-001 and every registration surface already resolve to `MOB-001` / `API-001`.
+- Publication authority, engine wiring, ADR citations, screen and endpoint coverage are unaffected.
+- Proposed classification: **MINOR** — documentation inconsistency; recorded as technical debt; recommended remediation via a dedicated Migration Corrections pass.
+
+The report does not perform the correction.
+
+### G. Terminal Audit
+
+`REPOSITORY_AUDIT_20260718T200000Z.md` — audits certification-pass mechanics only:
+
+- Deliverables B–F present and well-formed.
+- No edits to any MOD-001 artefact; no governance surface modified.
+- Report structure honours the standard Check / Result / Action table with the Passed + Remediated + Failed = Checklist Items invariant.
+- Certification outcome is derivable from the findings register via the report-scoped rule.
+
+### H. Execution Record
+
+Append Pass 36.0.1 to `.lovable/plan.md`: certification outcome, MINOR-finding register, and explicit next-step recommendation of **Pass 36.1.0 — Governance Enhancement: Finding Severity Standard** to permanently adopt the taxonomy.
+
+## Files Touched (write scope)
+
+- `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md` (new).
+- `docs/50-audit-reports/REPOSITORY_AUDIT_20260718T200000Z.md` (new).
+- `.lovable/plan.md` (append).
+
+No other files are created, modified, or deleted. `docs/15-governance/`, `docs/60-solution-design/`, `docs/DOCUMENT_INDEX.md`, and `docs/_meta.json` are untouched.
+
+## Repository State Transition
+
+- Prior: `PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`
+- On CERTIFIED outcome: **`REFERENCE_IMPLEMENTATION_CERTIFIED`**
+- On REMEDIATION_REQUIRED: state unchanged; report enumerates blocking findings and recommends a scoped remediation pass.
+
+## Roadmap
 
 ```text
-Pass 35.0.1  API-001 Platform Administration
-        ↓
-Pass 36.0.1  Reference Implementation Certification (MOD-001)   ◀ this pass
-        ↓
-REFERENCE_IMPLEMENTATION_CERTIFIED
-        ↓
+PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE                  ✅
+      ↓
+Pass 36.0.1  Reference Implementation Certification (RO)   ◀ this pass
+      ↓
+REFERENCE_IMPLEMENTATION_CERTIFIED  (expected — MINOR only)
+      ↓
+Pass 36.1.0  Governance Enhancement:
+             Finding Severity Standard (permanent adoption)
+      ↓
+Pass 36.2.0  Migration Corrections
+             (WEB-001 frontmatter, and any peers found)
+      ↓
 Next Published Module — WEB → MOB → API using MOD-001 as gold-standard reference
 ```
-
----
-
-## Pass 35.0.1 — Execution Record (2026-07-18T18:00:00Z)
-
-- Authored `docs/60-solution-design/api/API-001_PLATFORM_ADMINISTRATION.md` under template `SD-001_API_SPEC v1.0` (spec_id `API-001`). Sections A–R populated: architecture, 8 API domains matching Publication §4, resource model, 47 endpoints under `API001-EP-NNN` identifiers, request/response standards, RBAC+ABAC authorization via `ADR-032`, error/pagination/idempotency/versioning conventions, security (`ADR-011`, `-014`, `-032`, `-051`), 6-column traceability matrix, cross-platform consistency map to WEB-001 & MOB-001.
-- Registration surfaces updated: `docs/60-solution-design/api/README.md`, `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
-- Terminal audit emitted: `docs/50-audit-reports/SD_API001_PLATFORM_ADMINISTRATION_AUDIT_20260718T180000Z.md` — **25 / 25 PASS**, Failed 0, Outstanding Risks 0.
-- Observation carried forward (not an API-001 defect): WEB-001 frontmatter retains pre-migration references `MOB-003` / `API-003`; to be handled under Pass 36.0.1 or a dedicated migration-corrections pass.
-- Repository state: `READY_FOR_API` → **`PLATFORM_ADMINISTRATION_PLATFORM_COMPLETE`**.
-- Next pass: **Pass 36.0.1 — Reference Implementation Certification (MOD-001)** (proposed, awaiting user confirmation).
