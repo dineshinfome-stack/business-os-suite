@@ -25,6 +25,7 @@ Numbering derives from the source module's `MOD-<NNN>`. No independent numeric r
 | --- | --- | --- | --- | --- | --- | --- |
 | [WEB-001](./web/WEB-001_PLATFORM_ADMINISTRATION.md) | WEB | MOD-001 Platform Administration | MOD-001_MODULE_PUBLICATION | Active | Architecture Office | 2026-07-18 |
 | [MOB-001](./mobile/MOB-001_PLATFORM_ADMINISTRATION.md) | MOB | MOD-001 Platform Administration | MOD-001_MODULE_PUBLICATION | Active | Architecture Office | 2026-07-18 |
+| [API-001](./api/API-001_PLATFORM_ADMINISTRATION.md) | API | MOD-001 Platform Administration | MOD-001_MODULE_PUBLICATION | Active | Architecture Office | 2026-07-18 |
 | [WEB-017](./web/WEB-017_ANALYTICS.md) | WEB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
 | [MOB-017](./mobile/MOB-017_ANALYTICS.md) | MOB | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |
 | [API-017](./api/API-017_ANALYTICS.md) | API | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 |

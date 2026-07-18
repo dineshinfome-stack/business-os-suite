@@ -1624,6 +1624,10 @@
           "path": "60-solution-design/api/README"
         },
         {
+          "title": "API-001 — Platform Administration",
+          "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION"
+        },
+        {
           "title": "API-017 — Analytics",
           "path": "60-solution-design/api/API-017_ANALYTICS"
         },
