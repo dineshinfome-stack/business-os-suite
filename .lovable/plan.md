@@ -1,119 +1,103 @@
-# Pass 37.0.0 — MOD-002 Accounting Lifecycle Kickoff (Planning Baseline)
+# Pass 37.1.0 — GT-005 Module Publication (MOD-002 Accounting)
 
-**Repository State (in):** `MIGRATION_CORRECTIONS_COMPLETE`
-**Repository State (out):** `MOD002_LIFECYCLE_INITIATED`
-**Nature:** Planning / kickoff pass. Zero authoring of MOD-002 artifacts. Zero governance evolution. Zero Solution Design work. Establishes the execution baseline that separates repository stabilization from module expansion.
+**Repository State:** `MOD002_LIFECYCLE_INITIATED` → `MOD002_PUBLICATION_COMPLETE`
+**Nature:** Publication consolidation. Read-only over Stage 1–3 inputs. Zero Solution Design, zero governance evolution.
 
-## 1. Assumptions
+## Assumptions
 
-This planning pass is executed under the following assumptions:
+1. Repository enters in state `MOD002_LIFECYCLE_INITIATED`.
+2. Pass 37.0.0 kickoff completed successfully.
+3. MOD-001 remains the frozen, certified reference implementation.
+4. Publication inputs come exclusively from authoritative repository artifacts.
+5. No concurrent repository modifications occur during execution.
+6. Missing or incomplete prerequisites halt publication and are reported as blocking findings (not corrected here).
+7. Pass scope is MOD-002 publication only — no WEB/MOB/API authoring.
 
-1. The repository enters this pass in the state `MIGRATION_CORRECTIONS_COMPLETE`.
-2. MOD-001 remains frozen as the certified, normalized reference implementation. No MOD-001 artifacts are modified during this pass.
-3. The authoritative repository structure and governance framework are unchanged from the completion of Pass 36.2.0.
-4. MOD-002 lifecycle readiness is determined solely from authoritative repository artifacts (Module PRD, Baseline, Sprint Plan, Sprint PRDs, ADRs, engines), not from assumptions or historical discussions.
-5. No concurrent repository modifications occur while this pass is executed.
-6. If any authoritative artifact is missing or incomplete, the kickoff record identifies the earliest executable lifecycle stage rather than attempting remediation within this pass.
-7. This pass is administrative only. It authorizes the MOD-002 lifecycle but does not create, modify, or publish any functional deliverables.
+## Objective
 
-## 2. Objective
+Author the canonical GT-005 Module Publication for **MOD-002 Accounting** by consolidating approved Stage 1–3 inputs into the standardized publication format established by MOD-001. The publication freezes the implementation contract for downstream WEB/MOB/API Solution Design.
 
-Author a single kickoff record that:
+## Authoritative Inputs (read-only)
 
-1. Confirms MOD-001 is the certified canonical reference implementation and that no residual stabilization work remains.
-2. Declares MOD-002 Accounting as the next module entering the lifecycle.
-3. Fixes the execution order (GT-002 → GT-003 → GT-004 → GT-005 → WEB → MOB → API) inherited from MOD-001.
-4. Enumerates the authoritative inputs MOD-002 must consume (Module PRD, Baseline, Sprint Plan, Sprint PRDs, ADRs, engines).
-5. Identifies any module-specific deltas from the MOD-001 pattern (expected: none beyond domain scope).
-6. Transitions repository state and records the pass in the execution log.
+- `docs/20-module-prds/accounting/MODULE_PRD.md`
+- `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`
+- `docs/30-sprint-prds/accounting/MOD-002_SPRINT_PLAN.md`
+- `docs/30-sprint-prds/accounting/SPR-MOD-002-001..006-*.md` (6 Sprint PRDs)
+- `docs/10-erp-core/ENGINE_CATALOG.md` and referenced engine specs
+- `docs/11-adrs/ADR_INDEX.md` and referenced ADRs
+- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`
+- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` (reference pattern)
+- `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`, `FINDING_SEVERITY_STANDARD.md`
+- `docs/50-audit-reports/MOD002_LIFECYCLE_KICKOFF_20260719T020000Z.md`
+- `docs/50-audit-reports/MOD002_KICKOFF_VERIFICATION_20260719T030000Z.md`
 
-No Sprint PRDs, no Publication, no Solution Design specs are authored in this pass. Those begin in Pass 37.1.x onward.
+## Deliverables
 
-## 3. Authoritative Sources (read-only)
+### A. GT-005 Module Publication
 
-- `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` — pattern reference.
-- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` — publication template reference.
-- `docs/50-audit-reports/REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z.md` — reference implementation certification.
-- `docs/50-audit-reports/MIGRATION_CORRECTIONS_AUDIT_20260719T010000Z.md` — closing stabilization audit.
-- `docs/20-module-prds/` — MOD-002 Accounting Module PRD (existing Stage 1 artifact).
-- `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md` — existing baseline (verify presence and completeness).
-- `docs/30-sprint-prds/` — MOD-002 Sprint Plan and Sprint PRDs (verify existing state).
-- `docs/MODULE_IMPLEMENTATION_WORKFLOW.md`, `docs/15-governance/GOVERNANCE_TEMPLATE_REGISTRY.md`, `docs/15-governance/FINDING_SEVERITY_STANDARD.md` — governance surfaces.
+Create `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` mirroring the MOD-001 GT-005 structure:
 
-Pre-plan sweep determines which Stage 1–3 artifacts already exist for MOD-002, so the kickoff record accurately identifies the next executable pass.
+1. Repository Metadata (frontmatter per GOVERNANCE_FRONTMATTER_STANDARD)
+2. Pass Classification
+3. Module Overview
+4. Business Objectives
+5. Scope
+6. Out of Scope
+7. Functional Domains (General Ledger, AP, AR, Banking, Tax, Period Close)
+8. Sprint Mapping (Sprints 001–006 → domains → authorities)
+9. Baseline Summary (consolidated from MOD002 Baseline v1)
+10. Engine Dependencies (required + optional from Module PRD §12)
+11. ADR References (ADR-011, ADR-014, ADR-032, plus any baseline-cited ADRs)
+12. Cross-module Dependencies (depends on MOD-001; provides to MOD-003/004/008/015/017)
+13. Acceptance Criteria
+14. Implementation Order (WEB-002 → MOB-002 → API-002)
+15. Publication Status
+16. Repository State Transition
 
-## 4. Inventory Vocabulary
+### B. Publication Registration (minimum surfaces only)
 
-Applied uniformly in the kickoff record to keep the inventory scannable and precise:
+Update only what the existing publication workflow requires:
+- `docs/MODULE_PUBLICATION_CATALOG.md` — add MOD-002 row.
+- `docs/45-module-publications/README.md` — list the new publication if the file lists siblings.
+- `docs/_meta.json` — register under the "45 Module Publications" group.
+- `docs/DOCUMENT_INDEX.md` — add entry if MOD-001 publication is indexed there.
+- `.lovable/plan.md` — append Pass 37.1.0 execution record with Pass Classification.
 
-- **Status values:** `Present` | `Missing` | `Incomplete`.
-- **Verification depth:**
-  - `Verified` — existence confirmed (file present, frontmatter parses).
-  - `Reviewed` — content inspected for completeness against its Stage template.
-- Every inventory row carries both a Status and a Verification depth.
+No governance standards, templates, or unrelated catalogs are modified.
 
-## 5. Deliverables
+### C. Publication Verification Report
 
-**A. Kickoff Record**
-- New file: `docs/50-audit-reports/MOD002_LIFECYCLE_KICKOFF_20260719T020000Z.md`.
-- Sections:
-  - Repository Metadata + Pass Classification (`pass_type: PLANNING`, `change_type: NONE`, `repository_scope: LIFECYCLE_TRANSITION`, `risk_level: LOW`).
-  - Assumptions (mirrors §1 of this plan for auditability).
-  - MOD-001 Closure Statement (references certification + migration audit; declares zero residual stabilization).
-  - MOD-002 Inventory: Module PRD, Baseline, Sprint Plan, Sprint PRDs, each with `Status` ∈ {Present, Missing, Incomplete} and `Depth` ∈ {Verified, Reviewed}.
-  - Execution Order: GT-002 → GT-003 → GT-004 → GT-005 → WEB-002 → MOB-002 → API-002 (canonical, aligned with parent Module ID per Pass 33.1.0).
-  - Module-Specific Deltas from the MOD-001 pattern: enumerated or explicitly declared `None`.
-  - Next Executable Pass: named on the basis of the inventory (e.g., GT-005 Publication if Stages 1–3 are complete, otherwise the earliest missing stage).
-  - Exit Criteria + Repository State transition.
+Create `docs/50-audit-reports/MOD002_PUBLICATION_VERIFICATION_20260719T040000Z.md` with 10 checks using the FINDING_SEVERITY_STANDARD v1.0 vocabulary:
 
-**B. Registration**
-- Append kickoff entry to `.lovable/plan.md` execution log with Pass Classification.
-- No change to `_meta.json`, catalogs, or standards.
+1. Publication frontmatter valid.
+2. Publication conforms to GT-005 structure (MOD-001 parity).
+3. All authoritative inputs referenced.
+4. Sprint hierarchy consistent with Sprint Plan and 6 Sprint PRDs.
+5. Baseline references valid.
+6. ADR references valid.
+7. Engine references valid (against ENGINE_CATALOG).
+8. Implementation sequence matches MODULE_IMPLEMENTATION_WORKFLOW.
+9. Publication introduces no governance changes.
+10. Repository state transition authorized.
 
-**C. Terminal Verification — Scoped Kickoff Verification Report**
-- New file: `docs/50-audit-reports/MOD002_KICKOFF_VERIFICATION_20260719T030000Z.md`.
-- Scoped to the two artifacts this pass touches (kickoff record + `.lovable/plan.md`); a full repository audit is disproportionate for a planning-only pass with no repository-wide, governance, or structural changes.
-- Checklist:
-  1. Kickoff record exists and is well-formed (frontmatter parses; required sections present).
-  2. Assumptions section present and matches §1 of this plan.
-  3. Inventory complete (every authoritative input listed with Status + Depth).
-  4. Next executable pass determined unambiguously and consistent with the inventory.
-  5. No unintended file modifications outside kickoff record + `.lovable/plan.md`.
-  6. Immutable surfaces preserved (MOD-001 artifacts, prior audits, migration record/manifest).
-  7. Repository state transition valid (in-state matches current; out-state authorized).
-- Uses the `FINDING_SEVERITY_STANDARD` v1.0 vocabulary and the Verification Reporting Standard summary format (Checklist Items = Passed + Remediated + Failed).
+Summary: **Passed / Remediated / Failed** counts; deterministic PASS rule (no MAJOR/CRITICAL).
 
-## 6. Out of Scope
+## Out of Scope
 
-- Authoring any MOD-002 Sprint PRD, Baseline revision, Publication, or Solution Design spec.
-- Any edit to MOD-001 artifacts (frozen post-stabilization).
-- Any governance standard authoring or template revision.
-- Any change to `docs/_meta.json`, `DOCUMENT_INDEX.md`, or catalogs.
-- A full repository-wide audit (a scoped Kickoff Verification Report is used instead; see §5C).
+WEB-002 / MOB-002 / API-002 Solution Design, Baseline or Sprint PRD revisions, ADR authoring, engine authoring, governance evolution, repository-wide audits, any MOD-001 changes.
 
-## 7. Exit Criteria
+## Exit Criteria
 
-- Kickoff record authored and internally consistent, including the Assumptions section.
-- MOD-002 authoritative inputs enumerated with `Status` + `Depth` per row.
-- Next executable pass identified unambiguously.
-- Kickoff Verification Report PASS (all checks; MAJOR = 0; CRITICAL = 0; Outstanding Risks = 0).
-- Repository state advances to `MOD002_LIFECYCLE_INITIATED`.
+- [ ] GT-005 Publication authored at the canonical path.
+- [ ] Publication matches MOD-001 reference pattern.
+- [ ] All authoritative inputs referenced.
+- [ ] Verification Report emitted with PASS outcome.
+- [ ] No unauthorized repository modifications.
+- [ ] Repository state advances to `MOD002_PUBLICATION_COMPLETE`.
 
-## 8. Technical Notes
+## Technical Notes
 
-- Reports follow the frontmatter contract of existing audit reports and the `FINDING_SEVERITY_STANDARD` v1.0 vocabulary.
-- "Next Executable Pass" is data-driven: set by reading MOD-002's existing artifact inventory, not assumed.
-- No lexical or structural edits to any MOD-001 file — the reference implementation remains frozen.
-- The Assumptions section establishes a reusable pattern for future lifecycle kickoff passes (MOD-003, MOD-004, …), making implicit execution context explicit and auditable.
-- The scoped Kickoff Verification Report is aligned with the Verification Reporting Standard and is precedent for future planning-only passes; repository-wide audits remain the default for passes that modify governance, structure, or multiple modules.
-
----
-
-## Pass 37.0.0 — Execution Record
-
-- **Pass Classification:** `pass_type: PLANNING` · `change_type: NONE` · `repository_scope: LIFECYCLE_TRANSITION` · `risk_level: LOW`
-- **Repository State:** `MIGRATION_CORRECTIONS_COMPLETE` → `MOD002_LIFECYCLE_INITIATED`
-- **Kickoff Record:** `docs/50-audit-reports/MOD002_LIFECYCLE_KICKOFF_20260719T020000Z.md`
-- **Verification Report:** `docs/50-audit-reports/MOD002_KICKOFF_VERIFICATION_20260719T030000Z.md` — PASS (7/7; MAJOR 0; CRITICAL 0; Outstanding Risks 0)
-- **Inventory Outcome:** MOD-002 Stages 1–3 Present + Verified; Publication and SD (WEB/MOB/API) Missing.
-- **Next Executable Pass:** GT-005 Module Publication for MOD-002 Accounting.
+- MOD-001 publication is the canonical reference pattern; deviations must be justified.
+- Publication is a consolidation artifact — no new functional requirements introduced.
+- Inconsistencies in Stage 1–3 artifacts are reported as blocking findings, not corrected here.
+- Success authorizes **Pass 37.2.0 — WEB-002 Accounting Solution Design**.
