@@ -1778,6 +1778,14 @@
           "path": "15-governance/GOVERNANCE_FRONTMATTER_STANDARD"
         },
         {
+          "title": "Migration Registry",
+          "path": "15-governance/MIGRATION_REGISTRY"
+        },
+        {
+          "title": "Solution Design Identifier Migration — 2026-07-18",
+          "path": "15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718"
+        },
+        {
           "title": "GT-002 Stage 1 Authoring",
           "path": "15-governance/templates/GT-002_STAGE1_AUTHORING"
         },
