@@ -29,10 +29,11 @@ docs/15-governance/
 ├── GOVERNANCE_TEMPLATE_REGISTRY.md      Per-template records (13 fields)
 ├── GOVERNANCE_TEMPLATE_INDEX.md         Tabular summary
 ├── GOVERNANCE_FRONTMATTER_STANDARD.md   Repository-wide spec_id / template / template_version standard
-└── SCREEN_IDENTIFIER_STANDARD.md        Repository-wide Screen ID standard (MOB specs, MOB-001+)
+├── SCREEN_IDENTIFIER_STANDARD.md        Repository-wide Screen ID standard (MOB specs, MOB-001+)
+└── FINDING_SEVERITY_STANDARD.md         Repository-wide Finding Severity Taxonomy + certification rule
 ```
 
-Repository-wide frontmatter conventions (`spec_id`, `template`, `template_version`, Mandatory Frontmatter Validation Checklist) are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md) and consumed by every downstream audit. Repository-wide Screen Identifier conventions (`MOD<NNN>-SCR-<NNN>`) are defined in [`SCREEN_IDENTIFIER_STANDARD.md`](./SCREEN_IDENTIFIER_STANDARD.md) and consumed by Mobile Solution Design audits from MOB-001 forward.
+Repository-wide frontmatter conventions (`spec_id`, `template`, `template_version`, Mandatory Frontmatter Validation Checklist) are defined in [`GOVERNANCE_FRONTMATTER_STANDARD.md`](./GOVERNANCE_FRONTMATTER_STANDARD.md) and consumed by every downstream audit. Repository-wide Screen Identifier conventions (`MOD<NNN>-SCR-<NNN>`) are defined in [`SCREEN_IDENTIFIER_STANDARD.md`](./SCREEN_IDENTIFIER_STANDARD.md) and consumed by Mobile Solution Design audits from MOB-001 forward. Repository-wide Finding Severity conventions (`INFO` / `MINOR` / `MAJOR` / `CRITICAL`) and the canonical certification rule are defined in [`FINDING_SEVERITY_STANDARD.md`](./FINDING_SEVERITY_STANDARD.md) and consumed by every audit, certification, and verification pass from Pass 36.1.0 forward.
 
 
 ## Lifecycle (summary)

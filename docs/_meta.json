@@ -1790,6 +1790,10 @@
           "path": "15-governance/SCREEN_IDENTIFIER_STANDARD"
         },
         {
+          "title": "Finding Severity Standard",
+          "path": "15-governance/FINDING_SEVERITY_STANDARD"
+        },
+        {
           "title": "Migration Registry",
           "path": "15-governance/MIGRATION_REGISTRY"
         },

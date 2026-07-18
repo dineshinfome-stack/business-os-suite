@@ -43,6 +43,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Governance Template Dependency Matrix (YAML export) | Cross-cutting | Approved | Derived | `docs/15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX.yaml` |
 | Governance Frontmatter Standard | Cross-cutting | Approved | Authoritative | `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md` |
 | Screen Identifier Standard | Cross-cutting | Active | Authoritative | `docs/15-governance/SCREEN_IDENTIFIER_STANDARD.md` |
+| Finding Severity Standard | Cross-cutting | Active | Authoritative | `docs/15-governance/FINDING_SEVERITY_STANDARD.md` |
 | Migration Registry | Cross-cutting | Active | Authoritative | `docs/15-governance/MIGRATION_REGISTRY.md` |
 | Solution Design Identifier Migration — 2026-07-18 | Cross-cutting | Executed | Authoritative | `docs/15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md` |
 | Solution Design Migration Manifest — 2026-07-18 | Cross-cutting | Executed | Authoritative | `docs/15-governance/MIGRATION_MANIFEST_20260718.json` |
