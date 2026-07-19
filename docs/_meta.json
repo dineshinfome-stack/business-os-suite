@@ -1604,16 +1604,16 @@
           "path": "60-solution-design/web/WEB-002_ACCOUNTING"
         },
         {
+          "title": "WEB-003 — Sales (46-)",
+          "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN"
+        },
+        {
           "title": "WEB-017 — Analytics",
           "path": "60-solution-design/web/WEB-017_ANALYTICS"
         },
         {
           "title": "WEB-018 — AI Workspace",
           "path": "60-solution-design/web/WEB-018_AI_WORKSPACE"
-        },
-        {
-          "title": "WEB-003 — Sales (46-)",
-          "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN"
         },
         {
           "title": "MOB Specifications — Index",
@@ -1626,6 +1626,10 @@
         {
           "title": "MOB-002 — Accounting",
           "path": "60-solution-design/mobile/MOB-002_ACCOUNTING"
+        },
+        {
+          "title": "MOB-003 — Sales (46-)",
+          "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN"
         },
         {
           "title": "MOB-017 — Analytics",
@@ -1648,20 +1652,16 @@
           "path": "60-solution-design/api/API-002_ACCOUNTING"
         },
         {
+          "title": "API-003 — Sales (46-)",
+          "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN"
+        },
+        {
           "title": "API-017 — Analytics",
           "path": "60-solution-design/api/API-017_ANALYTICS"
         },
         {
           "title": "API-018 — AI Workspace",
           "path": "60-solution-design/api/API-018_AI_WORKSPACE"
-        },
-        {
-          "title": "MOB-003 — Sales (46-)",
-          "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN"
-        },
-        {
-          "title": "API-003 — Sales (46-)",
-          "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN"
         },
         {
           "title": "MOD-003 Cross-Platform Certification",
