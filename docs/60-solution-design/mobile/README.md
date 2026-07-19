@@ -37,6 +37,7 @@ Every MOB specification MUST reference: Published Module, Module PRD, Sprint Pla
 | [MOB-002](./MOB-002_ACCOUNTING.md) | MOD-002 Accounting | Active | Accounting | 2026-07-19 |
 | [MOB-017](./MOB-017_ANALYTICS.md) | MOD-017 Analytics | Active | Insights | 2026-07-18 |
 | [MOB-018](./MOB-018_AI_WORKSPACE.md) | MOD-018 AI Workspace | Active | AI Platform | 2026-07-18 |
+| [MOB-003](../../46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN.md) | MOD-003 Sales | `MOB003_SOLUTION_DESIGNED` | Sales | 2026-07-19 (authored under the `46-` surface per Pass 38.3.0 direction; see `MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z` INFO-01) |
 
 ## References
 
