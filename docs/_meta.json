@@ -1612,6 +1612,10 @@
           "path": "60-solution-design/web/WEB-018_AI_WORKSPACE"
         },
         {
+          "title": "WEB-003 — Sales (46-)",
+          "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN"
+        },
+        {
           "title": "MOB Specifications — Index",
           "path": "60-solution-design/mobile/README"
         },
