@@ -267,6 +267,9 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | Migration Strategy | Foundation | Approved | Authoritative | `docs/migration-strategy.md` |
 | MOD001_PLATFORM_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` |
 | MOD002_ACCOUNTING_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md` |
+| MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z.md` |
+| MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z.md` |
+| Repository Solution Status | Status Register | Active | Derived | `docs/SOLUTION_STATUS.md` |
 | MOD003_SALES_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md` |
 | MOD004_PURCHASE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD004_PURCHASE_BASELINE_v1.md` |
 | MOD005_INVENTORY_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD005_INVENTORY_BASELINE_v1.md` |
