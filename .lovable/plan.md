@@ -1,53 +1,54 @@
+## Goal
 
-# Pass 38.5.0 — MOD-003 Cross-Platform Certification (Sales)
+Reorganize `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md` so specifications are grouped by family (WEB, MOB, API) in ascending numeric order, and Cross-Platform Certifications live in their own section placed after the API section. Correct the misplacement so MOB-003 sits under MOB (not API), and add the missing MOD-003 rows plus the two MOD-003 certification artifacts.
 
-Read-only certification of the completed MOD-003 platform design set (GT-005, WEB-003, MOB-003, API-003). No artifact edits; findings recorded only.
+## Scope
 
-## State Transition
-`API003_SOLUTION_DESIGNED` → `MOD003_CROSS_PLATFORM_CERTIFIED`
+Registration/catalog edit only. No specification, audit report, or governance content is changed. Single file touched: `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`.
 
-## Deliverable A — Certification Report
-Create `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z.md` with 12 sections:
+## Target Structure
 
-1. **Certification Identity** — id, module (MOD-003), lifecycle state, scope, inputs, standards (SD-001, GT-004, GT-005, TRACEABILITY_STANDARD, FINDING_SEVERITY_STANDARD, GOVERNANCE_FRONTMATTER_STANDARD).
-2. **Artifact Inventory** — confirm presence of GT-005, WEB-003, MOB-003, API-003 at their canonical paths under `docs/45-module-publications/sales/` and `docs/46-solution-design/{web,mobile,api}/sales/`.
-3. **Lifecycle Verification** — Initiation → GT-005 → WEB-003 → MOB-003 → API-003, cross-linked to prior audit reports.
-4. **Functional Coverage** — every GT-005 authority/requirement represented across applicable platforms; no orphans.
-5. **Web Certification** — workflows, navigation, permissions, validation, traceability from WEB-003.
-6. **Mobile Certification** — parity with WEB-003 via §6.9 Mobile–Web Functional Parity, offline model, sync, accessibility, touch.
-7. **API Certification** — §13.x Neutrality clause, GT-005 anchor per operation via §14 Traceability Matrix, resource + operation completeness.
-8. **Cross-Platform Consistency** — GT-005 sole authority; identical business capabilities, rules, permissions, validation, state transitions; differences presentation-only.
-9. **Traceability Certification** — full chain GT-005 → WEB-003 → MOB-003 → API-003 unbroken.
-10. **Repository Registration** — SOLUTION_STATUS, DOCUMENT_INDEX, README, `_meta.json`, `.lovable/plan.md`.
-11. **Findings Summary** — INFO=2 (INFO-01 46/60 surface duality, INFO-02 `_meta.json` grouping); MAJOR=0; CRITICAL=0.
-12. **Certification Decision** — `MOD003_CROSS_PLATFORM_CERTIFIED`.
+Replace the single flat "Registration Table" with four ordered sections:
 
-## Deliverable B — Verification Report
-Create `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z.md` in repository-standard 16-check format. Target: 16/16 PASS, INFO=2, MAJOR=0, CRITICAL=0.
+1. **WEB Specifications** — WEB-001, WEB-002, WEB-003 (46-), WEB-017, WEB-018
+2. **MOB Specifications** — MOB-001, MOB-002, MOB-003 (46-), MOB-017, MOB-018
+3. **API Specifications** — API-001, API-002, API-003 (46-), API-017, API-018
+4. **Cross-Platform Certifications** — placed after API, ordered by artifact type (not numerically):
+   1. Certification Report — MOD-003 Sales Cross-Platform Certification Report → `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z.md`
+   2. Certification Verification Report — MOD-003 Cross-Platform Certification Verification Report → `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z.md`
 
-Checklist: report created, inventory complete, lifecycle verified, GT-005 coverage complete, WEB-003 certified, MOB-003 certified, API-003 certified, cross-platform consistency, traceability complete, registration verified, decision documented, no doc modifications, no implementation, no governance evolution, repository state authorized, certification complete.
+### Row rules
 
-## Deliverable C — Registration Synchronization
-- `docs/SOLUTION_STATUS.md` — advance state to `MOD003_CROSS_PLATFORM_CERTIFIED`; update MOD-003 row (Web ✓, Mobile ✓, API ✓, Cross-Platform ✓); latest report reference.
-- `docs/DOCUMENT_INDEX.md` — register both new audit reports.
-- `docs/_meta.json` — register certification artifacts at closest existing grouping (record INFO-02).
-- `docs/46-solution-design/README.md` — add MOD-003 Cross-Platform Certification entry.
-- `.lovable/plan.md` — append `MOD003_CROSS_PLATFORM_CERTIFIED`.
+- Specification rows preserve existing columns: Spec ID, Source Module, Source Publication, Lifecycle State, Owner, Updated.
+- The MOD-003 specification rows shall reference the canonical documents under `docs/46-solution-design/{web,mobile,api}/sales/`, while retaining the `(46-)` indicator in the Spec ID column to reflect the documented `46-`/`60-` surface duality (INFO-01). No path migration or repository restructuring is implied — the catalog indexes existing canonical documents; the `(46-)` label is informational.
+- All spec sections sorted strictly ascending by numeric suffix (001, 002, 003, 017, 018).
+- Cross-Platform Certifications table columns: Module, Artifact Type, Report, Path, Date. Rows ordered by artifact type: Certification Report first, Certification Verification Report second.
 
-## Constraints
-Read-only certification. No edits to GT-005/WEB-003/MOB-003/API-003. MOD-001 and MOD-002 unchanged. Inconsistencies are recorded as findings, not corrected.
+### Ordering rules (added to Notes)
 
-## Exit Criteria
-Both reports authored; 16/16 PASS with INFO=2/MAJOR=0/CRITICAL=0; registration synchronized; repository state `MOD003_CROSS_PLATFORM_CERTIFIED`. Authorizes Pass 38.6.0.
+Two short explicit rules so future edits stay consistent:
 
----
+> "Rows within each specification family (WEB, MOB, API) are sorted in ascending order of the numeric suffix of the Spec ID."
+>
+> "The Cross-Platform Certifications section is grouped separately, placed after the API family, and is ordered by artifact type — Certification Report, then Certification Verification Report — not by numeric suffix."
 
-# Pass 38.5.0 — MOD-003 Cross-Platform Certification (Sales)
+## Preserved Content
 
-Executed. Read-only certification of GT-005, WEB-003, MOB-003, API-003.
+- Frontmatter kept intact; `updated` bumped to `2026-07-19`.
+- "Planned Coverage Rule", "Notes" (with the new ordering rules appended), and "References" retained verbatim, positioned after the four tables.
+- References section extended with a link to `docs/46-solution-design/README.md` so the 46- surface is discoverable from the catalog.
 
-- `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z.md` — Certification Report (Decision: `MOD003_CROSS_PLATFORM_CERTIFIED`).
-- `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z.md` — 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
-- Registration synchronized: `SOLUTION_STATUS.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `docs/46-solution-design/README.md`.
+## Consistency Check
 
-Repository state: `MOD003_CROSS_PLATFORM_CERTIFIED`. Authorizes Pass 38.6.0 — MOD-003 Implementation Readiness Review.
+After the edit, read the file back to confirm:
+
+- MOB-003 no longer appears in the API section.
+- API-003 appears only in the API section.
+- Both MOD-003 certification artifacts appear only in the Cross-Platform Certifications section, ordered Report → Verification Report.
+- Spec IDs within each specification section are strictly ascending: 001 → 002 → 003 → 017 → 018.
+
+## Out of Scope
+
+- No changes to specifications, audit reports, `SOLUTION_STATUS.md`, `DOCUMENT_INDEX.md`, `_meta.json`, or the `46-`/`60-` README indexes.
+- No reconciliation of the `46-` vs `60-` surface duality (still deferred to a future governance-evolution pass).
+- No new verification report or lifecycle state transition — this is a registration cleanup, not a lifecycle pass.
