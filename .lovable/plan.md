@@ -39,3 +39,15 @@ Read-only certification. No edits to GT-005/WEB-003/MOB-003/API-003. MOD-001 and
 
 ## Exit Criteria
 Both reports authored; 16/16 PASS with INFO=2/MAJOR=0/CRITICAL=0; registration synchronized; repository state `MOD003_CROSS_PLATFORM_CERTIFIED`. Authorizes Pass 38.6.0.
+
+---
+
+# Pass 38.5.0 — MOD-003 Cross-Platform Certification (Sales)
+
+Executed. Read-only certification of GT-005, WEB-003, MOB-003, API-003.
+
+- `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z.md` — Certification Report (Decision: `MOD003_CROSS_PLATFORM_CERTIFIED`).
+- `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z.md` — 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
+- Registration synchronized: `SOLUTION_STATUS.md`, `DOCUMENT_INDEX.md`, `_meta.json`, `docs/46-solution-design/README.md`.
+
+Repository state: `MOD003_CROSS_PLATFORM_CERTIFIED`. Authorizes Pass 38.6.0 — MOD-003 Implementation Readiness Review.
