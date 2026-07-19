@@ -1,32 +1,64 @@
-## Diagnosis
+## Diagnosis (confirmed)
 
-The sidebar is generated from `docs/_meta.json` (consumed by `src/lib/docs.ts` as `nav`), not from headings inside `SOLUTION_DESIGN_CATALOG.md`. The catalog markdown was reorganized correctly in the previous pass, but `_meta.json` still lists the MOD-003 (46-) specs at the end of each family group:
+`src/routes/docs.tsx` renders one sidebar heading per `NavGroup.label` and lists the group's `items` as flat rows. The current `docs/_meta.json` has a single `"60 Solution Design"` group containing README, Catalog, three family "Index" rows, 15 spec rows, and the 2 certification rows — so no matter how those items are ordered, the sidebar can only ever show one heading. To get four distinct headings (WEB / MOB / API / Cross-Platform), the single group must be split into sibling groups.
 
-- WEB group ends with `WEB-003 — Sales (46-)` after WEB-018
-- MOB group has no MOB-003 entry at all (it lives in the API group)
-- API group ends with `MOB-003 — Sales (46-)` then `API-003 — Sales (46-)` after API-018
+## Decision on landing documents
+
+Per the design consideration raised in the review, keep the Solution Design landing documents visible in the sidebar. They move into a small retained container group instead of being deleted.
 
 ## Change
 
-Single file: `docs/_meta.json`. No document content, no route code, no other registry changes.
+Single file: `docs/_meta.json`. No renderer changes, no document moves, no catalog/content edits.
 
-Reorder the three "60 Solution Design" subgroups so each family is strictly ascending by numeric suffix (001 → 002 → 003 → 017 → 018), and move MOB-003 out of the API subgroup into the MOB subgroup:
+Replace the current single `"60 Solution Design"` group with **five** consecutive sibling groups, in this order:
 
-- **WEB Specifications**: WEB-001, WEB-002, **WEB-003 (46-)**, WEB-017, WEB-018
-- **MOB Specifications**: MOB-001, MOB-002, **MOB-003 (46-)** (moved from API group), MOB-017, MOB-018
-- **API Specifications**: API-001, API-002, **API-003 (46-)** (moved up from bottom), API-017, API-018
+1. **`60 Solution Design`** — landing entries only:
+   - `README` → `60-solution-design/README`
+   - `Solution Design Catalog` → `60-solution-design/SOLUTION_DESIGN_CATALOG`
 
-Titles, paths, and all other groups remain unchanged. Cross-Platform Certification artifacts are not sidebar entries and are unaffected.
+2. **`WEB Specifications`** — 6 items in ascending numeric order:
+   - `Index` → `60-solution-design/web/README`
+   - `001` → `60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION`
+   - `002` → `60-solution-design/web/WEB-002_ACCOUNTING`
+   - `003` → `46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN`
+   - `017` → `60-solution-design/web/WEB-017_ANALYTICS`
+   - `018` → `60-solution-design/web/WEB-018_AI_WORKSPACE`
+
+3. **`MOB Specifications`** — 6 items in ascending numeric order:
+   - `Index` → `60-solution-design/mobile/README`
+   - `001` → `60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION`
+   - `002` → `60-solution-design/mobile/MOB-002_ACCOUNTING`
+   - `003` → `46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN` (moved out of the API block, where it was incorrectly listed)
+   - `017` → `60-solution-design/mobile/MOB-017_ANALYTICS`
+   - `018` → `60-solution-design/mobile/MOB-018_AI_WORKSPACE`
+
+4. **`API Specifications`** — 6 items in ascending numeric order:
+   - `Index` → `60-solution-design/api/README`
+   - `001` → `60-solution-design/api/API-001_PLATFORM_ADMINISTRATION`
+   - `002` → `60-solution-design/api/API-002_ACCOUNTING`
+   - `003` → `46-solution-design/api/sales/API-003_SOLUTION_DESIGN`
+   - `017` → `60-solution-design/api/API-017_ANALYTICS`
+   - `018` → `60-solution-design/api/API-018_AI_WORKSPACE`
+
+5. **`Cross-Platform Certifications`** — ordered by artifact type (Report, then Verification Report):
+   - `Certification Report` → `50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z`
+   - `Certification Verification Report` → `50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z`
+
+Notes on titles:
+- In the three spec groups, leaf titles are the numeric suffix only (`001`, `002`, …) to match the target sidebar shape exactly.
+- The `(46-)` informational label used in the catalog is not repeated in the sidebar; the paths still point at the canonical `46-solution-design/**/sales/**` documents.
+- No path or file is renamed; catalog rows and cross-references remain valid.
+
+All other groups in `_meta.json` above and below this block are left untouched.
 
 ## Verification
 
-After the edit:
-1. `grep` the three subgroup slices of `_meta.json` and confirm ascending numeric order in each.
-2. Confirm MOB-003 appears exactly once (in the MOB group) and API group no longer contains MOB-003.
-3. Reload `/docs` in preview and confirm the sidebar mirrors the intended order.
+1. `_meta.json` shows five new `"label"` entries in order: `60 Solution Design`, `WEB Specifications`, `MOB Specifications`, `API Specifications`, `Cross-Platform Certifications`, with item counts 2 / 6 / 6 / 6 / 2.
+2. `MOB-003` path appears exactly once and only inside the `MOB Specifications` group; no `MOB-003` entry remains under `API Specifications`.
+3. Reload `/docs` in preview and confirm the sidebar renders five headings in the specified order, with the exact leaf labels listed above.
 
 ## Out of Scope
 
-- No changes to `SOLUTION_DESIGN_CATALOG.md` (already correct).
-- No changes to route files, `src/lib/docs.ts`, `DOCUMENT_INDEX.md`, or `SOLUTION_STATUS.md`.
-- No lifecycle transition — this is a navigation registration fix only.
+- No changes to `SOLUTION_DESIGN_CATALOG.md`, `SOLUTION_STATUS.md`, spec content, or certification content.
+- No renderer/schema changes in `src/lib/docs.ts` or `src/routes/docs.tsx` (no nested-group support introduced).
+- No lifecycle transition — this is a sidebar-navigation presentation fix only.
