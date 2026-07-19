@@ -1,79 +1,41 @@
-# Pass 38.4.0 — API-003 Solution Design (MOD-003 Sales)
 
-## Objective
+# Pass 38.5.0 — MOD-003 Cross-Platform Certification (Sales)
 
-Author the canonical API-003 Solution Design for MOD-003 Sales, deriving exclusively from the approved GT-005 Module Publication and maintaining functional parity with WEB-003 and MOB-003. Emit 16/16 PASS verification and synchronize registration. Advance repository state to `API003_SOLUTION_DESIGNED`.
+Read-only certification of the completed MOD-003 platform design set (GT-005, WEB-003, MOB-003, API-003). No artifact edits; findings recorded only.
 
 ## State Transition
+`API003_SOLUTION_DESIGNED` → `MOD003_CROSS_PLATFORM_CERTIFIED`
 
-`MOB003_SOLUTION_DESIGNED` → `API003_SOLUTION_DESIGNED`
+## Deliverable A — Certification Report
+Create `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z.md` with 12 sections:
 
-## Deliverable A — API-003 Solution Design
-
-Create `docs/46-solution-design/api/sales/API-003_SOLUTION_DESIGN.md` mirroring the certified API-002 structure.
-
-**Frontmatter** per `GOVERNANCE_FRONTMATTER_STANDARD`:
-- `spec_id: API-003_SOLUTION_DESIGN`, `template: API-003`, `template_version`, `module: MOD-003 Sales`
-- `source_publication: MOD-003_MODULE_PUBLICATION`
-- `source_web_design: WEB-003_SOLUTION_DESIGN`
-- `source_mobile_design: MOB-003_SOLUTION_DESIGN`
-- `lifecycle_state: API003_SOLUTION_DESIGNED`, `owner`, `updated: 2026-07-19`, `tags`, `document_type`
-
-**Mandatory Sections (15):**
-
-1. Identity & Traceability — chain `MOD-003 Baseline → Sprint PRDs → GT-005 → WEB-003 → MOB-003 → API-003`.
-2. API Design Principles — GT-005 parity, platform neutrality, stateless interaction, backward-compatible evolution, implementation independence.
-3. Resource Model — Quotations, Sales Orders, Deliveries, Invoices, Credit/Debit Notes, Returns, Customers, Pricing, Attachments, Approvals (responsibilities/ownership only).
-4. Functional Operations — per-resource operations with purpose, preconditions, postconditions, permissions, state transitions. No URIs / HTTP methods.
-5. Request & Response Models — functional required/optional data, validation expectations, success/business-error outcomes. No JSON schemas.
-6. Authentication & Authorization — authenticated access, permission evaluation, role mapping, session/token functional expectations, audit expectations.
-7. Validation Rules — required fields, business, workflow, duplicate prevention, cross-resource, permission validation.
-8. Error Semantics — functional handling of validation, authorization, business-rule, concurrency, unavailability, unexpected failures. No status codes.
-9. Integration Touchpoints — CRM, Inventory, Accounting, Analytics; ownership boundaries respected.
-10. Event & Synchronization Model — business events, notifications, sync triggers, downstream consumers, eventual consistency (functional only).
-11. Versioning & Compatibility — backward compatibility, additive evolution, deprecation policy, client compatibility.
-12. Idempotency & Concurrency — safe retries, duplicate submission handling, optimistic conflict, replay protection.
-13. Cross-Platform Consistency — GT-005 sole authority; WEB-003 & MOB-003 as canonical interaction models; equivalent functional capabilities without platform-specific behavior.
-    - **13.x API Capability Neutrality Clause (auditable parity):** every API capability MUST be traceable to at least one GT-005 requirement and MUST NOT exist solely to satisfy a specific client platform. API-003 is a shared functional contract, not a web- or mobile-centric surface. Platform-only capabilities (web-only or mobile-only) are prohibited. Any capability lacking a GT-005 anchor is a finding, not an addition. This constraint is enforced through §14 Traceability Matrix.
-14. Traceability Matrix — `GT-005 Requirement → WEB-003 Workflow → MOB-003 Journey → API Resource → Operation`. Every API operation row MUST have a non-empty GT-005 anchor to satisfy §13.x.
-15. Design Constraints — exclude implementation, endpoint syntax, protocol, DB schema, infrastructure, source code, governance evolution.
+1. **Certification Identity** — id, module (MOD-003), lifecycle state, scope, inputs, standards (SD-001, GT-004, GT-005, TRACEABILITY_STANDARD, FINDING_SEVERITY_STANDARD, GOVERNANCE_FRONTMATTER_STANDARD).
+2. **Artifact Inventory** — confirm presence of GT-005, WEB-003, MOB-003, API-003 at their canonical paths under `docs/45-module-publications/sales/` and `docs/46-solution-design/{web,mobile,api}/sales/`.
+3. **Lifecycle Verification** — Initiation → GT-005 → WEB-003 → MOB-003 → API-003, cross-linked to prior audit reports.
+4. **Functional Coverage** — every GT-005 authority/requirement represented across applicable platforms; no orphans.
+5. **Web Certification** — workflows, navigation, permissions, validation, traceability from WEB-003.
+6. **Mobile Certification** — parity with WEB-003 via §6.9 Mobile–Web Functional Parity, offline model, sync, accessibility, touch.
+7. **API Certification** — §13.x Neutrality clause, GT-005 anchor per operation via §14 Traceability Matrix, resource + operation completeness.
+8. **Cross-Platform Consistency** — GT-005 sole authority; identical business capabilities, rules, permissions, validation, state transitions; differences presentation-only.
+9. **Traceability Certification** — full chain GT-005 → WEB-003 → MOB-003 → API-003 unbroken.
+10. **Repository Registration** — SOLUTION_STATUS, DOCUMENT_INDEX, README, `_meta.json`, `.lovable/plan.md`.
+11. **Findings Summary** — INFO=2 (INFO-01 46/60 surface duality, INFO-02 `_meta.json` grouping); MAJOR=0; CRITICAL=0.
+12. **Certification Decision** — `MOD003_CROSS_PLATFORM_CERTIFIED`.
 
 ## Deliverable B — Verification Report
+Create `docs/50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z.md` in repository-standard 16-check format. Target: 16/16 PASS, INFO=2, MAJOR=0, CRITICAL=0.
 
-Create `docs/50-audit-reports/API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z.md` using the 16-check standard.
-
-**Checklist (16):** Design created; frontmatter complete; traceability complete; resource model complete; operations complete; request/response model complete; auth & authz complete; validation rules complete; error semantics complete; integration & event model complete; cross-platform consistency documented (**including §13.x API Capability Neutrality Clause and its enforcement in the §14 matrix**); no implementation content; no protocol/DB/infra; no governance modifications; registration synchronized; state transition authorized.
-
-**Certification:** 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
-
-**INFO findings (recorded, not corrected):**
-- INFO-01 — API SD directory continues on `docs/46-solution-design/` while legacy `60-` surface persists.
-- INFO-02 — `_meta.json` has no dedicated API SD grouping for the `46-` surface; register at closest existing anchor.
+Checklist: report created, inventory complete, lifecycle verified, GT-005 coverage complete, WEB-003 certified, MOB-003 certified, API-003 certified, cross-platform consistency, traceability complete, registration verified, decision documented, no doc modifications, no implementation, no governance evolution, repository state authorized, certification complete.
 
 ## Deliverable C — Registration Synchronization
-
-- `docs/SOLUTION_STATUS.md` — advance state to `API003_SOLUTION_DESIGNED`; MOD-003 row: Web ✓ / Mobile ✓ / API ✓ / Cross-Platform —; update latest report reference.
-- `docs/DOCUMENT_INDEX.md` — register API-003 Solution Design and verification report.
-- `docs/_meta.json` — register at closest existing anchor (record INFO-02).
-- `docs/46-solution-design/api/README.md` — create/update with MOD-003 Sales entry.
-- `.lovable/plan.md` — append `API003_SOLUTION_DESIGNED`.
+- `docs/SOLUTION_STATUS.md` — advance state to `MOD003_CROSS_PLATFORM_CERTIFIED`; update MOD-003 row (Web ✓, Mobile ✓, API ✓, Cross-Platform ✓); latest report reference.
+- `docs/DOCUMENT_INDEX.md` — register both new audit reports.
+- `docs/_meta.json` — register certification artifacts at closest existing grouping (record INFO-02).
+- `docs/46-solution-design/README.md` — add MOD-003 Cross-Platform Certification entry.
+- `.lovable/plan.md` — append `MOD003_CROSS_PLATFORM_CERTIFIED`.
 
 ## Constraints
-
-No Web/Mobile modifications. No implementation, protocol/endpoint syntax, HTTP method definitions, DB design, infrastructure, source code, or governance evolution. MOD-001 and MOD-002 artifacts unchanged. Discovered inconsistencies recorded as findings, not corrected.
+Read-only certification. No edits to GT-005/WEB-003/MOB-003/API-003. MOD-001 and MOD-002 unchanged. Inconsistencies are recorded as findings, not corrected.
 
 ## Exit Criteria
-
-- API-003 Solution Design authored (including §13.x API Capability Neutrality Clause).
-- 16/16 PASS verification (INFO=2, MAJOR=0, CRITICAL=0).
-- Registration synchronized across all surfaces.
-- Repository state: **`API003_SOLUTION_DESIGNED`**.
-- Authorizes Pass 38.5.0 — MOD-003 Cross-Platform Certification.
-
-## Pass 38.4.0 — API-003 Solution Design (MOD-003 Sales) — COMPLETE
-
-- Authored `docs/46-solution-design/api/sales/API-003_SOLUTION_DESIGN.md` (§1–§16) including §13.x API Capability Neutrality Clause (subclauses 13.x.1–13.x.5) and a 40-row §14 Traceability Matrix where every row carries a non-empty GT-005 anchor.
-- Emitted `docs/50-audit-reports/API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z.md` — 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
-- Created `docs/46-solution-design/api/README.md`; updated `docs/SOLUTION_STATUS.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
-- Repository state advanced: `MOB003_SOLUTION_DESIGNED` → `API003_SOLUTION_DESIGNED`.
-- Authorizes Pass 38.5.0 — MOD-003 Cross-Platform Certification.
+Both reports authored; 16/16 PASS with INFO=2/MAJOR=0/CRITICAL=0; registration synchronized; repository state `MOD003_CROSS_PLATFORM_CERTIFIED`. Authorizes Pass 38.6.0.
