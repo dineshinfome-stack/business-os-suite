@@ -23,7 +23,7 @@ document_type: "Status Register"
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
 | MOD-001 Platform Administration | ✓ | ✓ | ✓ | ✓ | ✓ Reference Implementation Certified | `REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z` |
 | MOD-002 Accounting | ✓ | ✓ | ✓ | ✓ | ✓ Reference Module Frozen (`MOD002-REL-001`) | `MOD002_REFERENCE_MODULE_FREEZE_20260719T130000Z` |
-| MOD-003 Sales | ✓ | — | — | — | — Publication Authored | `MOD003_PUBLICATION_VERIFICATION_20260719T170000Z` |
+| MOD-003 Sales | ✓ | ◐ | — | — | — Web Solution Design Complete | `WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z` |
 | MOD-017 Analytics | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260717T220000Z` |
 | MOD-018 AI Workspace | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260718T060000Z` |
 
