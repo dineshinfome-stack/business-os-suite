@@ -517,6 +517,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOB-018 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md` |
 | API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
 | API-001 — Platform Administration API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-001_PLATFORM_ADMINISTRATION.md` |
+| API-002 — Accounting API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-002_ACCOUNTING.md` |
 | API-017 — Analytics API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-017_ANALYTICS.md` |
 | API-018 — AI Workspace API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-018_AI_WORKSPACE.md` |
 
