@@ -1,82 +1,61 @@
-# Pass 37.5.0 — MOD-002 Cross-Platform Certification
+# Pass 37.6.0 — MOD-002 Implementation Readiness & Repository Release Certification
 
-## Objective
-Read-only certification that MOD-002 Publication, WEB-002, MOB-002, and API-002 are functionally equivalent, internally consistent, and implementation-ready. Advance repository state from `MOD002_API_SOLUTION_DESIGN_COMPLETE` → `MOD002_CROSS_PLATFORM_CERTIFIED`.
+Read-only release-readiness certification. No functional specification or governance changes. Only release artifacts and registration surfaces are written.
 
-## Nature
-Read-only. Zero modifications to Publication, WEB-002, MOB-002, API-002. Zero governance evolution. Zero implementation. Only certification artifacts and registration surfaces are written.
+## Repository State
 
-## Authoritative Inputs (read-only)
-- `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` (22 authorities, 14 engines, 8 ADRs)
+- **In:** `MOD002_CROSS_PLATFORM_CERTIFIED`
+- **Out:** `MOD002_IMPLEMENTATION_READY`
+
+## Inputs (read-only)
+
+- `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md`
 - `docs/60-solution-design/web/WEB-002_ACCOUNTING.md`
 - `docs/60-solution-design/mobile/MOB-002_ACCOUNTING.md`
 - `docs/60-solution-design/api/API-002_ACCOUNTING.md`
-- Four prior verification reports (GT-005, WEB-002, MOB-002, API-002)
-- `docs/15-governance/FINDING_SEVERITY_STANDARD.md`, SD-001, Frontmatter Standard
-- Supporting: MOD-002 Baseline, PRD, Sprint PRDs, Engine Catalog, ADR Index
+- `docs/50-audit-reports/MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z.md`
+- `docs/50-audit-reports/MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z.md`
+- `docs/40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`, `docs/20-module-prds/accounting/MODULE_PRD.md`, `docs/30-sprint-prds/accounting/*` (SPR-MOD-002-001…006)
+- `docs/10-erp-core/ENGINE_CATALOG.md`, `docs/11-adrs/ADR_INDEX.md`
+- `docs/SOLUTION_STATUS.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`
+- Governance: SD-001, `GOVERNANCE_FRONTMATTER_STANDARD`, `FINDING_SEVERITY_STANDARD`
 
 ## Deliverables
 
-### A. Cross-Platform Certification Report
-Create `docs/50-audit-reports/MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z.md` with sections:
-1. Certification Metadata
+### A. Implementation Readiness Report
+Create `docs/50-audit-reports/MOD002_IMPLEMENTATION_READINESS_20260719T100000Z.md` with sections:
+1. Repository Metadata (report ID, pass 37.6.0, state in/out)
 2. Scope
 3. Inputs Reviewed
-4. Repository State (in/out)
-5. Executive Summary
-6. Certification Matrix (B–H below embedded)
-7. Findings (severity-classified per FINDING_SEVERITY_STANDARD)
-8. Repository Certification (rule: MAJOR=0, CRITICAL=0)
-9. State Transition record
-
-Embedded matrices:
-- **B. Cross-Platform Consistency Matrix** — 22 authorities × {Publication, WEB, Mobile, API}; flag orphan/missing/contradictory.
-- **C. Traceability Certification** — authority → WEB pages, Mobile screens (`MOD002-SCR-NNN`), API endpoints (`API002-EP-NNN`), journeys, forms, engines, ADRs; bidirectional.
-- **D. Platform Parity** — six pairwise comparisons (Pub↔WEB, Pub↔Mobile, Pub↔API, WEB↔Mobile, WEB↔API, Mobile↔API).
-- **E. Workflow Certification** — journeys, forms, APIs, validation, engine invocations across platforms.
-- **F. Engine Certification** — 14 engines from Publication §11 consistently referenced.
-- **G. ADR Certification** — 8 ADRs (`ADR-011/-012/-013/-014/-015/-032/-051/-053`) consistent.
-- **H. Cross-Module Certification** — MOD-001/-003/-004/-005/-008/-015/-017 references identical across WEB/MOB/API.
+4. Readiness Assessment
+5. Artifact Completeness — Repository Completeness Matrix (10 rows)
+6. **Certified Release Manifest (Informational)** — canonical inventory table (Artifact | Identifier | Status | Certification) covering Baseline, PRD, Sprint PRDs, GT-005, WEB-002, MOB-002, API-002, Cross-Platform Certification, this Readiness Report, and its Verification. Follows with the "Certified Release Package Complete" summary and the explicit informational-only statement: *"The Certified Release Manifest is an informational inventory only. It introduces no additional certification criteria and does not modify repository governance."* Not registered as a separate artifact; exists solely as a section herein.
+7. Traceability Readiness — end-to-end chain Baseline→PRD→Sprints→GT-005→WEB/MOB/API→Engines→ADRs; 22/22 authorities bidirectional
+8. Governance Compliance (SD-001, Frontmatter, Finding Severity, Screen Identifier)
+9. Repository Readiness Assessment (registrations, metadata sync, canonical IDs, no orphans, no unresolved findings)
+10. Release Recommendation: **APPROVED FOR IMPLEMENTATION** with concise justification
+11. Repository State Transition
 
 ### B. Verification Report
-Create `docs/50-audit-reports/MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z.md` with the 16-check Certification Checklist (Check/Result/Action table + Verification Summary: Checklist Items = Passed + Remediated + Failed). Certification rule: MAJOR=0 ∧ CRITICAL=0.
+Create `docs/50-audit-reports/MOD002_IMPLEMENTATION_READINESS_VERIFICATION_20260719T110000Z.md` with the 16-check verification table under `FINDING_SEVERITY_STANDARD v1.0`. The Manifest is informational and does not add checks or alter scoring. Expected: 16/16 PASS, MAJOR=0, CRITICAL=0.
 
-### C. Registration (only)
-Update — no Solution Design docs touched:
-- `docs/SOLUTION_STATUS.md` (create if absent; record `MOD002_CROSS_PLATFORM_CERTIFIED`)
-- `docs/DOCUMENT_INDEX.md` (add both certification artifacts)
-- `docs/_meta.json` (add both artifacts under audit reports group)
-- `.lovable/plan.md` (append execution record `MOD002-CPC-20260719T080000Z-001`)
+### C. Registration Surfaces (only)
+- `docs/SOLUTION_STATUS.md` — advance state to `MOD002_IMPLEMENTATION_READY`.
+- `docs/DOCUMENT_INDEX.md` — register both new reports.
+- `docs/_meta.json` — register both new reports under audit-reports.
+- `.lovable/plan.md` — append execution record `MOD002_IMPLEMENTATION_READINESS`.
 
-## Method
-1. Read all four specs and four prior verification reports in parallel.
-2. Build the 22-row authority matrix in memory; cross-check WEB pages, Mobile Screen IDs, API endpoint IDs, engines, ADRs.
-3. Classify any divergence by severity (INFO/MINOR/MAJOR/CRITICAL); do not remediate.
-4. Emit both certification artifacts, then registration updates.
-
-## Findings Handling
-- Platform-specific presentation differences authorized by Publication/ADRs = compliant (no finding).
-- Functional divergence = MAJOR or CRITICAL; blocks certification.
-- Documentation gaps without functional impact = MINOR/INFO; permitted.
+## Manifest Constraints (per user enhancement)
+- No modification to verification scoring or exit criteria.
+- No new repository states.
+- Manifest not registered as an independent artifact; lives only inside the Readiness Report.
+- Reflects repository state at certification time; not an independent source of truth.
 
 ## Out of Scope
-No edits to Publication, WEB-002, MOB-002, API-002, engines, ADRs, or governance. No code, DB, or new specs.
+Code, DB, UI, infra, ADR/engine authoring, specification edits, governance evolution, restructuring. Findings documented, never remediated in this pass.
 
 ## Exit Criteria
-- Both certification artifacts emitted.
-- 22 authorities certified across all three platforms.
-- MAJOR=0, CRITICAL=0.
-- Registration surfaces updated.
-- Repository state → `MOD002_CROSS_PLATFORM_CERTIFIED`; authorizes Pass 37.6.0.
-
-## Execution Record — MOD002-CPC-20260719T080000Z-001
-
-- **Pass:** 37.5.0 — MOD-002 Cross-Platform Certification
-- **State:** MOD002_API_SOLUTION_DESIGN_COMPLETE → MOD002_CROSS_PLATFORM_CERTIFIED
-- **Artifacts:**
-  - `docs/50-audit-reports/MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z.md`
-  - `docs/50-audit-reports/MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z.md`
-  - `docs/SOLUTION_STATUS.md` (created)
-  - `docs/DOCUMENT_INDEX.md` (registration only)
-- **Outcome:** ✅ CERTIFIED — 16/16 PASS; MAJOR = 0; CRITICAL = 0.
-- **Authorizes:** Pass 37.6.0 — MOD-002 Implementation Readiness & Repository Release Certification.
+- Both reports authored; 16/16 PASS; MAJOR=0, CRITICAL=0.
+- Registration surfaces synchronized.
+- Repository state → `MOD002_IMPLEMENTATION_READY`.
+- Authorizes Pass 37.7.0 — MOD-002 Release Packaging & Reference Module Freeze.
