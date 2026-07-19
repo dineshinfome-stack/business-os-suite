@@ -15,7 +15,7 @@ document_type: "Status Register"
 
 ## Current Repository State
 
-**`MOD003_LIFECYCLE_INITIATED`** — as of `2026-07-19` per `MOD003_LIFECYCLE_INITIATION_20260719T150000Z` (verified by `MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z`). Prior state: `MOD002_REFERENCE_MODULE_FROZEN` (release `MOD002-REL-001`, frozen).
+**`MOD003_PUBLICATION_AUTHORED`** — as of `2026-07-19` per `MOD003_PUBLICATION_VERIFICATION_20260719T170000Z` (16/16 PASS; MAJOR=0; CRITICAL=0). Prior state: `MOD003_LIFECYCLE_INITIATED` (per `MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z`).
 
 ## Module Certification Register
 
@@ -23,7 +23,7 @@ document_type: "Status Register"
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
 | MOD-001 Platform Administration | ✓ | ✓ | ✓ | ✓ | ✓ Reference Implementation Certified | `REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z` |
 | MOD-002 Accounting | ✓ | ✓ | ✓ | ✓ | ✓ Reference Module Frozen (`MOD002-REL-001`) | `MOD002_REFERENCE_MODULE_FREEZE_20260719T130000Z` |
-| MOD-003 Sales | — | — | — | — | — Lifecycle Initiated | `MOD003_LIFECYCLE_INITIATION_20260719T150000Z` |
+| MOD-003 Sales | ✓ | — | — | — | — Publication Authored | `MOD003_PUBLICATION_VERIFICATION_20260719T170000Z` |
 | MOD-017 Analytics | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260717T220000Z` |
 | MOD-018 AI Workspace | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260718T060000Z` |
 

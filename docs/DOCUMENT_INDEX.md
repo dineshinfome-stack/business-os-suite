@@ -276,6 +276,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD002_RELEASE_PACKAGE_VERIFICATION_20260719T140000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD002_RELEASE_PACKAGE_VERIFICATION_20260719T140000Z.md` |
 | MOD003_LIFECYCLE_INITIATION_20260719T150000Z | Lifecycle Initiation Report | Active | Authoritative | `docs/50-audit-reports/MOD003_LIFECYCLE_INITIATION_20260719T150000Z.md` |
 | MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z.md` |
+| MOD003_PUBLICATION_VERIFICATION_20260719T170000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD003_PUBLICATION_VERIFICATION_20260719T170000Z.md` |
 | Repository Solution Status | Status Register | Active | Derived | `docs/SOLUTION_STATUS.md` |
 | MOD003_SALES_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md` |
 | MOD004_PURCHASE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD004_PURCHASE_BASELINE_v1.md` |
@@ -296,6 +297,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD019_WAREHOUSE_BASELINE_v1 | Module Baseline | Approved | Authoritative | `docs/40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1.md` |
 | MOD-001_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md` |
 | MOD-002_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md` |
+| MOD-003_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/sales/MOD-003_MODULE_PUBLICATION.md` |
 | MOD-017_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md` |
 | MOD-018_MODULE_PUBLICATION | Module Publication | Published | Authoritative | `docs/45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md` |
 | Module Baseline Catalog | Cross-cutting | Approved | Derived | `docs/MODULE_BASELINE_CATALOG.md` |
