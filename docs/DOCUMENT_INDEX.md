@@ -274,6 +274,8 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD002_RELEASE_PACKAGE_MANIFEST_20260719T120000Z | Release Manifest | Active | Authoritative | `docs/50-audit-reports/MOD002_RELEASE_PACKAGE_MANIFEST_20260719T120000Z.md` |
 | MOD002_REFERENCE_MODULE_FREEZE_20260719T130000Z | Freeze Report | Active | Authoritative | `docs/50-audit-reports/MOD002_REFERENCE_MODULE_FREEZE_20260719T130000Z.md` |
 | MOD002_RELEASE_PACKAGE_VERIFICATION_20260719T140000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD002_RELEASE_PACKAGE_VERIFICATION_20260719T140000Z.md` |
+| MOD003_LIFECYCLE_INITIATION_20260719T150000Z | Lifecycle Initiation Report | Active | Authoritative | `docs/50-audit-reports/MOD003_LIFECYCLE_INITIATION_20260719T150000Z.md` |
+| MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z.md` |
 | Repository Solution Status | Status Register | Active | Derived | `docs/SOLUTION_STATUS.md` |
 | MOD003_SALES_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md` |
 | MOD004_PURCHASE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD004_PURCHASE_BASELINE_v1.md` |
