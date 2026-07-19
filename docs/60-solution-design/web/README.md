@@ -37,6 +37,7 @@ Every WEB specification MUST reference: Published Module, Module PRD, Sprint Pla
 | WEB-002 | MOD-002 Accounting | MOD-002_MODULE_PUBLICATION | Active | Accounting | 2026-07-19 | [`WEB-002_ACCOUNTING.md`](./WEB-002_ACCOUNTING.md) |
 | WEB-017 | MOD-017 Analytics | MOD-017_MODULE_PUBLICATION | Active | Insights | 2026-07-18 | [`WEB-017_ANALYTICS.md`](./WEB-017_ANALYTICS.md) |
 | WEB-018 | MOD-018 AI Workspace | MOD-018_MODULE_PUBLICATION | Active | AI Platform | 2026-07-18 | [`WEB-018_AI_WORKSPACE.md`](./WEB-018_AI_WORKSPACE.md) |
+| WEB-003 | MOD-003 Sales | MOD-003_MODULE_PUBLICATION | WEB003_SOLUTION_DESIGNED | Sales | 2026-07-19 | [`../../46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN.md`](../../46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN.md) — authored under the `46-` surface per Pass 38.2.0 direction; see `WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z` INFO-01 |
 
 
 
