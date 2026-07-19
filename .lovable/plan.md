@@ -59,3 +59,12 @@ WEB-003 authored; 16/16 PASS verification; all registration surfaces synchronize
 
 - Path divergence: prior WEB-001/WEB-002 live under `docs/60-solution-design/web/`; this pass instructs `docs/46-solution-design/web/sales/` and its README. Will follow the instruction literally and log an INFO finding noting the divergence for future reconciliation.
 - Verification timestamp: `20260719T180000Z` per instruction.
+
+
+## Pass 38.2.0 — WEB-003 Solution Design (MOD-003 Sales)
+
+- State: `MOD003_PUBLICATION_AUTHORED` → `WEB003_SOLUTION_DESIGNED`
+- Authored `docs/46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN.md`
+- Verification: `WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z` — 16/16 PASS; MAJOR=0; CRITICAL=0
+- Registration synchronized: SOLUTION_STATUS.md, DOCUMENT_INDEX.md, _meta.json, docs/46-solution-design/web/README.md, docs/60-solution-design/web/README.md
+- WEB003_SOLUTION_DESIGNED
