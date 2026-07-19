@@ -4,7 +4,7 @@ summary: "Current repository lifecycle state and per-module certification status
 layer: "governance"
 owner: "Governance"
 status: "active"
-updated: "2026-07-19"
+updated: "2026-07-20"
 tags: ["governance", "status", "certification"]
 document_type: "Status Register"
 ---
@@ -15,7 +15,7 @@ document_type: "Status Register"
 
 ## Current Repository State
 
-**`MOD003_RELEASE_READY`** — as of `2026-07-20` per `MOD003_RELEASE_READINESS_AUDIT_20260720T002000Z` (16/16 PASS; MAJOR=0; CRITICAL=0). Prior state: `MOD003_UAT_ACCEPTED` (per `MOD003_USER_ACCEPTANCE_AUDIT_20260720T000500Z`).
+**`MOD003_PRODUCTION_RELEASED`** — as of `2026-07-20` per `MOD003_PRODUCTION_RELEASE_AUDIT_20260720T003500Z` (16/16 PASS; MAJOR=0; CRITICAL=0). Prior state: `MOD003_RELEASE_READY` (per `MOD003_RELEASE_READINESS_AUDIT_20260720T002000Z`).
 
 ## Module Certification Register
 
@@ -23,7 +23,7 @@ document_type: "Status Register"
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
 | MOD-001 Platform Administration | ✓ | ✓ | ✓ | ✓ | ✓ Reference Implementation Certified | `REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z` |
 | MOD-002 Accounting | ✓ | ✓ | ✓ | ✓ | ✓ Reference Module Frozen (`MOD002-REL-001`) | `MOD002_REFERENCE_MODULE_FREEZE_20260719T130000Z` |
-| MOD-003 Sales | ✓ | ✓ | ✓ | ✓ | ✓ Release Ready | `MOD003_RELEASE_READINESS_REPORT_20260720T001500Z` |
+| MOD-003 Sales | ✓ | ✓ | ✓ | ✓ | ✓ Production Released | `MOD003_PRODUCTION_RELEASE_REPORT_20260720T003000Z` |
 | MOD-017 Analytics | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260717T220000Z` |
 | MOD-018 AI Workspace | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260718T060000Z` |
 
