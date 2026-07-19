@@ -15,7 +15,7 @@ document_type: "Status Register"
 
 ## Current Repository State
 
-**`MOD003_ENGINEERING_COMPLETE`** — as of `2026-07-19` per `MOD003_ENGINEERING_COMPLETION_VERIFICATION_20260719T233500Z` (16/16 PASS; MAJOR=0; CRITICAL=0). Prior state: `MOD003_ENGINEERING_IN_PROGRESS` (per `MOD003_ENGINEERING_EXECUTION_VERIFICATION_20260719T230500Z`).
+**`MOD003_SYSTEM_VERIFIED`** — as of `2026-07-19` per `MOD003_SYSTEM_VERIFICATION_AUDIT_20260719T235000Z` (16/16 PASS; MAJOR=0; CRITICAL=0). Prior state: `MOD003_ENGINEERING_COMPLETE` (per `MOD003_ENGINEERING_COMPLETION_VERIFICATION_20260719T233500Z`).
 
 ## Module Certification Register
 
@@ -23,7 +23,7 @@ document_type: "Status Register"
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
 | MOD-001 Platform Administration | ✓ | ✓ | ✓ | ✓ | ✓ Reference Implementation Certified | `REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z` |
 | MOD-002 Accounting | ✓ | ✓ | ✓ | ✓ | ✓ Reference Module Frozen (`MOD002-REL-001`) | `MOD002_REFERENCE_MODULE_FREEZE_20260719T130000Z` |
-| MOD-003 Sales | ✓ | ✓ | ✓ | ✓ | ✓ Engineering Complete | `MOD003_ENGINEERING_COMPLETION_REVIEW_20260719T233000Z` |
+| MOD-003 Sales | ✓ | ✓ | ✓ | ✓ | ✓ System Verified | `MOD003_SYSTEM_VERIFICATION_REPORT_20260719T234500Z` |
 | MOD-017 Analytics | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260717T220000Z` |
 | MOD-018 AI Workspace | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260718T060000Z` |
 
