@@ -22,7 +22,7 @@ document_type: "Status Register"
 | Module | Publication | WEB | Mobile | API | Cross-Platform | Latest Report |
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
 | MOD-001 Platform Administration | ✓ | ✓ | ✓ | ✓ | ✓ Reference Implementation Certified | `REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z` |
-| MOD-002 Accounting | ✓ | ✓ | ✓ | ✓ | ✓ Cross-Platform Certified | `MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z` |
+| MOD-002 Accounting | ✓ | ✓ | ✓ | ✓ | ✓ Implementation Ready | `MOD002_IMPLEMENTATION_READINESS_20260719T100000Z` |
 | MOD-017 Analytics | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260717T220000Z` |
 | MOD-018 AI Workspace | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260718T060000Z` |
 
