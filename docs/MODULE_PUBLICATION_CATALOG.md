@@ -35,6 +35,7 @@ This catalog SHOULD be updated whenever a Module Publication is authored or supe
 | --- | --- | --- | --- | --- |
 | MOD-001_MODULE_PUBLICATION | MOD-001 Platform Administration | MOD001_PLATFORM_BASELINE_v1 | Published | [`45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md`](45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md) |
 | MOD-002_MODULE_PUBLICATION | MOD-002 Accounting | MOD002_ACCOUNTING_BASELINE_v1 | Published | [`45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md`](45-module-publications/accounting/MOD-002_MODULE_PUBLICATION.md) |
+| MOD-003_MODULE_PUBLICATION | MOD-003 Sales | MOD003_SALES_BASELINE_v1 | Published | [`45-module-publications/sales/MOD-003_MODULE_PUBLICATION.md`](45-module-publications/sales/MOD-003_MODULE_PUBLICATION.md) |
 | MOD-017_MODULE_PUBLICATION | MOD-017 Analytics | MOD017_ANALYTICS_BASELINE_v1 | Published | [`45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md`](45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md) |
 | MOD-018_MODULE_PUBLICATION | MOD-018 AI Workspace | MOD018_AI_WORKSPACE_BASELINE_v1 | Published | [`45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md`](45-module-publications/ai/MOD-018_MODULE_PUBLICATION.md) |
 

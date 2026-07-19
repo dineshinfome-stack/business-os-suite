@@ -67,3 +67,11 @@ Create `docs/50-audit-reports/MOD003_PUBLICATION_VERIFICATION_20260719T170000Z.m
 - Registration synchronized across SOLUTION_STATUS, DOCUMENT_INDEX, _meta.json, publications README, publication catalog, plan
 - Repository state: `MOD003_PUBLICATION_AUTHORED`
 - Authorizes Pass 38.2.0 — WEB-003
+
+## Pass 38.1.0 — MOD-003 Module Publication (GT-005) Authoring
+
+- State: `MOD003_LIFECYCLE_INITIATED` → **`MOD003_PUBLICATION_AUTHORED`**
+- Authored: `docs/45-module-publications/sales/MOD-003_MODULE_PUBLICATION.md`
+- Verification: `docs/50-audit-reports/MOD003_PUBLICATION_VERIFICATION_20260719T170000Z.md` — 16/16 PASS; MAJOR=0; CRITICAL=0
+- Registration synchronized: SOLUTION_STATUS, DOCUMENT_INDEX, MODULE_PUBLICATION_CATALOG, 45-module-publications/README, .lovable/plan
+- Authorizes: Pass 38.2.0 — WEB-003
