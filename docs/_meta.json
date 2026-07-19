@@ -1,71 +1,25 @@
 {
+  "_comment_navigation_duplication_policy": "Some documents intentionally appear in multiple navigation groups. These are alternate navigation entry points \u2014 not duplicate documentation. Examples: SOLUTION_STATUS, 50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP, individual Sprint PRDs. The repository remains the single source of truth. Navigation duplication is permitted only when it improves usability. Document duplication is never permitted.",
+  "_comment_future_module_navigation_standard": "Every future module (MOD-020+, future AI modules, plug-ins, industry extensions) shall expose only: Overview, Baseline, Publication, WEB Solution Design, Mobile Solution Design, API Solution Design, Cross-Platform Certification, Sprints. Execution artifacts (Implementation Planning, Engineering, Verification, User Acceptance, Release, Production, Post Release) shall never appear inside module navigation and must remain centralized under the global Delivery \u2014 <Phase> sections. Module navigation contains implementation inputs; Delivery navigation contains implementation history. No exceptions unless the navigation architecture is formally revised.",
   "groups": [
     {
-      "label": "Overview",
+      "label": "Dashboard",
       "items": [
         {
           "title": "Home",
           "path": ""
         },
         {
-          "title": "Canon",
-          "path": "canon"
+          "title": "Solution Status",
+          "path": "SOLUTION_STATUS"
         },
         {
-          "title": "Glossary",
-          "path": "glossary"
+          "title": "Business OS Execution Roadmap",
+          "path": "50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP"
         },
         {
-          "title": "Governance",
-          "path": "governance"
-        },
-        {
-          "title": "Performance",
-          "path": "performance"
-        },
-        {
-          "title": "Migration Strategy",
-          "path": "migration-strategy"
-        },
-        {
-          "title": "Module Dependency Matrix",
-          "path": "module-dependency-matrix"
-        },
-        {
-          "title": "Decision Register",
-          "path": "decision-register"
-        },
-        {
-          "title": "Foundation Freeze v1",
-          "path": "FOUNDATION_FREEZE_v1"
-        },
-        {
-          "title": "Repository Map",
-          "path": "REPOSITORY_MAP"
-        },
-        {
-          "title": "Document Index",
-          "path": "DOCUMENT_INDEX"
-        },
-        {
-          "title": "Document Ownership Matrix",
-          "path": "DOCUMENT_OWNERSHIP_MATRIX"
-        },
-        {
-          "title": "Document Traceability",
-          "path": "DOCUMENT_TRACEABILITY"
-        },
-        {
-          "title": "Glossary Index",
-          "path": "GLOSSARY_INDEX"
-        },
-        {
-          "title": "Engine Usage Matrix",
-          "path": "ENGINE_USAGE_MATRIX"
-        },
-        {
-          "title": "ADR Impact Matrix",
-          "path": "ADR_IMPACT_MATRIX"
+          "title": "Repository Inventory Report",
+          "path": "50-audit-reports/REPOSITORY_INVENTORY_REPORT_20260720T020000Z"
         },
         {
           "title": "Module Catalog",
@@ -76,39 +30,88 @@
           "path": "MODULE_BASELINE_CATALOG"
         },
         {
-          "title": "Sprint Authoring Guide",
-          "path": "SPRINT_AUTHORING_GUIDE"
+          "title": "Module Publication Catalog",
+          "path": "MODULE_PUBLICATION_CATALOG"
+        }
+      ]
+    },
+    {
+      "label": "Execution Workspace",
+      "items": [
+        {
+          "title": "Current Wave",
+          "path": "SOLUTION_STATUS"
         },
+        {
+          "title": "Current Module",
+          "path": "SOLUTION_STATUS"
+        },
+        {
+          "title": "Current Sprint",
+          "path": "SOLUTION_STATUS"
+        },
+        {
+          "title": "Next Action",
+          "path": "SOLUTION_STATUS"
+        },
+        {
+          "title": "Ready Modules",
+          "path": "50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP"
+        },
+        {
+          "title": "Blocked Modules",
+          "path": "50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP"
+        },
+        {
+          "title": "Build Readiness",
+          "path": "50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP"
+        },
+        {
+          "title": "Current Risks",
+          "path": "50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP"
+        }
+      ]
+    },
+    {
+      "label": "Implementation Roadmap",
+      "items": [
         {
           "title": "Sprint Roadmap",
           "path": "SPRINT_ROADMAP"
-        },
-        {
-          "title": "Sprint Estimation Guide",
-          "path": "SPRINT_ESTIMATION_GUIDE"
         },
         {
           "title": "Sprint Dependency Matrix",
           "path": "SPRINT_DEPENDENCY_MATRIX"
         },
         {
+          "title": "Sprint Authoring Guide",
+          "path": "SPRINT_AUTHORING_GUIDE"
+        },
+        {
+          "title": "Sprint Estimation Guide",
+          "path": "SPRINT_ESTIMATION_GUIDE"
+        },
+        {
           "title": "Module Implementation Workflow",
           "path": "MODULE_IMPLEMENTATION_WORKFLOW"
+        },
+        {
+          "title": "Foundation Freeze v1",
+          "path": "FOUNDATION_FREEZE_v1"
+        },
+        {
+          "title": "Product Documentation Baseline v1",
+          "path": "PRODUCT_DOCUMENTATION_BASELINE_v1"
         }
       ]
     },
     {
-      "label": "00 Vision",
+      "label": "Foundation",
       "items": [
         {
           "title": "Vision",
           "path": "00-vision/vision"
-        }
-      ]
-    },
-    {
-      "label": "01 Master",
-      "items": [
+        },
         {
           "title": "Master PRD",
           "path": "01-master/prd"
@@ -148,7 +151,7 @@
       ]
     },
     {
-      "label": "02 Architecture",
+      "label": "Architecture",
       "items": [
         {
           "title": "Architecture Index",
@@ -225,11 +228,19 @@
         {
           "title": "Integration Architecture",
           "path": "02-architecture/integration-architecture"
+        },
+        {
+          "title": "Performance",
+          "path": "performance"
+        },
+        {
+          "title": "Migration Strategy",
+          "path": "migration-strategy"
         }
       ]
     },
     {
-      "label": "03 Design",
+      "label": "Design System",
       "items": [
         {
           "title": "UI/UX Design System",
@@ -242,129 +253,2022 @@
         {
           "title": "Coding Standards",
           "path": "03-design/coding-standards"
+        },
+        {
+          "title": "Activity Feed",
+          "path": "12-ui-components/activity-feed"
+        },
+        {
+          "title": "Approval Timeline",
+          "path": "12-ui-components/approval-timeline"
+        },
+        {
+          "title": "Dashboard Cards",
+          "path": "12-ui-components/dashboard-cards"
+        },
+        {
+          "title": "Data Grid",
+          "path": "12-ui-components/data-grid"
+        },
+        {
+          "title": "Filter Panel",
+          "path": "12-ui-components/filter-panel"
+        },
+        {
+          "title": "Lookup Dialog",
+          "path": "12-ui-components/lookup-dialog"
+        },
+        {
+          "title": "Master Form",
+          "path": "12-ui-components/master-form"
+        },
+        {
+          "title": "Voucher Grid",
+          "path": "12-ui-components/voucher-grid"
         }
       ]
     },
     {
-      "label": "04 Domains — Foundation",
+      "label": "Modules \u2014 MOD-001 Platform Administration",
       "items": [
         {
-          "title": "Authentication",
+          "title": "MOD-001 Platform Administration \u2014 Overview",
+          "path": "20-module-prds/platform/MODULE_PRD"
+        },
+        {
+          "title": "MOD-001 Platform Administration \u2014 Baseline",
+          "path": "40-module-baselines/MOD001_PLATFORM_BASELINE_v1"
+        },
+        {
+          "title": "MOD-001 Platform Administration \u2014 Publication",
+          "path": "45-module-publications/platform/MOD-001_MODULE_PUBLICATION"
+        },
+        {
+          "title": "MOD-001 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/platform/MOD-001_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-001-001 \u2014 Tenancy Foundation",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation"
+        },
+        {
+          "title": "SPR-MOD-001-002 \u2014 Organization Structure",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-002-organization-structure"
+        },
+        {
+          "title": "SPR-MOD-001-003 \u2014 Users Roles Permissions",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions"
+        },
+        {
+          "title": "SPR-MOD-001-004 \u2014 Configuration Hierarchy",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy"
+        },
+        {
+          "title": "SPR-MOD-001-005 \u2014 Localization Packs",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-005-localization-packs"
+        },
+        {
+          "title": "SPR-MOD-001-006 \u2014 Audit Review Platform Administration",
+          "path": "30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-002 Accounting",
+      "items": [
+        {
+          "title": "MOD-002 Accounting \u2014 Overview",
+          "path": "20-module-prds/accounting/MODULE_PRD"
+        },
+        {
+          "title": "MOD-002 Accounting \u2014 Baseline",
+          "path": "40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1"
+        },
+        {
+          "title": "MOD-002 Accounting \u2014 Publication",
+          "path": "45-module-publications/accounting/MOD-002_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-002 \u2014 Web Solution Design",
+          "path": "60-solution-design/web/WEB-002_ACCOUNTING"
+        },
+        {
+          "title": "MOB-002 \u2014 Mobile Solution Design",
+          "path": "60-solution-design/mobile/MOB-002_ACCOUNTING"
+        },
+        {
+          "title": "API-002 \u2014 API Solution Design",
+          "path": "60-solution-design/api/API-002_ACCOUNTING"
+        },
+        {
+          "title": "MOD-002 \u2014 Cross-Platform Certification",
+          "path": "50-audit-reports/MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z"
+        },
+        {
+          "title": "MOD-002 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-002-001 \u2014 Accounting Foundation",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation"
+        },
+        {
+          "title": "SPR-MOD-002-002 \u2014 Voucher Framework",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework"
+        },
+        {
+          "title": "SPR-MOD-002-003 \u2014 Journal Ledger Posting",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting"
+        },
+        {
+          "title": "SPR-MOD-002-004 \u2014 Financial Statements",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements"
+        },
+        {
+          "title": "SPR-MOD-002-005 \u2014 Taxation Compliance Foundation",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation"
+        },
+        {
+          "title": "SPR-MOD-002-006 \u2014 Period Close Audit",
+          "path": "30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-003 Sales",
+      "items": [
+        {
+          "title": "MOD-003 Sales \u2014 Overview",
+          "path": "20-module-prds/sales/MODULE_PRD"
+        },
+        {
+          "title": "MOD-003 Sales \u2014 Baseline",
+          "path": "40-module-baselines/MOD003_SALES_BASELINE_v1"
+        },
+        {
+          "title": "MOD-003 Sales \u2014 Publication",
+          "path": "45-module-publications/sales/MOD-003_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-003 \u2014 Web Solution Design",
+          "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-003 \u2014 Mobile Solution Design",
+          "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-003 \u2014 API Solution Design",
+          "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOD-003 \u2014 Cross-Platform Certification",
+          "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z"
+        },
+        {
+          "title": "MOD-003 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/sales/MOD-003_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-003-001 \u2014 Sales Foundation",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation"
+        },
+        {
+          "title": "SPR-MOD-003-002 \u2014 Quotations Sales Orders",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders"
+        },
+        {
+          "title": "SPR-MOD-003-003 \u2014 Delivery Fulfillment",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment"
+        },
+        {
+          "title": "SPR-MOD-003-004 \u2014 Sales Invoicing",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing"
+        },
+        {
+          "title": "SPR-MOD-003-005 \u2014 Returns Customer Adjustments",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments"
+        },
+        {
+          "title": "SPR-MOD-003-006 \u2014 Sales Analytics Controls",
+          "path": "30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-004 Purchase",
+      "items": [
+        {
+          "title": "MOD-004 Purchase \u2014 Overview",
+          "path": "20-module-prds/purchase/MODULE_PRD"
+        },
+        {
+          "title": "MOD-004 Purchase \u2014 Baseline",
+          "path": "40-module-baselines/MOD004_PURCHASE_BASELINE_v1"
+        },
+        {
+          "title": "MOD-004 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/purchase/MOD-004_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-004-001 \u2014 Purchase Foundation",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation"
+        },
+        {
+          "title": "SPR-MOD-004-002 \u2014 Requisitions Rfqs Purchase Orders",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders"
+        },
+        {
+          "title": "SPR-MOD-004-003 \u2014 Goods Receipt Inspection",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection"
+        },
+        {
+          "title": "SPR-MOD-004-004 \u2014 Vendor Billing 3 Way Match",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match"
+        },
+        {
+          "title": "SPR-MOD-004-005 \u2014 Purchase Returns Vendor Adjustments",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments"
+        },
+        {
+          "title": "SPR-MOD-004-006 \u2014 Purchase Analytics Controls",
+          "path": "30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-005 Inventory",
+      "items": [
+        {
+          "title": "MOD-005 Inventory \u2014 Overview",
+          "path": "20-module-prds/inventory/MODULE_PRD"
+        },
+        {
+          "title": "MOD-005 Inventory \u2014 Baseline",
+          "path": "40-module-baselines/MOD005_INVENTORY_BASELINE_v1"
+        },
+        {
+          "title": "MOD-005 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/inventory/MOD-005_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-005-001 \u2014 Inventory Foundation",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation"
+        },
+        {
+          "title": "SPR-MOD-005-002 \u2014 Inventory Receipts Putaway",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway"
+        },
+        {
+          "title": "SPR-MOD-005-003 \u2014 Inventory Issues Transfers Reservations",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations"
+        },
+        {
+          "title": "SPR-MOD-005-004 \u2014 Inventory Adjustments Stock Counting",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting"
+        },
+        {
+          "title": "SPR-MOD-005-005 \u2014 Inventory Valuation Replenishment",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment"
+        },
+        {
+          "title": "SPR-MOD-005-006 \u2014 Inventory Analytics Operational Controls",
+          "path": "30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-006 CRM",
+      "items": [
+        {
+          "title": "MOD-006 CRM \u2014 Overview",
+          "path": "20-module-prds/crm/MODULE_PRD"
+        },
+        {
+          "title": "MOD-006 CRM \u2014 Baseline",
+          "path": "40-module-baselines/MOD006_CRM_BASELINE_v1"
+        },
+        {
+          "title": "MOD-006 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/crm/MOD-006_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-006-001 \u2014 Crm Foundation",
+          "path": "30-sprint-prds/crm/SPR-MOD-006-001-crm-foundation"
+        },
+        {
+          "title": "SPR-MOD-006-002 \u2014 Leads",
+          "path": "30-sprint-prds/crm/SPR-MOD-006-002-leads"
+        },
+        {
+          "title": "SPR-MOD-006-003 \u2014 Opportunities",
+          "path": "30-sprint-prds/crm/SPR-MOD-006-003-opportunities"
+        },
+        {
+          "title": "SPR-MOD-006-004 \u2014 Activities Communications",
+          "path": "30-sprint-prds/crm/SPR-MOD-006-004-activities-communications"
+        },
+        {
+          "title": "SPR-MOD-006-005 \u2014 Campaigns",
+          "path": "30-sprint-prds/crm/SPR-MOD-006-005-campaigns"
+        },
+        {
+          "title": "SPR-MOD-006-006 \u2014 Customer 360 Analytics",
+          "path": "30-sprint-prds/crm/SPR-MOD-006-006-customer-360-analytics"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-007 HRMS",
+      "items": [
+        {
+          "title": "MOD-007 HRMS \u2014 Overview",
+          "path": "20-module-prds/hrms/MODULE_PRD"
+        },
+        {
+          "title": "MOD-007 HRMS \u2014 Baseline",
+          "path": "40-module-baselines/MOD007_HRMS_BASELINE_v1"
+        },
+        {
+          "title": "MOD-007 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/hrms/MOD-007_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-007-001 \u2014 Hrms Foundation Employee Master",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master"
+        },
+        {
+          "title": "SPR-MOD-007-002 \u2014 Employment Lifecycle Hire And Exit",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit"
+        },
+        {
+          "title": "SPR-MOD-007-003 \u2014 Attendance And Leave",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave"
+        },
+        {
+          "title": "SPR-MOD-007-004 \u2014 Performance And Appraisal",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal"
+        },
+        {
+          "title": "SPR-MOD-007-005 \u2014 Learning Development And Self Service",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service"
+        },
+        {
+          "title": "SPR-MOD-007-006 \u2014 Hr Analytics And Compliance",
+          "path": "30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-008 Payroll",
+      "items": [
+        {
+          "title": "MOD-008 Payroll \u2014 Overview",
+          "path": "20-module-prds/payroll/MODULE_PRD"
+        },
+        {
+          "title": "MOD-008 Payroll \u2014 Baseline",
+          "path": "40-module-baselines/MOD008_PAYROLL_BASELINE_v1"
+        },
+        {
+          "title": "MOD-008 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/payroll/MOD-008_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-008-001 \u2014 Payroll Foundation And Salary Structures",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures"
+        },
+        {
+          "title": "SPR-MOD-008-002 \u2014 Payroll Cycles And Runs",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs"
+        },
+        {
+          "title": "SPR-MOD-008-003 \u2014 Statutory Computations",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations"
+        },
+        {
+          "title": "SPR-MOD-008-004 \u2014 Reimbursements And Advances",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances"
+        },
+        {
+          "title": "SPR-MOD-008-005 \u2014 Payslip Generation And Disbursement",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement"
+        },
+        {
+          "title": "SPR-MOD-008-006 \u2014 Payroll Analytics And Compliance",
+          "path": "30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-009 Manufacturing",
+      "items": [
+        {
+          "title": "MOD-009 Manufacturing \u2014 Overview",
+          "path": "20-module-prds/manufacturing/MODULE_PRD"
+        },
+        {
+          "title": "MOD-009 Manufacturing \u2014 Baseline",
+          "path": "40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1"
+        },
+        {
+          "title": "MOD-009 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-009-001 \u2014 Manufacturing Foundation Bom And Routing",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing"
+        },
+        {
+          "title": "SPR-MOD-009-002 \u2014 Production Planning And Scheduling",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-002-production-planning-and-scheduling"
+        },
+        {
+          "title": "SPR-MOD-009-003 \u2014 Work Orders And Shopfloor Execution",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution"
+        },
+        {
+          "title": "SPR-MOD-009-004 \u2014 Sub Contracting",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-004-sub-contracting"
+        },
+        {
+          "title": "SPR-MOD-009-005 \u2014 Quality Yield And Scrap",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap"
+        },
+        {
+          "title": "SPR-MOD-009-006 \u2014 Manufacturing Analytics And Compliance",
+          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-010 Projects",
+      "items": [
+        {
+          "title": "MOD-010 Projects \u2014 Overview",
+          "path": "20-module-prds/projects/MODULE_PRD"
+        },
+        {
+          "title": "MOD-010 Projects \u2014 Baseline",
+          "path": "40-module-baselines/MOD010_PROJECTS_BASELINE_v1"
+        },
+        {
+          "title": "MOD-010 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/projects/MOD-010_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-010-001 \u2014 Projects Foundation Project And Resource Setup",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup"
+        },
+        {
+          "title": "SPR-MOD-010-002 \u2014 Tasks Milestones And Change Requests",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests"
+        },
+        {
+          "title": "SPR-MOD-010-003 \u2014 Timesheets And Effort",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort"
+        },
+        {
+          "title": "SPR-MOD-010-004 \u2014 Budgets Costs And Project Billing",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing"
+        },
+        {
+          "title": "SPR-MOD-010-005 \u2014 Projects Analytics And Compliance",
+          "path": "30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-011 AMC",
+      "items": [
+        {
+          "title": "MOD-011 AMC \u2014 Overview",
+          "path": "20-module-prds/amc/MODULE_PRD"
+        },
+        {
+          "title": "MOD-011 AMC \u2014 Baseline",
+          "path": "40-module-baselines/MOD011_AMC_BASELINE_v1"
+        },
+        {
+          "title": "MOD-011 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/amc/MOD-011_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-011-001 \u2014 Amc Foundation Contracts And Entitlements",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements"
+        },
+        {
+          "title": "SPR-MOD-011-002 \u2014 Preventive Visit Scheduling",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling"
+        },
+        {
+          "title": "SPR-MOD-011-003 \u2014 Contract Billing And Renewals",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals"
+        },
+        {
+          "title": "SPR-MOD-011-004 \u2014 Amc Analytics And Compliance",
+          "path": "30-sprint-prds/amc/SPR-MOD-011-004-amc-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-012 Field Service",
+      "items": [
+        {
+          "title": "MOD-012 Field Service \u2014 Overview",
+          "path": "20-module-prds/field-service/MODULE_PRD"
+        },
+        {
+          "title": "MOD-012 Field Service \u2014 Baseline",
+          "path": "40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1"
+        },
+        {
+          "title": "MOD-012 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/field-service/MOD-012_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-012-001 \u2014 Field Service Foundation Tickets And Field Workforce",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce"
+        },
+        {
+          "title": "SPR-MOD-012-002 \u2014 Dispatch And Scheduling",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling"
+        },
+        {
+          "title": "SPR-MOD-012-003 \u2014 Mobile Visit Execution Spares Signatures Closure",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure"
+        },
+        {
+          "title": "SPR-MOD-012-004 \u2014 Sla And Escalation",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation"
+        },
+        {
+          "title": "SPR-MOD-012-005 \u2014 Field Service Analytics And Compliance",
+          "path": "30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-013 Assets",
+      "items": [
+        {
+          "title": "MOD-013 Assets \u2014 Overview",
+          "path": "20-module-prds/assets/MODULE_PRD"
+        },
+        {
+          "title": "MOD-013 Assets \u2014 Baseline",
+          "path": "40-module-baselines/MOD013_ASSETS_BASELINE_v1"
+        },
+        {
+          "title": "MOD-013 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/assets/MOD-013_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-013-001 \u2014 Asset Foundation Register Capitalization And Insurance",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance"
+        },
+        {
+          "title": "SPR-MOD-013-002 \u2014 Depreciation Methods And Runs",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs"
+        },
+        {
+          "title": "SPR-MOD-013-003 \u2014 Maintenance Transfer And Disposal",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal"
+        },
+        {
+          "title": "SPR-MOD-013-004 \u2014 Assets Analytics And Compliance",
+          "path": "30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-014 Fleet",
+      "items": [
+        {
+          "title": "MOD-014 Fleet \u2014 Overview",
+          "path": "20-module-prds/fleet/MODULE_PRD"
+        },
+        {
+          "title": "MOD-014 Fleet \u2014 Baseline",
+          "path": "40-module-baselines/MOD014_FLEET_BASELINE_v1"
+        },
+        {
+          "title": "MOD-014 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/fleet/MOD-014_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-014-001 \u2014 Fleet Foundation Vehicles Drivers Compliance And Insurance",
+          "path": "30-sprint-prds/fleet/SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance"
+        },
+        {
+          "title": "SPR-MOD-014-002 \u2014 Trip Planning And Execution",
+          "path": "30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution"
+        },
+        {
+          "title": "SPR-MOD-014-003 \u2014 Fuel And Maintenance",
+          "path": "30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance"
+        },
+        {
+          "title": "SPR-MOD-014-004 \u2014 Fleet Analytics And Compliance",
+          "path": "30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-015 POS",
+      "items": [
+        {
+          "title": "MOD-015 POS \u2014 Overview",
+          "path": "20-module-prds/pos/MODULE_PRD"
+        },
+        {
+          "title": "MOD-015 POS \u2014 Baseline",
+          "path": "40-module-baselines/MOD015_POS_BASELINE_v1"
+        },
+        {
+          "title": "MOD-015 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/pos/MOD-015_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-015-001 \u2014 Pos Foundation Stores Counters And Configuration",
+          "path": "30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration"
+        },
+        {
+          "title": "SPR-MOD-015-002 \u2014 Cart Pricing Discounts And Offline Sale",
+          "path": "30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale"
+        },
+        {
+          "title": "SPR-MOD-015-003 \u2014 Multi Tender Payments And Receipts",
+          "path": "30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts"
+        },
+        {
+          "title": "SPR-MOD-015-004 \u2014 Offers Loyalty And Returns",
+          "path": "30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns"
+        },
+        {
+          "title": "SPR-MOD-015-005 \u2014 Day Close Analytics And Compliance",
+          "path": "30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-016 Service Desk",
+      "items": [
+        {
+          "title": "MOD-016 Service Desk \u2014 Overview",
+          "path": "20-module-prds/service-desk/MODULE_PRD"
+        },
+        {
+          "title": "MOD-016 Service Desk \u2014 Baseline",
+          "path": "40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1"
+        },
+        {
+          "title": "MOD-016 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-016-001_SERVICE_DESK_FOUNDATION \u2014 ",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION"
+        },
+        {
+          "title": "SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE \u2014 ",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE"
+        },
+        {
+          "title": "SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS \u2014 ",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS"
+        },
+        {
+          "title": "SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT \u2014 ",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT"
+        },
+        {
+          "title": "SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE \u2014 ",
+          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-017 Analytics",
+      "items": [
+        {
+          "title": "MOD-017 Analytics \u2014 Overview",
+          "path": "20-module-prds/analytics/MODULE_PRD"
+        },
+        {
+          "title": "MOD-017 Analytics \u2014 Baseline",
+          "path": "40-module-baselines/MOD017_ANALYTICS_BASELINE_v1"
+        },
+        {
+          "title": "MOD-017 Analytics \u2014 Publication",
+          "path": "45-module-publications/analytics/MOD-017_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-017 \u2014 Web Solution Design",
+          "path": "60-solution-design/web/WEB-017_ANALYTICS"
+        },
+        {
+          "title": "MOB-017 \u2014 Mobile Solution Design",
+          "path": "60-solution-design/mobile/MOB-017_ANALYTICS"
+        },
+        {
+          "title": "API-017 \u2014 API Solution Design",
+          "path": "60-solution-design/api/API-017_ANALYTICS"
+        },
+        {
+          "title": "MOD-017 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/analytics/MOD-017_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS \u2014 ",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS"
+        },
+        {
+          "title": "SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG \u2014 ",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG"
+        },
+        {
+          "title": "SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION \u2014 ",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION"
+        },
+        {
+          "title": "SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT \u2014 ",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT"
+        },
+        {
+          "title": "SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS \u2014 ",
+          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-018 AI Workspace",
+      "items": [
+        {
+          "title": "MOD-018 AI Workspace \u2014 Overview",
+          "path": "20-module-prds/ai/MODULE_PRD"
+        },
+        {
+          "title": "MOD-018 AI Workspace \u2014 Baseline",
+          "path": "40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1"
+        },
+        {
+          "title": "MOD-018 AI Workspace \u2014 Publication",
+          "path": "45-module-publications/ai/MOD-018_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-018 \u2014 Web Solution Design",
+          "path": "60-solution-design/web/WEB-018_AI_WORKSPACE"
+        },
+        {
+          "title": "MOB-018 \u2014 Mobile Solution Design",
+          "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE"
+        },
+        {
+          "title": "API-018 \u2014 API Solution Design",
+          "path": "60-solution-design/api/API-018_AI_WORKSPACE"
+        },
+        {
+          "title": "MOD-018 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/ai/MOD-018_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION \u2014 ",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION"
+        },
+        {
+          "title": "SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG \u2014 ",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG"
+        },
+        {
+          "title": "SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES \u2014 ",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES"
+        },
+        {
+          "title": "SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS \u2014 ",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS"
+        },
+        {
+          "title": "SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY \u2014 ",
+          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY"
+        }
+      ]
+    },
+    {
+      "label": "Modules \u2014 MOD-019 Warehouse",
+      "items": [
+        {
+          "title": "MOD-019 Warehouse \u2014 Overview",
+          "path": "20-module-prds/warehouse/MODULE_PRD"
+        },
+        {
+          "title": "MOD-019 Warehouse \u2014 Baseline",
+          "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
+        },
+        {
+          "title": "MOD-019 \u2014 Sprint Plan",
+          "path": "30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN"
+        },
+        {
+          "title": "SPR-MOD-019-001 \u2014 Warehouse Foundation",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation"
+        },
+        {
+          "title": "SPR-MOD-019-002 \u2014 Inbound Execution",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution"
+        },
+        {
+          "title": "SPR-MOD-019-003 \u2014 Storage Slotting",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting"
+        },
+        {
+          "title": "SPR-MOD-019-004 \u2014 Outbound Execution",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-004-outbound-execution"
+        },
+        {
+          "title": "SPR-MOD-019-005 \u2014 Yard Dock Load Out",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-005-yard-dock-load-out"
+        },
+        {
+          "title": "SPR-MOD-019-006 \u2014 Warehouse Labor Equipment Analytics",
+          "path": "30-sprint-prds/warehouse/SPR-MOD-019-006-warehouse-labor-equipment-analytics"
+        }
+      ]
+    },
+    {
+      "label": "Sprint PRDs",
+      "items": [
+        {
+          "title": "Sprint PRDs \u2014 Index",
+          "path": "30-sprint-prds/README"
+        },
+        {
+          "title": "MOD-001 Platform Administration \u2014 Sprints Index",
+          "path": "30-sprint-prds/platform/README"
+        },
+        {
+          "title": "MOD-002 Accounting \u2014 Sprints Index",
+          "path": "30-sprint-prds/accounting/README"
+        },
+        {
+          "title": "MOD-003 Sales \u2014 Sprints Index",
+          "path": "30-sprint-prds/sales/README"
+        },
+        {
+          "title": "MOD-004 Purchase \u2014 Sprints Index",
+          "path": "30-sprint-prds/purchase/README"
+        },
+        {
+          "title": "MOD-005 Inventory \u2014 Sprints Index",
+          "path": "30-sprint-prds/inventory/README"
+        },
+        {
+          "title": "MOD-006 CRM \u2014 Sprints Index",
+          "path": "30-sprint-prds/crm/README"
+        },
+        {
+          "title": "MOD-007 HRMS \u2014 Sprints Index",
+          "path": "30-sprint-prds/hrms/README"
+        },
+        {
+          "title": "MOD-008 Payroll \u2014 Sprints Index",
+          "path": "30-sprint-prds/payroll/README"
+        },
+        {
+          "title": "MOD-009 Manufacturing \u2014 Sprints Index",
+          "path": "30-sprint-prds/manufacturing/README"
+        },
+        {
+          "title": "MOD-010 Projects \u2014 Sprints Index",
+          "path": "30-sprint-prds/projects/README"
+        },
+        {
+          "title": "MOD-011 AMC \u2014 Sprints Index",
+          "path": "30-sprint-prds/amc/README"
+        },
+        {
+          "title": "MOD-012 Field Service \u2014 Sprints Index",
+          "path": "30-sprint-prds/field-service/README"
+        },
+        {
+          "title": "MOD-013 Assets \u2014 Sprints Index",
+          "path": "30-sprint-prds/assets/README"
+        },
+        {
+          "title": "MOD-014 Fleet \u2014 Sprints Index",
+          "path": "30-sprint-prds/fleet/README"
+        },
+        {
+          "title": "MOD-015 POS \u2014 Sprints Index",
+          "path": "30-sprint-prds/pos/README"
+        },
+        {
+          "title": "MOD-016 Service Desk \u2014 Sprints Index",
+          "path": "30-sprint-prds/service-desk/README"
+        },
+        {
+          "title": "MOD-017 Analytics \u2014 Sprints Index",
+          "path": "30-sprint-prds/analytics/README"
+        },
+        {
+          "title": "MOD-018 AI Workspace \u2014 Sprints Index",
+          "path": "30-sprint-prds/ai/README"
+        },
+        {
+          "title": "MOD-019 Warehouse \u2014 Sprints Index",
+          "path": "30-sprint-prds/warehouse/README"
+        }
+      ]
+    },
+    {
+      "label": "AI Development",
+      "items": [
+        {
+          "title": "MOD-018 AI Workspace \u2014 Overview",
+          "path": "20-module-prds/ai/MODULE_PRD"
+        },
+        {
+          "title": "MOD-018 AI Workspace \u2014 Publication",
+          "path": "45-module-publications/ai/MOD-018_MODULE_PUBLICATION"
+        },
+        {
+          "title": "AI Copilot",
+          "path": "09-ai/ai-copilot"
+        },
+        {
+          "title": "Prompt Library",
+          "path": "09-ai/prompt-library"
+        },
+        {
+          "title": "RAG",
+          "path": "09-ai/rag"
+        },
+        {
+          "title": "Tool Calling",
+          "path": "09-ai/tool-calling"
+        },
+        {
+          "title": "Document AI",
+          "path": "09-ai/document-ai"
+        },
+        {
+          "title": "Forecasting",
+          "path": "09-ai/forecasting"
+        },
+        {
+          "title": "Business Advisor",
+          "path": "09-ai/business-advisor"
+        },
+        {
+          "title": "AI Guardrails",
+          "path": "09-ai/ai-guardrails"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Index",
+      "items": [
+        {
+          "title": "ERP Core Engines \u2014 Index",
+          "path": "10-erp-core/README"
+        },
+        {
+          "title": "Engine Catalog",
+          "path": "10-erp-core/ENGINE_CATALOG"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Foundation",
+      "items": [
+        {
+          "title": "Identity Engine",
+          "path": "10-erp-core/foundation/identity-engine"
+        },
+        {
+          "title": "Authorization Engine",
+          "path": "10-erp-core/foundation/authorization-engine"
+        },
+        {
+          "title": "Permission Management Engine",
+          "path": "10-erp-core/foundation/permission-management-engine"
+        },
+        {
+          "title": "Audit Engine",
+          "path": "10-erp-core/foundation/audit-engine"
+        },
+        {
+          "title": "Configuration Engine",
+          "path": "10-erp-core/foundation/configuration-engine"
+        },
+        {
+          "title": "Localization Engine",
+          "path": "10-erp-core/foundation/localization-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Document",
+      "items": [
+        {
+          "title": "Document Engine",
+          "path": "10-erp-core/document/document-engine"
+        },
+        {
+          "title": "Attachment Engine",
+          "path": "10-erp-core/document/attachment-engine"
+        },
+        {
+          "title": "File Storage Engine",
+          "path": "10-erp-core/document/file-storage-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Workflow",
+      "items": [
+        {
+          "title": "Workflow Engine",
+          "path": "10-erp-core/workflow/workflow-engine"
+        },
+        {
+          "title": "Approval Engine",
+          "path": "10-erp-core/workflow/approval-engine"
+        },
+        {
+          "title": "Rules Engine",
+          "path": "10-erp-core/workflow/rules-engine"
+        },
+        {
+          "title": "Automation Engine",
+          "path": "10-erp-core/workflow/automation-engine"
+        },
+        {
+          "title": "Scheduler Engine",
+          "path": "10-erp-core/workflow/scheduler-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Financial",
+      "items": [
+        {
+          "title": "Voucher Engine",
+          "path": "10-erp-core/financial/voucher-engine"
+        },
+        {
+          "title": "Posting Engine",
+          "path": "10-erp-core/financial/posting-engine"
+        },
+        {
+          "title": "Numbering Engine",
+          "path": "10-erp-core/financial/numbering-engine"
+        },
+        {
+          "title": "Currency Engine",
+          "path": "10-erp-core/financial/currency-engine"
+        },
+        {
+          "title": "Tax Engine",
+          "path": "10-erp-core/financial/tax-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Intelligence",
+      "items": [
+        {
+          "title": "Search Engine",
+          "path": "10-erp-core/intelligence/search-engine"
+        },
+        {
+          "title": "Reporting Engine",
+          "path": "10-erp-core/intelligence/reporting-engine"
+        },
+        {
+          "title": "Dashboard Engine",
+          "path": "10-erp-core/intelligence/dashboard-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Integration",
+      "items": [
+        {
+          "title": "Integration Engine",
+          "path": "10-erp-core/integration/integration-engine"
+        },
+        {
+          "title": "Event Engine",
+          "path": "10-erp-core/integration/event-engine"
+        },
+        {
+          "title": "Notification Engine",
+          "path": "10-erp-core/integration/notification-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 Data Exchange",
+      "items": [
+        {
+          "title": "Import Engine",
+          "path": "10-erp-core/data-exchange/import-engine"
+        },
+        {
+          "title": "Export Engine",
+          "path": "10-erp-core/data-exchange/export-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERP Core \u2014 AI",
+      "items": [
+        {
+          "title": "AI Copilot Engine",
+          "path": "10-erp-core/ai/ai-copilot-engine"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 Integrations",
+      "items": [
+        {
+          "title": "GST GSTN",
+          "path": "06-integrations/gst-gstn"
+        },
+        {
+          "title": "E-Invoice IRN",
+          "path": "06-integrations/e-invoice-irn"
+        },
+        {
+          "title": "E-Way Bill",
+          "path": "06-integrations/e-way-bill"
+        },
+        {
+          "title": "Payments \u2014 Razorpay",
+          "path": "06-integrations/payments-razorpay"
+        },
+        {
+          "title": "Payments \u2014 PhonePe",
+          "path": "06-integrations/payments-phonepe"
+        },
+        {
+          "title": "Payments \u2014 Stripe",
+          "path": "06-integrations/payments-stripe"
+        },
+        {
+          "title": "WhatsApp",
+          "path": "06-integrations/whatsapp"
+        },
+        {
+          "title": "SMS",
+          "path": "06-integrations/sms"
+        },
+        {
+          "title": "Email",
+          "path": "06-integrations/email"
+        },
+        {
+          "title": "Google Workspace",
+          "path": "06-integrations/google-workspace"
+        },
+        {
+          "title": "Microsoft 365",
+          "path": "06-integrations/microsoft-365"
+        },
+        {
+          "title": "Bank APIs",
+          "path": "06-integrations/bank-apis"
+        },
+        {
+          "title": "Barcode QR",
+          "path": "06-integrations/barcode-qr"
+        },
+        {
+          "title": "OCR",
+          "path": "06-integrations/ocr"
+        },
+        {
+          "title": "AI Providers",
+          "path": "06-integrations/ai-providers"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 Business Rules",
+      "items": [
+        {
+          "title": "Accounting Rules",
+          "path": "08-business-rules/accounting-rules"
+        },
+        {
+          "title": "Inventory Rules",
+          "path": "08-business-rules/inventory-rules"
+        },
+        {
+          "title": "Tax Rules",
+          "path": "08-business-rules/tax-rules"
+        },
+        {
+          "title": "Approval Rules",
+          "path": "08-business-rules/approval-rules"
+        },
+        {
+          "title": "Numbering Rules",
+          "path": "08-business-rules/numbering-rules"
+        },
+        {
+          "title": "Workflow Rules",
+          "path": "08-business-rules/workflow-rules"
+        },
+        {
+          "title": "Posting Rules",
+          "path": "08-business-rules/posting-rules"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 Reports",
+      "items": [
+        {
+          "title": "Accounting Reports",
+          "path": "07-reports/accounting-reports"
+        },
+        {
+          "title": "Inventory Reports",
+          "path": "07-reports/inventory-reports"
+        },
+        {
+          "title": "GST Reports",
+          "path": "07-reports/gst-reports"
+        },
+        {
+          "title": "Payroll Reports",
+          "path": "07-reports/payroll-reports"
+        },
+        {
+          "title": "Projects Reports",
+          "path": "07-reports/projects-reports"
+        },
+        {
+          "title": "CRM Reports",
+          "path": "07-reports/crm-reports"
+        },
+        {
+          "title": "Dashboards",
+          "path": "07-reports/dashboards"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 Workflows",
+      "items": [
+        {
+          "title": "AMC Workflow",
+          "path": "13-workflows/amc-workflow"
+        },
+        {
+          "title": "Approval Workflow",
+          "path": "13-workflows/approval-workflow"
+        },
+        {
+          "title": "Field Visit Workflow",
+          "path": "13-workflows/field-visit-workflow"
+        },
+        {
+          "title": "Inventory Workflow",
+          "path": "13-workflows/inventory-workflow"
+        },
+        {
+          "title": "Payroll Workflow",
+          "path": "13-workflows/payroll-workflow"
+        },
+        {
+          "title": "Purchase Workflow",
+          "path": "13-workflows/purchase-workflow"
+        },
+        {
+          "title": "Sales Workflow",
+          "path": "13-workflows/sales-workflow"
+        },
+        {
+          "title": "Voucher Posting",
+          "path": "13-workflows/voucher-posting"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 Localization",
+      "items": [
+        {
+          "title": "Global",
+          "path": "14-localization/global"
+        },
+        {
+          "title": "India",
+          "path": "14-localization/india"
+        },
+        {
+          "title": "UAE",
+          "path": "14-localization/uae"
+        },
+        {
+          "title": "Saudi Arabia",
+          "path": "14-localization/saudi-arabia"
+        },
+        {
+          "title": "Bahrain",
+          "path": "14-localization/bahrain"
+        },
+        {
+          "title": "Kuwait",
+          "path": "14-localization/kuwait"
+        },
+        {
+          "title": "Oman",
+          "path": "14-localization/oman"
+        },
+        {
+          "title": "Qatar",
+          "path": "14-localization/qatar"
+        }
+      ]
+    },
+    {
+      "label": "Platform Services \u2014 ERDs",
+      "items": [
+        {
+          "title": "Foundation ERD",
+          "path": "11-erd/foundation"
+        },
+        {
+          "title": "ERD Template",
+          "path": "11-erd/_template"
+        }
+      ]
+    },
+    {
+      "label": "Governance",
+      "items": [
+        {
+          "title": "Governance",
+          "path": "governance"
+        },
+        {
+          "title": "Decision Register",
+          "path": "decision-register"
+        },
+        {
+          "title": "Governance \u2014 Framework Release v1.0",
+          "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_v1.0"
+        },
+        {
+          "title": "Governance \u2014 Framework Release Notes v1.0",
+          "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0"
+        },
+        {
+          "title": "Governance \u2014 Template Standard",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_STANDARD"
+        },
+        {
+          "title": "Governance \u2014 Template Registry",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_REGISTRY"
+        },
+        {
+          "title": "Governance \u2014 Template Index",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_INDEX"
+        },
+        {
+          "title": "Governance \u2014 Template Lifecycle",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE"
+        },
+        {
+          "title": "Governance \u2014 Template Capabilities",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES"
+        },
+        {
+          "title": "Governance \u2014 Template Dependency Matrix",
+          "path": "15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX"
+        },
+        {
+          "title": "Governance \u2014 Frontmatter Standard",
+          "path": "15-governance/GOVERNANCE_FRONTMATTER_STANDARD"
+        },
+        {
+          "title": "Governance \u2014 Screen Identifier Standard",
+          "path": "15-governance/SCREEN_IDENTIFIER_STANDARD"
+        },
+        {
+          "title": "Governance \u2014 Finding Severity Standard",
+          "path": "15-governance/FINDING_SEVERITY_STANDARD"
+        },
+        {
+          "title": "GT-002 Stage 1 Authoring",
+          "path": "15-governance/templates/GT-002_STAGE1_AUTHORING"
+        },
+        {
+          "title": "GT-003 Sprint Authoring",
+          "path": "15-governance/templates/GT-003_SPRINT_AUTHORING"
+        },
+        {
+          "title": "GT-004 Baseline Consolidation",
+          "path": "15-governance/templates/GT-004_BASELINE_CONSOLIDATION"
+        },
+        {
+          "title": "GT-005 Repository Audit",
+          "path": "15-governance/templates/GT-005_REPOSITORY_AUDIT"
+        },
+        {
+          "title": "ADR Repository",
+          "path": "11-adrs/README"
+        },
+        {
+          "title": "ADR Index",
+          "path": "11-adrs/ADR_INDEX"
+        },
+        {
+          "title": "ADR Template",
+          "path": "11-adrs/ADR_TEMPLATE"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Ai",
+      "items": [
+        {
+          "title": "Ai ADRs \u2014 Index",
+          "path": "11-adrs/ai/README"
+        },
+        {
+          "title": "ADR-040-ai-provider-abstraction",
+          "path": "11-adrs/ai/ADR-040-ai-provider-abstraction"
+        },
+        {
+          "title": "ADR-041-tool-calling-contract",
+          "path": "11-adrs/ai/ADR-041-tool-calling-contract"
+        },
+        {
+          "title": "ADR-042-human-approval-boundary",
+          "path": "11-adrs/ai/ADR-042-human-approval-boundary"
+        },
+        {
+          "title": "ADR-043-prompt-governance",
+          "path": "11-adrs/ai/ADR-043-prompt-governance"
+        },
+        {
+          "title": "ADR-044-rag-architecture",
+          "path": "11-adrs/ai/ADR-044-rag-architecture"
+        },
+        {
+          "title": "ADR-045-ai-cost-governance",
+          "path": "11-adrs/ai/ADR-045-ai-cost-governance"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Architecture",
+      "items": [
+        {
+          "title": "Architecture ADRs \u2014 Index",
+          "path": "11-adrs/architecture/README"
+        },
+        {
+          "title": "ADR-001-modular-monolith",
+          "path": "11-adrs/architecture/ADR-001-modular-monolith"
+        },
+        {
+          "title": "ADR-002-domain-driven-design",
+          "path": "11-adrs/architecture/ADR-002-domain-driven-design"
+        },
+        {
+          "title": "ADR-003-event-driven-communication",
+          "path": "11-adrs/architecture/ADR-003-event-driven-communication"
+        },
+        {
+          "title": "ADR-004-plugin-extension-model",
+          "path": "11-adrs/architecture/ADR-004-plugin-extension-model"
+        },
+        {
+          "title": "ADR-005-clean-architecture",
+          "path": "11-adrs/architecture/ADR-005-clean-architecture"
+        },
+        {
+          "title": "ADR-006-cqrs-usage-guidelines",
+          "path": "11-adrs/architecture/ADR-006-cqrs-usage-guidelines"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Data",
+      "items": [
+        {
+          "title": "Data ADRs \u2014 Index",
+          "path": "11-adrs/data/README"
+        },
+        {
+          "title": "ADR-010-postgresql-as-system-of-record",
+          "path": "11-adrs/data/ADR-010-postgresql-as-system-of-record"
+        },
+        {
+          "title": "ADR-011-multi-tenant-isolation",
+          "path": "11-adrs/data/ADR-011-multi-tenant-isolation"
+        },
+        {
+          "title": "ADR-012-uuid-primary-keys",
+          "path": "11-adrs/data/ADR-012-uuid-primary-keys"
+        },
+        {
+          "title": "ADR-013-money-representation",
+          "path": "11-adrs/data/ADR-013-money-representation"
+        },
+        {
+          "title": "ADR-014-audit-strategy",
+          "path": "11-adrs/data/ADR-014-audit-strategy"
+        },
+        {
+          "title": "ADR-015-soft-delete-policy",
+          "path": "11-adrs/data/ADR-015-soft-delete-policy"
+        },
+        {
+          "title": "ADR-016-data-versioning",
+          "path": "11-adrs/data/ADR-016-data-versioning"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Devops",
+      "items": [
+        {
+          "title": "Devops ADRs \u2014 Index",
+          "path": "11-adrs/devops/README"
+        },
+        {
+          "title": "ADR-060-deployment-model",
+          "path": "11-adrs/devops/ADR-060-deployment-model"
+        },
+        {
+          "title": "ADR-061-environment-strategy",
+          "path": "11-adrs/devops/ADR-061-environment-strategy"
+        },
+        {
+          "title": "ADR-062-release-process",
+          "path": "11-adrs/devops/ADR-062-release-process"
+        },
+        {
+          "title": "ADR-063-testing-strategy",
+          "path": "11-adrs/devops/ADR-063-testing-strategy"
+        },
+        {
+          "title": "ADR-064-observability-baseline",
+          "path": "11-adrs/devops/ADR-064-observability-baseline"
+        },
+        {
+          "title": "ADR-065-disaster-recovery",
+          "path": "11-adrs/devops/ADR-065-disaster-recovery"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Engineering",
+      "items": [
+        {
+          "title": "Engineering ADRs \u2014 Index",
+          "path": "11-adrs/engineering/README"
+        },
+        {
+          "title": "ADR-070-coding-standards",
+          "path": "11-adrs/engineering/ADR-070-coding-standards"
+        },
+        {
+          "title": "ADR-071-documentation-standards",
+          "path": "11-adrs/engineering/ADR-071-documentation-standards"
+        },
+        {
+          "title": "ADR-072-module-boundaries",
+          "path": "11-adrs/engineering/ADR-072-module-boundaries"
+        },
+        {
+          "title": "ADR-073-dependency-rules",
+          "path": "11-adrs/engineering/ADR-073-dependency-rules"
+        },
+        {
+          "title": "ADR-074-technical-debt-management",
+          "path": "11-adrs/engineering/ADR-074-technical-debt-management"
+        },
+        {
+          "title": "ADR-075-backward-compatibility",
+          "path": "11-adrs/engineering/ADR-075-backward-compatibility"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Integration",
+      "items": [
+        {
+          "title": "Integration ADRs \u2014 Index",
+          "path": "11-adrs/integration/README"
+        },
+        {
+          "title": "ADR-050-event-bus",
+          "path": "11-adrs/integration/ADR-050-event-bus"
+        },
+        {
+          "title": "ADR-051-transactional-outbox",
+          "path": "11-adrs/integration/ADR-051-transactional-outbox"
+        },
+        {
+          "title": "ADR-052-retry-policy",
+          "path": "11-adrs/integration/ADR-052-retry-policy"
+        },
+        {
+          "title": "ADR-053-idempotency",
+          "path": "11-adrs/integration/ADR-053-idempotency"
+        },
+        {
+          "title": "ADR-054-dead-letter-handling",
+          "path": "11-adrs/integration/ADR-054-dead-letter-handling"
+        },
+        {
+          "title": "ADR-055-external-integration-philosophy",
+          "path": "11-adrs/integration/ADR-055-external-integration-philosophy"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Platform",
+      "items": [
+        {
+          "title": "Platform ADRs \u2014 Index",
+          "path": "11-adrs/platform/README"
+        },
+        {
+          "title": "ADR-020-api-style-rest-first",
+          "path": "11-adrs/platform/ADR-020-api-style-rest-first"
+        },
+        {
+          "title": "ADR-021-api-versioning",
+          "path": "11-adrs/platform/ADR-021-api-versioning"
+        },
+        {
+          "title": "ADR-022-error-envelope",
+          "path": "11-adrs/platform/ADR-022-error-envelope"
+        },
+        {
+          "title": "ADR-023-pagination-standard",
+          "path": "11-adrs/platform/ADR-023-pagination-standard"
+        },
+        {
+          "title": "ADR-024-webhook-delivery",
+          "path": "11-adrs/platform/ADR-024-webhook-delivery"
+        },
+        {
+          "title": "ADR-025-feature-flags",
+          "path": "11-adrs/platform/ADR-025-feature-flags"
+        },
+        {
+          "title": "ADR-026-configuration-hierarchy",
+          "path": "11-adrs/platform/ADR-026-configuration-hierarchy"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Security",
+      "items": [
+        {
+          "title": "Security ADRs \u2014 Index",
+          "path": "11-adrs/security/README"
+        },
+        {
+          "title": "ADR-030-authentication-model",
+          "path": "11-adrs/security/ADR-030-authentication-model"
+        },
+        {
+          "title": "ADR-031-authorization-model",
+          "path": "11-adrs/security/ADR-031-authorization-model"
+        },
+        {
+          "title": "ADR-032-rbac-abac",
+          "path": "11-adrs/security/ADR-032-rbac-abac"
+        },
+        {
+          "title": "ADR-033-secrets-management",
+          "path": "11-adrs/security/ADR-033-secrets-management"
+        },
+        {
+          "title": "ADR-034-encryption-policy",
+          "path": "11-adrs/security/ADR-034-encryption-policy"
+        },
+        {
+          "title": "ADR-035-data-classification",
+          "path": "11-adrs/security/ADR-035-data-classification"
+        },
+        {
+          "title": "ADR-036-audit-integrity",
+          "path": "11-adrs/security/ADR-036-audit-integrity"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Ui",
+      "items": [
+        {
+          "title": "Ui ADRs \u2014 Index",
+          "path": "11-adrs/ui/README"
+        },
+        {
+          "title": "ADR-080-design-tokens",
+          "path": "11-adrs/ui/ADR-080-design-tokens"
+        },
+        {
+          "title": "ADR-081-accessibility-standard",
+          "path": "11-adrs/ui/ADR-081-accessibility-standard"
+        },
+        {
+          "title": "ADR-082-localization-standard",
+          "path": "11-adrs/ui/ADR-082-localization-standard"
+        },
+        {
+          "title": "ADR-083-offline-ux",
+          "path": "11-adrs/ui/ADR-083-offline-ux"
+        },
+        {
+          "title": "ADR-084-navigation-standards",
+          "path": "11-adrs/ui/ADR-084-navigation-standards"
+        }
+      ]
+    },
+    {
+      "label": "Delivery \u2014 Implementation Planning",
+      "items": [
+        {
+          "title": "MOD003 IMPLEMENTATION PLAN 20260719T223000Z",
+          "path": "55-implementation-planning/MOD003_IMPLEMENTATION_PLAN_20260719T223000Z"
+        },
+        {
+          "title": "MOD003 IMPLEMENTATION PLAN VERIFICATION 20260719T223500Z",
+          "path": "55-implementation-planning/MOD003_IMPLEMENTATION_PLAN_VERIFICATION_20260719T223500Z"
+        }
+      ]
+    },
+    {
+      "label": "Delivery \u2014 Engineering",
+      "items": [
+        {
+          "title": "MOD003 ENGINEERING EXECUTION BASELINE 20260719T230000Z",
+          "path": "56-engineering-execution/MOD003_ENGINEERING_EXECUTION_BASELINE_20260719T230000Z"
+        },
+        {
+          "title": "MOD003 ENGINEERING EXECUTION VERIFICATION 20260719T230500Z",
+          "path": "56-engineering-execution/MOD003_ENGINEERING_EXECUTION_VERIFICATION_20260719T230500Z"
+        },
+        {
+          "title": "MOD003 ENGINEERING COMPLETION REVIEW 20260719T233000Z",
+          "path": "57-engineering-completion/MOD003_ENGINEERING_COMPLETION_REVIEW_20260719T233000Z"
+        },
+        {
+          "title": "MOD003 ENGINEERING COMPLETION VERIFICATION 20260719T233500Z",
+          "path": "57-engineering-completion/MOD003_ENGINEERING_COMPLETION_VERIFICATION_20260719T233500Z"
+        }
+      ]
+    },
+    {
+      "label": "Delivery \u2014 Verification",
+      "items": [
+        {
+          "title": "MOD003 SYSTEM VERIFICATION AUDIT 20260719T235000Z",
+          "path": "58-system-verification/MOD003_SYSTEM_VERIFICATION_AUDIT_20260719T235000Z"
+        },
+        {
+          "title": "MOD003 SYSTEM VERIFICATION REPORT 20260719T234500Z",
+          "path": "58-system-verification/MOD003_SYSTEM_VERIFICATION_REPORT_20260719T234500Z"
+        }
+      ]
+    },
+    {
+      "label": "Delivery \u2014 User Acceptance",
+      "items": [
+        {
+          "title": "MOD003 USER ACCEPTANCE AUDIT 20260720T000500Z",
+          "path": "59-user-acceptance/MOD003_USER_ACCEPTANCE_AUDIT_20260720T000500Z"
+        },
+        {
+          "title": "MOD003 USER ACCEPTANCE TEST REPORT 20260720T000000Z",
+          "path": "59-user-acceptance/MOD003_USER_ACCEPTANCE_TEST_REPORT_20260720T000000Z"
+        }
+      ]
+    },
+    {
+      "label": "Delivery \u2014 Release",
+      "items": [
+        {
+          "title": "MOD003 RELEASE READINESS AUDIT 20260720T002000Z",
+          "path": "60-release-readiness/MOD003_RELEASE_READINESS_AUDIT_20260720T002000Z"
+        },
+        {
+          "title": "MOD003 RELEASE READINESS REPORT 20260720T001500Z",
+          "path": "60-release-readiness/MOD003_RELEASE_READINESS_REPORT_20260720T001500Z"
+        }
+      ]
+    },
+    {
+      "label": "Delivery \u2014 Production",
+      "items": [
+        {
+          "title": "MOD003 PRODUCTION RELEASE AUDIT 20260720T003500Z",
+          "path": "61-production-release/MOD003_PRODUCTION_RELEASE_AUDIT_20260720T003500Z"
+        },
+        {
+          "title": "MOD003 PRODUCTION RELEASE REPORT 20260720T003000Z",
+          "path": "61-production-release/MOD003_PRODUCTION_RELEASE_REPORT_20260720T003000Z"
+        }
+      ]
+    },
+    {
+      "label": "Delivery \u2014 Post Release",
+      "items": [
+        {
+          "title": "MOD003 POST RELEASE VERIFICATION AUDIT 20260720T010500Z",
+          "path": "62-post-release-verification/MOD003_POST_RELEASE_VERIFICATION_AUDIT_20260720T010500Z"
+        },
+        {
+          "title": "MOD003 POST RELEASE VERIFICATION REPORT 20260720T010000Z",
+          "path": "62-post-release-verification/MOD003_POST_RELEASE_VERIFICATION_REPORT_20260720T010000Z"
+        }
+      ]
+    },
+    {
+      "label": "Project Management",
+      "items": [
+        {
+          "title": "Document Traceability",
+          "path": "DOCUMENT_TRACEABILITY"
+        },
+        {
+          "title": "Document Ownership Matrix",
+          "path": "DOCUMENT_OWNERSHIP_MATRIX"
+        },
+        {
+          "title": "Engine Usage Matrix",
+          "path": "ENGINE_USAGE_MATRIX"
+        },
+        {
+          "title": "ADR Impact Matrix",
+          "path": "ADR_IMPACT_MATRIX"
+        },
+        {
+          "title": "Document Index",
+          "path": "DOCUMENT_INDEX"
+        },
+        {
+          "title": "Sprint Catalog",
+          "path": "SPRINT_CATALOG"
+        },
+        {
+          "title": "Migration Registry",
+          "path": "15-governance/MIGRATION_REGISTRY"
+        },
+        {
+          "title": "Solution Design Identifier Migration",
+          "path": "15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718"
+        },
+        {
+          "title": "Business OS Execution Roadmap",
+          "path": "50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP"
+        },
+        {
+          "title": "Repository Inventory Report",
+          "path": "50-audit-reports/REPOSITORY_INVENTORY_REPORT_20260720T020000Z"
+        }
+      ]
+    },
+    {
+      "label": "Reference",
+      "items": [
+        {
+          "title": "Canon",
+          "path": "canon"
+        },
+        {
+          "title": "Glossary",
+          "path": "glossary"
+        },
+        {
+          "title": "Glossary Index",
+          "path": "GLOSSARY_INDEX"
+        },
+        {
+          "title": "Repository Map",
+          "path": "REPOSITORY_MAP"
+        },
+        {
+          "title": "Module Catalog",
+          "path": "MODULE_CATALOG"
+        },
+        {
+          "title": "Module Baseline Catalog",
+          "path": "MODULE_BASELINE_CATALOG"
+        },
+        {
+          "title": "Module Publication Catalog",
+          "path": "MODULE_PUBLICATION_CATALOG"
+        },
+        {
+          "title": "Module Dependency Matrix",
+          "path": "module-dependency-matrix"
+        },
+        {
+          "title": "ADR Template (Legacy)",
+          "path": "99-templates/adr-template"
+        },
+        {
+          "title": "API Spec Template",
+          "path": "99-templates/api-spec-template"
+        },
+        {
+          "title": "DB Schema Template",
+          "path": "99-templates/db-schema-template"
+        },
+        {
+          "title": "Event Template",
+          "path": "99-templates/event-template"
+        },
+        {
+          "title": "Integration Template",
+          "path": "99-templates/integration-template"
+        },
+        {
+          "title": "Locale Template",
+          "path": "99-templates/locale-template"
+        },
+        {
+          "title": "Module PRD Template",
+          "path": "99-templates/module-prd-template"
+        },
+        {
+          "title": "Report Template",
+          "path": "99-templates/report-template"
+        },
+        {
+          "title": "Sprint PRD Template",
+          "path": "99-templates/sprint-prd-template"
+        },
+        {
+          "title": "UI Component Template",
+          "path": "99-templates/ui-component-template"
+        },
+        {
+          "title": "Workflow Template",
+          "path": "99-templates/workflow-template"
+        },
+        {
+          "title": "Foundation Domain \u2014 Authentication",
           "path": "04-domains/foundation/authentication"
         },
         {
-          "title": "Organization",
+          "title": "Foundation Domain \u2014 Organization",
           "path": "04-domains/foundation/organization"
         },
         {
-          "title": "Company",
+          "title": "Foundation Domain \u2014 Company",
           "path": "04-domains/foundation/company"
         },
         {
-          "title": "Branch",
+          "title": "Foundation Domain \u2014 Branch",
           "path": "04-domains/foundation/branch"
         },
         {
-          "title": "Financial Year",
+          "title": "Foundation Domain \u2014 Financial Year",
           "path": "04-domains/foundation/financial-year"
         },
         {
-          "title": "Users",
+          "title": "Foundation Domain \u2014 Users",
           "path": "04-domains/foundation/users"
         },
         {
-          "title": "Roles Permissions",
+          "title": "Foundation Domain \u2014 Roles & Permissions",
           "path": "04-domains/foundation/roles-permissions"
         },
         {
-          "title": "Audit",
+          "title": "Foundation Domain \u2014 Audit",
           "path": "04-domains/foundation/audit"
         },
         {
-          "title": "Notifications",
+          "title": "Foundation Domain \u2014 Notifications",
           "path": "04-domains/foundation/notifications"
         },
         {
-          "title": "Workflow",
+          "title": "Foundation Domain \u2014 Workflow",
           "path": "04-domains/foundation/workflow"
         },
         {
-          "title": "Documents",
+          "title": "Foundation Domain \u2014 Documents",
           "path": "04-domains/foundation/documents"
         }
       ]
     },
     {
-      "label": "04 Domains — Other",
-      "items": [
-        {
-          "title": "Accounting",
-          "path": "04-domains/accounting/index"
-        },
-        {
-          "title": "Inventory",
-          "path": "04-domains/inventory/index"
-        },
-        {
-          "title": "Sales",
-          "path": "04-domains/sales/index"
-        },
-        {
-          "title": "Purchase",
-          "path": "04-domains/purchase/index"
-        },
-        {
-          "title": "Crm",
-          "path": "04-domains/crm/index"
-        },
-        {
-          "title": "Manufacturing",
-          "path": "04-domains/manufacturing/index"
-        },
-        {
-          "title": "Projects",
-          "path": "04-domains/projects/index"
-        },
-        {
-          "title": "Field Service",
-          "path": "04-domains/field-service/index"
-        },
-        {
-          "title": "Amc",
-          "path": "04-domains/amc/index"
-        },
-        {
-          "title": "Hr",
-          "path": "04-domains/hr/index"
-        },
-        {
-          "title": "Payroll",
-          "path": "04-domains/payroll/index"
-        },
-        {
-          "title": "Assets",
-          "path": "04-domains/assets/index"
-        },
-        {
-          "title": "Fleet",
-          "path": "04-domains/fleet/index"
-        },
-        {
-          "title": "Pos",
-          "path": "04-domains/pos/index"
-        },
-        {
-          "title": "Service Desk",
-          "path": "04-domains/service-desk/index"
-        },
-        {
-          "title": "Analytics",
-          "path": "04-domains/analytics/index"
-        }
-      ]
-    },
-    {
-      "label": "05 ADRs (Legacy — Superseded)",
+      "label": "Archive",
       "items": [
         {
           "title": "Legacy ADR Template",
@@ -413,1481 +2317,6 @@
         {
           "title": "ADR-0011: Capability-Layer Roadmap (superseded)",
           "path": "05-adr/ADR-0011-capability-layer-roadmap"
-        }
-      ]
-    },
-    {
-      "label": "06 Integrations",
-      "items": [
-        {
-          "title": "Gst Gstn",
-          "path": "06-integrations/gst-gstn"
-        },
-        {
-          "title": "E Invoice Irn",
-          "path": "06-integrations/e-invoice-irn"
-        },
-        {
-          "title": "E Way Bill",
-          "path": "06-integrations/e-way-bill"
-        },
-        {
-          "title": "Payments Razorpay",
-          "path": "06-integrations/payments-razorpay"
-        },
-        {
-          "title": "Payments Phonepe",
-          "path": "06-integrations/payments-phonepe"
-        },
-        {
-          "title": "Payments Stripe",
-          "path": "06-integrations/payments-stripe"
-        },
-        {
-          "title": "Whatsapp",
-          "path": "06-integrations/whatsapp"
-        },
-        {
-          "title": "Sms",
-          "path": "06-integrations/sms"
-        },
-        {
-          "title": "Email",
-          "path": "06-integrations/email"
-        },
-        {
-          "title": "Google Workspace",
-          "path": "06-integrations/google-workspace"
-        },
-        {
-          "title": "Microsoft 365",
-          "path": "06-integrations/microsoft-365"
-        },
-        {
-          "title": "Bank Apis",
-          "path": "06-integrations/bank-apis"
-        },
-        {
-          "title": "Barcode Qr",
-          "path": "06-integrations/barcode-qr"
-        },
-        {
-          "title": "Ocr",
-          "path": "06-integrations/ocr"
-        },
-        {
-          "title": "Ai Providers",
-          "path": "06-integrations/ai-providers"
-        }
-      ]
-    },
-    {
-      "label": "07 Reports",
-      "items": [
-        {
-          "title": "Accounting Reports",
-          "path": "07-reports/accounting-reports"
-        },
-        {
-          "title": "Inventory Reports",
-          "path": "07-reports/inventory-reports"
-        },
-        {
-          "title": "Gst Reports",
-          "path": "07-reports/gst-reports"
-        },
-        {
-          "title": "Payroll Reports",
-          "path": "07-reports/payroll-reports"
-        },
-        {
-          "title": "Projects Reports",
-          "path": "07-reports/projects-reports"
-        },
-        {
-          "title": "Crm Reports",
-          "path": "07-reports/crm-reports"
-        },
-        {
-          "title": "Dashboards",
-          "path": "07-reports/dashboards"
-        }
-      ]
-    },
-    {
-      "label": "08 Business Rules",
-      "items": [
-        {
-          "title": "Accounting Rules",
-          "path": "08-business-rules/accounting-rules"
-        },
-        {
-          "title": "Inventory Rules",
-          "path": "08-business-rules/inventory-rules"
-        },
-        {
-          "title": "Tax Rules",
-          "path": "08-business-rules/tax-rules"
-        },
-        {
-          "title": "Approval Rules",
-          "path": "08-business-rules/approval-rules"
-        },
-        {
-          "title": "Numbering Rules",
-          "path": "08-business-rules/numbering-rules"
-        },
-        {
-          "title": "Workflow Rules",
-          "path": "08-business-rules/workflow-rules"
-        },
-        {
-          "title": "Posting Rules",
-          "path": "08-business-rules/posting-rules"
-        }
-      ]
-    },
-    {
-      "label": "09 AI",
-      "items": [
-        {
-          "title": "Ai Copilot",
-          "path": "09-ai/ai-copilot"
-        },
-        {
-          "title": "Prompt Library",
-          "path": "09-ai/prompt-library"
-        },
-        {
-          "title": "Rag",
-          "path": "09-ai/rag"
-        },
-        {
-          "title": "Tool Calling",
-          "path": "09-ai/tool-calling"
-        },
-        {
-          "title": "Document Ai",
-          "path": "09-ai/document-ai"
-        },
-        {
-          "title": "Forecasting",
-          "path": "09-ai/forecasting"
-        },
-        {
-          "title": "Business Advisor",
-          "path": "09-ai/business-advisor"
-        },
-        {
-          "title": "Ai Guardrails",
-          "path": "09-ai/ai-guardrails"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Index",
-      "items": [
-        {
-          "title": "ERP Core Engines — Index",
-          "path": "10-erp-core/README"
-        },
-        {
-          "title": "Engine Catalog",
-          "path": "10-erp-core/ENGINE_CATALOG"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Foundation",
-      "items": [
-        {
-          "title": "Identity Engine",
-          "path": "10-erp-core/foundation/identity-engine"
-        },
-        {
-          "title": "Authorization Engine",
-          "path": "10-erp-core/foundation/authorization-engine"
-        },
-        {
-          "title": "Permission Management Engine",
-          "path": "10-erp-core/foundation/permission-management-engine"
-        },
-        {
-          "title": "Audit Engine",
-          "path": "10-erp-core/foundation/audit-engine"
-        },
-        {
-          "title": "Configuration Engine",
-          "path": "10-erp-core/foundation/configuration-engine"
-        },
-        {
-          "title": "Localization Engine",
-          "path": "10-erp-core/foundation/localization-engine"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Document",
-      "items": [
-        {
-          "title": "Document Engine",
-          "path": "10-erp-core/document/document-engine"
-        },
-        {
-          "title": "Attachment Engine",
-          "path": "10-erp-core/document/attachment-engine"
-        },
-        {
-          "title": "File Storage Engine",
-          "path": "10-erp-core/document/file-storage-engine"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Workflow",
-      "items": [
-        {
-          "title": "Workflow Engine",
-          "path": "10-erp-core/workflow/workflow-engine"
-        },
-        {
-          "title": "Approval Engine",
-          "path": "10-erp-core/workflow/approval-engine"
-        },
-        {
-          "title": "Rules Engine",
-          "path": "10-erp-core/workflow/rules-engine"
-        },
-        {
-          "title": "Automation Engine",
-          "path": "10-erp-core/workflow/automation-engine"
-        },
-        {
-          "title": "Scheduler Engine",
-          "path": "10-erp-core/workflow/scheduler-engine"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Financial",
-      "items": [
-        {
-          "title": "Voucher Engine",
-          "path": "10-erp-core/financial/voucher-engine"
-        },
-        {
-          "title": "Posting Engine",
-          "path": "10-erp-core/financial/posting-engine"
-        },
-        {
-          "title": "Numbering Engine",
-          "path": "10-erp-core/financial/numbering-engine"
-        },
-        {
-          "title": "Currency Engine",
-          "path": "10-erp-core/financial/currency-engine"
-        },
-        {
-          "title": "Tax Engine",
-          "path": "10-erp-core/financial/tax-engine"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Intelligence",
-      "items": [
-        {
-          "title": "Search Engine",
-          "path": "10-erp-core/intelligence/search-engine"
-        },
-        {
-          "title": "Reporting Engine",
-          "path": "10-erp-core/intelligence/reporting-engine"
-        },
-        {
-          "title": "Dashboard Engine",
-          "path": "10-erp-core/intelligence/dashboard-engine"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Integration",
-      "items": [
-        {
-          "title": "Integration Engine",
-          "path": "10-erp-core/integration/integration-engine"
-        },
-        {
-          "title": "Event Engine",
-          "path": "10-erp-core/integration/event-engine"
-        },
-        {
-          "title": "Notification Engine",
-          "path": "10-erp-core/integration/notification-engine"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — Data Exchange",
-      "items": [
-        {
-          "title": "Import Engine",
-          "path": "10-erp-core/data-exchange/import-engine"
-        },
-        {
-          "title": "Export Engine",
-          "path": "10-erp-core/data-exchange/export-engine"
-        }
-      ]
-    },
-    {
-      "label": "10 ERP Core — AI",
-      "items": [
-        {
-          "title": "AI Copilot Engine",
-          "path": "10-erp-core/ai/ai-copilot-engine"
-        }
-      ]
-    },
-    {
-      "label": "11 Architecture Decision Records",
-      "items": [
-        {
-          "title": "ADR Repository",
-          "path": "11-adrs/README"
-        },
-        {
-          "title": "ADR Index",
-          "path": "11-adrs/ADR_INDEX"
-        },
-        {
-          "title": "ADR Template",
-          "path": "11-adrs/ADR_TEMPLATE"
-        },
-        {
-          "title": "Architecture ADRs",
-          "path": "11-adrs/architecture/README"
-        },
-        {
-          "title": "Data ADRs",
-          "path": "11-adrs/data/README"
-        },
-        {
-          "title": "Platform ADRs",
-          "path": "11-adrs/platform/README"
-        },
-        {
-          "title": "Security ADRs",
-          "path": "11-adrs/security/README"
-        },
-        {
-          "title": "AI ADRs",
-          "path": "11-adrs/ai/README"
-        },
-        {
-          "title": "Integration ADRs",
-          "path": "11-adrs/integration/README"
-        },
-        {
-          "title": "DevOps ADRs",
-          "path": "11-adrs/devops/README"
-        },
-        {
-          "title": "Engineering ADRs",
-          "path": "11-adrs/engineering/README"
-        },
-        {
-          "title": "UI ADRs",
-          "path": "11-adrs/ui/README"
-        }
-      ]
-    },
-    {
-      "label": "11 ERDs",
-      "items": [
-        {
-          "title": "Foundation ERD",
-          "path": "11-erd/foundation"
-        },
-        {
-          "title": "ERD Template",
-          "path": "11-erd/_template"
-        }
-      ]
-    },
-    {
-      "label": "20 Module PRDs",
-      "items": [
-        {
-          "title": "README",
-          "path": "20-module-prds/README"
-        },
-        {
-          "title": "MOD-001 Platform Administration",
-          "path": "20-module-prds/platform/README"
-        },
-        {
-          "title": "MOD-002 Accounting",
-          "path": "20-module-prds/accounting/README"
-        },
-        {
-          "title": "MOD-003 Sales",
-          "path": "20-module-prds/sales/README"
-        },
-        {
-          "title": "MOD-004 Purchase",
-          "path": "20-module-prds/purchase/README"
-        },
-        {
-          "title": "MOD-005 Inventory",
-          "path": "20-module-prds/inventory/README"
-        },
-        {
-          "title": "MOD-006 CRM",
-          "path": "20-module-prds/crm/README"
-        },
-        {
-          "title": "MOD-007 HRMS",
-          "path": "20-module-prds/hrms/README"
-        },
-        {
-          "title": "MOD-008 Payroll",
-          "path": "20-module-prds/payroll/README"
-        },
-        {
-          "title": "MOD-009 Manufacturing",
-          "path": "20-module-prds/manufacturing/README"
-        },
-        {
-          "title": "MOD-010 Projects",
-          "path": "20-module-prds/projects/README"
-        },
-        {
-          "title": "MOD-011 AMC",
-          "path": "20-module-prds/amc/README"
-        },
-        {
-          "title": "MOD-012 Field Service",
-          "path": "20-module-prds/field-service/README"
-        },
-        {
-          "title": "MOD-013 Assets",
-          "path": "20-module-prds/assets/README"
-        },
-        {
-          "title": "MOD-014 Fleet",
-          "path": "20-module-prds/fleet/README"
-        },
-        {
-          "title": "MOD-015 POS",
-          "path": "20-module-prds/pos/README"
-        },
-        {
-          "title": "MOD-016 Service Desk",
-          "path": "20-module-prds/service-desk/README"
-        },
-        {
-          "title": "MOD-017 Analytics",
-          "path": "20-module-prds/analytics/README"
-        },
-        {
-          "title": "MOD-018 AI Workspace",
-          "path": "20-module-prds/ai/README"
-        },
-        {
-          "title": "MOD-019 Warehouse",
-          "path": "20-module-prds/warehouse/README"
-        }
-      ]
-    },
-    {
-      "label": "30 Sprint PRDs",
-      "items": [
-        {
-          "title": "README",
-          "path": "30-sprint-prds/README"
-        },
-        {
-          "title": "MOD-001 Platform Administration",
-          "path": "30-sprint-prds/platform/README"
-        },
-        {
-          "title": "MOD-001 — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/platform/MOD-001_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-001-001 — Tenancy Foundation",
-          "path": "30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation"
-        },
-        {
-          "title": "SPR-MOD-001-002 — Organization Structure",
-          "path": "30-sprint-prds/platform/SPR-MOD-001-002-organization-structure"
-        },
-        {
-          "title": "SPR-MOD-001-003 — Users, Roles & Permissions",
-          "path": "30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions"
-        },
-        {
-          "title": "SPR-MOD-001-004 — Configuration Hierarchy",
-          "path": "30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy"
-        },
-        {
-          "title": "SPR-MOD-001-005 — Localization Packs",
-          "path": "30-sprint-prds/platform/SPR-MOD-001-005-localization-packs"
-        },
-        {
-          "title": "SPR-MOD-001-006 — Audit Review & Platform Administration",
-          "path": "30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration"
-        },
-        {
-          "title": "MOD-002 Accounting",
-          "path": "30-sprint-prds/accounting/README"
-        },
-        {
-          "title": "MOD-002 — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-002-001 — Accounting Foundation",
-          "path": "30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation"
-        },
-        {
-          "title": "SPR-MOD-002-002 — Voucher Framework",
-          "path": "30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework"
-        },
-        {
-          "title": "SPR-MOD-002-003 — Journal & Ledger Posting",
-          "path": "30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting"
-        },
-        {
-          "title": "SPR-MOD-002-004 — Financial Statements",
-          "path": "30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements"
-        },
-        {
-          "title": "SPR-MOD-002-005 — Taxation & Compliance Foundation",
-          "path": "30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation"
-        },
-        {
-          "title": "SPR-MOD-002-006 — Period Close & Audit",
-          "path": "30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit"
-        },
-        {
-          "title": "MOD-003 Sales",
-          "path": "30-sprint-prds/sales/README"
-        },
-        {
-          "title": "MOD-003 Sales — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/sales/MOD-003_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-003-001 — Sales Foundation",
-          "path": "30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation"
-        },
-        {
-          "title": "SPR-MOD-003-002 — Quotations & Sales Orders",
-          "path": "30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders"
-        },
-        {
-          "title": "SPR-MOD-003-003 — Delivery & Fulfillment",
-          "path": "30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment"
-        },
-        {
-          "title": "SPR-MOD-003-004 — Sales Invoicing",
-          "path": "30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing"
-        },
-        {
-          "title": "SPR-MOD-003-005 — Returns & Customer Adjustments",
-          "path": "30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments"
-        },
-        {
-          "title": "SPR-MOD-003-006 — Sales Analytics & Controls",
-          "path": "30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls"
-        },
-        {
-          "title": "MOD-004 Purchase",
-          "path": "30-sprint-prds/purchase/README"
-        },
-        {
-          "title": "MOD-004 Purchase — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/purchase/MOD-004_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-004-001 — Purchase Foundation",
-          "path": "30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation"
-        },
-        {
-          "title": "SPR-MOD-004-002 — Requisitions, RFQs & Purchase Orders",
-          "path": "30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders"
-        },
-        {
-          "title": "SPR-MOD-004-003 — Goods Receipt & Inspection",
-          "path": "30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection"
-        },
-        {
-          "title": "SPR-MOD-004-004 — Vendor Billing & Commercial 3-Way Match",
-          "path": "30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match"
-        },
-        {
-          "title": "SPR-MOD-004-005 — Purchase Returns & Vendor Adjustments",
-          "path": "30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments"
-        },
-        {
-          "title": "SPR-MOD-004-006 — Purchase Analytics & Controls",
-          "path": "30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls"
-        },
-        {
-          "title": "MOD-005 Inventory",
-          "path": "30-sprint-prds/inventory/README"
-        },
-        {
-          "title": "MOD-005 Inventory — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/inventory/MOD-005_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-005-001 — Inventory Foundation",
-          "path": "30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation"
-        },
-        {
-          "title": "SPR-MOD-005-002 — Inventory Receipts & Putaway",
-          "path": "30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway"
-        },
-        {
-          "title": "SPR-MOD-005-003 — Inventory Issues, Transfers & Reservations",
-          "path": "30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations"
-        },
-        {
-          "title": "SPR-MOD-005-004 — Inventory Adjustments & Stock Counting",
-          "path": "30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting"
-        },
-        {
-          "title": "SPR-MOD-005-005 — Inventory Valuation & Replenishment",
-          "path": "30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment"
-        },
-        {
-          "title": "SPR-MOD-005-006 — Inventory Analytics & Operational Controls",
-          "path": "30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls"
-        },
-        {
-          "title": "MOD-006 CRM",
-          "path": "30-sprint-prds/crm/README"
-        },
-        {
-          "title": "MOD-006 CRM — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/crm/MOD-006_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-006-001 — CRM Foundation",
-          "path": "30-sprint-prds/crm/SPR-MOD-006-001-crm-foundation"
-        },
-        {
-          "title": "SPR-MOD-006-002 — Leads",
-          "path": "30-sprint-prds/crm/SPR-MOD-006-002-leads"
-        },
-        {
-          "title": "SPR-MOD-006-003 — Opportunities",
-          "path": "30-sprint-prds/crm/SPR-MOD-006-003-opportunities"
-        },
-        {
-          "title": "SPR-MOD-006-004 — Activities & Communications",
-          "path": "30-sprint-prds/crm/SPR-MOD-006-004-activities-communications"
-        },
-        {
-          "title": "SPR-MOD-006-005 — Campaigns",
-          "path": "30-sprint-prds/crm/SPR-MOD-006-005-campaigns"
-        },
-        {
-          "title": "SPR-MOD-006-006 — Customer 360 & Analytics",
-          "path": "30-sprint-prds/crm/SPR-MOD-006-006-customer-360-analytics"
-        },
-        {
-          "title": "MOD-007 HRMS",
-          "path": "30-sprint-prds/hrms/README"
-        },
-        {
-          "title": "MOD-007 HRMS — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/hrms/MOD-007_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-007-001 — HRMS Foundation & Employee Master",
-          "path": "30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master"
-        },
-        {
-          "title": "SPR-MOD-007-002 — Employment Lifecycle (Hire & Exit)",
-          "path": "30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit"
-        },
-        {
-          "title": "SPR-MOD-007-003 — Attendance & Leave",
-          "path": "30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave"
-        },
-        {
-          "title": "SPR-MOD-007-004 — Performance & Appraisal",
-          "path": "30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal"
-        },
-        {
-          "title": "SPR-MOD-007-005 — Learning & Development and Self-Service",
-          "path": "30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service"
-        },
-        {
-          "title": "SPR-MOD-007-006 — HR Analytics & Compliance",
-          "path": "30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-008 Payroll",
-          "path": "30-sprint-prds/payroll/README"
-        },
-        {
-          "title": "MOD-008 Payroll — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/payroll/MOD-008_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-008-001 — Payroll Foundation & Salary Structures",
-          "path": "30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures"
-        },
-        {
-          "title": "SPR-MOD-008-002 — Payroll Cycles & Runs",
-          "path": "30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs"
-        },
-        {
-          "title": "SPR-MOD-008-003 — Statutory Computations",
-          "path": "30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations"
-        },
-        {
-          "title": "SPR-MOD-008-004 — Reimbursements & Advances",
-          "path": "30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances"
-        },
-        {
-          "title": "SPR-MOD-008-005 — Payslip Generation & Disbursement",
-          "path": "30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement"
-        },
-        {
-          "title": "SPR-MOD-008-006 — Payroll Analytics & Compliance",
-          "path": "30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-009 Manufacturing",
-          "path": "30-sprint-prds/manufacturing/README"
-        },
-        {
-          "title": "MOD-009 Manufacturing — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-009-001 — Manufacturing Foundation (BOM & Routing)",
-          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing"
-        },
-        {
-          "title": "SPR-MOD-009-002 — Production Planning & Scheduling",
-          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-002-production-planning-and-scheduling"
-        },
-        {
-          "title": "SPR-MOD-009-003 — Work Orders & Shopfloor Execution",
-          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution"
-        },
-        {
-          "title": "SPR-MOD-009-004 — Sub-contracting",
-          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-004-sub-contracting"
-        },
-        {
-          "title": "SPR-MOD-009-005 — Quality, Yield & Scrap",
-          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap"
-        },
-        {
-          "title": "SPR-MOD-009-006 — Manufacturing Analytics & Compliance",
-          "path": "30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-010 Projects",
-          "path": "30-sprint-prds/projects/README"
-        },
-        {
-          "title": "MOD-010 Projects — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/projects/MOD-010_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-010-001 — Projects Foundation (Project & Resource Setup)",
-          "path": "30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup"
-        },
-        {
-          "title": "SPR-MOD-010-002 — Tasks, Milestones & Change Requests",
-          "path": "30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests"
-        },
-        {
-          "title": "SPR-MOD-010-003 — Timesheets & Effort",
-          "path": "30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort"
-        },
-        {
-          "title": "SPR-MOD-010-004 — Budgets, Costs & Project Billing",
-          "path": "30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing"
-        },
-        {
-          "title": "SPR-MOD-010-005 — Projects Analytics & Compliance",
-          "path": "30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-011 AMC",
-          "path": "30-sprint-prds/amc/README"
-        },
-        {
-          "title": "MOD-011 AMC — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/amc/MOD-011_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-011-001 — AMC Foundation (Contracts & Entitlements)",
-          "path": "30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements"
-        },
-        {
-          "title": "SPR-MOD-011-002 — Preventive Visit Scheduling",
-          "path": "30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling"
-        },
-        {
-          "title": "SPR-MOD-011-003 — Contract Billing & Renewals",
-          "path": "30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals"
-        },
-        {
-          "title": "SPR-MOD-011-004 — AMC Analytics & Compliance",
-          "path": "30-sprint-prds/amc/SPR-MOD-011-004-amc-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-012 Field Service",
-          "path": "30-sprint-prds/field-service/README"
-        },
-        {
-          "title": "MOD-012 Field Service — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/field-service/MOD-012_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-012-001 — Field Service Foundation (Tickets & Field Workforce)",
-          "path": "30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce"
-        },
-        {
-          "title": "SPR-MOD-012-002 — Dispatch & Scheduling",
-          "path": "30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling"
-        },
-        {
-          "title": "SPR-MOD-012-003 — Mobile Visit Execution (Spares, Signatures, Closure)",
-          "path": "30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure"
-        },
-        {
-          "title": "SPR-MOD-012-004 — SLA & Escalation",
-          "path": "30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation"
-        },
-        {
-          "title": "SPR-MOD-012-005 — Field Service Analytics & Compliance",
-          "path": "30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-013 Assets",
-          "path": "30-sprint-prds/assets/README"
-        },
-        {
-          "title": "MOD-013 Assets — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/assets/MOD-013_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-013-001 — Asset Foundation (Register, Capitalization & Insurance)",
-          "path": "30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance"
-        },
-        {
-          "title": "SPR-MOD-013-002 — Depreciation (Methods & Runs)",
-          "path": "30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs"
-        },
-        {
-          "title": "SPR-MOD-013-003 — Maintenance, Transfer & Disposal",
-          "path": "30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal"
-        },
-        {
-          "title": "SPR-MOD-013-004 — Assets Analytics & Compliance",
-          "path": "30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-014 Fleet",
-          "path": "30-sprint-prds/fleet/README"
-        },
-        {
-          "title": "MOD-014 Fleet — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/fleet/MOD-014_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-014-001 — Fleet Foundation (Vehicles, Drivers, Compliance & Insurance)",
-          "path": "30-sprint-prds/fleet/SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance"
-        },
-        {
-          "title": "SPR-MOD-014-002 — Trip Planning & Execution",
-          "path": "30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution"
-        },
-        {
-          "title": "SPR-MOD-014-003 — Fuel & Maintenance",
-          "path": "30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance"
-        },
-        {
-          "title": "SPR-MOD-014-004 — Fleet Analytics & Compliance",
-          "path": "30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-015 POS",
-          "path": "30-sprint-prds/pos/README"
-        },
-        {
-          "title": "MOD-015 POS — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/pos/MOD-015_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-015-001 — POS Foundation (Stores, Counters & Configuration)",
-          "path": "30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration"
-        },
-        {
-          "title": "SPR-MOD-015-002 — Cart, Pricing, Discounts & Offline Sale",
-          "path": "30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale"
-        },
-        {
-          "title": "SPR-MOD-015-003 — Multi-Tender Payments & Receipts",
-          "path": "30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts"
-        },
-        {
-          "title": "SPR-MOD-015-004 — Offers, Loyalty & Returns",
-          "path": "30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns"
-        },
-        {
-          "title": "SPR-MOD-015-005 — Day Close, Analytics & Compliance",
-          "path": "30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance"
-        },
-        {
-          "title": "MOD-016 Service Desk",
-          "path": "30-sprint-prds/service-desk/README"
-        },
-        {
-          "title": "MOD-016 Service Desk — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-016-001 — Service Desk Foundation (Categories, SLA Policies, Business Hours & Routing)",
-          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION"
-        },
-        {
-          "title": "SPR-MOD-016-002 — Ticket Capture & Lifecycle",
-          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE"
-        },
-        {
-          "title": "SPR-MOD-016-003 — SLA Enforcement & Escalations",
-          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS"
-        },
-        {
-          "title": "SPR-MOD-016-004 — Knowledge Base, Macros & CSAT",
-          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT"
-        },
-        {
-          "title": "SPR-MOD-016-005 — Service Analytics & Compliance",
-          "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE"
-        },
-        {
-          "title": "MOD-017 Analytics",
-          "path": "30-sprint-prds/analytics/README"
-        },
-        {
-          "title": "MOD-017 Analytics — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/analytics/MOD-017_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-017-001 — Analytics Foundation & Data Marts",
-          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS"
-        },
-        {
-          "title": "SPR-MOD-017-002 — KPI Framework & Metric Catalog",
-          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG"
-        },
-        {
-          "title": "SPR-MOD-017-003 — Dashboards & Visualization",
-          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION"
-        },
-        {
-          "title": "SPR-MOD-017-004 — Scheduled Distribution, Reporting & Export",
-          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT"
-        },
-        {
-          "title": "SPR-MOD-017-005 — Analytical Models & Cross-Module Analytics",
-          "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS"
-        },
-        {
-          "title": "MOD-018 AI Workspace",
-          "path": "30-sprint-prds/ai/README"
-        },
-        {
-          "title": "MOD-018 — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/ai/MOD-018_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-018-001 — Prompt Library & AI Workspace Foundation",
-          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION"
-        },
-        {
-          "title": "SPR-MOD-018-002 — Retrieval Workspaces (RAG)",
-          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG"
-        },
-        {
-          "title": "SPR-MOD-018-003 — Tool Calling on Module Capabilities",
-          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES"
-        },
-        {
-          "title": "SPR-MOD-018-004 — Copilot Surfaces & Conversations",
-          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS"
-        },
-        {
-          "title": "SPR-MOD-018-005 — Governance: Human-Approval Gates, Cost & Safety",
-          "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY"
-        },
-        {
-          "title": "MOD-019 Warehouse",
-          "path": "30-sprint-prds/warehouse/README"
-        },
-        {
-          "title": "MOD-019 — Sprint Plan (Stage 1)",
-          "path": "30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN"
-        },
-        {
-          "title": "SPR-MOD-019-001 — Warehouse Foundation",
-          "path": "30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation"
-        },
-        {
-          "title": "SPR-MOD-019-002 — Inbound Execution",
-          "path": "30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution"
-        },
-        {
-          "title": "SPR-MOD-019-003 — Storage & Slotting",
-          "path": "30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting"
-        },
-        {
-          "title": "SPR-MOD-019-004 — Outbound Execution",
-          "path": "30-sprint-prds/warehouse/SPR-MOD-019-004-outbound-execution"
-        },
-        {
-          "title": "SPR-MOD-019-005 — Yard, Dock & Load-Out",
-          "path": "30-sprint-prds/warehouse/SPR-MOD-019-005-yard-dock-load-out"
-        },
-        {
-          "title": "SPR-MOD-019-006 — Warehouse Labor, Equipment & Analytics",
-          "path": "30-sprint-prds/warehouse/SPR-MOD-019-006-warehouse-labor-equipment-analytics"
-        }
-      ]
-    },
-    {
-      "label": "40 Module Baselines",
-      "items": [
-        {
-          "title": "README",
-          "path": "40-module-baselines/README"
-        },
-        {
-          "title": "MOD001_PLATFORM_BASELINE_v1",
-          "path": "40-module-baselines/MOD001_PLATFORM_BASELINE_v1"
-        },
-        {
-          "title": "MOD002_ACCOUNTING_BASELINE_v1",
-          "path": "40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1"
-        },
-        {
-          "title": "MOD003_SALES_BASELINE_v1",
-          "path": "40-module-baselines/MOD003_SALES_BASELINE_v1"
-        },
-        {
-          "title": "MOD004_PURCHASE_BASELINE_v1",
-          "path": "40-module-baselines/MOD004_PURCHASE_BASELINE_v1"
-        },
-        {
-          "title": "MOD005_INVENTORY_BASELINE_v1",
-          "path": "40-module-baselines/MOD005_INVENTORY_BASELINE_v1"
-        },
-        {
-          "title": "MOD006_CRM_BASELINE_v1",
-          "path": "40-module-baselines/MOD006_CRM_BASELINE_v1"
-        },
-        {
-          "title": "MOD007_HRMS_BASELINE_v1",
-          "path": "40-module-baselines/MOD007_HRMS_BASELINE_v1"
-        },
-        {
-          "title": "MOD008_PAYROLL_BASELINE_v1",
-          "path": "40-module-baselines/MOD008_PAYROLL_BASELINE_v1"
-        },
-        {
-          "title": "MOD009_MANUFACTURING_BASELINE_v1",
-          "path": "40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1"
-        },
-        {
-          "title": "MOD010_PROJECTS_BASELINE_v1",
-          "path": "40-module-baselines/MOD010_PROJECTS_BASELINE_v1"
-        },
-        {
-          "title": "MOD011_AMC_BASELINE_v1",
-          "path": "40-module-baselines/MOD011_AMC_BASELINE_v1"
-        },
-        {
-          "title": "MOD012_FIELD_SERVICE_BASELINE_v1",
-          "path": "40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1"
-        },
-        {
-          "title": "MOD013_ASSETS_BASELINE_v1",
-          "path": "40-module-baselines/MOD013_ASSETS_BASELINE_v1"
-        },
-        {
-          "title": "MOD014_FLEET_BASELINE_v1",
-          "path": "40-module-baselines/MOD014_FLEET_BASELINE_v1"
-        },
-        {
-          "title": "MOD015_POS_BASELINE_v1",
-          "path": "40-module-baselines/MOD015_POS_BASELINE_v1"
-        },
-        {
-          "title": "MOD016_SERVICE_DESK_BASELINE_v1",
-          "path": "40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1"
-        },
-        {
-          "title": "MOD017_ANALYTICS_BASELINE_v1",
-          "path": "40-module-baselines/MOD017_ANALYTICS_BASELINE_v1"
-        },
-        {
-          "title": "MOD018_AI_WORKSPACE_BASELINE_v1",
-          "path": "40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1"
-        },
-        {
-          "title": "MOD019_WAREHOUSE_BASELINE_v1",
-          "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
-        }
-      ]
-    },
-    {
-      "label": "45 Module Publications",
-      "items": [
-        {
-          "title": "README",
-          "path": "45-module-publications/README"
-        },
-        {
-          "title": "MOD-017 Analytics — Module Publication",
-          "path": "45-module-publications/analytics/MOD-017_MODULE_PUBLICATION"
-        },
-        {
-          "title": "MOD-001 Platform Administration — Module Publication",
-          "path": "45-module-publications/platform/MOD-001_MODULE_PUBLICATION"
-        },
-        {
-          "title": "MOD-002 Accounting — Module Publication",
-          "path": "45-module-publications/accounting/MOD-002_MODULE_PUBLICATION"
-        },
-        {
-          "title": "MOD-018 AI Workspace — Module Publication",
-          "path": "45-module-publications/ai/MOD-018_MODULE_PUBLICATION"
-        }
-      ]
-    },
-
-    {
-      "label": "60 Solution Design",
-      "items": [
-        {
-          "title": "README",
-          "path": "60-solution-design/README"
-        },
-        {
-          "title": "Solution Design Catalog",
-          "path": "60-solution-design/SOLUTION_DESIGN_CATALOG"
-        }
-      ]
-    },
-
-    {
-      "label": "WEB Specifications",
-      "items": [
-        { "title": "Index", "path": "60-solution-design/web/README" },
-        { "title": "WEB-001 — Platform Administration Web Solution Design Specification", "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION" },
-        { "title": "WEB-002 — Accounting Web Solution Design Specification", "path": "60-solution-design/web/WEB-002_ACCOUNTING" },
-        { "title": "WEB-003 — Sales Web Solution Design Specification", "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN" },
-        { "title": "WEB-017 — Analytics Web Solution Design Specification", "path": "60-solution-design/web/WEB-017_ANALYTICS" },
-        { "title": "WEB-018 — AI Workspace Web Solution Design Specification", "path": "60-solution-design/web/WEB-018_AI_WORKSPACE" }
-      ]
-    },
-
-    {
-      "label": "MOB Specifications",
-      "items": [
-        { "title": "Index", "path": "60-solution-design/mobile/README" },
-        { "title": "MOB-001 — Platform Administration Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION" },
-        { "title": "MOB-002 — Accounting Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-002_ACCOUNTING" },
-        { "title": "MOB-003 — Sales Mobile Solution Design Specification", "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN" },
-        { "title": "MOB-017 — Analytics Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-017_ANALYTICS" },
-        { "title": "MOB-018 — AI Workspace Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE" }
-      ]
-    },
-
-    {
-      "label": "API Specifications",
-      "items": [
-        { "title": "Index", "path": "60-solution-design/api/README" },
-        { "title": "API-001 — Platform Administration API Solution Design Specification", "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION" },
-        { "title": "API-002 — Accounting API Solution Design Specification", "path": "60-solution-design/api/API-002_ACCOUNTING" },
-        { "title": "API-003 — Sales API Solution Design Specification", "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN" },
-        { "title": "API-017 — Analytics API Solution Design Specification", "path": "60-solution-design/api/API-017_ANALYTICS" },
-        { "title": "API-018 — AI Workspace API Solution Design Specification", "path": "60-solution-design/api/API-018_AI_WORKSPACE" }
-      ]
-    },
-
-    {
-      "label": "Cross-Platform Certifications",
-      "items": [
-        {
-          "title": "MOD-003 — Sales Cross-Platform Certification Report",
-          "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z"
-        },
-        {
-          "title": "MOD-003 — Cross-Platform Certification Verification Report",
-          "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z"
-        }
-      ]
-    },
-
-
-
-    {
-      "label": "12 UI Components",
-      "items": [
-        {
-          "title": "Data Grid",
-          "path": "12-ui-components/data-grid"
-        },
-        {
-          "title": "Voucher Grid",
-          "path": "12-ui-components/voucher-grid"
-        },
-        {
-          "title": "Master Form",
-          "path": "12-ui-components/master-form"
-        },
-        {
-          "title": "Lookup Dialog",
-          "path": "12-ui-components/lookup-dialog"
-        },
-        {
-          "title": "Filter Panel",
-          "path": "12-ui-components/filter-panel"
-        },
-        {
-          "title": "Dashboard Cards",
-          "path": "12-ui-components/dashboard-cards"
-        },
-        {
-          "title": "Approval Timeline",
-          "path": "12-ui-components/approval-timeline"
-        },
-        {
-          "title": "Activity Feed",
-          "path": "12-ui-components/activity-feed"
-        }
-      ]
-    },
-    {
-      "label": "13 Workflows",
-      "items": [
-        {
-          "title": "Voucher Posting",
-          "path": "13-workflows/voucher-posting"
-        },
-        {
-          "title": "Approval Workflow",
-          "path": "13-workflows/approval-workflow"
-        },
-        {
-          "title": "Purchase Workflow",
-          "path": "13-workflows/purchase-workflow"
-        },
-        {
-          "title": "Sales Workflow",
-          "path": "13-workflows/sales-workflow"
-        },
-        {
-          "title": "Inventory Workflow",
-          "path": "13-workflows/inventory-workflow"
-        },
-        {
-          "title": "Payroll Workflow",
-          "path": "13-workflows/payroll-workflow"
-        },
-        {
-          "title": "Amc Workflow",
-          "path": "13-workflows/amc-workflow"
-        },
-        {
-          "title": "Field Visit Workflow",
-          "path": "13-workflows/field-visit-workflow"
-        }
-      ]
-    },
-    {
-      "label": "14 Localization",
-      "items": [
-        {
-          "title": "India",
-          "path": "14-localization/india"
-        },
-        {
-          "title": "Uae",
-          "path": "14-localization/uae"
-        },
-        {
-          "title": "Saudi-Arabia",
-          "path": "14-localization/saudi-arabia"
-        },
-        {
-          "title": "Qatar",
-          "path": "14-localization/qatar"
-        },
-        {
-          "title": "Oman",
-          "path": "14-localization/oman"
-        },
-        {
-          "title": "Kuwait",
-          "path": "14-localization/kuwait"
-        },
-        {
-          "title": "Bahrain",
-          "path": "14-localization/bahrain"
-        },
-        {
-          "title": "Global",
-          "path": "14-localization/global"
-        }
-      ]
-    },
-    {
-      "label": "15 Governance",
-      "items": [
-        {
-          "title": "Governance Template Framework",
-          "path": "15-governance/README"
-        },
-        {
-          "title": "Governance Template Standard",
-          "path": "15-governance/GOVERNANCE_TEMPLATE_STANDARD"
-        },
-        {
-          "title": "Governance Template Lifecycle",
-          "path": "15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE"
-        },
-        {
-          "title": "Governance Template Registry",
-          "path": "15-governance/GOVERNANCE_TEMPLATE_REGISTRY"
-        },
-        {
-          "title": "Governance Template Index",
-          "path": "15-governance/GOVERNANCE_TEMPLATE_INDEX"
-        },
-        {
-          "title": "Governance Template Capabilities",
-          "path": "15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES"
-        },
-        {
-          "title": "Governance Template Dependency Matrix",
-          "path": "15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX"
-        },
-        {
-          "title": "Governance Frontmatter Standard",
-          "path": "15-governance/GOVERNANCE_FRONTMATTER_STANDARD"
-        },
-        {
-          "title": "Screen Identifier Standard",
-          "path": "15-governance/SCREEN_IDENTIFIER_STANDARD"
-        },
-        {
-          "title": "Finding Severity Standard",
-          "path": "15-governance/FINDING_SEVERITY_STANDARD"
-        },
-        {
-          "title": "Migration Registry",
-          "path": "15-governance/MIGRATION_REGISTRY"
-        },
-        {
-          "title": "Solution Design Identifier Migration — 2026-07-18",
-          "path": "15-governance/SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718"
-        },
-        {
-          "title": "GT-002 Stage 1 Authoring",
-          "path": "15-governance/templates/GT-002_STAGE1_AUTHORING"
-        },
-        {
-          "title": "GT-003 Sprint Authoring",
-          "path": "15-governance/templates/GT-003_SPRINT_AUTHORING"
-        },
-        {
-          "title": "GT-004 Baseline Consolidation",
-          "path": "15-governance/templates/GT-004_BASELINE_CONSOLIDATION"
-        },
-        {
-          "title": "GT-005 Repository Audit",
-          "path": "15-governance/templates/GT-005_REPOSITORY_AUDIT"
-        },
-        {
-          "title": "Governance Framework Release v1.0",
-          "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_v1.0"
-        },
-        {
-          "title": "Governance Framework Release Notes v1.0",
-          "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0"
-        },
-        {
-          "title": "Governance Framework Manifest (JSON)",
-          "path": "15-governance/GOVERNANCE_FRAMEWORK_MANIFEST"
-        }
-      ]
-    },
-    {
-      "label": "99 Templates",
-      "items": [
-        {
-          "title": "Module PRD Template",
-          "path": "99-templates/module-prd-template"
-        },
-        {
-          "title": "Sprint PRD Template",
-          "path": "99-templates/sprint-prd-template"
-        },
-        {
-          "title": "API Spec Template",
-          "path": "99-templates/api-spec-template"
-        },
-        {
-          "title": "DB Schema Template",
-          "path": "99-templates/db-schema-template"
-        },
-        {
-          "title": "ADR Template",
-          "path": "99-templates/adr-template"
-        },
-        {
-          "title": "Integration Template",
-          "path": "99-templates/integration-template"
-        },
-        {
-          "title": "Report Template",
-          "path": "99-templates/report-template"
-        },
-        {
-          "title": "Event Template",
-          "path": "99-templates/event-template"
-        },
-        {
-          "title": "Workflow Template",
-          "path": "99-templates/workflow-template"
-        },
-        {
-          "title": "UI Component Template",
-          "path": "99-templates/ui-component-template"
-        },
-        {
-          "title": "Locale Template",
-          "path": "99-templates/locale-template"
-        },
-        {
-          "title": "ERD Template",
-          "path": "99-templates/erd-template"
         }
       ]
     }
