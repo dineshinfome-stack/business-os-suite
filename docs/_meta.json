@@ -1598,11 +1598,11 @@
       "label": "WEB Specifications",
       "items": [
         { "title": "Index", "path": "60-solution-design/web/README" },
-        { "title": "001", "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION" },
-        { "title": "002", "path": "60-solution-design/web/WEB-002_ACCOUNTING" },
-        { "title": "003", "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN" },
-        { "title": "017", "path": "60-solution-design/web/WEB-017_ANALYTICS" },
-        { "title": "018", "path": "60-solution-design/web/WEB-018_AI_WORKSPACE" }
+        { "title": "WEB-001 — Platform Administration Web Solution Design Specification", "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION" },
+        { "title": "WEB-002 — Accounting Web Solution Design Specification", "path": "60-solution-design/web/WEB-002_ACCOUNTING" },
+        { "title": "WEB-003 — Sales Web Solution Design Specification", "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN" },
+        { "title": "WEB-017 — Analytics Web Solution Design Specification", "path": "60-solution-design/web/WEB-017_ANALYTICS" },
+        { "title": "WEB-018 — AI Workspace Web Solution Design Specification", "path": "60-solution-design/web/WEB-018_AI_WORKSPACE" }
       ]
     },
 
@@ -1610,11 +1610,11 @@
       "label": "MOB Specifications",
       "items": [
         { "title": "Index", "path": "60-solution-design/mobile/README" },
-        { "title": "001", "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION" },
-        { "title": "002", "path": "60-solution-design/mobile/MOB-002_ACCOUNTING" },
-        { "title": "003", "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN" },
-        { "title": "017", "path": "60-solution-design/mobile/MOB-017_ANALYTICS" },
-        { "title": "018", "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE" }
+        { "title": "MOB-001 — Platform Administration Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION" },
+        { "title": "MOB-002 — Accounting Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-002_ACCOUNTING" },
+        { "title": "MOB-003 — Sales Mobile Solution Design Specification", "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN" },
+        { "title": "MOB-017 — Analytics Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-017_ANALYTICS" },
+        { "title": "MOB-018 — AI Workspace Mobile Solution Design Specification", "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE" }
       ]
     },
 
@@ -1622,11 +1622,11 @@
       "label": "API Specifications",
       "items": [
         { "title": "Index", "path": "60-solution-design/api/README" },
-        { "title": "001", "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION" },
-        { "title": "002", "path": "60-solution-design/api/API-002_ACCOUNTING" },
-        { "title": "003", "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN" },
-        { "title": "017", "path": "60-solution-design/api/API-017_ANALYTICS" },
-        { "title": "018", "path": "60-solution-design/api/API-018_AI_WORKSPACE" }
+        { "title": "API-001 — Platform Administration API Solution Design Specification", "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION" },
+        { "title": "API-002 — Accounting API Solution Design Specification", "path": "60-solution-design/api/API-002_ACCOUNTING" },
+        { "title": "API-003 — Sales API Solution Design Specification", "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN" },
+        { "title": "API-017 — Analytics API Solution Design Specification", "path": "60-solution-design/api/API-017_ANALYTICS" },
+        { "title": "API-018 — AI Workspace API Solution Design Specification", "path": "60-solution-design/api/API-018_AI_WORKSPACE" }
       ]
     },
 
@@ -1634,15 +1634,16 @@
       "label": "Cross-Platform Certifications",
       "items": [
         {
-          "title": "Certification Report",
+          "title": "MOD-003 — Sales Cross-Platform Certification Report",
           "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z"
         },
         {
-          "title": "Certification Verification Report",
+          "title": "MOD-003 — Cross-Platform Certification Verification Report",
           "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z"
         }
       ]
     },
+
 
 
     {
