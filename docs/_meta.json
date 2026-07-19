@@ -1662,6 +1662,14 @@
         {
           "title": "API-003 — Sales (46-)",
           "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOD-003 Cross-Platform Certification",
+          "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z"
+        },
+        {
+          "title": "MOD-003 Cross-Platform Certification Verification",
+          "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z"
         }
       ]
     },
