@@ -1590,85 +1590,55 @@
         {
           "title": "Solution Design Catalog",
           "path": "60-solution-design/SOLUTION_DESIGN_CATALOG"
-        },
+        }
+      ]
+    },
+
+    {
+      "label": "WEB Specifications",
+      "items": [
+        { "title": "Index", "path": "60-solution-design/web/README" },
+        { "title": "001", "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION" },
+        { "title": "002", "path": "60-solution-design/web/WEB-002_ACCOUNTING" },
+        { "title": "003", "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN" },
+        { "title": "017", "path": "60-solution-design/web/WEB-017_ANALYTICS" },
+        { "title": "018", "path": "60-solution-design/web/WEB-018_AI_WORKSPACE" }
+      ]
+    },
+
+    {
+      "label": "MOB Specifications",
+      "items": [
+        { "title": "Index", "path": "60-solution-design/mobile/README" },
+        { "title": "001", "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION" },
+        { "title": "002", "path": "60-solution-design/mobile/MOB-002_ACCOUNTING" },
+        { "title": "003", "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN" },
+        { "title": "017", "path": "60-solution-design/mobile/MOB-017_ANALYTICS" },
+        { "title": "018", "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE" }
+      ]
+    },
+
+    {
+      "label": "API Specifications",
+      "items": [
+        { "title": "Index", "path": "60-solution-design/api/README" },
+        { "title": "001", "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION" },
+        { "title": "002", "path": "60-solution-design/api/API-002_ACCOUNTING" },
+        { "title": "003", "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN" },
+        { "title": "017", "path": "60-solution-design/api/API-017_ANALYTICS" },
+        { "title": "018", "path": "60-solution-design/api/API-018_AI_WORKSPACE" }
+      ]
+    },
+
+    {
+      "label": "Cross-Platform Certifications",
+      "items": [
         {
-          "title": "WEB Specifications — Index",
-          "path": "60-solution-design/web/README"
-        },
-        {
-          "title": "WEB-001 — Platform Administration",
-          "path": "60-solution-design/web/WEB-001_PLATFORM_ADMINISTRATION"
-        },
-        {
-          "title": "WEB-002 — Accounting",
-          "path": "60-solution-design/web/WEB-002_ACCOUNTING"
-        },
-        {
-          "title": "WEB-003 — Sales (46-)",
-          "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN"
-        },
-        {
-          "title": "WEB-017 — Analytics",
-          "path": "60-solution-design/web/WEB-017_ANALYTICS"
-        },
-        {
-          "title": "WEB-018 — AI Workspace",
-          "path": "60-solution-design/web/WEB-018_AI_WORKSPACE"
-        },
-        {
-          "title": "MOB Specifications — Index",
-          "path": "60-solution-design/mobile/README"
-        },
-        {
-          "title": "MOB-001 — Platform Administration",
-          "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION"
-        },
-        {
-          "title": "MOB-002 — Accounting",
-          "path": "60-solution-design/mobile/MOB-002_ACCOUNTING"
-        },
-        {
-          "title": "MOB-003 — Sales (46-)",
-          "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN"
-        },
-        {
-          "title": "MOB-017 — Analytics",
-          "path": "60-solution-design/mobile/MOB-017_ANALYTICS"
-        },
-        {
-          "title": "MOB-018 — AI Workspace",
-          "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE"
-        },
-        {
-          "title": "API Specifications — Index",
-          "path": "60-solution-design/api/README"
-        },
-        {
-          "title": "API-001 — Platform Administration",
-          "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION"
-        },
-        {
-          "title": "API-002 — Accounting",
-          "path": "60-solution-design/api/API-002_ACCOUNTING"
-        },
-        {
-          "title": "API-003 — Sales (46-)",
-          "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN"
-        },
-        {
-          "title": "API-017 — Analytics",
-          "path": "60-solution-design/api/API-017_ANALYTICS"
-        },
-        {
-          "title": "API-018 — AI Workspace",
-          "path": "60-solution-design/api/API-018_AI_WORKSPACE"
-        },
-        {
-          "title": "MOD-003 Cross-Platform Certification",
+          "title": "Certification Report",
           "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z"
         },
         {
-          "title": "MOD-003 Cross-Platform Certification Verification",
+          "title": "Certification Verification Report",
           "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_VERIFICATION_20260719T210500Z"
         }
       ]
