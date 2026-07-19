@@ -34,6 +34,7 @@ Every API specification MUST reference: Published Module, Module PRD, Sprint Pla
 | Spec ID | Source Module | Lifecycle State | Owner | Updated |
 | --- | --- | --- | --- | --- |
 | [API-001](./API-001_PLATFORM_ADMINISTRATION.md) | MOD-001 Platform Administration | Active | Architecture Office | 2026-07-18 |
+| [API-002](./API-002_ACCOUNTING.md) | MOD-002 Accounting | Active | Accounting | 2026-07-19 |
 | [API-017](./API-017_ANALYTICS.md) | MOD-017 Analytics | Active | Insights | 2026-07-18 |
 | [API-018](./API-018_AI_WORKSPACE.md) | MOD-018 AI Workspace | Active | AI Platform | 2026-07-18 |
 

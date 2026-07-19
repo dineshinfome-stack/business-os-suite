@@ -75,3 +75,17 @@ No governance/template/unrelated catalog modifications.
 ### Out of Scope
 
 Code, DB schema, OpenAPI generation, infra, ADRs, engines, upstream revisions, baseline revisions, governance evolution, MOD-001 changes.
+
+---
+
+## Execution Record — API002-SD-20260719T070000Z-001
+
+- **Pass ID:** 37.4.0
+- **Pass Classification:** Solution Design — API — Read/Author with scoped verification
+- **Parent Execution:** MOB002-SD-20260719T060000Z-001
+- **Deliverables:**
+  - Authored `docs/60-solution-design/api/API-002_ACCOUNTING.md` (spec_id `API-002`, template `SD-001_API_SPEC` v1.0, 58 stable endpoints `API002-EP-001`…`API002-EP-110` across 6 domains, 6-col traceability §P covering all 22 Publication §4 authorities, Design Constraints §S).
+  - Emitted `docs/50-audit-reports/API002_SOLUTION_DESIGN_VERIFICATION_20260719T070000Z.md` (16/16 PASS; MAJOR=0, CRITICAL=0).
+  - Registered on `docs/60-solution-design/api/README.md`, `docs/60-solution-design/SOLUTION_DESIGN_CATALOG.md`, `docs/_meta.json`, `docs/DOCUMENT_INDEX.md`.
+- **Repository State:** `MOD002_MOBILE_SOLUTION_DESIGN_COMPLETE` → `MOD002_API_SOLUTION_DESIGN_COMPLETE`.
+- **Authorizes:** Pass 37.5.0 — MOD-002 Solution Design Certification & Cross-Platform Consistency Verification.

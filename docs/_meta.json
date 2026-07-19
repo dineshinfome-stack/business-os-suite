@@ -1640,6 +1640,10 @@
           "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION"
         },
         {
+          "title": "API-002 — Accounting",
+          "path": "60-solution-design/api/API-002_ACCOUNTING"
+        },
+        {
           "title": "API-017 — Analytics",
           "path": "60-solution-design/api/API-017_ANALYTICS"
         },
