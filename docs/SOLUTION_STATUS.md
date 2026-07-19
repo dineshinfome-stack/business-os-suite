@@ -15,7 +15,7 @@ document_type: "Status Register"
 
 ## Current Repository State
 
-**`MOB003_SOLUTION_DESIGNED`** — as of `2026-07-19` per `MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z` (16/16 PASS; MAJOR=0; CRITICAL=0). Prior state: `WEB003_SOLUTION_DESIGNED` (per `WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z`).
+**`API003_SOLUTION_DESIGNED`** — as of `2026-07-19` per `API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z` (16/16 PASS; MAJOR=0; CRITICAL=0). Prior state: `MOB003_SOLUTION_DESIGNED` (per `MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z`).
 
 ## Module Certification Register
 
@@ -23,7 +23,7 @@ document_type: "Status Register"
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
 | MOD-001 Platform Administration | ✓ | ✓ | ✓ | ✓ | ✓ Reference Implementation Certified | `REFERENCE_IMPLEMENTATION_CERTIFICATION_MOD001_20260718T190000Z` |
 | MOD-002 Accounting | ✓ | ✓ | ✓ | ✓ | ✓ Reference Module Frozen (`MOD002-REL-001`) | `MOD002_REFERENCE_MODULE_FREEZE_20260719T130000Z` |
-| MOD-003 Sales | ✓ | ◐ | ◐ | — | — Mobile Solution Design Complete | `MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z` |
+| MOD-003 Sales | ✓ | ◐ | ◐ | ◐ | — API Solution Design Complete | `API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z` |
 | MOD-017 Analytics | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260717T220000Z` |
 | MOD-018 AI Workspace | ✓ | ✓ | ✓ | ✓ | — | `REPOSITORY_AUDIT_20260718T060000Z` |
 

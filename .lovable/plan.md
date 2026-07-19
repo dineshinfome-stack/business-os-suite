@@ -69,3 +69,11 @@ No Web/Mobile modifications. No implementation, protocol/endpoint syntax, HTTP m
 - Registration synchronized across all surfaces.
 - Repository state: **`API003_SOLUTION_DESIGNED`**.
 - Authorizes Pass 38.5.0 — MOD-003 Cross-Platform Certification.
+
+## Pass 38.4.0 — API-003 Solution Design (MOD-003 Sales) — COMPLETE
+
+- Authored `docs/46-solution-design/api/sales/API-003_SOLUTION_DESIGN.md` (§1–§16) including §13.x API Capability Neutrality Clause (subclauses 13.x.1–13.x.5) and a 40-row §14 Traceability Matrix where every row carries a non-empty GT-005 anchor.
+- Emitted `docs/50-audit-reports/API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z.md` — 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
+- Created `docs/46-solution-design/api/README.md`; updated `docs/SOLUTION_STATUS.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
+- Repository state advanced: `MOB003_SOLUTION_DESIGNED` → `API003_SOLUTION_DESIGNED`.
+- Authorizes Pass 38.5.0 — MOD-003 Cross-Platform Certification.

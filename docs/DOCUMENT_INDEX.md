@@ -279,6 +279,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD003_PUBLICATION_VERIFICATION_20260719T170000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD003_PUBLICATION_VERIFICATION_20260719T170000Z.md` |
 | WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z.md` |
 | MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z.md` |
+| API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z.md` |
 | Repository Solution Status | Status Register | Active | Derived | `docs/SOLUTION_STATUS.md` |
 | MOD003_SALES_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md` |
 | MOD004_PURCHASE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD004_PURCHASE_BASELINE_v1.md` |
@@ -538,6 +539,8 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | API-002 — Accounting API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-002_ACCOUNTING.md` |
 | API-017 — Analytics API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-017_ANALYTICS.md` |
 | API-018 — AI Workspace API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-018_AI_WORKSPACE.md` |
+| API Specifications — Family Index (46-) | Solution Design | Active | Reference | `docs/46-solution-design/api/README.md` |
+| API-003 — Sales API Solution Design Specification | Solution Design | Active | Authoritative | `docs/46-solution-design/api/sales/API-003_SOLUTION_DESIGN.md` |
 
 
 
