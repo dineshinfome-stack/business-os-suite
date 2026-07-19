@@ -1,70 +1,83 @@
-## Pass 38.2.0 — WEB-003 Solution Design (MOD-003 Sales)
+## Pass 38.3.0 — MOB-003 Solution Design (MOD-003 Sales)
 
-Translate the approved GT-005 MOD-003 publication into the canonical web solution design, mirroring the certified WEB-002 structure. No mobile, API, implementation, or governance evolution.
+Author the canonical Mobile Solution Design for MOD-003 Sales, derived exclusively from the approved GT-005 Module Publication and mirroring the certified MOB-002 structure. No implementation, API, or governance evolution.
 
-### State transition
+### State Transition
+`WEB003_SOLUTION_DESIGNED` → `MOB003_SOLUTION_DESIGNED`
 
-`MOD003_PUBLICATION_AUTHORED → WEB003_SOLUTION_DESIGNED`
+### Deliverable A — MOB-003 Solution Design
 
-### Deliverable A — WEB-003 Solution Design
+Create `docs/46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN.md` following certified MOB-002 structure with all 15 mandatory sections:
 
-Create `docs/46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN.md`, following the certified WEB-002 spine.
+1. Identity & Traceability (Baseline → Sprints → GT-005 → WEB-003 → MOB-003)
+2. Mobile Design Principles (functional parity, touch-first, offline-first, accessibility)
+3. Mobile Information Architecture (bottom nav, drawer, workspaces, contextual actions)
+4. Mobile Screen Catalogue (Dashboard, Quotations, Sales Orders, Deliveries, Invoices, Credit/Debit Notes, Returns, Customers, Pricing, Reports, Sales Settings, Notifications, Pending Approvals, Offline Queue, Sync Status)
+5. Screen Specifications (purpose, entry/exit, touch interactions, permissions, responsive behavior)
+6. Mobile User Journeys (quote creation, order conversion, delivery confirmation, invoice review, returns, approvals, offline, sync recovery)
+   - **6.x Mobile–Web Functional Parity** — for every mobile journey, maintain functional parity with the corresponding WEB-003 workflow and the business authority set by GT-005. Enumerate:
+     - **Permitted adaptations (presentation only):** bottom sheets replacing desktop dialogs; swipe actions for context-specific operations; condensed forms via progressive disclosure; FABs for primary actions; native mobile pickers/selectors; contextual action menus; touch-optimized navigation; adaptive layouts for device size and orientation.
+     - **Prohibited adaptations:** no new business workflows; no modified approval sequences; no altered business rules; no altered validation logic; no bypass of permission enforcement; no mobile-only functional capabilities; no removal of mandatory functional steps defined in GT-005 or WEB-003.
+     - **Invariant:** Web/Mobile differences are presentation-only. Business outcomes, state transitions, traceability, and security semantics are identical. GT-005 is the single functional authority; WEB-003 the canonical web interaction model; MOB-003 the equivalent mobile interaction model.
+7. Mobile UI Components (cards, lists, search, filters, forms, bottom sheets, dialogs, barcode/QR functional expectation, attachments, timeline, FABs)
+8. Offline & Synchronization Model (offline-capable activities, queued ops, sync expectations, conflict handling behavior, retry, connectivity indicators)
+9. Mobile Validation (field, workflow gating, permission gating, duplicate prevention, deferred validation)
+10. Error Handling (connectivity, sync, auth, validation, concurrency, unexpected)
+11. Roles & Permissions (Sales Executive, Sales Manager, Order Desk, Accountant read-only, Warehouse Manager scoped)
+12. Accessibility (screen readers, touch target sizing, focus, orientation, color independence, dynamic text)
+13. Cross-Module Navigation (CRM, Inventory, Accounting, Analytics — ownership preserved)
+14. Traceability Matrix (GT-005 Requirement → WEB-003 Workflow → Mobile Screen → Journey → Component) — extended to make Web/Mobile parity auditable per §6.x.
+15. Design Constraints (exclusions listed explicitly)
 
-Frontmatter (per `GOVERNANCE_FRONTMATTER_STANDARD`):
-`spec_id: WEB-003_SOLUTION_DESIGN`, `template: WEB-003`, `template_version`, `module: MOD-003 Sales`, `source_publication: MOD-003_MODULE_PUBLICATION`, `lifecycle_state: WEB003_SOLUTION_DESIGNED`, `owner`, `updated: 2026-07-19`, `tags`, `document_type`.
-
-Mandatory sections (functional/behavioral only — no code, API, or schema):
-
-1. Identity & Traceability — Baseline → Sprint PRDs → GT-005 → WEB-003 chain.
-2. Design Principles — GT-005 parity, responsive-first, a11y-first, reusable components, Business OS UX consistency.
-3. Information Architecture — Sales workspace, module nav, page hierarchy, menu placement.
-4. Screen Catalogue — Dashboard, Quotations, Sales Orders, Deliveries, Invoices, Credit/Debit Notes, Returns, Customers, Pricing (price lists / discounts), Reports, Sales Settings.
-5. Page Specifications — per screen: purpose, entry, exit, user actions, displayed info, navigation, permissions.
-6. User Flows — Quote→Order, Order→Delivery, Delivery→Invoice, Invoice→Return, Draft→Approval, Cancel/Reject, Reopen.
-7. UI Component Specifications — grids, filters, search, forms, dialogs, lookup, action bars, approval banners, attachments, activity timelines (behavior only).
-8. Client-side Validation — mandatory fields, formats, workflow gating, permission gating, duplicate prevention; business rules delegated to backend.
-9. Client State Model — page/draft/edit/approval/loading/sync/offline expectations.
-10. Error Handling — validation, authorization, concurrency, unavailable resources, unexpected failures.
-11. Roles & Permissions — GT-005 permission mapping to UI (Sales Executive, Manager, Order Desk, Accountant read-only, Warehouse Manager scoped).
-12. Accessibility — keyboard nav, focus, screen reader, color independence, responsive breakpoints.
-13. Cross-Module Navigation — CRM, Inventory, Accounting, Analytics (respecting ownership boundaries).
-14. Traceability Matrix — GT-005 Requirement → Screen → Workflow → Component.
-15. Design Constraints — explicit exclusions (no backend, no API, no schema, no code, no governance evolution).
+Frontmatter per `GOVERNANCE_FRONTMATTER_STANDARD`: `spec_id: MOB-003_SOLUTION_DESIGN`, `template: MOB-003`, `module: MOD-003`, `source_publication: MOD-003_MODULE_PUBLICATION`, `source_web_design: WEB-003_SOLUTION_DESIGN`, `lifecycle_state: MOB003_SOLUTION_DESIGNED`, `updated: 2026-07-19`.
 
 ### Deliverable B — Verification Report
 
-Create `docs/50-audit-reports/WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z.md` using the standard 16-check format (Verification Metadata, Checklist table, Verification Summary with identity check, Certification).
+Create `docs/50-audit-reports/MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z.md` using the repository-standard 16-check format:
 
-Checks (16): document created; frontmatter complete; traceability complete; IA complete; screen catalogue complete; page specs complete; user flows complete; component specs complete; validation rules complete; client state defined; accessibility documented; no implementation content; no API design content; no governance modifications; registration synchronized; state transition authorized.
+1. Solution design created
+2. Frontmatter complete
+3. Traceability complete (including WEB-003 parity linkage)
+4. Mobile IA complete
+5. Screen catalogue complete
+6. Screen specifications complete
+7. User journeys complete **and Mobile–Web Functional Parity clause present**
+8. Component specifications complete
+9. Offline/synchronization defined
+10. Validation complete
+11. Accessibility documented
+12. No implementation content
+13. No API/backend design
+14. No governance modifications
+15. Registration synchronized
+16. State transition authorized
 
-Target: 16/16 PASS, MAJOR=0, CRITICAL=0 (per `FINDING_SEVERITY_STANDARD`). Record an INFO note if `_meta.json` lacks a dedicated solution-design group (consistent with prior passes).
+Target: **16/16 PASS; MAJOR = 0; CRITICAL = 0** per `FINDING_SEVERITY_STANDARD`.
 
-### Deliverable C — Registration
+INFO findings recorded (not corrected):
+- **INFO-01**: Continues on `docs/46-solution-design/` surface (parallel to legacy `60-` surface).
+- **INFO-02**: `_meta.json` lacks dedicated mobile solution-design grouping for the `46-` surface.
 
-- `docs/SOLUTION_STATUS.md` — advance state to `WEB003_SOLUTION_DESIGNED`; update MOD-003 register row (Web Solution Design complete).
-- `docs/DOCUMENT_INDEX.md` — register WEB-003 Solution Design and its Verification Report.
-- `docs/_meta.json` — register under closest existing surface; INFO-note in verification report if no dedicated group.
-- `docs/46-solution-design/web/README.md` — add MOD-003 Sales entry. (Note: existing web specs live at `docs/60-solution-design/web/`; this pass explicitly directs the new path `docs/46-solution-design/web/sales/` and the `46-...` README — I will honor the pass instructions exactly and record the path divergence from prior WEB-001/WEB-002 as an INFO finding in the verification report, not correct it.)
-- `.lovable/plan.md` — append `WEB003_SOLUTION_DESIGNED`.
+### Deliverable C — Registration Synchronization
+
+- `docs/SOLUTION_STATUS.md` — advance state to `MOB003_SOLUTION_DESIGNED`; update MOD-003 row (Mobile ✓); update latest report reference.
+- `docs/DOCUMENT_INDEX.md` — register MOB-003 Solution Design and Verification Report.
+- `docs/_meta.json` — register at closest existing surface; note divergence via INFO-02.
+- `docs/46-solution-design/mobile/README.md` — create/update with MOD-003 Sales entry.
+- `.lovable/plan.md` — append `MOB003_SOLUTION_DESIGNED`.
 
 ### Constraints
+No Web modifications, no API design, no backend/DB/native/framework decisions, no governance evolution. MOD-001 and MOD-002 artifacts untouched. Inconsistencies recorded as findings, not corrected.
 
-No mobile, API, implementation, backend, schema, code, or governance changes. MOD-001 and MOD-002 artifacts untouched. Any inconsistencies found are recorded as findings, not corrected.
+### Exit Criteria
+MOB-003 authored (with §6.x Mobile–Web Functional Parity); verification 16/16 PASS; registration synchronized; state = `MOB003_SOLUTION_DESIGNED`; authorizes Pass 38.4.0 — API-003 Solution Design.
 
-### Exit criteria
+---
 
-WEB-003 authored; 16/16 PASS verification; all registration surfaces synchronized; repository state = `WEB003_SOLUTION_DESIGNED`; authorizes Pass 38.3.0 (MOB-003).
+## Pass 38.3.0 — Completion Log (2026-07-19T19:00:00Z)
 
-### Technical notes
-
-- Path divergence: prior WEB-001/WEB-002 live under `docs/60-solution-design/web/`; this pass instructs `docs/46-solution-design/web/sales/` and its README. Will follow the instruction literally and log an INFO finding noting the divergence for future reconciliation.
-- Verification timestamp: `20260719T180000Z` per instruction.
-
-
-## Pass 38.2.0 — WEB-003 Solution Design (MOD-003 Sales)
-
-- State: `MOD003_PUBLICATION_AUTHORED` → `WEB003_SOLUTION_DESIGNED`
-- Authored `docs/46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN.md`
-- Verification: `WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z` — 16/16 PASS; MAJOR=0; CRITICAL=0
-- Registration synchronized: SOLUTION_STATUS.md, DOCUMENT_INDEX.md, _meta.json, docs/46-solution-design/web/README.md, docs/60-solution-design/web/README.md
-- WEB003_SOLUTION_DESIGNED
+- Authored `docs/46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN.md` (15 sections, 34 mobile screens with WEB parity anchors, §6.9 Mobile–Web Functional Parity clause enumerating permitted adaptations, prohibited adaptations, and presentation-only invariant).
+- Emitted `docs/50-audit-reports/MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z.md` — 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
+- Registration synchronized: `SOLUTION_STATUS.md`, `DOCUMENT_INDEX.md`, `docs/46-solution-design/mobile/README.md` (new), `docs/60-solution-design/mobile/README.md`.
+- Repository state advanced: `WEB003_SOLUTION_DESIGNED` → **`MOB003_SOLUTION_DESIGNED`**.
+- Authorizes Pass 38.4.0 — API-003 Solution Design. MOD-001 and MOD-002 unchanged.

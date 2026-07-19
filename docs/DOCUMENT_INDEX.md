@@ -278,6 +278,7 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD003_LIFECYCLE_INITIATION_VERIFICATION_20260719T160000Z.md` |
 | MOD003_PUBLICATION_VERIFICATION_20260719T170000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOD003_PUBLICATION_VERIFICATION_20260719T170000Z.md` |
 | WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/WEB003_SOLUTION_DESIGN_VERIFICATION_20260719T180000Z.md` |
+| MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z | Audit Report | Active | Authoritative | `docs/50-audit-reports/MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z.md` |
 | Repository Solution Status | Status Register | Active | Derived | `docs/SOLUTION_STATUS.md` |
 | MOD003_SALES_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD003_SALES_BASELINE_v1.md` |
 | MOD004_PURCHASE_BASELINE_v1 | Module Baseline | Frozen | Authoritative | `docs/40-module-baselines/MOD004_PURCHASE_BASELINE_v1.md` |
@@ -530,6 +531,8 @@ This inventory SHOULD be regenerated or reviewed whenever any document is added,
 | MOB-002 — Accounting Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-002_ACCOUNTING.md` |
 | MOB-017 — Analytics Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-017_ANALYTICS.md` |
 | MOB-018 — AI Workspace Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/mobile/MOB-018_AI_WORKSPACE.md` |
+| MOB Specifications — Family Index (46-) | Solution Design | Active | Reference | `docs/46-solution-design/mobile/README.md` |
+| MOB-003 — Sales Mobile Solution Design Specification | Solution Design | Active | Authoritative | `docs/46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN.md` |
 | API Specifications — Family Index | Solution Design | Approved | Reference | `docs/60-solution-design/api/README.md` |
 | API-001 — Platform Administration API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-001_PLATFORM_ADMINISTRATION.md` |
 | API-002 — Accounting API Solution Design Specification | Solution Design | Active | Authoritative | `docs/60-solution-design/api/API-002_ACCOUNTING.md` |
