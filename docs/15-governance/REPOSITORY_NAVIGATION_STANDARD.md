@@ -77,7 +77,55 @@ Individual documents may evolve freely. The navigation architecture itself shall
 
 These remain alternate navigation entry points into the same underlying document.
 
-## 7. Future Module Standard
+## 7. Change Control
+
+The Repository Navigation Standard is intended to remain stable across Business OS releases.
+
+Future changes **SHALL** be classified as either editorial or architectural.
+
+### Editorial Changes
+
+Editorial changes improve clarity without altering the navigation architecture. Examples include:
+
+- spelling corrections
+- grammar improvements
+- wording clarification
+- formatting updates
+- metadata updates
+- cross-reference updates
+- non-functional documentation improvements
+
+Editorial changes **MAY** be approved through the normal documentation review process. They **SHALL NOT** modify the navigation architecture.
+
+### Architectural Changes
+
+Architectural changes modify the approved repository navigation model. Examples include:
+
+- adding or removing top-level navigation groups
+- changing navigation hierarchy
+- changing the standard module navigation contract
+- moving artifacts between navigation groups
+- changing Delivery organization
+- introducing new navigation patterns
+- modifying governance principles related to navigation
+
+Architectural changes **SHALL** require formal approval through the established Business OS governance process before implementation.
+
+### Stability Principle
+
+The approved Repository Navigation Standard is intended to remain stable across Business OS releases.
+
+Future modules, AI capabilities, industry extensions, optional plug-ins, and documentation additions **SHALL** integrate into the approved navigation architecture rather than introducing alternative organizational patterns.
+
+This principle preserves:
+
+- repository consistency
+- developer experience
+- predictable Lovable AI implementation
+- documentation discoverability
+- long-term maintainability
+
+## 8. Future Module Standard
 
 Future modules shall follow the approved navigation contract without modification. Future modules **SHALL NOT** introduce:
 
@@ -88,7 +136,7 @@ Future modules shall follow the approved navigation contract without modificatio
 
 unless the Business OS navigation architecture is formally revised through governance approval.
 
-## 8. Stability Policy
+## 9. Stability Policy
 
 The navigation architecture should remain stable across releases. New modules shall integrate into the existing navigation model rather than introducing new organizational patterns. Stability ensures:
 
@@ -98,7 +146,7 @@ The navigation architecture should remain stable across releases. New modules sh
 - long-term repository maintainability
 - preservation of the repository as the single source of truth
 
-## 9. Cross-References
+## 10. Cross-References
 
 - `docs/_meta.json` — current implementation of the sidebar that realizes this standard.
 - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` — module lifecycle producing the artifacts referenced by the navigation contract.
@@ -107,7 +155,7 @@ The navigation architecture should remain stable across releases. New modules sh
 
 **Historical note.** The initial implementation of this standard was delivered under Workflow-Based Sidebar Reorganization (Revision 3.1). Later revisions of the sidebar implementation do not affect the normative sections of this standard unless they are formally revised.
 
-## 10. Success Criteria
+## 11. Success Criteria
 
 - This standard exists as an approved governance document.
 - The sidebar implementation continues to satisfy the Mandatory Navigation Contract and the Delivery Standard.
