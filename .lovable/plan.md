@@ -1,82 +1,143 @@
-# Phase 4.5 — Core ERP Domain Architecture Validation
+# Phase 5 — Wave 1 Solution Design Authoring Program (Revised)
 
 ## Objective
 
-Validate the functional boundaries of the Core ERP modules (MOD-002 Accounting, MOD-003 Sales, MOD-004 Purchase, MOD-005 Inventory, MOD-019 Warehouse) **before** authoring any new Solution Designs in Wave 1. This is a one-time architectural checkpoint to eliminate the risk of rework across PRDs, Publications, Web/Mobile/API SDs, and Cross-Platform Certifications.
+Produce complete, implementation-ready Solution Design packages for the six Core ERP modules in the ADR-007 dependency order, without modifying governance, navigation, PRDs, baselines, or the approved architecture. This plan is authored to double as a reusable template for Waves 2–4.
 
-## Guardrails (Non-Negotiable)
+## Scope & Sequence (per ADR-007)
 
-- No changes to repository navigation (`docs/_meta.json`).
-- No changes to governance documents (`docs/15-governance/**`).
-- No new Solution Designs authored in this phase.
-- No production code.
-- No repository restructuring.
-- No module ID changes without explicit approval.
-- Existing Module PRDs, Publications, and Baselines are treated as inputs, not rewritten in this phase. Any required corrections are captured as **follow-up work items**, not executed here.
+```text
+Stage 1  MOD-001 Platform Administration   (gap-fill only)
+Stage 2  MOD-002 Accounting                (gap-fill only)
+Stage 3  MOD-005 Inventory                 (full package — establishes contracts)
+Stage 4  MOD-004 Purchase                  (full package — consumes MOD-005)
+Stage 5  MOD-003 Sales                     (gap-fill / align — consumes MOD-005)
+Stage 6  MOD-019 Warehouse                 (full package — consumes 005/004/003)
+```
 
-## Inputs (Read-Only)
+Stages are strictly sequential — a later stage does not begin until the prior stage's Verification passes.
 
-- `docs/20-module-prds/{accounting,sales,purchase,inventory,warehouse}/MODULE_PRD.md`
-- `docs/20-module-prds/{...}/README.md`
-- `docs/40-module-baselines/MOD00{2,3,4,5}_*_BASELINE_v1.md`, `MOD019_WAREHOUSE_BASELINE_v1.md`
-- `docs/45-module-publications/` where present
-- `docs/module-dependency-matrix.md`, `docs/MODULE_CATALOG.md`, `docs/ENGINE_USAGE_MATRIX.md`
-- `docs/02-architecture/domain-driven-design.md`, `domain-map.md`
-- `docs/13-workflows/{sales,purchase,inventory}-workflow.md`
+## Definition — "Gap-Fill Only"
 
-## Deliverables
+For MOD-001, MOD-002, and MOD-003, "gap-fill only" is deterministic and means:
 
-All artifacts land under a new folder `docs/51-architecture-validation/` (created for this phase; sits alongside `50-audit-reports/`). Navigation is not touched in this phase — folder is discoverable via `docs/50-audit-reports/PHASE4_...` cross-links and the final report.
+- Create artifacts that do not exist.
+- Complete artifacts that are incomplete against the section contract.
+- Editorial corrections (typos, broken links, frontmatter fixes).
+- **Not permitted:** functional redesign, new business scope, altered personas, changed dependencies, or reinterpretation of approved PRDs/Baselines.
 
-### 1. `PHASE4_5_CORE_ERP_DOMAIN_VALIDATION_<ts>.md` (single master report)
+Any change beyond this envelope requires a Change Request per §"Contract Freeze & Change Control".
 
-Sections:
+## Per-Module Deliverables
 
-1. **Scope & Method** — modules in scope, sources reviewed, evaluation criteria (single responsibility, single owner per capability, unambiguous master data ownership, acyclic dependencies).
-2. **Domain Boundary Matrix** — one row per module: bounded context, primary domain, business responsibility statement, in-scope / out-of-scope summary.
-3. **Capability Ownership Matrix** — one row per capability, exactly one owning module, with columns: Capability | Owner | Consumers | Source (PRD §). Covers at minimum: Item Master, Product Catalog, Warehouse Master, Bin Locations, Stock Ledger, Inventory Valuation, Goods Receipt, Goods Issue, Stock Transfer, Purchase Receipt, Sales Dispatch, Cycle Count, Physical Stock, Barcode/RFID, Put-away, Picking, Packing, Shipping, Multi-Warehouse, Batch/Serial Management.
-4. **Master Data Ownership Table** — system of record per entity (Item, Warehouse, Bin, UoM, Customer, Supplier, GL Account, Stock Balance, Batch, Serial, etc.). Duplicate ownership flagged.
-5. **Business Process Mapping** — end-to-end flows with per-step owning module: Procure-to-Pay, Order-to-Cash, Inventory Replenishment, Warehouse Operations (inbound + outbound), Inter-Warehouse Transfers.
-6. **Dependency Validation** — confirm/adjust the declared order Accounting → Sales → Purchase → Inventory → Warehouse; check for cycles; verify each declared `depends_on` is actually used.
-7. **Gap & Overlap Analysis** — table of findings, each classified as Duplication | Missing Capability | Ambiguous Owner | No Issue, with severity (INFO / MINOR / MAJOR / CRITICAL per `FINDING_SEVERITY_STANDARD.md`) and a recommended action (Confirm / Clarify PRD / Boundary Adjustment).
-8. **Recommendations** — per finding: no-op, PRD clarification (follow-up work item), or boundary adjustment (requires ADR).
-9. **Verification Summary** — standard Check / Result / Action table (repository verification standard), 16 checks, must be mathematically consistent.
+Each module produces the same six artifacts under the existing canonical paths:
 
-### 2. `ADR-<next-id>-core-erp-module-boundaries.md`
+| # | Artifact | Path |
+|---|---|---|
+| 1 | Module Publication | `docs/45-module-publications/<domain>/MOD-<id>_MODULE_PUBLICATION.md` |
+| 2 | Web Solution Design | `docs/60-solution-design/web/<domain>/WEB-<id>_<NAME>.md` |
+| 3 | Mobile Solution Design | `docs/60-solution-design/mobile/<domain>/MOB-<id>_<NAME>.md` |
+| 4 | API Solution Design | `docs/60-solution-design/api/<domain>/API-<id>_<NAME>.md` |
+| 5 | Cross-Platform Certification | `docs/50-audit-reports/MOD<id>_CROSS_PLATFORM_CERTIFICATION_<ts>.md` |
+| 6 | Verification Report | `docs/50-audit-reports/MOD<id>_WAVE1_VERIFICATION_<ts>.md` |
 
-Placed under the appropriate ADR category folder in `docs/11-adrs/` using the next unused ID. Records the final decision on the Inventory (MOD-005) vs Warehouse (MOD-019) split and any other boundary decisions surfaced. If no changes are required, the ADR explicitly states the current architecture is **confirmed as-is** and lists the evidence.
+Section contracts are taken verbatim from the user brief (Publication 13; Web 10; Mobile 8; API 13; Certification 7 parity dimensions; Verification 8 checks).
 
-### 3. `PHASE4_5_VERIFICATION_<ts>.md`
+## Stage Workflow (applied to every module)
 
-Independent 16-check verification of the master report against its own claims and against source PRDs (every ownership assertion traceable to a PRD section; no duplicate owners; no orphan capabilities; dependency graph acyclic).
+1. **Baseline read** — PRD, Baseline, existing Publication/SDs, ADR-007 boundaries.
+2. **Gap scan** — record which of the six artifacts exist, are partial, or are missing.
+3. **Author or complete** — only the missing/incomplete artifacts within the gap-fill envelope.
+4. **Cross-artifact reconciliation** — screen inventory ↔ endpoints ↔ mobile flows ↔ business rules.
+5. **Architecture Conformance Review** — validate every SD against ADR-007, the module dependency graph, published event contracts, master data ownership, and module boundaries. Architectural conformance is separated from general verification and recorded as a distinct pass/fail before the certification step.
+6. **Cross-Platform Certification** — 7 parity dimensions signed off.
+7. **Verification Report** — 8 checks, all PASS required to close the stage.
+8. **Repository Readiness Update** — repository state advances to `MOD<id>_WAVE1_READY` and Readiness Dashboard is refreshed.
 
-## Method
+## Traceability Requirement
 
-1. Read the 5 Module PRDs + Baselines + module dependency matrix in parallel.
-2. Extract capabilities and master data claims verbatim into the Capability Ownership and Master Data tables.
-3. Diff for duplicates, gaps, and ambiguity — do not rely on memory; every row cites a PRD section.
-4. Walk the 5 end-to-end processes step-by-step, naming the owning module per step.
-5. Classify findings; author the ADR reflecting the decision.
-6. Run the verification pass.
+Every Solution Design SHALL include an explicit Traceability section linking to:
 
-## Exit Criteria
+- PRD requirements it fulfils.
+- Module Baseline entries.
+- Module Publication capabilities.
+- Governing ADRs (minimum: ADR-007; others as applicable).
+- Cross-module dependencies (upstream contracts consumed, downstream contracts provided).
 
-- Every Core ERP capability has exactly one owning module in the matrix.
-- Inventory vs Warehouse responsibilities are unambiguous and recorded in the ADR.
-- Purchase ↔ Inventory ↔ Warehouse interactions validated on Procure-to-Pay and Warehouse Operations flows.
-- Implementation sequence Accounting → Sales → Purchase → Inventory → Warehouse either confirmed or updated with rationale.
-- ADR is in `Accepted` status (or `Proposed` awaiting your sign-off if a real boundary change is proposed).
-- Verification report is 16/16 PASS.
+Traceability completeness is one of the 8 Verification checks.
 
-## Out of Scope (Explicit)
+## Quality Metrics (objective acceptance targets)
 
-- Non-Core-ERP modules (CRM, HRMS, Payroll, Manufacturing, Projects, AMC, Field Service, Assets, Fleet, POS, Service Desk, Analytics, AI Workspace, Platform Admin) — validated in a later phase if needed.
-- Wave 1 SD authoring — begins only after this phase exits and you approve the ADR.
+Each Verification Report SHALL report measured values, not narrative claims. A stage passes only when all of the following are met for the module:
 
-## Technical Details
+- Broken links = 0
+- Duplicate requirements = 0
+- Frontmatter errors = 0
+- Undefined API contracts = 0
+- Undefined events = 0
+- Undefined permissions = 0
+- Untraced requirements = 0
+- Unresolved MAJOR/CRITICAL findings = 0
 
-- New folder: `docs/51-architecture-validation/` (documents-only; no code, no navigation entry in this phase).
-- ADR ID: next unused number in the appropriate category range per `docs/11-adrs/README.md` § ADR Number Ranges. Chosen at authoring time after reading the ADR index.
-- Timestamp format: `YYYYMMDDTHHMMSSZ` matching existing audit reports.
-- Verification format: existing repository Verification Reporting Standard (Metadata header + Check/Result/Action table + Verification Summary).
-- If any finding requires a PRD or Baseline correction, it is logged as a follow-up work item inside the master report — not executed in this phase.
+INFO and MINOR findings are permitted and tracked, not blocking.
+
+## Contract Freeze & Change Control
+
+Downstream stages consume upstream contracts. These are frozen at the end of the named stage and MUST NOT be redefined later in Wave 1:
+
+- End of **Stage 2 (MOD-002)**: Posting Engine consumption contract, GL account interfaces.
+- End of **Stage 3 (MOD-005)**: Item Master, Warehouse/Bin Master, Stock Ledger events (`StockReceived`, `StockIssued`, `StockTransferred`), Reservation API, Valuation reads.
+- End of **Stage 4 (MOD-004)**: `GoodsReceived` event, Supplier Master read contract.
+- End of **Stage 5 (MOD-003)**: `DeliveryDispatched` event, Sales allocation contract.
+
+**Change Control.** After a contract is frozen, any incompatible change SHALL require:
+
+1. A written Change Request recorded under `docs/50-audit-reports/`.
+2. Impact analysis enumerating every downstream SD and module affected.
+3. ADR review if the change is architectural (e.g., alters ownership, dependency direction, or event semantics); editorial/backward-compatible changes may proceed without a new ADR but MUST be logged.
+4. Regeneration and re-verification of every affected downstream Solution Design.
+
+Silent contract drift is a Wave-blocking violation.
+
+## Wave-Level Final Deliverables
+
+At the end of Stage 6, produce a single Wave 1 closeout set under `docs/50-audit-reports/`:
+
+1. `WAVE1_COMPLETION_MATRIX_<ts>.md` — 6 modules × 6 artifacts grid.
+2. `WAVE1_MODULE_READINESS_REPORT_<ts>.md` — per-module readiness classification.
+3. `WAVE1_IMPLEMENTATION_READINESS_DASHBOARD_<ts>.md` — updated BRI, gates cleared.
+4. `WAVE1_CROSS_MODULE_DEPENDENCY_VALIDATION_<ts>.md` — validates every edge against ADR-007.
+5. `WAVE1_VERIFICATION_REPORT_<ts>.md` — aggregate 8-check verification across all six modules.
+6. `WAVE1_EXECUTIVE_SUMMARY_<ts>.md` — narrative summary and sign-off.
+
+Also update `docs/SOLUTION_STATUS.md` to `WAVE1_CORE_ERP_IMPLEMENTATION_READY`.
+
+## Standards Applied
+
+Repository Navigation Standard v1.1, Governance Frontmatter Standard, Solution Design Standard (14-section structure), Cross-Platform Certification Standard, Repository Verification Standard, ADR-007, and Phase 4.5 findings.
+
+## Constraints (explicit non-goals)
+
+No changes to: Governance documents, `_meta.json`, navigation, approved PRDs, approved Baselines, module IDs, module ownership, dependency graph. No production code, no UI implementation. Documentation authoring only.
+
+## Success Criteria
+
+Wave 1 is complete when all six modules hold the full six-artifact package, every Verification Report meets the Quality Metrics targets, every cross-module edge validates against ADR-007, and every module is classified **READY FOR IMPLEMENTATION** in the Readiness Dashboard.
+
+## Wave Completion Gate
+
+Wave 1 SHALL NOT be considered complete until **all** of the following hold:
+
+- ✓ All per-module Verification Reports PASS against the Quality Metrics targets.
+- ✓ All Cross-Platform Certifications PASS on all 7 parity dimensions.
+- ✓ All Architecture Conformance Reviews PASS.
+- ✓ No unresolved MAJOR or CRITICAL findings remain across any module.
+- ✓ No unresolved dependency violations against ADR-007.
+- ✓ No frozen-contract change requests are open.
+- ✓ Wave 1 Executive Summary approved and `SOLUTION_STATUS.md` advanced.
+
+Failure of any gate condition returns the affected stage(s) to authoring, not the entire wave.
+
+## Execution Note
+
+The program spans six modules × six artifacts (~36 primary documents plus six wave-closeout documents). Execution and reporting are stage-by-stage; each stage ends with its Verification Report and Architecture Conformance Review before the next stage begins, so progress is auditable at every gate. The stage workflow, gap-fill definition, traceability requirement, quality metrics, and completion gate are intentionally generic and reused verbatim as the template for Waves 2–4.
