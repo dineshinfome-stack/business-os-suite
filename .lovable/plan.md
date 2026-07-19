@@ -1,83 +1,79 @@
-## Pass 38.3.0 — MOB-003 Solution Design (MOD-003 Sales)
+# Pass 38.4.0 — API-003 Solution Design (MOD-003 Sales)
 
-Author the canonical Mobile Solution Design for MOD-003 Sales, derived exclusively from the approved GT-005 Module Publication and mirroring the certified MOB-002 structure. No implementation, API, or governance evolution.
+## Objective
 
-### State Transition
-`WEB003_SOLUTION_DESIGNED` → `MOB003_SOLUTION_DESIGNED`
+Author the canonical API-003 Solution Design for MOD-003 Sales, deriving exclusively from the approved GT-005 Module Publication and maintaining functional parity with WEB-003 and MOB-003. Emit 16/16 PASS verification and synchronize registration. Advance repository state to `API003_SOLUTION_DESIGNED`.
 
-### Deliverable A — MOB-003 Solution Design
+## State Transition
 
-Create `docs/46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN.md` following certified MOB-002 structure with all 15 mandatory sections:
+`MOB003_SOLUTION_DESIGNED` → `API003_SOLUTION_DESIGNED`
 
-1. Identity & Traceability (Baseline → Sprints → GT-005 → WEB-003 → MOB-003)
-2. Mobile Design Principles (functional parity, touch-first, offline-first, accessibility)
-3. Mobile Information Architecture (bottom nav, drawer, workspaces, contextual actions)
-4. Mobile Screen Catalogue (Dashboard, Quotations, Sales Orders, Deliveries, Invoices, Credit/Debit Notes, Returns, Customers, Pricing, Reports, Sales Settings, Notifications, Pending Approvals, Offline Queue, Sync Status)
-5. Screen Specifications (purpose, entry/exit, touch interactions, permissions, responsive behavior)
-6. Mobile User Journeys (quote creation, order conversion, delivery confirmation, invoice review, returns, approvals, offline, sync recovery)
-   - **6.x Mobile–Web Functional Parity** — for every mobile journey, maintain functional parity with the corresponding WEB-003 workflow and the business authority set by GT-005. Enumerate:
-     - **Permitted adaptations (presentation only):** bottom sheets replacing desktop dialogs; swipe actions for context-specific operations; condensed forms via progressive disclosure; FABs for primary actions; native mobile pickers/selectors; contextual action menus; touch-optimized navigation; adaptive layouts for device size and orientation.
-     - **Prohibited adaptations:** no new business workflows; no modified approval sequences; no altered business rules; no altered validation logic; no bypass of permission enforcement; no mobile-only functional capabilities; no removal of mandatory functional steps defined in GT-005 or WEB-003.
-     - **Invariant:** Web/Mobile differences are presentation-only. Business outcomes, state transitions, traceability, and security semantics are identical. GT-005 is the single functional authority; WEB-003 the canonical web interaction model; MOB-003 the equivalent mobile interaction model.
-7. Mobile UI Components (cards, lists, search, filters, forms, bottom sheets, dialogs, barcode/QR functional expectation, attachments, timeline, FABs)
-8. Offline & Synchronization Model (offline-capable activities, queued ops, sync expectations, conflict handling behavior, retry, connectivity indicators)
-9. Mobile Validation (field, workflow gating, permission gating, duplicate prevention, deferred validation)
-10. Error Handling (connectivity, sync, auth, validation, concurrency, unexpected)
-11. Roles & Permissions (Sales Executive, Sales Manager, Order Desk, Accountant read-only, Warehouse Manager scoped)
-12. Accessibility (screen readers, touch target sizing, focus, orientation, color independence, dynamic text)
-13. Cross-Module Navigation (CRM, Inventory, Accounting, Analytics — ownership preserved)
-14. Traceability Matrix (GT-005 Requirement → WEB-003 Workflow → Mobile Screen → Journey → Component) — extended to make Web/Mobile parity auditable per §6.x.
-15. Design Constraints (exclusions listed explicitly)
+## Deliverable A — API-003 Solution Design
 
-Frontmatter per `GOVERNANCE_FRONTMATTER_STANDARD`: `spec_id: MOB-003_SOLUTION_DESIGN`, `template: MOB-003`, `module: MOD-003`, `source_publication: MOD-003_MODULE_PUBLICATION`, `source_web_design: WEB-003_SOLUTION_DESIGN`, `lifecycle_state: MOB003_SOLUTION_DESIGNED`, `updated: 2026-07-19`.
+Create `docs/46-solution-design/api/sales/API-003_SOLUTION_DESIGN.md` mirroring the certified API-002 structure.
 
-### Deliverable B — Verification Report
+**Frontmatter** per `GOVERNANCE_FRONTMATTER_STANDARD`:
+- `spec_id: API-003_SOLUTION_DESIGN`, `template: API-003`, `template_version`, `module: MOD-003 Sales`
+- `source_publication: MOD-003_MODULE_PUBLICATION`
+- `source_web_design: WEB-003_SOLUTION_DESIGN`
+- `source_mobile_design: MOB-003_SOLUTION_DESIGN`
+- `lifecycle_state: API003_SOLUTION_DESIGNED`, `owner`, `updated: 2026-07-19`, `tags`, `document_type`
 
-Create `docs/50-audit-reports/MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z.md` using the repository-standard 16-check format:
+**Mandatory Sections (15):**
 
-1. Solution design created
-2. Frontmatter complete
-3. Traceability complete (including WEB-003 parity linkage)
-4. Mobile IA complete
-5. Screen catalogue complete
-6. Screen specifications complete
-7. User journeys complete **and Mobile–Web Functional Parity clause present**
-8. Component specifications complete
-9. Offline/synchronization defined
-10. Validation complete
-11. Accessibility documented
-12. No implementation content
-13. No API/backend design
-14. No governance modifications
-15. Registration synchronized
-16. State transition authorized
+1. Identity & Traceability — chain `MOD-003 Baseline → Sprint PRDs → GT-005 → WEB-003 → MOB-003 → API-003`.
+2. API Design Principles — GT-005 parity, platform neutrality, stateless interaction, backward-compatible evolution, implementation independence.
+3. Resource Model — Quotations, Sales Orders, Deliveries, Invoices, Credit/Debit Notes, Returns, Customers, Pricing, Attachments, Approvals (responsibilities/ownership only).
+4. Functional Operations — per-resource operations with purpose, preconditions, postconditions, permissions, state transitions. No URIs / HTTP methods.
+5. Request & Response Models — functional required/optional data, validation expectations, success/business-error outcomes. No JSON schemas.
+6. Authentication & Authorization — authenticated access, permission evaluation, role mapping, session/token functional expectations, audit expectations.
+7. Validation Rules — required fields, business, workflow, duplicate prevention, cross-resource, permission validation.
+8. Error Semantics — functional handling of validation, authorization, business-rule, concurrency, unavailability, unexpected failures. No status codes.
+9. Integration Touchpoints — CRM, Inventory, Accounting, Analytics; ownership boundaries respected.
+10. Event & Synchronization Model — business events, notifications, sync triggers, downstream consumers, eventual consistency (functional only).
+11. Versioning & Compatibility — backward compatibility, additive evolution, deprecation policy, client compatibility.
+12. Idempotency & Concurrency — safe retries, duplicate submission handling, optimistic conflict, replay protection.
+13. Cross-Platform Consistency — GT-005 sole authority; WEB-003 & MOB-003 as canonical interaction models; equivalent functional capabilities without platform-specific behavior.
+    - **13.x API Capability Neutrality Clause (auditable parity):** every API capability MUST be traceable to at least one GT-005 requirement and MUST NOT exist solely to satisfy a specific client platform. API-003 is a shared functional contract, not a web- or mobile-centric surface. Platform-only capabilities (web-only or mobile-only) are prohibited. Any capability lacking a GT-005 anchor is a finding, not an addition. This constraint is enforced through §14 Traceability Matrix.
+14. Traceability Matrix — `GT-005 Requirement → WEB-003 Workflow → MOB-003 Journey → API Resource → Operation`. Every API operation row MUST have a non-empty GT-005 anchor to satisfy §13.x.
+15. Design Constraints — exclude implementation, endpoint syntax, protocol, DB schema, infrastructure, source code, governance evolution.
 
-Target: **16/16 PASS; MAJOR = 0; CRITICAL = 0** per `FINDING_SEVERITY_STANDARD`.
+## Deliverable B — Verification Report
 
-INFO findings recorded (not corrected):
-- **INFO-01**: Continues on `docs/46-solution-design/` surface (parallel to legacy `60-` surface).
-- **INFO-02**: `_meta.json` lacks dedicated mobile solution-design grouping for the `46-` surface.
+Create `docs/50-audit-reports/API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z.md` using the 16-check standard.
 
-### Deliverable C — Registration Synchronization
+**Checklist (16):** Design created; frontmatter complete; traceability complete; resource model complete; operations complete; request/response model complete; auth & authz complete; validation rules complete; error semantics complete; integration & event model complete; cross-platform consistency documented (**including §13.x API Capability Neutrality Clause and its enforcement in the §14 matrix**); no implementation content; no protocol/DB/infra; no governance modifications; registration synchronized; state transition authorized.
 
-- `docs/SOLUTION_STATUS.md` — advance state to `MOB003_SOLUTION_DESIGNED`; update MOD-003 row (Mobile ✓); update latest report reference.
-- `docs/DOCUMENT_INDEX.md` — register MOB-003 Solution Design and Verification Report.
-- `docs/_meta.json` — register at closest existing surface; note divergence via INFO-02.
-- `docs/46-solution-design/mobile/README.md` — create/update with MOD-003 Sales entry.
-- `.lovable/plan.md` — append `MOB003_SOLUTION_DESIGNED`.
+**Certification:** 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
 
-### Constraints
-No Web modifications, no API design, no backend/DB/native/framework decisions, no governance evolution. MOD-001 and MOD-002 artifacts untouched. Inconsistencies recorded as findings, not corrected.
+**INFO findings (recorded, not corrected):**
+- INFO-01 — API SD directory continues on `docs/46-solution-design/` while legacy `60-` surface persists.
+- INFO-02 — `_meta.json` has no dedicated API SD grouping for the `46-` surface; register at closest existing anchor.
 
-### Exit Criteria
-MOB-003 authored (with §6.x Mobile–Web Functional Parity); verification 16/16 PASS; registration synchronized; state = `MOB003_SOLUTION_DESIGNED`; authorizes Pass 38.4.0 — API-003 Solution Design.
+## Deliverable C — Registration Synchronization
 
----
+- `docs/SOLUTION_STATUS.md` — advance state to `API003_SOLUTION_DESIGNED`; MOD-003 row: Web ✓ / Mobile ✓ / API ✓ / Cross-Platform —; update latest report reference.
+- `docs/DOCUMENT_INDEX.md` — register API-003 Solution Design and verification report.
+- `docs/_meta.json` — register at closest existing anchor (record INFO-02).
+- `docs/46-solution-design/api/README.md` — create/update with MOD-003 Sales entry.
+- `.lovable/plan.md` — append `API003_SOLUTION_DESIGNED`.
 
-## Pass 38.3.0 — Completion Log (2026-07-19T19:00:00Z)
+## Constraints
 
-- Authored `docs/46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN.md` (15 sections, 34 mobile screens with WEB parity anchors, §6.9 Mobile–Web Functional Parity clause enumerating permitted adaptations, prohibited adaptations, and presentation-only invariant).
-- Emitted `docs/50-audit-reports/MOB003_SOLUTION_DESIGN_VERIFICATION_20260719T190000Z.md` — 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
-- Registration synchronized: `SOLUTION_STATUS.md`, `DOCUMENT_INDEX.md`, `docs/46-solution-design/mobile/README.md` (new), `docs/60-solution-design/mobile/README.md`.
-- Repository state advanced: `WEB003_SOLUTION_DESIGNED` → **`MOB003_SOLUTION_DESIGNED`**.
-- Authorizes Pass 38.4.0 — API-003 Solution Design. MOD-001 and MOD-002 unchanged.
+No Web/Mobile modifications. No implementation, protocol/endpoint syntax, HTTP method definitions, DB design, infrastructure, source code, or governance evolution. MOD-001 and MOD-002 artifacts unchanged. Discovered inconsistencies recorded as findings, not corrected.
+
+## Exit Criteria
+
+- API-003 Solution Design authored (including §13.x API Capability Neutrality Clause).
+- 16/16 PASS verification (INFO=2, MAJOR=0, CRITICAL=0).
+- Registration synchronized across all surfaces.
+- Repository state: **`API003_SOLUTION_DESIGNED`**.
+- Authorizes Pass 38.5.0 — MOD-003 Cross-Platform Certification.
+
+## Pass 38.4.0 — API-003 Solution Design (MOD-003 Sales) — COMPLETE
+
+- Authored `docs/46-solution-design/api/sales/API-003_SOLUTION_DESIGN.md` (§1–§16) including §13.x API Capability Neutrality Clause (subclauses 13.x.1–13.x.5) and a 40-row §14 Traceability Matrix where every row carries a non-empty GT-005 anchor.
+- Emitted `docs/50-audit-reports/API003_SOLUTION_DESIGN_VERIFICATION_20260719T200000Z.md` — 16/16 PASS; INFO=2; MAJOR=0; CRITICAL=0.
+- Created `docs/46-solution-design/api/README.md`; updated `docs/SOLUTION_STATUS.md`, `docs/DOCUMENT_INDEX.md`, `docs/_meta.json`.
+- Repository state advanced: `MOB003_SOLUTION_DESIGNED` → `API003_SOLUTION_DESIGNED`.
+- Authorizes Pass 38.5.0 — MOD-003 Cross-Platform Certification.

@@ -1654,6 +1654,14 @@
         {
           "title": "API-018 — AI Workspace",
           "path": "60-solution-design/api/API-018_AI_WORKSPACE"
+        },
+        {
+          "title": "MOB-003 — Sales (46-)",
+          "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-003 — Sales (46-)",
+          "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN"
         }
       ]
     },
