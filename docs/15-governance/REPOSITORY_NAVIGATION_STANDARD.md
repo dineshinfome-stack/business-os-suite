@@ -5,7 +5,7 @@ layer: "platform"
 owner: "Platform"
 status: "approved"
 updated: "2026-07-19"
-version: "1.0"
+version: "1.1"
 supersedes: []
 tags: ["governance", "navigation", "standard"]
 ---
