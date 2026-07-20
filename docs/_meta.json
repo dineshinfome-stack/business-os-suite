@@ -814,6 +814,30 @@
           "path": "40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/manufacturing/MOD-009_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-009 — Web Solution Design",
+          "path": "60-solution-design/web/manufacturing/WEB-009_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-009 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/manufacturing/MOB-009_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-009 — API Solution Design",
+          "path": "60-solution-design/api/manufacturing/API-009_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-009 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD009_CROSS_PLATFORM_CERTIFICATION_20260720T100000Z"
+        },
+        {
+          "title": "VR-009 — Verification",
+          "path": "50-audit-reports/MOD009_WAVE_VERIFICATION_20260720T100500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN"
         },
