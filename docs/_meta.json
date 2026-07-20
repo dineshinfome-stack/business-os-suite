@@ -617,6 +617,30 @@
           "path": "40-module-baselines/MOD006_CRM_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/crm/MOD-006_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-006 — Web Solution Design",
+          "path": "60-solution-design/web/crm/WEB-006_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-006 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/crm/MOB-006_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-006 — API Solution Design",
+          "path": "60-solution-design/api/crm/API-006_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-006 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD006_CROSS_PLATFORM_CERTIFICATION_20260720T070000Z"
+        },
+        {
+          "title": "VR-006 — Verification",
+          "path": "50-audit-reports/MOD006_WAVE_VERIFICATION_20260720T070500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/crm/MOD-006_SPRINT_PLAN"
         },

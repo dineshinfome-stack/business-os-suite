@@ -1,46 +1,57 @@
-## Objective
-Audit every `MOD-XXX` sidebar group in `docs/_meta.json` against actual disk contents, remove any contract items whose target file is missing, and record all detected gaps in a persistent documentation-gap report. Navigation must always mirror what exists on disk — no placeholders, no dead links.
+# MOD-006 CRM — Publication + Solution Design Suite (v2, Reusable Template)
 
-## Scope
-- `docs/_meta.json` — module groups only (MOD-001 through MOD-019). Other groups (Dashboard, Foundation, Architecture, Delivery, IRR, Sprint PRDs) are out of scope for this pass.
-- Contract items audited per module (Repository Navigation Standard v2.0 §2): Overview, Baseline, Publication, WEB-XXX, MOB-XXX, API-XXX, CPC-XXX, VR-XXX, Sprint Plan, Sprint PRDs.
+Documentation-only. No code, no repo restructuring. Follows Repository Navigation Standard v2.0 and Publication → Baseline → PRD precedence. Designed to be reused verbatim for MOD-007 through MOD-019.
 
-## Availability Matrix (produced from disk)
-For each MOD-001..MOD-019, resolve each contract item's `path` to `docs/<path>.md` and mark PRESENT / MISSING. Items already absent from the current sidebar are also inspected on disk and recorded so the gap report is disk-truth, not sidebar-truth.
+## Stage 0 — Author MOD-006 Publication
+Create `docs/45-module-publications/crm/MOD-006_MODULE_PUBLICATION.md` derived exclusively from `MOD006_CRM_BASELINE_v1` and `docs/20-module-prds/crm/MODULE_PRD.md`.
 
-The preliminary scan indicates that all currently listed module-group paths resolve successfully. The full audit is authoritative and may identify additional discrepancies before changes are applied.
+- Follow the approved Module Publication template as demonstrated by MOD-002 and MOD-003 (the template governs, not those specific documents).
+- Every clause cites Baseline §/PRD §. No new business requirements.
+- This becomes the sole Source of Truth for Stages 1–5.
 
-Known gap already visible: MOD-002 has no VR document on disk and no VR entry in the sidebar → correctly absent; will be logged.
+## Stage 1 — WEB-006 Web Solution Design
+`docs/60-solution-design/web/crm/WEB-006_SOLUTION_DESIGN.md` — full 28-section structure from the source prompt (Purpose … Traceability Matrix).
 
-## Change
-Edit only `docs/_meta.json`:
-- Remove any module-group item whose resolved `.md` file does not exist.
-- Do not add anything. Do not create placeholders. Do not touch non-module groups.
+- Screen inventory, navigation, forms, dashboards, and reports SHALL be derived from the entities, workflows, business rules, and reporting capabilities defined in the Publication. Every screen and rule cites `Publication §N`. No invented screens.
 
-If the full audit finds zero dead links, `docs/_meta.json` is left unchanged and the pass produces only the gap report.
+## Stage 2 — MOB-006 Mobile Solution Design
+`docs/60-solution-design/mobile/crm/MOB-006_SOLUTION_DESIGN.md` — full mobile structure from the source prompt.
 
-## Execution Report — Persistent Governance Artifact
-Author `docs/50-audit-reports/NAVIGATION_AVAILABILITY_AUDIT_v2.0.md` (stable, non-timestamped name; superseded in place by future audits under the same versioned filename convention, e.g. `_v2.1.md`).
+- Mobile scope SHALL be derived from the Publication. Capabilities such as offline, sync, camera, GPS, and attachments are included only if the Publication authorizes them; otherwise marked N/A with citation.
 
-Contents:
-1. Scope and method.
-2. Availability Matrix — one row per module, one column per contract item, values PRESENT / MISSING (Sprint PRDs summarized as `N present`).
-3. Documentation Gaps — flat list of every MISSING item, e.g.:
-   ```
-   MOD-002
-   - Verification Report (VR-002): Missing
-   ```
-4. Navigation Changes — list of items removed from `docs/_meta.json` (or "None — sidebar already matches disk").
-5. Validation — confirms every remaining module-group `path` resolves; no placeholder created; no cross-module duplicates; IRR entries still centralized.
+## Stage 3 — API-006 API Solution Design
+`docs/60-solution-design/api/crm/API-006_SOLUTION_DESIGN.md` — full API structure from the source prompt.
 
-## Validation Rules
-- Any contract item not present on disk MUST NOT appear in `docs/_meta.json`.
-- Every remaining module-group `path` resolves to an existing `.md` file.
-- Item order inside each module group still matches §2 of the Navigation Standard.
-- No IRR document appears inside any `MOD-XXX` group.
-- No document `path` appears inside more than one module group.
+- Endpoint catalogue, request/response models, event catalogue, and webhooks SHALL be derived exclusively from the master data, transactions, and events defined in the Publication. No additional endpoints or events may be introduced. Auth/authz/audit consume the engines declared by the Publication.
 
-## Non-Goals
-- No new documents authored (missing VRs, SDs, etc. are reported, not created).
-- No changes to Delivery, IRR, Sprint PRDs, or any non-module group.
-- No file renames, moves, or content edits outside `docs/_meta.json` and the audit report.
+## Stage 4 — CPC-006 Cross-Platform Certification
+`docs/50-audit-reports/MOD006_CROSS_PLATFORM_CERTIFICATION_<UTC>.md` (timestamped — audit evidence convention).
+
+- Compliance matrix across Publication / WEB-006 / MOB-006 / API-006 covering functional parity, business rules, validation, security, permissions, error handling, notifications, accessibility, audit, performance.
+- Emit deviations, risks, required corrections, certification result (Pass / Pass with Conditions / Fail).
+
+## Stage 5 — VR-006 Verification
+`docs/50-audit-reports/MOD006_WAVE_VERIFICATION_<UTC>.md` (timestamped — audit evidence convention).
+
+- Repository-standard 16-check verification (Track A repository integrity + Track B document quality), findings, defects, recommendations, final status (Verified / Verified with Observations / Failed).
+
+## Stage 6 — Sidebar registration (Navigation Standard v2.0)
+Update MOD-006 group in `docs/_meta.json` in contract order, listing only items that exist on disk after Stages 0–5:
+`Overview → Baseline → Publication → WEB-006 → MOB-006 → API-006 → CPC-006 → VR-006`.
+Apply the label-deduplication rule.
+
+## Constraints
+- Do not modify Baseline or PRD.
+- No invented workflows, features, endpoints, or screens.
+- No code, DB scripts, or UI mockups.
+- Every requirement in every SD cites a Publication section.
+
+## Exit criteria
+1. Publication and all five SD documents authored.
+2. Every SD requirement traceable to the Publication.
+3. CPC-006 issued with a certification result.
+4. VR-006 completed with a final status.
+5. Sidebar updated per Navigation Standard v2.0.
+6. Repository navigation validation passes: 0 dead links, correct contract ordering, no duplicate paths across module groups, traceability complete.
+
+Repository state target: `MOD006_WAVE_READY`.
