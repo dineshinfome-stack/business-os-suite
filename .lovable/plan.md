@@ -1,49 +1,61 @@
-## MOD-012 Field Service — Publication + Solution Design Suite
+# MOD-013 Assets — Publication + Solution Design Suite
 
-Documentation-only wave following the canonical MOD-006 → MOD-011 workflow. All Solution Design artifacts derive exclusively from the Stage 0 Publication.
+Documentation-only wave following the canonical MOD-006 → MOD-012 workflow. All artifacts derive exclusively from the Stage 0 Publication.
 
-### Source Authority
-- **Normative:** MOD-012 Publication (Stage 0 output)
-- **Reference:** `docs/40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1.md`, `docs/20-module-prds/field-service/MODULE_PRD.md`, approved templates (MOD-011 suite), Repository Navigation Standard v2.0
-- **Precedence:** Publication → Baseline → PRD
+## Source Authority
 
-### Stage 0 — Publication (Completeness Gate)
-Author `docs/45-module-publications/field-service/MOD-012_MODULE_PUBLICATION.md` from Baseline + PRD only. Every clause cites its source section. No new business requirements.
+- **Normative**: `docs/45-module-publications/assets/MOD-013_MODULE_PUBLICATION.md` (Stage 0 output)
+- **Reference**: `docs/40-module-baselines/MOD013_ASSETS_BASELINE_v1.md`, `docs/20-module-prds/assets/MODULE_PRD.md`, MOD-011 approved templates, Navigation Standard v2.0
+- **Precedence**: Publication → Baseline → PRD
 
-**Gate:** If Baseline/PRD cannot support a complete Publication → author `docs/50-audit-reports/MOD012_PUBLICATION_GAP_REPORT_<UTC>.md`, set state `MOD012_PUBLICATION_BLOCKED`, stop. Skip Stages 1–6. Leave `_meta.json` unchanged.
+## Stage 0 — Publication (Completeness Gate)
 
-### Stage 1 — WEB-012
-Author `docs/60-solution-design/web/field-service/WEB-012_SOLUTION_DESIGN.md` using the approved 28-section template (IA, Navigation, Roles, Screen Inventory & Specs, Forms, Validation, Business Rules, Search, Filters, Tables, Dashboards, Reports, Notifications, Error/Loading/Empty states, Accessibility, Responsive, Security, Performance, Audit, Acceptance Criteria, Traceability Matrix).
+Read Baseline and PRD. Author `docs/45-module-publications/assets/MOD-013_MODULE_PUBLICATION.md` using the approved Module Publication template. Every clause cites originating Baseline/PRD section. No new business requirements.
 
-**Coverage rule:** Coverage shall include only the screens, workflows, and business capabilities defined in the Publication. Every requirement cites its Publication section. No invented screens or functionality.
+**Gate**: If Baseline/PRD cannot support a complete Publication, author `docs/50-audit-reports/MOD013_PUBLICATION_GAP_REPORT_<UTC>.md`, set state `MOD013_PUBLICATION_BLOCKED`, skip Stages 1–6, leave `_meta.json` unchanged.
 
-### Stage 2 — MOB-012
-Author `docs/60-solution-design/mobile/field-service/MOB-012_SOLUTION_DESIGN.md`. Include only Publication-authorized capabilities (Offline, Sync, Push, Camera, GPS, Biometric, Attachments, Background). Mark any unauthorized capability `N/A` with Publication citation. Every workflow traces back to a Publication section.
+## Stage 1 — WEB-013
 
-### Stage 3 — API-012
-Author `docs/60-solution-design/api/field-service/API-012_SOLUTION_DESIGN.md` per approved template (Scope, AuthN, AuthZ, Endpoint Catalogue, Request/Response Models, Validation, Errors, Pagination, Filtering, Sorting, Webhooks, Event Catalogue, Audit, Versioning, Security, Performance, Acceptance, Traceability).
+Author `docs/60-solution-design/web/assets/WEB-013_SOLUTION_DESIGN.md` using the approved 28-section Web SD template (IA, Navigation, Roles, Screen Inventory/Specs, Forms, Validation, Business Rules, Search, Filters, Tables, Dashboards, Reports, Notifications, Error/Loading/Empty States, Accessibility, Responsive, Security, Performance, Audit, Acceptance Criteria, Traceability Matrix).
 
-**Explicit derivation rule:** Endpoints, request/response models, webhooks, and events shall derive exclusively from the Publication. Consume only Publication-referenced platform services. No invented APIs/endpoints/events/webhooks.
+Coverage shall include only screens, workflows, validation rules, and business capabilities defined in the Publication. Every requirement cites its Publication section. No invented screens, workflows, business rules, or functionality.
 
-**Event naming rule:** Event names shall be exactly those defined in the Stage 0 Publication. No event may be created unless explicitly present in the Publication.
+## Stage 2 — MOB-013
 
-### Stage 4 — CPC-012
-Author `docs/50-audit-reports/MOD012_CROSS_PLATFORM_CERTIFICATION_<UTC>.md`. Validate Publication ↔ WEB ↔ MOB ↔ API across functional parity, business rules, validation, security, permissions, errors, notifications, accessibility, performance, audit, traceability. Produce Compliance Matrix, Deviations, Risks, Corrections, Result (Pass / Pass with Conditions / Fail).
+Author `docs/60-solution-design/mobile/assets/MOB-013_SOLUTION_DESIGN.md` using the approved Mobile SD template. Include only Publication-authorized capabilities (offline, sync, push, camera, GPS, biometric, attachments, background processing). Capabilities not authorized by the Publication marked `N/A` with citation. Every workflow traces to a Publication section.
 
-### Stage 5 — VR-012
-Author `docs/50-audit-reports/MOD012_WAVE_VERIFICATION_<UTC>.md`. Track A Repository Integrity + Track B Documentation Quality. Produce Verification Checklist, Findings, Defects, Recommendations, Final Status (Verified / Verified with Observations / Failed).
+## Stage 3 — API-013
 
-### Stage 6 — Sidebar Registration
-Only after Stages 0–5 succeed. Update MOD-012 Field Service group in `docs/_meta.json` in mandatory contract order:
+Author `docs/60-solution-design/api/assets/API-013_SOLUTION_DESIGN.md` using the approved API SD template (Scope, AuthN, AuthZ, Endpoint Catalogue, Request/Response Models, Validation, Errors, Pagination, Filtering, Sorting, Webhooks, Event Catalogue, Audit, Versioning, Security, Performance, Acceptance Criteria, Traceability Matrix).
+
+**Explicit Derivation Rule**: Endpoints, request/response models, webhooks, and events derive exclusively from the Publication. Consume only platform services referenced by the Publication. No invented APIs, endpoints, events, or webhooks.
+
+**Event Naming Rule**: Event names shall be exactly those defined in the Stage 0 Publication. No event may be created unless explicitly present in the Publication.
+
+## Stage 4 — CPC-013
+
+Author `docs/50-audit-reports/MOD013_CROSS_PLATFORM_CERTIFICATION_<UTC>.md`. Validate consistency across Publication, WEB-013, MOB-013, API-013. Scope: functional parity, business rules, validation, security, permissions, error handling, notifications, accessibility, performance, audit, traceability. Produce Compliance Matrix, Deviations, Risks, Required Corrections, Certification Result (Pass / Pass with Conditions / Fail).
+
+## Stage 5 — VR-013
+
+Author `docs/50-audit-reports/MOD013_WAVE_VERIFICATION_<UTC>.md`. Execute repository-standard verification — Track A (Repository Integrity), Track B (Documentation Quality). Produce Verification Checklist, Findings, Defects, Recommendations, Final Verification Status (Verified / Verified with Observations / Failed).
+
+## Stage 6 — Sidebar Registration
+
+Only after Stages 0–5 succeed. Update MOD-013 Assets group in `docs/_meta.json` registering only existing documents in mandatory contract order:
+
 ```text
-Overview → Baseline → Publication → WEB-012 → MOB-012 → API-012 → CPC-012 → VR-012
+Overview → Baseline → Publication → WEB-013 → MOB-013 → API-013 → CPC-013 → VR-013
 ```
-Apply Navigation Standard v2.0 (dedup, no placeholders, no dead links, no duplicate paths). Validate via standard navigation script.
 
-### Constraints
-No modification of Baseline, PRD, or governance docs. No new business requirements, invented screens/workflows/APIs/endpoints/events/webhooks. No code, DB scripts, or UI mockups. Every SD requirement cites its Publication section.
+Apply Navigation Standard v2.0 (label deduplication, no placeholders, no dead links, no duplicate paths). Validate with standard navigation script. If Publication Gate failed, Stage 6 SHALL NOT execute.
 
-### Exit Criteria
-**Success:** All 6 artifacts authored with full Publication traceability, CPC-012 and VR-012 issued with results, `_meta.json` updated, navigation validates (0 dead links, correct order, no dupes). State: `MOD012_WAVE_READY`.
+## Constraints
 
-**Early Termination:** If Gate fails, only Gap Report authored; state: `MOD012_PUBLICATION_BLOCKED`.
+Do NOT modify Baseline, PRD, or governance docs. Do NOT introduce new business requirements. Do NOT invent screens, workflows, business rules, APIs, endpoints, events, or webhooks. Do NOT generate code, DB scripts, or UI mockups. Every SD requirement cites its Publication section.
+
+## Exit Criteria
+
+**Success**: Publication + WEB/MOB/API/CPC/VR-013 authored with full traceability; CPC result issued; VR final status issued; `_meta.json` updated; navigation validates (0 dead links, correct contract order, no duplicate paths). Repository state: **`MOD013_WAVE_READY`**.
+
+**Early termination**: On Publication Gate failure, only the Gap Report is authored; `_meta.json` unchanged; state **`MOD013_PUBLICATION_BLOCKED`**.
