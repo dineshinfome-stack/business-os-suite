@@ -1,109 +1,111 @@
-## Plan v3.1 (FROZEN) — Phase 4: MOD-001 WEB Solution Design (Canonical Reference Implementation)
+## Objective
 
-### Objective
-Author one new document, `MOD-001_WEB_SOLUTION_DESIGN.md`, derived strictly from `MOD-001_MODULE_PUBLICATION`. This document becomes the **canonical reference implementation** for all future WEB Solution Designs.
+Freeze the per-module "self-contained implementation package" as the repository navigation standard (v2.0). Each module exposes the same ordered set of documents in the sidebar. IRR is **excluded** from the module package and remains a centralized phase gate. Sidebar labels inside a module group omit the module name to avoid duplication (the group header already carries `MOD-XXX <Name>`).
 
-### Canonical Reference Clause
-Once approved, `MOD-001_WEB_SOLUTION_DESIGN.md` becomes the **canonical reference implementation** for all future WEB Solution Design documents. Future WEB Solution Designs shall follow the same structure, section order, terminology, and documentation conventions unless superseded by an approved repository-wide documentation standard.
+## Scope
 
-### Location
-`docs/60-solution-design/web/platform/MOD-001_WEB_SOLUTION_DESIGN.md`
-(Consistent with WEB-005, WEB-004, WEB-019 authored in Wave 1. Legacy `docs/46-solution-design/` WEB-001 remains untouched.)
+- Documentation and navigation only. Changes limited to `docs/_meta.json` and `docs/15-governance/REPOSITORY_NAVIGATION_STANDARD.md`.
+- Applies to all existing modules (MOD-001 … MOD-019) and all future modules.
 
-### Source of Truth vs. Reference Documents
+## Frozen Module Navigation Contract (v2.0)
 
-**Source of Truth (authoritative — no requirement may exist outside this document):**
-- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md`
+Group header: `MOD-XXX <Name>` (e.g. `MOD-001 Platform Administration`).
 
-**Reference Documents (context only — must not introduce requirements beyond the Publication):**
-- Module PRD
-- Module Baseline
-- Applicable Architecture Standards
-- Accessibility Standards
+Item labels within the group (module name is **not** repeated):
 
-### Authoring Rules
+1. `Overview` (Module PRD)
+2. `Baseline`
+3. `Publication`
+4. `WEB-XXX — Web Solution Design`
+5. `MOB-XXX — Mobile Solution Design`
+6. `API-XXX — API Solution Design`
+7. `CPC-XXX — Cross-Platform Certification`
+8. `VR-XXX — Verification` (Solution Design verification)
+9. `Sprint Plan`
+10. `SPR-MOD-XXX-NNN — <Sprint Title>` (ordered by sprint ID)
 
-1. **Traceability Requirement.** Every major section MUST include a `Source Reference` line naming the Publication section(s) from which the content is derived (e.g., `Source: Publication §7`).
-2. **No invented screens.** Do NOT pre-list screens. Derive the Screen Inventory strictly from published capabilities, submodules, and workflows.
-3. **Implementation Interpretation Rule.** Implementation details (table layouts, navigation patterns, form arrangements, component grouping) may be introduced ONLY when necessary to realize a published capability. Such details shall not alter business behavior, introduce new features, or expand module scope. Where multiple reasonable interpretations exist, record the assumption under **Open Items** or an inline **Implementation Notes** callout. **Implementation Notes are informative only and do not become business requirements. If they conflict with the Module Publication, the Module Publication prevails.**
-4. **No ADR pinning.** Reference architecture and accessibility by name — never by ADR-NNN identifier.
-5. **Terminology.** Use terms exactly as they appear in the Publication.
-6. **No new scope.** No new features, workflows, APIs, mobile screens, or business processes.
+Only documents that exist on disk are listed — no placeholders, no dead links. Modules SHALL be ordered by Module ID (MOD-001 → MOD-019, then MOD-020+).
 
-### Document Structure (20 sections — Canonical Order)
+## IRR Placement (Explicit)
 
-1. **Document Information** — Title, Module ID, Version, Status, Owner, **Source of Truth**, **Reference Documents**
-2. **Purpose** *(Source Reference)*
-3. **Scope** *(Source: Publication §2)*
-4. **Business Context** *(Source: Publication §1)*
-5. **User Roles** *(Source: Publication §3)*
-6. **Navigation Structure** *(Source: Publication §2)*
-7. **Information Architecture** — per entity: **Entity · Ownership · Relationships · Screen Mapping** *(Source: Publication §5, §13)*
-8. **Screen Inventory** — per screen: Name, Purpose, Entry Points, Exit Points, Components, Actions, Permissions, Business Rules, Validation Rules, Error Messages, Success Messages *(Source Reference per screen)*
-9. **User Workflows** *(Source: Publication §4, §6)*
-10. **UI Components** — forms, tables, cards, dialogs, search, filters, pagination, tabs, navigation elements, action buttons
-11. **Validation Rules** *(Source: Publication §7)*
-12. **Business Rules** *(Source: Publication §7)*
-13. **Permissions** *(Source: Publication §3, §12)*
-14. **Notifications** — success / warning / error / informational tied to published events *(Source: Publication §8)*
-15. **Responsive Behaviour** — desktop, tablet, mobile browser
-16. **Accessibility** *(Source: Accessibility Standards)*
-17. **Performance Expectations** *(Source: Publication §11; gaps → Open Items)*
-18. **Dependencies** *(Source: Publication §12, §13)*
-19. **Acceptance Criteria** — testable, covering **Screen behaviour · Navigation · Validation · Permissions · Business Rules · Workflows** *(Source Reference each)*
-20. **Open Items** — categorized as **Business Gap · UX Gap · Technical Gap · Data Gap · Security Gap**
+The **Implementation Readiness Review (IRR)** is a **phase gate**, not a module artifact. It reviews the module package; it is not part of it.
 
-### Traceability Matrix (appended after Section 20)
+- IRR documents remain under a centralized **`Implementation Readiness`** navigation group (or the existing Delivery grouping that already hosts them).
+- IRR SHALL NOT appear inside any module group.
+- If a per-module readiness artifact is desired in the future, it will be introduced under a distinct name — **Module Implementation Readiness Assessment (MIRA)** — via a separate governance change. No MIRA is introduced in this pass.
 
-| Publication Section | WEB SD Section |
+## Document ID Standard (Frozen)
+
+| Document | ID |
 |---|---|
-| §1 | Business Context |
-| §2 | Scope, Navigation Structure |
-| §3 | User Roles, Permissions |
-| §4 | User Workflows |
-| §5 | Information Architecture |
-| §6 | User Workflows |
-| §7 | Business Rules, Validation Rules |
-| §8 | Notifications |
-| §11 | Performance Expectations |
-| §12 | Dependencies, Permissions |
-| §13 | Information Architecture, Dependencies |
+| Overview / Baseline / Publication | `MOD-XXX` (implicit from group header; label omits it) |
+| Web Solution Design | `WEB-XXX` |
+| Mobile Solution Design | `MOB-XXX` |
+| API Solution Design | `API-XXX` |
+| Cross-Platform Certification | `CPC-XXX` |
+| Verification | `VR-XXX` |
+| Sprint Plan | `Sprint Plan` (label); file remains as-is |
+| Sprint PRD | `SPR-MOD-XXX-NNN` |
 
-### Completion Checklist (end of document)
-- [ ] All Publication requirements mapped
-- [ ] No invented functionality
-- [ ] All Business Rules mapped
-- [ ] All Validation Rules mapped
-- [ ] All Personas covered
-- [ ] All workflows documented
-- [ ] All dependencies documented
-- [ ] All unresolved items listed
-- [ ] Ready for Mobile Solution Design
+IDs are navigation labels only — no file renames in this pass.
 
-### Document Quality Gate (immediately before Final Status Line)
+## Change Classification
 
-This document may be marked `IMPLEMENTATION READY` only if:
-- Every published capability is mapped.
-- Every published workflow is mapped.
-- Every published business rule is mapped.
-- Every published validation rule is mapped.
-- Every screen is traceable to a published capability.
-- No undocumented assumptions remain unresolved.
-- All Open Items are classified.
+Architectural change under `REPOSITORY_NAVIGATION_STANDARD.md` §7. Supersedes the prior contract that centralized WEB/MOB/API/CPC in global sibling groups.
 
-### Final Status Line
-- `WEB Solution Design Status: IMPLEMENTATION READY`, or
-- `WEB Solution Design Status: REQUIRES CLARIFICATION` + concise summary of unresolved Publication gaps.
+Governance scope clarification recorded verbatim in v2.0:
 
-### Out of Scope
-No API contracts, no mobile screens, no Cross-Platform Certification, no Verification report, no changes to `_meta.json`, governance, other modules, or Wave 1 artifacts.
+> This change supersedes only the navigation layout. It does not change repository ownership, document authority, implementation workflow, or governance responsibilities.
 
-### Deliverable
-Single new file: `docs/60-solution-design/web/platform/MOD-001_WEB_SOLUTION_DESIGN.md`.
+Delivery artifacts (Implementation Planning, Engineering Execution/Completion, System Verification, User Acceptance, Release Readiness, Production Release, Post-Release Verification) and IRR remain **centralized under global groups**. `VR-XXX` inside a module group refers to the module's Solution Design Verification report, not to Delivery-phase verifications.
 
-### Post-Freeze Directive
-Structure is frozen. Do not refine the process further. Execute:
-1. Read `MOD-001_MODULE_PUBLICATION.md`.
-2. Author `MOD-001_WEB_SOLUTION_DESIGN.md` per this plan.
-3. Review for consistency and completeness.
-4. Apply the same structure to every subsequent module's WEB SD without modification unless a genuine authoring issue is discovered.
+## Deliverables
+
+1. **`docs/15-governance/REPOSITORY_NAVIGATION_STANDARD.md` → v2.0**
+   - Rewrite §2 "Mandatory Navigation Contract" to the 10-item per-module package above (no IRR).
+   - Codify the **label-deduplication rule**: within a `MOD-XXX <Name>` group, item labels MUST NOT repeat the module name; use `Overview`, `Baseline`, `Publication`, then ID-prefixed labels for WEB/MOB/API/CPC/VR.
+   - Update §3 to clarify: Delivery artifacts and IRR remain centralized.
+   - Add "Document ID Standard" and "Module Ordering" sections (ordered by Module ID).
+   - Record the governance-scope clarification sentence.
+   - Version history: v2.0 supersedes v1.1.
+
+2. **Availability Matrix (Required pre-validation artifact used to generate `_meta.json`)**
+   - Before editing `_meta.json`, enumerate for each MOD-001 … MOD-019 which of the 10 contract items exist on disk (path + presence).
+   - Serves as the source input for the `_meta.json` rewrite. Items absent on disk MUST NOT appear in the sidebar.
+   - Emitted inline in the execution report; no separate persisted file.
+
+3. **`docs/_meta.json` restructure**
+   - Remove the standalone global groups: `WEB Specifications`, `MOB Specifications`, `API Specifications`, `Cross-Platform Certifications`.
+   - Under a `Modules` top-level section, create one group per module (`MOD-001 Platform Administration`, `MOD-002 Accounting`, …, `MOD-019 Warehouse`) ordered by Module ID.
+   - Populate each module group from the Availability Matrix, ordered per the contract, with de-duplicated labels.
+   - IRR documents move to (or remain in) a centralized `Implementation Readiness` group at the top level.
+   - Existing top-level groups (Dashboard, Execution Workspace, Implementation Roadmap, Foundation, Architecture, Design System, AI, Platform, Governance, Delivery — *, PM, Archive) remain unchanged.
+   - Preserve sanctioned duplicate entries (SOLUTION_STATUS, BUSINESS_OS_EXECUTION_ROADMAP, Sprint PRDs).
+
+## Explicit Non-Goals
+
+- No file renames, no path changes, no content edits inside any module document.
+- No changes to `MODULE_IMPLEMENTATION_WORKFLOW.md`, catalogs, or ADRs.
+- No new document types.
+- No MIRA introduced in this pass.
+- No changes to Delivery groups.
+
+## Validation
+
+Python script over `docs/_meta.json` asserts:
+1. Every `path` resolves to an existing `.md` file (no dead links).
+2. Each module group's item order matches the 10-item contract (skipping absent items).
+3. Modules are ordered by Module ID.
+4. **No document (by `path`) appears inside more than one module group.**
+5. IRR documents do not appear inside any module group.
+6. Sprint PRDs inside a module group belong to that module (`SPR-MOD-XXX-*`).
+7. Item labels inside a module group do not contain the module name substring (deduplication rule).
+
+Manual spot-check in preview for MOD-001, MOD-002, MOD-003.
+
+## Rollout
+
+1. Update `REPOSITORY_NAVIGATION_STANDARD.md` to v2.0.
+2. Produce the Availability Matrix.
+3. Rewrite affected portion of `docs/_meta.json` from the matrix.
+4. Run validation script; report per-module inventory and gaps.

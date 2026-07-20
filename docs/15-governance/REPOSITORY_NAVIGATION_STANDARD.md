@@ -1,12 +1,12 @@
 ---
 title: "Repository Navigation Standard"
-summary: "Official Business OS standard governing the workflow-based repository documentation navigation architecture."
+summary: "Official Business OS standard governing the per-module self-contained implementation-package navigation architecture."
 layer: "platform"
 owner: "Platform"
 status: "approved"
-updated: "2026-07-19"
-version: "1.1"
-supersedes: []
+updated: "2026-07-20"
+version: "2.0"
+supersedes: ["1.1"]
 tags: ["governance", "navigation", "standard"]
 ---
 
@@ -14,29 +14,42 @@ tags: ["governance", "navigation", "standard"]
 
 ## 1. Purpose & Authority
 
-This document formally adopts the current Business OS workflow-based navigation architecture as the approved repository navigation standard. The initial implementation of this standard was completed under Workflow-Based Sidebar Reorganization (Revision 3.1). Future refinements do not invalidate this standard unless it is formally revised through governance.
+This document defines the approved Business OS repository navigation architecture. Version 2.0 supersedes Version 1.1 by adopting the **per-module self-contained implementation package** as the mandatory navigation model. This is an architectural change under §7.
 
-This standard is part of the Business OS governance framework and is mandatory for all current and future Business OS documentation. It governs the organization of the repository's documentation sidebar; it does not govern application UI navigation, product menus, or in-product wayfinding.
+> **Scope of this revision.** This change supersedes only the navigation layout. It does **not** change repository ownership, document authority, implementation workflow, or governance responsibilities. The repository remains the single source of truth; navigation exists only to improve discoverability.
 
 ## 2. Mandatory Navigation Contract
 
-Every Business OS module **SHALL** expose the following navigation contract, in this exact order:
+Every Business OS module **SHALL** expose one sidebar group whose header is `MOD-XXX <Name>` (e.g. `MOD-001 Platform Administration`). Within that group, items **SHALL** appear in this exact order (only those that exist on disk):
 
-1. Overview (Module PRD)
-2. Baseline
-3. Publication
-4. WEB Solution Design
-5. Mobile Solution Design
-6. API Solution Design
-7. Cross-Platform Certification
-8. Sprints
+1. `Overview` — Module PRD
+2. `Baseline` — Module Baseline
+3. `Publication` — Module Publication
+4. `WEB-XXX — Web Solution Design`
+5. `MOB-XXX — Mobile Solution Design`
+6. `API-XXX — API Solution Design`
+7. `CPC-XXX — Cross-Platform Certification`
+8. `VR-XXX — Verification` — Solution Design Verification report
+9. `Sprint Plan`
+10. `SPR-MOD-XXX-NNN — <Sprint Title>` — sprint PRDs ordered by sprint ID
 
-Only documents that actually exist shall appear. Placeholder navigation entries are prohibited. Dead links are prohibited.
+### 2.1 Label Deduplication Rule
+
+Item labels inside a module group **SHALL NOT** repeat the module name. The group header already carries `MOD-XXX <Name>`; items use `Overview`, `Baseline`, `Publication`, then ID-prefixed labels for WEB/MOB/API/CPC/VR, and `Sprint Plan` for the plan.
+
+### 2.2 Module Ordering
+
+Module groups **SHALL** be ordered by Module ID (MOD-001 → MOD-019, then MOD-020+). No other ordering is permitted.
+
+### 2.3 Placeholders & Dead Links
+
+Placeholder navigation entries are prohibited. Dead links are prohibited. Only documents that exist on disk appear in navigation.
 
 ## 3. Delivery Standard
 
-Execution artifacts **SHALL NOT** appear inside module navigation. The following artifacts **SHALL** remain centralized under the global `Delivery — <Phase>` navigation groups:
+Execution artifacts and phase gates **SHALL NOT** appear inside module navigation. The following **SHALL** remain centralized under global `Delivery — <Phase>` groups (or the equivalent centralized `Implementation Readiness` group for IRR):
 
+- **Implementation Readiness Review (IRR)** — phase gate, not a module artifact
 - Implementation Planning
 - Engineering Execution
 - Engineering Completion
@@ -46,26 +59,52 @@ Execution artifacts **SHALL NOT** appear inside module navigation. The following
 - Production Release
 - Post-Release Verification
 
-Module navigation contains **implementation inputs**. Delivery navigation contains **implementation history**. This separation is normative.
+Module navigation contains **implementation inputs**. Delivery navigation contains **implementation history and phase-gate reviews**. This separation is normative.
 
-## 4. Applicability
+`VR-XXX` inside a module group refers to the module's **Solution Design Verification** report, not to any Delivery-phase verification.
 
-This standard applies to:
+## 4. IRR Placement (Normative)
 
-- MOD-001 through MOD-019
-- MOD-020 and all future modules
-- AI modules
-- Industry extensions
-- Optional plug-in modules
-- All future repository documentation additions
+The Implementation Readiness Review reviews the module package; it is not part of it. IRR documents **SHALL** live only under the centralized `Implementation Readiness` (or Delivery) navigation, never inside a `MOD-XXX <Name>` group.
 
-## 5. Governance Rule
+If a per-module readiness artifact is desired in the future, it will be introduced under a distinct name — **Module Implementation Readiness Assessment (MIRA)** — via a separate architectural governance change. No MIRA is introduced by this standard.
 
-Any deviation from this navigation standard **SHALL** require approval through the established Business OS governance process before the navigation architecture is modified.
+## 5. Document ID Standard
 
-Individual documents may evolve freely. The navigation architecture itself shall remain stable unless formally revised.
+| Document | Label / ID |
+| --- | --- |
+| Overview / Baseline / Publication | `Overview` / `Baseline` / `Publication` (module ID implicit from group header) |
+| Web Solution Design | `WEB-XXX` |
+| Mobile Solution Design | `MOB-XXX` |
+| API Solution Design | `API-XXX` |
+| Cross-Platform Certification | `CPC-XXX` |
+| Solution Design Verification | `VR-XXX` |
+| Sprint Plan | `Sprint Plan` |
+| Sprint PRD | `SPR-MOD-XXX-NNN` |
 
-## 6. Repository Principles
+These are navigation labels. File names may retain historical patterns; this standard does not require file renames.
+
+## 6. Applicability
+
+This standard applies to MOD-001 through MOD-019, MOD-020 and all future modules, AI modules, industry extensions, optional plug-in modules, and all future repository documentation additions.
+
+## 7. Change Control
+
+The Repository Navigation Standard is intended to remain stable across Business OS releases. Future changes **SHALL** be classified as either editorial or architectural.
+
+### Editorial Changes
+
+Editorial changes improve clarity without altering the navigation architecture (spelling, grammar, wording, formatting, metadata, cross-references, non-functional improvements). They **MAY** be approved through the normal documentation review process and **SHALL NOT** modify the navigation architecture.
+
+### Architectural Changes
+
+Architectural changes modify the approved model (adding/removing top-level groups, changing hierarchy, changing the module navigation contract, moving artifacts between groups, changing Delivery organization, introducing new patterns, modifying governance principles related to navigation). They **SHALL** require formal approval through the established Business OS governance process before implementation.
+
+### Stability Principle
+
+Future modules, AI capabilities, industry extensions, optional plug-ins, and documentation additions **SHALL** integrate into the approved navigation architecture rather than introducing alternative organizational patterns.
+
+## 8. Repository Principles
 
 - The repository remains the single source of truth.
 - Navigation exists only to improve discoverability.
@@ -74,92 +113,33 @@ Individual documents may evolve freely. The navigation architecture itself shall
   - `SOLUTION_STATUS`
   - `BUSINESS_OS_EXECUTION_ROADMAP`
   - Sprint PRDs
+- No document (by `path`) **SHALL** appear inside more than one `MOD-XXX <Name>` group.
 
-These remain alternate navigation entry points into the same underlying document.
+## 9. Availability Matrix (Required Pre-Validation Artifact)
 
-## 7. Change Control
+Before any change to `docs/_meta.json`, an Availability Matrix **SHALL** be produced enumerating, for each module, which of the ten contract items exist on disk. The matrix is the source input for the navigation rewrite. Items absent from disk **MUST NOT** appear in the sidebar. The matrix may be emitted inline in the change report.
 
-The Repository Navigation Standard is intended to remain stable across Business OS releases.
+## 10. Validation
 
-Future changes **SHALL** be classified as either editorial or architectural.
+Every change to `docs/_meta.json` **SHALL** be validated against:
 
-### Editorial Changes
+1. Every `path` resolves to an existing `.md` file (no dead links).
+2. Each module group's item order matches the §2 contract (skipping absent items).
+3. Modules are ordered by Module ID.
+4. No document (by `path`) appears inside more than one module group.
+5. IRR documents do not appear inside any module group.
+6. Sprint PRDs inside a module group belong to that module (`SPR-MOD-XXX-*`).
+7. Item labels inside a module group do not repeat `MOD-XXX` beyond the sanctioned ID prefixes (WEB/MOB/API/CPC/VR/SPR-MOD).
 
-Editorial changes improve clarity without altering the navigation architecture. Examples include:
-
-- spelling corrections
-- grammar improvements
-- wording clarification
-- formatting updates
-- metadata updates
-- cross-reference updates
-- non-functional documentation improvements
-
-Editorial changes **MAY** be approved through the normal documentation review process. They **SHALL NOT** modify the navigation architecture.
-
-### Architectural Changes
-
-Architectural changes modify the approved repository navigation model. Examples include:
-
-- adding or removing top-level navigation groups
-- changing navigation hierarchy
-- changing the standard module navigation contract
-- moving artifacts between navigation groups
-- changing Delivery organization
-- introducing new navigation patterns
-- modifying governance principles related to navigation
-
-Architectural changes **SHALL** require formal approval through the established Business OS governance process before implementation.
-
-### Stability Principle
-
-The approved Repository Navigation Standard is intended to remain stable across Business OS releases.
-
-Future modules, AI capabilities, industry extensions, optional plug-ins, and documentation additions **SHALL** integrate into the approved navigation architecture rather than introducing alternative organizational patterns.
-
-This principle preserves:
-
-- repository consistency
-- developer experience
-- predictable Lovable AI implementation
-- documentation discoverability
-- long-term maintainability
-
-## 8. Future Module Standard
-
-Future modules shall follow the approved navigation contract without modification. Future modules **SHALL NOT** introduce:
-
-- additional lifecycle sections
-- execution history under module navigation
-- duplicate engineering artifacts
-- module-specific navigation structures
-
-unless the Business OS navigation architecture is formally revised through governance approval.
-
-## 9. Stability Policy
-
-The navigation architecture should remain stable across releases. New modules shall integrate into the existing navigation model rather than introducing new organizational patterns. Stability ensures:
-
-- consistent developer experience
-- predictable Lovable AI implementation workflow
-- simplified onboarding
-- long-term repository maintainability
-- preservation of the repository as the single source of truth
-
-## 10. Cross-References
+## 11. Cross-References
 
 - `docs/_meta.json` — current implementation of the sidebar that realizes this standard.
 - `docs/MODULE_IMPLEMENTATION_WORKFLOW.md` — module lifecycle producing the artifacts referenced by the navigation contract.
 - `docs/15-governance/GOVERNANCE_FRAMEWORK_MANIFEST.json` — governance framework registry.
 - `docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md` — frontmatter conventions applied to this document.
 
-**Historical note.** The initial implementation of this standard was delivered under Workflow-Based Sidebar Reorganization (Revision 3.1). Later revisions of the sidebar implementation do not affect the normative sections of this standard unless they are formally revised.
+## 12. Version History
 
-## 11. Success Criteria
-
-- This standard exists as an approved governance document.
-- The sidebar implementation continues to satisfy the Mandatory Navigation Contract and the Delivery Standard.
-- All future modules inherit the same contract.
-- Delivery artifacts remain centralized under `Delivery — <Phase>` groups.
-- Module navigation remains implementation-input-focused.
-- Future repository growth follows a consistent governance model.
+- **2.0 (2026-07-20)** — Adopted the per-module self-contained implementation package as the mandatory navigation model. Added label deduplication rule, Document ID Standard, Module Ordering clause, IRR placement rule (centralized only), Availability Matrix requirement, and expanded validation checks. Supersedes 1.1.
+- **1.1** — Added Change Control section (editorial vs architectural).
+- **1.0** — Initial workflow-based sidebar (Revision 3.1).
