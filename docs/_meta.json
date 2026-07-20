@@ -998,6 +998,30 @@
           "path": "40-module-baselines/MOD012_FIELD_SERVICE_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/field-service/MOD-012_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-012 — Web Solution Design",
+          "path": "60-solution-design/web/field-service/WEB-012_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-012 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/field-service/MOB-012_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-012 — API Solution Design",
+          "path": "60-solution-design/api/field-service/API-012_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-012 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD012_CROSS_PLATFORM_CERTIFICATION_20260720T130000Z"
+        },
+        {
+          "title": "VR-012 — Verification",
+          "path": "50-audit-reports/MOD012_WAVE_VERIFICATION_20260720T130500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/field-service/MOD-012_SPRINT_PLAN"
         },
@@ -1023,6 +1047,7 @@
         }
       ]
     },
+
     {
       "label": "Modules — MOD-013 Assets",
       "items": [
