@@ -1,58 +1,53 @@
-# MOD-008 Payroll — Publication + Solution Design Suite
+# MOD-009 Manufacturing — Publication + Solution Design Suite
 
-Documentation-only. Follows the canonical MOD-006 / MOD-007 workflow, Publication → Baseline → PRD precedence, and Repository Navigation Standard v2.0. All content derived exclusively from the Publication; no invented screens, endpoints, events, or requirements.
+Documentation-only. Follows canonical MOD-006/007/008 workflow, Publication → Baseline → PRD precedence, and Repository Navigation Standard v2.0.
 
 ## Inputs (Read-Only)
-
-- `docs/40-module-baselines/MOD008_PAYROLL_BASELINE_v1.md`
-- `docs/20-module-prds/payroll/MODULE_PRD.md`
-- Approved Publication template (MOD-002 / MOD-003 / MOD-007)
-- Approved SD templates: WEB-006, MOB-006, API-006
-- Approved audit templates: CPC-006, VR-006
+- `docs/40-module-baselines/MOD009_MANUFACTURING_BASELINE_v1.md`
+- `docs/20-module-prds/manufacturing/MODULE_PRD.md`
+- Approved templates: MOD-007 Publication, WEB-006, MOB-006, API-006, CPC-006, VR-006
 - `docs/15-governance/REPOSITORY_NAVIGATION_STANDARD.md` (v2.0)
 
-## Stage 0 — MOD-008 Publication (Completeness Gate)
+## Source Authority
 
-Author `docs/45-module-publications/payroll/MOD-008_MODULE_PUBLICATION.md` from Baseline + PRD using the approved Publication template. Every clause cites the originating Baseline §/PRD §. No new business requirements.
+**Normative Source**
+- MOD-009 Module Publication (generated in Stage 0)
 
-**Gate:** If Baseline/PRD cannot support a complete Publication, author `docs/50-audit-reports/MOD008_PUBLICATION_GAP_REPORT_<UTC>.md`, stop the workflow, set state `MOD008_PUBLICATION_BLOCKED`, and do not proceed to Stages 1–6.
+**Reference Sources (Informative Only)**
+- MOD-009 Baseline
+- MOD-009 PRD
+- Approved document templates
+- Repository Navigation Standard v2.0
 
-## Stage 1 — WEB-008 Web Solution Design
+Reference documents SHALL NOT override the Publication. Conflicts resolve as Publication ↑ Baseline ↑ PRD.
 
-Author `docs/60-solution-design/web/payroll/WEB-008_SOLUTION_DESIGN.md` using the approved 28-section Web SD template. IA, navigation, roles, screen inventory & specs, forms, validation, business rules, search/filters/tables, dashboards, reports, notifications, error/loading/empty states, accessibility, responsive, security, performance, audit logging, acceptance criteria, and Traceability Matrix — all derived exclusively from the Publication with per-item citations.
+## Stage 0 — Publication (Completeness Gate)
+Author `docs/45-module-publications/manufacturing/MOD-009_MODULE_PUBLICATION.md` from Baseline + PRD only. Every clause cites originating Baseline §/PRD §. No new business requirements.
 
-## Stage 2 — MOB-008 Mobile Solution Design
+**Gate:** If Baseline/PRD cannot support a complete Publication, author `docs/50-audit-reports/MOD009_PUBLICATION_GAP_REPORT_<UTC>.md`, stop, set state `MOD009_PUBLICATION_BLOCKED`.
 
-Author `docs/60-solution-design/mobile/payroll/MOB-008_SOLUTION_DESIGN.md` using the approved Mobile SD template. Offline, sync, push, camera, GPS, biometrics, attachments, background processing included only if authorized by the Publication; unsupported capabilities marked `N/A` with Publication citation. All workflows trace to the Publication.
+## Stage 1 — WEB-009
+Author `docs/60-solution-design/web/manufacturing/WEB-009_SOLUTION_DESIGN.md` using the approved 28-section template. Screens, workflows, validation, and business rules derived exclusively from the Publication with traceability matrix. No invented functionality.
 
-## Stage 3 — API-008 API Solution Design
+## Stage 2 — MOB-009
+Author `docs/60-solution-design/mobile/manufacturing/MOB-009_SOLUTION_DESIGN.md`. Include mobile capabilities (offline, sync, push, camera, GPS, biometrics, attachments, background) only where authorized by the Publication; otherwise mark `N/A` with Publication citation.
 
-Author `docs/60-solution-design/api/payroll/API-008_SOLUTION_DESIGN.md` covering the full approved structure (scope, authn/authz, endpoint catalogue, request/response models, validation, error handling, pagination/filter/sort, webhooks, event catalogue, audit, versioning, security, performance, acceptance criteria, Traceability Matrix). Endpoints, models, webhooks, and events derived exclusively from Publication master data, transactions, workflows, and events. Consume only Publication-referenced platform services.
+## Stage 3 — API-009
+Author `docs/60-solution-design/api/manufacturing/API-009_SOLUTION_DESIGN.md`. Endpoints, request/response models, events, and webhooks derived exclusively from the Publication. Consume only platform services referenced by the Publication.
 
-## Stage 4 — CPC-008 Cross-Platform Certification
+## Stage 4 — CPC-009
+Author `docs/50-audit-reports/MOD009_CROSS_PLATFORM_CERTIFICATION_<UTC>.md`. Validate parity across Publication / WEB / MOB / API on functional parity, business rules, validation, security, permissions, error handling, notifications, accessibility, performance, audit, traceability. Produce Compliance Matrix, Deviations, Risks, Required Corrections, Certification Result (Pass / Pass with Conditions / Fail).
 
-Author `docs/50-audit-reports/MOD008_CROSS_PLATFORM_CERTIFICATION_<UTC>.md` validating Publication ↔ WEB-008 ↔ MOB-008 ↔ API-008 across functional parity, business rules, validation, security, permissions, error handling, notifications, accessibility, performance, audit, and traceability. Emit Compliance Matrix, Deviations, Risks, Required Corrections, and Certification Result (Pass / Pass with Conditions / Fail).
-
-## Stage 5 — VR-008 Verification
-
-Author `docs/50-audit-reports/MOD008_WAVE_VERIFICATION_<UTC>.md` executing Track A (Repository Integrity) and Track B (Documentation Quality). Emit Verification Checklist, Findings, Defects, Recommendations, and Final Status (Verified / Verified with Observations / Failed).
+## Stage 5 — VR-009
+Author `docs/50-audit-reports/MOD009_WAVE_VERIFICATION_<UTC>.md`. Track A (Repository Integrity) + Track B (Documentation Quality). Produce checklist, findings, defects, recommendations, final status (Verified / Verified with Observations / Failed).
 
 ## Stage 6 — Sidebar Registration
-
-Update `docs/_meta.json` MOD-008 group in the mandatory contract order:
-
-```text
-Overview → Baseline → Publication → WEB-008 → MOB-008 → API-008 → CPC-008 → VR-008
-```
-
-Register only artifacts that exist. Apply Navigation Standard v2.0: label deduplication, no placeholders, no dead links, no duplicate paths. Validate with the standard navigation script.
+Update MOD-009 group in `docs/_meta.json` in contract order: Overview, Baseline, Publication, WEB-009, MOB-009, API-009, CPC-009, VR-009. Only register documents that exist. Apply Navigation Standard v2.0 (label dedup, no placeholders, no dead links, no duplicate paths). Validate with the standard navigation script.
 
 ## Constraints
-
-No modification of Baseline, PRD, or governance docs. No new business requirements. No invented screens/workflows/APIs/endpoints/events. No code, DB scripts, or mockups. Every SD requirement cites a Publication section.
+No modification of Baseline, PRD, or governance docs. No invented screens/workflows/APIs/endpoints/events. No code, DB scripts, or mockups. Every SD requirement cites its Publication section.
 
 ## Exit Criteria
+Publication + WEB/MOB/API/CPC/VR-009 authored; full Publication traceability; CPC result issued; VR final status issued; `_meta.json` updated with 0 dead links, correct contract ordering, no duplicate paths. Repository State: **`MOD009_WAVE_READY`**.
 
-**Success:** Publication + WEB-008 + MOB-008 + API-008 + CPC-008 + VR-008 authored; full Publication traceability; CPC result issued; VR final status issued; `_meta.json` updated per v2.0; navigation validation passes (0 dead links, correct order, no duplicate paths). State → `MOD008_WAVE_READY`.
-
-**Early Termination:** Gate fails → only Gap Report authored; no SD/audit files; no `_meta.json` changes. State → `MOD008_PUBLICATION_BLOCKED`.
+**Early Termination:** If Publication Gate fails → only Gap Report authored; no SD suite; no `_meta.json` update. Repository State: **`MOD009_PUBLICATION_BLOCKED`**.
