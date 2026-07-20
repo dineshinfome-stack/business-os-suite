@@ -1174,6 +1174,30 @@
           "path": "40-module-baselines/MOD015_POS_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/pos/MOD-015_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-015 — Web Solution Design",
+          "path": "60-solution-design/web/pos/WEB-015_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-015 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/pos/MOB-015_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-015 — API Solution Design",
+          "path": "60-solution-design/api/pos/API-015_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-015 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD015_CROSS_PLATFORM_CERTIFICATION_20260720T160000Z"
+        },
+        {
+          "title": "VR-015 — Verification",
+          "path": "50-audit-reports/MOD015_WAVE_VERIFICATION_20260720T160500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/pos/MOD-015_SPRINT_PLAN"
         },
