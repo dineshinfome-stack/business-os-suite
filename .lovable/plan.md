@@ -1,57 +1,68 @@
-# MOD-006 CRM — Publication + Solution Design Suite (v2, Reusable Template)
+# MOD-007 HRMS — Publication + Solution Design Suite
 
-Documentation-only. No code, no repo restructuring. Follows Repository Navigation Standard v2.0 and Publication → Baseline → PRD precedence. Designed to be reused verbatim for MOD-007 through MOD-019.
+Reuses the canonical MOD-006 workflow. Documentation-only. Publication → Baseline → PRD precedence. All Solution Design content derived exclusively from the Publication; no invented screens, endpoints, or events.
 
-## Stage 0 — Author MOD-006 Publication
-Create `docs/45-module-publications/crm/MOD-006_MODULE_PUBLICATION.md` derived exclusively from `MOD006_CRM_BASELINE_v1` and `docs/20-module-prds/crm/MODULE_PRD.md`.
+## Inputs (read-only)
 
-- Follow the approved Module Publication template as demonstrated by MOD-002 and MOD-003 (the template governs, not those specific documents).
-- Every clause cites Baseline §/PRD §. No new business requirements.
-- This becomes the sole Source of Truth for Stages 1–5.
+- `MOD007_HRMS_BASELINE_v1` (baseline)
+- `docs/20-module-prds/hrms/MODULE_PRD.md`
+- Publication template as demonstrated by MOD-002 / MOD-003 Publications
+- `docs/15-governance/REPOSITORY_NAVIGATION_STANDARD.md` (v2.0)
+- Reference structure: WEB-006 / MOB-006 / API-006 and CPC-006 / VR-006
 
-## Stage 1 — WEB-006 Web Solution Design
-`docs/60-solution-design/web/crm/WEB-006_SOLUTION_DESIGN.md` — full 28-section structure from the source prompt (Purpose … Traceability Matrix).
+## Stage 0 — MOD-007 Publication (Completeness Gate)
 
-- Screen inventory, navigation, forms, dashboards, and reports SHALL be derived from the entities, workflows, business rules, and reporting capabilities defined in the Publication. Every screen and rule cites `Publication §N`. No invented screens.
+Create `docs/45-module-publications/hrms/MOD-007_MODULE_PUBLICATION.md` from the Baseline + PRD, following the approved Publication template. Every clause cites Baseline § and/or PRD §. No new requirements. Conflicts resolved by Publication ↑ Baseline ↑ PRD.
 
-## Stage 2 — MOB-006 Mobile Solution Design
-`docs/60-solution-design/mobile/crm/MOB-006_SOLUTION_DESIGN.md` — full mobile structure from the source prompt.
+Gate: if the Baseline/PRD cannot support a complete Publication, stop and emit a gap report under `docs/50-audit-reports/MOD007_PUBLICATION_GAP_REPORT_<UTC>.md`. Stages 1–6 do not proceed until the Publication is complete.
 
-- Mobile scope SHALL be derived from the Publication. Capabilities such as offline, sync, camera, GPS, and attachments are included only if the Publication authorizes them; otherwise marked N/A with citation.
+## Stage 1 — WEB-007
 
-## Stage 3 — API-006 API Solution Design
-`docs/60-solution-design/api/crm/API-006_SOLUTION_DESIGN.md` — full API structure from the source prompt.
+Create `docs/60-solution-design/web/hrms/WEB-007_SOLUTION_DESIGN.md` using the approved 28-section template (Purpose … Traceability Matrix). Screen inventory, navigation, forms, dashboards, reports, and workflows derived exclusively from the Publication. Every screen / validation / business rule cites a Publication section.
 
-- Endpoint catalogue, request/response models, event catalogue, and webhooks SHALL be derived exclusively from the master data, transactions, and events defined in the Publication. No additional endpoints or events may be introduced. Auth/authz/audit consume the engines declared by the Publication.
+## Stage 2 — MOB-007
 
-## Stage 4 — CPC-006 Cross-Platform Certification
-`docs/50-audit-reports/MOD006_CROSS_PLATFORM_CERTIFICATION_<UTC>.md` (timestamped — audit evidence convention).
+Create `docs/60-solution-design/mobile/hrms/MOB-007_SOLUTION_DESIGN.md` using the approved template. Mobile scope, offline, sync, notifications, camera, GPS, biometrics, attachments, and background processing included only if authorized by the Publication; unsupported capabilities marked N/A with citations.
 
-- Compliance matrix across Publication / WEB-006 / MOB-006 / API-006 covering functional parity, business rules, validation, security, permissions, error handling, notifications, accessibility, audit, performance.
-- Emit deviations, risks, required corrections, certification result (Pass / Pass with Conditions / Fail).
+## Stage 3 — API-007
 
-## Stage 5 — VR-006 Verification
-`docs/50-audit-reports/MOD006_WAVE_VERIFICATION_<UTC>.md` (timestamped — audit evidence convention).
+Create `docs/60-solution-design/api/hrms/API-007_SOLUTION_DESIGN.md` covering the full section list (Scope, AuthN, AuthZ, Endpoint Catalogue, Request/Response Models, Validation, Errors, Pagination, Filtering, Sorting, Webhooks, Event Catalogue, Audit, Versioning, Security, Performance, Acceptance Criteria, Traceability Matrix). Endpoints/events derived exclusively from Publication master data, transactions, workflows, and events. Consumes only platform services the Publication references.
 
-- Repository-standard 16-check verification (Track A repository integrity + Track B document quality), findings, defects, recommendations, final status (Verified / Verified with Observations / Failed).
+## Stage 4 — CPC-007
 
-## Stage 6 — Sidebar registration (Navigation Standard v2.0)
-Update MOD-006 group in `docs/_meta.json` in contract order, listing only items that exist on disk after Stages 0–5:
-`Overview → Baseline → Publication → WEB-006 → MOB-006 → API-006 → CPC-006 → VR-006`.
-Apply the label-deduplication rule.
+Create `docs/50-audit-reports/MOD007_CROSS_PLATFORM_CERTIFICATION_<UTC>.md` validating Publication ↔ WEB ↔ MOB ↔ API across functional parity, business rules, validation, security, permissions, error handling, notifications, accessibility, performance, audit, traceability. Output: Compliance Matrix, Deviations, Risks, Required Corrections, Result (Pass / Pass with Conditions / Fail).
+
+## Stage 5 — VR-007
+
+Create `docs/50-audit-reports/MOD007_WAVE_VERIFICATION_<UTC>.md` running Track A (Repository Integrity) and Track B (Documentation Quality). Output: Checklist, Findings, Defects, Recommendations, Final Status (Verified / Verified with Observations / Failed).
+
+## Stage 6 — Sidebar Registration
+
+Update the MOD-007 HRMS group in `docs/_meta.json` in contract order, registering only artifacts that exist:
+
+```text
+Overview
+Baseline
+Publication
+WEB-007
+MOB-007
+API-007
+CPC-007
+VR-007
+```
+
+Apply label-deduplication rule. No placeholders, no dead links, no duplicate paths across module groups. Validate with the navigation script used for MOD-006.
 
 ## Constraints
-- Do not modify Baseline or PRD.
-- No invented workflows, features, endpoints, or screens.
-- No code, DB scripts, or UI mockups.
-- Every requirement in every SD cites a Publication section.
 
-## Exit criteria
-1. Publication and all five SD documents authored.
-2. Every SD requirement traceable to the Publication.
-3. CPC-006 issued with a certification result.
-4. VR-006 completed with a final status.
-5. Sidebar updated per Navigation Standard v2.0.
-6. Repository navigation validation passes: 0 dead links, correct contract ordering, no duplicate paths across module groups, traceability complete.
+Do not modify Baseline, PRD, or governance documents. No new business requirements. No invented screens, workflows, APIs, or events. No code, DB scripts, or UI mockups. Every SD requirement cites a Publication section.
 
-Repository state target: `MOD006_WAVE_READY`.
+## Exit Criteria
+
+- Publication authored (or gap report emitted and workflow halted)
+- WEB-007, MOB-007, API-007, CPC-007, VR-007 authored
+- Full Publication traceability across SD docs
+- CPC-007 result issued; VR-007 final status issued
+- `_meta.json` updated per Navigation Standard v2.0
+- Navigation validation: 0 dead links, correct contract order, no duplicate paths
+- Repository state: `MOD007_WAVE_READY`
