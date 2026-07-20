@@ -1,212 +1,109 @@
-# Phase 5.1 — Core ERP Dependency Reconciliation & Wave 1 Continuation (Frozen v1.1)
+## Plan v3.1 (FROZEN) — Phase 4: MOD-001 WEB Solution Design (Canonical Reference Implementation)
 
-## Objective
+### Objective
+Author one new document, `MOD-001_WEB_SOLUTION_DESIGN.md`, derived strictly from `MOD-001_MODULE_PUBLICATION`. This document becomes the **canonical reference implementation** for all future WEB Solution Designs.
 
-Validate that the current Wave 1 execution sequence, repository readiness matrix, and module dependency graph remain fully aligned with the approved Core ERP architecture (ADR-007), then continue Wave 1 authoring in the approved dependency order.
+### Canonical Reference Clause
+Once approved, `MOD-001_WEB_SOLUTION_DESIGN.md` becomes the **canonical reference implementation** for all future WEB Solution Design documents. Future WEB Solution Designs shall follow the same structure, section order, terminology, and documentation conventions unless superseded by an approved repository-wide documentation standard.
 
-This phase reconciles **documentation readiness** with **implementation sequencing**. It validates and applies the approved architecture — it does not modify it.
+### Location
+`docs/60-solution-design/web/platform/MOD-001_WEB_SOLUTION_DESIGN.md`
+(Consistent with WEB-005, WEB-004, WEB-019 authored in Wave 1. Legacy `docs/46-solution-design/` WEB-001 remains untouched.)
 
-## Governing Authorities
+### Source of Truth vs. Reference Documents
 
-- Repository Governance Framework
-- Repository Navigation Standard v1.1
-- Phase 4 Solution Design Completion Program
-- Phase 4.5 Core ERP Domain Validation
-- ADR-007 Core ERP Module Boundaries
+**Source of Truth (authoritative — no requirement may exist outside this document):**
+- `docs/45-module-publications/platform/MOD-001_MODULE_PUBLICATION.md`
 
-ADR-007 remains the authority unless superseded by an approved ADR.
+**Reference Documents (context only — must not introduce requirements beyond the Publication):**
+- Module PRD
+- Module Baseline
+- Applicable Architecture Standards
+- Accessibility Standards
 
-## Repository Baseline
+### Authoring Rules
 
-Wave 1 SHALL execute against a single approved repository baseline captured at the start of Stage 0. If PRDs, ADRs, governance documents, or repository standards change during execution, those changes SHALL be deferred to the next wave unless approved through Change Control.
+1. **Traceability Requirement.** Every major section MUST include a `Source Reference` line naming the Publication section(s) from which the content is derived (e.g., `Source: Publication §7`).
+2. **No invented screens.** Do NOT pre-list screens. Derive the Screen Inventory strictly from published capabilities, submodules, and workflows.
+3. **Implementation Interpretation Rule.** Implementation details (table layouts, navigation patterns, form arrangements, component grouping) may be introduced ONLY when necessary to realize a published capability. Such details shall not alter business behavior, introduce new features, or expand module scope. Where multiple reasonable interpretations exist, record the assumption under **Open Items** or an inline **Implementation Notes** callout. **Implementation Notes are informative only and do not become business requirements. If they conflict with the Module Publication, the Module Publication prevails.**
+4. **No ADR pinning.** Reference architecture and accessibility by name — never by ADR-NNN identifier.
+5. **Terminology.** Use terms exactly as they appear in the Publication.
+6. **No new scope.** No new features, workflows, APIs, mobile screens, or business processes.
 
-## Wave Freeze
+### Document Structure (20 sections — Canonical Order)
 
-Once Stage 3 begins:
+1. **Document Information** — Title, Module ID, Version, Status, Owner, **Source of Truth**, **Reference Documents**
+2. **Purpose** *(Source Reference)*
+3. **Scope** *(Source: Publication §2)*
+4. **Business Context** *(Source: Publication §1)*
+5. **User Roles** *(Source: Publication §3)*
+6. **Navigation Structure** *(Source: Publication §2)*
+7. **Information Architecture** — per entity: **Entity · Ownership · Relationships · Screen Mapping** *(Source: Publication §5, §13)*
+8. **Screen Inventory** — per screen: Name, Purpose, Entry Points, Exit Points, Components, Actions, Permissions, Business Rules, Validation Rules, Error Messages, Success Messages *(Source Reference per screen)*
+9. **User Workflows** *(Source: Publication §4, §6)*
+10. **UI Components** — forms, tables, cards, dialogs, search, filters, pagination, tabs, navigation elements, action buttons
+11. **Validation Rules** *(Source: Publication §7)*
+12. **Business Rules** *(Source: Publication §7)*
+13. **Permissions** *(Source: Publication §3, §12)*
+14. **Notifications** — success / warning / error / informational tied to published events *(Source: Publication §8)*
+15. **Responsive Behaviour** — desktop, tablet, mobile browser
+16. **Accessibility** *(Source: Accessibility Standards)*
+17. **Performance Expectations** *(Source: Publication §11; gaps → Open Items)*
+18. **Dependencies** *(Source: Publication §12, §13)*
+19. **Acceptance Criteria** — testable, covering **Screen behaviour · Navigation · Validation · Permissions · Business Rules · Workflows** *(Source Reference each)*
+20. **Open Items** — categorized as **Business Gap · UX Gap · Technical Gap · Data Gap · Security Gap**
 
-- No new requirements
-- No module additions
-- No dependency changes
-- No scope expansion
+### Traceability Matrix (appended after Section 20)
 
-Any requested change SHALL be deferred to the next wave or processed through Change Control.
+| Publication Section | WEB SD Section |
+|---|---|
+| §1 | Business Context |
+| §2 | Scope, Navigation Structure |
+| §3 | User Roles, Permissions |
+| §4 | User Workflows |
+| §5 | Information Architecture |
+| §6 | User Workflows |
+| §7 | Business Rules, Validation Rules |
+| §8 | Notifications |
+| §11 | Performance Expectations |
+| §12 | Dependencies, Permissions |
+| §13 | Information Architecture, Dependencies |
 
-## Stage 0 — Dependency Reconciliation
+### Completion Checklist (end of document)
+- [ ] All Publication requirements mapped
+- [ ] No invented functionality
+- [ ] All Business Rules mapped
+- [ ] All Validation Rules mapped
+- [ ] All Personas covered
+- [ ] All workflows documented
+- [ ] All dependencies documented
+- [ ] All unresolved items listed
+- [ ] Ready for Mobile Solution Design
 
-Sole deliverable:
+### Document Quality Gate (immediately before Final Status Line)
 
-```
-docs/50-audit-reports/WAVE1_DEPENDENCY_RECONCILIATION_<timestamp>.md
-```
+This document may be marked `IMPLEMENTATION READY` only if:
+- Every published capability is mapped.
+- Every published workflow is mapped.
+- Every published business rule is mapped.
+- Every published validation rule is mapped.
+- Every screen is traceable to a published capability.
+- No undocumented assumptions remain unresolved.
+- All Open Items are classified.
 
-Report contents:
+### Final Status Line
+- `WEB Solution Design Status: IMPLEMENTATION READY`, or
+- `WEB Solution Design Status: REQUIRES CLARIFICATION` + concise summary of unresolved Publication gaps.
 
-1. **Repository Snapshot** — module readiness, existing artifacts, dependency graph, execution roadmap, current implementation sequence, captured without modification. This snapshot is the Wave 1 Repository Baseline.
-2. **ADR Comparison** — matches / differences / missing / additional dependencies vs. ADR-007, Phase 4.5 Validation, and Business OS Execution Roadmap.
-3. **Dependency Classification** — every edge tagged as Architectural, Documentation, or Implementation. No conflation permitted.
-4. **Module Ownership Validation**
-   - MOD-005 exclusive ownership: Item Master, Warehouse Master, Bin Master, Stock Ledger, Inventory Transactions, Reservation API, Inventory Events, Inventory Valuation.
-   - MOD-004 consumes MOD-005 contracts; does not redefine.
-   - MOD-003 consumes MOD-005 + MOD-002; independent of MOD-019 internals.
-   - MOD-019 owns only Putaway, Picking, Packing, Slotting, Dock, Labor, Equipment; consumes MOD-005 as System of Record.
-   - Cross-module: no duplicate ownership, no ownership conflicts, no circular dependencies.
-5. **Decision** — one of:
-   - **Option A**: current sequence is correct with architectural evidence → **HALT and await user approval**.
-   - **Option B**: readiness matrix reflects documentation readiness only, ADR-007 remains authoritative → **continue automatically**.
-6. **Approved Wave 1 Sequence** (if Option B): `MOD-001 → MOD-002 → MOD-005 → MOD-004 → MOD-003 → MOD-019`.
-7. **Repository Verification** — Track A + Track B (see Verification Model). Report `N/N PASS`.
-8. **Risk & Exception Register (initial)** — see Risk & Exception Register section.
+### Out of Scope
+No API contracts, no mobile screens, no Cross-Platform Certification, no Verification report, no changes to `_meta.json`, governance, other modules, or Wave 1 artifacts.
 
-## Verification Model (applies to Stage 0 and every subsequent stage)
+### Deliverable
+Single new file: `docs/60-solution-design/web/platform/MOD-001_WEB_SOLUTION_DESIGN.md`.
 
-Two independent verification tracks. Both MUST PASS to close a stage.
-
-### Track A — Repository Verification
-
-Verify repository integrity, governance compliance, cross-references, dependency consistency, and architectural alignment against the current Repository Verification Standard.
-
-### Track B — Quality Metrics
-
-Verify document quality with objective measurements. Targets:
-
-- Broken links = 0
-- Duplicate requirements = 0
-- Undefined API contracts = 0
-- Undefined events = 0
-- Undefined permissions = 0
-- Untraced requirements = 0
-- Frontmatter errors = 0
-- Unresolved MAJOR / CRITICAL findings = 0
-
-INFO and MINOR findings are permitted and tracked in the Risk & Exception Register.
-
-## Risk & Exception Register
-
-Every stage SHALL maintain a Risk & Exception Register, stored inline in the stage's Verification Report and rolled up to `docs/50-audit-reports/WAVE1_RISK_EXCEPTION_REGISTER_<ts>.md` at wave close.
-
-Each entry SHALL include:
-
-- Identifier (`RISK-<wave>-<seq>` or `EXC-<wave>-<seq>`)
-- Description
-- Severity (INFO / MINOR / MAJOR / CRITICAL)
-- Impacted modules
-- Owner
-- Mitigation
-- Resolution status (Open / Mitigated / Accepted / Closed)
-
-Rules:
-
-- INFO and MINOR items MAY remain Open if they do not violate the Success Criteria.
-- MAJOR and CRITICAL items SHALL block stage completion until Closed or formally Accepted through Change Control.
-- Accepted exceptions SHALL cite the approving authority and the rationale.
-
-## Continuation Rule
-
-If Stage 0 concludes **Option B**, continue automatically through Stages 3–6 without pausing. If **Option A**, halt after Stage 0.
-
-## Stage Workflow (applied to Stages 3–6)
-
-1. **Stage Kickoff Report** — existing artifacts, gap scan, missing artifacts, scope, module boundary confirmation.
-2. **Solution Design Authoring** — WEB / MOB / API SDs under `docs/60-solution-design/{web,mobile,api}/<domain>/`. Gap-fill where SDs exist; full authoring where missing. No duplication of approved material.
-3. **Architecture Conformance Review** — validates ADR-007, module ownership, event ownership, data ownership, dependency graph, repository standards. MUST PASS before certification.
-4. **Cross-Platform Certification** — WEB / Mobile / API across all seven parity dimensions; stored under `docs/50-audit-reports/MOD<id>_CROSS_PLATFORM_CERTIFICATION_<ts>.md`.
-5. **Verification** — Track A + Track B; stored under `docs/50-audit-reports/MOD<id>_WAVE1_VERIFICATION_<ts>.md`. Risk & Exception Register updated inline.
-6. **Stage Exit Checklist** — SDs complete · Architecture Conformance PASS · Cross-Platform Certification PASS · Repository Verification PASS · Quality Metrics PASS · Risk & Exception Register current (no open MAJOR/CRITICAL) · Repository Readiness updated · Contract Freeze applied · Next stage unblocked.
-7. **Repository Updates** — see boundary below.
-
-### Repository Updates (per stage)
-
-**Update only:**
-
-- `docs/SOLUTION_STATUS.md`
-- Wave 1 module readiness fields
-- Execution status
-
-**Do not modify:**
-
-- Dependency graph
-- ADRs
-- Repository architecture
-- Module ownership
-- Governance documents
-- Repository Navigation / `_meta.json`
-- PRDs / Baselines
-
-## Contract Freeze Points
-
-- End of Stage 3 (MOD-005): Item Master, Warehouse/Bin Master, Stock Ledger events (`StockReceived`, `StockIssued`, `StockTransferred`), Reservation API, Valuation reads, Inventory Events.
-- End of Stage 4 (MOD-004): `GoodsReceived` event, Supplier Master read contract.
-- End of Stage 5 (MOD-003): `DeliveryDispatched` event, Sales allocation contract.
-
-Frozen contracts SHALL NOT be redefined later in Wave 1.
-
-## Remaining Stage Order
-
-| Stage | Module | Mode | Notes |
-|---|---|---|---|
-| 3 | MOD-005 Inventory | Full package | Defines all Inventory contracts. |
-| 4 | MOD-004 Purchase | Full package | Consumes MOD-005; no contract redefinition. |
-| 5 | MOD-003 Sales | Gap-fill only | Reuse existing SDs under `docs/46-solution-design/`; cross-reference legacy paths until migration completes; no duplication. |
-| 6 | MOD-019 Warehouse | Full package | Physical execution layer; consumes MOD-005; does NOT own Item Master, Warehouse Master, Stock Ledger, or Valuation. |
-
-## Final Wave 1 Deliverables (after Stage 6)
-
-Under `docs/50-audit-reports/`:
-
-1. `WAVE1_COMPLETION_MATRIX_<ts>.md`
-2. `WAVE1_MODULE_READINESS_REPORT_<ts>.md`
-3. `WAVE1_IMPLEMENTATION_READINESS_DASHBOARD_<ts>.md`
-4. `WAVE1_CROSS_MODULE_DEPENDENCY_VALIDATION_<ts>.md`
-5. `WAVE1_VERIFICATION_REPORT_<ts>.md` (both tracks)
-6. `WAVE1_RISK_EXCEPTION_REGISTER_<ts>.md`
-7. `WAVE1_EXECUTIVE_SUMMARY_<ts>.md`
-8. `WAVE1_HANDOVER_PACKAGE_<ts>.md` (see Wave Handover)
-
-Then advance `docs/SOLUTION_STATUS.md` to `WAVE1_CORE_ERP_IMPLEMENTATION_READY`.
-
-## Wave Handover
-
-Completion of Wave 1 SHALL produce a Wave Handover Package (`WAVE1_HANDOVER_PACKAGE_<ts>.md`) enumerating the reusable inputs Wave 2 inherits:
-
-- Approved Repository Baseline (snapshot reference)
-- Frozen contract catalog (all Stage 3/4/5 freezes)
-- Validated dependency graph
-- Standard Solution Design templates (14-section)
-- Verification framework (Track A + Track B)
-- Cross-Platform Certification framework (7 parity dimensions)
-- Repository status (`SOLUTION_STATUS.md` snapshot)
-- Risk & Exception Register (closing state)
-- Lessons learned (process observations, non-architectural)
-
-Each Wave SHALL open by consuming the prior wave's Handover Package as its starting baseline.
-
-## Success Criteria
-
-Wave 1 completes only when:
-
-- Stage 0 reconciliation passes.
-- ADR-007 remains internally consistent.
-- Repository Baseline held for the duration of the wave (no unauthorized drift).
-- Wave Freeze respected from Stage 3 onward.
-- MOD-005 completes before MOD-004; MOD-004 before MOD-003; MOD-019 last.
-- Every Wave 1 module holds the required six-artifact package.
-- Every Architecture Conformance Review passes.
-- Every Cross-Platform Certification passes (7/7 dimensions).
-- Every Repository Verification (Track A) passes.
-- Every Quality Metrics check (Track B) passes with 0 MAJOR / 0 CRITICAL open.
-- Risk & Exception Register carries no open MAJOR or CRITICAL entries.
-- Wave Handover Package produced and complete.
-- Every Wave 1 module is classified **READY FOR IMPLEMENTATION**.
-
-## Framework Status: Frozen (v1.1)
-
-This document is the authoritative Phase 5.1 execution program. Its execution model — Repository Baseline, Wave Freeze, dependency reconciliation, stage workflow, architecture conformance, two-track verification, Risk & Exception Register, stage exit checklist, contract freeze, repository update boundary, Wave Handover, and completion gates — is reused verbatim for Waves 2, 3, and 4 unless superseded by an approved governance document or new ADR.
-
-Further refinement of the framework itself is out of scope; focus shifts entirely to executing Wave 1.
-
-## Technical details
-
-- Timestamps: monotonic `YYYYMMDDTHHMMSSZ` starting `20260720T060000Z`, ~5-minute increments per artifact.
-- SD structure: 14-section standardized template from the Phase 4 program report (Publication 13 / Web 10 / Mobile 8 / API 13).
-- MOD-003 Stage 5 explicitly checks `docs/46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN.md` and its siblings; gap-fill emits only missing certification/verification artifacts under `docs/50-audit-reports/` and cross-links legacy paths.
-- Register IDs use wave prefix (`RISK-W1-001`, `EXC-W1-001`) to keep uniqueness across waves.
+### Post-Freeze Directive
+Structure is frozen. Do not refine the process further. Execute:
+1. Read `MOD-001_MODULE_PUBLICATION.md`.
+2. Author `MOD-001_WEB_SOLUTION_DESIGN.md` per this plan.
+3. Review for consistency and completeness.
+4. Apply the same structure to every subsequent module's WEB SD without modification unless a genuine authoring issue is discovered.
