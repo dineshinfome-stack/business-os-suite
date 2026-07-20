@@ -682,9 +682,34 @@
           "path": "40-module-baselines/MOD007_HRMS_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/hrms/MOD-007_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-007 — Web Solution Design",
+          "path": "60-solution-design/web/hrms/WEB-007_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-007 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/hrms/MOB-007_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-007 — API Solution Design",
+          "path": "60-solution-design/api/hrms/API-007_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-007 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD007_CROSS_PLATFORM_CERTIFICATION_20260720T080000Z"
+        },
+        {
+          "title": "VR-007 — Verification",
+          "path": "50-audit-reports/MOD007_WAVE_VERIFICATION_20260720T080500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/hrms/MOD-007_SPRINT_PLAN"
         },
+
         {
           "title": "SPR-MOD-007-001 — Hrms Foundation Employee Master",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master"
