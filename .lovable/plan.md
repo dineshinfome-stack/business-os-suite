@@ -1,61 +1,44 @@
-# MOD-015 POS — Publication + Solution Design Suite
+## MOD-016 Service Desk — Publication + Solution Design Suite
 
-Documentation-only wave following the canonical MOD-006 → MOD-014 workflow. All artifacts derive exclusively from the Stage 0 Publication.
+Documentation-only wave following the canonical MOD-006 → MOD-015 workflow. All artifacts derive exclusively from the Stage 0 Publication.
 
-## Source Authority
+### Source Authority
+- Normative: `docs/45-module-publications/service-desk/MOD-016_MODULE_PUBLICATION.md` (Stage 0 output)
+- Reference: `docs/40-module-baselines/MOD016_*_BASELINE_v1.md` (if present), `docs/20-module-prds/service-desk/MODULE_PRD.md`, MOD-015 templates, Navigation Standard v2.0
+- Precedence: Publication → Baseline → PRD
 
-- **Normative**: `docs/45-module-publications/pos/MOD-015_MODULE_PUBLICATION.md` (Stage 0 output)
-- **Reference**: `docs/40-module-baselines/MOD015_POS_BASELINE_v1.md`, `docs/20-module-prds/pos/MODULE_PRD.md`, approved MOD-011 templates, Navigation Standard v2.0
-- **Precedence**: Publication → Baseline → PRD
+### Stage 0 — Publication (gated)
+Read Baseline + PRD, then author `docs/45-module-publications/service-desk/MOD-016_MODULE_PUBLICATION.md` using the approved template. Every clause cites Baseline/PRD section. No new business requirements.
 
-## Stage 0 — Publication (Completeness Gate)
+Gate: if Baseline/PRD cannot support a complete Publication, author `docs/50-audit-reports/MOD016_PUBLICATION_GAP_REPORT_<UTC>.md`, set state `MOD016_PUBLICATION_BLOCKED`, stop, and leave `_meta.json` unchanged.
 
-Read Baseline and PRD. Author `docs/45-module-publications/pos/MOD-015_MODULE_PUBLICATION.md` using the approved Module Publication template. Every clause cites originating Baseline/PRD section. No new business requirements.
+### Stage 1 — WEB-016
+Author `docs/60-solution-design/web/service-desk/WEB-016_SOLUTION_DESIGN.md` using the 28-section web template. Coverage limited to Publication-defined screens, workflows, rules, capabilities. Every requirement cites its Publication section. No invented screens/workflows/rules.
 
-**Gate**: If Baseline/PRD cannot support a complete Publication, author `docs/50-audit-reports/MOD015_PUBLICATION_GAP_REPORT_<UTC>.md`, set state `MOD015_PUBLICATION_BLOCKED`, skip Stages 1–6, leave `_meta.json` unchanged.
+### Stage 2 — MOB-016
+Author `docs/60-solution-design/mobile/service-desk/MOB-016_SOLUTION_DESIGN.md`. Include only Publication-authorized capabilities (Offline, Sync, Push, Camera, GPS, Biometric, Attachments, Background); unauthorized ones marked `N/A` with Publication citation. Every workflow traces to a Publication section.
 
-## Stage 1 — WEB-015
+### Stage 3 — API-016
+Author `docs/60-solution-design/api/service-desk/API-016_SOLUTION_DESIGN.md`. Endpoints, request/response models, webhooks, and events derived exclusively from the Publication. Event names exactly as defined in the Publication — none invented. Consume only Publication-referenced platform services.
 
-Author `docs/60-solution-design/web/pos/WEB-015_SOLUTION_DESIGN.md` using the approved 28-section Web SD template (IA, Navigation, Roles, Screen Inventory/Specs, Forms, Validation, Business Rules, Search, Filters, Tables, Dashboards, Reports, Notifications, Error/Loading/Empty States, Accessibility, Responsive, Security, Performance, Audit, Acceptance Criteria, Traceability Matrix).
+### Stage 4 — CPC-016
+Author `docs/50-audit-reports/MOD016_CROSS_PLATFORM_CERTIFICATION_<UTC>.md`. Validate parity across Publication ↔ WEB/MOB/API (functional, rules, validation, security, permissions, errors, notifications, a11y, performance, audit, traceability). Emit Compliance Matrix, Deviations, Risks, Corrections, and Certification Result (Pass / Pass with Conditions / Fail).
 
-Coverage shall include only screens, workflows, validation rules, and business capabilities defined in the Publication. Every requirement cites its Publication section. No invented screens, workflows, business rules, or functionality.
+### Stage 5 — VR-016
+Author `docs/50-audit-reports/MOD016_WAVE_VERIFICATION_<UTC>.md` with Track A (Repository Integrity) + Track B (Documentation Quality). Emit checklist, findings, defects, recommendations, and Final Verification Status.
 
-## Stage 2 — MOB-015
-
-Author `docs/60-solution-design/mobile/pos/MOB-015_SOLUTION_DESIGN.md` using the approved Mobile SD template. Include only Publication-authorized capabilities (offline, sync, push, camera, GPS, biometric, attachments, background processing). Unauthorized capabilities marked `N/A` with citation. Every workflow traces to a Publication section.
-
-## Stage 3 — API-015
-
-Author `docs/60-solution-design/api/pos/API-015_SOLUTION_DESIGN.md` using the approved API SD template (Scope, AuthN, AuthZ, Endpoint Catalogue, Request/Response Models, Validation, Errors, Pagination, Filtering, Sorting, Webhooks, Event Catalogue, Audit, Versioning, Security, Performance, Acceptance Criteria, Traceability Matrix).
-
-**Explicit Derivation Rule**: Endpoints, request/response models, webhooks, and events derive exclusively from the Publication. Consume only platform services referenced by the Publication. No invented APIs, endpoints, events, or webhooks.
-
-**Event Naming Rule**: Event names shall be exactly those defined in the Stage 0 Publication.
-
-## Stage 4 — CPC-015
-
-Author `docs/50-audit-reports/MOD015_CROSS_PLATFORM_CERTIFICATION_<UTC>.md`. Validate consistency across Publication, WEB-015, MOB-015, API-015. Scope: functional parity, business rules, validation, security, permissions, error handling, notifications, accessibility, performance, audit, traceability. Produce Compliance Matrix, Deviations, Risks, Required Corrections, Certification Result (Pass / Pass with Conditions / Fail).
-
-## Stage 5 — VR-015
-
-Author `docs/50-audit-reports/MOD015_WAVE_VERIFICATION_<UTC>.md`. Execute repository-standard verification — Track A (Repository Integrity), Track B (Documentation Quality). Produce Verification Checklist, Findings, Defects, Recommendations, Final Verification Status (Verified / Verified with Observations / Failed).
-
-## Stage 6 — Sidebar Registration
-
-Only after Stages 0–5 succeed. Update MOD-015 POS group in `docs/_meta.json` registering only existing documents in mandatory contract order:
+### Stage 6 — Sidebar Registration
+Only after Stages 0–5 pass. Update the MOD-016 Service Desk group in `docs/_meta.json` in contract order:
 
 ```text
-Overview → Baseline → Publication → WEB-015 → MOB-015 → API-015 → CPC-015 → VR-015
+Overview → Baseline → Publication → WEB-016 → MOB-016 → API-016 → CPC-016 → VR-016
 ```
 
-Apply Navigation Standard v2.0 (label deduplication, no placeholders, no dead links, no duplicate paths). Validate with standard navigation script. If Publication Gate failed, Stage 6 SHALL NOT execute.
+Apply Navigation Standard v2.0: dedupe labels, no placeholders, no dead links, no duplicate paths. Skip Stage 6 entirely if the Publication Gate failed.
 
-## Constraints
+### Constraints
+No edits to Baseline, PRD, or governance docs. No invented screens/workflows/rules/APIs/endpoints/events/webhooks. No code, DB scripts, or UI mockups. Every SD requirement cites its Publication section.
 
-Do NOT modify Baseline, PRD, or governance docs. Do NOT introduce new business requirements. Do NOT invent screens, workflows, business rules, APIs, endpoints, events, or webhooks. Do NOT generate code, DB scripts, or UI mockups. Every SD requirement cites its Publication section.
-
-## Exit Criteria
-
-**Success**: Publication + WEB/MOB/API/CPC/VR-015 authored with full traceability; CPC result issued; VR final status issued; `_meta.json` updated; navigation validates (0 dead links, correct contract order, no duplicate paths). Repository state: **`MOD015_WAVE_READY`**.
-
-**Early termination**: On Publication Gate failure, only the Gap Report is authored; `_meta.json` unchanged; state **`MOD015_PUBLICATION_BLOCKED`**.
+### Exit Criteria
+- Success: Publication + WEB/MOB/API/CPC/VR authored with full Publication traceability; `_meta.json` updated; nav validation clean → state `MOD016_WAVE_READY`.
+- Early termination: only Gap Report authored; `_meta.json` unchanged → state `MOD016_PUBLICATION_BLOCKED`.

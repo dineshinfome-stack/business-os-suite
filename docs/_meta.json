@@ -1235,6 +1235,30 @@
           "path": "40-module-baselines/MOD016_SERVICE_DESK_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/service-desk/MOD-016_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-016 — Web Solution Design",
+          "path": "60-solution-design/web/service-desk/WEB-016_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-016 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/service-desk/MOB-016_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-016 — API Solution Design",
+          "path": "60-solution-design/api/service-desk/API-016_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-016 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD016_CROSS_PLATFORM_CERTIFICATION_20260720T170000Z"
+        },
+        {
+          "title": "VR-016 — Verification",
+          "path": "50-audit-reports/MOD016_WAVE_VERIFICATION_20260720T170500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN"
         },
