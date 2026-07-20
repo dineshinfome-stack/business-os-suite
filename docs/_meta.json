@@ -385,6 +385,10 @@
           "path": "50-audit-reports/MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z"
         },
         {
+          "title": "VR-002 — Verification",
+          "path": "50-audit-reports/MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
         },
