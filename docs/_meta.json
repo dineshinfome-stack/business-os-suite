@@ -748,9 +748,34 @@
           "path": "40-module-baselines/MOD008_PAYROLL_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/payroll/MOD-008_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-008 — Web Solution Design",
+          "path": "60-solution-design/web/payroll/WEB-008_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-008 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/payroll/MOB-008_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-008 — API Solution Design",
+          "path": "60-solution-design/api/payroll/API-008_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-008 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD008_CROSS_PLATFORM_CERTIFICATION_20260720T090000Z"
+        },
+        {
+          "title": "VR-008 — Verification",
+          "path": "50-audit-reports/MOD008_WAVE_VERIFICATION_20260720T090500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/payroll/MOD-008_SPRINT_PLAN"
         },
+
         {
           "title": "SPR-MOD-008-001 — Payroll Foundation And Salary Structures",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures"
