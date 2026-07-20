@@ -940,6 +940,30 @@
           "path": "40-module-baselines/MOD011_AMC_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/amc/MOD-011_MODULE_PUBLICATION"
+        },
+        {
+          "title": "WEB-011 — Web Solution Design",
+          "path": "60-solution-design/web/amc/WEB-011_SOLUTION_DESIGN"
+        },
+        {
+          "title": "MOB-011 — Mobile Solution Design",
+          "path": "60-solution-design/mobile/amc/MOB-011_SOLUTION_DESIGN"
+        },
+        {
+          "title": "API-011 — API Solution Design",
+          "path": "60-solution-design/api/amc/API-011_SOLUTION_DESIGN"
+        },
+        {
+          "title": "CPC-011 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD011_CROSS_PLATFORM_CERTIFICATION_20260720T120000Z"
+        },
+        {
+          "title": "VR-011 — Verification",
+          "path": "50-audit-reports/MOD011_WAVE_VERIFICATION_20260720T120500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/amc/MOD-011_SPRINT_PLAN"
         },
@@ -961,6 +985,7 @@
         }
       ]
     },
+
     {
       "label": "Modules — MOD-012 Field Service",
       "items": [
