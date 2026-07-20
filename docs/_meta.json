@@ -1180,6 +1180,19 @@
       ]
     },
     {
+      "label": "Implementation Readiness Review",
+      "items": [
+        {
+          "title": "IRR-002 — Accounting",
+          "path": "50-audit-reports/MOD002_IMPLEMENTATION_READINESS_20260719T100000Z"
+        },
+        {
+          "title": "IRR-003 — Sales",
+          "path": "50-audit-reports/MOD003_IMPLEMENTATION_READINESS_REVIEW_20260719T220000Z"
+        }
+      ]
+    },
+    {
       "label": "Sprint PRDs",
       "items": [
         {
