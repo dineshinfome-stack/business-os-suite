@@ -56,7 +56,7 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
             <div className="h-6 w-6 rounded bg-primary" />
             <span className="text-sm font-semibold tracking-tight">BusinessOS ERP</span>
           </div>
@@ -72,11 +72,10 @@ function Index() {
               Canon
             </Link>
             <Link
-              to="/docs/$"
-              params={{ _splat: "01-master/roadmap" }}
-              className="text-muted-foreground hover:text-foreground"
+              to="/login"
+              className="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90"
             >
-              Roadmap
+              Sign in
             </Link>
           </nav>
         </div>
