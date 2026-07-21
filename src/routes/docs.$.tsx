@@ -12,16 +12,12 @@ export const Route = createFileRoute("/docs/$")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [
-          { title: "Doc not found — BusinessOS ERP" },
-          { name: "robots", content: "noindex" },
-        ],
+        meta: [{ title: "Doc not found — BusinessOS ERP" }, { name: "robots", content: "noindex" }],
       };
     }
     const { doc } = loaderData;
     const title = `${doc.frontmatter.title} — BusinessOS ERP Docs`;
-    const desc =
-      doc.frontmatter.summary ?? "BusinessOS ERP documentation.";
+    const desc = doc.frontmatter.summary ?? "BusinessOS ERP documentation.";
     return {
       meta: [
         { title },
@@ -66,9 +62,7 @@ function DocPage() {
               {fm.document_type}
             </span>
           )}
-          {fm.layer && (
-            <span className="rounded bg-muted px-2 py-0.5 capitalize">{fm.layer}</span>
-          )}
+          {fm.layer && <span className="rounded bg-muted px-2 py-0.5 capitalize">{fm.layer}</span>}
           {fm.status && (
             <span className="rounded bg-muted px-2 py-0.5 capitalize">{fm.status}</span>
           )}

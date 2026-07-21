@@ -61,10 +61,7 @@ function parseFrontmatter(raw: string): { frontmatter: DocFrontmatter; body: str
         // ignore
       }
     }
-    if (
-      (val.startsWith('"') && val.endsWith('"')) ||
-      (val.startsWith("'") && val.endsWith("'"))
-    ) {
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
       val = val.slice(1, -1);
     }
     fm[key] = val;
@@ -121,9 +118,7 @@ export type SearchEntry = {
 export const searchIndex: SearchEntry[] = allDocs().map((d) => {
   const headings = Array.from(d.body.matchAll(/^#{1,6}\s+(.+)$/gm)).map((m) => m[1].trim());
   const firstParagraph =
-    d.body
-      .split("\n")
-      .find((l) => l.trim() && !l.startsWith("#") && !l.startsWith(">")) ?? "";
+    d.body.split("\n").find((l) => l.trim() && !l.startsWith("#") && !l.startsWith(">")) ?? "";
   return {
     path: d.path,
     title: d.frontmatter.title,

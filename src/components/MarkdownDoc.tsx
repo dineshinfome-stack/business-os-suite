@@ -35,7 +35,12 @@ export function MarkdownDoc({ body }: Props) {
               );
             }
             return (
-              <a href={target} {...rest} target={target.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+              <a
+                href={target}
+                {...rest}
+                target={target.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer"
+              >
                 {children}
               </a>
             );
