@@ -11,6 +11,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { ThemeProvider } from "@/contexts/theme-context";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ErrorBoundary } from "@/components/common/ErrorBoundary";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -77,27 +81,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "BusinessOS ERP" },
+      { title: "Business OS" },
       {
         name: "description",
         content:
-          "Cloud-native, multi-tenant, AI-powered Business Operating System — accounting, inventory, CRM, HRMS, payroll, field service.",
+          "Business OS — cloud-native, multi-tenant, AI-powered Business Operating System foundation.",
       },
-      { name: "author", content: "BusinessOS ERP" },
-      { property: "og:title", content: "BusinessOS ERP" },
+      { name: "author", content: "Business OS" },
+      { property: "og:title", content: "Business OS" },
       {
         property: "og:description",
         content:
-          "Modern cloud ERP combining Tally, Odoo, Zoho, Dynamics, SAP, and Lystloc strengths — India-first, GCC-ready, global-scale.",
+          "Cloud ERP foundation for accounting, inventory, CRM, HRMS, payroll, and field service.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -126,8 +127,15 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ThemeProvider>
+        <TooltipProvider>
+          <ErrorBoundary>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </ErrorBoundary>
+          <Toaster richColors closeButton position="top-right" />
+        </TooltipProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
