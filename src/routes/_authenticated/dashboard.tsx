@@ -1,12 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { PageContainer } from "@/components/layout/AppShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CardSkeleton } from "@/components/common/Skeletons";
 import { EmptyState } from "@/components/common/EmptyState";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/auth-context";
 import { notify } from "@/lib/notify";
-import { useNavigate } from "@tanstack/react-router";
 import { LogOut, Plus, Bell, Activity } from "lucide-react";
 import { APP_NAME } from "@/constants/app";
 
@@ -22,16 +22,20 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { signOut, profile } = useAuth();
 
   async function handleSignOut() {
-    await supabase.auth.signOut();
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
     notify.success("Signed out");
-    navigate({ to: "/login", replace: true });
+    void navigate({ to: "/login", replace: true });
   }
 
   return (
     <PageContainer
-      title="Welcome to Business OS"
+      title={profile?.displayName ? `Welcome, ${profile.displayName}` : "Welcome to Business OS"}
       description="Your workspace foundation is ready."
       actions={
         <Button variant="outline" onClick={handleSignOut}>
