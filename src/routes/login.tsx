@@ -1,14 +1,22 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, SubmitButton } from "@/components/forms";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 import { notify } from "@/lib/notify";
+import { notifyAuthError, mapSupabaseAuthError } from "@/lib/auth-errors";
+import { logAuthEvent } from "@/lib/auth-audit";
+import { sanitizeNextPath } from "@/lib/sanitize-next-path";
 import { APP_NAME } from "@/constants/app";
 
+const searchSchema = z.object({ redirect: z.string().optional() });
+
 export const Route = createFileRoute("/login")({
+  validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
     meta: [
       { title: `Sign in — ${APP_NAME}` },
@@ -17,10 +25,10 @@ export const Route = createFileRoute("/login")({
       { property: "og:description", content: `Sign in to ${APP_NAME}.` },
     ],
   }),
-  beforeLoad: async () => {
+  beforeLoad: async ({ search }) => {
     if (typeof window === "undefined") return;
     const { data } = await supabase.auth.getSession();
-    if (data.session) throw redirect({ to: "/dashboard" });
+    if (data.session) throw redirect({ to: sanitizeNextPath(search.redirect) });
   },
   component: LoginPage,
 });
@@ -32,19 +40,35 @@ const schema = z.object({
 type Values = z.infer<typeof schema>;
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const search = Route.useSearch();
+  const nextPath = sanitizeNextPath(search.redirect);
+
   const form = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { email: "", password: "" },
   });
 
   async function onSubmit(values: Values) {
-    const { error } = await supabase.auth.signInWithPassword(values);
+    const { data, error } = await supabase.auth.signInWithPassword(values);
     if (error) {
-      notify.error("Sign in failed", error.message);
+      const code = mapSupabaseAuthError(error);
+      notifyAuthError(code);
       return;
     }
     notify.success("Signed in");
-    window.location.href = "/dashboard";
+    logAuthEvent("user_logged_in", { entityId: data.user?.id });
+    void navigate({ to: nextPath, replace: true });
+  }
+
+  async function onGoogleSignIn() {
+    try {
+      const redirect_uri = `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
+      const result = await lovable.auth.signInWithOAuth("google", { redirect_uri });
+      if (result.error) notifyAuthError(mapSupabaseAuthError(result.error));
+    } catch (err) {
+      notifyAuthError(mapSupabaseAuthError(err));
+    }
   }
 
   return (
@@ -54,7 +78,14 @@ function LoginPage() {
           <CardTitle>Sign in</CardTitle>
           <CardDescription>Access your {APP_NAME} workspace.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          <Button variant="outline" className="w-full" onClick={onGoogleSignIn} type="button">
+            Continue with Google
+          </Button>
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="h-px flex-1 bg-border" /> OR{" "}
+            <div className="h-px flex-1 bg-border" />
+          </div>
           <Form form={form} onSubmit={onSubmit}>
             <FormField<Values>
               name="email"
