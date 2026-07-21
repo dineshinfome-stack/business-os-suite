@@ -6,6 +6,8 @@ import { Form, FormField, SubmitButton } from "@/components/forms";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
+import { notifyAuthError, mapSupabaseAuthError } from "@/lib/auth-errors";
+import { logAuthEvent } from "@/lib/auth-audit";
 import { APP_NAME } from "@/constants/app";
 import { AuthShell } from "@/routes/login";
 
@@ -42,9 +44,10 @@ function ResetPage() {
   async function onSubmit(values: Values) {
     const { error } = await supabase.auth.updateUser({ password: values.password });
     if (error) {
-      notify.error("Reset failed", error.message);
+      notifyAuthError(mapSupabaseAuthError(error));
       return;
     }
+    logAuthEvent("password_reset_completed");
     notify.success("Password updated");
     navigate({ to: "/login" });
   }

@@ -1,203 +1,225 @@
-# Sprint 0.2 — Database Foundation (v5, Final)
+# Sprint 0.3 — Authentication Platform (v8)
 
-Adds four optional refinements: function volatility convention, index guidance, migration header template, and Check → Evidence → Result verification format.
+**Prerequisite:** Sprint 0.2 verified. Consumes `profiles`, `user_roles`, `fn_has_role`, and audit primitives. No tenant management, no business modules, no schema changes.
 
-## Wave 0 Sprint Sequence
+## Opening Tasks
 
-```text
-0.1 Project Foundation           (complete, verified)
-0.2 Database Foundation          (this sprint)
-0.3 Authentication Platform
-0.4 Organization / Tenant Mgmt
-0.5 RBAC
-0.6 Shared Platform Services
-```
+1. Confirm Sprint 0.2 baseline green: `bun run build`, `bunx tsgo --noEmit`, `bun test`, `bun run lint`.
+2. Re-read current auth surface: `src/routes/{login,forgot-password,reset-password,_authenticated,auth,__root}.tsx`, `src/integrations/supabase/{client,auth-middleware,auth-attacher}.ts`, `src/start.ts`, `src/components/layout/AppShell.tsx`.
+3. **New governance artifact this sprint:** author `docs/15-governance/PLATFORM_OBSERVABILITY_STANDARD.md` (see §14) so later sprints inherit — rather than redefine — audit naming, correlation-id precedence, and verification-report structure.
 
-## Sprint 0.2.0 — Opening Tasks (close Sprint 0.1 findings)
+## Scope
 
-1. **F-S01-002 — ESLint resolver.** Install `eslint-import-resolver-typescript`; register under `settings['import/resolver'].typescript` in `eslint.config.js`. Verify `bun run lint` completes.
-2. **F-S01-001 — Smoke test.** Add `src/__tests__/smoke.test.ts` (trivial assertion + one alias import). Verify `bun run test` exits 0.
-3. **Baseline re-verification.** Run `bun run build`, `bun run lint`, `bun run test`; capture outputs.
+### 1. Provider Configuration
+- `supabase--configure_auth`: email confirmation on, password reset on, anonymous off, HIBP on, signups enabled.
+- `supabase--configure_social_auth` with `providers: ["google"]`; keep email enabled.
 
-Deferred: Administration vs. Settings sidebar duplication → Sprint 0.4.
+### 2. Session Management
+- Single source of truth: `supabase.auth`.
+- Google sign-in via `lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/auth/callback" })`.
+- JWT refresh **owned entirely by Supabase** (`autoRefreshToken: true`). Context never calls `refreshSession()`.
+- Public `/auth/callback` waits for session hydration then navigates to sanitized `next`.
 
-## Repository Database Standards
+### 3. AuthProvider & Context (`src/contexts/auth-context.tsx`)
+Mounted in `__root.tsx`. Exposes:
+- State: `user`, `session`, `profile`, `roles: AppRole[]`, `loading`, `isAuthenticated`
+- Authz: `hasRole(role)`, `hasAnyRole(...roles)`, `hasAllRoles(...roles)`
+- Actions: `signInWithPassword`, `signInWithGoogle`, `signOut`, `refresh()`
 
-Deliverable: `docs/15-governance/DATABASE_STANDARD.md` (authored before any migration).
+**`refresh()` semantics:**
+- Re-reads `profiles` + `user_roles`. Does not touch tokens.
+- Concurrency deduplicated via module-scoped `inFlightRefresh: Promise | null`.
+- Cancellation via `AbortController`, aborted on `SIGNED_OUT` / provider unmount; late results discarded when current user id no longer matches start-time user id.
+- Failure preserves session and last-known-good `profile`/`roles`; `notify.error` only for user-initiated refreshes; sign-out only on Supabase-reported session-invalid errors.
 
-### Naming
-- `snake_case` identifiers.
-- **Plural** table names (`profiles`, `user_roles`, `audit_logs`).
-- **Singular** enum type names (`app_role`).
-- Object naming:
-  - Functions: `fn_<purpose>`.
-  - Triggers: `trg_<table>_<event>`.
-  - Policies: `<table>_<audience>_<action>`.
-  - Indexes: `idx_<table>_<columns>`; unique: `uq_<table>_<columns>`.
+**Role cache lifetime:** cached for session lifetime; refreshed on `SIGNED_IN`, `USER_UPDATED` (fingerprint change), or explicit `refresh()`. Admin role changes not guaranteed to surface until re-sign-in or `refresh()`.
 
-### Repository Table Standard (all application tables)
+Bootstrap:
+- `supabase.auth.getSession()` → subscribe to `onAuthStateChange`.
+- Handled events: `SIGNED_IN`, `SIGNED_OUT`, `USER_UPDATED`, `TOKEN_REFRESHED`.
+- **Claims fingerprint (v1, extensible) — `src/lib/auth-fingerprint.ts`:**
+  ```ts
+  export function fingerprintClaims(session): string {
+    const u = session?.user ?? {};
+    const parts = [
+      u.id ?? "",
+      u.updated_at ?? "",
+      JSON.stringify(u.app_metadata?.role ?? u.app_metadata?.roles ?? null),
+    ];
+    return parts.join("|");
+  }
+  ```
+  - Plain string, PII-free, strict-equality comparison.
+  - Future versions MAY append pipe-separated parts; never remove or reorder.
+  - **Fingerprint source authority:** `app_metadata` role is a change-detection hint only. Authorization decisions read `user_roles` today and the Sprint-0.5 authorization endpoint tomorrow.
+- **`TOKEN_REFRESHED` policy:** refetch profile/roles only when fingerprint changes.
+- **Subscription cleanup:** `useEffect` returns cleanup calling `subscription.unsubscribe()`.
+- On `SIGNED_OUT`: run sign-out sequence in §13.
+- Single subscriber (consolidates existing root listener).
 
-```text
-id           uuid        PK, DEFAULT gen_random_uuid()
-created_at   timestamptz NOT NULL DEFAULT now()
-created_by   uuid        NULL  REFERENCES auth.users(id)
-updated_at   timestamptz NOT NULL DEFAULT now()
-updated_by   uuid        NULL  REFERENCES auth.users(id)
-deleted_at   timestamptz NULL
-deleted_by   uuid        NULL  REFERENCES auth.users(id)
-```
-- `gen_random_uuid()` directly (no wrapper helper).
-- `updated_at` maintained by shared `fn_set_updated_at()` trigger.
-- Soft-delete columns present now; per-module filtering enforced later.
-- **`audit_logs` exception:** append-only. Soft-delete columns MUST NOT be written during normal operation. Purging is governed by the future retention/archival strategy.
+### 4. Route Protection
+- `_authenticated.tsx` reads from AuthProvider once hydrated.
+- `/login`, `/forgot-password`, `/reset-password` redirect to `/dashboard` when authenticated.
+- AppShell renders session-aware sign-out via context.
 
-### Function Volatility Convention (new)
+### 5. Profile Synchronization
+- DB trigger inserts empty `profiles` row on signup. On first `SIGNED_IN` after OAuth, if `display_name` or `avatar_url` is null, populate from `user.user_metadata`.
+- Metadata mapping tolerant — try keys in order, skip missing/empty, never treat missing as error.
+  - display_name: `full_name` → `name` → `preferred_username` → `email` local-part
+  - avatar_url: `avatar_url` → `picture`
+- Never overwrite non-null values.
 
-Documented in `DATABASE_STANDARD.md`:
+### 6. Authentication Middleware
+- Platform middleware = existing `requireSupabaseAuth`. Verify `src/start.ts` registers `attachSupabaseAuth`.
+- Probe server fn `src/lib/auth.functions.ts` → `getAuthContext()`.
 
-| Volatility  | Use for                                                                    |
-| ----------- | -------------------------------------------------------------------------- |
-| `IMMUTABLE` | Pure functions of their arguments (no DB reads, no `now()`, no `random`).  |
-| `STABLE`    | Read-only lookup helpers within a single statement (e.g. `fn_has_role`).   |
-| `VOLATILE`  | Only when the function mutates state, calls `now()` outside `DEFAULT`, or depends on session state. |
+### 7. Authorization Integration
+- Context reads `user_roles` under RLS (authoritative source for Sprint 0.3).
+- Server-side helper calls `fn_has_role(auth.uid(), role)` via RPC.
+- Forward-looking (Sprint 0.5): centralized server-side authorization endpoint replaces direct table reads.
 
-- Every new function MUST declare volatility explicitly (no reliance on the `VOLATILE` default).
-- Trigger functions returning `NEW` (e.g. `fn_set_updated_at`, `fn_handle_new_auth_user`) are `VOLATILE` (required for triggers that mutate rows).
-- `fn_has_role` is `STABLE`.
+### 8. Redirect Safety
+`sanitizeNextPath(input): string` — accept only strings starting with `/` and NOT `//` or `/\\`; reject values containing `:` or cross-origin; default `/dashboard`.
 
-### Index Guidance (new)
+### 9. Authentication Constants (`src/constants/auth.ts`)
+Central home for **all** auth-related timing and thresholds (documented in file header):
+- `AUTH_CALLBACK_HYDRATION_TIMEOUT_MS = 10_000`.
 
-Documented in `DATABASE_STANDARD.md`:
+`/auth/callback` behavior:
+- Wait for `SIGNED_IN` or hydrated `getSession()`.
+- Timeout → redirect to `/login?error=oauth_timeout&next=<sanitized>` with mapped `notify.error`.
+- Short-circuit on provider-returned `error` / `error_description` query params.
 
-- **Foreign keys** SHOULD be indexed unless there is a documented reason not to (join performance, cascade delete cost).
-- **Columns used in RLS predicates** MUST be reviewed at migration time; if the predicate filters a non-PK column (e.g. `user_id`, `org_id`), add a supporting index.
-- **Unique constraints** rely on Postgres's automatic supporting index — do not add a duplicate `idx_*` on the same columns.
-- **JSONB audit columns** (`old_values`, `new_values`) are not indexed by default; add GIN indexes only when a concrete query need appears.
+### 10. Audit Integration
+- `src/lib/auth-audit.ts` → `logAuthEvent(action, { correlationId })` calling server fn `logAuthEventFn`.
+- **Naming standard (past-tense, defined once in the governance doc, applied here):** `user_logged_in`, `user_logged_out`, `password_reset_requested`, `password_reset_completed`.
+- Never store tokens or credentials.
+- **Correlation IDs — `src/lib/correlation.ts` → `newCorrelationId(): string`, `getOrCreateCorrelationId(source?): string`:**
+  - Generation: `crypto.randomUUID()` (RFC 4122 v4); monotonic-random-hex fallback where unavailable.
+  - **Precedence (documented in the governance doc so all future services follow the same order):**
+    1. **Inbound HTTP request id** — if a server request context exposes `x-request-id`, use it verbatim.
+    2. **Ambient request-scoped store** — if a server-side async-local correlation id is already set for the current call chain, reuse it.
+    3. **Caller-provided id** — if the invoking flow already generated one (e.g. the client passed it as an argument), reuse it.
+    4. **Newly generated id** — call `newCorrelationId()` at the flow entry point.
+  - Every `logger.warn` / `logger.error` emitted within an auth flow includes the flow's correlation id.
+- Failure policy: fire-and-forget; caught rejection logged via `logger.warn` with correlation id. Auth flows never fail because audit failed.
 
-Sprint 0.2 concrete indexes:
-- `uq_user_roles_user_role` on `(user_id, role)` (from `UNIQUE`).
-- `idx_user_roles_user_id` (RLS predicate + FK).
-- `idx_audit_logs_entity` on `(entity_type, entity_id)`.
-- `idx_audit_logs_occurred_at` for chronological queries.
-- `idx_audit_logs_actor_id` (FK to `auth.users`).
+### 11. Error Handling
+- `src/lib/auth-errors.ts` maps Supabase error codes → user-facing messages via `notify.error`. Includes `oauth_timeout`, `signout_partial`.
 
-### Documentation (required)
-- `COMMENT ON TABLE`, `COMMENT ON FUNCTION`, `COMMENT ON TYPE` (including enums).
-- `COMMENT ON TRIGGER` where the trigger's purpose isn't obvious from its function name.
-- `COMMENT ON COLUMN` for non-obvious columns.
+### 12. UI
+Additions only:
+- Google button on `/login`.
+- Email-verification-required notice on `/login`.
+- New `/auth/callback` with spinner, awaited session, timeout, then `navigate({ to: sanitizeNextPath(next) })`.
 
-### Timestamp semantics
-- `created_at` — when the DB row itself was inserted.
-- `occurred_at` (audit only) — when the audited real-world event happened.
+### 13. Sign-Out Sequence (Cache Hygiene + Failure Semantics)
 
-### Security
-- RLS enabled on every `public` table.
-- GRANT block immediately after every `CREATE TABLE`.
-- authenticated + service_role by default; `anon` only when a matching anon-scoped policy exists.
-- Roles never on `profiles` — always `user_roles` + `fn_has_role()`.
+**Order (each step awaited):**
+1. `await queryClient.cancelQueries()`
+2. `queryClient.clear()`
+3. `try { await supabase.auth.signOut() } catch { … }` — see failure policy
+4. Clear local AuthProvider state; abort in-flight refresh
+5. `navigate({ to: "/login", replace: true })` — history REPLACE
 
-### Audit rows
-- `old_values jsonb`, `new_values jsonb` (no computed `diff`).
+**Sign-out failure policy:** local cleanup always executes; `logger.warn` records failure with correlation id; `notify.error` surfaces `signout_partial`; no retry.
 
-## Migration Header Template (new)
+Module-scope memoized protected data must key by `user.id`.
 
-Every migration file begins with a standardized header comment (lightweight for Sprint 0.2; canonical from now on):
+### 14. Governance Artifact — `docs/15-governance/PLATFORM_OBSERVABILITY_STANDARD.md` (new)
 
-```sql
--- =============================================================================
--- Migration:     <NNN>_<slug>
--- Sprint:        <e.g. 0.2>
--- Purpose:       <one-line description>
--- Dependencies:  <previous migration IDs, or "none">
--- Rollback:      <inline reverse SQL, or reference to a rollback block below>
--- Author:        <name/handle>
--- Date:          <YYYY-MM-DD>
--- =============================================================================
-```
+Codifies conventions this sprint introduces so future sprints inherit them:
 
-Full reverse SQL block appears at the bottom of the file inside a `-- ROLLBACK` comment section (not executed automatically).
+1. **Audit action naming convention.**
+   - Past-tense verb form. Regex allow-list: `/^[a-z]+(?:_[a-z]+)*_(in|out|requested|completed|created|updated|deleted|failed|granted|revoked)$/`.
+   - Baseline set from this sprint: `user_logged_in`, `user_logged_out`, `password_reset_requested`, `password_reset_completed`.
+   - New actions in later sprints extend this set; **do not redefine** the convention.
 
-## Migration Strategy
+2. **Correlation ID precedence** (mirrors §10 exactly).
+   - Inbound `x-request-id` → ambient store → caller-provided → newly generated.
 
-Six ordered migrations, each with the header template above:
+3. **Verification-report structure — canonical category taxonomy.** All future sprint verification reports use these category names in this order:
+   - **A. Authentication** — provider/flow correctness for the sprint's domain.
+   - **B. Session Lifecycle** — session, tokens, cache, cross-tab.
+   - **C. Route Protection & Middleware** — gating, guards, server middleware.
+   - **D. Authorization** — role and permission checks.
+   - **E. Security** — secrets, redirects, linter, sanitizers.
+   - **F. Audit** — event emission, correlation, non-blocking behavior.
+   - **G. UX & Resilience** — timeouts, error surfacing, recovery paths.
+   - **H. Toolchain & Scope Guard** — build/lint/tests, scope leakage `rg` scans.
 
-```text
-001_extensions          pgcrypto only
-002_shared_helpers      fn_set_updated_at()
-003_profiles            profiles + trg_auth_users_after_insert
-004_roles               app_role enum, user_roles, fn_has_role, policies
-005_audit_logs          audit_logs + policies + indexes
-006_standards_probe     read-only assertions (see Verification)
-```
+   Sprints may omit categories that do not apply, but MUST NOT rename them or introduce parallel names. Checks within a category are numbered `<Letter><n>` (e.g. `A1`, `B3`) to stay comparable across sprints.
 
-Each migration self-contained: `CREATE → GRANT → ALTER ENABLE RLS → CREATE POLICY → INDEX → COMMENT`s.
+4. **Verification-report format.** `Check → Evidence → Result` table per category, plus a `Definition of Done` block referencing the sprint's category counts.
 
-Extension policy: only `pgcrypto`. `citext` deferred.
+## Migrations
+None.
 
-## Objects Introduced
+## Out of Scope
+Organizations, companies, branches, tenants, permission engine, business modules, storage, AI, invites, MFA, API keys, SSO beyond Google.
 
-### `public.profiles`
-- `id uuid PK REFERENCES auth.users(id) ON DELETE CASCADE`.
-- `display_name text`, `avatar_url text`.
-- Standard audit + soft-delete columns.
-- Trigger `trg_auth_users_after_insert` on `auth.users` calls `fn_handle_new_auth_user()` → inserts profile row.
-- **Auth-schema boundary:** the trigger references `auth.users` but creates/owns no objects in `auth`. All owned objects live in `public`.
-- Policies: `profiles_owner_select`, `profiles_owner_update`; service_role full.
+## Verification
 
-### `public.app_role` enum
-- Values: `admin`, `member`. `COMMENT ON TYPE` required.
+`docs/50-audit-reports/SPRINT_0_3_VERIFICATION_REPORT.md` in the canonical structure above.
 
-### `public.user_roles`
-- `(user_id uuid, role app_role)` UNIQUE; standard audit columns; supporting indexes as listed above.
-- Policies: user SELECTs own; only `admin` (via `fn_has_role`) writes; service_role full.
-- Forward note: tenant scoping (`org_id`) will be added in Sprint 0.4/0.5.
+**A. Authentication** — 5 checks
+- A1. Email/password sign-in works.
+- A2. Google OAuth sign-in works.
+- A3. Email verification flow works; unconfirmed users cannot reach `/dashboard`.
+- A4. Password reset request + completion works.
+- A5. OAuth metadata mapping tolerates missing fields.
 
-### `public.fn_has_role(_user_id uuid, _role app_role) returns boolean`
-- `LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public`.
+**B. Session Lifecycle** — 6 checks
+- B1. Session persists across full browser reload.
+- B2. Silent JWT refresh owned by Supabase; context never calls `refreshSession()`.
+- B3. `TOKEN_REFRESHED` no-op when fingerprint unchanged.
+- B4. Multi-tab consistency for sign-in and sign-out.
+- B5. Concurrent `refresh()` calls resolve from a single in-flight request.
+- B6. Refresh cancellation on sign-out — late results not written.
 
-### `public.audit_logs`
-- Standard audit columns + `actor_id`, `action`, `entity_type`, `entity_id`, `old_values`, `new_values`, `occurred_at`.
-- Append-only; supporting indexes per Index Guidance.
-- SELECT policy: `fn_has_role(auth.uid(),'admin')`.
-- Retention/partitioning deferred; `TODO` recorded in `COMMENT ON TABLE`.
+**C. Route Protection & Middleware** — 4 checks
+- C1. Unauthenticated access to protected routes redirects to `/login`.
+- C2. Authenticated users cannot reach `/login`, `/forgot-password`, `/reset-password`.
+- C3. `requireSupabaseAuth` validates JWT and populates context.
+- C4. Back-button after logout does not expose protected content.
 
-### `public.fn_set_updated_at()`
-- `VOLATILE` trigger function; sets `NEW.updated_at = now()`; attached as `trg_<table>_updated_at`.
+**D. Authorization** — 3 checks
+- D1. Context loads current `profile` and `roles`.
+- D2. `hasRole`, `hasAnyRole`, `hasAllRoles` correct.
+- D3. `fn_has_role` integrates via RPC.
 
-## Out of Scope (Sprint 0.3+)
+**E. Security** — 5 checks
+- E1. No service-role credentials in client bundle (`rg` scan).
+- E2. `sanitizeNextPath` rejects `//evil.com`, `https://evil.com`, `/\\evil.com`; accepts `/dashboard`, `/settings`.
+- E3. Fingerprint source: `app_metadata` role used only for change detection; no auth decision reads it.
+- E4. Fingerprint determinism + append-only extensibility unit test.
+- E5. Supabase linter clean (or only accepted `fn_has_role` WARN).
 
-Google OAuth, `requireSupabaseAuth`, bearer middleware verification, frontend integration, storage buckets, module-specific tables, `citext`, audit retention/partitioning, data-driven role model, tenant-scoped role assignments.
+**F. Audit** — 3 checks
+- F1. Past-tense action names match the governance regex allow-list.
+- F2. Audit-write failure does not break sign-in / sign-out.
+- F3. Correlation id follows precedence order and appears on every audit event and warn/error log within a flow.
 
-## Verification (Sprint 0.2 exit criteria)
+**G. UX & Resilience** — 4 checks
+- G1. `/auth/callback` timeout → `/login?error=oauth_timeout` within ~10 s.
+- G2. Refresh failure preserves session and last-known-good `profile`/`roles`.
+- G3. Sign-out failure — local cleanup + `signout_partial`, no retry.
+- G4. Subscription cleanup calls `unsubscribe()` exactly once on unmount/HMR.
 
-Deliverable: `docs/50-audit-reports/SPRINT_0_2_VERIFICATION_REPORT.md`.
+**H. Toolchain & Scope Guard** — 4 checks
+- H1. `bun run build` green.
+- H2. `bunx tsgo --noEmit` green.
+- H3. `bun run lint` green.
+- H4. `bun test` green; scope guard `rg` for tenant/organization/company in `src/` → 0 hits.
 
-**Format upgrade:** the verification table uses **Check → Evidence → Result** columns. `Evidence` cites the specific migration file, object name, or command output that satisfies the check (e.g. `005_audit_logs.sql § CREATE POLICY audit_logs_admin_select`).
+Total: **34 checks across 8 canonical categories** (identical to v7; naming now anchored in the governance doc so later sprints reuse the same taxonomy verbatim).
 
-Checks:
+## Deliverables
+- New app files: `src/contexts/auth-context.tsx`, `src/routes/auth.callback.tsx`, `src/lib/auth.functions.ts`, `src/lib/auth-audit.ts`, `src/lib/auth-errors.ts`, `src/lib/sanitize-next-path.ts`, `src/lib/auth-fingerprint.ts`, `src/lib/correlation.ts`, `src/constants/auth.ts`.
+- Edits: `src/routes/__root.tsx`, `src/routes/_authenticated.tsx`, `src/routes/login.tsx`, `src/routes/forgot-password.tsx`, `src/routes/reset-password.tsx`, `src/components/layout/AppShell.tsx`.
+- Config: `supabase--configure_auth`, `supabase--configure_social_auth`.
+- New governance: `docs/15-governance/PLATFORM_OBSERVABILITY_STANDARD.md`.
+- `docs/50-audit-reports/SPRINT_0_3_VERIFICATION_REPORT.md`.
 
-1. All 6 migrations applied cleanly; `supabase--linter` returns no errors.
-2. Every new public table has RLS enabled, GRANT block present, ≥1 policy.
-3. Every new table carries the full standard audit + soft-delete column set.
-4. Every new table has `COMMENT ON TABLE`; every new function has `COMMENT ON FUNCTION`; every new enum has `COMMENT ON TYPE`. `COMMENT ON TRIGGER` present where non-obvious.
-5. Object names follow the `fn_` / `trg_` / `idx_` / `uq_` / `<table>_<audience>_<action>` convention.
-6. Every new function declares volatility explicitly and matches the volatility convention.
-7. Index Guidance applied: FKs and RLS-predicate columns are indexed; no duplicate indexes on unique constraints.
-8. `fn_has_role` is `STABLE SECURITY DEFINER` with `search_path = public`.
-9. `profiles` auto-create trigger fires on new `auth.users` insert (probe). Trigger owns no objects inside the `auth` schema.
-10. `audit_logs` INSERT denied to `authenticated`; allowed to `service_role`. Append-only + `occurred_at` vs `created_at` semantics documented in table comment.
-11. Plural table names + snake_case throughout.
-12. Every migration file carries the standard header (Migration ID, Sprint, Purpose, Dependencies, Rollback, Author, Date).
-13. **Rollback dry-run:** each migration ships a documented reverse SQL block, reviewed for completeness. Actual execution is skipped unless a dedicated rollback test environment exists (recorded as a future operational task).
-14. No module-specific tables introduced.
-15. `bun run build`, `bun run lint`, `bun run test` all PASS.
-16. No frontend/auth-provider changes.
-17. Only `pgcrypto` enabled in `001_extensions`.
-
-## Technical Details
-
-- `pgcrypto` supplies `gen_random_uuid()`.
-- `fn_set_updated_at()` sets `NEW.updated_at = now()`, returns `NEW`, `SET search_path = public`, `VOLATILE`.
-- `fn_handle_new_auth_user()` is `SECURITY DEFINER VOLATILE`, `SET search_path = public`, inserts `(id) VALUES (NEW.id)` into `profiles`.
-- `created_by` / `updated_by` nullable — populated by the app layer from Sprint 0.3 onward.
-- Soft-delete filtering is a per-module concern in later sprints.
+## Definition of Done
+Auth operational end-to-end; all 34 checks (A1–H4) pass; build/lint/tests green; no scope violations; governance doc ratified; repository status advances to **`SPRINT_0_3_AUTHENTICATION_PLATFORM_VERIFIED`**.
