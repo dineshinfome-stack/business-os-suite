@@ -21,9 +21,7 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const MAIN: NavItem[] = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-];
+const MAIN: NavItem[] = [{ title: "Dashboard", url: "/dashboard", icon: LayoutDashboard }];
 
 const ADMIN: NavItem[] = [
   { title: "Administration", url: "/settings", icon: Shield },

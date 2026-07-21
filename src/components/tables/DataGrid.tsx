@@ -189,9 +189,7 @@ export function DataGrid<T>({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="text-xs text-muted-foreground">
           Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount() || 1}
-          {enableSelection && (
-            <> · {Object.keys(rowSelection).length} selected</>
-          )}
+          {enableSelection && <> · {Object.keys(rowSelection).length} selected</>}
         </div>
         <div className="flex items-center gap-2">
           <select

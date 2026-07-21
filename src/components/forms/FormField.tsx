@@ -34,7 +34,10 @@ export function FormField<T extends FieldValues>({
 
   return (
     <div className={cn("space-y-1.5", className)}>
-      <Label htmlFor={id} className={required ? "after:ml-0.5 after:text-destructive after:content-['*']" : undefined}>
+      <Label
+        htmlFor={id}
+        className={required ? "after:ml-0.5 after:text-destructive after:content-['*']" : undefined}
+      >
         {label}
       </Label>
       <Input

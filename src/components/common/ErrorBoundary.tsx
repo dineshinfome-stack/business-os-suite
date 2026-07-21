@@ -35,10 +35,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
 
 function DefaultFallback({ error, reset }: { error: Error; reset: () => void }) {
   return (
-    <div
-      role="alert"
-      className="flex min-h-[50vh] items-center justify-center bg-background px-4"
-    >
+    <div role="alert" className="flex min-h-[50vh] items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold text-foreground">Something went wrong</h1>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>

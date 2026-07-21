@@ -36,7 +36,7 @@ function DocsLayout() {
         threshold: 0.4,
         includeMatches: false,
       }),
-    []
+    [],
   );
   const results = query.trim() ? fuse.search(query.trim()).slice(0, 20) : [];
 
