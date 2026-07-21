@@ -495,6 +495,10 @@
           "path": "40-module-baselines/MOD004_PURCHASE_BASELINE_v1"
         },
         {
+          "title": "Publication",
+          "path": "45-module-publications/purchase/MOD-004_MODULE_PUBLICATION"
+        },
+        {
           "title": "WEB-004 — Web Solution Design",
           "path": "60-solution-design/web/purchase/WEB-004_PURCHASE"
         },
@@ -554,6 +558,10 @@
         {
           "title": "Baseline",
           "path": "40-module-baselines/MOD005_INVENTORY_BASELINE_v1"
+        },
+        {
+          "title": "Publication",
+          "path": "45-module-publications/inventory/MOD-005_MODULE_PUBLICATION"
         },
         {
           "title": "WEB-005 — Web Solution Design",
@@ -1416,6 +1424,10 @@
         {
           "title": "Baseline",
           "path": "40-module-baselines/MOD019_WAREHOUSE_BASELINE_v1"
+        },
+        {
+          "title": "Publication",
+          "path": "45-module-publications/warehouse/MOD-019_MODULE_PUBLICATION"
         },
         {
           "title": "WEB-019 — Web Solution Design",
