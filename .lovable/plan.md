@@ -1,44 +1,66 @@
-## MOD-016 Service Desk — Publication + Solution Design Suite
+## MOD-017 Analytics — CPC + VR Audit Wave (Documentation-Only)
 
-Documentation-only wave following the canonical MOD-006 → MOD-015 workflow. All artifacts derive exclusively from the Stage 0 Publication.
+Audit-only wave. No source documents modified. Follows the canonical MOD-006 → MOD-016 workflow, restricted to Stages 4–5 (CPC + VR).
 
-### Source Authority
-- Normative: `docs/45-module-publications/service-desk/MOD-016_MODULE_PUBLICATION.md` (Stage 0 output)
-- Reference: `docs/40-module-baselines/MOD016_*_BASELINE_v1.md` (if present), `docs/20-module-prds/service-desk/MODULE_PRD.md`, MOD-015 templates, Navigation Standard v2.0
-- Precedence: Publication → Baseline → PRD
+### Source Authority (read-only)
 
-### Stage 0 — Publication (gated)
-Read Baseline + PRD, then author `docs/45-module-publications/service-desk/MOD-016_MODULE_PUBLICATION.md` using the approved template. Every clause cites Baseline/PRD section. No new business requirements.
+Normative:
+- `docs/45-module-publications/analytics/MOD-017_MODULE_PUBLICATION.md`
+- `docs/60-solution-design/web/analytics/WEB-017_SOLUTION_DESIGN.md`
+- `docs/60-solution-design/mobile/analytics/MOB-017_SOLUTION_DESIGN.md`
+- `docs/60-solution-design/api/analytics/API-017_SOLUTION_DESIGN.md`
 
-Gate: if Baseline/PRD cannot support a complete Publication, author `docs/50-audit-reports/MOD016_PUBLICATION_GAP_REPORT_<UTC>.md`, set state `MOD016_PUBLICATION_BLOCKED`, stop, and leave `_meta.json` unchanged.
+Reference:
+- `docs/40-module-baselines/MOD017_ANALYTICS_BASELINE_v1.md`
+- `docs/20-module-prds/analytics/MODULE_PRD.md`
+- MOD-016 CPC + VR reports (template reference)
+- `docs/15-governance/REPOSITORY_NAVIGATION_STANDARD.md` v2.0
 
-### Stage 1 — WEB-016
-Author `docs/60-solution-design/web/service-desk/WEB-016_SOLUTION_DESIGN.md` using the 28-section web template. Coverage limited to Publication-defined screens, workflows, rules, capabilities. Every requirement cites its Publication section. No invented screens/workflows/rules.
+Precedence: Publication → Baseline → PRD.
 
-### Stage 2 — MOB-016
-Author `docs/60-solution-design/mobile/service-desk/MOB-016_SOLUTION_DESIGN.md`. Include only Publication-authorized capabilities (Offline, Sync, Push, Camera, GPS, Biometric, Attachments, Background); unauthorized ones marked `N/A` with Publication citation. Every workflow traces to a Publication section.
+### Pre-Flight Gate
 
-### Stage 3 — API-016
-Author `docs/60-solution-design/api/service-desk/API-016_SOLUTION_DESIGN.md`. Endpoints, request/response models, webhooks, and events derived exclusively from the Publication. Event names exactly as defined in the Publication — none invented. Consume only Publication-referenced platform services.
+Confirm all four normative artifacts exist and are readable. If any are missing, halt and report `MOD017_PREFLIGHT_FAILED` — do not author CPC/VR against absent sources.
 
-### Stage 4 — CPC-016
-Author `docs/50-audit-reports/MOD016_CROSS_PLATFORM_CERTIFICATION_<UTC>.md`. Validate parity across Publication ↔ WEB/MOB/API (functional, rules, validation, security, permissions, errors, notifications, a11y, performance, audit, traceability). Emit Compliance Matrix, Deviations, Risks, Corrections, and Certification Result (Pass / Pass with Conditions / Fail).
+### Stage 1 — CPC-017 Cross-Platform Certification
 
-### Stage 5 — VR-016
-Author `docs/50-audit-reports/MOD016_WAVE_VERIFICATION_<UTC>.md` with Track A (Repository Integrity) + Track B (Documentation Quality). Emit checklist, findings, defects, recommendations, and Final Verification Status.
+Create `docs/50-audit-reports/MOD017_CROSS_PLATFORM_CERTIFICATION_<UTC>.md` using the approved CPC template (mirroring MOD-016 CPC).
 
-### Stage 6 — Sidebar Registration
-Only after Stages 0–5 pass. Update the MOD-016 Service Desk group in `docs/_meta.json` in contract order:
+Sections:
+1. Executive Summary
+2. Certification Scope (Publication, WEB-017, MOB-017, API-017)
+3. Compliance Matrix — 13 dimensions: Functional parity, Feature completeness, Workflow, Business rules, Validation rules, Roles/permissions, Security, Error handling, Notifications, Accessibility, Performance, Audit, Publication traceability
+4. Traceability Review (Publication authorities → WEB/MOB/API coverage)
+5. Deviations
+6. Risks
+7. Required Corrections
+8. Outstanding Issues
+9. Certification Result — Pass | Pass with Conditions | Fail
 
-```text
-Overview → Baseline → Publication → WEB-016 → MOB-016 → API-016 → CPC-016 → VR-016
-```
+Every observation cites Publication + affected SD section. No new requirements, screens, APIs, rules, or permissions introduced.
 
-Apply Navigation Standard v2.0: dedupe labels, no placeholders, no dead links, no duplicate paths. Skip Stage 6 entirely if the Publication Gate failed.
+### Stage 2 — VR-017 Wave Verification
+
+Create `docs/50-audit-reports/MOD017_WAVE_VERIFICATION_<UTC>.md` using the approved Verification template (mirroring MOD-016 VR, 16-check format).
+
+**Track A — Repository Integrity**: structure, required docs present, naming, file locations, Navigation Standard v2.0 compliance, no duplicate paths, no dead links, no placeholder registrations, correct hierarchy.
+
+**Track B — Documentation Quality**: Publication traceability, completeness, internal consistency, cross-document consistency, section completeness, template compliance, citations, acceptance criteria, auditability, readability.
+
+**Sidebar Registration Validation** (read-only) — inspect `docs/_meta.json` MOD-017 group; assert contract order: Overview → Baseline → Publication → WEB-017 → MOB-017 → API-017 → CPC-017 → VR-017. Verify label deduplication, no placeholders, no dead links, no duplicate paths. Any deviation logged as a VR finding; `_meta.json` is NOT modified in this wave.
+
+Outputs: Verification Checklist, Findings, Defects, Recommendations, Required Corrections, Final Status (Verified | Verified with Observations | Failed).
 
 ### Constraints
-No edits to Baseline, PRD, or governance docs. No invented screens/workflows/rules/APIs/endpoints/events/webhooks. No code, DB scripts, or UI mockups. Every SD requirement cites its Publication section.
+
+No modifications to Baseline, PRD, Publication, Solution Designs, governance docs, or `_meta.json`. No new business content, screens, workflows, rules, APIs, endpoints, events, or webhooks. No code, DB scripts, or mockups.
 
 ### Exit Criteria
-- Success: Publication + WEB/MOB/API/CPC/VR authored with full Publication traceability; `_meta.json` updated; nav validation clean → state `MOD016_WAVE_READY`.
-- Early termination: only Gap Report authored; `_meta.json` unchanged → state `MOD016_PUBLICATION_BLOCKED`.
+
+- **Success**: CPC-017 + VR-017 authored; compliance, traceability, integrity, quality, navigation all validated → `MOD017_WAVE_READY`.
+- **Failure**: Blocking findings documented, no source modifications → `MOD017_REMEDIATION_REQUIRED`.
+
+### Deliverables
+
+1. `docs/50-audit-reports/MOD017_CROSS_PLATFORM_CERTIFICATION_<UTC>.md`
+2. `docs/50-audit-reports/MOD017_WAVE_VERIFICATION_<UTC>.md`
