@@ -6,6 +6,8 @@ import { Form, FormField, SubmitButton } from "@/components/forms";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
+import { notifyAuthError, mapSupabaseAuthError } from "@/lib/auth-errors";
+import { logAuthEvent } from "@/lib/auth-audit";
 import { APP_NAME } from "@/constants/app";
 import { AuthShell } from "@/routes/login";
 
@@ -35,9 +37,10 @@ function ForgotPage() {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     if (error) {
-      notify.error("Could not send reset email", error.message);
+      notifyAuthError(mapSupabaseAuthError(error));
       return;
     }
+    logAuthEvent("password_reset_requested");
     notify.success("Check your email", "We've sent a password reset link.");
   }
 
