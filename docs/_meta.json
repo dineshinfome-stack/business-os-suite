@@ -389,6 +389,10 @@
           "path": "50-audit-reports/MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z"
         },
         {
+          "title": "VR-002 — Wave Verification",
+          "path": "50-audit-reports/MOD002_WAVE_VERIFICATION_20260721T040000Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
         },
