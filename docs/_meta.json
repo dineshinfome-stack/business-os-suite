@@ -1373,6 +1373,14 @@
           "path": "60-solution-design/api/API-018_AI_WORKSPACE"
         },
         {
+          "title": "CPC-018 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD018_CROSS_PLATFORM_CERTIFICATION_20260721T010000Z"
+        },
+        {
+          "title": "VR-018 — Verification",
+          "path": "50-audit-reports/MOD018_WAVE_VERIFICATION_20260721T010500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/ai/MOD-018_SPRINT_PLAN"
         },
