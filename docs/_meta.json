@@ -1312,6 +1312,14 @@
           "path": "60-solution-design/api/API-017_ANALYTICS"
         },
         {
+          "title": "CPC-017 — Cross-Platform Certification",
+          "path": "50-audit-reports/MOD017_CROSS_PLATFORM_CERTIFICATION_20260721T000000Z"
+        },
+        {
+          "title": "VR-017 — Verification",
+          "path": "50-audit-reports/MOD017_WAVE_VERIFICATION_20260721T000500Z"
+        },
+        {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/analytics/MOD-017_SPRINT_PLAN"
         },
