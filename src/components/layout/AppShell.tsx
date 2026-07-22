@@ -4,6 +4,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { AppSidebar } from "@/components/navigation/AppSidebar";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
+import { OrgSwitcher } from "@/components/navigation/OrgSwitcher";
 import { APP_NAME, APP_VERSION } from "@/constants/app";
 
 export function AppShell({ children }: { children?: ReactNode }) {
@@ -16,6 +17,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
             <SidebarTrigger aria-label="Toggle sidebar" />
             <Breadcrumb />
             <div className="ml-auto flex items-center gap-2">
+              <OrgSwitcher />
               <ThemeToggle />
             </div>
           </header>
