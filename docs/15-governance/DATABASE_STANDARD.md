@@ -16,7 +16,7 @@
 
 | Object kind          | Pattern                                | Example                          |
 | -------------------- | -------------------------------------- | -------------------------------- |
-| Function             | `fn_<purpose>`                         | `fn_has_role`, `fn_set_updated_at` |
+| Function             | `fn_<purpose>`                         | `private.fn_has_role`, `fn_set_updated_at` |
 | Trigger              | `trg_<table>_<event>`                  | `trg_profiles_updated_at`        |
 | Policy               | `<table>_<audience>_<action>`          | `profiles_owner_select`          |
 | Index                | `idx_<table>_<columns>`                | `idx_audit_logs_actor_id`        |
