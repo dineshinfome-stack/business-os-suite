@@ -28,6 +28,7 @@ Provide a single point of discovery for every migration executed against the rep
 | Migration ID | Date (UTC) | Scope | Document | Manifest | Terminal Audit |
 | --- | --- | --- | --- | --- | --- |
 | MIG-20260718-SD-IDENTIFIER-ALIGNMENT | 2026-07-18 | Solution Design WEB/MOB/API identifier alignment with parent Module IDs | [`SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md`](./SOLUTION_DESIGN_IDENTIFIER_MIGRATION_20260718.md) | [`MIGRATION_MANIFEST_20260718.json`](./MIGRATION_MANIFEST_20260718.json) | `REPOSITORY_AUDIT_20260718T160000Z` |
+| 008_rbac_foundation | 2026-07-22 | Sprint 0.5 — permissions/roles/role_permissions/user_roles enhancements + private.fn_user_* helpers + Wave 0 seed | [`RBAC_STANDARD.md`](./RBAC_STANDARD.md) | [`permission-catalog.manifest.yaml`](./permission-catalog.manifest.yaml) | `SPRINT_0_5_RBAC_FOUNDATION_REPORT` |
 
 ## References
 
