@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "@/contexts/theme-context";
 import { AuthProvider } from "@/contexts/auth-context";
 import { OrgProvider } from "@/contexts/org-context";
+import { PermissionsProvider } from "@/contexts/permissions-context";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { Toaster } from "@/components/ui/sonner";
@@ -132,13 +133,15 @@ function RootComponent() {
       <ThemeProvider>
         <AuthProvider>
           <OrgProvider>
-            <TooltipProvider>
-              <ErrorBoundary>
-                {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-                <Outlet />
-              </ErrorBoundary>
-              <Toaster richColors closeButton position="top-right" />
-            </TooltipProvider>
+            <PermissionsProvider>
+              <TooltipProvider>
+                <ErrorBoundary>
+                  {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+                  <Outlet />
+                </ErrorBoundary>
+                <Toaster richColors closeButton position="top-right" />
+              </TooltipProvider>
+            </PermissionsProvider>
           </OrgProvider>
         </AuthProvider>
       </ThemeProvider>
