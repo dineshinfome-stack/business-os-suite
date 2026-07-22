@@ -111,11 +111,48 @@ function LoginPage() {
               <SubmitButton>Sign in</SubmitButton>
             </div>
           </Form>
+
+          <div className="rounded-md border border-dashed bg-muted/40 p-3 text-xs">
+            <p className="mb-2 font-medium text-foreground">Demo accounts</p>
+            <ul className="space-y-1.5">
+              {DEMO_USERS.map((u) => (
+                <li key={u.email} className="flex items-center justify-between gap-2">
+                  <span className="text-muted-foreground">
+                    <span className="font-mono">{u.email}</span>
+                    <span className="ml-2 rounded bg-primary/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-primary">
+                      {u.role}
+                    </span>
+                  </span>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className="h-6 px-2 text-xs"
+                    onClick={() => {
+                      form.setValue("email", u.email);
+                      form.setValue("password", DEMO_PASSWORD);
+                    }}
+                  >
+                    Use
+                  </Button>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-muted-foreground">
+              Password: <span className="font-mono">{DEMO_PASSWORD}</span>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </AuthShell>
   );
 }
+
+const DEMO_PASSWORD = "DemoPass123!";
+const DEMO_USERS = [
+  { email: "admin@demo.test", role: "admin" },
+  { email: "member@demo.test", role: "member" },
+] as const;
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
