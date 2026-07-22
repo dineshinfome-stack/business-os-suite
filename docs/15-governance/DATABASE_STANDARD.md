@@ -16,7 +16,7 @@
 
 | Object kind          | Pattern                                | Example                          |
 | -------------------- | -------------------------------------- | -------------------------------- |
-| Function             | `fn_<purpose>`                         | `fn_has_role`, `fn_set_updated_at` |
+| Function             | `fn_<purpose>`                         | `private.fn_has_role`, `fn_set_updated_at` |
 | Trigger              | `trg_<table>_<event>`                  | `trg_profiles_updated_at`        |
 | Policy               | `<table>_<audience>_<action>`          | `profiles_owner_select`          |
 | Index                | `idx_<table>_<columns>`                | `idx_audit_logs_actor_id`        |
@@ -65,7 +65,7 @@ Every new function MUST declare its volatility explicitly. Do not rely on the `V
 | Volatility  | Use for                                                                                             |
 | ----------- | --------------------------------------------------------------------------------------------------- |
 | `IMMUTABLE` | Pure functions of their arguments (no DB reads, no `now()`, no `random`).                           |
-| `STABLE`    | Read-only lookup helpers within a single statement (e.g. `fn_has_role`).                            |
+| `STABLE`    | Read-only lookup helpers within a single statement (e.g. `private.fn_has_role`).                    |
 | `VOLATILE`  | Only when the function mutates state, calls `now()` outside a `DEFAULT`, or depends on session state. |
 
 Trigger functions that return `NEW` (e.g. `fn_set_updated_at`, `fn_handle_new_auth_user`) are `VOLATILE`.
@@ -96,7 +96,8 @@ Trigger functions that return `NEW` (e.g. `fn_set_updated_at`, `fn_handle_new_au
 - RLS enabled on every `public` table.
 - A GRANT block MUST immediately follow every `CREATE TABLE`.
 - Default grantees: `authenticated`, `service_role`. Grant `anon` only when a matching anon-scoped policy exists.
-- Roles are never stored on `profiles`. Use `user_roles` + `fn_has_role()` (SECURITY DEFINER, `SET search_path = public`).
+- Roles are never stored on `profiles`. Use `user_roles` + `private.fn_has_role()` (SECURITY DEFINER, `SET search_path = public`).
+- Role-check helpers live in the non-exposed `private` schema, are invoked from RLS policies only, and are not RPC-callable. `EXECUTE` on `private.fn_has_role` and `private.fn_handle_new_auth_user` is revoked from `anon` and `authenticated`; any future need for a client-visible role check must be introduced as a new, narrowly-scoped `public.*` function rather than by relaxing these grants.
 
 ---
 

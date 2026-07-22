@@ -1,33 +1,41 @@
-## Sprint 0.3.V — Supabase Project Connection Verification (Read-Only)
+## Context
 
-Read-only verification of the newly connected Supabase project. No code, DB, auth, or config changes. Single deliverable: an audit report with Check → Evidence → Result tables and Sprint 0.2 / Sprint 0.3 readiness verdicts.
+Verified: the app has **no** `supabase.rpc('fn_has_role', ...)` call anywhere in `src/`. Authorization is exercised only inside RLS policies (e.g. `user_roles_admin_all`, `audit_logs_admin_select_all`), which call `private.fn_has_role(auth.uid(), 'admin'::app_role)` server-side. This is **Design A** — moving the helper to `private` with `EXECUTE` revoked from `anon`/`authenticated` is correct and does not break anything.
 
-### Critical issue to resolve first
-Two different Supabase project refs are visible:
-- `.env` + `supabase/config.toml` → `bnntgsjyumxxgaxapzhe`
-- Lovable's active backend binding (per tool context) → `fplgjhbngvzfpepstvry`
+Only documentation drifts from reality. This plan realigns the specs — no source or database changes.
 
-Treated as a **BLOCKER** unless verification proves they resolve to the same backend. A mismatch means the app builds against one project while auth, RLS, and migrations are managed on another.
+## Changes
 
-### Verification sections (each row: Check | Evidence | Result)
+1. **`docs/15-governance/DATABASE_STANDARD.md`**
+   - Update the two `fn_has_role` references to `private.fn_has_role` and add a short note: role-check helpers live in the non-exposed `private` schema, are invoked from RLS policies only, and are not RPC-callable.
 
-1. **Environment variables** — inspect `.env`, `.env.local`, `.env.example`. Verify `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`, plus server-side `SUPABASE_URL` / `SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_SERVICE_ROLE_KEY`. Record presence, placeholders, project ref pointed at, and any service-role leakage into `VITE_*`.
-2. **Client initialization** — inspect `src/integrations/supabase/client.ts`, `client.server.ts`, `auth-middleware.ts`, `auth-attacher.ts`. Verify env plumbing, no hardcoded credentials, no stale refs, client/server separation intact.
-3. **Active backend binding** — compare `.env` ref, `supabase/config.toml` ref, and Lovable-reported active ref. Record match/mismatch and blocker status.
-4. **Auth configuration** — read-only probe of `auth.*` where possible: email auth enabled, signups enabled, email confirmation, password reset, anonymous disabled. Settings not queryable read-only recorded as `MANUAL-VERIFY` with the exact dashboard path.
-5. **Google OAuth** — inspect `src/routes/login.tsx` and `src/integrations/lovable/index.ts`. Record whether Google is wired in code; provider-side config marked `CONFIGURED` / `NOT CONFIGURED (acceptable)` / `MANUAL-VERIFY`. Note that redirect URIs must match scheme + domain + path + trailing slash exactly.
-6. **Redirect URLs** — enumerate callback routes (`/auth/callback`, reset flows). Record expected Site URL + redirect allowlist entries; provider-side allowlist marked `MANUAL-VERIFY` where not observable.
-7. **Schema presence** — read-only queries for `profiles`, `user_roles`, `audit_logs`, `app_role`, `fn_has_role`, `fn_set_updated_at`, `fn_handle_new_auth_user`. Missing objects flip Sprint 0.2 readiness to `NOT READY`.
-8. **Connectivity probe** — anon-key path reaches the backend without writes.
-9. **Repository scan** — `rg` for `lovable`, `lovable.dev`, old project refs, old backend refs. Distinguish framework refs (`@lovable.dev/cloud-auth-js`, `lovable-error-reporting.ts`) from stale backend refs.
-10. **Security** — service-role key server-only; no `VITE_*SERVICE_ROLE*`; no client-reachable import of `client.server`; `.env` gitignored; no secrets committed.
-11. **Readiness verdicts** — separate verdicts for Sprint 0.2 and Sprint 0.3, each `READY` / `READY WITH OBSERVATIONS` / `NOT READY` with reasons; blocker status stated if project-ref mismatch remains.
+2. **`.lovable/plan.md` (Sprint 0.3 spec)**
+   - Replace any "server-side helper calls `fn_has_role` via RPC" wording with: "authorization is enforced by RLS policies invoking `private.fn_has_role(auth.uid(), role)`; no client- or RPC-accessible role helper is exposed."
+   - Update the Sprint 0.2 schema-presence check list to look for `private.fn_has_role` (and `private.fn_handle_new_auth_user`) instead of the `public` variants.
 
-### Constraints
-Read-only. No migrations, no auth setting changes, no code edits, no governance changes. Any item not observable read-only is recorded as `MANUAL-VERIFY` with the exact dashboard path, not skipped.
+3. **New: `docs/50-audit-reports/SPRINT_0_3_SPEC_ALIGNMENT_NOTE.md`** — contains two sections:
 
-### Definition of Done
-- Report at `docs/50-audit-reports/SUPABASE_PROJECT_CONNECTION_VERIFICATION_REPORT.md` with completed Check → Evidence → Result tables for every section.
-- Project-ref discrepancy explicitly resolved or flagged as a blocker.
-- Sprint 0.2 and Sprint 0.3 readiness verdicts stated with justification.
-- Copy placed at `/mnt/documents/` for download.
+   **a) Alignment record**
+   - Finding IDs fixed: `SUPA_anon_security_definer_function_executable`, `SUPA_authenticated_security_definer_function_executable`.
+   - Design A confirmation (grep evidence: 0 `rpc(` calls, 0 `fn_has_role` usages in `src/`).
+   - Doc edits above.
+
+   **b) Architecture Decision Record (embedded ADR)**
+   - **Decision:** Internal authorization helpers are not part of the application API surface. `fn_has_role` and `fn_handle_new_auth_user` live in the `private` schema; `EXECUTE` is revoked from `anon` and `authenticated`; they are invoked exclusively by RLS policies and auth triggers.
+   - **Context:** New Supabase project reconnect surfaced two security-definer-executable findings on the previous `public.fn_has_role` / `public.fn_handle_new_auth_user`.
+   - **Rationale:** Authorization is enforced exclusively by PostgreSQL RLS. Restricting helper functions to `private` with revoked EXECUTE minimizes the exposed database API, reduces attack surface, prevents accidental client invocation, and keeps the security boundary owned by the database rather than the client.
+   - **Security Impact:** The exposed SQL API surface is reduced by removing publicly executable authorization helpers. Authorization decisions remain entirely within PostgreSQL RLS, reducing the risk of accidental or unauthorized invocation and simplifying the application's trust boundary. PostgREST cannot enumerate or invoke `private.*` functions, so the role-check helper is unreachable from any client credential (anon or authenticated).
+   - **Consequences:** No client- or RPC-accessible role helper exists. Any future need for a client-visible role check must be introduced deliberately as a new, narrowly-scoped `public.*` function — not by relaxing `private.fn_has_role`.
+   - **Alternatives considered:** Keep `public.fn_has_role` with `EXECUTE` to `authenticated` (standard Supabase pattern) — rejected because no caller needs it and it enlarges the API surface unnecessarily.
+   - **Status:** Accepted. Supersedes the Sprint 0.3 assumption of an RPC-accessible helper.
+
+## Out of scope
+
+- No changes to `src/`, migrations, RLS policies, or grants.
+- No new migrations. The current `private.fn_has_role` + revoked EXECUTE stands.
+
+## Verification
+
+- `rg "fn_has_role" src/` → 0 hits (already confirmed).
+- `rg "public\.fn_has_role|rpc\(['\"]fn_has_role" docs/ src/ supabase/` → 0 hits after edits (expanded to include `supabase/` for migrations and SQL files).
+- Build/typecheck unchanged (no code touched).
