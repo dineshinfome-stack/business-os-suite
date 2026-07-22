@@ -46,8 +46,9 @@ export const logAuthEventFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => AuditPayload.parse(data))
   .handler(async ({ data, context }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("audit_logs").insert({
+    // Sprint 0.4A: write via the RLS-scoped user client using the
+    // audit_logs_insert_own policy. No service role dependency.
+    const { error } = await context.supabase.from("audit_logs").insert({
       action: data.action,
       entity_type: "auth",
       entity_id: data.entityId ?? context.userId,
