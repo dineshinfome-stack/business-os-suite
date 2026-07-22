@@ -13,6 +13,9 @@ export type AuthErrorCode =
   | "account_disabled"
   | "oauth_cancelled"
   | "oauth_timeout"
+  | "rate_limited"
+  | "user_not_found"
+  | "weak_password"
   | "network_failure"
   | "signout_partial"
   | "unknown";
