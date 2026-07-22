@@ -49,6 +49,18 @@ const MESSAGES: Record<AuthErrorCode, { title: string; description: string }> = 
     title: "Network problem",
     description: "Check your connection and try again.",
   },
+  rate_limited: {
+    title: "Too many attempts",
+    description: "Please wait a moment before trying again.",
+  },
+  user_not_found: {
+    title: "Account not found",
+    description: "No account exists for that email address.",
+  },
+  weak_password: {
+    title: "Password too weak",
+    description: "Choose a stronger password (at least 8 characters).",
+  },
   signout_partial: {
     title: "Signed out locally",
     description:
