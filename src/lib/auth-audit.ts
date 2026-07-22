@@ -20,9 +20,14 @@ interface LogAuthEventOptions {
 }
 
 /**
- * Fire-and-forget audit write. Auth flows MUST NOT fail because audit failed:
- * this function never throws and never returns a rejected promise. Failures
- * are logged via logger.warn with the correlation id for later reconciliation.
+ * Fire-and-forget audit write.
+ *
+ * SPRINT 0.4A AUDIT FAILURE POLICY:
+ * Authentication MUST succeed even if audit logging fails. This function
+ * never throws and never returns a rejected promise. Failures are logged
+ * via logger.warn with correlation id for investigation but never block
+ * login, logout, or password flows. Availability of auth is a higher
+ * priority than completeness of the audit trail.
  */
 export function logAuthEvent(action: AuthAuditAction, options: LogAuthEventOptions = {}): string {
   const correlationId = getOrCreateCorrelationId({ callerId: options.correlationId });
