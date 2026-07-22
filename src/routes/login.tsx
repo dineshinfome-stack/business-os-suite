@@ -63,9 +63,12 @@ function LoginPage() {
 
   async function onGoogleSignIn() {
     try {
-      const redirect_uri = `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
-      const result = await lovable.auth.signInWithOAuth("google", { redirect_uri });
-      if (result.error) notifyAuthError(mapSupabaseAuthError(result.error));
+      const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo },
+      });
+      if (error) notifyAuthError(mapSupabaseAuthError(error));
     } catch (err) {
       notifyAuthError(mapSupabaseAuthError(err));
     }
