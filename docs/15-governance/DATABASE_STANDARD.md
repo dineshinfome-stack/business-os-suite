@@ -65,7 +65,7 @@ Every new function MUST declare its volatility explicitly. Do not rely on the `V
 | Volatility  | Use for                                                                                             |
 | ----------- | --------------------------------------------------------------------------------------------------- |
 | `IMMUTABLE` | Pure functions of their arguments (no DB reads, no `now()`, no `random`).                           |
-| `STABLE`    | Read-only lookup helpers within a single statement (e.g. `fn_has_role`).                            |
+| `STABLE`    | Read-only lookup helpers within a single statement (e.g. `private.fn_has_role`).                    |
 | `VOLATILE`  | Only when the function mutates state, calls `now()` outside a `DEFAULT`, or depends on session state. |
 
 Trigger functions that return `NEW` (e.g. `fn_set_updated_at`, `fn_handle_new_auth_user`) are `VOLATILE`.
