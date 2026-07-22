@@ -1,4 +1,5 @@
 import { notify } from "./notify";
+import { logger } from "./logger";
 
 /**
  * Map raw Supabase / OAuth error codes and messages to user-facing strings.
