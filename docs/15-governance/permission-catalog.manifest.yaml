@@ -1,0 +1,111 @@
+# =============================================================================
+# Business OS — Permission Catalog Manifest
+# =============================================================================
+# Single source of truth for platform permission keys.
+# Consumed by:
+#   - `scripts/generate-permissions.ts` (writes `src/lib/generated/permission-keys.ts`)
+#   - Migration `008_rbac_foundation` (SQL seed values mirror this file)
+#
+# Governance:
+#   - Append-only. Existing keys are NEVER repurposed or redefined.
+#   - Deprecations mark `deprecated_at`; keys remain in the catalog until a
+#     documented retirement process removes them.
+#   - See docs/15-governance/RBAC_STANDARD.md.
+# =============================================================================
+version: 1
+permissions:
+  # --- Platform administration -----------------------------------------------
+  - key: platform.users.view
+    name: View platform users
+    description: View the list of users across the platform
+  - key: platform.users.create
+    name: Create platform users
+    description: Create new user accounts
+  - key: platform.users.update
+    name: Update platform users
+    description: Update user account details
+  - key: platform.users.delete
+    name: Delete platform users
+    description: Delete user accounts
+  - key: platform.organizations.view
+    name: View organizations
+    description: View all organizations on the platform
+  - key: platform.organizations.manage
+    name: Manage organizations
+    description: Create, update, or archive organizations
+  - key: platform.roles.view
+    name: View role assignments
+    description: View role assignments within an organization
+  - key: platform.roles.assign
+    name: Assign roles
+    description: Grant or revoke roles for users in an organization
+  - key: platform.audit.view
+    name: View platform audit log
+    description: View the platform-wide audit log
+
+  # --- Organization settings -------------------------------------------------
+  - key: settings.general.view
+    name: View settings
+    description: View organization settings
+  - key: settings.general.update
+    name: Update settings
+    description: Update organization settings
+
+  # --- Audit -----------------------------------------------------------------
+  - key: audit.logs.view
+    name: View audit logs
+    description: View audit log entries within the current org
+
+roles:
+  - key: platform_owner
+    name: Platform Owner
+    scope: platform
+    rank: 10
+    permissions: "*"
+  - key: platform_admin
+    name: Platform Admin
+    scope: platform
+    rank: 20
+    permissions_exclude: [platform.users.delete]
+  - key: org_owner
+    name: Organization Owner
+    scope: organization
+    rank: 30
+    permissions:
+      - platform.roles.view
+      - platform.roles.assign
+      - settings.general.view
+      - settings.general.update
+      - audit.logs.view
+  - key: administrator
+    name: Administrator
+    scope: organization
+    rank: 40
+    permissions:
+      - platform.roles.view
+      - platform.roles.assign
+      - settings.general.view
+      - settings.general.update
+      - audit.logs.view
+  - key: manager
+    name: Manager
+    scope: organization
+    rank: 50
+    permissions:
+      - settings.general.view
+      - audit.logs.view
+  - key: supervisor
+    name: Supervisor
+    scope: organization
+    rank: 60
+    permissions: [settings.general.view]
+  - key: employee
+    name: Employee
+    scope: organization
+    rank: 70
+    permissions: [settings.general.view]
+  - key: read_only
+    name: Read Only
+    scope: organization
+    rank: 80
+    permissions: [settings.general.view]
