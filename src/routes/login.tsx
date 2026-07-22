@@ -6,7 +6,7 @@ import { Form, FormField, SubmitButton } from "@/components/forms";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+
 import { notify } from "@/lib/notify";
 import { notifyAuthError, mapSupabaseAuthError } from "@/lib/auth-errors";
 import { logAuthEvent } from "@/lib/auth-audit";
@@ -63,9 +63,12 @@ function LoginPage() {
 
   async function onGoogleSignIn() {
     try {
-      const redirect_uri = `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
-      const result = await lovable.auth.signInWithOAuth("google", { redirect_uri });
-      if (result.error) notifyAuthError(mapSupabaseAuthError(result.error));
+      const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo },
+      });
+      if (error) notifyAuthError(mapSupabaseAuthError(error));
     } catch (err) {
       notifyAuthError(mapSupabaseAuthError(err));
     }
