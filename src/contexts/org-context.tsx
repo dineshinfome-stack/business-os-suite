@@ -46,31 +46,52 @@ export function OrgProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<OrgContextValue["status"]>("loading");
   const [current, setCurrent] = useState<CurrentOrg | null>(null);
   const [organizations, setOrganizations] = useState<OrgMembershipRow[]>([]);
+  const failureToastShownRef = useRef(false);
 
   const refresh = useCallback(async () => {
-    if (auth.status !== "authenticated") {
+    if (auth.status === "unauthenticated") {
+      // Sprint 0.4A: fully clear org state on sign-out so re-login starts clean.
       setStatus("loading");
       setCurrent(null);
       setOrganizations([]);
+      failureToastShownRef.current = false;
       return;
     }
+    if (auth.status !== "authenticated") {
+      setStatus("loading");
+      return;
+    }
+    const attempt = async () => Promise.all([listFn(), getFn()]);
+    let list: OrgMembershipRow[];
+    let ctx: Awaited<ReturnType<typeof getFn>>;
     try {
-      const [list, ctx] = await Promise.all([listFn(), getFn()]);
-      setOrganizations(list);
-      if (ctx.organizationId) {
-        setCurrent({
-          organizationId: ctx.organizationId,
-          name: ctx.name ?? "",
-          slug: ctx.slug ?? "",
-          role: (ctx.role ?? "member") as OrgMembershipRow["role"],
-        });
-        setStatus("ready");
-      } else {
-        setCurrent(null);
-        setStatus("no-organizations");
-      }
+      [list, ctx] = await attempt();
     } catch (err) {
-      logger.warn("org-context refresh failed", { error: String(err) });
+      logger.warn("org-context refresh failed, retrying once", { error: String(err) });
+      try {
+        [list, ctx] = await attempt();
+      } catch (err2) {
+        logger.error("org-context refresh failed", { error: String(err2) });
+        if (!failureToastShownRef.current) {
+          failureToastShownRef.current = true;
+          notify.error("Couldn't load your workspace", "Please refresh the page or sign in again.");
+        }
+        setStatus("no-organizations");
+        return;
+      }
+    }
+    failureToastShownRef.current = false;
+    setOrganizations(list);
+    if (ctx.organizationId) {
+      setCurrent({
+        organizationId: ctx.organizationId,
+        name: ctx.name ?? "",
+        slug: ctx.slug ?? "",
+        role: (ctx.role ?? "member") as OrgMembershipRow["role"],
+      });
+      setStatus("ready");
+    } else {
+      setCurrent(null);
       setStatus("no-organizations");
     }
   }, [auth.status, listFn, getFn]);
