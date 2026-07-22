@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -17,6 +18,7 @@ import {
 } from "@/lib/organizations.functions";
 import { useAuth } from "@/contexts/auth-context";
 import { logger } from "@/lib/logger";
+import { notify } from "@/lib/notify";
 
 export interface CurrentOrg {
   organizationId: string;
