@@ -1,71 +1,121 @@
-# Sprint 0.4B — Platform Security Hardening (v2)
+# Sprint 0.5 — RBAC Foundation (v5)
 
-Small, focused sprint to resolve non-blocking security observations from Sprint 0.4A before starting RBAC (Sprint 0.5). Two workstreams: (1) formally review and accept the `SECURITY DEFINER` helper warnings, (2) enable Supabase Auth leaked-password protection. v2 incorporates reviewer refinements on ownership wording, existing-user verification, and linter-independent success criteria.
+Establishes the reusable authorization layer every Business OS module will consume. No module-specific business logic, no custom-role management UI. Incorporates review recommendations 1–8.
 
-## Objective
+## 1. Database (Migration `008_rbac_foundation`)
 
-Close out the two open observations from `SPRINT_0_4A_AUTHENTICATION_STABILIZATION_REPORT.md` §5:
-- `SECURITY DEFINER` warnings on `private.fn_has_role`, `private.fn_is_org_member`, `private.fn_org_role`.
-- "Leaked Password Protection Disabled" in Supabase Auth.
+New tables (all `public`, RLS enabled, GRANTs to `authenticated` + `service_role`, `anon` denied):
 
-Success is measured by security outcomes (documented review + enabled setting + existing users unaffected), not by whether any specific linter rule continues to emit informational warnings.
+- `permissions` — `id uuid` (immutable internal id), `key` unique (`module.resource.action`), `module`, `resource`, `action`, `name`, `description`, `system_permission bool default true`; trigger blocks `UPDATE`/`DELETE` when system
+- `roles` — `id uuid`, `key` unique, `name`, `description`, `scope` enum (`platform` | `organization`), `system_role bool default true`, `rank int` (presentation/tiebreak only — no implicit inheritance)
+- `role_permissions` — many-to-many, unique `(role_id, permission_id)`
+- Enhance `user_roles`: add `role_id`, `organization_id nullable` (null = platform), `granted_by`, `granted_at`, `expires_at nullable`; unique `(user_id, organization_id, role_id)`; append-only; keep legacy column until Sprint 0.6
 
-## Scope
+### Helper functions in `private` schema — search_path policy (Rec 5)
 
-### 1. SECURITY DEFINER review (documentation-only unless a gap is found)
+Every helper declares `SECURITY DEFINER`, `STABLE`, `EXECUTE` to `authenticated`, and an **intentional, documented** `search_path`:
 
-Review each of the three helpers against a fixed checklist and record the result. Only issue a migration if a concrete gap is found.
+- Default: `SET search_path = pg_catalog, public` — `pg_catalog` first guarantees system operators/casts resolve to built-ins; `public` included because helpers reference `public.permissions`, `public.roles`, `public.role_permissions`, `public.user_roles`
+- Helpers touching only `private` objects: `SET search_path = pg_catalog, private`
+- Rationale recorded as header comment on each function and in `RBAC_STANDARD.md` §"Security-definer search_path policy"
 
-Checklist per function:
-- Resides in `private` schema (not exposed via PostgREST).
-- Declared `SECURITY DEFINER` with a fixed `search_path` (e.g. `SET search_path = pg_catalog, public`).
-- Owned by the dedicated database role defined by the project's database security standard (`docs/15-governance/DATABASE_STANDARD.md`), or another least-privileged owner if no dedicated role exists. If no such role is defined yet, record that as a follow-up for a future governance update and accept the current owner if it is not a broad application role.
-- `EXECUTE` granted only to `authenticated` (and `service_role` where needed); `PUBLIC` revoked.
-- Body performs only the intended authorization read; no dynamic SQL, no writes, deterministic.
-- `STABLE` (or `IMMUTABLE`) volatility where appropriate.
+Functions:
 
-Outcomes:
-- If every check passes → document as **Accepted by Design** in the verification report and add a short "Security Notes" block to `docs/15-governance/TENANCY_STANDARD.md` (or a new `docs/11-adrs/security/ADR-030-security-definer-helpers.md` if we want a dedicated ADR).
-- If a gap is found → single remediation migration `008_security_definer_hardening.sql` that sets `search_path`, tightens grants, or transfers ownership. No behavioral changes.
+- `private.fn_user_permissions(_user_id, _org_id)` → `setof text`
+- `private.fn_user_has_permission` / `fn_user_has_any` / `fn_user_has_all`
 
-### 2. Supabase Auth — Leaked Password Protection
+RLS:
 
-- Enable "Leaked Password Protection" in Supabase Auth settings (dashboard toggle; not a migration).
-- Verify demo accounts (`admin@demo.test`, `member@demo.test`) still sign in with existing `DemoPass123!` — confirming existing users are not force-reset and continue to authenticate.
-- Confirm password reset flow (`/forgot-password` → `/reset-password`) still succeeds with a fresh strong password.
-- Confirm the existing `weak_password` mapping in `src/lib/auth-errors.ts` surfaces the pwned-password rejection cleanly; extend the message-match list if Supabase returns a distinct error code for breached passwords.
-- Document implications: users choosing common/breached passwords will now be rejected on signup and password change; existing users are not force-reset.
+- `permissions`, `roles`, `role_permissions` — SELECT to `authenticated`; no client writes
+- `user_roles` — SELECT own or org-admin; writes via server fns only
 
-### 3. Verification report
+### Seed determinism (Rec 4)
 
-Author `docs/50-audit-reports/SPRINT_0_4B_SECURITY_HARDENING_REPORT.md` using the standard Check / Evidence / Result table plus a Verification Summary. Sections:
-- Scope and objectives.
-- SECURITY DEFINER review table (one row per function × checklist item).
-- Supabase Auth configuration table (setting, before, after, evidence).
-- Regression checks (existing-user login, new signup, password reset with weak/strong/breached password).
-- Verification Summary (totals) and exit-criteria checklist.
-- Sprint 0.5 authorization statement.
+- Wave 0 permissions, 8 system roles, and role→permission bindings seeded with fixed keys — no insertion-order dependency
+- **Platform-owner bootstrap policy** (in `RBAC_STANDARD.md`):
+  1. If `PLATFORM_OWNER_EMAIL` matches an existing `auth.users.email`, grant that user `platform_owner`
+  2. Otherwise no user is granted `platform_owner` by this migration
+  3. Dev-only convenience: separate, clearly-marked dev seed grants `platform_owner` to `admin@demo.test`
+- `org_owner` backfill deterministic (`organizations.owner_user_id` → `org_owner`)
+
+### Future consideration (documented, not implemented)
+
+`id` (uuid) is immutable internal reference; `key` is stable human-readable name. Future custom-role work uses `id` for bindings so `key` renames don't break references.
+
+## 2. Single Source of Truth — Permission Catalog Manifest (Rec 2)
+
+- `docs/15-governance/permission-catalog.manifest.yaml` drives SQL seed and TypeScript union
+- `scripts/generate-permissions.ts` writes `src/lib/generated/permission-keys.ts` (typed `PermissionKey` union + `PERMISSIONS` record)
+- Wired into `bun run build`; `bun run gen:permissions`; CI parity check fails on drift
+- Hand-maintained constants rejected
+
+## 3. Shared Server — Authorization Engine (Rec 1)
+
+Authorization is **user-context-only**. `service_role` is forbidden in `hasPermission`, `requirePermission*`, `listUserPermissions`, `listEffectivePermissions`. It appears only in role-assignment mutations. Enforced by keeping `client.server` out of `authorization.functions.ts` / `authorization.server.ts` (grep check in verification).
+
+- `authorization.functions.ts`: `hasPermission`, `listUserPermissions`, `listEffectivePermissions` — `createServerFn` + `requireSupabaseAuth` + `requireOrgContext`, resolved via `private.fn_user_*` under caller JWT
+- `authorization.server.ts`: `requirePermission(key)` / `requireAnyPermission(keys)` / `requireAllPermissions(keys)` middleware factories on top of `requireOrgContext`, throwing `Response('Forbidden', { status: 403 })`
+- Per-request memoization
+- `assignRole` / `revokeRole` guarded by `requirePermission('platform.roles.assign')`; only these dynamically import `supabaseAdmin`
+- Audit (fire-and-forget): `permission_denied`, `role_assigned`, `role_removed`, sampled `permission_checked`
+
+## 4. Shared Client — React Authorization Layer
+
+- `src/contexts/permissions-context.tsx` — TanStack Query fetch of effective permissions per (user, org); invalidated on org switch and on role mutation `onSuccess`
+- Hooks: `usePermission`, `usePermissions`, `useAnyPermission`, `useAllPermissions`
+- Components: `<Can>`, `<CanAny>`, `<CanAll>` with optional `fallback`
+- Uses generated `PermissionKey` union → zero magic strings
+
+## 5. Route & UI Protection
+
+- Permission gating in `beforeLoad` via `hasPermission`; failure → `/403` (terminal, no loops)
+- Hierarchy: public → authenticated → organization → permission → platform-admin
+- `AppShell` sidebar/menus filter through `usePermission`
+- `/403` shows attempted key (non-sensitive) + placeholder "Request access" CTA
+
+## 6. Documentation
+
+- `RBAC_STANDARD.md` — model, scopes, precedence, user-context-only rule, rank-no-inheritance, bootstrap-owner policy, immutable-id future note, security-definer search_path policy, **Permission Evolution section (Rec 6)**:
+  - New permissions added only through append-only migrations
+  - Existing permission keys never repurposed or redefined
+  - Deprecated permissions remain in the catalog with a `deprecated_at` marker until a documented retirement process removes them
+  - **Future work note (Rec 8)**: a later sprint will specify client behavior for deprecated permissions (expected default: treat as valid until retirement completes, with a warning surface); not implemented in Sprint 0.5
+- `PERMISSION_CATALOG.md` — rendered from the manifest, with reserved per-module namespaces
+- `ROLE_MODEL.md` — roles, rank semantics, default bindings
+- `MIGRATION_REGISTRY.md` updated with `008_rbac_foundation`
+
+## 7. Verification — `SPRINT_0_5_RBAC_FOUNDATION_REPORT.md`
+
+Check → Evidence → Result rows covering:
+
+- DB: tables, constraints, indexes, seed counts
+- Manifest → generated → seed parity
+- Every `private.fn_*` helper reports the expected `search_path` via `pg_proc.proconfig`
+- Authorization matrix per system role via `private.fn_user_permissions`
+- Server: `requirePermission` returns 403/200 as expected
+- React: `<Can>` renders/hides; `usePermission` updates after role change, including revocation immediately dropping access without re-login
+- Org isolation: admin in Org X → zero permissions in Org Y
+- Route protection: unauth → `/auth`, auth-no-perm → `/403`, auth-with-perm → 200
+- Audit rows for `permission_denied`, `role_assigned`, `role_removed`
+- Performance: one permission query per page
+- Grep: no `supabaseAdmin` / `client.server` in authorization modules
+- Bootstrap determinism: unset env → no `platform_owner`; set env → exactly one grant
+- **`supabase--linter` re-run (Rec 7)**: no new HIGH/CRITICAL findings introduced; any existing informational findings are either resolved or explicitly recorded as **Accepted by Design** with rationale, consistent with Sprint 0.4B
+- Regression: auth, org switch, session persistence, audit intact
+- Verification Summary table per repository standard
 
 ## Exit criteria
 
-- All three helper functions verified against the checklist and either **Accepted by Design** with documented rationale, or remediated via `008_security_definer_hardening.sql`.
-- Leaked Password Protection enabled (or a documented exception with justification).
-- Existing demo users continue to authenticate successfully after the setting change.
-- Existing linter findings are either resolved or explicitly documented as **Accepted by Design** with supporting evidence; no new HIGH/CRITICAL findings introduced.
-- Verification report authored with all checks PASS.
-- Sprint 0.5 (RBAC Foundation) explicitly authorized at the end of the report.
+- All checks PASS
+- Manifest is sole source of truth; generated file matches
+- Authorization helpers proven user-context-only
+- Every security-definer helper has intentional, documented `search_path`
+- Permission Evolution rules published in `RBAC_STANDARD.md` (with deferred client-behavior note)
+- Role removal revokes effective permissions without logout
+- Bootstrap-owner policy verified deterministic in prod path; dev seed clearly marked
+- Linter: no new HIGH/CRITICAL findings; informational findings resolved or Accepted by Design
+- Report published; repository state → `READY_FOR_SPRINT_0_6`
 
-## Out of scope
+## Constraints
 
-- Any RBAC schema, roles, or policy changes (belongs to Sprint 0.5).
-- MFA, CAPTCHA, session length changes, or other auth hardening beyond the leaked-password toggle.
-- Rewriting or relocating the helper functions unless the review finds a concrete gap.
-
-## Technical details
-
-- Verification queries (via `supabase--read_query`):
-  - `pg_proc` join `pg_namespace` for `prosecdef`, `proconfig` (search_path), `provolatile`, `proowner` on the three helpers.
-  - `has_function_privilege('authenticated', ..., 'EXECUTE')` and `has_schema_privilege('authenticated','private','USAGE')`.
-  - `pg_proc.proacl` to confirm no `PUBLIC` execute.
-- Supabase linter re-run after any change; results interpreted per the linter-independent exit criterion above.
-- No changes to `src/integrations/supabase/*`, RLS policies, or application code unless the auth error mapping needs a new message pattern.
+Append-only migrations; no changes to Wave 0 infra unless critical defect; no custom-role UI; no field/record-level ACLs beyond org isolation.
