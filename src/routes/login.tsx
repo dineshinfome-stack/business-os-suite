@@ -6,7 +6,7 @@ import { Form, FormField, SubmitButton } from "@/components/forms";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+
 import { notify } from "@/lib/notify";
 import { notifyAuthError, mapSupabaseAuthError } from "@/lib/auth-errors";
 import { logAuthEvent } from "@/lib/auth-audit";
