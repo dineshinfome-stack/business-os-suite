@@ -163,6 +163,48 @@ export type Database = {
         }
         Relationships: []
       }
+      permissions: {
+        Row: {
+          action: string
+          created_at: string
+          deprecated_at: string | null
+          description: string | null
+          id: string
+          key: string
+          module: string
+          name: string
+          resource: string
+          system_permission: boolean
+          updated_at: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          deprecated_at?: string | null
+          description?: string | null
+          id?: string
+          key: string
+          module: string
+          name: string
+          resource: string
+          system_permission?: boolean
+          updated_at?: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          deprecated_at?: string | null
+          description?: string | null
+          id?: string
+          key?: string
+          module?: string
+          name?: string
+          resource?: string
+          system_permission?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -199,14 +241,88 @@ export type Database = {
         }
         Relationships: []
       }
+      role_permissions: {
+        Row: {
+          created_at: string
+          permission_id: string
+          role_id: string
+        }
+        Insert: {
+          created_at?: string
+          permission_id: string
+          role_id: string
+        }
+        Update: {
+          created_at?: string
+          permission_id?: string
+          role_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_permissions_permission_id_fkey"
+            columns: ["permission_id"]
+            isOneToOne: false
+            referencedRelation: "permissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "role_permissions_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      roles: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          key: string
+          name: string
+          rank: number
+          scope: Database["public"]["Enums"]["role_scope"]
+          system_role: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          key: string
+          name: string
+          rank?: number
+          scope: Database["public"]["Enums"]["role_scope"]
+          system_role?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          key?: string
+          name?: string
+          rank?: number
+          scope?: Database["public"]["Enums"]["role_scope"]
+          system_role?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
           created_by: string | null
           deleted_at: string | null
           deleted_by: string | null
+          expires_at: string | null
+          granted_at: string
+          granted_by: string | null
           id: string
-          role: Database["public"]["Enums"]["app_role"]
+          organization_id: string | null
+          role: Database["public"]["Enums"]["app_role"] | null
+          role_id: string | null
           updated_at: string
           updated_by: string | null
           user_id: string
@@ -216,8 +332,13 @@ export type Database = {
           created_by?: string | null
           deleted_at?: string | null
           deleted_by?: string | null
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
           id?: string
-          role: Database["public"]["Enums"]["app_role"]
+          organization_id?: string | null
+          role?: Database["public"]["Enums"]["app_role"] | null
+          role_id?: string | null
           updated_at?: string
           updated_by?: string | null
           user_id: string
@@ -227,13 +348,33 @@ export type Database = {
           created_by?: string | null
           deleted_at?: string | null
           deleted_by?: string | null
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
           id?: string
-          role?: Database["public"]["Enums"]["app_role"]
+          organization_id?: string | null
+          role?: Database["public"]["Enums"]["app_role"] | null
+          role_id?: string | null
           updated_at?: string
           updated_by?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_roles_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -246,6 +387,7 @@ export type Database = {
       app_role: "admin" | "member"
       org_member_status: "active" | "invited" | "suspended"
       org_role: "owner" | "admin" | "member"
+      role_scope: "platform" | "organization"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -376,6 +518,7 @@ export const Constants = {
       app_role: ["admin", "member"],
       org_member_status: ["active", "invited", "suspended"],
       org_role: ["owner", "admin", "member"],
+      role_scope: ["platform", "organization"],
     },
   },
 } as const
