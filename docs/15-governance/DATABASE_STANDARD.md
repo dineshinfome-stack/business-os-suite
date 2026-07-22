@@ -96,7 +96,8 @@ Trigger functions that return `NEW` (e.g. `fn_set_updated_at`, `fn_handle_new_au
 - RLS enabled on every `public` table.
 - A GRANT block MUST immediately follow every `CREATE TABLE`.
 - Default grantees: `authenticated`, `service_role`. Grant `anon` only when a matching anon-scoped policy exists.
-- Roles are never stored on `profiles`. Use `user_roles` + `fn_has_role()` (SECURITY DEFINER, `SET search_path = public`).
+- Roles are never stored on `profiles`. Use `user_roles` + `private.fn_has_role()` (SECURITY DEFINER, `SET search_path = public`).
+- Role-check helpers live in the non-exposed `private` schema, are invoked from RLS policies only, and are not RPC-callable. `EXECUTE` on `private.fn_has_role` and `private.fn_handle_new_auth_user` is revoked from `anon` and `authenticated`; any future need for a client-visible role check must be introduced as a new, narrowly-scoped `public.*` function rather than by relaxing these grants.
 
 ---
 
