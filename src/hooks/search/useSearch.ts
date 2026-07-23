@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { queryKeys } from "@/lib/query-keys";
 import { useOrg } from "@/contexts/org-context";
 import { useAuth } from "@/contexts/auth-context";
-import { searchGlobal, type SearchResponse } from "@/lib/search/service.functions";
+import { searchGlobal } from "@/lib/search/service.functions";
 
 const DEBOUNCE_MS = 200;
 
@@ -23,7 +23,7 @@ export function useSearch(query: string) {
   }, [query]);
 
   const trimmed = debounced.trim();
-  return useQuery<SearchResponse>({
+  return useQuery({
     queryKey: queryKeys.search.results(orgId, userId, trimmed),
     queryFn: () => searchFn({ data: { query: trimmed } }),
     enabled: Boolean(orgId) && trimmed.length > 0,

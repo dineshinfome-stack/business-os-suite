@@ -21,7 +21,7 @@ export interface SearchResult {
   icon?: string;
   route: string;
   permission?: PermissionKey;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, string | number | boolean | null>;
   /** 0-100. Higher = better match. */
   score: number;
   created_at?: string;
