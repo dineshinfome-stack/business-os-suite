@@ -1,6 +1,6 @@
 ---
 document: EEMP Chapter 02 — Repository Governance
-version: 0.1.0
+version: 0.2.0
 last_reviewed: 2026-07-23
 next_review: 2027-01-23
 owner: Project Architecture
@@ -142,6 +142,18 @@ Every chapter carries a **Traceability Matrix** with columns:
 Chapter → Referenced Standards → Referenced ADRs → Referenced PRDs → Referenced Solution Designs → Applicable Modules → Applicable Sprints.
 Enables impact analysis when any upstream standard changes.
 
+### R-24 Asset Governance Parity
+Every template, checklist, and example under the EEMP follows the same documentation structure and governance model as EEMP chapters: frontmatter per `GOVERNANCE_FRONTMATTER_STANDARD`, evidence-based citations, and cross-reference discipline. Assets that cannot meet this bar are not added to the EEMP.
+
+### R-25 Example Non-Authority
+Every example under `examples/` carries an explicit non-authority banner: *"Illustrative only. Not an authoritative engineering standard. Cites the standard it demonstrates."* Examples must name every standard they illustrate and defer to it on any divergence.
+
+### R-26 Checklist Contract
+Every checklist under `checklists/` includes the six mandatory fields: Required Inputs · Exit Criteria · Evidence Required · Owner · Approval Role · Related Standards. Checklists missing any field are invalid.
+
+### R-27 Template Traceability
+Every reusable template under `templates/` includes a Traceability section naming the governing EEMP chapter and the referenced standards. Wrappers around authoritative templates (e.g. ADR) must link to the authoritative source and add no competing content.
+
 ## Dependencies
 
 - Frontmatter Standard (`docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`)
@@ -202,3 +214,4 @@ Confidence:         High
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | 0.1.0 | 2026-07-23 | Project Architecture | Initial draft — codifies 17 rules R-01…R-17. |
+| 0.2.0 | 2026-07-23 | Project Architecture | Phase 4 amendment — added R-24 Asset Governance Parity, R-25 Example Non-Authority, R-26 Checklist Contract, R-27 Template Traceability. |

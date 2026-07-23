@@ -17,8 +17,8 @@
 | 13 | AI Prompt Standards | `../13_AI_Prompt_Standards.md` | Draft | 0.1.0 |
 | 14 | AI Quality Gates | `../14_AI_Quality_Gates.md` | Draft | 0.1.0 |
 | 15 | Testing Strategy | `../15_Testing_Strategy.md` | Draft | 0.1.0 |
-| 16 | DevOps and Release | *(Phase 4)* | Pending | — |
-| 17 | Documentation Standards | *(Phase 4)* | Pending | — |
-| 18 | Project Governance | *(Phase 4)* | Pending | — |
-| 19 | Go-Live Checklist | *(Phase 4)* | Pending | — |
-| 20 | Appendix | `../20_Appendix.md` | Draft (skeleton) | 0.1.0 |
+| 16 | Operations and Runbooks | `../16_Operations_And_Runbooks.md` | Draft | 0.1.0 |
+| 17 | Documentation Standards | `../17_Documentation_Standards.md` | Draft | 0.1.0 |
+| 18 | Project Governance | `../18_Project_Governance.md` | Draft | 0.1.0 |
+| 19 | Go-Live and Release | `../19_Go_Live_And_Release.md` | Draft | 0.1.0 |
+| 20 | Appendix | `../20_Appendix.md` | Draft | 0.2.0 |

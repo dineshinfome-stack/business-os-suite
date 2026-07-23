@@ -49,11 +49,11 @@ On conflict, higher tier wins. The EEMP records the discrepancy in `20_Appendix.
 | 13 | [AI Prompt Standards](13_AI_Prompt_Standards.md) | Draft |
 | 14 | [AI Quality Gates](14_AI_Quality_Gates.md) | Draft |
 | 15 | [Testing Strategy](15_Testing_Strategy.md) | Draft |
-| 16 | DevOps and Release | Pending (Phase 4) |
-| 17 | Documentation Standards | Pending (Phase 4) |
-| 18 | Project Governance | Pending (Phase 4) |
-| 19 | Go-Live Checklist | Pending (Phase 4) |
-| 20 | [Appendix](20_Appendix.md) | Draft (skeleton) |
+| 16 | [Operations and Runbooks](16_Operations_And_Runbooks.md) | Draft |
+| 17 | [Documentation Standards](17_Documentation_Standards.md) | Draft |
+| 18 | [Project Governance](18_Project_Governance.md) | Draft |
+| 19 | [Go-Live and Release](19_Go_Live_And_Release.md) | Draft |
+| 20 | [Appendix](20_Appendix.md) | Draft |
 
 ## Repository Layout
 
