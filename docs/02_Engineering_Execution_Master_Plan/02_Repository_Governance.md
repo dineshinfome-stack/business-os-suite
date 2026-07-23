@@ -1,13 +1,14 @@
 ---
 document: EEMP Chapter 02 — Repository Governance
-version: 0.2.0
+version: 0.3.0
 last_reviewed: 2026-07-23
 next_review: 2027-01-23
 owner: Project Architecture
-approval_status: Draft
-lifecycle_state: Draft
+approval_status: Approved
+lifecycle_state: Published
 supersedes: none
 ---
+
 
 # Chapter 02 — Repository Governance
 
