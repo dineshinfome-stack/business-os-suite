@@ -1,204 +1,94 @@
-# Engineering Execution Master Plan (EEMP) v4 — Documentation-Only Authoring
+# Phase 2 — Platform Standards (EEMP) — v3
 
-Master engineering handbook for Business OS. **Documentation only** — no source, migrations, dependencies, CI, or infra edits.
+Incorporates all v2 refinements plus the four optional enhancements (Traceability Matrix, Normative vs Informative classification, Compliance Verification, Repository Health taxonomy). Approved defaults locked in: `owner: Project Architecture`, default approver `Architecture Board`, one phase per turn.
 
-> **The EEMP is the implementation playbook for the Business OS engineering organization. It governs execution by orchestrating existing standards, architecture, and delivery artifacts, but it is not itself the source of technical authority.**
+## Scope
 
----
+Author or update, as needed, the following chapters under `docs/02_Engineering_Execution_Master_Plan/`:
 
-## Folder Location — Resolved
+- `06_Backend_Standards.md`
+- `07_Database_Standards.md`
+- `08_Security_Standards.md`
+- `09_Module_Development_Framework.md`
+- `10_Module_Dependency_Matrix.md`
 
-The existing repository uses `docs/15-governance/`, `docs/11-adrs/`, `docs/30-sprint-prds/`, `docs/45-module-publications/`, `docs/50-audit-reports/`. There is **no** `docs/03-engineering/` today. Per the "no new top-level taxonomy just for the EEMP" rule, the EEMP lives at:
+Supporting work (only if needed after Repository Discovery):
 
-```
-docs/02_Engineering_Execution_Master_Plan/
-```
+- Amend `02_Repository_Governance.md` with:
+  - **R-18 Repository Discovery Enhancement** — mandatory search order, orchestration-only, no duplication.
+  - **R-19 Lowest Duplication Wins** — reference the highest-authority, most reusable, least-duplicated source.
+  - **R-20 No Derived Standards** — if an authoritative standard exists, do not derive, reinterpret, or expand it; describe only how engineers consume it.
+  - **R-21 Evidence Confidence Definitions** — High: single approved authoritative doc. Medium: two or more authoritative docs. Low: requires manual verification. Unknown: reference unavailable.
+  - **R-22 Section Classification** — every major section is explicitly marked **Normative** (mandatory engineering rule) or **Informative** (explanatory guidance).
+  - **R-23 Traceability** — every chapter carries a Traceability Matrix.
+- Ensure `20_Appendix.md` contains a **Detected Conflicts** section (create only if absent).
+- Update `README.md` chapter index and `indexes/chapter_index.md` only where status transitions actually change.
+- Author `docs/50-audit-reports/EEMP_PHASE_2_REPORT.md`.
 
-All paths below use this location. No further location debate.
+## Expected Deliverables
 
----
+Create or update **only** the files required to complete Phase 2. Actual counts of created vs modified files depend on repository state discovered during Repository Discovery. No writes outside `docs/02_Engineering_Execution_Master_Plan/` and `docs/50-audit-reports/`. No edits to `src/**`, migrations, or config.
 
-## Path Portability Rule
+## Execution Order (single turn)
 
-Governance paths referenced by the EEMP (`docs/15-governance/`, `docs/11-adrs/`, `docs/45-module-publications/`, `docs/30-sprint-prds/`, `docs/50-audit-reports/`) are used **only if they exist at author-time**. Otherwise: locate the equivalent document through Repository Discovery and cite its **actual** repository path. Never hard-code a path that has not been verified in the current turn.
+1. **Repository Discovery (read-only)** in this order:
+   Master Architecture → Governance Standards → Architecture Documents → Design Documents → ADRs → Module Publications → PRDs → Solution Designs → Sprint PRDs → Existing EEMP.
 
----
+   Possible authoritative sources include, but are not limited to, documents under `docs/01-master/`, `docs/02-architecture/`, `docs/03-design/`, `docs/05-adr/`, `docs/11-adrs/`, `docs/11-erd/`, `docs/15-governance/`, `docs/20-design/`, `docs/20-module-prds/`, `docs/30-sprint-prds/`, `docs/40-module-baselines/`, `docs/45-module-publications/`, `docs/46-solution-design/`, `docs/60-solution-design/`, and root indices (`MODULE_CATALOG.md`, `module-dependency-matrix.md`, `SPRINT_DEPENDENCY_MATRIX.md`, `ADR_IMPACT_MATRIX.md`, `ENGINE_USAGE_MATRIX.md`). Repository Discovery determines the final authoritative source. Never assume any file exists.
 
-## Governing Rules
+2. **Emit Discovery Statistics** into the audit report:
+   Documents Scanned · Documents Referenced · Duplicate Standards · Missing References · Conflicts · Skipped Documents · Outdated Documents.
 
-### 1. Document Authority
-Orchestration document. Existing standard → reference · summarize · link · never duplicate. Conflicts logged in `20_Appendix.md` under "Detected Conflicts"; owning standard resolves.
+3. **Amend `02_Repository_Governance.md`** with R-18 through R-23.
 
-### 2. Non-Goals
-Must not create architecture, invent standards, replace governance, introduce technology decisions, or modify any published PRD / Solution Design / module scope / sprint scope / acceptance criteria.
+4. **Author chapters 06–10** using the standard chapter template (Purpose · Scope · Audience · Responsibilities · Inputs · Outputs · Dependencies · Related Documents · Revision History · Cross References · Open Questions · Approval Status · Evidence · Discovery Inventory · **Traceability Matrix**). Each chapter:
+   - References authoritative sources; does not restate them.
+   - Marks each major section **Normative** or **Informative** (R-22).
+   - Carries Evidence with Confidence per R-21.
+   - Obeys **Lowest Duplication Wins** (R-19) and **No Derived Standards** (R-20).
+   - Includes a **Traceability Matrix** with columns:
+     Chapter → Referenced Standards → Referenced ADRs → Referenced PRDs → Referenced Solution Designs → Applicable Modules → Applicable Sprints.
 
-### 3. Documentation Hierarchy
-```
-Master Architecture
-  → Governance Standards
-  → ADRs
-  → EEMP
-  → Module Publications
-  → Solution Designs (WEB/MOB/API)
-  → Sprint PRDs
-  → Developer Documentation
-```
-Higher tier wins on conflict; EEMP records the discrepancy.
+   `10_Module_Dependency_Matrix.md` diagrams may use Mermaid `flowchart` or `gitGraph`, whichever is more readable.
 
-### 4. Read Before Write — Repository Discovery + Inventory
-Before authoring each chapter, produce and store a **Discovery Inventory** in that chapter's Evidence section listing:
+5. **`20_Appendix.md`** — ensure a **Detected Conflicts** section exists; populate from discovery (empty if none). Governance conflicts are recorded, never resolved inside the EEMP.
 
-- Referenced files · Referenced standards · Referenced ADRs · Referenced PRDs · Referenced Solution Designs · Referenced Module Publications · Referenced Sprint Plans
+6. **Update `README.md` and `indexes/chapter_index.md`** only if status transitions actually change.
 
-Discovery follows this fixed **Repository Discovery Order**:
+7. **Author `docs/50-audit-reports/EEMP_PHASE_2_REPORT.md`** in this fixed section order:
+   1. Discovery Summary (incl. Discovery Statistics)
+   2. Files (Created / Modified — actual, not predicted)
+   3. Cross References (chapter → authoritative source)
+   4. Repository Health Findings — each classified by **severity** (Critical / Major / Minor / Informational) **and category** (Duplicate — same content · Overlapping — similar topic, different scope · Conflicting — contradictory guidance)
+   5. Duplicate Standards
+   6. Missing References
+   7. Broken Links
+   8. Conflicts (mirrors `20_Appendix.md → Detected Conflicts`)
+   9. Metrics (Success Metrics snapshot)
+   10. **Compliance Verification** — checklist:
+       - Repository Protection respected
+       - No duplicate standards introduced
+       - No architecture redefined
+       - No governance superseded
+       - Documentation hierarchy respected
+       - Evidence present
+       - Confidence assigned
+       - Cross-references validated
+       - Traceability Matrix present in every new/amended chapter
+       - Normative vs Informative classification applied
+   11. Checklist (R-17 completion)
+   12. Questions (Outstanding)
+   13. Approval (request)
 
-1. Master Architecture 2. Governance 3. ADRs 4. Module Publications 5. PRDs 6. Solution Designs 7. Sprint PRDs 8. Existing EEMP
+8. **Stop.** Do not begin Phase 3 automatically. Do not anticipate future work.
 
-**Only after the inventory is complete may authoring begin.** The inventory is copied into the phase audit report.
+## Non-Goals
 
-### 5. No Guessing — Evidence-Based Writing with Confidence
-Never infer module dependencies, database schema, workflow, API behavior, or security rules from filenames. Only documented evidence. Every major section carries an **Evidence** block:
+- No new architecture, no new standards, no changes to PRD/SD/module/sprint scope.
+- No renames or moves.
+- No resolution of governance conflicts inside the EEMP — only recording them.
+- No modification of documents outside the EEMP folder (Repository Health issues are reported, not fixed).
 
-```
-Evidence
-  Source:             <verified file path>
-  Authority:          <hierarchy tier>
-  Reference:          <section / heading>
-  Applicable Modules: <MOD-IDs>
-  Confidence:         High | Medium | Low
-```
+## Closing Directive
 
-- **High** — direct citation of an approved standard/PRD/SD.
-- **Medium** — synthesized from ≥2 approved sources of the same tier.
-- **Low** — best-effort; requires reviewer sign-off. Missing evidence → `TBD` or `Reference not found — verify with owner`. Never fabricate.
-
-### 6. Repository Protection — Forbidden Operations
-Never rename or move folders, files, modules, sprints, ADRs, standards, publications, APIs, schemas, or documents anywhere in the repo without explicit instruction. Allowed writes: **create new files** under `docs/02_Engineering_Execution_Master_Plan/` and append reports under `docs/50-audit-reports/EEMP_*` (or the discovered equivalent audit folder).
-
-Forbidden paths: `src/**`, `supabase/migrations/**`, `package.json`, `bun.lockb`, `vite.config.ts`, `.github/**`, `.env*`, every existing doc outside the EEMP folder (read-only reference).
-
-### 7. Documentation Quality Gate (per document)
-Required sections: Purpose · Scope · Audience · Responsibilities · Inputs · Outputs · Dependencies · Related Documents · Revision History · Cross References · Open Questions · Approval Status · **Evidence (w/ Confidence)**.
-
-**Cross-Reference block** (required in every chapter): Related Documents · Referenced Standards · Referenced ADRs · Referenced Modules · Referenced Sprint PRDs · Referenced Solution Designs.
-
-Frontmatter: `version`, `last_reviewed`, `next_review`, `owner`, `approval_status`, `lifecycle_state`, `supersedes`.
-
-### 8. Approval Workflow
-**Approval Levels:** Draft · Under Review · Approved · Deprecated · Archived.
-**Approval Roles:** Technical Lead · Architecture Board · Product Owner · Security Review · QA Lead.
-Chapter frontmatter records current level and the role that last approved.
-
-### 9. EEMP Lifecycle
-Every chapter and the handbook overall progress through: **Draft → Review → Approved → Published → Superseded → Archived.** Recorded in `lifecycle_state`.
-
-### 10. Mermaid Standards
-Allowed: `flowchart`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `stateDiagram`, `gitGraph`. No mixing within one document. No emojis in syntax.
-
-### 11. Versioning
-Handbook SemVer (`v<major>.<minor>.<patch>`) in `README.md`. Each chapter carries its own version; bumps update `last_reviewed` and set `next_review` (default +6 months).
-
-### 12. Change Management (future revisions)
-- Do not replace a chapter wholesale.
-- Preserve history.
-- Update incrementally; record every change in Revision History; bump chapter and handbook versions with rationale.
-- **Structural rewrites only when explicitly instructed** (with an accompanying ADR link).
-
-### 13. Large-Document Handling
-If a chapter exceeds a practical read limit, split into logical sections in a sibling folder (`09_Module_Development_Framework/part_1.md`, `part_2.md`, …) with cross-links. Never omit required content; never summarize mandatory standards.
-
-### 14. Repository Health
-- Never create duplicate documents, templates, or checklists.
-- Reuse existing assets first (via Discovery).
-- Consolidate when duplicates surface; log consolidations in the Engineering Review.
-
-### 15. Execution Mode
-One phase per turn. Stop → generate audit report → summarize files created/modified, discovery inventory, cross-references, outstanding questions → **wait for approval**.
-
-### 16. Commit Rules
-- One commit per phase.
-- Message: `docs(eemp): complete phase <n> — <phase title>`.
-- No squashing, no unrelated file changes, no repo-wide formatting edits, no whitespace-only changes outside the EEMP folder.
-- Never amend history · never force push · never rewrite commits · never rebase protected branches.
-
-### 17. Phase Completion Criteria
-Every ✓: required files exist · frontmatter validates · discovery inventory recorded · internal links resolve · Mermaid parses · templates & checklists referenced · no duplicated standards · cross-reference matrix updated · Evidence + Confidence populated · audit report generated.
-
-### 18. Definition of Complete (whole EEMP)
-- ✓ 20 chapters exist
-- ✓ All indexes generated
-- ✓ All templates generated
-- ✓ All checklists generated
-- ✓ Examples generated (all five categories, §Structure)
-- ✓ Internal links valid
-- ✓ Cross-references valid
-- ✓ No duplicated governance
-- ✓ Phase audit reports complete
-- ✓ Engineering Review complete
-- ✓ Final Report complete
-- ✓ Success Metrics reported
-
-### 19. Success Metrics (Final Report)
-Coverage % · Broken Links · Duplicate Standards · Missing References · Documentation Health Score · Cross-Reference Density · Readiness Score · **Documentation Coverage** (chapters approved ÷ 20) · **Template Utilization** (templates referenced ≥ once ÷ templates authored).
-
----
-
-## Structure
-
-```
-docs/02_Engineering_Execution_Master_Plan/
-  README.md
-  01_Vision.md … 20_Appendix.md
-  indexes/
-    chapter_index.md · template_index.md · checklist_index.md ·
-    diagram_index.md · module_index.md · glossary.md · acronym_index.md
-  templates/          # PR, ADR, sprint report, module publication, prompt library
-  checklists/         # DoR, DoD, review, security, perf, a11y, release, rollback, go-live
-  examples/
-    module/           # worked EEMP application to MOD-001 Workspace
-    workflow/         # end-to-end sprint walkthrough
-    prompt/           # exemplar AI prompts
-    review/           # exemplar code/security/perf reviews
-    testing/          # exemplar test plans and results
-```
-
----
-
-## Phased Authoring (5 phases · one per turn · stop-and-approve)
-
-Each phase writes `docs/50-audit-reports/EEMP_PHASE_<n>_REPORT.md` (or discovered equivalent) capturing: files created, Discovery Inventory, cross-refs added, unresolved evidence, Success Metrics snapshot.
-
-### Phase 1 — Foundations (Ch. 1–5 + README + scaffolding)
-README (publishes indexes, hierarchy, execution mode) · `01_Vision` · `02_Repository_Governance` · `03_Development_Workflow` · `04_Coding_Standards` · `05_UI_UX_Standards`. Scaffold `indexes/`, `templates/`, `checklists/`, `examples/{module,workflow,prompt,review,testing}/`.
-
-### Phase 2 — Platform Standards (Ch. 6–10)
-`06_Backend_Standards` · `07_Database_Standards` · `08_Security_Standards` · `09_Module_Development_Framework` · `10_Module_Dependency_Matrix` (Mermaid `flowchart`).
-
-### Phase 3 — Delivery & AI (Ch. 11–15 + prompt templates)
-`11_Sprint_Execution` · `12_AI_Development_Playbook` · `13_AI_Prompt_Standards` (`templates/prompts/`) · `14_AI_Quality_Gates` · `15_Testing_Strategy`.
-
-### Phase 4 — Ops, Docs, Governance, Go-Live (Ch. 16–20 + populated assets)
-`16_DevOps_and_Release` · `17_Documentation_Standards` · `18_Project_Governance` · `19_Go_Live_Checklist` · `20_Appendix` (glossary + Detected Conflicts + revision history). Populate `templates/`, `checklists/`, and all five `examples/` subfolders.
-
-### Phase 5 — Cross-Link, Indexes, Engineering Review, Commit
-Populate all `indexes/*` · bidirectional cross-links · consistency sweep · `Engineering_Review_Summary.md` (missing refs, broken links, duplicate governance, conflicts, improvements, risk level, readiness score) · `EEMP_FINAL_REPORT.md` (file inventory, 20-chapter coverage matrix, Success Metrics).
-
----
-
-## Deliverable Summary
-
-| Phase | Files | Focus |
-|---|---|---|
-| 1 | README + Ch. 1–5 + scaffolding | Foundations, governing rules, principles |
-| 2 | Ch. 6–10 | Backend, DB, Security, Module framework, Dependency matrix |
-| 3 | Ch. 11–15 + prompt templates | Sprints, AI playbook, prompts, quality gates, testing |
-| 4 | Ch. 16–20 + templates + checklists + examples ×5 | DevOps, docs, governance, go-live, reusable assets |
-| 5 | Indexes + cross-links + Engineering Review + Final Report | Consistency, coverage, metrics, docs-only commit |
-
-## Confirm before Phase 1
-
-1. **Owner** — default `owner` value in chapter frontmatter (proposed: `Project Architecture`)?
-2. **Default Approval Role** — which role signs Draft → Approved for foundational chapters (proposed: `Architecture Board`)?
-3. **Cadence** — one phase per turn with stop-and-approve gate (recommended), confirmed?
-
-Location and all other rules are resolved. On approval, I begin Phase 1.
+If all Phase 2 completion criteria are satisfied, execute Phase 2. At completion, stop, generate the audit report, request approval, and wait for explicit authorization before beginning Phase 3.

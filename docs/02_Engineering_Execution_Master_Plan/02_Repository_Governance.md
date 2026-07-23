@@ -113,6 +113,35 @@ One phase per turn. Stop → audit report → wait for approval.
 ### R-17 Phase Completion Criteria
 All checks green: required files exist · frontmatter validates · Discovery Inventory recorded · internal links resolve · Mermaid parses · templates & checklists referenced · no duplicated standards · cross-reference matrix updated · Evidence + Confidence populated · audit report generated.
 
+### R-18 Repository Discovery Enhancement
+Before authoring any chapter, perform Repository Discovery in this exact order:
+Master Architecture → Governance Standards → Architecture Documents → Design Documents → ADRs → Module Publications → PRDs → Solution Designs → Sprint PRDs → Existing EEMP.
+If an authoritative document already exists for the topic: reference it, summarize only what execution requires, link back, and record the citation in both the Evidence block and the Discovery Inventory. Never duplicate, rewrite, or compete with it. Conflicts are logged in `20_Appendix.md → Detected Conflicts`, never resolved inside the EEMP.
+
+### R-19 Lowest Duplication Wins
+When multiple documents define the same subject, reference the **highest-authority, most reusable, least-duplicated** source. Do not aggregate rules across duplicates.
+
+### R-20 No Derived Standards
+If an authoritative standard exists, do not derive, reinterpret, or expand it. Reference it and describe only how engineers consume it during implementation.
+
+### R-21 Evidence Confidence Definitions
+Confidence values in the Evidence block are defined objectively:
+- **High** — single approved authoritative document.
+- **Medium** — two or more authoritative documents at the same tier agree.
+- **Low** — requires manual verification by the chapter owner.
+- **Unknown** — reference unavailable at author time; record as `Reference not found — verify with owner`.
+
+### R-22 Section Classification (Normative vs Informative)
+Every major section in every chapter carries an explicit classification:
+- **Normative** — mandatory engineering rule; violations blocked at review.
+- **Informative** — explanatory guidance; not enforceable as policy.
+Prevents explanatory text from being interpreted as governance.
+
+### R-23 Traceability
+Every chapter carries a **Traceability Matrix** with columns:
+Chapter → Referenced Standards → Referenced ADRs → Referenced PRDs → Referenced Solution Designs → Applicable Modules → Applicable Sprints.
+Enables impact analysis when any upstream standard changes.
+
 ## Dependencies
 
 - Frontmatter Standard (`docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`)
