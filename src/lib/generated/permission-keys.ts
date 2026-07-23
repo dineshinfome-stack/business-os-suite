@@ -22,6 +22,8 @@ export const PERMISSIONS = {
   NOTIFICATIONS_INBOX_READ: "notifications.inbox.read",
   NOTIFICATIONS_INBOX_CREATE: "notifications.inbox.create",
   NOTIFICATIONS_INBOX_MANAGE: "notifications.inbox.manage",
+  SEARCH_GLOBAL_USE: "search.global.use",
+  SEARCH_HISTORY_MANAGE: "search.history.manage",
 } as const;
 
 export type PermissionKey = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
@@ -44,6 +46,8 @@ export const ALL_PERMISSION_KEYS: readonly PermissionKey[] = [
   "notifications.inbox.read",
   "notifications.inbox.create",
   "notifications.inbox.manage",
+  "search.global.use",
+  "search.history.manage",
 ] as const;
 
 export const ROLE_KEYS = {
