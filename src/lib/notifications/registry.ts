@@ -60,7 +60,7 @@ export const notificationRegistry: readonly NotificationTypeDef[] = defs;
 
 export type NotificationType = (typeof defs)[number]["type"];
 
-const byType = new Map<string, NotificationTypeDef>(defs.map((d) => [d.type, d]));
+const byType = new Map<string, NotificationTypeDef>(defs.map((d) => [d.type as string, d as NotificationTypeDef]));
 
 export function getNotificationType(type: string): NotificationTypeDef | undefined {
   return byType.get(type);
