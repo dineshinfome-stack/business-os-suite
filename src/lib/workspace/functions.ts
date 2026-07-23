@@ -132,11 +132,10 @@ export const upsertOrganizationProfile = createServerFn({ method: "POST" })
       .upsert({ ...payload, created_by: context.userId }, { onConflict: "organization_id" });
     if (error) throw error;
     await context.supabase.from("audit_logs").insert({
-      organization_id: orgId,
-      actor_user_id: context.userId,
       action: "organization_profile_updated",
       entity_type: "organization_profile",
       entity_id: orgId,
+      actor_id: context.userId,
     });
     return { ok: true as const };
   });
@@ -195,11 +194,10 @@ export const upsertOrganizationBranding = createServerFn({ method: "POST" })
       );
     if (error) throw error;
     await context.supabase.from("audit_logs").insert({
-      organization_id: orgId,
-      actor_user_id: context.userId,
       action: "organization_branding_updated",
       entity_type: "organization_branding",
       entity_id: orgId,
+      actor_id: context.userId,
     });
     return { ok: true as const };
   });
@@ -266,11 +264,10 @@ export const upsertMyProfile = createServerFn({ method: "POST" })
       );
     if (error) throw error;
     await context.supabase.from("audit_logs").insert({
-      organization_id: orgId,
-      actor_user_id: context.userId,
       action: "user_profile_updated",
       entity_type: "user_profile",
       entity_id: context.userId,
+      actor_id: context.userId,
     });
     return { ok: true as const };
   });
@@ -377,12 +374,11 @@ export const createInvitation = createServerFn({ method: "POST" })
       .single();
     if (error) throw error;
     await context.supabase.from("audit_logs").insert({
-      organization_id: orgId,
-      actor_user_id: context.userId,
       action: "member_invited",
       entity_type: "organization_invitation",
       entity_id: row.id,
-      metadata: { email: data.email, role: data.role },
+      actor_id: context.userId,
+      new_values: { email: data.email, role: data.role },
     });
     // Token is returned ONCE to the inviter; it is never persisted in plaintext.
     return { id: row.id, token };
@@ -408,11 +404,10 @@ export const revokeInvitation = createServerFn({ method: "POST" })
     if (error) throw error;
     if (!row) throw new Error("Invitation not found or not pending");
     await context.supabase.from("audit_logs").insert({
-      organization_id: row.organization_id,
-      actor_user_id: context.userId,
       action: "invitation_revoked",
       entity_type: "organization_invitation",
       entity_id: data.id,
+      actor_id: context.userId,
     });
     return { ok: true as const };
   });
@@ -474,12 +469,11 @@ export const acceptInvitation = createServerFn({ method: "POST" })
     if (uErr) throw uErr;
 
     await context.supabase.from("audit_logs").insert({
-      organization_id: invite.organization_id,
-      actor_user_id: context.userId,
       action: "member_joined",
       entity_type: "organization_member",
       entity_id: context.userId,
-      metadata: { invitation_id: invite.id },
+      actor_id: context.userId,
+      new_values: { invitation_id: invite.id },
     });
 
     return { organizationId: invite.organization_id };
