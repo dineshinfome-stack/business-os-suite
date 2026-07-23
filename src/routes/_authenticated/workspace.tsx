@@ -53,7 +53,9 @@ export const Route = createFileRoute("/_authenticated/workspace")({
 });
 
 function WorkspacePage() {
-  const { organizationId, name } = useOrg();
+  const { current } = useOrg();
+  const organizationId = current?.organizationId ?? null;
+  const name = current?.name ?? null;
 
   return (
     <PageContainer
@@ -112,7 +114,7 @@ function WorkspacePage() {
 
 // ─────────────────────────────────────────────────────────────────────────
 function OverviewTab() {
-  const { organizationId } = useOrg();
+  const organizationId = useOrg().current?.organizationId ?? null;
   const members = useQuery({
     queryKey: workspaceKeys.members(organizationId),
     queryFn: () => listOrgMembers({ data: {} }),
@@ -164,7 +166,7 @@ function OverviewTab() {
 
 // ─────────────────────────────────────────────────────────────────────────
 function OrgProfileTab() {
-  const { organizationId } = useOrg();
+  const organizationId = useOrg().current?.organizationId ?? null;
   const qc = useQueryClient();
   const upsert = useServerFn(upsertOrganizationProfile);
   const { data, isLoading } = useQuery({
@@ -243,7 +245,7 @@ function OrgProfileTab() {
 
 // ─────────────────────────────────────────────────────────────────────────
 function BrandingTab() {
-  const { organizationId } = useOrg();
+  const organizationId = useOrg().current?.organizationId ?? null;
   const qc = useQueryClient();
   const upsert = useServerFn(upsertOrganizationBranding);
   const { data, isLoading } = useQuery({
@@ -316,7 +318,7 @@ function BrandingTab() {
 
 // ─────────────────────────────────────────────────────────────────────────
 function MyProfileTab() {
-  const { organizationId } = useOrg();
+  const organizationId = useOrg().current?.organizationId ?? null;
   const qc = useQueryClient();
   const upsert = useServerFn(upsertMyProfile);
   const { data, isLoading } = useQuery({
@@ -372,7 +374,7 @@ function MyProfileTab() {
 
 // ─────────────────────────────────────────────────────────────────────────
 function TeamTab() {
-  const { organizationId } = useOrg();
+  const organizationId = useOrg().current?.organizationId ?? null;
   const { data, isLoading } = useQuery({
     queryKey: workspaceKeys.members(organizationId),
     queryFn: () => listOrgMembers({ data: {} }),
@@ -422,7 +424,7 @@ function TeamTab() {
 
 // ─────────────────────────────────────────────────────────────────────────
 function InvitationsTab() {
-  const { organizationId } = useOrg();
+  const organizationId = useOrg().current?.organizationId ?? null;
   const qc = useQueryClient();
   const create = useServerFn(createInvitation);
   const revoke = useServerFn(revokeInvitation);
