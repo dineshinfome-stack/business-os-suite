@@ -17,12 +17,12 @@ lifecycle_state: Draft
 ## Execution Metadata
 
 ```yaml
-execution_status: Draft
-completion_date:
-implemented_by:
-reviewed_by:
-quality_gate:
-archive_date:
+execution_status: Completed
+completion_date: 2026-07-23
+implemented_by: Lovable Agent (Program Delivery)
+reviewed_by: Architecture Board (Approved with Conditions)
+quality_gate: Pass (typecheck clean; 28/28 tests; linter WARN only R-074 Accepted; static review clean; RLS policies present)
+archive_date: 2026-07-23
 ```
 
 ## Evidence
@@ -228,17 +228,24 @@ Restated from Sprint PRD §1.3:
 
 ## 12. Sprint Outcome
 
-> **Populated at archival only. Do not edit during the sprint.**
-
 ```yaml
-status:
-implemented_tasks:
+status: Complete (Approved with Conditions)
+implemented_tasks: 17 Complete; 3 Implementation-complete/runtime-deferred (SIP-004 seed exercise, SIP-008 RLS deny smoke, SIP-022 RLS integration); 3 Carried Forward (SIP-010, SIP-011, SIP-021)
 deferred:
-blocked:
+  - SIP-010 ENG-005 tenant-scoped config namespace seed  -> SPR-MOD-001-004
+  - SIP-011 ENG-005 tenant-scoped feature-flag namespace seed -> SPR-MOD-001-004
+  - SIP-021 Observability signals for tenant lifecycle  -> Platform Observability sprint
+blocked: []
 known_issues:
+  - Live end-to-end activation not yet exercised against connected DB; branches/financial_years counts = 0. Existing tenants were created via Migration A back-fill (synthetic). Recorded as CF-2 in Acceptance Review.
+  - Authenticated UI screenshots not produced in current external-Supabase sandbox (LOVABLE_BROWSER_AUTH_STATUS=external_unmanaged). Recorded as gap folded into CF-2.
 lessons_learned:
+  - DB-first idempotency (SELECT ... FOR UPDATE in RPCs) removed the need for a client-side lock and simplified server-function handlers.
+  - Migration A back-fill produced tenants without invoking fn_activate_tenant; keep back-fills separated from RPC-driven bootstrap to preserve traceability.
+  - Symbol-based traceability (file + function) survives edits better than line numbers.
 references:
-  sprint_completion_report:
+  sprint_completion_report: docs/50-audit-reports/SPR_MOD_001_001_TENANCY_FOUNDATION_REPORT.md
+  acceptance_review: docs/50-audit-reports/SPR_MOD_001_001_ACCEPTANCE_REVIEW.md
   pull_requests: []
-  release_tag:
+  release_tag: null
 ```
