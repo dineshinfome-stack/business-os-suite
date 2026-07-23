@@ -109,6 +109,146 @@ export type Database = {
           },
         ]
       }
+      nav_command_history: {
+        Row: {
+          id: string
+          invoked_at: string
+          nav_id: string
+          organization_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          invoked_at?: string
+          nav_id: string
+          organization_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          invoked_at?: string
+          nav_id?: string
+          organization_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_command_history_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nav_favorites: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          nav_id: string
+          organization_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          nav_id: string
+          organization_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          nav_id?: string
+          organization_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_favorites_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nav_recent_pages: {
+        Row: {
+          id: string
+          organization_id: string
+          route: string
+          title: string | null
+          user_id: string
+          visited_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          route: string
+          title?: string | null
+          user_id: string
+          visited_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          route?: string
+          title?: string | null
+          user_id?: string
+          visited_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_recent_pages_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nav_user_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          organization_id: string
+          preferences: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          organization_id: string
+          preferences?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          organization_id?: string
+          preferences?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_user_preferences_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_members: {
         Row: {
           created_at: string
