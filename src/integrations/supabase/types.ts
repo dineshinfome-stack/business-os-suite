@@ -65,6 +65,54 @@ export type Database = {
         }
         Relationships: []
       }
+      branches: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          is_default: boolean
+          name: string
+          organization_id: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          name: string
+          organization_id: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          name?: string
+          organization_id?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "branches_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "branches_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       feature_flags: {
         Row: {
           created_at: string
@@ -105,6 +153,57 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      financial_years: {
+        Row: {
+          code: string
+          created_at: string
+          end_date: string
+          id: string
+          is_placeholder: boolean
+          organization_id: string
+          start_date: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          end_date: string
+          id?: string
+          is_placeholder?: boolean
+          organization_id: string
+          start_date: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          end_date?: string
+          id?: string
+          is_placeholder?: boolean
+          organization_id?: string
+          start_date?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financial_years_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "financial_years_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -640,6 +739,7 @@ export type Database = {
           metadata: Json
           name: string
           slug: string
+          tenant_id: string
           updated_at: string
           updated_by: string | null
         }
@@ -652,6 +752,7 @@ export type Database = {
           metadata?: Json
           name: string
           slug: string
+          tenant_id: string
           updated_at?: string
           updated_by?: string | null
         }
@@ -664,10 +765,19 @@ export type Database = {
           metadata?: Json
           name?: string
           slug?: string
+          tenant_id?: string
           updated_at?: string
           updated_by?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "organizations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       permissions: {
         Row: {
@@ -985,6 +1095,57 @@ export type Database = {
           },
         ]
       }
+      tenants: {
+        Row: {
+          activated_at: string | null
+          archived_at: string | null
+          created_at: string
+          created_by: string | null
+          default_locale: string
+          display_name: string
+          id: string
+          lifecycle_state: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          plan_tier: string
+          region: string
+          slug: string
+          suspended_at: string | null
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          activated_at?: string | null
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_locale?: string
+          display_name: string
+          id?: string
+          lifecycle_state?: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          plan_tier?: string
+          region?: string
+          slug: string
+          suspended_at?: string | null
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          activated_at?: string | null
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_locale?: string
+          display_name?: string
+          id?: string
+          lifecycle_state?: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          plan_tier?: string
+          region?: string
+          slug?: string
+          suspended_at?: string | null
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           avatar_url: string | null
@@ -1128,6 +1289,7 @@ export type Database = {
         | "enum"
         | "json"
       setting_scope: "platform" | "organization"
+      tenant_lifecycle_state: "created" | "active" | "suspended" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1269,6 +1431,7 @@ export const Constants = {
         "json",
       ],
       setting_scope: ["platform", "organization"],
+      tenant_lifecycle_state: ["created", "active", "suspended", "archived"],
     },
   },
 } as const
