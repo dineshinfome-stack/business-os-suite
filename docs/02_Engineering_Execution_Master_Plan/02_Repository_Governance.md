@@ -223,3 +223,5 @@ Confidence:         High
 |---------|------|--------|--------|
 | 0.1.0 | 2026-07-23 | Project Architecture | Initial draft — codifies 17 rules R-01…R-17. |
 | 0.2.0 | 2026-07-23 | Project Architecture | Phase 4 amendment — added R-24 Asset Governance Parity, R-25 Example Non-Authority, R-26 Checklist Contract, R-27 Template Traceability. |
+| 0.3.0 | 2026-07-23 | Project Architecture | Phase 5 amendment — added R-28 Publication Readiness, R-29 Documentation Certification. Promoted to Approved / Published. |
+
