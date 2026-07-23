@@ -25,7 +25,7 @@ export function useRecentSearches() {
   const query = useQuery<RecentSearchRow[]>({
     queryKey: queryKeys.search.recent(orgId, userId),
     queryFn: () => listFn({ data: { limit: 10 } }),
-    enabled: Boolean(orgId),
+    enabled: Boolean(orgId && userId),
     staleTime: 30_000,
   });
 
