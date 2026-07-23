@@ -16,4 +16,10 @@ export const queryKeys = {
   featureFlags: {
     all: (orgId: string | null) => ["feature-flags", orgId] as const,
   },
+  navigation: {
+    favorites: (orgId: string | null) => ["navigation", orgId, "favorites"] as const,
+    recentPages: (orgId: string | null) => ["navigation", orgId, "recent-pages"] as const,
+    preferences: (orgId: string | null) => ["navigation", orgId, "preferences"] as const,
+    commandHistory: (orgId: string | null) => ["navigation", orgId, "command-history"] as const,
+  },
 } as const;
