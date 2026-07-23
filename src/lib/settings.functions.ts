@@ -32,7 +32,7 @@ export type SettingDefinition = {
   category: string;
   scope: SettingScope;
   dataType: SettingDataType;
-  defaultValue: unknown;
+  defaultValue: Json | null;
   validationSchema: ValidationSchema;
   description: string | null;
   isSystem: boolean;
@@ -42,7 +42,7 @@ export type SettingDefinition = {
 
 export type ResolvedSetting = {
   key: string;
-  value: unknown;
+  value: Json;
   source: "default" | "platform" | "organization";
   isSensitive: boolean;
   isSystem: boolean;
@@ -225,7 +225,7 @@ export const setSettingFn = createServerFn({ method: "POST" })
     const payload = {
       definition_id: def.id,
       organization_id,
-      value: parsed as never,
+      value: parsed as Json,
       updated_by: context.userId,
     };
 
@@ -249,7 +249,7 @@ export const setSettingFn = createServerFn({ method: "POST" })
       actor_id: context.userId,
       created_by: context.userId,
       updated_by: context.userId,
-      new_values: { key: def.key, scope: data.scope, value: auditValue },
+      new_values: { key: def.key, scope: data.scope, value: (auditValue as Json) ?? null } as Json,
     });
 
     return { ok: true as const };
@@ -355,6 +355,6 @@ export const revealSensitiveSettingFn = createServerFn({ method: "POST" })
 
     return {
       key: data.key,
-      value: (valRow?.value ?? (defRow as { default_value: unknown }).default_value) ?? null,
+      value: (valRow?.value ?? (defRow as { default_value: Json | null }).default_value) ?? null,
     };
   });
