@@ -364,6 +364,121 @@ export type Database = {
           },
         ]
       }
+      organization_branding: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          favicon_url: string | null
+          id: string
+          logo_url: string | null
+          metadata: Json
+          organization_id: string
+          primary_color: string | null
+          secondary_color: string | null
+          theme: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          favicon_url?: string | null
+          id?: string
+          logo_url?: string | null
+          metadata?: Json
+          organization_id: string
+          primary_color?: string | null
+          secondary_color?: string | null
+          theme?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          favicon_url?: string | null
+          id?: string
+          logo_url?: string | null
+          metadata?: Json
+          organization_id?: string
+          primary_color?: string | null
+          secondary_color?: string | null
+          theme?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_branding_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_invitations: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          metadata: Json
+          organization_id: string
+          revoked_at: string | null
+          revoked_by: string | null
+          role: Database["public"]["Enums"]["org_role"]
+          status: string
+          token_hash: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          invited_by: string
+          metadata?: Json
+          organization_id: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          role?: Database["public"]["Enums"]["org_role"]
+          status?: string
+          token_hash: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          metadata?: Json
+          organization_id?: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          role?: Database["public"]["Enums"]["org_role"]
+          status?: string
+          token_hash?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_invitations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_members: {
         Row: {
           created_at: string
@@ -418,6 +533,98 @@ export type Database = {
             foreignKeyName: "organization_members_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_profiles: {
+        Row: {
+          address_line1: string | null
+          address_line2: string | null
+          business_type: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          display_name: string | null
+          email: string | null
+          id: string
+          industry: string | null
+          language: string
+          legal_name: string | null
+          metadata: Json
+          organization_id: string
+          phone: string | null
+          postal_code: string | null
+          registration_number: string | null
+          state: string | null
+          tax_id: string | null
+          timezone: string
+          updated_at: string
+          updated_by: string | null
+          website: string | null
+        }
+        Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          business_type?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          industry?: string | null
+          language?: string
+          legal_name?: string | null
+          metadata?: Json
+          organization_id: string
+          phone?: string | null
+          postal_code?: string | null
+          registration_number?: string | null
+          state?: string | null
+          tax_id?: string | null
+          timezone?: string
+          updated_at?: string
+          updated_by?: string | null
+          website?: string | null
+        }
+        Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          business_type?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          industry?: string | null
+          language?: string
+          legal_name?: string | null
+          metadata?: Json
+          organization_id?: string
+          phone?: string | null
+          postal_code?: string | null
+          registration_number?: string | null
+          state?: string | null
+          tax_id?: string | null
+          timezone?: string
+          updated_at?: string
+          updated_by?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_profiles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -771,6 +978,62 @@ export type Database = {
           },
           {
             foreignKeyName: "setting_values_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          department: string | null
+          display_name: string | null
+          id: string
+          job_title: string | null
+          language: string | null
+          organization_id: string
+          phone: string | null
+          preferences: Json
+          timezone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          display_name?: string | null
+          id?: string
+          job_title?: string | null
+          language?: string | null
+          organization_id: string
+          phone?: string | null
+          preferences?: Json
+          timezone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          display_name?: string | null
+          id?: string
+          job_title?: string | null
+          language?: string | null
+          organization_id?: string
+          phone?: string | null
+          preferences?: Json
+          timezone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_profiles_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
