@@ -64,6 +64,17 @@ permissions:
     name: View audit logs
     description: View audit log entries within the current org
 
+  # --- Notifications (Sprint 0.8) -------------------------------------------
+  - key: notifications.inbox.read
+    name: Read own notifications
+    description: Read notifications addressed to the current user
+  - key: notifications.inbox.create
+    name: Create notifications
+    description: Create notifications for platform events
+  - key: notifications.inbox.manage
+    name: Manage notifications
+    description: Administer notifications across the organization
+
 roles:
   - key: platform_owner
     name: Platform Owner
