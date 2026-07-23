@@ -158,10 +158,21 @@ export const resolveSettingFn = createServerFn({ method: "POST" })
     return results[0] ?? null;
   });
 
+const JsonSchema: z.ZodType<Json> = z.lazy(() =>
+  z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+    z.array(JsonSchema),
+    z.record(z.string(), JsonSchema),
+  ]),
+);
+
 const SetSettingInput = z.object({
   key: z.string().min(1),
   scope: z.enum(["platform", "organization"]),
-  value: z.unknown(),
+  value: JsonSchema,
 });
 
 /**
