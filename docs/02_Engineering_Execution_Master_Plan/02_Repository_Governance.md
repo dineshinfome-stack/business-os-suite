@@ -154,6 +154,13 @@ Every checklist under `checklists/` includes the six mandatory fields: Required 
 ### R-27 Template Traceability
 Every reusable template under `templates/` includes a Traceability section naming the governing EEMP chapter and the referenced standards. Wrappers around authoritative templates (e.g. ADR) must link to the authoritative source and add no competing content.
 
+### R-28 Publication Readiness
+Before EEMP publication verify: every chapter exists, is indexed, and reachable from README; every internal link, cross-reference, referenced chapter, template, checklist, and example resolves; every Mermaid diagram renders; every required frontmatter field is present; every required index entry exists; no orphaned EEMP assets remain.
+
+### R-29 Documentation Certification
+The EEMP is publishable only when: all mandatory chapters, indexes, templates, checklists, and examples exist and validate; Repository Health contains no unresolved Critical findings; Compliance Verification passes; Engineering Review passes.
+
+
 ## Dependencies
 
 - Frontmatter Standard (`docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`)
