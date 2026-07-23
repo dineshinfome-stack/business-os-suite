@@ -1,66 +1,45 @@
-# Sprint 0.7 — Closure & Verification Gate
+## Objective
 
-Execute a formal verification pass against the approved v7 specification and produce `docs/50-audit-reports/SPRINT_0_7_NAVIGATION_FRAMEWORK_REPORT.md`. No feature code changes; remediation only if a FAIL surfaces.
+Formally classify Supabase "Leaked Password Protection Disabled" as an **Accepted Risk (WARN)** in verification documentation. No runtime, config, or code changes.
 
 ## Scope
 
-Verify every v7 exit-gate item with concrete evidence (file:line references, DB introspection, test output, runtime probes). Report PASS / WARN / FAIL per item. Gate passes only with **0 FAIL, 0 HIGH, 0 CRITICAL**.
+Documentation-only. No changes to auth, Supabase config, RBAC, tenancy, DB, RLS, or server functions.
 
-## Verification Checklist
+## Changes
 
-1. **Registry & Stable ID Contract**
-   - `nav_id` format regex, uniqueness, `id_status` enforcement, permission/feature-flag references resolve.
-   - Evidence: `registry.test.ts` output + code refs.
+1. **Update `docs/50-audit-reports/SPRINT_0_7_NAVIGATION_FRAMEWORK_REPORT.md`**
+   - Expand the "Outstanding Items" row for Leaked Password Protection: change disposition from "User-deferred (security memory)" to **"Accepted Risk"** with explicit rationale, owner (Project Architecture), and review trigger (Future Security Hardening Sprint).
+   - Add a short note under the Verification Matrix WARN row confirming Accepted-Risk WARNs are non-blocking when documented.
 
-2. **Tree & Breadcrumb Resolution**
-   - `buildTree`, `matchRoute`, `MAX_BREADCRUMB_DEPTH=20`, cycle guard.
-   - Evidence: unit assertions + runtime probe on `/settings/platform`.
+2. **Update `docs/decision-register.md`** (existing governance doc — reuse rather than create new)
+   - Append a decision entry:
+     - Decision: Supabase Leaked Password Protection remains disabled.
+     - Status: Accepted Risk
+     - Owner: Project Architecture
+     - Review: Future Security Hardening Sprint
+     - Rationale: current password policy satisfies project requirements; may be enabled later.
 
-3. **RBAC & Feature-Flag Filtering**
-   - `filterNavForUser` drops items missing permission / flag / retired / invisible.
-   - Evidence: run as `member@demo.test` vs `admin@demo.test`; capture sidebar diff.
+3. **Update `docs/01-master/risk-register.md`** (if present as risk register)
+   - Add row: Risk = weak/breached password reuse; Mitigation = current policy; Status = Accepted; Owner = Project Architecture; Review = Future Security Hardening Sprint.
 
-4. **Sidebar Behavior**
-   - Registry-driven render, active-state, expand/collapse, favorites & recent sections.
-   - Evidence: Playwright screenshots at 1280×1800.
+4. **Update security memory** (`security--update_memory`)
+   - Record the Accepted Risk so future scans don't re-flag as blocking. Do not ignore the finding via `manage_security_finding` — keep it visible.
 
-5. **Preference Persistence & Reconciliation**
-   - `nav_user_preferences` upsert; unauthorized/retired `expanded_groups` pruned on read.
-   - Evidence: DB rows before/after; inject stale id → confirm removal.
+## Explicit non-changes
 
-6. **Favorites**
-   - Add/remove/reorder; retired-id read filter + write-time prune via `pruneRetiredNavIds`.
-   - Evidence: server-fn invoke + DB inspect.
+- No Supabase Dashboard toggles.
+- No `manage_security_finding` ignore/fix calls.
+- No CI/linter suppressions.
+- No new governance documents (reuse existing register + verification report).
 
-7. **Recent Pages**
-   - Route-keyed, cap=10, drops unresolved routes.
-   - Evidence: seed 12 rows → list returns 10; inject bogus route → dropped.
+## Verification gate (unchanged)
 
-8. **Command Palette**
-   - `⌘K` / `Ctrl+K` open, arrow/enter navigation, ESC close, history dedupe (UPSERT), cap=8, no query text stored.
-   - Evidence: Playwright key events + `nav_command_history` schema check.
+Repository advancement continues to require: 0 FAIL, 0 HIGH, 0 CRITICAL. Documented WARNs remain non-blocking.
 
-9. **Module Launcher**
-   - Grid/list toggle persisted via `nav_user_preferences.module_launcher_view`.
+## Exit criteria
 
-10. **Registry Health**
-    - Warn-only checks: `MAX_CHILDREN_PER_MODULE=25`, `MAX_TOTAL_ITEMS=400`.
-
-11. **Regression Suite**
-    - Auth (login/logout/session), Tenancy (org switch), RBAC (`<Can>` gates), Settings (resolution + feature flags) — smoke via Playwright + existing vitest.
-
-12. **Build & Type Health**
-    - `bunx tsgo --noEmit`, `bunx vitest run`, `supabase--linter`.
-
-## Deliverable
-
-`docs/50-audit-reports/SPRINT_0_7_NAVIGATION_FRAMEWORK_REPORT.md` containing:
-- Per-item PASS/WARN/FAIL table with evidence links.
-- Regression summary.
-- Security-finding recheck.
-- Final verdict + recommended state transition.
-
-## State Transition
-
-- All PASS (WARN allowed) → advance to **`SPRINT_0_7_VERIFIED`** then **`READY_FOR_SPRINT_0_8`**.
-- Any FAIL → remain **`READY_FOR_SPRINT_0_7`**, file remediation tickets in report.
+- Auth behavior unchanged.
+- Warning still surfaces in Supabase linter output.
+- Verification report + decision/risk register document it as Accepted Risk with owner and review trigger.
+- Security memory reflects the accepted risk.

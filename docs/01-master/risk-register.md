@@ -130,6 +130,7 @@ Statuses: `open`, `mitigating`, `accepted`, `materialized`, `closed`.
 | **R-071** | Supply-chain compromise via a dependency or a plugin. | Critical | Low | Dependency scanning; SBOM; plugin sandboxing (R-050); signature verification. | Emergency dependency pin; plugin recall; SRE-driven mitigation. | Security + Architecture Council | open | quarterly |
 | **R-072** | Insider threat exfiltrates tenant data. | Critical | Low | Least-privilege access; audit on privileged operations; separation of duties. | Immediate access revocation; forensic investigation; regulator engagement per jurisdiction. | Security | open | quarterly |
 | **R-073** | Cryptographic weakness in a shipped algorithm/library. | High | Low | Algorithm inventory; scheduled cryptographic review; upgrade path pre-planned. | Emergency library upgrade; re-encryption plan; tenant advisory. | Security | open | annual |
+| **R-074** | Reuse of weak or previously-breached passwords by end users (Supabase HaveIBeenPwned leaked-password protection intentionally disabled at this time). | Medium | Medium | Existing password policy (minimum length + Supabase weak-password rejection surfaced via `mapSupabaseAuthError`); MFA available per R-070; account-level anomaly detection. | Enable Supabase Leaked Password Protection in a future Security Hardening Sprint; forced password rotation for affected accounts if a breach correlation is identified. | Project Architecture | accepted | quarterly |
 
 ## 5. Review cadence
 
