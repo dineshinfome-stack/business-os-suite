@@ -10,6 +10,9 @@ export type TenantEventName =
   | "tenant.suspended"
   | "tenant.archived";
 
+type JsonPrimitive = string | number | boolean | null;
+export type TenantEventData = { [k: string]: JsonPrimitive | undefined };
+
 export interface TenantEventEnvelope {
   event: TenantEventName;
   version: 1;
@@ -17,7 +20,7 @@ export interface TenantEventEnvelope {
   tenant_id: string;
   actor_id: string;
   correlation_id?: string;
-  data: Record<string, unknown>;
+  data: TenantEventData;
 }
 
 export function buildTenantEvent(
@@ -27,7 +30,7 @@ export function buildTenantEvent(
     actorId: string;
     fromState?: TenantLifecycleState;
     toState?: TenantLifecycleState;
-    data?: Record<string, unknown>;
+    data?: TenantEventData;
     correlationId?: string;
   },
 ): TenantEventEnvelope {
