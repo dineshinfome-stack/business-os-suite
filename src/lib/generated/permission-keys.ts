@@ -79,6 +79,11 @@ export const ALL_PERMISSION_KEYS: readonly PermissionKey[] = [
   "workspace.member.remove",
   "workspace.invitation.read",
   "workspace.invitation.revoke",
+  "platform.tenant.read",
+  "platform.tenant.create",
+  "platform.tenant.activate",
+  "platform.tenant.suspend",
+  "platform.tenant.archive",
 ] as const;
 
 export const ROLE_KEYS = {
