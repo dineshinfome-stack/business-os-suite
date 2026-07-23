@@ -39,11 +39,11 @@ On conflict, higher tier wins. The EEMP records the discrepancy in `20_Appendix.
 | 03 | [Development Workflow](03_Development_Workflow.md) | Draft |
 | 04 | [Coding Standards](04_Coding_Standards.md) | Draft |
 | 05 | [UI/UX Standards](05_UI_UX_Standards.md) | Draft |
-| 06 | Backend Standards | Pending (Phase 2) |
-| 07 | Database Standards | Pending (Phase 2) |
-| 08 | Security Standards | Pending (Phase 2) |
-| 09 | Module Development Framework | Pending (Phase 2) |
-| 10 | Module Dependency Matrix | Pending (Phase 2) |
+| 06 | [Backend Standards](06_Backend_Standards.md) | Draft |
+| 07 | [Database Standards](07_Database_Standards.md) | Draft |
+| 08 | [Security Standards](08_Security_Standards.md) | Draft |
+| 09 | [Module Development Framework](09_Module_Development_Framework.md) | Draft |
+| 10 | [Module Dependency Matrix](10_Module_Dependency_Matrix.md) | Draft |
 | 11 | Sprint Execution | Pending (Phase 3) |
 | 12 | AI Development Playbook | Pending (Phase 3) |
 | 13 | AI Prompt Standards | Pending (Phase 3) |
@@ -53,7 +53,7 @@ On conflict, higher tier wins. The EEMP records the discrepancy in `20_Appendix.
 | 17 | Documentation Standards | Pending (Phase 4) |
 | 18 | Project Governance | Pending (Phase 4) |
 | 19 | Go-Live Checklist | Pending (Phase 4) |
-| 20 | Appendix | Pending (Phase 4) |
+| 20 | [Appendix](20_Appendix.md) | Draft (skeleton) |
 
 ## Repository Layout
 

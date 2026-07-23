@@ -7,11 +7,11 @@
 | 03 | Development Workflow | `../03_Development_Workflow.md` | Draft | 0.1.0 |
 | 04 | Coding Standards | `../04_Coding_Standards.md` | Draft | 0.1.0 |
 | 05 | UI/UX Standards | `../05_UI_UX_Standards.md` | Draft | 0.1.0 |
-| 06 | Backend Standards | *(Phase 2)* | Pending | — |
-| 07 | Database Standards | *(Phase 2)* | Pending | — |
-| 08 | Security Standards | *(Phase 2)* | Pending | — |
-| 09 | Module Development Framework | *(Phase 2)* | Pending | — |
-| 10 | Module Dependency Matrix | *(Phase 2)* | Pending | — |
+| 06 | Backend Standards | `../06_Backend_Standards.md` | Draft | 0.1.0 |
+| 07 | Database Standards | `../07_Database_Standards.md` | Draft | 0.1.0 |
+| 08 | Security Standards | `../08_Security_Standards.md` | Draft | 0.1.0 |
+| 09 | Module Development Framework | `../09_Module_Development_Framework.md` | Draft | 0.1.0 |
+| 10 | Module Dependency Matrix | `../10_Module_Dependency_Matrix.md` | Draft | 0.1.0 |
 | 11 | Sprint Execution | *(Phase 3)* | Pending | — |
 | 12 | AI Development Playbook | *(Phase 3)* | Pending | — |
 | 13 | AI Prompt Standards | *(Phase 3)* | Pending | — |
@@ -21,4 +21,4 @@
 | 17 | Documentation Standards | *(Phase 4)* | Pending | — |
 | 18 | Project Governance | *(Phase 4)* | Pending | — |
 | 19 | Go-Live Checklist | *(Phase 4)* | Pending | — |
-| 20 | Appendix | *(Phase 4)* | Pending | — |
+| 20 | Appendix | `../20_Appendix.md` | Draft (skeleton) | 0.1.0 |
