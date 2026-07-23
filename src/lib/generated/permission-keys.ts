@@ -35,6 +35,8 @@ export const ALL_PERMISSION_KEYS: readonly PermissionKey[] = [
   "platform.audit.view",
   "settings.general.view",
   "settings.general.update",
+  "settings.security.manage",
+  "platform.settings.manage",
   "audit.logs.view",
 ] as const;
 
