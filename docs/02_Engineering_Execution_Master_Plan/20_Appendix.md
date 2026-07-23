@@ -1,6 +1,6 @@
 ---
 document: EEMP Chapter 20 — Appendix
-version: 0.1.0
+version: 0.2.0
 last_reviewed: 2026-07-23
 next_review: 2027-01-23
 owner: Project Architecture
@@ -26,14 +26,26 @@ Categories: **Duplicate** (same content) · **Overlapping** (similar topic, diff
 
 ## Glossary Additions
 
-*(Populated in Phase 4.)*
+Phase 4 discovery surfaced no terms that are not already indexed in `docs/glossary.md` and `docs/GLOSSARY_INDEX.md`. Contributors should propose additions to those authoritative glossaries directly (R-01, R-19) rather than duplicating them here. This section will list Phase-5+ additions if any arise.
 
 ## Acronyms
 
-*(Populated in Phase 4.)*
+EEMP-specific acronyms only. Domain acronyms live in `docs/GLOSSARY_INDEX.md`.
+
+| Acronym | Expansion |
+|---------|-----------|
+| EEMP | Engineering Execution Master Plan |
+| DoR | Definition of Ready |
+| DoD | Definition of Done |
+| ADR | Architecture Decision Record |
+| RACI | Responsible · Accountable · Consulted · Informed |
+| SD | Solution Design (WEB / MOB / API) |
+| PRD | Product Requirements Document |
+| MOD | Module identifier prefix |
 
 ## Revision History
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | 0.1.0 | 2026-07-23 | Project Architecture | Initial draft — Detected Conflicts seeded from Phase 2 discovery. |
+| 0.2.0 | 2026-07-23 | Project Architecture | Phase 4 finalization — Glossary Additions and Acronyms populated; Detected Conflicts preserved unchanged. |
