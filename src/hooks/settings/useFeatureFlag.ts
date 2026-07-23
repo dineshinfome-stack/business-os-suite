@@ -11,7 +11,7 @@ import {
 
 export function useFeatureFlags() {
   const { current } = useOrg();
-  const orgId = current?.id ?? null;
+  const orgId = current?.organizationId ?? null;
   const listFn = useServerFn(listFeatureFlagsFn);
   return useQuery<FeatureFlagState[]>({
     queryKey: queryKeys.featureFlags.all(orgId),
@@ -34,7 +34,7 @@ export function useFeatureFlag(key: string): {
 export function useSetFeatureFlag() {
   const qc = useQueryClient();
   const { current } = useOrg();
-  const orgId = current?.id ?? null;
+  const orgId = current?.organizationId ?? null;
   const setFn = useServerFn(setFeatureFlagFn);
   return useMutation({
     mutationFn: (input: {

@@ -31,7 +31,7 @@ export function useSettingDefinitions() {
 
 export function useSettings(keys?: string[]) {
   const { current } = useOrg();
-  const orgId = current?.id ?? null;
+  const orgId = current?.organizationId ?? null;
   const resolveFn = useServerFn(resolveSettingsFn);
   return useQuery<ResolvedSetting[]>({
     queryKey: queryKeys.settings.resolved(orgId, keys),
@@ -43,12 +43,12 @@ export function useSettings(keys?: string[]) {
 
 export function useSetting(key: string) {
   const { current } = useOrg();
-  const orgId = current?.id ?? null;
+  const orgId = current?.organizationId ?? null;
   const resolveOneFn = useServerFn(resolveSettingFn);
   return useQuery<ResolvedSetting | null>({
     queryKey: queryKeys.settings.one(orgId, key),
     queryFn: () => resolveOneFn({ data: { key } }),
-    enabled: Boolean(orgId && key),
+    enabled: Boolean(orgId) && Boolean(key),
     staleTime: 60_000,
   });
 }
@@ -56,7 +56,7 @@ export function useSetting(key: string) {
 export function useSetSetting() {
   const qc = useQueryClient();
   const { current } = useOrg();
-  const orgId = current?.id ?? null;
+  const orgId = current?.organizationId ?? null;
   const setFn = useServerFn(setSettingFn);
   return useMutation({
     mutationFn: (input: { key: string; scope: "platform" | "organization"; value: unknown }) =>
@@ -70,7 +70,7 @@ export function useSetSetting() {
 export function useDeleteSetting() {
   const qc = useQueryClient();
   const { current } = useOrg();
-  const orgId = current?.id ?? null;
+  const orgId = current?.organizationId ?? null;
   const delFn = useServerFn(deleteSettingFn);
   return useMutation({
     mutationFn: (input: { key: string; scope: "platform" | "organization" }) =>
