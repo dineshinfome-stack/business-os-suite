@@ -1,6 +1,6 @@
 {
-  "_comment_navigation_duplication_policy": "Some documents intentionally appear in multiple navigation groups. These are alternate navigation entry points — not duplicate documentation. Examples: SOLUTION_STATUS, 50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP, individual Sprint PRDs. The repository remains the single source of truth. Navigation duplication is permitted only when it improves usability. Document duplication is never permitted.",
-  "_comment_future_module_navigation_standard": "Repository Navigation Standard v2.0. Each module group MOD-XXX <Name> exposes items in this order (only those existing on disk): Overview, Baseline, Publication, WEB-XXX — Web Solution Design, MOB-XXX — Mobile Solution Design, API-XXX — API Solution Design, CPC-XXX — Cross-Platform Certification, VR-XXX — Verification, Sprint Plan, SPR-MOD-XXX-NNN sprint PRDs. Item labels inside a module group do NOT repeat the module name (the group header carries it). IRR (Implementation Readiness Review) is a phase gate, not a module artifact, and MUST NOT appear inside any module group; IRR and Delivery artifacts (Implementation Planning, Engineering Execution/Completion, System Verification, User Acceptance, Release Readiness, Production Release, Post-Release Verification) remain centralized under global Delivery groups. Modules SHALL be ordered by Module ID (MOD-001 → MOD-019, then MOD-020+). No placeholders. No dead links.",
+  "_comment_navigation_duplication_policy": "Some documents intentionally appear in multiple navigation groups. These are alternate navigation entry points \u2014 not duplicate documentation. Examples: SOLUTION_STATUS, 50-audit-reports/BUSINESS_OS_EXECUTION_ROADMAP, individual Sprint PRDs. The repository remains the single source of truth. Navigation duplication is permitted only when it improves usability. Document duplication is never permitted.",
+  "_comment_future_module_navigation_standard": "Repository Navigation Standard v2.0. Each module group MOD-XXX <Name> exposes items in this order (only those existing on disk): Overview, Baseline, Publication, WEB-XXX \u2014 Web Solution Design, MOB-XXX \u2014 Mobile Solution Design, API-XXX \u2014 API Solution Design, CPC-XXX \u2014 Cross-Platform Certification, VR-XXX \u2014 Verification, Sprint Plan, SPR-MOD-XXX-NNN sprint PRDs. Item labels inside a module group do NOT repeat the module name (the group header carries it). IRR (Implementation Readiness Review) is a phase gate, not a module artifact, and MUST NOT appear inside any module group; IRR and Delivery artifacts (Implementation Planning, Engineering Execution/Completion, System Verification, User Acceptance, Release Readiness, Production Release, Post-Release Verification) remain centralized under global Delivery groups. Modules SHALL be ordered by Module ID (MOD-001 \u2192 MOD-019, then MOD-020+). No placeholders. No dead links.",
   "groups": [
     {
       "label": "Dashboard",
@@ -289,7 +289,7 @@
       ]
     },
     {
-      "label": "Modules — MOD-001 Platform Administration",
+      "label": "Modules \u2014 MOD-001 Platform Administration",
       "items": [
         {
           "title": "Overview",
@@ -304,23 +304,23 @@
           "path": "45-module-publications/platform/MOD-001_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-001 — Web Solution Design",
+          "title": "WEB-001 \u2014 Web Solution Design",
           "path": "60-solution-design/web/platform/MOD-001_WEB_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-001 — Mobile Solution Design",
+          "title": "MOB-001 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/MOB-001_PLATFORM_ADMINISTRATION"
         },
         {
-          "title": "API-001 — API Solution Design",
+          "title": "API-001 \u2014 API Solution Design",
           "path": "60-solution-design/api/API-001_PLATFORM_ADMINISTRATION"
         },
         {
-          "title": "CPC-001 — Cross-Platform Certification",
+          "title": "CPC-001 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD001_CROSS_PLATFORM_CERTIFICATION_20260720T050000Z"
         },
         {
-          "title": "VR-001 — Wave Verification",
+          "title": "VR-001 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD001_WAVE1_VERIFICATION_20260720T050500Z"
         },
         {
@@ -328,33 +328,33 @@
           "path": "30-sprint-prds/platform/MOD-001_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-001-001 — Tenancy Foundation",
+          "title": "SPR-MOD-001-001 \u2014 Tenancy Foundation",
           "path": "30-sprint-prds/platform/SPR-MOD-001-001-tenancy-foundation"
         },
         {
-          "title": "SPR-MOD-001-002 — Organization Structure",
+          "title": "SPR-MOD-001-002 \u2014 Organization Structure",
           "path": "30-sprint-prds/platform/SPR-MOD-001-002-organization-structure"
         },
         {
-          "title": "SPR-MOD-001-003 — Users Roles Permissions",
+          "title": "SPR-MOD-001-003 \u2014 Users Roles Permissions",
           "path": "30-sprint-prds/platform/SPR-MOD-001-003-users-roles-permissions"
         },
         {
-          "title": "SPR-MOD-001-004 — Configuration Hierarchy",
+          "title": "SPR-MOD-001-004 \u2014 Configuration Hierarchy",
           "path": "30-sprint-prds/platform/SPR-MOD-001-004-configuration-hierarchy"
         },
         {
-          "title": "SPR-MOD-001-005 — Localization Packs",
+          "title": "SPR-MOD-001-005 \u2014 Localization Packs",
           "path": "30-sprint-prds/platform/SPR-MOD-001-005-localization-packs"
         },
         {
-          "title": "SPR-MOD-001-006 — Audit Review Platform Administration",
+          "title": "SPR-MOD-001-006 \u2014 Audit Review Platform Administration",
           "path": "30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration"
         }
       ]
     },
     {
-      "label": "Modules — MOD-002 Accounting",
+      "label": "Modules \u2014 MOD-002 Accounting",
       "items": [
         {
           "title": "Overview",
@@ -369,27 +369,27 @@
           "path": "45-module-publications/accounting/MOD-002_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-002 — Web Solution Design",
+          "title": "WEB-002 \u2014 Web Solution Design",
           "path": "60-solution-design/web/WEB-002_ACCOUNTING"
         },
         {
-          "title": "MOB-002 — Mobile Solution Design",
+          "title": "MOB-002 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/MOB-002_ACCOUNTING"
         },
         {
-          "title": "API-002 — API Solution Design",
+          "title": "API-002 \u2014 API Solution Design",
           "path": "60-solution-design/api/API-002_ACCOUNTING"
         },
         {
-          "title": "CPC-002 — Cross-Platform Certification",
+          "title": "CPC-002 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD002_CROSS_PLATFORM_CERTIFICATION_20260719T080000Z"
         },
         {
-          "title": "VR-002 — Verification",
+          "title": "VR-002 \u2014 Verification",
           "path": "50-audit-reports/MOD002_CERTIFICATION_VERIFICATION_20260719T090000Z"
         },
         {
-          "title": "VR-002 — Wave Verification",
+          "title": "VR-002 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD002_WAVE_VERIFICATION_20260721T040000Z"
         },
         {
@@ -397,33 +397,33 @@
           "path": "30-sprint-prds/accounting/MOD-002_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-002-001 — Accounting Foundation",
+          "title": "SPR-MOD-002-001 \u2014 Accounting Foundation",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-001-accounting-foundation"
         },
         {
-          "title": "SPR-MOD-002-002 — Voucher Framework",
+          "title": "SPR-MOD-002-002 \u2014 Voucher Framework",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-002-voucher-framework"
         },
         {
-          "title": "SPR-MOD-002-003 — Journal Ledger Posting",
+          "title": "SPR-MOD-002-003 \u2014 Journal Ledger Posting",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-003-journal-ledger-posting"
         },
         {
-          "title": "SPR-MOD-002-004 — Financial Statements",
+          "title": "SPR-MOD-002-004 \u2014 Financial Statements",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-004-financial-statements"
         },
         {
-          "title": "SPR-MOD-002-005 — Taxation Compliance Foundation",
+          "title": "SPR-MOD-002-005 \u2014 Taxation Compliance Foundation",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-005-taxation-compliance-foundation"
         },
         {
-          "title": "SPR-MOD-002-006 — Period Close Audit",
+          "title": "SPR-MOD-002-006 \u2014 Period Close Audit",
           "path": "30-sprint-prds/accounting/SPR-MOD-002-006-period-close-audit"
         }
       ]
     },
     {
-      "label": "Modules — MOD-003 Sales",
+      "label": "Modules \u2014 MOD-003 Sales",
       "items": [
         {
           "title": "Overview",
@@ -438,23 +438,23 @@
           "path": "45-module-publications/sales/MOD-003_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-003 — Web Solution Design",
+          "title": "WEB-003 \u2014 Web Solution Design",
           "path": "46-solution-design/web/sales/WEB-003_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-003 — Mobile Solution Design",
+          "title": "MOB-003 \u2014 Mobile Solution Design",
           "path": "46-solution-design/mobile/sales/MOB-003_SOLUTION_DESIGN"
         },
         {
-          "title": "API-003 — API Solution Design",
+          "title": "API-003 \u2014 API Solution Design",
           "path": "46-solution-design/api/sales/API-003_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-003 — Cross-Platform Certification",
+          "title": "CPC-003 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD003_CROSS_PLATFORM_CERTIFICATION_20260719T210000Z"
         },
         {
-          "title": "VR-003 — Wave Verification",
+          "title": "VR-003 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD003_WAVE1_VERIFICATION_20260720T071500Z"
         },
         {
@@ -462,33 +462,33 @@
           "path": "30-sprint-prds/sales/MOD-003_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-003-001 — Sales Foundation",
+          "title": "SPR-MOD-003-001 \u2014 Sales Foundation",
           "path": "30-sprint-prds/sales/SPR-MOD-003-001-sales-foundation"
         },
         {
-          "title": "SPR-MOD-003-002 — Quotations Sales Orders",
+          "title": "SPR-MOD-003-002 \u2014 Quotations Sales Orders",
           "path": "30-sprint-prds/sales/SPR-MOD-003-002-quotations-sales-orders"
         },
         {
-          "title": "SPR-MOD-003-003 — Delivery Fulfillment",
+          "title": "SPR-MOD-003-003 \u2014 Delivery Fulfillment",
           "path": "30-sprint-prds/sales/SPR-MOD-003-003-delivery-fulfillment"
         },
         {
-          "title": "SPR-MOD-003-004 — Sales Invoicing",
+          "title": "SPR-MOD-003-004 \u2014 Sales Invoicing",
           "path": "30-sprint-prds/sales/SPR-MOD-003-004-sales-invoicing"
         },
         {
-          "title": "SPR-MOD-003-005 — Returns Customer Adjustments",
+          "title": "SPR-MOD-003-005 \u2014 Returns Customer Adjustments",
           "path": "30-sprint-prds/sales/SPR-MOD-003-005-returns-customer-adjustments"
         },
         {
-          "title": "SPR-MOD-003-006 — Sales Analytics Controls",
+          "title": "SPR-MOD-003-006 \u2014 Sales Analytics Controls",
           "path": "30-sprint-prds/sales/SPR-MOD-003-006-sales-analytics-controls"
         }
       ]
     },
     {
-      "label": "Modules — MOD-004 Purchase",
+      "label": "Modules \u2014 MOD-004 Purchase",
       "items": [
         {
           "title": "Overview",
@@ -503,23 +503,23 @@
           "path": "45-module-publications/purchase/MOD-004_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-004 — Web Solution Design",
+          "title": "WEB-004 \u2014 Web Solution Design",
           "path": "60-solution-design/web/purchase/WEB-004_PURCHASE"
         },
         {
-          "title": "MOB-004 — Mobile Solution Design",
+          "title": "MOB-004 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/purchase/MOB-004_PURCHASE"
         },
         {
-          "title": "API-004 — API Solution Design",
+          "title": "API-004 \u2014 API Solution Design",
           "path": "60-solution-design/api/purchase/API-004_PURCHASE"
         },
         {
-          "title": "CPC-004 — Cross-Platform Certification",
+          "title": "CPC-004 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD004_CROSS_PLATFORM_CERTIFICATION_20260720T065500Z"
         },
         {
-          "title": "VR-004 — Wave Verification",
+          "title": "VR-004 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD004_WAVE1_VERIFICATION_20260720T070000Z"
         },
         {
@@ -527,33 +527,33 @@
           "path": "30-sprint-prds/purchase/MOD-004_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-004-001 — Purchase Foundation",
+          "title": "SPR-MOD-004-001 \u2014 Purchase Foundation",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-001-purchase-foundation"
         },
         {
-          "title": "SPR-MOD-004-002 — Requisitions Rfqs Purchase Orders",
+          "title": "SPR-MOD-004-002 \u2014 Requisitions Rfqs Purchase Orders",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-002-requisitions-rfqs-purchase-orders"
         },
         {
-          "title": "SPR-MOD-004-003 — Goods Receipt Inspection",
+          "title": "SPR-MOD-004-003 \u2014 Goods Receipt Inspection",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-003-goods-receipt-inspection"
         },
         {
-          "title": "SPR-MOD-004-004 — Vendor Billing 3 Way Match",
+          "title": "SPR-MOD-004-004 \u2014 Vendor Billing 3 Way Match",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-004-vendor-billing-3-way-match"
         },
         {
-          "title": "SPR-MOD-004-005 — Purchase Returns Vendor Adjustments",
+          "title": "SPR-MOD-004-005 \u2014 Purchase Returns Vendor Adjustments",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-005-purchase-returns-vendor-adjustments"
         },
         {
-          "title": "SPR-MOD-004-006 — Purchase Analytics Controls",
+          "title": "SPR-MOD-004-006 \u2014 Purchase Analytics Controls",
           "path": "30-sprint-prds/purchase/SPR-MOD-004-006-purchase-analytics-controls"
         }
       ]
     },
     {
-      "label": "Modules — MOD-005 Inventory",
+      "label": "Modules \u2014 MOD-005 Inventory",
       "items": [
         {
           "title": "Overview",
@@ -568,23 +568,23 @@
           "path": "45-module-publications/inventory/MOD-005_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-005 — Web Solution Design",
+          "title": "WEB-005 \u2014 Web Solution Design",
           "path": "60-solution-design/web/inventory/WEB-005_INVENTORY"
         },
         {
-          "title": "MOB-005 — Mobile Solution Design",
+          "title": "MOB-005 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/inventory/MOB-005_INVENTORY"
         },
         {
-          "title": "API-005 — API Solution Design",
+          "title": "API-005 \u2014 API Solution Design",
           "path": "60-solution-design/api/inventory/API-005_INVENTORY"
         },
         {
-          "title": "CPC-005 — Cross-Platform Certification",
+          "title": "CPC-005 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD005_CROSS_PLATFORM_CERTIFICATION_20260720T062500Z"
         },
         {
-          "title": "VR-005 — Wave Verification",
+          "title": "VR-005 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD005_WAVE1_VERIFICATION_20260720T063000Z"
         },
         {
@@ -592,33 +592,33 @@
           "path": "30-sprint-prds/inventory/MOD-005_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-005-001 — Inventory Foundation",
+          "title": "SPR-MOD-005-001 \u2014 Inventory Foundation",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-001-inventory-foundation"
         },
         {
-          "title": "SPR-MOD-005-002 — Inventory Receipts Putaway",
+          "title": "SPR-MOD-005-002 \u2014 Inventory Receipts Putaway",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-002-inventory-receipts-putaway"
         },
         {
-          "title": "SPR-MOD-005-003 — Inventory Issues Transfers Reservations",
+          "title": "SPR-MOD-005-003 \u2014 Inventory Issues Transfers Reservations",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-003-inventory-issues-transfers-reservations"
         },
         {
-          "title": "SPR-MOD-005-004 — Inventory Adjustments Stock Counting",
+          "title": "SPR-MOD-005-004 \u2014 Inventory Adjustments Stock Counting",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-004-inventory-adjustments-stock-counting"
         },
         {
-          "title": "SPR-MOD-005-005 — Inventory Valuation Replenishment",
+          "title": "SPR-MOD-005-005 \u2014 Inventory Valuation Replenishment",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-005-inventory-valuation-replenishment"
         },
         {
-          "title": "SPR-MOD-005-006 — Inventory Analytics Operational Controls",
+          "title": "SPR-MOD-005-006 \u2014 Inventory Analytics Operational Controls",
           "path": "30-sprint-prds/inventory/SPR-MOD-005-006-inventory-analytics-operational-controls"
         }
       ]
     },
     {
-      "label": "Modules — MOD-006 CRM",
+      "label": "Modules \u2014 MOD-006 CRM",
       "items": [
         {
           "title": "Overview",
@@ -633,23 +633,23 @@
           "path": "45-module-publications/crm/MOD-006_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-006 — Web Solution Design",
+          "title": "WEB-006 \u2014 Web Solution Design",
           "path": "60-solution-design/web/crm/WEB-006_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-006 — Mobile Solution Design",
+          "title": "MOB-006 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/crm/MOB-006_SOLUTION_DESIGN"
         },
         {
-          "title": "API-006 — API Solution Design",
+          "title": "API-006 \u2014 API Solution Design",
           "path": "60-solution-design/api/crm/API-006_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-006 — Cross-Platform Certification",
+          "title": "CPC-006 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD006_CROSS_PLATFORM_CERTIFICATION_20260720T070000Z"
         },
         {
-          "title": "VR-006 — Wave Verification",
+          "title": "VR-006 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD006_WAVE_VERIFICATION_20260720T070500Z"
         },
         {
@@ -657,33 +657,33 @@
           "path": "30-sprint-prds/crm/MOD-006_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-006-001 — Crm Foundation",
+          "title": "SPR-MOD-006-001 \u2014 Crm Foundation",
           "path": "30-sprint-prds/crm/SPR-MOD-006-001-crm-foundation"
         },
         {
-          "title": "SPR-MOD-006-002 — Leads",
+          "title": "SPR-MOD-006-002 \u2014 Leads",
           "path": "30-sprint-prds/crm/SPR-MOD-006-002-leads"
         },
         {
-          "title": "SPR-MOD-006-003 — Opportunities",
+          "title": "SPR-MOD-006-003 \u2014 Opportunities",
           "path": "30-sprint-prds/crm/SPR-MOD-006-003-opportunities"
         },
         {
-          "title": "SPR-MOD-006-004 — Activities Communications",
+          "title": "SPR-MOD-006-004 \u2014 Activities Communications",
           "path": "30-sprint-prds/crm/SPR-MOD-006-004-activities-communications"
         },
         {
-          "title": "SPR-MOD-006-005 — Campaigns",
+          "title": "SPR-MOD-006-005 \u2014 Campaigns",
           "path": "30-sprint-prds/crm/SPR-MOD-006-005-campaigns"
         },
         {
-          "title": "SPR-MOD-006-006 — Customer 360 Analytics",
+          "title": "SPR-MOD-006-006 \u2014 Customer 360 Analytics",
           "path": "30-sprint-prds/crm/SPR-MOD-006-006-customer-360-analytics"
         }
       ]
     },
     {
-      "label": "Modules — MOD-007 HRMS",
+      "label": "Modules \u2014 MOD-007 HRMS",
       "items": [
         {
           "title": "Overview",
@@ -698,58 +698,57 @@
           "path": "45-module-publications/hrms/MOD-007_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-007 — Web Solution Design",
+          "title": "WEB-007 \u2014 Web Solution Design",
           "path": "60-solution-design/web/hrms/WEB-007_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-007 — Mobile Solution Design",
+          "title": "MOB-007 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/hrms/MOB-007_SOLUTION_DESIGN"
         },
         {
-          "title": "API-007 — API Solution Design",
+          "title": "API-007 \u2014 API Solution Design",
           "path": "60-solution-design/api/hrms/API-007_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-007 — Cross-Platform Certification",
+          "title": "CPC-007 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD007_CROSS_PLATFORM_CERTIFICATION_20260720T080000Z"
         },
         {
-          "title": "VR-007 — Wave Verification",
+          "title": "VR-007 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD007_WAVE_VERIFICATION_20260720T080500Z"
         },
         {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/hrms/MOD-007_SPRINT_PLAN"
         },
-
         {
-          "title": "SPR-MOD-007-001 — Hrms Foundation Employee Master",
+          "title": "SPR-MOD-007-001 \u2014 Hrms Foundation Employee Master",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-001-hrms-foundation-employee-master"
         },
         {
-          "title": "SPR-MOD-007-002 — Employment Lifecycle Hire And Exit",
+          "title": "SPR-MOD-007-002 \u2014 Employment Lifecycle Hire And Exit",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-002-employment-lifecycle-hire-and-exit"
         },
         {
-          "title": "SPR-MOD-007-003 — Attendance And Leave",
+          "title": "SPR-MOD-007-003 \u2014 Attendance And Leave",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-003-attendance-and-leave"
         },
         {
-          "title": "SPR-MOD-007-004 — Performance And Appraisal",
+          "title": "SPR-MOD-007-004 \u2014 Performance And Appraisal",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-004-performance-and-appraisal"
         },
         {
-          "title": "SPR-MOD-007-005 — Learning Development And Self Service",
+          "title": "SPR-MOD-007-005 \u2014 Learning Development And Self Service",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-005-learning-development-and-self-service"
         },
         {
-          "title": "SPR-MOD-007-006 — Hr Analytics And Compliance",
+          "title": "SPR-MOD-007-006 \u2014 Hr Analytics And Compliance",
           "path": "30-sprint-prds/hrms/SPR-MOD-007-006-hr-analytics-and-compliance"
         }
       ]
     },
     {
-      "label": "Modules — MOD-008 Payroll",
+      "label": "Modules \u2014 MOD-008 Payroll",
       "items": [
         {
           "title": "Overview",
@@ -764,58 +763,57 @@
           "path": "45-module-publications/payroll/MOD-008_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-008 — Web Solution Design",
+          "title": "WEB-008 \u2014 Web Solution Design",
           "path": "60-solution-design/web/payroll/WEB-008_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-008 — Mobile Solution Design",
+          "title": "MOB-008 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/payroll/MOB-008_SOLUTION_DESIGN"
         },
         {
-          "title": "API-008 — API Solution Design",
+          "title": "API-008 \u2014 API Solution Design",
           "path": "60-solution-design/api/payroll/API-008_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-008 — Cross-Platform Certification",
+          "title": "CPC-008 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD008_CROSS_PLATFORM_CERTIFICATION_20260720T090000Z"
         },
         {
-          "title": "VR-008 — Wave Verification",
+          "title": "VR-008 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD008_WAVE_VERIFICATION_20260720T090500Z"
         },
         {
           "title": "Sprint Plan",
           "path": "30-sprint-prds/payroll/MOD-008_SPRINT_PLAN"
         },
-
         {
-          "title": "SPR-MOD-008-001 — Payroll Foundation And Salary Structures",
+          "title": "SPR-MOD-008-001 \u2014 Payroll Foundation And Salary Structures",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-001-payroll-foundation-and-salary-structures"
         },
         {
-          "title": "SPR-MOD-008-002 — Payroll Cycles And Runs",
+          "title": "SPR-MOD-008-002 \u2014 Payroll Cycles And Runs",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-002-payroll-cycles-and-runs"
         },
         {
-          "title": "SPR-MOD-008-003 — Statutory Computations",
+          "title": "SPR-MOD-008-003 \u2014 Statutory Computations",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-003-statutory-computations"
         },
         {
-          "title": "SPR-MOD-008-004 — Reimbursements And Advances",
+          "title": "SPR-MOD-008-004 \u2014 Reimbursements And Advances",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-004-reimbursements-and-advances"
         },
         {
-          "title": "SPR-MOD-008-005 — Payslip Generation And Disbursement",
+          "title": "SPR-MOD-008-005 \u2014 Payslip Generation And Disbursement",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-005-payslip-generation-and-disbursement"
         },
         {
-          "title": "SPR-MOD-008-006 — Payroll Analytics And Compliance",
+          "title": "SPR-MOD-008-006 \u2014 Payroll Analytics And Compliance",
           "path": "30-sprint-prds/payroll/SPR-MOD-008-006-payroll-analytics-and-compliance"
         }
       ]
     },
     {
-      "label": "Modules — MOD-009 Manufacturing",
+      "label": "Modules \u2014 MOD-009 Manufacturing",
       "items": [
         {
           "title": "Overview",
@@ -830,23 +828,23 @@
           "path": "45-module-publications/manufacturing/MOD-009_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-009 — Web Solution Design",
+          "title": "WEB-009 \u2014 Web Solution Design",
           "path": "60-solution-design/web/manufacturing/WEB-009_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-009 — Mobile Solution Design",
+          "title": "MOB-009 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/manufacturing/MOB-009_SOLUTION_DESIGN"
         },
         {
-          "title": "API-009 — API Solution Design",
+          "title": "API-009 \u2014 API Solution Design",
           "path": "60-solution-design/api/manufacturing/API-009_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-009 — Cross-Platform Certification",
+          "title": "CPC-009 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD009_CROSS_PLATFORM_CERTIFICATION_20260720T100000Z"
         },
         {
-          "title": "VR-009 — Wave Verification",
+          "title": "VR-009 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD009_WAVE_VERIFICATION_20260720T100500Z"
         },
         {
@@ -854,33 +852,33 @@
           "path": "30-sprint-prds/manufacturing/MOD-009_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-009-001 — Manufacturing Foundation Bom And Routing",
+          "title": "SPR-MOD-009-001 \u2014 Manufacturing Foundation Bom And Routing",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-001-manufacturing-foundation-bom-and-routing"
         },
         {
-          "title": "SPR-MOD-009-002 — Production Planning And Scheduling",
+          "title": "SPR-MOD-009-002 \u2014 Production Planning And Scheduling",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-002-production-planning-and-scheduling"
         },
         {
-          "title": "SPR-MOD-009-003 — Work Orders And Shopfloor Execution",
+          "title": "SPR-MOD-009-003 \u2014 Work Orders And Shopfloor Execution",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-003-work-orders-and-shopfloor-execution"
         },
         {
-          "title": "SPR-MOD-009-004 — Sub Contracting",
+          "title": "SPR-MOD-009-004 \u2014 Sub Contracting",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-004-sub-contracting"
         },
         {
-          "title": "SPR-MOD-009-005 — Quality Yield And Scrap",
+          "title": "SPR-MOD-009-005 \u2014 Quality Yield And Scrap",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-005-quality-yield-and-scrap"
         },
         {
-          "title": "SPR-MOD-009-006 — Manufacturing Analytics And Compliance",
+          "title": "SPR-MOD-009-006 \u2014 Manufacturing Analytics And Compliance",
           "path": "30-sprint-prds/manufacturing/SPR-MOD-009-006-manufacturing-analytics-and-compliance"
         }
       ]
     },
     {
-      "label": "Modules — MOD-010 Projects",
+      "label": "Modules \u2014 MOD-010 Projects",
       "items": [
         {
           "title": "Overview",
@@ -895,23 +893,23 @@
           "path": "45-module-publications/projects/MOD-010_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-010 — Web Solution Design",
+          "title": "WEB-010 \u2014 Web Solution Design",
           "path": "60-solution-design/web/projects/WEB-010_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-010 — Mobile Solution Design",
+          "title": "MOB-010 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/projects/MOB-010_SOLUTION_DESIGN"
         },
         {
-          "title": "API-010 — API Solution Design",
+          "title": "API-010 \u2014 API Solution Design",
           "path": "60-solution-design/api/projects/API-010_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-010 — Cross-Platform Certification",
+          "title": "CPC-010 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD010_CROSS_PLATFORM_CERTIFICATION_20260720T110000Z"
         },
         {
-          "title": "VR-010 — Wave Verification",
+          "title": "VR-010 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD010_WAVE_VERIFICATION_20260720T110500Z"
         },
         {
@@ -919,29 +917,29 @@
           "path": "30-sprint-prds/projects/MOD-010_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-010-001 — Projects Foundation Project And Resource Setup",
+          "title": "SPR-MOD-010-001 \u2014 Projects Foundation Project And Resource Setup",
           "path": "30-sprint-prds/projects/SPR-MOD-010-001-projects-foundation-project-and-resource-setup"
         },
         {
-          "title": "SPR-MOD-010-002 — Tasks Milestones And Change Requests",
+          "title": "SPR-MOD-010-002 \u2014 Tasks Milestones And Change Requests",
           "path": "30-sprint-prds/projects/SPR-MOD-010-002-tasks-milestones-and-change-requests"
         },
         {
-          "title": "SPR-MOD-010-003 — Timesheets And Effort",
+          "title": "SPR-MOD-010-003 \u2014 Timesheets And Effort",
           "path": "30-sprint-prds/projects/SPR-MOD-010-003-timesheets-and-effort"
         },
         {
-          "title": "SPR-MOD-010-004 — Budgets Costs And Project Billing",
+          "title": "SPR-MOD-010-004 \u2014 Budgets Costs And Project Billing",
           "path": "30-sprint-prds/projects/SPR-MOD-010-004-budgets-costs-and-project-billing"
         },
         {
-          "title": "SPR-MOD-010-005 — Projects Analytics And Compliance",
+          "title": "SPR-MOD-010-005 \u2014 Projects Analytics And Compliance",
           "path": "30-sprint-prds/projects/SPR-MOD-010-005-projects-analytics-and-compliance"
         }
       ]
     },
     {
-      "label": "Modules — MOD-011 AMC",
+      "label": "Modules \u2014 MOD-011 AMC",
       "items": [
         {
           "title": "Overview",
@@ -956,23 +954,23 @@
           "path": "45-module-publications/amc/MOD-011_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-011 — Web Solution Design",
+          "title": "WEB-011 \u2014 Web Solution Design",
           "path": "60-solution-design/web/amc/WEB-011_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-011 — Mobile Solution Design",
+          "title": "MOB-011 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/amc/MOB-011_SOLUTION_DESIGN"
         },
         {
-          "title": "API-011 — API Solution Design",
+          "title": "API-011 \u2014 API Solution Design",
           "path": "60-solution-design/api/amc/API-011_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-011 — Cross-Platform Certification",
+          "title": "CPC-011 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD011_CROSS_PLATFORM_CERTIFICATION_20260720T120000Z"
         },
         {
-          "title": "VR-011 — Wave Verification",
+          "title": "VR-011 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD011_WAVE_VERIFICATION_20260720T120500Z"
         },
         {
@@ -980,26 +978,25 @@
           "path": "30-sprint-prds/amc/MOD-011_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-011-001 — Amc Foundation Contracts And Entitlements",
+          "title": "SPR-MOD-011-001 \u2014 Amc Foundation Contracts And Entitlements",
           "path": "30-sprint-prds/amc/SPR-MOD-011-001-amc-foundation-contracts-and-entitlements"
         },
         {
-          "title": "SPR-MOD-011-002 — Preventive Visit Scheduling",
+          "title": "SPR-MOD-011-002 \u2014 Preventive Visit Scheduling",
           "path": "30-sprint-prds/amc/SPR-MOD-011-002-preventive-visit-scheduling"
         },
         {
-          "title": "SPR-MOD-011-003 — Contract Billing And Renewals",
+          "title": "SPR-MOD-011-003 \u2014 Contract Billing And Renewals",
           "path": "30-sprint-prds/amc/SPR-MOD-011-003-contract-billing-and-renewals"
         },
         {
-          "title": "SPR-MOD-011-004 — Amc Analytics And Compliance",
+          "title": "SPR-MOD-011-004 \u2014 Amc Analytics And Compliance",
           "path": "30-sprint-prds/amc/SPR-MOD-011-004-amc-analytics-and-compliance"
         }
       ]
     },
-
     {
-      "label": "Modules — MOD-012 Field Service",
+      "label": "Modules \u2014 MOD-012 Field Service",
       "items": [
         {
           "title": "Overview",
@@ -1014,23 +1011,23 @@
           "path": "45-module-publications/field-service/MOD-012_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-012 — Web Solution Design",
+          "title": "WEB-012 \u2014 Web Solution Design",
           "path": "60-solution-design/web/field-service/WEB-012_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-012 — Mobile Solution Design",
+          "title": "MOB-012 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/field-service/MOB-012_SOLUTION_DESIGN"
         },
         {
-          "title": "API-012 — API Solution Design",
+          "title": "API-012 \u2014 API Solution Design",
           "path": "60-solution-design/api/field-service/API-012_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-012 — Cross-Platform Certification",
+          "title": "CPC-012 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD012_CROSS_PLATFORM_CERTIFICATION_20260720T130000Z"
         },
         {
-          "title": "VR-012 — Wave Verification",
+          "title": "VR-012 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD012_WAVE_VERIFICATION_20260720T130500Z"
         },
         {
@@ -1038,30 +1035,29 @@
           "path": "30-sprint-prds/field-service/MOD-012_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-012-001 — Field Service Foundation Tickets And Field Workforce",
+          "title": "SPR-MOD-012-001 \u2014 Field Service Foundation Tickets And Field Workforce",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-001-field-service-foundation-tickets-and-field-workforce"
         },
         {
-          "title": "SPR-MOD-012-002 — Dispatch And Scheduling",
+          "title": "SPR-MOD-012-002 \u2014 Dispatch And Scheduling",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-002-dispatch-and-scheduling"
         },
         {
-          "title": "SPR-MOD-012-003 — Mobile Visit Execution Spares Signatures Closure",
+          "title": "SPR-MOD-012-003 \u2014 Mobile Visit Execution Spares Signatures Closure",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-003-mobile-visit-execution-spares-signatures-closure"
         },
         {
-          "title": "SPR-MOD-012-004 — Sla And Escalation",
+          "title": "SPR-MOD-012-004 \u2014 Sla And Escalation",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-004-sla-and-escalation"
         },
         {
-          "title": "SPR-MOD-012-005 — Field Service Analytics And Compliance",
+          "title": "SPR-MOD-012-005 \u2014 Field Service Analytics And Compliance",
           "path": "30-sprint-prds/field-service/SPR-MOD-012-005-field-service-analytics-and-compliance"
         }
       ]
     },
-
     {
-      "label": "Modules — MOD-013 Assets",
+      "label": "Modules \u2014 MOD-013 Assets",
       "items": [
         {
           "title": "Overview",
@@ -1076,23 +1072,23 @@
           "path": "45-module-publications/assets/MOD-013_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-013 — Web Solution Design",
+          "title": "WEB-013 \u2014 Web Solution Design",
           "path": "60-solution-design/web/assets/WEB-013_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-013 — Mobile Solution Design",
+          "title": "MOB-013 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/assets/MOB-013_SOLUTION_DESIGN"
         },
         {
-          "title": "API-013 — API Solution Design",
+          "title": "API-013 \u2014 API Solution Design",
           "path": "60-solution-design/api/assets/API-013_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-013 — Cross-Platform Certification",
+          "title": "CPC-013 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD013_CROSS_PLATFORM_CERTIFICATION_20260720T140000Z"
         },
         {
-          "title": "VR-013 — Wave Verification",
+          "title": "VR-013 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD013_WAVE_VERIFICATION_20260720T140500Z"
         },
         {
@@ -1100,25 +1096,25 @@
           "path": "30-sprint-prds/assets/MOD-013_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-013-001 — Asset Foundation Register Capitalization And Insurance",
+          "title": "SPR-MOD-013-001 \u2014 Asset Foundation Register Capitalization And Insurance",
           "path": "30-sprint-prds/assets/SPR-MOD-013-001-asset-foundation-register-capitalization-and-insurance"
         },
         {
-          "title": "SPR-MOD-013-002 — Depreciation Methods And Runs",
+          "title": "SPR-MOD-013-002 \u2014 Depreciation Methods And Runs",
           "path": "30-sprint-prds/assets/SPR-MOD-013-002-depreciation-methods-and-runs"
         },
         {
-          "title": "SPR-MOD-013-003 — Maintenance Transfer And Disposal",
+          "title": "SPR-MOD-013-003 \u2014 Maintenance Transfer And Disposal",
           "path": "30-sprint-prds/assets/SPR-MOD-013-003-maintenance-transfer-and-disposal"
         },
         {
-          "title": "SPR-MOD-013-004 — Assets Analytics And Compliance",
+          "title": "SPR-MOD-013-004 \u2014 Assets Analytics And Compliance",
           "path": "30-sprint-prds/assets/SPR-MOD-013-004-assets-analytics-and-compliance"
         }
       ]
     },
     {
-      "label": "Modules — MOD-014 Fleet",
+      "label": "Modules \u2014 MOD-014 Fleet",
       "items": [
         {
           "title": "Overview",
@@ -1133,23 +1129,23 @@
           "path": "45-module-publications/fleet/MOD-014_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-014 — Web Solution Design",
+          "title": "WEB-014 \u2014 Web Solution Design",
           "path": "60-solution-design/web/fleet/WEB-014_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-014 — Mobile Solution Design",
+          "title": "MOB-014 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/fleet/MOB-014_SOLUTION_DESIGN"
         },
         {
-          "title": "API-014 — API Solution Design",
+          "title": "API-014 \u2014 API Solution Design",
           "path": "60-solution-design/api/fleet/API-014_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-014 — Cross-Platform Certification",
+          "title": "CPC-014 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD014_CROSS_PLATFORM_CERTIFICATION_20260720T150000Z"
         },
         {
-          "title": "VR-014 — Wave Verification",
+          "title": "VR-014 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD014_WAVE_VERIFICATION_20260720T150500Z"
         },
         {
@@ -1157,25 +1153,25 @@
           "path": "30-sprint-prds/fleet/MOD-014_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-014-001 — Fleet Foundation Vehicles Drivers Compliance And Insurance",
+          "title": "SPR-MOD-014-001 \u2014 Fleet Foundation Vehicles Drivers Compliance And Insurance",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-001-fleet-foundation-vehicles-drivers-compliance-and-insurance"
         },
         {
-          "title": "SPR-MOD-014-002 — Trip Planning And Execution",
+          "title": "SPR-MOD-014-002 \u2014 Trip Planning And Execution",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-002-trip-planning-and-execution"
         },
         {
-          "title": "SPR-MOD-014-003 — Fuel And Maintenance",
+          "title": "SPR-MOD-014-003 \u2014 Fuel And Maintenance",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-003-fuel-and-maintenance"
         },
         {
-          "title": "SPR-MOD-014-004 — Fleet Analytics And Compliance",
+          "title": "SPR-MOD-014-004 \u2014 Fleet Analytics And Compliance",
           "path": "30-sprint-prds/fleet/SPR-MOD-014-004-fleet-analytics-and-compliance"
         }
       ]
     },
     {
-      "label": "Modules — MOD-015 POS",
+      "label": "Modules \u2014 MOD-015 POS",
       "items": [
         {
           "title": "Overview",
@@ -1190,23 +1186,23 @@
           "path": "45-module-publications/pos/MOD-015_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-015 — Web Solution Design",
+          "title": "WEB-015 \u2014 Web Solution Design",
           "path": "60-solution-design/web/pos/WEB-015_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-015 — Mobile Solution Design",
+          "title": "MOB-015 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/pos/MOB-015_SOLUTION_DESIGN"
         },
         {
-          "title": "API-015 — API Solution Design",
+          "title": "API-015 \u2014 API Solution Design",
           "path": "60-solution-design/api/pos/API-015_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-015 — Cross-Platform Certification",
+          "title": "CPC-015 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD015_CROSS_PLATFORM_CERTIFICATION_20260720T160000Z"
         },
         {
-          "title": "VR-015 — Wave Verification",
+          "title": "VR-015 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD015_WAVE_VERIFICATION_20260720T160500Z"
         },
         {
@@ -1214,29 +1210,29 @@
           "path": "30-sprint-prds/pos/MOD-015_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-015-001 — Pos Foundation Stores Counters And Configuration",
+          "title": "SPR-MOD-015-001 \u2014 Pos Foundation Stores Counters And Configuration",
           "path": "30-sprint-prds/pos/SPR-MOD-015-001-pos-foundation-stores-counters-and-configuration"
         },
         {
-          "title": "SPR-MOD-015-002 — Cart Pricing Discounts And Offline Sale",
+          "title": "SPR-MOD-015-002 \u2014 Cart Pricing Discounts And Offline Sale",
           "path": "30-sprint-prds/pos/SPR-MOD-015-002-cart-pricing-discounts-and-offline-sale"
         },
         {
-          "title": "SPR-MOD-015-003 — Multi Tender Payments And Receipts",
+          "title": "SPR-MOD-015-003 \u2014 Multi Tender Payments And Receipts",
           "path": "30-sprint-prds/pos/SPR-MOD-015-003-multi-tender-payments-and-receipts"
         },
         {
-          "title": "SPR-MOD-015-004 — Offers Loyalty And Returns",
+          "title": "SPR-MOD-015-004 \u2014 Offers Loyalty And Returns",
           "path": "30-sprint-prds/pos/SPR-MOD-015-004-offers-loyalty-and-returns"
         },
         {
-          "title": "SPR-MOD-015-005 — Day Close Analytics And Compliance",
+          "title": "SPR-MOD-015-005 \u2014 Day Close Analytics And Compliance",
           "path": "30-sprint-prds/pos/SPR-MOD-015-005-day-close-analytics-and-compliance"
         }
       ]
     },
     {
-      "label": "Modules — MOD-016 Service Desk",
+      "label": "Modules \u2014 MOD-016 Service Desk",
       "items": [
         {
           "title": "Overview",
@@ -1251,23 +1247,23 @@
           "path": "45-module-publications/service-desk/MOD-016_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-016 — Web Solution Design",
+          "title": "WEB-016 \u2014 Web Solution Design",
           "path": "60-solution-design/web/service-desk/WEB-016_SOLUTION_DESIGN"
         },
         {
-          "title": "MOB-016 — Mobile Solution Design",
+          "title": "MOB-016 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/service-desk/MOB-016_SOLUTION_DESIGN"
         },
         {
-          "title": "API-016 — API Solution Design",
+          "title": "API-016 \u2014 API Solution Design",
           "path": "60-solution-design/api/service-desk/API-016_SOLUTION_DESIGN"
         },
         {
-          "title": "CPC-016 — Cross-Platform Certification",
+          "title": "CPC-016 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD016_CROSS_PLATFORM_CERTIFICATION_20260720T170000Z"
         },
         {
-          "title": "VR-016 — Wave Verification",
+          "title": "VR-016 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD016_WAVE_VERIFICATION_20260720T170500Z"
         },
         {
@@ -1275,29 +1271,29 @@
           "path": "30-sprint-prds/service-desk/MOD-016_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-016-001_SERVICE_DESK_FOUNDATION — ",
+          "title": "SPR-MOD-016-001_SERVICE_DESK_FOUNDATION \u2014 ",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-001_SERVICE_DESK_FOUNDATION"
         },
         {
-          "title": "SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE — ",
+          "title": "SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE \u2014 ",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-002_TICKET_CAPTURE_AND_LIFECYCLE"
         },
         {
-          "title": "SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS — ",
+          "title": "SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS \u2014 ",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-003_SLA_ENFORCEMENT_AND_ESCALATIONS"
         },
         {
-          "title": "SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT — ",
+          "title": "SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT \u2014 ",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-004_KNOWLEDGE_BASE_MACROS_AND_CSAT"
         },
         {
-          "title": "SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE — ",
+          "title": "SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE \u2014 ",
           "path": "30-sprint-prds/service-desk/sprints/SPR-MOD-016-005_SERVICE_ANALYTICS_AND_COMPLIANCE"
         }
       ]
     },
     {
-      "label": "Modules — MOD-017 Analytics",
+      "label": "Modules \u2014 MOD-017 Analytics",
       "items": [
         {
           "title": "Overview",
@@ -1312,23 +1308,23 @@
           "path": "45-module-publications/analytics/MOD-017_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-017 — Web Solution Design",
+          "title": "WEB-017 \u2014 Web Solution Design",
           "path": "60-solution-design/web/WEB-017_ANALYTICS"
         },
         {
-          "title": "MOB-017 — Mobile Solution Design",
+          "title": "MOB-017 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/MOB-017_ANALYTICS"
         },
         {
-          "title": "API-017 — API Solution Design",
+          "title": "API-017 \u2014 API Solution Design",
           "path": "60-solution-design/api/API-017_ANALYTICS"
         },
         {
-          "title": "CPC-017 — Cross-Platform Certification",
+          "title": "CPC-017 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD017_CROSS_PLATFORM_CERTIFICATION_20260721T000000Z"
         },
         {
-          "title": "VR-017 — Wave Verification",
+          "title": "VR-017 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD017_WAVE_VERIFICATION_20260721T000500Z"
         },
         {
@@ -1336,29 +1332,29 @@
           "path": "30-sprint-prds/analytics/MOD-017_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS — ",
+          "title": "SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS \u2014 ",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-001_ANALYTICS_FOUNDATION_AND_DATA_MARTS"
         },
         {
-          "title": "SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG — ",
+          "title": "SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG \u2014 ",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-002_KPI_FRAMEWORK_AND_METRIC_CATALOG"
         },
         {
-          "title": "SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION — ",
+          "title": "SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION \u2014 ",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-003_DASHBOARDS_AND_VISUALIZATION"
         },
         {
-          "title": "SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT — ",
+          "title": "SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT \u2014 ",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-004_SCHEDULED_DISTRIBUTION_REPORTING_AND_EXPORT"
         },
         {
-          "title": "SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS — ",
+          "title": "SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS \u2014 ",
           "path": "30-sprint-prds/analytics/sprints/SPR-MOD-017-005_ANALYTICAL_MODELS_AND_CROSS_MODULE_ANALYTICS"
         }
       ]
     },
     {
-      "label": "Modules — MOD-018 AI Workspace",
+      "label": "Modules \u2014 MOD-018 AI Workspace",
       "items": [
         {
           "title": "Overview",
@@ -1373,23 +1369,23 @@
           "path": "45-module-publications/ai/MOD-018_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-018 — Web Solution Design",
+          "title": "WEB-018 \u2014 Web Solution Design",
           "path": "60-solution-design/web/WEB-018_AI_WORKSPACE"
         },
         {
-          "title": "MOB-018 — Mobile Solution Design",
+          "title": "MOB-018 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/MOB-018_AI_WORKSPACE"
         },
         {
-          "title": "API-018 — API Solution Design",
+          "title": "API-018 \u2014 API Solution Design",
           "path": "60-solution-design/api/API-018_AI_WORKSPACE"
         },
         {
-          "title": "CPC-018 — Cross-Platform Certification",
+          "title": "CPC-018 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD018_CROSS_PLATFORM_CERTIFICATION_20260721T010000Z"
         },
         {
-          "title": "VR-018 — Wave Verification",
+          "title": "VR-018 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD018_WAVE_VERIFICATION_20260721T010500Z"
         },
         {
@@ -1397,29 +1393,29 @@
           "path": "30-sprint-prds/ai/MOD-018_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION — ",
+          "title": "SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION \u2014 ",
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-001_PROMPT_LIBRARY_AND_AI_WORKSPACE_FOUNDATION"
         },
         {
-          "title": "SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG — ",
+          "title": "SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG \u2014 ",
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-002_RETRIEVAL_WORKSPACES_RAG"
         },
         {
-          "title": "SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES — ",
+          "title": "SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES \u2014 ",
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-003_TOOL_CALLING_ON_MODULE_CAPABILITIES"
         },
         {
-          "title": "SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS — ",
+          "title": "SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS \u2014 ",
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-004_COPILOT_SURFACES_AND_CONVERSATIONS"
         },
         {
-          "title": "SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY — ",
+          "title": "SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY \u2014 ",
           "path": "30-sprint-prds/ai/sprints/SPR-MOD-018-005_GOVERNANCE_HUMAN_APPROVAL_COST_AND_SAFETY"
         }
       ]
     },
     {
-      "label": "Modules — MOD-019 Warehouse",
+      "label": "Modules \u2014 MOD-019 Warehouse",
       "items": [
         {
           "title": "Overview",
@@ -1434,23 +1430,23 @@
           "path": "45-module-publications/warehouse/MOD-019_MODULE_PUBLICATION"
         },
         {
-          "title": "WEB-019 — Web Solution Design",
+          "title": "WEB-019 \u2014 Web Solution Design",
           "path": "60-solution-design/web/warehouse/WEB-019_WAREHOUSE"
         },
         {
-          "title": "MOB-019 — Mobile Solution Design",
+          "title": "MOB-019 \u2014 Mobile Solution Design",
           "path": "60-solution-design/mobile/warehouse/MOB-019_WAREHOUSE"
         },
         {
-          "title": "API-019 — API Solution Design",
+          "title": "API-019 \u2014 API Solution Design",
           "path": "60-solution-design/api/warehouse/API-019_WAREHOUSE"
         },
         {
-          "title": "CPC-019 — Cross-Platform Certification",
+          "title": "CPC-019 \u2014 Cross-Platform Certification",
           "path": "50-audit-reports/MOD019_CROSS_PLATFORM_CERTIFICATION_20260720T074000Z"
         },
         {
-          "title": "VR-019 — Wave Verification",
+          "title": "VR-019 \u2014 Wave Verification",
           "path": "50-audit-reports/MOD019_WAVE1_VERIFICATION_20260720T074500Z"
         },
         {
@@ -1458,27 +1454,27 @@
           "path": "30-sprint-prds/warehouse/MOD-019_SPRINT_PLAN"
         },
         {
-          "title": "SPR-MOD-019-001 — Warehouse Foundation",
+          "title": "SPR-MOD-019-001 \u2014 Warehouse Foundation",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-001-warehouse-foundation"
         },
         {
-          "title": "SPR-MOD-019-002 — Inbound Execution",
+          "title": "SPR-MOD-019-002 \u2014 Inbound Execution",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-002-inbound-execution"
         },
         {
-          "title": "SPR-MOD-019-003 — Storage Slotting",
+          "title": "SPR-MOD-019-003 \u2014 Storage Slotting",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-003-storage-slotting"
         },
         {
-          "title": "SPR-MOD-019-004 — Outbound Execution",
+          "title": "SPR-MOD-019-004 \u2014 Outbound Execution",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-004-outbound-execution"
         },
         {
-          "title": "SPR-MOD-019-005 — Yard Dock Load Out",
+          "title": "SPR-MOD-019-005 \u2014 Yard Dock Load Out",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-005-yard-dock-load-out"
         },
         {
-          "title": "SPR-MOD-019-006 — Warehouse Labor Equipment Analytics",
+          "title": "SPR-MOD-019-006 \u2014 Warehouse Labor Equipment Analytics",
           "path": "30-sprint-prds/warehouse/SPR-MOD-019-006-warehouse-labor-equipment-analytics"
         }
       ]
@@ -1487,11 +1483,11 @@
       "label": "Implementation Readiness Review",
       "items": [
         {
-          "title": "IRR-002 — Accounting",
+          "title": "IRR-002 \u2014 Accounting",
           "path": "50-audit-reports/MOD002_IMPLEMENTATION_READINESS_20260719T100000Z"
         },
         {
-          "title": "IRR-003 — Sales",
+          "title": "IRR-003 \u2014 Sales",
           "path": "50-audit-reports/MOD003_IMPLEMENTATION_READINESS_REVIEW_20260719T220000Z"
         }
       ]
@@ -1500,83 +1496,83 @@
       "label": "Sprint PRDs",
       "items": [
         {
-          "title": "Sprint PRDs — Index",
+          "title": "Sprint PRDs \u2014 Index",
           "path": "30-sprint-prds/README"
         },
         {
-          "title": "MOD-001 Platform Administration — Sprints Index",
+          "title": "MOD-001 Platform Administration \u2014 Sprints Index",
           "path": "30-sprint-prds/platform/README"
         },
         {
-          "title": "MOD-002 Accounting — Sprints Index",
+          "title": "MOD-002 Accounting \u2014 Sprints Index",
           "path": "30-sprint-prds/accounting/README"
         },
         {
-          "title": "MOD-003 Sales — Sprints Index",
+          "title": "MOD-003 Sales \u2014 Sprints Index",
           "path": "30-sprint-prds/sales/README"
         },
         {
-          "title": "MOD-004 Purchase — Sprints Index",
+          "title": "MOD-004 Purchase \u2014 Sprints Index",
           "path": "30-sprint-prds/purchase/README"
         },
         {
-          "title": "MOD-005 Inventory — Sprints Index",
+          "title": "MOD-005 Inventory \u2014 Sprints Index",
           "path": "30-sprint-prds/inventory/README"
         },
         {
-          "title": "MOD-006 CRM — Sprints Index",
+          "title": "MOD-006 CRM \u2014 Sprints Index",
           "path": "30-sprint-prds/crm/README"
         },
         {
-          "title": "MOD-007 HRMS — Sprints Index",
+          "title": "MOD-007 HRMS \u2014 Sprints Index",
           "path": "30-sprint-prds/hrms/README"
         },
         {
-          "title": "MOD-008 Payroll — Sprints Index",
+          "title": "MOD-008 Payroll \u2014 Sprints Index",
           "path": "30-sprint-prds/payroll/README"
         },
         {
-          "title": "MOD-009 Manufacturing — Sprints Index",
+          "title": "MOD-009 Manufacturing \u2014 Sprints Index",
           "path": "30-sprint-prds/manufacturing/README"
         },
         {
-          "title": "MOD-010 Projects — Sprints Index",
+          "title": "MOD-010 Projects \u2014 Sprints Index",
           "path": "30-sprint-prds/projects/README"
         },
         {
-          "title": "MOD-011 AMC — Sprints Index",
+          "title": "MOD-011 AMC \u2014 Sprints Index",
           "path": "30-sprint-prds/amc/README"
         },
         {
-          "title": "MOD-012 Field Service — Sprints Index",
+          "title": "MOD-012 Field Service \u2014 Sprints Index",
           "path": "30-sprint-prds/field-service/README"
         },
         {
-          "title": "MOD-013 Assets — Sprints Index",
+          "title": "MOD-013 Assets \u2014 Sprints Index",
           "path": "30-sprint-prds/assets/README"
         },
         {
-          "title": "MOD-014 Fleet — Sprints Index",
+          "title": "MOD-014 Fleet \u2014 Sprints Index",
           "path": "30-sprint-prds/fleet/README"
         },
         {
-          "title": "MOD-015 POS — Sprints Index",
+          "title": "MOD-015 POS \u2014 Sprints Index",
           "path": "30-sprint-prds/pos/README"
         },
         {
-          "title": "MOD-016 Service Desk — Sprints Index",
+          "title": "MOD-016 Service Desk \u2014 Sprints Index",
           "path": "30-sprint-prds/service-desk/README"
         },
         {
-          "title": "MOD-017 Analytics — Sprints Index",
+          "title": "MOD-017 Analytics \u2014 Sprints Index",
           "path": "30-sprint-prds/analytics/README"
         },
         {
-          "title": "MOD-018 AI Workspace — Sprints Index",
+          "title": "MOD-018 AI Workspace \u2014 Sprints Index",
           "path": "30-sprint-prds/ai/README"
         },
         {
-          "title": "MOD-019 Warehouse — Sprints Index",
+          "title": "MOD-019 Warehouse \u2014 Sprints Index",
           "path": "30-sprint-prds/warehouse/README"
         }
       ]
@@ -1585,11 +1581,11 @@
       "label": "AI Development",
       "items": [
         {
-          "title": "MOD-018 AI Workspace — Overview",
+          "title": "MOD-018 AI Workspace \u2014 Overview",
           "path": "20-module-prds/ai/MODULE_PRD"
         },
         {
-          "title": "MOD-018 AI Workspace — Publication",
+          "title": "MOD-018 AI Workspace \u2014 Publication",
           "path": "45-module-publications/ai/MOD-018_MODULE_PUBLICATION"
         },
         {
@@ -1627,10 +1623,10 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Index",
+      "label": "Platform Services \u2014 ERP Core \u2014 Index",
       "items": [
         {
-          "title": "ERP Core Engines — Index",
+          "title": "ERP Core Engines \u2014 Index",
           "path": "10-erp-core/README"
         },
         {
@@ -1640,7 +1636,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Foundation",
+      "label": "Platform Services \u2014 ERP Core \u2014 Foundation",
       "items": [
         {
           "title": "Identity Engine",
@@ -1669,7 +1665,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Document",
+      "label": "Platform Services \u2014 ERP Core \u2014 Document",
       "items": [
         {
           "title": "Document Engine",
@@ -1686,7 +1682,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Workflow",
+      "label": "Platform Services \u2014 ERP Core \u2014 Workflow",
       "items": [
         {
           "title": "Workflow Engine",
@@ -1711,7 +1707,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Financial",
+      "label": "Platform Services \u2014 ERP Core \u2014 Financial",
       "items": [
         {
           "title": "Voucher Engine",
@@ -1736,7 +1732,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Intelligence",
+      "label": "Platform Services \u2014 ERP Core \u2014 Intelligence",
       "items": [
         {
           "title": "Search Engine",
@@ -1753,7 +1749,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Integration",
+      "label": "Platform Services \u2014 ERP Core \u2014 Integration",
       "items": [
         {
           "title": "Integration Engine",
@@ -1770,7 +1766,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — Data Exchange",
+      "label": "Platform Services \u2014 ERP Core \u2014 Data Exchange",
       "items": [
         {
           "title": "Import Engine",
@@ -1783,7 +1779,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERP Core — AI",
+      "label": "Platform Services \u2014 ERP Core \u2014 AI",
       "items": [
         {
           "title": "AI Copilot Engine",
@@ -1792,7 +1788,7 @@
       ]
     },
     {
-      "label": "Platform Services — Integrations",
+      "label": "Platform Services \u2014 Integrations",
       "items": [
         {
           "title": "GST GSTN",
@@ -1807,15 +1803,15 @@
           "path": "06-integrations/e-way-bill"
         },
         {
-          "title": "Payments — Razorpay",
+          "title": "Payments \u2014 Razorpay",
           "path": "06-integrations/payments-razorpay"
         },
         {
-          "title": "Payments — PhonePe",
+          "title": "Payments \u2014 PhonePe",
           "path": "06-integrations/payments-phonepe"
         },
         {
-          "title": "Payments — Stripe",
+          "title": "Payments \u2014 Stripe",
           "path": "06-integrations/payments-stripe"
         },
         {
@@ -1857,7 +1853,7 @@
       ]
     },
     {
-      "label": "Platform Services — Business Rules",
+      "label": "Platform Services \u2014 Business Rules",
       "items": [
         {
           "title": "Accounting Rules",
@@ -1890,7 +1886,7 @@
       ]
     },
     {
-      "label": "Platform Services — Reports",
+      "label": "Platform Services \u2014 Reports",
       "items": [
         {
           "title": "Accounting Reports",
@@ -1923,7 +1919,7 @@
       ]
     },
     {
-      "label": "Platform Services — Workflows",
+      "label": "Platform Services \u2014 Workflows",
       "items": [
         {
           "title": "AMC Workflow",
@@ -1960,7 +1956,7 @@
       ]
     },
     {
-      "label": "Platform Services — Localization",
+      "label": "Platform Services \u2014 Localization",
       "items": [
         {
           "title": "Global",
@@ -1997,7 +1993,7 @@
       ]
     },
     {
-      "label": "Platform Services — ERDs",
+      "label": "Platform Services \u2014 ERDs",
       "items": [
         {
           "title": "Foundation ERD",
@@ -2021,47 +2017,47 @@
           "path": "decision-register"
         },
         {
-          "title": "Governance — Framework Release v1.0",
+          "title": "Governance \u2014 Framework Release v1.0",
           "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_v1.0"
         },
         {
-          "title": "Governance — Framework Release Notes v1.0",
+          "title": "Governance \u2014 Framework Release Notes v1.0",
           "path": "15-governance/GOVERNANCE_FRAMEWORK_RELEASE_NOTES_v1.0"
         },
         {
-          "title": "Governance — Template Standard",
+          "title": "Governance \u2014 Template Standard",
           "path": "15-governance/GOVERNANCE_TEMPLATE_STANDARD"
         },
         {
-          "title": "Governance — Template Registry",
+          "title": "Governance \u2014 Template Registry",
           "path": "15-governance/GOVERNANCE_TEMPLATE_REGISTRY"
         },
         {
-          "title": "Governance — Template Index",
+          "title": "Governance \u2014 Template Index",
           "path": "15-governance/GOVERNANCE_TEMPLATE_INDEX"
         },
         {
-          "title": "Governance — Template Lifecycle",
+          "title": "Governance \u2014 Template Lifecycle",
           "path": "15-governance/GOVERNANCE_TEMPLATE_LIFECYCLE"
         },
         {
-          "title": "Governance — Template Capabilities",
+          "title": "Governance \u2014 Template Capabilities",
           "path": "15-governance/GOVERNANCE_TEMPLATE_CAPABILITIES"
         },
         {
-          "title": "Governance — Template Dependency Matrix",
+          "title": "Governance \u2014 Template Dependency Matrix",
           "path": "15-governance/GOVERNANCE_TEMPLATE_DEPENDENCY_MATRIX"
         },
         {
-          "title": "Governance — Frontmatter Standard",
+          "title": "Governance \u2014 Frontmatter Standard",
           "path": "15-governance/GOVERNANCE_FRONTMATTER_STANDARD"
         },
         {
-          "title": "Governance — Screen Identifier Standard",
+          "title": "Governance \u2014 Screen Identifier Standard",
           "path": "15-governance/SCREEN_IDENTIFIER_STANDARD"
         },
         {
-          "title": "Governance — Finding Severity Standard",
+          "title": "Governance \u2014 Finding Severity Standard",
           "path": "15-governance/FINDING_SEVERITY_STANDARD"
         },
         {
@@ -2091,14 +2087,111 @@
         {
           "title": "ADR Template",
           "path": "11-adrs/ADR_TEMPLATE"
+        },
+        {
+          "title": "Wave 0.5 \u2014 Platform Validation Charter",
+          "path": "15-governance/WAVE_0_5_PLATFORM_VALIDATION_CHARTER"
+        },
+        {
+          "title": "Standards Lifecycle Standard (Meta)",
+          "path": "15-governance/STANDARDS_LIFECYCLE_STANDARD"
+        },
+        {
+          "title": "Architecture Review Gate Standard",
+          "path": "15-governance/ARCHITECTURE_REVIEW_GATE_STANDARD"
+        },
+        {
+          "title": "Cross-Cutting Services Catalog",
+          "path": "15-governance/CROSS_CUTTING_SERVICES_CATALOG"
+        },
+        {
+          "title": "Extensibility Standard",
+          "path": "15-governance/EXTENSIBILITY_STANDARD"
+        },
+        {
+          "title": "AI Platform Layer Standard",
+          "path": "15-governance/AI_PLATFORM_LAYER_STANDARD"
+        },
+        {
+          "title": "Performance Budgets Standard",
+          "path": "15-governance/PERFORMANCE_BUDGETS_STANDARD"
+        },
+        {
+          "title": "Platform Testing Standard",
+          "path": "15-governance/PLATFORM_TESTING_STANDARD"
+        },
+        {
+          "title": "Documentation as Artifact Standard",
+          "path": "15-governance/DOCUMENTATION_AS_ARTIFACT_STANDARD"
+        },
+        {
+          "title": "Integration Readiness Standard",
+          "path": "15-governance/INTEGRATION_READINESS_STANDARD"
+        },
+        {
+          "title": "Domain Model Standard",
+          "path": "15-governance/DOMAIN_MODEL_STANDARD"
         }
       ]
     },
     {
-      "label": "ADRs — Ai",
+      "label": "Wave UX \u2014 Design System Planning",
       "items": [
         {
-          "title": "Ai ADRs — Index",
+          "title": "Overview",
+          "path": "20-design/README"
+        },
+        {
+          "title": "UX Principles",
+          "path": "20-design/UX_PRINCIPLES"
+        },
+        {
+          "title": "Design System",
+          "path": "20-design/DESIGN_SYSTEM"
+        },
+        {
+          "title": "Design Tokens",
+          "path": "20-design/DESIGN_TOKENS"
+        },
+        {
+          "title": "Component Guidelines",
+          "path": "20-design/COMPONENT_GUIDELINES"
+        },
+        {
+          "title": "Layout Standard",
+          "path": "20-design/LAYOUT_STANDARD"
+        },
+        {
+          "title": "Enterprise UX Patterns",
+          "path": "20-design/ENTERPRISE_UX_PATTERNS"
+        },
+        {
+          "title": "Accessibility Standard",
+          "path": "20-design/ACCESSIBILITY_STANDARD"
+        },
+        {
+          "title": "Responsive Standard",
+          "path": "20-design/RESPONSIVE_STANDARD"
+        },
+        {
+          "title": "Dashboard Experience",
+          "path": "20-design/DASHBOARD_EXPERIENCE"
+        },
+        {
+          "title": "Mobile Alignment",
+          "path": "20-design/MOBILE_ALIGNMENT"
+        },
+        {
+          "title": "UX Implementation Roadmap",
+          "path": "20-design/UX_IMPLEMENTATION_ROADMAP"
+        }
+      ]
+    },
+    {
+      "label": "ADRs \u2014 Ai",
+      "items": [
+        {
+          "title": "Ai ADRs \u2014 Index",
           "path": "11-adrs/ai/README"
         },
         {
@@ -2128,10 +2221,10 @@
       ]
     },
     {
-      "label": "ADRs — Architecture",
+      "label": "ADRs \u2014 Architecture",
       "items": [
         {
-          "title": "Architecture ADRs — Index",
+          "title": "Architecture ADRs \u2014 Index",
           "path": "11-adrs/architecture/README"
         },
         {
@@ -2161,10 +2254,10 @@
       ]
     },
     {
-      "label": "ADRs — Data",
+      "label": "ADRs \u2014 Data",
       "items": [
         {
-          "title": "Data ADRs — Index",
+          "title": "Data ADRs \u2014 Index",
           "path": "11-adrs/data/README"
         },
         {
@@ -2198,10 +2291,10 @@
       ]
     },
     {
-      "label": "ADRs — Devops",
+      "label": "ADRs \u2014 Devops",
       "items": [
         {
-          "title": "Devops ADRs — Index",
+          "title": "Devops ADRs \u2014 Index",
           "path": "11-adrs/devops/README"
         },
         {
@@ -2231,10 +2324,10 @@
       ]
     },
     {
-      "label": "ADRs — Engineering",
+      "label": "ADRs \u2014 Engineering",
       "items": [
         {
-          "title": "Engineering ADRs — Index",
+          "title": "Engineering ADRs \u2014 Index",
           "path": "11-adrs/engineering/README"
         },
         {
@@ -2264,10 +2357,10 @@
       ]
     },
     {
-      "label": "ADRs — Integration",
+      "label": "ADRs \u2014 Integration",
       "items": [
         {
-          "title": "Integration ADRs — Index",
+          "title": "Integration ADRs \u2014 Index",
           "path": "11-adrs/integration/README"
         },
         {
@@ -2297,10 +2390,10 @@
       ]
     },
     {
-      "label": "ADRs — Platform",
+      "label": "ADRs \u2014 Platform",
       "items": [
         {
-          "title": "Platform ADRs — Index",
+          "title": "Platform ADRs \u2014 Index",
           "path": "11-adrs/platform/README"
         },
         {
@@ -2334,10 +2427,10 @@
       ]
     },
     {
-      "label": "ADRs — Security",
+      "label": "ADRs \u2014 Security",
       "items": [
         {
-          "title": "Security ADRs — Index",
+          "title": "Security ADRs \u2014 Index",
           "path": "11-adrs/security/README"
         },
         {
@@ -2371,10 +2464,10 @@
       ]
     },
     {
-      "label": "ADRs — Ui",
+      "label": "ADRs \u2014 Ui",
       "items": [
         {
-          "title": "Ui ADRs — Index",
+          "title": "Ui ADRs \u2014 Index",
           "path": "11-adrs/ui/README"
         },
         {
@@ -2400,7 +2493,7 @@
       ]
     },
     {
-      "label": "Delivery — Implementation Planning",
+      "label": "Delivery \u2014 Implementation Planning",
       "items": [
         {
           "title": "MOD003 IMPLEMENTATION PLAN 20260719T223000Z",
@@ -2413,7 +2506,7 @@
       ]
     },
     {
-      "label": "Delivery — Engineering",
+      "label": "Delivery \u2014 Engineering",
       "items": [
         {
           "title": "MOD003 ENGINEERING EXECUTION BASELINE 20260719T230000Z",
@@ -2434,7 +2527,7 @@
       ]
     },
     {
-      "label": "Delivery — Verification",
+      "label": "Delivery \u2014 Verification",
       "items": [
         {
           "title": "MOD003 SYSTEM VERIFICATION AUDIT 20260719T235000Z",
@@ -2447,7 +2540,7 @@
       ]
     },
     {
-      "label": "Delivery — User Acceptance",
+      "label": "Delivery \u2014 User Acceptance",
       "items": [
         {
           "title": "MOD003 USER ACCEPTANCE AUDIT 20260720T000500Z",
@@ -2460,7 +2553,7 @@
       ]
     },
     {
-      "label": "Delivery — Release",
+      "label": "Delivery \u2014 Release",
       "items": [
         {
           "title": "MOD003 RELEASE READINESS AUDIT 20260720T002000Z",
@@ -2473,7 +2566,7 @@
       ]
     },
     {
-      "label": "Delivery — Production",
+      "label": "Delivery \u2014 Production",
       "items": [
         {
           "title": "MOD003 PRODUCTION RELEASE AUDIT 20260720T003500Z",
@@ -2486,7 +2579,7 @@
       ]
     },
     {
-      "label": "Delivery — Post Release",
+      "label": "Delivery \u2014 Post Release",
       "items": [
         {
           "title": "MOD003 POST RELEASE VERIFICATION AUDIT 20260720T010500Z",
@@ -2623,47 +2716,47 @@
           "path": "99-templates/workflow-template"
         },
         {
-          "title": "Foundation Domain — Authentication",
+          "title": "Foundation Domain \u2014 Authentication",
           "path": "04-domains/foundation/authentication"
         },
         {
-          "title": "Foundation Domain — Organization",
+          "title": "Foundation Domain \u2014 Organization",
           "path": "04-domains/foundation/organization"
         },
         {
-          "title": "Foundation Domain — Company",
+          "title": "Foundation Domain \u2014 Company",
           "path": "04-domains/foundation/company"
         },
         {
-          "title": "Foundation Domain — Branch",
+          "title": "Foundation Domain \u2014 Branch",
           "path": "04-domains/foundation/branch"
         },
         {
-          "title": "Foundation Domain — Financial Year",
+          "title": "Foundation Domain \u2014 Financial Year",
           "path": "04-domains/foundation/financial-year"
         },
         {
-          "title": "Foundation Domain — Users",
+          "title": "Foundation Domain \u2014 Users",
           "path": "04-domains/foundation/users"
         },
         {
-          "title": "Foundation Domain — Roles & Permissions",
+          "title": "Foundation Domain \u2014 Roles & Permissions",
           "path": "04-domains/foundation/roles-permissions"
         },
         {
-          "title": "Foundation Domain — Audit",
+          "title": "Foundation Domain \u2014 Audit",
           "path": "04-domains/foundation/audit"
         },
         {
-          "title": "Foundation Domain — Notifications",
+          "title": "Foundation Domain \u2014 Notifications",
           "path": "04-domains/foundation/notifications"
         },
         {
-          "title": "Foundation Domain — Workflow",
+          "title": "Foundation Domain \u2014 Workflow",
           "path": "04-domains/foundation/workflow"
         },
         {
-          "title": "Foundation Domain — Documents",
+          "title": "Foundation Domain \u2014 Documents",
           "path": "04-domains/foundation/documents"
         }
       ]
