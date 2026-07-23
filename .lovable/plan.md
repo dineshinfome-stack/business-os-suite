@@ -1,132 +1,99 @@
+## SPR-MOD-001-001 — Sprint Acceptance Review (v1.2)
 
-# SPR-MOD-001-001 — Tenancy Foundation Implementation Plan (v1.1)
+Formal Acceptance Review before sprint closure. Documentation + verification pass — no feature code, schema, or RBAC changes. This version is intended to double as the reusable Acceptance Review template for future sprints; only sprint-specific details (Sprint ID, AC list, evidence refs, next-sprint recommendation) change per instance.
 
-Executes SIP-001 → SIP-023 verbatim to the SIP. No new requirements, no scope expansion. Wave 0 primitives (organizations, RBAC, audit, settings, notifications, navigation) are treated as prerequisites and are **not** re-implemented. **v1.1 incorporates the Architecture Board's implementation clarifications** (idempotency, slug normalization, rollback semantics, transition matrix, RLS edge cases, resilient denial logging, concurrent-activation test, migration numbering, and documentation phrasing).
+### 1. Evidence Collection (Acceptance Criteria)
 
-## Conceptual model (per Sprint PRD / ADR-011 / ADR-012)
+Re-read the Sprint PRD to enumerate the actual AC list, then gather evidence per criterion. Reference implementation artifacts by their real names as found in the repository — do not prescribe function, policy, or route names.
 
-`tenant` is introduced as the **platform isolation unit**. The existing `organizations` table becomes the **seed company** created atomically when a tenant activates (per AC-2). Every tenant-scoped row carries `tenant_id`; existing `organizations.tenant_id` back-fills to a synthetic active tenant per current org so Wave 0 tests stay green (R6).
+**Evidence discipline**: where direct execution evidence cannot be produced (for example, in environments without a live database or browser), clearly distinguish implementation evidence, automated test evidence, and runtime verification, and do not fabricate runtime results. Missing runtime evidence must be recorded as a gap, not simulated.
 
-```text
-tenant (platform isolation)
- └── organization (seed company, 1..1 at bootstrap; hierarchy managed by SPR-002)
-      └── branch (seed default)
-           └── financial_year (placeholder)
-```
+- **Migration evidence**: read the applied migration files under `supabase/migrations/` and verify objects exist via `supabase--read_query` (tables, RPCs, permission rows) using the names present in those files.
+- **RLS isolation proof**: demonstrate that the implemented tenant RLS policies prevent cross-tenant reads; capture query output showing deny behavior. Reference policies by whatever names the migrations actually created.
+- **Lifecycle transition demo**: invoke the implemented tenant activation, suspension, and archival RPCs/server functions (as defined by the implementation) and capture returned payloads, including the idempotency signal for repeat calls.
+- **Audit log entries**: query `public.audit_logs` for the resulting tenant lifecycle rows; capture `actor_id`, `new_values`, `occurred_at`.
+- **Server-function responses**: capture representative payload shapes for the implemented tenant read/list/mutation functions.
+- **UI screenshots**: drive Playwright against the implemented platform tenant list and detail routes at 1280×1800; capture list view, create dialog, detail card with lifecycle badges, and disabled-action states. Store screenshots in the project's agreed evidence/output location and reference them from the Acceptance Review doc.
 
-## Explicit lifecycle transition matrix (clarification #5)
+### 2. Traceability Matrix
 
-```text
-From         To            Allowed  Notes
-created      active        ✅       Runs atomic bootstrap; emits tenant.activated
-active       suspended     ✅       Emits tenant.suspended; blocks tenant-scoped writes
-suspended    active        ✅       Re-activation; no new bootstrap (idempotent)
-active       archived      ✅       Emits tenant.archived; writes blocked, reads allowed
-suspended    archived      ✅       Emits tenant.archived
-created      suspended     ❌       Rejected
-created      archived      ❌       Rejected
-archived     *             ❌       Terminal
-same → same                ❌       Rejected (no event emitted)
-```
+Produce SIP-001 … SIP-023 closure table with columns:
+- Task
+- Status
+- Implementation reference (file + symbol/function/component; optional line hint)
+- Test reference (file + test name)
+- Evidence artifact
 
-The matrix is encoded in `src/lib/tenants/lifecycle.ts` as a `Record<state, Set<state>>` and in `private.assert_lifecycle_transition(from, to)` for defence in depth.
+Symbol-based references over line numbers so the matrix survives future edits.
 
-## Deliverables mapped to SIP tasks
+### 3. Quality Gate Reverification
 
-### Database (SIP-001, 002, 004, 007) — clarification #1: symbolic migration ordering
+Run and record:
+- `bunx tsgo --noEmit` — typecheck
+- `bunx vitest run` — full suite
+- `supabase--linter` — security posture; confirm only known accepted findings remain
+- Static review: grep new tenant files for `TODO`, unintended dev feature flags, stray `console.log`
+- RLS verification queries (from §1)
 
-Migration numbers assigned at author-time against then-current repo state. Three migrations, executed in this order:
+### 4. Documentation Updates
 
-**A. Tenants schema migration** *(next available number)*
-- `public.tenant_lifecycle_state` enum (`created`,`active`,`suspended`,`archived`).
-- `public.tenants` (id uuid PK default `gen_random_uuid()`, slug citext UNIQUE NOT NULL, display_name, region, default_locale, timezone, plan_tier, lifecycle_state default `created`, created_by, created_at, updated_at, activated_at, suspended_at, archived_at). Slug immutable via BEFORE UPDATE trigger raising when NEW.slug ≠ OLD.slug; id column has no update path.
-- `public.branches` (id, tenant_id FK, organization_id FK, code, name, is_default, timestamps; UNIQUE (organization_id, code); UNIQUE (organization_id) WHERE is_default — supports idempotent bootstrap).
-- `public.financial_years` (id, tenant_id FK, organization_id FK, code, start_date, end_date, is_placeholder, timestamps; UNIQUE (organization_id, code)).
-- `organizations.tenant_id uuid` column + FK; back-fill wraps each existing org in a synthesized `tenants` row (`lifecycle_state='active'`, slug derived + normalized from org slug with collision suffix). NOT NULL enforced after back-fill.
-- GRANTs to `authenticated` + `service_role` per public-schema rule.
-- RLS ENABLE + policies on `tenants`, `branches`, `financial_years` using `private.current_tenant_id()`.
+- Author `docs/50-audit-reports/SPR_MOD_001_001_ACCEPTANCE_REVIEW.md` containing: AC evidence table, traceability matrix, quality-gate results, rollback assessment, outstanding observations, sign-off block.
+- Append **Sprint Outcome** to the SIP (Execution Metadata + Task Status only; substantive content stays immutable per `SIP_LIFECYCLE.md`).
+- **Archive the SIP according to `SIP_LIFECYCLE.md`.** If the lifecycle specifies "copy then archive as the immutable record," follow that policy rather than assuming a direct move. Re-read `SIP_LIFECYCLE.md` at review time and apply the archival procedure it prescribes.
+- Author a new status report under `docs/04_Program_Status/reports/PROGRAM_STATUS_<ts>.md` per `STATUS_REPORT_TEMPLATE.md` reflecting MOD-001 Sprint 001 = Complete.
+- Update `docs/03_Implementation_Master_Plan/CHANGELOG.md` with a sprint-completion entry per the Living-doc protocol.
 
-**B. Tenancy helpers migration** *(next available number)*
-- `private.normalize_slug(text) → citext` — trim, lowercase, replace non-alphanumerics with `-`, collapse repeats, strip leading/trailing `-`. Used by validation **before** uniqueness check (clarification #3).
-- `private.current_tenant_id() → uuid` SECURITY DEFINER. **Edge-case contract (clarification #6):** returns NULL when the caller has no active organization membership. Does **not** raise. RLS policies treat NULL as "no tenant" → row is invisible (deny by default). Platform-admin surfaces bypass via `private.is_platform_admin()`.
-- `private.is_platform_admin() → boolean` — reuses existing `has_role(auth.uid(),'platform_admin')`.
-- `private.assert_tenant_active(tenant uuid)` — raises `insufficient_privilege` when not `active` (backs AC 5.3/5.4 write-block).
-- `private.assert_lifecycle_transition(from state, to state)` — raises on disallowed transitions per matrix above.
-- `private.log_cross_tenant_denial(...)` — **resilient logging (clarification #7):** wrapped in `BEGIN … EXCEPTION WHEN OTHERS THEN PERFORM pg_notify('audit_fallback', …) END;` so an audit failure never masks the original authorization error; uses SECURITY DEFINER on a dedicated write-only path, so it cannot recurse into a policy denial on `audit_logs`.
-- `private.activate_tenant(p_tenant uuid) → jsonb` — **idempotent, atomic bootstrap (clarifications #2, #4):**
-  - Runs inside a single transaction; on any error the whole transaction ROLLBACKs (no partial state).
-  - `SELECT … FOR UPDATE` on the tenant row → serializes concurrent activations (clarification: concurrent-activation test).
-  - If already `active`: returns existing seed org/branch/FY ids; emits no new event; no duplicate rows.
-  - If `created`: asserts transition, inserts seed `organizations`+`branches`+`financial_years` with `ON CONFLICT DO NOTHING` on the natural keys above, flips state to `active`, sets `activated_at`, initializes `setting_values` and `feature_flags` namespaces (INSERT … ON CONFLICT DO NOTHING).
-  - Returns `{tenant_id, organization_id, branch_id, financial_year_id, already_active: bool}`.
-- Analogous `private.suspend_tenant`, `private.archive_tenant` RPCs — guard via matrix, update state + `*_at`, return prior state.
+### 5. Production Readiness
 
-**C. Tenant permissions migration** *(next available number)*
-- Insert `platform.tenant.read|create|activate|suspend|archive` into `permissions`.
-- Grant to `platform_admin` role via `role_permissions`.
+Document in the Acceptance Review:
+- **Rollback**: verify and document the rollback characteristics of each migration in this sprint, including any intentionally irreversible data transformations (state the finding based on inspection, don't assume).
+- Configuration changes introduced (if any).
+- Feature flags introduced (if any); confirm none are unintentionally left enabled.
+- Monitoring/audit logging functioning as evidenced in §1.
 
-### Backend — lifecycle & bootstrap (SIP-003, 004, 005, 006, 009–015)
-- `src/lib/tenants/lifecycle.ts` — transition matrix + `canTransition(from,to)` guard (pure).
-- `src/lib/tenants/slug.ts` — `normalizeSlug()` mirroring `private.normalize_slug` (clarification #3); validation calls normalize → Zod format check → DB uniqueness.
-- `src/lib/tenants/events.ts` — `tenant.*` event payload builders conforming to ADR-051 envelope; publish via existing notifications/eventing surface, channel `tenant`.
-- `src/lib/tenants/tenants.functions.ts` (createServerFn, `.middleware([requireSupabaseAuth])`, platform-admin gate):
-  - `createTenant` — normalizes slug, Zod-validates metadata, inserts tenant in `created`, audits, emits `tenant.created`.
-  - `activateTenant` — invokes `private.activate_tenant` RPC. On `already_active=true`, does **not** re-emit `tenant.activated` and does **not** re-audit as a fresh transition (idempotent retry semantics, clarification #2); returns the existing bootstrap ids.
-  - `suspendTenant`, `archiveTenant` — RPC-backed; audit + event only on real state change.
-  - `listTenants`, `getTenant` — platform-admin only.
-- Audit via `src/lib/tenants/audit.ts` → `logTenantEventFn` writing `audit_logs` with `entity='tenant'`, capturing actor, tenant_id, transition, from_state, to_state, timestamp, correlation_id.
-- Event catalog: `docs/70-events/tenant-events.md` (SIP-016).
+### 6. Outstanding Observations
 
-### API surface (SIP-017)
-Server functions are the API on this stack. No new `/api/*` routes. Add `docs/70-api/tenants.md` mapping API-001 endpoints ↔ server functions.
+Dedicated section in the Acceptance Review with three subsections:
+- **Resolved** this sprint
+- **Carried Forward** to a future sprint (with target sprint/owner)
+- **Accepted Risks** (e.g. R-074) with rationale
 
-### RBAC + Navigation
-- Extend permission catalog with `platform.tenant.*`.
-- Grants added in permissions migration C.
-- Add "Platform Admin → Tenants" node to `src/lib/navigation/registry.ts`, gated by `platform.tenant.read`.
+### 7. Architecture Board Decision
 
-### Web UI (SIP-018)
-- `src/routes/_authenticated/platform.tenants.tsx` — DataGrid of tenants, lifecycle badge, row actions (Create / Activate / Suspend / Archive) via shadcn Dialog + `<Can>` gates. Action buttons disabled for disallowed transitions per matrix; UI reads `canTransition` from shared `lifecycle.ts` so client and server share one source of truth.
-- `src/routes/_authenticated/platform.tenants.$tenantId.tsx` — detail (metadata, bootstrap ids, lifecycle history from audit).
-- Loader → `listTenants` via `queryOptions` + `useSuspenseQuery`.
+Explicit decision block: **Approve** / **Approve with Conditions** / **Reject**, plus next-sprint recommendation (SPR-MOD-001-002 — Branches & Financial Years UI) contingent on approval.
 
-### Mobile (SIP-019)
-Read-only per SIP scope. Add `src/hooks/tenants/useCurrentTenant.ts` exposing tenant metadata derived from active org.
+### Exit Criteria
 
-### Tenant context propagation (SIP-020)
-Extend the org context provider to expose `tenantId` alongside `orgId`; add `tenant_id` field to `src/lib/correlation.ts` so every structured log line and audit row carries it.
+The sprint may only be declared Complete when ALL hold:
+- All acceptance criteria verified with evidence (or gaps explicitly recorded per §1 discipline)
+- All SIP tasks closed in the traceability matrix
+- Quality gate passed (typecheck, tests, linter, RLS, static review)
+- Required documentation updated (Acceptance Review, SIP archived per `SIP_LIFECYCLE.md`, Program Status, IMP CHANGELOG)
+- Architecture Board decision = Approve or Approve with Conditions
 
-### Observability (SIP-021)
-Structured log fields `{ tenant_id, transition, actor_id, correlation_id }` on every lifecycle handler using existing `logger.ts`.
+### Out of Scope
 
-### Tests (SIP-022) — clarification: concurrent-activation scenario added
-- `src/lib/tenants/__tests__/lifecycle.test.ts` — transition matrix (allowed + rejected cases).
-- `src/lib/tenants/__tests__/slug.test.ts` — normalization + collision behavior.
-- `src/lib/tenants/__tests__/validators.test.ts` — Zod metadata.
-- `src/lib/tenants/__tests__/events.test.ts` — envelope conformance.
-- `src/lib/tenants/__tests__/bootstrap.integration.test.ts` — single-transaction bootstrap + rollback on injected failure (no partial rows).
-- `src/lib/tenants/__tests__/idempotency.integration.test.ts` — activate twice sequentially → one event, one bootstrap, existing ids returned.
-- `src/lib/tenants/__tests__/concurrency.integration.test.ts` — two `activateTenant` calls fired in parallel against the same tenant → exactly one performs bootstrap, other returns `already_active` with identical ids; no duplicate org/branch/FY rows.
-- `src/lib/tenants/__tests__/isolation.smoke.test.ts` — RLS fixture: two tenants, cross-read denied, denial audit row exists; audit failure injection verifies original 403 is preserved (clarification #7).
+- Any feature code, schema, or RBAC change.
+- Starting SPR-MOD-001-002.
+- Remediating R-074 or the accepted C-001/C-002 observations.
 
-### Documentation (SIP-023) — clarification #8
-- Update `docs/SPRINT_CATALOG.md`: SPR-MOD-001-001 → **Implementation Complete (Pending Review & Quality Gate)**.
-- Update `docs/30-sprint-prds/platform/README.md` with the same phrasing.
-- Author `docs/50-audit-reports/SPRINT_MOD_001_001_TENANCY_FOUNDATION_REPORT.md` with 23-row task matrix, AC verification, idempotency + concurrency evidence, and quality-gate results.
+### Stop Condition
 
-## Sequencing
+Stop after:
+- Acceptance Review completed
+- Documentation updated
+- Architecture Board decision recorded
 
-1. Migration A (schema) → B (helpers + RPCs) → C (permissions).
-2. `src/lib/tenants/*` (pure logic + server fns).
-3. RBAC + navigation registration.
-4. Web routes + UI.
-5. Tests + docs + report.
+Do not begin SPR-MOD-001-002 until the Acceptance Review has been approved.
 
-## Out of scope (mirrors SIP §11)
-Users, RBAC admin UI, org hierarchy management, config resolution UI, localization, audit review surface.
+### Deliverables
 
-## Verification gates
-- `bunx tsgo --noEmit` clean.
-- `bunx vitest run` green including new idempotency, concurrency, and isolation smoke tests.
-- Supabase linter clean on new migrations.
-- All 7 acceptance criteria (§5.1–§5.7) demonstrated in the completion report.
+1. `docs/50-audit-reports/SPR_MOD_001_001_ACCEPTANCE_REVIEW.md`
+2. SIP archived per `SIP_LIFECYCLE.md` with Sprint Outcome appended
+3. New Program Status report under `docs/04_Program_Status/reports/`
+4. IMP CHANGELOG entry
+5. Playwright screenshots (or explicit gap record) in the agreed evidence location, referenced from the Acceptance Review
+
+### Template Note
+
+Upon approval, this document becomes the standard **Sprint Acceptance Review Template**. Future sprints reuse the structure verbatim; only Sprint ID, AC list, evidence references, and next-sprint recommendation change per instance.
