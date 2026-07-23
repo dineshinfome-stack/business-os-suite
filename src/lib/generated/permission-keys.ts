@@ -24,6 +24,19 @@ export const PERMISSIONS = {
   NOTIFICATIONS_INBOX_MANAGE: "notifications.inbox.manage",
   SEARCH_GLOBAL_USE: "search.global.use",
   SEARCH_HISTORY_MANAGE: "search.history.manage",
+  WORKSPACE_WORKSPACE_READ: "workspace.workspace.read",
+  WORKSPACE_WORKSPACE_MANAGE: "workspace.workspace.manage",
+  WORKSPACE_ORGANIZATION_READ: "workspace.organization.read",
+  WORKSPACE_ORGANIZATION_UPDATE: "workspace.organization.update",
+  WORKSPACE_BRANDING_READ: "workspace.branding.read",
+  WORKSPACE_BRANDING_UPDATE: "workspace.branding.update",
+  WORKSPACE_PROFILE_READ: "workspace.profile.read",
+  WORKSPACE_PROFILE_UPDATE: "workspace.profile.update",
+  WORKSPACE_MEMBER_READ: "workspace.member.read",
+  WORKSPACE_MEMBER_INVITE: "workspace.member.invite",
+  WORKSPACE_MEMBER_REMOVE: "workspace.member.remove",
+  WORKSPACE_INVITATION_READ: "workspace.invitation.read",
+  WORKSPACE_INVITATION_REVOKE: "workspace.invitation.revoke",
 } as const;
 
 export type PermissionKey = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
@@ -48,6 +61,19 @@ export const ALL_PERMISSION_KEYS: readonly PermissionKey[] = [
   "notifications.inbox.manage",
   "search.global.use",
   "search.history.manage",
+  "workspace.workspace.read",
+  "workspace.workspace.manage",
+  "workspace.organization.read",
+  "workspace.organization.update",
+  "workspace.branding.read",
+  "workspace.branding.update",
+  "workspace.profile.read",
+  "workspace.profile.update",
+  "workspace.member.read",
+  "workspace.member.invite",
+  "workspace.member.remove",
+  "workspace.invitation.read",
+  "workspace.invitation.revoke",
 ] as const;
 
 export const ROLE_KEYS = {

@@ -21,8 +21,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
 import { Route as DocsSplatRouteImport } from './routes/docs.$'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as AuthenticatedWorkspaceRouteImport } from './routes/_authenticated/workspace'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedWorkspaceAcceptRouteImport } from './routes/_authenticated/workspace.accept'
 import { Route as AuthenticatedSettingsPlatformRouteImport } from './routes/_authenticated/settings.platform'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -84,6 +86,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/callback',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthenticatedWorkspaceRoute = AuthenticatedWorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -94,6 +101,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedWorkspaceAcceptRoute =
+  AuthenticatedWorkspaceAcceptRouteImport.update({
+    id: '/accept',
+    path: '/accept',
+    getParentRoute: () => AuthenticatedWorkspaceRoute,
+  } as any)
 const AuthenticatedSettingsPlatformRoute =
   AuthenticatedSettingsPlatformRouteImport.update({
     id: '/platform',
@@ -112,10 +125,12 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
+  '/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
   '/settings/platform': typeof AuthenticatedSettingsPlatformRoute
+  '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -127,10 +142,12 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
+  '/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs': typeof DocsIndexRoute
   '/settings/platform': typeof AuthenticatedSettingsPlatformRoute
+  '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -145,10 +162,12 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteWithChildren
+  '/_authenticated/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
   '/_authenticated/settings/platform': typeof AuthenticatedSettingsPlatformRoute
+  '/_authenticated/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -163,10 +182,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/dashboard'
     | '/settings'
+    | '/workspace'
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
     | '/settings/platform'
+    | '/workspace/accept'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -178,10 +199,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/dashboard'
     | '/settings'
+    | '/workspace'
     | '/auth/callback'
     | '/docs/$'
     | '/docs'
     | '/settings/platform'
+    | '/workspace/accept'
   id:
     | '__root__'
     | '/'
@@ -195,10 +218,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/dashboard'
     | '/_authenticated/settings'
+    | '/_authenticated/workspace'
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
     | '/_authenticated/settings/platform'
+    | '/_authenticated/workspace/accept'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -299,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_authenticated/workspace': {
+      id: '/_authenticated/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof AuthenticatedWorkspaceRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -312,6 +344,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/workspace/accept': {
+      id: '/_authenticated/workspace/accept'
+      path: '/accept'
+      fullPath: '/workspace/accept'
+      preLoaderRoute: typeof AuthenticatedWorkspaceAcceptRouteImport
+      parentRoute: typeof AuthenticatedWorkspaceRoute
     }
     '/_authenticated/settings/platform': {
       id: '/_authenticated/settings/platform'
@@ -336,14 +375,30 @@ const AuthenticatedSettingsRouteWithChildren =
     AuthenticatedSettingsRouteChildren,
   )
 
+interface AuthenticatedWorkspaceRouteChildren {
+  AuthenticatedWorkspaceAcceptRoute: typeof AuthenticatedWorkspaceAcceptRoute
+}
+
+const AuthenticatedWorkspaceRouteChildren: AuthenticatedWorkspaceRouteChildren =
+  {
+    AuthenticatedWorkspaceAcceptRoute: AuthenticatedWorkspaceAcceptRoute,
+  }
+
+const AuthenticatedWorkspaceRouteWithChildren =
+  AuthenticatedWorkspaceRoute._addFileChildren(
+    AuthenticatedWorkspaceRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRouteWithChildren
+  AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRouteWithChildren
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRouteWithChildren,
+  AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRouteWithChildren,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -386,13 +441,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

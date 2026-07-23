@@ -27,7 +27,11 @@ import {
   Settings,
   Shield,
   Cog,
+  Building2,
+  Users,
+  Mail,
 } from "lucide-react";
+
 import type { ComponentType } from "react";
 import type { PermissionKey } from "@/lib/generated/permission-keys";
 
@@ -96,9 +100,52 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     enabled: true,
     keywords: ["home", "overview"],
   },
+  {
+    id: "workspace.hub",
+    id_status: "active",
+    module: "workspace",
+    title: "Workspace",
+    icon: Building2,
+    route: "/workspace",
+    parent: "workspace",
+    display_order: 20,
+    permission: "workspace.workspace.read",
+    visible: true,
+    enabled: true,
+    keywords: ["organization", "profile", "branding", "team", "invitations"],
+  },
+  {
+    id: "workspace.team",
+    id_status: "active",
+    module: "workspace",
+    title: "Team",
+    icon: Users,
+    route: "/workspace",
+    parent: "workspace",
+    display_order: 30,
+    permission: "workspace.member.read",
+    visible: true,
+    enabled: true,
+    keywords: ["members", "directory"],
+  },
+  {
+    id: "workspace.invitations",
+    id_status: "active",
+    module: "workspace",
+    title: "Invitations",
+    icon: Mail,
+    route: "/workspace",
+    parent: "workspace",
+    display_order: 40,
+    permission: "workspace.invitation.read",
+    visible: true,
+    enabled: true,
+    keywords: ["invite", "join"],
+  },
 
   // ── Administration ──────────────────────────────────────────────
   {
+
     id: "administration",
     id_status: "active",
     module: "administration",

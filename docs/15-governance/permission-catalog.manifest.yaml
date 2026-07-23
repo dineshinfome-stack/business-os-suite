@@ -83,6 +83,48 @@ permissions:
     name: Manage own search history
     description: Clear the caller's personal search history
 
+  # --- Workspace (Sprint 1.0 — MOD-001) -------------------------------------
+  - key: workspace.workspace.read
+    name: View workspace
+    description: View the workspace dashboard
+  - key: workspace.workspace.manage
+    name: Manage workspace
+    description: Manage workspace-level settings
+  - key: workspace.organization.read
+    name: View organization
+    description: View organization profile
+  - key: workspace.organization.update
+    name: Update organization
+    description: Update organization profile
+  - key: workspace.branding.read
+    name: View branding
+    description: View organization branding
+  - key: workspace.branding.update
+    name: Update branding
+    description: Update organization branding
+  - key: workspace.profile.read
+    name: View profile
+    description: View user profile
+  - key: workspace.profile.update
+    name: Update profile
+    description: Update own user profile
+  - key: workspace.member.read
+    name: View members
+    description: View organization members
+  - key: workspace.member.invite
+    name: Invite members
+    description: Invite new members
+  - key: workspace.member.remove
+    name: Remove members
+    description: Remove members
+  - key: workspace.invitation.read
+    name: View invitations
+    description: View pending invitations
+  - key: workspace.invitation.revoke
+    name: Revoke invitations
+    description: Revoke pending invitations
+
+
 roles:
   - key: platform_owner
     name: Platform Owner
