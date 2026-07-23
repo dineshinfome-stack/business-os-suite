@@ -1,13 +1,14 @@
 ---
 document: EEMP Chapter 02 — Repository Governance
-version: 0.2.0
+version: 0.3.0
 last_reviewed: 2026-07-23
 next_review: 2027-01-23
 owner: Project Architecture
-approval_status: Draft
-lifecycle_state: Draft
+approval_status: Approved
+lifecycle_state: Published
 supersedes: none
 ---
+
 
 # Chapter 02 — Repository Governance
 
@@ -154,6 +155,13 @@ Every checklist under `checklists/` includes the six mandatory fields: Required 
 ### R-27 Template Traceability
 Every reusable template under `templates/` includes a Traceability section naming the governing EEMP chapter and the referenced standards. Wrappers around authoritative templates (e.g. ADR) must link to the authoritative source and add no competing content.
 
+### R-28 Publication Readiness
+Before EEMP publication verify: every chapter exists, is indexed, and reachable from README; every internal link, cross-reference, referenced chapter, template, checklist, and example resolves; every Mermaid diagram renders; every required frontmatter field is present; every required index entry exists; no orphaned EEMP assets remain.
+
+### R-29 Documentation Certification
+The EEMP is publishable only when: all mandatory chapters, indexes, templates, checklists, and examples exist and validate; Repository Health contains no unresolved Critical findings; Compliance Verification passes; Engineering Review passes.
+
+
 ## Dependencies
 
 - Frontmatter Standard (`docs/15-governance/GOVERNANCE_FRONTMATTER_STANDARD.md`)
@@ -215,3 +223,5 @@ Confidence:         High
 |---------|------|--------|--------|
 | 0.1.0 | 2026-07-23 | Project Architecture | Initial draft — codifies 17 rules R-01…R-17. |
 | 0.2.0 | 2026-07-23 | Project Architecture | Phase 4 amendment — added R-24 Asset Governance Parity, R-25 Example Non-Authority, R-26 Checklist Contract, R-27 Template Traceability. |
+| 0.3.0 | 2026-07-23 | Project Architecture | Phase 5 amendment — added R-28 Publication Readiness, R-29 Documentation Certification. Promoted to Approved / Published. |
+
