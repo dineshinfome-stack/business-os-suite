@@ -6,6 +6,7 @@ import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { OrgSwitcher } from "@/components/navigation/OrgSwitcher";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { APP_NAME, APP_VERSION } from "@/constants/app";
 
@@ -21,6 +22,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
               <Breadcrumb />
               <div className="ml-auto flex items-center gap-2">
                 <OrgSwitcher />
+                <NotificationBell />
                 <ThemeToggle />
               </div>
             </header>

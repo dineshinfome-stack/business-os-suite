@@ -22,4 +22,9 @@ export const queryKeys = {
     preferences: (orgId: string | null) => ["navigation", orgId, "preferences"] as const,
     commandHistory: (orgId: string | null) => ["navigation", orgId, "command-history"] as const,
   },
+  notifications: {
+    list: (orgId: string | null) => ["notifications", orgId, "list"] as const,
+    unreadCount: (orgId: string | null) => ["notifications", orgId, "unread-count"] as const,
+    preferences: (orgId: string | null) => ["notifications", orgId, "preferences"] as const,
+  },
 } as const;
