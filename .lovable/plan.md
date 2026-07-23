@@ -1,128 +1,96 @@
-## Sprint 0.9 — Search & Global Command Framework
+# Sprint 1.0 — MOD-001 Business Workspace Foundation
 
-**Objective:** Establish a centralized, multi-tenant, RBAC-aware search infrastructure that extends the existing command palette (Sprint 0.7) with a second "Search" tab powered by a pluggable provider architecture. Infrastructure only — no business modules.
+## Objective
+Ship the first Business OS module on top of the Sprint 0.4–0.9 platform: organization profile, branding, user profile, team directory, and a minimal workspace dashboard — all reusing existing Auth, RBAC, Tenancy, Navigation, Notifications, Search, Audit, and Settings frameworks.
 
----
+## Architecture Rules (non-negotiable)
+- No new infrastructure. Extend existing registries and frameworks only.
+- All server logic in `src/lib/workspace/*.functions.ts` (client-safe) + `*.server.ts` (privileged helpers).
+- `organization_id` always derived from `requireOrgContext` middleware — never from client input.
+- Every mutation: RBAC gate → org scope → audit event → (where relevant) notification emission.
 
-### 1. Database — Migration `013_search_framework`
+## Deliverables
 
-Two new tables in `public`:
+### 1. Database — Migration `014_mod001_workspace`
+Four new tables:
+- `public.organization_profiles` (1:1 org) — legal/display name, business_type, industry, tax IDs, contact, currency, timezone, language.
+- `public.organization_branding` (1:1 org) — logo_url, favicon_url, primary/secondary color, theme.
+- `public.user_profiles` (1:1 user×org) — display_name, job_title, department, avatar_url, phone, timezone, language, `preferences jsonb`.
+- `public.organization_invitations` — separates invitations from memberships:
+  - `id`, `organization_id`, `email` (citext), `role`, `invited_by`, `token_hash` (unique, see §3), `status` (`pending|accepted|expired|revoked`), `expires_at`, `accepted_at`, `accepted_by`, `revoked_at`, `created_at`, `updated_at`.
+  - Unique partial index on `(organization_id, lower(email)) WHERE status='pending'` to prevent duplicate open invites.
+  - Membership row in `organization_members` is created **only on acceptance**.
 
-- **`search_history`** — `id`, `organization_id`, `user_id`, `query`, `resource_type` (nullable), `selected_result_id` (nullable text), `searched_at`. Indexed on `(user_id, organization_id, searched_at desc)`. Pruning to the most recent 20 rows per user handled by a `BEFORE INSERT` trigger calling a `private.fn_prune_search_history` helper (keeps the design consistent with existing `private.*` helpers).
-- **`search_preferences`** — `organization_id`, `user_id`, `enable_recent_searches` (bool, default true), `enable_suggestions` (bool, default true), `created_at`, `updated_at`. Unique on `(organization_id, user_id)`.
+Per repository standard, each table: `CREATE` → `GRANT` (authenticated + service_role) → `ENABLE RLS` → policies using `private.fn_is_org_member(auth.uid(), organization_id)`. `updated_at` trigger via `fn_set_updated_at`. Invitation SELECT policy also allows the invitee (by matching `auth.jwt() ->> 'email'`) to see their own pending invites — but the token is never selectable, only the hash.
 
-Each table follows the standard four-step pattern: `CREATE TABLE` → `GRANT` to `authenticated` + `service_role` → `ENABLE ROW LEVEL SECURITY` → policies scoped by `auth.uid() = user_id AND private.fn_is_org_member(organization_id)`. `updated_at` trigger on `search_preferences` using existing `public.fn_set_updated_at()`.
+### 2. RBAC
+Append to `docs/15-governance/permission-catalog.manifest.yaml`:
+`organization.read/update`, `branding.read/update`, `profile.read/update`, `member.read`, `member.invite`, `member.remove`, `invitation.read`, `invitation.revoke`, `workspace.read/manage`.
 
-RBAC seed via `docs/15-governance/permission-catalog.manifest.yaml` (regenerated through `bun run gen:permissions`):
-- `search.global.use` — permits invoking the search tab.
-- `search.history.manage` — permits clearing personal history.
+Regenerate `src/lib/generated/permission-keys.ts` via `bun run gen:permissions`. Seed permission rows + role grants in the same migration (owner: all; admin: all except destructive; member: `*.read`, `profile.update`, `workspace.read`).
 
----
+### 3. Backend — `src/lib/workspace/`
+- `types.ts` — DTOs for Organization, Branding, Profile, Member, Invitation.
+- `schemas.ts` — Zod validators (shared client + server).
+- `service.server.ts` — privileged helpers (no direct client import), including invitation-token helpers.
+- `functions.ts` — `createServerFn` with `.middleware([requireOrgContext])` + explicit permission checks:
+  - Organization: `getOrganization`, `updateOrganization`
+  - Branding: `getBranding`, `updateBranding`
+  - Profile: `getProfile`, `updateProfile`
+  - Members: `listMembers`, `removeMember`
+  - Invitations:
+    - `listInvitations` (org-scoped, pending)
+    - `createInvitation` — validates email + role; **generates a 32-byte cryptographically random token** via `crypto.getRandomValues(new Uint8Array(32))` and base64url-encodes it (~43 chars, ~256 bits of entropy). Stores only `token_hash = sha256(token)` in the DB; the raw token is returned **once** in the response payload to the inviter for copy/share and never persisted or logged. Sets `expires_at = now() + 7 days`. Emits `member.invited` notification + audit event.
+    - `revokeInvitation` — sets `status='revoked'`, audit + notification.
+    - `acceptInvitation({ token })` — authenticated caller; hashes the presented token, looks up row by `token_hash`, verifies `pending` + not expired + email matches `auth.jwt().email`; atomically inserts `organization_members` row and sets invitation `status='accepted'`, `accepted_at`, `accepted_by`; emits `member.joined` audit. Constant-time comparison via hash lookup (no plaintext scan).
 
-### 2. Search Registry — `src/lib/search/registry.ts`
+All emit audit events via existing `logAuditEventFn` and notifications via existing framework using new registry entries in `src/lib/notifications/registry.ts` (`organization.updated`, `branding.updated`, `member.invited`, `member.removed`, `invitation.revoked`, `profile.updated`).
 
-Immutable, code-only registry (mirrors `notifications/registry.ts`). Each entry:
+### 4. Navigation
+Append nodes to `src/lib/navigation/registry.ts`: Workspace (`/workspace`), Organization (`/organization`), Team (`/team`), Profile (`/profile`), Organization Settings (nested under `/settings`). Each with `permission` + `icon`.
 
-```
-{ resourceType, displayName, icon, permission, keywords, routeBuilder(result), providerKey }
-```
+### 5. Search
+Promote reserved resource types in `src/lib/search/registry.ts` to `active`: `organization`, `team_member`, `profile`, `workspace`. DatabaseProvider picks them up; no framework changes.
 
-Ships with placeholder entries for future business resources (customer, vendor, employee, task, project, invoice, quotation, asset, setting, report) marked `status: "reserved"` so the registry contract is published without exposing routes to unimplemented modules. Only `setting` and `report` are `status: "active"` at sprint close (they map to routes that exist today).
+### 6. Settings Integration
+Register Organization / Branding / Workspace / Profile setting definitions via existing `setting_definitions` seed in the same migration.
 
-A `docs/15-governance/SEARCH_REGISTRY_STANDARD.md` note defines the stability contract (identifiers immutable once active) matching the notifications-registry convention.
+### 7. Frontend — `src/components/workspace/`
+`OrganizationCard`, `BusinessProfileForm`, `BrandingForm`, `MemberList`, `MemberCard`, `InviteMemberDialog` (creates invitation, displays the one-time shareable link containing the raw token — with a "copy link" affordance and a warning that it won't be shown again), `InvitationList` (pending, with revoke), `UserProfileForm`, `WorkspaceDashboard`.
 
----
+Routes under `src/routes/_authenticated/`:
+- `workspace.tsx` — dashboard (org summary, team + pending-invite counts, recent activity, quick actions).
+- `organization.tsx` — profile + branding tabs.
+- `team.tsx` — members + pending invitations tabs.
+- `profile.tsx` — user profile form.
+- `settings.organization.tsx` — org-level settings surface.
+- `invitations.accept.tsx` — reads `?token=`, calls `acceptInvitation` (under `_authenticated` so acceptor is signed in first), redirects to `/workspace`.
 
-### 3. Search Result Model — `src/lib/search/types.ts`
+Each route: unique `head()`; RBAC-gated via `<Can>`; uses existing `AppShell`.
 
-```
-SearchResult { id, resource_type, organization_id, title, subtitle?, description?, icon?, route, permission?, metadata?, score, created_at?, updated_at? }
-```
+### 8. Hooks — `src/hooks/workspace/`
+`useOrganization`, `useBranding`, `useProfile`, `useMembers`, `useInvitations` — TanStack Query, keys added under new `workspace` namespace in `src/lib/query-keys.ts`.
 
-Plus `SearchQuery`, `SearchResponse`, `SearchProvider` interface (`key`, `search(query, ctx)`, optional `autocomplete`).
+### 9. Tests
+`src/lib/workspace/__tests__/` — schema validation, RBAC rejection, tenancy isolation, audit emission, invitation lifecycle (token entropy + hashing; create → accept creates membership; expired/revoked/tampered rejected; email mismatch rejected; duplicate pending blocked), navigation + search registry entries present. Regression: `bunx tsgo --noEmit` + `bunx vitest run` green.
 
----
+### 10. Verification Report
+`docs/50-audit-reports/SPRINT_1_0_MOD001_WORKSPACE_REPORT.md` covering migration, RBAC seed, RLS proof, invitation lifecycle + token-hashing proof, framework-reuse checklist, test + regression evidence for Sprints 0.7–0.9.
 
-### 4. Providers — `src/lib/search/providers/`
+## Sequence
+1. Migration `014` (4 tables + grants + RLS + RBAC seed + settings seed).
+2. Manifest + regenerate permission keys.
+3. Notification + search registry entries.
+4. Backend types/schemas/service/functions (incl. hashed-token invitation lifecycle).
+5. Navigation registry entries + query keys.
+6. Hooks.
+7. Components + routes (incl. `/invitations/accept`).
+8. Tests + typecheck.
+9. Verification report → advance to `READY_FOR_SPRINT_1_1`.
 
-- **`registry-provider.ts`** — searches the navigation registry and the search registry's active entries (title/keywords match, scored the same way as `lib/navigation/search.ts`). Zero DB roundtrips.
-- **`database-provider.ts`** — thin scaffold that iterates active registry entries with a `dbLookup` hook. No business tables exist yet, so it returns `[]` today but demonstrates the RLS-scoped query shape for future modules. Documented as the extension point.
-- Provider registry (`providers/index.ts`) exports the active providers in priority order. `FullTextProvider`, `AISearchProvider`, `VectorProvider` are explicitly not created (out of scope) but reserved in the standard doc.
-
----
-
-### 5. Search Service — `src/lib/search/service.functions.ts`
-
-Server functions, all under `requireSupabaseAuth` + org context, all gated by `search.global.use`:
-
-- `searchGlobal({ query, resourceTypes?, limit? })` — fans out to enabled providers, merges + dedupes by `(resource_type, id)`, filters by caller's permission set (reuses `listEffectivePermissions`), sorts by score, caps at 20. Fires `search.executed` audit event.
-- `recordSearchSelection({ query, resourceType, resultId })` — inserts into `search_history`, fires `search.result_selected`.
-- `listRecentSearches({ limit? })` — reads the caller's `search_history` under RLS, respecting `enable_recent_searches`.
-- `clearSearchHistory()` — deletes caller's rows, fires `search.history_cleared`, gated by `search.history.manage`.
-- `getSearchPreferences()` / `updateSearchPreferences(...)` — upsert under RLS.
-
-Autocomplete/suggestions in this sprint = title-prefix matches from the registry provider only (no DB call). Cross-org queries structurally impossible (org id derived from context, never from client input).
-
----
-
-### 6. Hooks — `src/hooks/search/`
-
-- `useSearch(query)` — debounced (200 ms) `useQuery` wrapping `searchGlobal`. Disabled for empty query.
-- `useRecentSearches()` — `useQuery` + `useMutation` for clear.
-- `useSearchSuggestions(query)` — thin wrapper returning top-5 registry-only matches for instant feedback.
-
-Query keys added to `src/lib/query-keys.ts` under a new `search` namespace, scoped by `(orgId, userId, query)` so org switches invalidate cleanly.
-
----
-
-### 7. Components — `src/components/search/`
-
-- `SearchInput`, `SearchResults`, `SearchItem`, `RecentSearches`, `SearchEmptyState`, `GlobalSearch` (composed wrapper for standalone usage — e.g. a future `/search` route, not shipped this sprint).
-
-### 8. Command Palette Integration
-
-Extend `src/components/navigation/CommandPalette.tsx` — do **not** replace. Add a two-tab layout (Tabs from shadcn) inside the existing `CommandDialog`:
-
-- **Commands** tab — current behaviour (nav registry, favorites, recent nav) untouched.
-- **Search** tab — mounts `SearchInput` + `SearchResults` + `RecentSearches`, wired to `useSearch` + `useRecentSearches`. Selecting a result calls `recordSearchSelection` then navigates via router. Empty state shows recent searches (when the preference is enabled) or `SearchEmptyState`.
-
-Keyboard shortcuts: existing `⌘K` / `Ctrl+K` opens the palette on the last-used tab (persisted in `nav_user_preferences` via a new `command_palette_tab` field — one-row schema addition, added to Migration 013 as an `ALTER TABLE`). Add `⌘K` twice to toggle tabs, and `Esc` to close (already handled).
-
-Gate the Search tab behind `<Can permission="search.global.use">` — users without the permission still see the Commands tab as today.
-
----
-
-### 9. Audit
-
-Reuse `logAuthEventFn` / audit framework with three new event types registered in the audit constants:
-`search.executed`, `search.result_selected`, `search.history_cleared`. Metadata: query hash (not raw query for the `.executed` event, to keep audit log size bounded), result count, org id.
-
----
-
-### 10. Tests
-
-`src/lib/search/__tests__/`:
-- `registry.test.ts` — asserts active vs. reserved entries, unique resource types.
-- `service.test.ts` — permission filtering (removes results the caller can't access), org isolation (rows from another org never returned), history cap (21st insert prunes oldest), preferences respected (recent searches hidden when disabled).
-- `providers.test.ts` — registry provider scoring, dedupe merge across providers.
-- Component smoke test for `SearchResults` (renders items, handles empty state).
-
-Plus `bunx tsgo --noEmit` and full `bunx vitest run` clean.
-
----
-
-### 11. Verification Report
-
-`docs/50-audit-reports/SPRINT_0_9_SEARCH_FRAMEWORK_REPORT.md` covering: migration + RLS + grants, registry + standard doc, provider abstraction, service functions + RBAC + tenancy, command palette integration, audit events, tests, typecheck, and regression checks against Sprints 0.4–0.8 (Auth, Tenancy, RBAC, Settings, Navigation, Notifications).
-
-### Exit Criteria
-
-Framework implemented, palette integrated, multi-tenant + RBAC compliant, tests + typecheck green, no regressions → advance to `READY_FOR_SPRINT_1_0`.
-
----
-
-### Technical details
-
-- New files: `src/lib/search/{registry,types,service.functions}.ts`, `src/lib/search/providers/{index,registry-provider,database-provider}.ts`, `src/hooks/search/{useSearch,useRecentSearches,useSearchSuggestions}.ts`, `src/components/search/*`, tests, migration, standard doc, report.
-- Edited files: `src/components/navigation/CommandPalette.tsx` (add tabs), `src/lib/query-keys.ts` (search namespace), `src/lib/generated/permission-keys.ts` (regen), `docs/15-governance/permission-catalog.manifest.yaml`, `nav_user_preferences` schema (one added column via Migration 013).
-- No changes to auth, notifications, tenancy, or navigation registry logic — only additive integration.
+## Notes on Invitation Model & Token
+- Invitations live in a dedicated `organization_invitations` table; membership rows created only on acceptance.
+- **Token**: 32 bytes from `crypto.getRandomValues`, base64url-encoded (~256 bits entropy). Only `sha256(token)` is stored; raw token shown to inviter exactly once. Aligns with password-reset/invite best practice — DB compromise cannot yield usable bearer tokens.
+- Supports expiry (7d), revocation, and future email delivery without schema changes.
+- Non-members never appear in `organization_members`, keeping RBAC/tenancy checks clean.
+- Audit trail: `member.invited` → (`invitation.revoked` | `member.joined`).
