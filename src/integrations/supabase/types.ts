@@ -67,33 +67,45 @@ export type Database = {
       }
       branches: {
         Row: {
+          address: Json
+          archived_at: string | null
           code: string
           created_at: string
           id: string
           is_default: boolean
+          lifecycle_state: Database["public"]["Enums"]["branch_lifecycle_state"]
           name: string
           organization_id: string
           tenant_id: string
+          timezone: string
           updated_at: string
         }
         Insert: {
+          address?: Json
+          archived_at?: string | null
           code: string
           created_at?: string
           id?: string
           is_default?: boolean
+          lifecycle_state?: Database["public"]["Enums"]["branch_lifecycle_state"]
           name: string
           organization_id: string
           tenant_id: string
+          timezone?: string
           updated_at?: string
         }
         Update: {
+          address?: Json
+          archived_at?: string | null
           code?: string
           created_at?: string
           id?: string
           is_default?: boolean
+          lifecycle_state?: Database["public"]["Enums"]["branch_lifecycle_state"]
           name?: string
           organization_id?: string
           tenant_id?: string
+          timezone?: string
           updated_at?: string
         }
         Relationships: [
@@ -159,33 +171,48 @@ export type Database = {
       }
       financial_years: {
         Row: {
+          archived_at: string | null
+          closed_at: string | null
           code: string
           created_at: string
           end_date: string
           id: string
+          is_default: boolean
           is_placeholder: boolean
+          lifecycle_state: Database["public"]["Enums"]["financial_year_lifecycle_state"]
+          opened_at: string | null
           organization_id: string
           start_date: string
           tenant_id: string
           updated_at: string
         }
         Insert: {
+          archived_at?: string | null
+          closed_at?: string | null
           code: string
           created_at?: string
           end_date: string
           id?: string
+          is_default?: boolean
           is_placeholder?: boolean
+          lifecycle_state?: Database["public"]["Enums"]["financial_year_lifecycle_state"]
+          opened_at?: string | null
           organization_id: string
           start_date: string
           tenant_id: string
           updated_at?: string
         }
         Update: {
+          archived_at?: string | null
+          closed_at?: string | null
           code?: string
           created_at?: string
           end_date?: string
           id?: string
+          is_default?: boolean
           is_placeholder?: boolean
+          lifecycle_state?: Database["public"]["Enums"]["financial_year_lifecycle_state"]
+          opened_at?: string | null
           organization_id?: string
           start_date?: string
           tenant_id?: string
@@ -731,41 +758,68 @@ export type Database = {
       }
       organizations: {
         Row: {
+          activated_at: string | null
+          archived_at: string | null
           created_at: string
           created_by: string | null
+          deactivated_at: string | null
+          default_locale: string
           deleted_at: string | null
           deleted_by: string | null
           id: string
+          is_default: boolean
+          legal_name: string | null
+          lifecycle_state: Database["public"]["Enums"]["company_lifecycle_state"]
           metadata: Json
           name: string
+          region: string
           slug: string
           tenant_id: string
+          timezone: string
           updated_at: string
           updated_by: string | null
         }
         Insert: {
+          activated_at?: string | null
+          archived_at?: string | null
           created_at?: string
           created_by?: string | null
+          deactivated_at?: string | null
+          default_locale?: string
           deleted_at?: string | null
           deleted_by?: string | null
           id?: string
+          is_default?: boolean
+          legal_name?: string | null
+          lifecycle_state?: Database["public"]["Enums"]["company_lifecycle_state"]
           metadata?: Json
           name: string
+          region?: string
           slug: string
           tenant_id: string
+          timezone?: string
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
+          activated_at?: string | null
+          archived_at?: string | null
           created_at?: string
           created_by?: string | null
+          deactivated_at?: string | null
+          default_locale?: string
           deleted_at?: string | null
           deleted_by?: string | null
           id?: string
+          is_default?: boolean
+          legal_name?: string | null
+          lifecycle_state?: Database["public"]["Enums"]["company_lifecycle_state"]
           metadata?: Json
           name?: string
+          region?: string
           slug?: string
           tenant_id?: string
+          timezone?: string
           updated_at?: string
           updated_by?: string | null
         }
@@ -1277,7 +1331,10 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "member"
+      branch_lifecycle_state: "active" | "archived"
+      company_lifecycle_state: "created" | "active" | "inactive" | "archived"
       feature_flag_stage: "off" | "internal" | "beta" | "ga"
+      financial_year_lifecycle_state: "created" | "open" | "closed" | "archived"
       org_member_status: "active" | "invited" | "suspended"
       org_role: "owner" | "admin" | "member"
       role_scope: "platform" | "organization"
@@ -1418,7 +1475,10 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "member"],
+      branch_lifecycle_state: ["active", "archived"],
+      company_lifecycle_state: ["created", "active", "inactive", "archived"],
       feature_flag_stage: ["off", "internal", "beta", "ga"],
+      financial_year_lifecycle_state: ["created", "open", "closed", "archived"],
       org_member_status: ["active", "invited", "suspended"],
       org_role: ["owner", "admin", "member"],
       role_scope: ["platform", "organization"],
