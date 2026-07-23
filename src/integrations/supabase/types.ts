@@ -216,6 +216,7 @@ export type Database = {
       }
       nav_user_preferences: {
         Row: {
+          command_palette_tab: string
           created_at: string
           id: string
           organization_id: string
@@ -224,6 +225,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          command_palette_tab?: string
           created_at?: string
           id?: string
           organization_id: string
@@ -232,6 +234,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          command_palette_tab?: string
           created_at?: string
           id?: string
           organization_id?: string
@@ -605,6 +608,82 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      search_history: {
+        Row: {
+          id: string
+          organization_id: string
+          query: string
+          resource_type: string | null
+          searched_at: string
+          selected_result_id: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          query: string
+          resource_type?: string | null
+          searched_at?: string
+          selected_result_id?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          query?: string
+          resource_type?: string | null
+          searched_at?: string
+          selected_result_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "search_history_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      search_preferences: {
+        Row: {
+          created_at: string
+          enable_recent_searches: boolean
+          enable_suggestions: boolean
+          id: string
+          organization_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          enable_recent_searches?: boolean
+          enable_suggestions?: boolean
+          id?: string
+          organization_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          enable_recent_searches?: boolean
+          enable_suggestions?: boolean
+          id?: string
+          organization_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "search_preferences_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       setting_definitions: {
         Row: {
