@@ -16,6 +16,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { requireOrgContext } from "@/integrations/supabase/org-middleware";
 import { requirePermission, requireAnyPermission } from "@/lib/authorization.server";
 import { PERMISSIONS } from "@/lib/generated/permission-keys";
+import type { Json } from "@/integrations/supabase/types";
 import {
   REDACTED_VALUE,
   validateSettingValue,
