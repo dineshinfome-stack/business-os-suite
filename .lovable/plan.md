@@ -1,115 +1,70 @@
+## SPR-MOD-001-002 — Phase 1: Database Foundation
 
-# SPR-MOD-001-002 — Organization Structure Implementation (v1.2, frozen)
+Execute the SIP tasks that belong to the DB layer (SIP-001 → SIP-009). No backend, UI, tests, or closure artefacts in this phase.
 
-Execute the approved Sprint PRD scope verbatim: **Company + Branch + Financial Year** lifecycles as one hierarchy. Nothing added, nothing removed. If a genuine architectural gap surfaces mid-sprint, stop and raise an ADR recommendation.
+### Repository verification rule (applies to every task below)
 
-## 0. Preconditions
+Before creating any migration, helper, trigger, RPC, or permission seed, inspect the repository for an equivalent implementation from SPR-MOD-001-001. Extend the existing implementation wherever possible. Only create a new object when no suitable implementation exists. Whenever this plan references a specific helper name or pattern, treat it as: **reuse the existing repository implementation if present; if no equivalent helper exists, implement it using the approved SPR-001 architectural pattern rather than introducing a new pattern.**
 
-- Confirm SPR-MOD-001-001 approved (Acceptance Review recorded 2026-07-23; carried-forward observations remain this sprint's responsibility, renumbered under this sprint's own observation series — no assumed CF-1/CF-2 IDs).
-- Re-read: `SPR-MOD-001-002-organization-structure.md`, `MOD-001_SPRINT_PLAN.md`, `WEB-001`, `MOB-001`, `API-001`, `ADR-011/012/014/051`, EEMP Ch. 15/17.
-- Author `docs/05_Sprint_Implementation_Plans/active/SIP-SPR-MOD-001-002.md` from `SIP_TEMPLATE.md` with SIP-001…SIP-0NN, each tagged to source AC / US and to the event set in PRD §11.
-- **Stop after generating the SIP and await Architecture Board approval before beginning implementation.**
+### Approach
 
-## 1. Scope (verbatim from PRD §1.2)
+Reuse SPR-001 patterns: `private.fn_*` helpers, `SECURITY DEFINER` RPCs with fixed `search_path`, `platform_admin`-gated via `private.fn_is_platform_admin()`, `citext` slugs via `private.fn_normalize_slug`, immutable-column guard trigger, back-fill in place, resilient audit-on-denial logging, idempotent transitions with `FOR UPDATE`. Permissions are seeded directly in the migration (same pattern as tenant permissions in `20260723172755_*.sql`).
 
-Company lifecycle (create/activate/deactivate/archive); Branch lifecycle (create/update/archive); Financial Year lifecycle (create/open/close/archive); Tenant→Company→Branch→FY hierarchy enforcement; per-tenant default company, per-company default branch, per-company default FY; validation rules (uniqueness, hierarchy integrity, no overlapping open FYs, block archive with open FY); org-scoped configuration namespace init via ENG-005; audit via ENG-004; the `company.*` / `branch.*` / `financialyear.*` event set as authoritatively defined in **PRD §11** — the SIP transcribes that list verbatim (names, count, payloads). This plan is not a second source of truth for events.
+### Migrations (three files, next-in-sequence Lovable timestamps)
 
-Out of scope: users/roles (SPR-003), config admin UI (SPR-004), localization (SPR-005), audit UI (SPR-006), inter-company / tax profile.
+**001 Schema Evolution — `organization_lifecycle_schema.sql`** (SIP-001, 002, 003)
 
-## 2. Reconciliation with existing artefacts
+- Enums: `public.company_lifecycle_state` (`created|active|inactive|archived`), `public.branch_lifecycle_state` (`active|archived`), `public.financial_year_lifecycle_state` (`created|open|closed|archived`).
+- `public.organizations`: add `lifecycle_state` (default `active` for existing rows via back-fill), `is_default`, `slug citext`, `region`, `default_locale`, `timezone`, `activated_at`, `deactivated_at`, `archived_at`, `created_by`. Back-fill `slug` from existing `slug`/`name` using the SPR-001 slug back-fill pattern (reuse if present); then `NOT NULL` + `UNIQUE (tenant_id, slug)` + partial `UNIQUE (tenant_id) WHERE is_default`. Immutable-column trigger on `id`, `tenant_id`, `slug`.
+- `public.branches`: add `lifecycle_state` (default `active`), `archived_at`. Keep existing `UNIQUE (organization_id, code)` and default partial index. Immutable-column trigger on `id`, `tenant_id`, `organization_id`, `code`.
+- `public.financial_years`: add `lifecycle_state` (default `open` for existing placeholder rows), `is_default` (default `true` for existing single-per-org rows), `opened_at`, `closed_at`, `archived_at`. Add partial `UNIQUE (organization_id) WHERE is_default`. Add non-overlap constraint via `EXCLUDE USING gist (organization_id WITH =, daterange(start_date, end_date, '[]') WITH &&) WHERE (lifecycle_state IN ('created','open'))` — `btree_gist` extension is enabled from Sprint 0.2. Leave existing `is_placeholder` column untouched by RPCs.
+- Grants unchanged (already `authenticated`/`service_role`). RLS remains from SPR-001; no policy loosening in this migration.
 
-Current DB already has `organizations`, `branches`, `financial_years` (Wave 0 + SPR-001). Reconciliation rules:
+**002 Lifecycle RPCs — `organization_lifecycle_rpcs.sql`** (SIP-004, 005, 006, 007)
 
-- **Implementation mapping, not domain change.** The implementation reuses the existing `organizations` table to represent the PRD concept of **Company**. This is an implementation mapping only and does not alter business terminology used in PRDs, Solution Designs, or user-facing surfaces — those continue to say "Company".
-- **Extend, don't duplicate.** Add missing lifecycle columns, defaults, uniqueness, and events on `organizations`.
-- `branches` and `financial_years` from SPR-001 exist as seeded singletons for tenant activation. This sprint upgrades them from placeholder rows into fully managed lifecycles.
-- Terminology (states, event names, badge labels, RPC names, test names) MUST match PRD/SD wording exactly across DB, backend, UI, events, and tests.
-- Any structural gap that cannot be resolved without an architectural change → stop and raise an ADR recommendation.
+- Lifecycle guards: `private.fn_assert_company_lifecycle_transition`, `_branch_`, `_financial_year_` — pure `IMMUTABLE` plpgsql mirroring PRD state matrices; raise `check_violation` on illegal/no-op transitions.
+- Denial logging: reuse the existing SPR-001 resilient denial-logging helper if present; otherwise implement using the SPR-001 pattern (INSERT into `public.audit_logs` inside an exception-swallowing block so denial never suppresses the outer `RAISE`).
+- Company RPCs (all `SECURITY DEFINER`, `SET search_path = public`, `REVOKE ALL … FROM PUBLIC, anon` + `GRANT EXECUTE TO authenticated`, `platform_admin` check up front, `SELECT … FOR UPDATE` on the target row, idempotent — return early when target state already reached):
+  - `private.fn_create_company(_tenant_id, _slug, _display_name, _region, _default_locale, _timezone) → uuid`
+  - `private.fn_activate_company(_id) → void`
+  - `private.fn_deactivate_company(_id) → void`
+  - `private.fn_archive_company(_id) → void` — rejects when any FY with `lifecycle_state = 'open'` exists for the company.
+  - `private.fn_set_default_company(_id) → void` — clears prior default in same tenant then sets.
+- Branch RPCs: `_create_branch`, `_update_branch`, `_archive_branch`, `_set_default_branch` — same conventions; requires parent company `lifecycle_state = 'active'` on create.
+- Financial-year RPCs: `_create_financial_year`, `_open_financial_year`, `_close_financial_year`, `_archive_financial_year`, `_set_default_financial_year` — open transition relies on the EXCLUDE constraint to enforce non-overlap atomically. Close is only allowed from `open`. Archive only from `closed`.
 
-## 3. Database work
+**003 Permission Seed — `organization_permissions.sql`** (SIP-008)
 
-Add new migration(s) using the **next available filename per repository migration numbering convention** — do not hard-code timestamps.
+- Insert the **17** permission keys into `public.permissions` (idempotent `ON CONFLICT (key) DO NOTHING`, matching the tenant seed pattern):
+  - `platform.company.{read, create, activate, deactivate, archive, set_default}` — 6
+  - `platform.branch.{read, create, update, archive, set_default}` — 5
+  - `platform.financial_year.{read, create, open, close, archive, set_default}` — 6
+- Grant every key to the `platform_admin` role via `public.role_permissions` `ON CONFLICT DO NOTHING`.
 
-1. `organizations`: add `lifecycle_state` (created|active|inactive|archived), `is_default` per tenant, `activated_at/deactivated_at/archived_at`, unique `(tenant_id, slug)`, partial unique `(tenant_id) WHERE is_default`.
-2. `branches`: add `lifecycle_state` (active|archived), `is_default` per organization, `archived_at`, unique `(organization_id, code)`, partial unique default per org.
-3. `financial_years`: add `lifecycle_state` (created|open|closed|archived), `is_default` per organization, non-overlap exclusion on `(organization_id, tstzrange(starts_on, ends_on)) WHERE state IN ('created','open')`, partial unique default per org.
-4. Lifecycle guards (pure, mirror PRD state matrices):
-   - `private.fn_assert_company_lifecycle_transition`
-   - `private.fn_assert_branch_lifecycle_transition`
-   - `private.fn_assert_financial_year_lifecycle_transition`
-5. Mutation RPCs (SECURITY DEFINER, `platform_admin` gated, resilient denial logging, `FOR UPDATE`, idempotent) — **fully qualified names**:
-   - Company: `fn_create_company`, `fn_activate_company`, `fn_deactivate_company`, `fn_archive_company`, `fn_set_default_company`
-   - Branch: `fn_create_branch`, `fn_update_branch`, `fn_archive_branch`, `fn_set_default_branch`
-   - FY: `fn_create_financial_year`, `fn_open_financial_year`, `fn_close_financial_year`, `fn_archive_financial_year`, `fn_set_default_financial_year`
-   - `fn_archive_company` MUST reject when any open FY exists (PRD §5.1).
-6. RLS: extend tenant-scoped policies to new columns; archived rows readable, not writable at Platform layer.
-7. Permissions: `platform.company.*`, `platform.branch.*`, `platform.financial_year.*` seeded into `permissions` / `role_permissions`.
-8. `public-schema-grants` block applied to every altered/new object.
+### Post-migration
 
-## 4. Backend (`src/lib/`)
+- Append the same 17 keys to `docs/15-governance/permission-catalog.manifest.yaml` (append-only per its governance rule) so the DB seed and the generator stay in sync.
+- Regenerate `src/lib/generated/permission-keys.ts` via `bun run gen:permissions` (SIP-009).
 
-Reuse SPR-001 primitives (lifecycle assertion pattern, `logTenantEventFn`-style audit writer, `buildTenantEvent` shape).
+### Validation before stop
 
-- `src/lib/organizations/{lifecycle,events,audit}.ts` + `*.functions.ts`
-- `src/lib/branches/{lifecycle,events,audit}.ts` + `*.functions.ts`
-- `src/lib/financial-years/{lifecycle,events,audit,overlap}.ts` + `*.functions.ts`
-- Event builders emit exactly the PRD §11 event names/payloads.
-- Idempotent branches for repeat activation / open / close / archive.
-- Extend `src/lib/generated/permission-keys.ts` via `scripts/generate-permissions.ts`.
+- `bunx tsgo --noEmit` clean (permission-keys regen is additive constants only).
+- `supabase--linter` — expect no new findings; accepted R-074 unchanged.
+- SQL structural sanity via `supabase--read_query` on `information_schema` for the new columns, enums, constraints, and `pg_proc` for the new RPCs. No runtime RPC execution / no fabricated end-to-end evidence.
 
-## 5. UI (minimal, RBAC-gated)
+### Explicitly out of Phase 1
 
-Extend `/platform/tenants/$tenantId`:
+Server functions (`src/lib/organizations/**`, `branches/**`, `financial-years/**`), UI routes, unit/integration tests, Playwright, event catalog docs, API docs, Completion Report, Acceptance Review, Program Status, IMP CHANGELOG, SIP archival. These are Phase 2+.
 
-- Companies tab: DataGrid + create/activate/deactivate/archive/set-default actions.
-- Company detail: nested Branches tab + Financial Years tab, DataGrids with lifecycle actions gated by `<Can perm="…">`.
-- Register nav nodes in `src/lib/navigation/registry.ts`. No new top-level module.
-- Status badge terminology matches PRD state names exactly; user-facing labels say "Company".
+### Deliverables at stop
 
-## 6. Tests
+- 3 migration files under `supabase/migrations/`
+- Updated `docs/15-governance/permission-catalog.manifest.yaml` (+17 keys, append-only)
+- Regenerated `src/lib/generated/permission-keys.ts`
+- Brief implementation summary listing completed SIP task IDs (SIP-001 … SIP-009), modified files, validation results, and Phase 2 recommendation
 
-- Unit: lifecycle machines, FY overlap helper, default-flag invariant.
-- Integration / SQL smoke: unique constraints, exclusion constraint, RPC role gate, idempotency, archive-with-open-FY rejection.
-- Server-function tests: Zod validators, error surfaces.
-- Attempt Playwright runtime verification per `browser-use` (login → create company → activate → add branch → create FY → open → close). If auth injection unavailable, document the limitation, do not fabricate, and log as an observation in this sprint's Acceptance Review under a fresh sprint-local observation ID series.
+### Risks / blockers to flag if hit
 
-## 7. Quality gates (EEMP Ch. 17)
-
-`bunx tsgo --noEmit` clean · `bunx vitest run` full green · `supabase--linter` clean except accepted R-074 · no new TODOs, no debug logging, no dead code · SIP §12 traceability matrix populated.
-
-## 8. Deliverables (produced **only after implementation and testing complete successfully**)
-
-- Implementation (migrations, lib, functions, UI) and tests.
-- `docs/50-audit-reports/SPR_MOD_001_002_ORGANIZATION_STRUCTURE_REPORT.md` — Sprint Completion Report.
-- `docs/50-audit-reports/SPR_MOD_001_002_ACCEPTANCE_REVIEW.md`.
-- `docs/04_Program_Status/reports/PROGRAM_STATUS_<ts>.md`.
-- `docs/03_Implementation_Master_Plan/CHANGELOG.md` entry v1.0.2.
-- Archive SIP → `docs/05_Sprint_Implementation_Plans/archive/2026/SIP-SPR-MOD-001-002.md` with §12 populated.
-- Event catalog entries under `docs/70-events/` matching PRD §11 exactly; API doc under `docs/70-api/` for company/branch/FY.
-
-No additional framework or governance documents.
-
-## 9. Stop condition
-
-Stop after the Acceptance Review is completed and the Architecture Board decision is recorded. **Do not begin SPR-MOD-001-003 until the decision is `Approve` or `Approve with Conditions`.**
-
-## Technical detail
-
-```text
-tenants ── organizations (Company)  ── branches
-                          └────────── financial_years
-lifecycle guards → private.fn_assert_{company|branch|financial_year}_lifecycle_transition
-mutations       → private.fn_{create|activate|deactivate|archive|open|close|update|set_default}_{company|branch|financial_year}
-                    (SECURITY DEFINER, platform_admin gated, idempotent, FOR UPDATE)
-server fns      → src/lib/{organizations|branches|financial-years}/*.functions.ts  (requireSupabaseAuth)
-audit           → public.audit_logs via shared writer  (ENG-004)
-events          → PRD §11 catalog, envelopes per ADR-051  (ENG-024)
-UI              → /platform/tenants/$tenantId  (Companies / Branches / FYs tabs)
-```
-
-## Changes from v1.1
-
-- §2: explicit "implementation mapping, not domain change" note for Company↔organizations.
-- §3: RPC names spelled out with entity suffix (`fn_create_company`, etc.).
-- §9: stop condition explicitly requires Approve / Approve with Conditions before the next sprint.
-- Prompt is **frozen at v1.2** — further refinement is deferred to implementation experience.
+- `btree_gist` missing → stop and raise, do not silently `CREATE EXTENSION`.
+- Existing `organizations` rows with duplicate normalized slugs per tenant → back-fill collision-suffixes using the SPR-001 pattern.
+- Any existing FY row overlapping another in the same org → EXCLUDE will fail on creation; if so, stop and report — do not mutate data to force it.
