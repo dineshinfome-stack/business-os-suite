@@ -65,6 +65,50 @@ export type Database = {
         }
         Relationships: []
       }
+      feature_flags: {
+        Row: {
+          created_at: string
+          description: string | null
+          enabled: boolean
+          id: string
+          key: string
+          organization_id: string | null
+          rollout_stage: Database["public"]["Enums"]["feature_flag_stage"]
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key: string
+          organization_id?: string | null
+          rollout_stage?: Database["public"]["Enums"]["feature_flag_stage"]
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key?: string
+          organization_id?: string | null
+          rollout_stage?: Database["public"]["Enums"]["feature_flag_stage"]
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_flags_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_members: {
         Row: {
           created_at: string
@@ -310,6 +354,99 @@ export type Database = {
         }
         Relationships: []
       }
+      setting_definitions: {
+        Row: {
+          category: string
+          created_at: string
+          data_type: Database["public"]["Enums"]["setting_data_type"]
+          default_value: Json | null
+          deprecated_at: string | null
+          description: string | null
+          id: string
+          is_sensitive: boolean
+          is_system: boolean
+          key: string
+          scope: Database["public"]["Enums"]["setting_scope"]
+          updated_at: string
+          validation_schema: Json
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          data_type: Database["public"]["Enums"]["setting_data_type"]
+          default_value?: Json | null
+          deprecated_at?: string | null
+          description?: string | null
+          id?: string
+          is_sensitive?: boolean
+          is_system?: boolean
+          key: string
+          scope: Database["public"]["Enums"]["setting_scope"]
+          updated_at?: string
+          validation_schema?: Json
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          data_type?: Database["public"]["Enums"]["setting_data_type"]
+          default_value?: Json | null
+          deprecated_at?: string | null
+          description?: string | null
+          id?: string
+          is_sensitive?: boolean
+          is_system?: boolean
+          key?: string
+          scope?: Database["public"]["Enums"]["setting_scope"]
+          updated_at?: string
+          validation_schema?: Json
+        }
+        Relationships: []
+      }
+      setting_values: {
+        Row: {
+          created_at: string
+          definition_id: string
+          id: string
+          organization_id: string | null
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          created_at?: string
+          definition_id: string
+          id?: string
+          organization_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          value: Json
+        }
+        Update: {
+          created_at?: string
+          definition_id?: string
+          id?: string
+          organization_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "setting_values_definition_id_fkey"
+            columns: ["definition_id"]
+            isOneToOne: false
+            referencedRelation: "setting_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "setting_values_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -385,9 +522,18 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "member"
+      feature_flag_stage: "off" | "internal" | "beta" | "ga"
       org_member_status: "active" | "invited" | "suspended"
       org_role: "owner" | "admin" | "member"
       role_scope: "platform" | "organization"
+      setting_data_type:
+        | "string"
+        | "integer"
+        | "decimal"
+        | "boolean"
+        | "enum"
+        | "json"
+      setting_scope: "platform" | "organization"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -516,9 +662,19 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "member"],
+      feature_flag_stage: ["off", "internal", "beta", "ga"],
       org_member_status: ["active", "invited", "suspended"],
       org_role: ["owner", "admin", "member"],
       role_scope: ["platform", "organization"],
+      setting_data_type: [
+        "string",
+        "integer",
+        "decimal",
+        "boolean",
+        "enum",
+        "json",
+      ],
+      setting_scope: ["platform", "organization"],
     },
   },
 } as const

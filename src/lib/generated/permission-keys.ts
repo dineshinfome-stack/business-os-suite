@@ -16,6 +16,8 @@ export const PERMISSIONS = {
   PLATFORM_AUDIT_VIEW: "platform.audit.view",
   SETTINGS_GENERAL_VIEW: "settings.general.view",
   SETTINGS_GENERAL_UPDATE: "settings.general.update",
+  SETTINGS_SECURITY_MANAGE: "settings.security.manage",
+  PLATFORM_SETTINGS_MANAGE: "platform.settings.manage",
   AUDIT_LOGS_VIEW: "audit.logs.view",
 } as const;
 
@@ -33,6 +35,8 @@ export const ALL_PERMISSION_KEYS: readonly PermissionKey[] = [
   "platform.audit.view",
   "settings.general.view",
   "settings.general.update",
+  "settings.security.manage",
+  "platform.settings.manage",
   "audit.logs.view",
 ] as const;
 

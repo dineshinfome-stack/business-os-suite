@@ -51,6 +51,14 @@ permissions:
     name: Update settings
     description: Update organization settings
 
+  # --- Sensitive settings & platform-scope (Sprint 0.6) ---------------------
+  - key: settings.security.manage
+    name: Manage sensitive settings
+    description: Reveal or rotate sensitive setting values
+  - key: platform.settings.manage
+    name: Manage platform settings
+    description: Mutate platform-scope settings or cross-tenant values
+
   # --- Audit -----------------------------------------------------------------
   - key: audit.logs.view
     name: View audit logs
