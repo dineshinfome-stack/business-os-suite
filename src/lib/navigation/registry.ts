@@ -185,6 +185,20 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     enabled: true,
     keywords: ["platform", "security"],
   },
+  {
+    id: "administration.platform.tenants",
+    id_status: "active",
+    module: "administration",
+    title: "Tenants",
+    icon: Landmark,
+    route: "/platform/tenants",
+    parent: "administration",
+    display_order: 20,
+    permission: "platform.tenant.read",
+    visible: true,
+    enabled: true,
+    keywords: ["tenant", "organization", "isolation", "platform admin"],
+  },
 ] satisfies NavItem[]);
 
 // Dev-only integrity checks — cheap and skipped in production builds.
