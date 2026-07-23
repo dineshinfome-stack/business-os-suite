@@ -56,7 +56,7 @@ function toDefinition(row: Record<string, unknown>): SettingDefinition {
     category: row.category as string,
     scope: row.scope as SettingScope,
     dataType: row.data_type as SettingDataType,
-    defaultValue: row.default_value,
+    defaultValue: (row.default_value ?? null) as Json | null,
     validationSchema: (row.validation_schema ?? {}) as ValidationSchema,
     description: (row.description ?? null) as string | null,
     isSystem: row.is_system as boolean,
