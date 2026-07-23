@@ -30,6 +30,7 @@ import {
   Building2,
   Users,
   Mail,
+  Landmark,
 } from "lucide-react";
 
 import type { ComponentType } from "react";
