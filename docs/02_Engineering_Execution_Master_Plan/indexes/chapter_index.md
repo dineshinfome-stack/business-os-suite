@@ -12,11 +12,11 @@
 | 08 | Security Standards | `../08_Security_Standards.md` | Draft | 0.1.0 |
 | 09 | Module Development Framework | `../09_Module_Development_Framework.md` | Draft | 0.1.0 |
 | 10 | Module Dependency Matrix | `../10_Module_Dependency_Matrix.md` | Draft | 0.1.0 |
-| 11 | Sprint Execution | *(Phase 3)* | Pending | — |
-| 12 | AI Development Playbook | *(Phase 3)* | Pending | — |
-| 13 | AI Prompt Standards | *(Phase 3)* | Pending | — |
-| 14 | AI Quality Gates | *(Phase 3)* | Pending | — |
-| 15 | Testing Strategy | *(Phase 3)* | Pending | — |
+| 11 | Sprint Execution | `../11_Sprint_Execution.md` | Draft | 0.1.0 |
+| 12 | AI Development Playbook | `../12_AI_Development_Playbook.md` | Draft | 0.1.0 |
+| 13 | AI Prompt Standards | `../13_AI_Prompt_Standards.md` | Draft | 0.1.0 |
+| 14 | AI Quality Gates | `../14_AI_Quality_Gates.md` | Draft | 0.1.0 |
+| 15 | Testing Strategy | `../15_Testing_Strategy.md` | Draft | 0.1.0 |
 | 16 | DevOps and Release | *(Phase 4)* | Pending | — |
 | 17 | Documentation Standards | *(Phase 4)* | Pending | — |
 | 18 | Project Governance | *(Phase 4)* | Pending | — |

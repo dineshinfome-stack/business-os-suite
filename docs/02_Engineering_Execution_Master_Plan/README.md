@@ -44,11 +44,11 @@ On conflict, higher tier wins. The EEMP records the discrepancy in `20_Appendix.
 | 08 | [Security Standards](08_Security_Standards.md) | Draft |
 | 09 | [Module Development Framework](09_Module_Development_Framework.md) | Draft |
 | 10 | [Module Dependency Matrix](10_Module_Dependency_Matrix.md) | Draft |
-| 11 | Sprint Execution | Pending (Phase 3) |
-| 12 | AI Development Playbook | Pending (Phase 3) |
-| 13 | AI Prompt Standards | Pending (Phase 3) |
-| 14 | AI Quality Gates | Pending (Phase 3) |
-| 15 | Testing Strategy | Pending (Phase 3) |
+| 11 | [Sprint Execution](11_Sprint_Execution.md) | Draft |
+| 12 | [AI Development Playbook](12_AI_Development_Playbook.md) | Draft |
+| 13 | [AI Prompt Standards](13_AI_Prompt_Standards.md) | Draft |
+| 14 | [AI Quality Gates](14_AI_Quality_Gates.md) | Draft |
+| 15 | [Testing Strategy](15_Testing_Strategy.md) | Draft |
 | 16 | DevOps and Release | Pending (Phase 4) |
 | 17 | Documentation Standards | Pending (Phase 4) |
 | 18 | Project Governance | Pending (Phase 4) |
