@@ -19,6 +19,9 @@ export const PERMISSIONS = {
   SETTINGS_SECURITY_MANAGE: "settings.security.manage",
   PLATFORM_SETTINGS_MANAGE: "platform.settings.manage",
   AUDIT_LOGS_VIEW: "audit.logs.view",
+  NOTIFICATIONS_INBOX_READ: "notifications.inbox.read",
+  NOTIFICATIONS_INBOX_CREATE: "notifications.inbox.create",
+  NOTIFICATIONS_INBOX_MANAGE: "notifications.inbox.manage",
 } as const;
 
 export type PermissionKey = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
@@ -38,6 +41,9 @@ export const ALL_PERMISSION_KEYS: readonly PermissionKey[] = [
   "settings.security.manage",
   "platform.settings.manage",
   "audit.logs.view",
+  "notifications.inbox.read",
+  "notifications.inbox.create",
+  "notifications.inbox.manage",
 ] as const;
 
 export const ROLE_KEYS = {
