@@ -75,6 +75,14 @@ permissions:
     name: Manage notifications
     description: Administer notifications across the organization
 
+  # --- Search (Sprint 0.9) --------------------------------------------------
+  - key: search.global.use
+    name: Use global search
+    description: Invoke the global search & command palette search tab
+  - key: search.history.manage
+    name: Manage own search history
+    description: Clear the caller's personal search history
+
 roles:
   - key: platform_owner
     name: Platform Owner

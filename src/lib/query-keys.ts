@@ -27,4 +27,12 @@ export const queryKeys = {
     unreadCount: (orgId: string | null) => ["notifications", orgId, "unread-count"] as const,
     preferences: (orgId: string | null) => ["notifications", orgId, "preferences"] as const,
   },
+  search: {
+    results: (orgId: string | null, userId: string | null, query: string) =>
+      ["search", orgId, userId, "results", query] as const,
+    recent: (orgId: string | null, userId: string | null) =>
+      ["search", orgId, userId, "recent"] as const,
+    preferences: (orgId: string | null, userId: string | null) =>
+      ["search", orgId, userId, "preferences"] as const,
+  },
 } as const;
