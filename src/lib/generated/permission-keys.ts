@@ -37,6 +37,11 @@ export const PERMISSIONS = {
   WORKSPACE_MEMBER_REMOVE: "workspace.member.remove",
   WORKSPACE_INVITATION_READ: "workspace.invitation.read",
   WORKSPACE_INVITATION_REVOKE: "workspace.invitation.revoke",
+  PLATFORM_TENANT_READ: "platform.tenant.read",
+  PLATFORM_TENANT_CREATE: "platform.tenant.create",
+  PLATFORM_TENANT_ACTIVATE: "platform.tenant.activate",
+  PLATFORM_TENANT_SUSPEND: "platform.tenant.suspend",
+  PLATFORM_TENANT_ARCHIVE: "platform.tenant.archive",
 } as const;
 
 export type PermissionKey = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
@@ -74,6 +79,11 @@ export const ALL_PERMISSION_KEYS: readonly PermissionKey[] = [
   "workspace.member.remove",
   "workspace.invitation.read",
   "workspace.invitation.revoke",
+  "platform.tenant.read",
+  "platform.tenant.create",
+  "platform.tenant.activate",
+  "platform.tenant.suspend",
+  "platform.tenant.archive",
 ] as const;
 
 export const ROLE_KEYS = {

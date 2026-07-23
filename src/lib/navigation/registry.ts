@@ -30,6 +30,7 @@ import {
   Building2,
   Users,
   Mail,
+  Landmark,
 } from "lucide-react";
 
 import type { ComponentType } from "react";
@@ -183,6 +184,20 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     visible: true,
     enabled: true,
     keywords: ["platform", "security"],
+  },
+  {
+    id: "administration.platform.tenants",
+    id_status: "active",
+    module: "administration",
+    title: "Tenants",
+    icon: Landmark,
+    route: "/platform/tenants",
+    parent: "administration",
+    display_order: 20,
+    permission: "platform.tenant.read",
+    visible: true,
+    enabled: true,
+    keywords: ["tenant", "organization", "isolation", "platform admin"],
   },
 ] satisfies NavItem[]);
 
