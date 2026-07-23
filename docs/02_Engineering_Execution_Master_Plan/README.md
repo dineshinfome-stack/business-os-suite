@@ -112,3 +112,5 @@ The EEMP cites governance paths only if verified present at author-time. Missing
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | 0.1.0 | 2026-07-23 | Project Architecture | Initial handbook scaffold and Phase 1 chapters. |
+| 1.0.0 | 2026-07-23 | Project Architecture | Phase 5 — EEMP certified; promoted to Approved / Published. See `EEMP_CERTIFICATION.md`. |
+
