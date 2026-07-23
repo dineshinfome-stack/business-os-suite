@@ -1,100 +1,54 @@
-# Phase 4 — Operations, Documentation Standards, Project Governance, Go-Live, Templates, Checklists, Examples
+# Phase 5 — Engineering Review, Publication & EEMP v1.0 Certification
 
-Phase 3 accepted. C-001/C-002 remain observations only. Phase 4 completes the EEMP body (Ch. 16–19), finalizes the Appendix (Ch. 20), and populates `templates/`, `checklists/`, and `examples/` scaffolds established in Phase 1.
+Final EEMP phase. No new standards, no source/infra/config changes. Writes limited to `docs/02_Engineering_Execution_Master_Plan/**` and `docs/50-audit-reports/**`.
 
-## Scope
+## Execution Order (one turn)
 
-Author under `docs/02_Engineering_Execution_Master_Plan/`:
+**1. Repository Discovery (R-18)**
+Full inventory with exact counts: docs scanned, chapters (20), templates, checklists, examples, indexes, audit reports, Mermaid diagrams, cross-references. Approximations explicitly marked.
 
-**Chapters (only if not already present):**
-- `16_Operations_And_Runbooks.md` — orchestrates observability, incident response, on-call, runbooks; references `PLATFORM_OBSERVABILITY_STANDARD.md` and existing ops docs.
-- `17_Documentation_Standards.md` — orchestrates `GOVERNANCE_FRONTMATTER_STANDARD`, `GOVERNANCE_TEMPLATE_STANDARD`, `REPOSITORY_NAVIGATION_STANDARD`, `DOCUMENTATION_AS_ARTIFACT_STANDARD`.
-- `18_Project_Governance.md` — orchestrates approval workflows, RACI, ADR lifecycle, exception handling; references `docs/governance.md`, `docs/decision-register.md`, ADR Index.
-- `19_Go_Live_And_Release.md` — orchestrates release readiness, cutover, post-release verification; references `docs/60-release-readiness/**`, `docs/61-production-release/**`, `docs/62-post-release-verification/**`.
+**2. EEMP Validation Sweep**
+Validate every chapter for: numbering, frontmatter completeness, version, lifecycle, owner, approval role, cross references, Evidence blocks, Traceability Matrix, Revision History, Mermaid syntax, internal links, external references, index consistency. Content edits only where required for handbook consistency (e.g. broken link, missing index entry).
 
-**Appendix finalization:**
-- `20_Appendix.md` — populate Glossary Additions and Acronyms only where Phase 4 discovery surfaces terms not already in `docs/glossary.md` / `docs/GLOSSARY_INDEX.md` (reference, don't duplicate). Preserve existing Detected Conflicts (C-001, C-002) untouched.
+**3. Governance Amendment**
+Append **R-28 Publication Readiness** and **R-29 Documentation Certification** to `02_Repository_Governance.md` if not already present. Bump chapter version and Revision History.
 
-**Templates** under `templates/` (only for real gaps vs. `docs/99-templates/` and `docs/15-governance/`):
-- `templates/pull-request.md`
-- `templates/adr.md` — thin wrapper referencing `docs/99-templates/adr-template.md` and `docs/05-adr/ADR-0000-template.md`.
-- `templates/sprint-report.md`
-- `templates/module-publication.md` — references `docs/45-module-publications/**` pattern.
-- `templates/prompts/` — engineering prompt templates governed by Ch. 13 (structure prompt, review prompt, evidence prompt).
+**4. Repository Health Review**
+Classify findings (Critical / Major / Minor / Informational) across: duplicate standards/templates/checklists/examples, broken links, missing references/evidence/traceability, orphaned assets, conflicting references. Record only — C-001 and C-002 remain open observations.
 
-**Checklists** under `checklists/` (only for real gaps):
-- `checklists/definition-of-ready.md`
-- `checklists/definition-of-done.md`
-- `checklists/code-review.md`
-- `checklists/release-readiness.md`
-- `checklists/ai-prompt-review.md`
+**5. Publication Readiness Review**
+Verify coverage: Documentation, Templates, Checklists, Examples, Indexes, Cross-reference, Traceability, Evidence, Mermaid, README navigation, Approval/Lifecycle/Version metadata.
 
-**Examples** under `examples/` (illustrative, non-authoritative):
-- `examples/module/README.md` + `mod-001-worked-example.md` (references MOD-001 publication).
-- `examples/workflow/README.md` + `sprint-walkthrough.md`.
-- `examples/prompt/README.md` + `engineering-prompt-example.md`.
-- `examples/review/README.md` + `code-review-example.md`.
-- `examples/testing/README.md` + `test-plan-example.md`.
+**6. Deliverables (new files)**
 
-**Index updates (only where transitions change):**
-- `README.md` chapter index — status 16–19 → Draft; Appendix updated.
-- `indexes/chapter_index.md` — same.
-- `indexes/template_index.md` — replace Pending entries with actual paths.
-- New `indexes/checklist_index.md` and `indexes/example_index.md`.
+```text
+docs/02_Engineering_Execution_Master_Plan/Engineering_Review_Summary.md
+docs/02_Engineering_Execution_Master_Plan/EEMP_FINAL_REPORT.md
+docs/02_Engineering_Execution_Master_Plan/EEMP_CERTIFICATION.md
+docs/50-audit-reports/EEMP_PHASE_5_REPORT.md
+```
 
-**Audit report:** `docs/50-audit-reports/EEMP_PHASE_4_REPORT.md`.
+Each carries required frontmatter and sections per the prompt (Executive Summary, Statistics, Health, Compliance, Traceability, Evidence Validation, Risk, Recommendations, Publication Recommendation, Readiness Score for the Review Summary; full inventories, coverage matrices, C-001/C-002 observations, health scores, certification recommendation for the Final Report; version, publication date, approvers, certification statement, scope, observations, future review date for the Certification).
 
-## Governance Rules Applied in Phase 4
+**7. Version 1.0 Certification (conditional)**
+If all publication criteria pass, update `docs/02_Engineering_Execution_Master_Plan/README.md`:
+- `version: 1.0.0`
+- `lifecycle_state: Published`
+- `approval_status: Approved`
+- Append Revision History entry
 
-Adds four Phase-4-specific rules on top of R-01…R-23:
+Also refresh `indexes/chapter_index.md` and any affected indexes for consistency.
 
-- **R-24 Asset Governance Parity** — every template, checklist, and example follows the EEMP documentation structure (frontmatter + required sections adapted to asset type) and the same authority/evidence model.
-- **R-25 Example Non-Authority** — every example carries an explicit banner: *"Illustrative only. Not an authoritative engineering standard. Cites the standard it demonstrates."*
-- **R-26 Checklist Contract** — every checklist includes: Required Inputs · Exit Criteria · Evidence Required · Owner · Approval Role · Related Standards.
-- **R-27 Template Traceability** — every reusable template includes a Traceability section naming the governing EEMP chapter and referenced standards.
+**8. Final Compliance Verification**
+Check-mark matrix inside Phase 5 audit report covering Repository Protection, Doc Hierarchy, Evidence, Confidence, Traceability, Cross References, Templates, Checklists, Examples, Indexes, Mermaid, Frontmatter, Versioning, Lifecycle, Publication Readiness, Documentation Certification.
 
-R-24…R-27 are appended to `02_Repository_Governance.md` as part of Phase 4 (incremental amendment; Revision History bumped).
-
-## Expected Deliverables
-
-Create or update only files required to complete Phase 4. No writes outside `docs/02_Engineering_Execution_Master_Plan/` and `docs/50-audit-reports/`. No edits to `src/**`, migrations, or config. Discovery may read anywhere.
-
-## Execution Order (single turn)
-
-1. **Repository Discovery (read-only, R-18 order)** with actual counts distinguishing **Documents Scanned** vs **Documents Referenced**. Approximations flagged `(approx.)`.
-
-   Candidate authoritative sources (verified during discovery, never assumed):
-   - Operations: `PLATFORM_OBSERVABILITY_STANDARD.md`, `docs/performance.md`, existing runbooks under `docs/10-erp-core/**` and `docs/16-*` if present.
-   - Documentation Standards: `GOVERNANCE_FRONTMATTER_STANDARD`, `GOVERNANCE_TEMPLATE_STANDARD`, `REPOSITORY_NAVIGATION_STANDARD`, `DOCUMENTATION_AS_ARTIFACT_STANDARD`, `docs/99-templates/**`.
-   - Project Governance: `docs/governance.md`, `docs/decision-register.md`, `docs/DOCUMENT_OWNERSHIP_MATRIX.md`, `docs/11-adrs/ADR_INDEX.md`, `ARCHITECTURE_REVIEW_GATE_STANDARD.md`, `FINDING_SEVERITY_STANDARD.md`.
-   - Go-Live: `docs/60-release-readiness/**`, `docs/61-production-release/**`, `docs/62-post-release-verification/**`, `docs/58-system-verification/**`, `docs/59-user-acceptance/**`.
-
-2. **Amend `02_Repository_Governance.md`** — append R-24…R-27; bump Revision History.
-
-3. **Author Chapters 16–19** using the standard template (Purpose · Scope · Audience · Responsibilities · Inputs · Outputs · Dependencies · Related Documents · Revision History · Cross References · Open Questions · Approval Status · Evidence · Discovery Inventory · Traceability Matrix). Each section marked Normative or Informative (R-22). Evidence with Confidence per R-21. References only — no restatement (R-19, R-20).
-
-4. **Populate templates, checklists, examples** honoring R-24…R-27. Skip any asset whose gap-free equivalent already exists in `docs/99-templates/` or `docs/15-governance/` and instead link to it from the EEMP index.
-
-5. **Finalize `20_Appendix.md`** — glossary additions and acronyms only where discovery finds terms not already indexed. Detected Conflicts table preserved verbatim.
-
-6. **Update indexes** (`README.md`, `chapter_index.md`, `template_index.md`, new `checklist_index.md`, new `example_index.md`) only where transitions change.
-
-7. **Author `docs/50-audit-reports/EEMP_PHASE_4_REPORT.md`** in the fixed 13-section order (Discovery Summary · Files · Cross References · Repository Health · Duplicate Standards · Missing References · Broken Links · Conflicts · Metrics · Compliance Verification · Checklist R-17 · Outstanding Questions · Approval). Compliance Verification adds Phase-4-specific checks:
-   - Every new asset complies with R-24…R-27.
-   - Every checklist contains the six-field contract.
-   - Every example carries the non-authority banner.
-   - Every template carries a Traceability section.
-
-8. **Stop.** Do not begin Phase 5. Do not anticipate future work.
+**9. Stop for approval**
+No implementation work initiated. Await explicit authorization to begin the Implementation Master Plan.
 
 ## Non-Goals
 
-- No new architecture, standards, or scope changes.
-- No resolution of C-001/C-002.
-- No modification of authoritative or implementation documents (findings reported, not fixed).
-- No writes outside `docs/02_Engineering_Execution_Master_Plan/` and `docs/50-audit-reports/`.
-- No new runbook or release procedure invented in Ch. 16/19 — those chapters orchestrate existing artifacts only.
+No new standards, no architecture/PRD/SD/module/sprint changes, no resolution of C-001 or C-002, no source/infrastructure/config edits.
 
-## Closing Directive
+## Completion Criteria
 
-Execute Phase 4 in a single turn. At completion, stop, generate the audit report, request approval, and wait for explicit authorization before beginning Phase 5.
+All 20 chapters validated · all indexes/templates/checklists/examples validated · Health reviewed · Engineering Review Summary, Final Report, Certification, and Phase 5 audit report generated · README bumped to v1.0.0 Published (if criteria met) · turn ends with approval request.
