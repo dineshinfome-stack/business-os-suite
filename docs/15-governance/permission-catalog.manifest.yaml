@@ -124,6 +124,78 @@ permissions:
     name: Revoke invitations
     description: Revoke pending invitations
 
+  # --- Platform tenancy (SPR-MOD-001-001) -----------------------------------
+  - key: platform.tenant.read
+    name: Read tenants
+    description: View tenants in Platform Admin
+  - key: platform.tenant.create
+    name: Create tenant
+    description: Provision a new tenant
+  - key: platform.tenant.activate
+    name: Activate tenant
+    description: Transition a tenant to active
+  - key: platform.tenant.suspend
+    name: Suspend tenant
+    description: Suspend an active tenant
+  - key: platform.tenant.archive
+    name: Archive tenant
+    description: Archive a tenant
+
+  # --- Organization structure (SPR-MOD-001-002) -----------------------------
+  - key: platform.company.read
+    name: Read companies
+    description: View companies in Platform Admin
+  - key: platform.company.create
+    name: Create company
+    description: Create a new company under a tenant
+  - key: platform.company.activate
+    name: Activate company
+    description: Transition a company to active
+  - key: platform.company.deactivate
+    name: Deactivate company
+    description: Transition a company to inactive
+  - key: platform.company.archive
+    name: Archive company
+    description: Archive a company
+  - key: platform.company.set_default
+    name: Set default company
+    description: Mark a company as the tenant default
+  - key: platform.branch.read
+    name: Read branches
+    description: View branches in Platform Admin
+  - key: platform.branch.create
+    name: Create branch
+    description: Create a branch under an active company
+  - key: platform.branch.update
+    name: Update branch
+    description: Update mutable branch fields
+  - key: platform.branch.archive
+    name: Archive branch
+    description: Archive a branch
+  - key: platform.branch.set_default
+    name: Set default branch
+    description: Mark a branch as the company default
+  - key: platform.financial_year.read
+    name: Read financial years
+    description: View financial years in Platform Admin
+  - key: platform.financial_year.create
+    name: Create financial year
+    description: Create a financial year for a company
+  - key: platform.financial_year.open
+    name: Open financial year
+    description: Transition a financial year to open
+  - key: platform.financial_year.close
+    name: Close financial year
+    description: Close an open financial year
+  - key: platform.financial_year.archive
+    name: Archive financial year
+    description: Archive a closed financial year
+  - key: platform.financial_year.set_default
+    name: Set default financial year
+    description: Mark a financial year as the company default
+
+
+
 
 roles:
   - key: platform_owner
