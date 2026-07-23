@@ -112,14 +112,14 @@ async function resolveWith(
         ? values.find((v) => v.definition_id === def.id && v.organization_id === orgId)
         : undefined;
 
-    let value: unknown = def.defaultValue;
+    let value: Json = (def.defaultValue ?? null) as Json;
     let source: ResolvedSetting["source"] = "default";
     if (platform) {
-      value = platform.value;
+      value = (platform.value ?? null) as Json;
       source = "platform";
     }
     if (org) {
-      value = org.value;
+      value = (org.value ?? null) as Json;
       source = "organization";
     }
 
