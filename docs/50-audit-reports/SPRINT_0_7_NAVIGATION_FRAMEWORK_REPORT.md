@@ -76,7 +76,9 @@ None detected. Auth, Tenancy (`OrgProvider`), RBAC (`PermissionsProvider` + `<Ca
 | Item | Severity | Disposition |
 |------|----------|-------------|
 | SECURITY DEFINER helpers in `private` schema | WARN | Accepted-by-design (Sprint 0.4B report) |
-| Leaked Password Protection disabled | WARN | User-deferred (security memory) |
+| Leaked Password Protection disabled | WARN | **Accepted Risk** — Owner: Project Architecture. Review: Future Security Hardening Sprint. Rationale: Supabase Leaked Password Protection is intentionally disabled at this time; the current password policy satisfies project requirements. The Supabase linter warning remains visible and is not suppressed. See Risk **R-074** in `docs/01-master/risk-register.md`. |
+
+**Verification-gate note.** Documented Accepted-Risk WARN items are non-blocking for repository progression. The gate continues to require **0 FAIL / 0 HIGH / 0 CRITICAL**; WARNs must each carry an explicit disposition (Accepted-by-design or Accepted Risk with owner + review trigger) to qualify as non-blocking.
 
 ## Recommended Transition
 
