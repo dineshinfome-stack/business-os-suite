@@ -1,9 +1,19 @@
 /**
  * Shared TanStack Query key factory.
  *
- * Namespaces below are placeholders for future modules. No business
- * queries are wired in Sprint 0.1.
+ * Keys are scoped by organization where relevant so that switching orgs
+ * transparently invalidates cached reads (see `OrgProvider`).
  */
 export const queryKeys = {
-  // module namespaces will land here — e.g. accounting, sales, inventory
+  settings: {
+    all: (orgId: string | null) => ["settings", orgId] as const,
+    definitions: () => ["settings", "definitions"] as const,
+    resolved: (orgId: string | null, keys?: readonly string[]) =>
+      ["settings", orgId, "resolved", keys ?? "all"] as const,
+    one: (orgId: string | null, key: string) =>
+      ["settings", orgId, "one", key] as const,
+  },
+  featureFlags: {
+    all: (orgId: string | null) => ["feature-flags", orgId] as const,
+  },
 } as const;
