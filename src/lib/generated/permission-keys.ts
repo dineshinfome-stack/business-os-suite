@@ -16,6 +16,8 @@ export const PERMISSIONS = {
   PLATFORM_AUDIT_VIEW: "platform.audit.view",
   SETTINGS_GENERAL_VIEW: "settings.general.view",
   SETTINGS_GENERAL_UPDATE: "settings.general.update",
+  SETTINGS_SECURITY_MANAGE: "settings.security.manage",
+  PLATFORM_SETTINGS_MANAGE: "platform.settings.manage",
   AUDIT_LOGS_VIEW: "audit.logs.view",
 } as const;
 
