@@ -249,6 +249,118 @@ export type Database = {
           },
         ]
       }
+      notification_preferences: {
+        Row: {
+          category: string | null
+          channel: string
+          created_at: string
+          enabled: boolean
+          id: string
+          metadata: Json
+          organization_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          channel: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          metadata?: Json
+          organization_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          channel?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          metadata?: Json
+          organization_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          action_label: string | null
+          action_url: string | null
+          archived_at: string | null
+          category: string
+          created_at: string
+          created_by: string | null
+          id: string
+          message: string | null
+          metadata: Json
+          organization_id: string
+          read_at: string | null
+          recipient_user_id: string
+          severity: string
+          status: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          action_label?: string | null
+          action_url?: string | null
+          archived_at?: string | null
+          category: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          message?: string | null
+          metadata?: Json
+          organization_id: string
+          read_at?: string | null
+          recipient_user_id: string
+          severity: string
+          status?: string
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          action_label?: string | null
+          action_url?: string | null
+          archived_at?: string | null
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          message?: string | null
+          metadata?: Json
+          organization_id?: string
+          read_at?: string | null
+          recipient_user_id?: string
+          severity?: string
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_members: {
         Row: {
           created_at: string
