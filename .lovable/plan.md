@@ -1,147 +1,128 @@
-# Sprint 0.8 — Notifications Framework (v3, Approved)
+## Sprint 0.9 — Search & Global Command Framework
 
-## Objective
-Deliver a multi-tenant, RBAC-aware notification framework with in-app delivery and a pluggable provider interface for future channels. Infrastructure only — no business modules, no workflow engine, no visual redesign.
+**Objective:** Establish a centralized, multi-tenant, RBAC-aware search infrastructure that extends the existing command palette (Sprint 0.7) with a second "Search" tab powered by a pluggable provider architecture. Infrastructure only — no business modules.
 
-## Scope Boundary
-- **In:** data model, service, provider interface (InApp only), preferences, notification center panel, bell + badge, toast wrapper, hooks, server functions, audit hooks, RLS, shared enums/constants, type identifier stability contract + namespace convention, tests.
-- **Out:** email/SMS/push/WhatsApp/Teams/Slack providers, workflow engine, scheduled/AI notifications, module-specific triggers, redesign of navigation or app shell.
+---
 
-## Database — Migration `012_notifications`
+### 1. Database — Migration `013_search_framework`
 
-**Table `public.notifications`**
-- `id uuid pk`, `organization_id uuid not null`, `recipient_user_id uuid not null`,
-- `type text not null`, `category text not null`,
-- `title text not null`, `message text`,
-- `severity text not null check in (info,success,warning,error)`,
-- `status text not null default 'unread' check in (unread,read,archived)`,
-- `action_url text`, `action_label text`,
-- `metadata jsonb not null default '{}'`, `created_by uuid`,
-- `created_at timestamptz`, `read_at timestamptz`, `archived_at timestamptz`, `updated_at timestamptz`.
-- Indexes: `(organization_id, recipient_user_id, status, created_at desc)`, `(recipient_user_id, status)`, `(organization_id, type)`.
-- `updated_at` trigger via existing shared helper.
+Two new tables in `public`:
 
-**Table `public.notification_preferences`**
-- `id`, `organization_id`, `user_id`,
-- `channel text check in (in_app,email,sms,push)`,
-- `category text` (nullable = global default),
-- `enabled boolean default true`, `metadata jsonb`, timestamps.
-- Unique `(organization_id, user_id, channel, coalesce(category,''))`.
+- **`search_history`** — `id`, `organization_id`, `user_id`, `query`, `resource_type` (nullable), `selected_result_id` (nullable text), `searched_at`. Indexed on `(user_id, organization_id, searched_at desc)`. Pruning to the most recent 20 rows per user handled by a `BEFORE INSERT` trigger calling a `private.fn_prune_search_history` helper (keeps the design consistent with existing `private.*` helpers).
+- **`search_preferences`** — `organization_id`, `user_id`, `enable_recent_searches` (bool, default true), `enable_suggestions` (bool, default true), `created_at`, `updated_at`. Unique on `(organization_id, user_id)`.
 
-**RLS** (reuses `private.fn_is_org_member` / `private.fn_current_org_id`):
-- SELECT: `recipient_user_id = auth.uid()` AND caller is member of `organization_id`.
-- INSERT: `organization_id` in caller's orgs; service role bypasses for system events.
-- UPDATE: recipient only, restricted to status/read_at/archived_at.
-- Preferences: user owns rows scoped to org.
+Each table follows the standard four-step pattern: `CREATE TABLE` → `GRANT` to `authenticated` + `service_role` → `ENABLE ROW LEVEL SECURITY` → policies scoped by `auth.uid() = user_id AND private.fn_is_org_member(organization_id)`. `updated_at` trigger on `search_preferences` using existing `public.fn_set_updated_at()`.
 
-Grants: `SELECT, INSERT, UPDATE ON ... TO authenticated; ALL TO service_role;` (no anon).
+RBAC seed via `docs/15-governance/permission-catalog.manifest.yaml` (regenerated through `bun run gen:permissions`):
+- `search.global.use` — permits invoking the search tab.
+- `search.history.manage` — permits clearing personal history.
 
-## Shared Enums & Constants (single source of truth)
+---
 
-**`src/lib/notifications/constants.ts`** — Zod enums with inferred TS types:
-- `NotificationStatus` = `unread | read | archived`
-- `NotificationSeverity` = `info | success | warning | error`
-- `NotificationChannel` = `in_app | email | sms | push`
-- `NotificationCategory` = registry-driven
+### 2. Search Registry — `src/lib/search/registry.ts`
 
-All service/UI/API code imports from here; no literal status/severity/channel strings elsewhere.
+Immutable, code-only registry (mirrors `notifications/registry.ts`). Each entry:
 
-## Notification Type Registry, Namespace Convention & Stability Contract
+```
+{ resourceType, displayName, icon, permission, keywords, routeBuilder(result), providerKey }
+```
 
-**`src/lib/notifications/registry.ts`** — code-only registry of typed identifiers with default category/severity. Every entry carries a `stable: true` flag and inline JSDoc.
+Ships with placeholder entries for future business resources (customer, vendor, employee, task, project, invoice, quotation, asset, setting, report) marked `status: "reserved"` so the registry contract is published without exposing routes to unimplemented modules. Only `setting` and `report` are `status: "active"` at sprint close (they map to routes that exist today).
 
-**Namespace Convention** (documented in `docs/15-governance/NOTIFICATION_TYPE_CONTRACT.md`):
-- Identifiers follow `<namespace>.<action>` — e.g. `task.assigned`, `invoice.overdue`.
-- Reserved top-level namespaces registered up front:
-  - `task.*` — task lifecycle
-  - `project.*` — project lifecycle
-  - `invoice.*` — billing/AR
-  - `amc.*` — annual maintenance contracts
-  - `approval.*` — approval workflow
-  - `workflow.*` — automation/engine
-  - `security.*` — auth/security events
-  - `system.*` — platform/maintenance
-- New top-level namespaces require a governance note in the contract doc (additive-only). Sub-namespaces (`task.subtype.action`) allowed without governance.
-- Registry validates identifier shape (`^[a-z][a-z0-9_]*(\.[a-z0-9_]+)+$`) at registration time.
+A `docs/15-governance/SEARCH_REGISTRY_STANDARD.md` note defines the stability contract (identifiers immutable once active) matching the notifications-registry convention.
 
-**Stability Contract**:
-- Type identifiers are **immutable public contracts** once shipped.
-- Renames require a new identifier + deprecation window; old identifier continues to resolve.
-- Referenced by preferences, analytics, automation, mobile — treated like navigation node IDs.
-- Adding a type = additive; removing/renaming = breaking, requires migration note.
+---
 
-Initial registered types: `task.assigned`, `task.completed`, `project.updated`, `invoice.overdue`, `amc.expiring`, `approval.pending`, `workflow.failed`, `security.login`, `system.maintenance`.
+### 3. Search Result Model — `src/lib/search/types.ts`
 
-## Backend
+```
+SearchResult { id, resource_type, organization_id, title, subtitle?, description?, icon?, route, permission?, metadata?, score, created_at?, updated_at? }
+```
 
-**`src/lib/notifications/types.ts`** — Zod schemas for Notification, Preference; re-exports enums from `constants.ts`.
+Plus `SearchQuery`, `SearchResponse`, `SearchProvider` interface (`key`, `search(query, ctx)`, optional `autocomplete`).
 
-**`src/lib/notifications/providers/`**
-- `provider.interface.ts` — `NotificationProvider { id: NotificationChannel; send(notification): Promise<void> }`.
-- `in-app.provider.ts` — persists row via admin client.
-- `index.ts` — provider registry; only InApp registered.
+---
 
-**`src/lib/notifications/service.server.ts`** — `NotificationService`: `create`, `markRead`, `markUnread`, `archive`, `markAllRead`, `getUnreadCount`, `list({limit,cursor,status})`. Emits audit entries for created/read/archived.
+### 4. Providers — `src/lib/search/providers/`
 
-**`src/lib/notifications/*.functions.ts`** — server functions wrapped with `requireSupabaseAuth`:
-- `createNotificationFn` (requires `notifications:create` or system caller)
-- `listNotificationsFn`, `getUnreadCountFn`
-- `markReadFn`, `markAllReadFn`, `archiveNotificationFn`
-- `getPreferencesFn`, `updatePreferenceFn`
+- **`registry-provider.ts`** — searches the navigation registry and the search registry's active entries (title/keywords match, scored the same way as `lib/navigation/search.ts`). Zero DB roundtrips.
+- **`database-provider.ts`** — thin scaffold that iterates active registry entries with a `dbLookup` hook. No business tables exist yet, so it returns `[]` today but demonstrates the RLS-scoped query shape for future modules. Documented as the extension point.
+- Provider registry (`providers/index.ts`) exports the active providers in priority order. `FullTextProvider`, `AISearchProvider`, `VectorProvider` are explicitly not created (out of scope) but reserved in the standard doc.
 
-All enforce `organization_id = current org` and `recipient_user_id = auth.uid()` for mutations.
+---
 
-## RBAC
-Add to `permission-catalog.manifest.yaml`:
-- `notifications:read.own` — all authenticated members
-- `notifications:create` — system callers / privileged roles
-- `notifications:manage` — admin bulk ops
+### 5. Search Service — `src/lib/search/service.functions.ts`
 
-Regenerate `src/lib/generated/permission-keys.ts`.
+Server functions, all under `requireSupabaseAuth` + org context, all gated by `search.global.use`:
 
-## Frontend
+- `searchGlobal({ query, resourceTypes?, limit? })` — fans out to enabled providers, merges + dedupes by `(resource_type, id)`, filters by caller's permission set (reuses `listEffectivePermissions`), sorts by score, caps at 20. Fires `search.executed` audit event.
+- `recordSearchSelection({ query, resourceType, resultId })` — inserts into `search_history`, fires `search.result_selected`.
+- `listRecentSearches({ limit? })` — reads the caller's `search_history` under RLS, respecting `enable_recent_searches`.
+- `clearSearchHistory()` — deletes caller's rows, fires `search.history_cleared`, gated by `search.history.manage`.
+- `getSearchPreferences()` / `updateSearchPreferences(...)` — upsert under RLS.
 
-**Hooks (`src/hooks/notifications/`)**
-- `useNotifications({status})` — TanStack Query, paginated.
-- `useUnreadNotifications()` — count with refresh on window focus (realtime seam for future).
-- `useNotificationPreferences()`.
+Autocomplete/suggestions in this sprint = title-prefix matches from the registry provider only (no DB call). Cross-org queries structurally impossible (org id derived from context, never from client input).
 
-**Components (`src/components/notifications/`)**
-- `NotificationBell.tsx` — icon + `NotificationBadge`.
-- `NotificationBadge.tsx` — unread count pill.
-- `NotificationCenter.tsx` — Popover/Sheet panel with list, empty state, mark-all-read, per-item actions.
-- `NotificationItem.tsx` — severity styling via existing design tokens.
-- `ToastProvider` — wrapper around `sonner` in `src/lib/notify.ts`; severities align with `NotificationSeverity`.
+---
 
-**App Shell integration**
-- Mount `<NotificationBell />` in existing `AppShell` header slot (no layout redesign).
-- Add `/settings/notifications` at `src/routes/_authenticated/settings.notifications.tsx`.
+### 6. Hooks — `src/hooks/search/`
 
-## Audit
-Reuse `logAuditEventFn` — actions: `notification.created`, `notification.read`, `notification.archived`, `notification.preference_updated`.
+- `useSearch(query)` — debounced (200 ms) `useQuery` wrapping `searchGlobal`. Disabled for empty query.
+- `useRecentSearches()` — `useQuery` + `useMutation` for clear.
+- `useSearchSuggestions(query)` — thin wrapper returning top-5 registry-only matches for instant feedback.
 
-## Testing (`bunx vitest run` + `bunx tsgo --noEmit`)
-- Unit: registry (including namespace shape validation), service methods, provider interface contract, preference resolution.
-- Integration (mocked supabase): org isolation, RBAC filtering, unread count accuracy, mark-all-read scoping, audit emission.
-- Component: NotificationCenter empty/populated states; mark-read updates cache; NotificationBell unread count.
-- Typecheck + full test suite PASS; zero regressions in Sprints 0.2–0.7A.
+Query keys added to `src/lib/query-keys.ts` under a new `search` namespace, scoped by `(orgId, userId, query)` so org switches invalidate cleanly.
 
-## Deliverables
-- Migration `012_notifications.sql`.
-- `src/lib/notifications/**`, `src/hooks/notifications/**`, `src/components/notifications/**`, `src/routes/_authenticated/settings.notifications.tsx`, updated `AppShell`.
-- `docs/15-governance/NOTIFICATION_TYPE_CONTRACT.md` (namespace convention + stability contract).
-- `docs/50-audit-reports/SPRINT_0_8_NOTIFICATIONS_REPORT.md` covering schema/RLS, provider, service, RBAC/tenancy, preferences, audit, enum centralization, namespace convention & stability contract, typecheck/test results, non-goal confirmation, R-074 carried forward.
+---
 
-## Exit Criteria
-- Migration applied; RLS + grants verified.
-- All server fns, hooks, components delivered; NotificationBell mounted.
-- Shared enums are single source of truth.
-- Namespace convention + stability contract published; registry enforces identifier shape.
-- Tests + typecheck PASS; zero regressions.
-- Repository advances to `READY_FOR_SPRINT_0_9`.
+### 7. Components — `src/components/search/`
 
-## Technical Details
-- Follow `server-side-modern`: `.functions.ts` client-safe; admin client imported inside handler for system-caller inserts.
-- No Supabase Realtime this sprint (documented follow-up); unread count refresh via focus + mutation invalidation.
-- Registry code-only; DB stores raw `type` string, validated against registry at service boundary with soft-fail for forward-compat.
-- Preferences resolution: missing row ⇒ `in_app` enabled, other channels disabled.
+- `SearchInput`, `SearchResults`, `SearchItem`, `RecentSearches`, `SearchEmptyState`, `GlobalSearch` (composed wrapper for standalone usage — e.g. a future `/search` route, not shipped this sprint).
+
+### 8. Command Palette Integration
+
+Extend `src/components/navigation/CommandPalette.tsx` — do **not** replace. Add a two-tab layout (Tabs from shadcn) inside the existing `CommandDialog`:
+
+- **Commands** tab — current behaviour (nav registry, favorites, recent nav) untouched.
+- **Search** tab — mounts `SearchInput` + `SearchResults` + `RecentSearches`, wired to `useSearch` + `useRecentSearches`. Selecting a result calls `recordSearchSelection` then navigates via router. Empty state shows recent searches (when the preference is enabled) or `SearchEmptyState`.
+
+Keyboard shortcuts: existing `⌘K` / `Ctrl+K` opens the palette on the last-used tab (persisted in `nav_user_preferences` via a new `command_palette_tab` field — one-row schema addition, added to Migration 013 as an `ALTER TABLE`). Add `⌘K` twice to toggle tabs, and `Esc` to close (already handled).
+
+Gate the Search tab behind `<Can permission="search.global.use">` — users without the permission still see the Commands tab as today.
+
+---
+
+### 9. Audit
+
+Reuse `logAuthEventFn` / audit framework with three new event types registered in the audit constants:
+`search.executed`, `search.result_selected`, `search.history_cleared`. Metadata: query hash (not raw query for the `.executed` event, to keep audit log size bounded), result count, org id.
+
+---
+
+### 10. Tests
+
+`src/lib/search/__tests__/`:
+- `registry.test.ts` — asserts active vs. reserved entries, unique resource types.
+- `service.test.ts` — permission filtering (removes results the caller can't access), org isolation (rows from another org never returned), history cap (21st insert prunes oldest), preferences respected (recent searches hidden when disabled).
+- `providers.test.ts` — registry provider scoring, dedupe merge across providers.
+- Component smoke test for `SearchResults` (renders items, handles empty state).
+
+Plus `bunx tsgo --noEmit` and full `bunx vitest run` clean.
+
+---
+
+### 11. Verification Report
+
+`docs/50-audit-reports/SPRINT_0_9_SEARCH_FRAMEWORK_REPORT.md` covering: migration + RLS + grants, registry + standard doc, provider abstraction, service functions + RBAC + tenancy, command palette integration, audit events, tests, typecheck, and regression checks against Sprints 0.4–0.8 (Auth, Tenancy, RBAC, Settings, Navigation, Notifications).
+
+### Exit Criteria
+
+Framework implemented, palette integrated, multi-tenant + RBAC compliant, tests + typecheck green, no regressions → advance to `READY_FOR_SPRINT_1_0`.
+
+---
+
+### Technical details
+
+- New files: `src/lib/search/{registry,types,service.functions}.ts`, `src/lib/search/providers/{index,registry-provider,database-provider}.ts`, `src/hooks/search/{useSearch,useRecentSearches,useSearchSuggestions}.ts`, `src/components/search/*`, tests, migration, standard doc, report.
+- Edited files: `src/components/navigation/CommandPalette.tsx` (add tabs), `src/lib/query-keys.ts` (search namespace), `src/lib/generated/permission-keys.ts` (regen), `docs/15-governance/permission-catalog.manifest.yaml`, `nav_user_preferences` schema (one added column via Migration 013).
+- No changes to auth, notifications, tenancy, or navigation registry logic — only additive integration.
