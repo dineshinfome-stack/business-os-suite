@@ -1,94 +1,86 @@
-# Phase 2 — Platform Standards (EEMP) — v3
+# Phase 3 — Delivery & AI (EEMP) — v2
 
-Incorporates all v2 refinements plus the four optional enhancements (Traceability Matrix, Normative vs Informative classification, Compliance Verification, Repository Health taxonomy). Approved defaults locked in: `owner: Project Architecture`, default approver `Architecture Board`, one phase per turn.
+All seven refinements incorporated. Phase 2 accepted; C-001/C-002 remain observations only.
 
 ## Scope
 
-Author or update, as needed, the following chapters under `docs/02_Engineering_Execution_Master_Plan/`:
+Author under `docs/02_Engineering_Execution_Master_Plan/`, only if not already present:
 
-- `06_Backend_Standards.md`
-- `07_Database_Standards.md`
-- `08_Security_Standards.md`
-- `09_Module_Development_Framework.md`
-- `10_Module_Dependency_Matrix.md`
+- `11_Sprint_Execution.md`
+- `12_AI_Development_Playbook.md`
+- `13_AI_Prompt_Standards.md` — governs **engineering prompt governance** (structure, evidence, tool-calling, safety, review, versioning, approval); **not** a repository of business/application prompts.
+- `14_AI_Quality_Gates.md` — must explicitly cover Prompt validation · Tool-invocation validation · Context-window management · Hallucination mitigation · Traceability · Human approval gates.
+- `15_Testing_Strategy.md` — orchestrates, does not redefine: Unit · Integration · E2E · Performance · Security · Accessibility · AI evaluation (where applicable). Each references existing standards where they exist.
 
-Supporting work (only if needed after Repository Discovery):
+Supporting updates (only if actually needed):
+- `README.md` Chapter Index — status 11–15 → Draft.
+- `indexes/chapter_index.md` — same.
+- `20_Appendix.md` — append new Detected Conflicts only if discovery uncovers them; existing entries untouched.
 
-- Amend `02_Repository_Governance.md` with:
-  - **R-18 Repository Discovery Enhancement** — mandatory search order, orchestration-only, no duplication.
-  - **R-19 Lowest Duplication Wins** — reference the highest-authority, most reusable, least-duplicated source.
-  - **R-20 No Derived Standards** — if an authoritative standard exists, do not derive, reinterpret, or expand it; describe only how engineers consume it.
-  - **R-21 Evidence Confidence Definitions** — High: single approved authoritative doc. Medium: two or more authoritative docs. Low: requires manual verification. Unknown: reference unavailable.
-  - **R-22 Section Classification** — every major section is explicitly marked **Normative** (mandatory engineering rule) or **Informative** (explanatory guidance).
-  - **R-23 Traceability** — every chapter carries a Traceability Matrix.
-- Ensure `20_Appendix.md` contains a **Detected Conflicts** section (create only if absent).
-- Update `README.md` chapter index and `indexes/chapter_index.md` only where status transitions actually change.
-- Author `docs/50-audit-reports/EEMP_PHASE_2_REPORT.md`.
+Audit report: `docs/50-audit-reports/EEMP_PHASE_3_REPORT.md`.
 
 ## Expected Deliverables
 
-Create or update **only** the files required to complete Phase 2. Actual counts of created vs modified files depend on repository state discovered during Repository Discovery. No writes outside `docs/02_Engineering_Execution_Master_Plan/` and `docs/50-audit-reports/`. No edits to `src/**`, migrations, or config.
+Create or update only files required to complete Phase 3. No writes outside `docs/02_Engineering_Execution_Master_Plan/` and `docs/50-audit-reports/`. No edits to `src/**`, migrations, or config.
+
+## Authority Boundary (Normative)
+
+**Implementation artifacts are not authoritative standards.** Files such as `playwright.config.ts`, `vitest.config.ts`, `src/__tests__/**`, `e2e/**`, and any code under `src/**` may be inspected only to understand current implementation practice. They must not become normative sources for EEMP guidance. Authoritative sources remain Master Architecture, Governance Standards, ADRs, and approved delivery/AI/testing documentation.
 
 ## Execution Order (single turn)
 
-1. **Repository Discovery (read-only)** in this order:
-   Master Architecture → Governance Standards → Architecture Documents → Design Documents → ADRs → Module Publications → PRDs → Solution Designs → Sprint PRDs → Existing EEMP.
+1. **Repository Discovery (read-only, R-18 order)** with **actual** counts distinguishing:
+   - **Documents Scanned** — files enumerated during discovery.
+   - **Documents Referenced** — unique authoritative documents actually cited in Ch. 11–15.
+   Repository size is not a proxy for documentation quality.
 
-   Possible authoritative sources include, but are not limited to, documents under `docs/01-master/`, `docs/02-architecture/`, `docs/03-design/`, `docs/05-adr/`, `docs/11-adrs/`, `docs/11-erd/`, `docs/15-governance/`, `docs/20-design/`, `docs/20-module-prds/`, `docs/30-sprint-prds/`, `docs/40-module-baselines/`, `docs/45-module-publications/`, `docs/46-solution-design/`, `docs/60-solution-design/`, and root indices (`MODULE_CATALOG.md`, `module-dependency-matrix.md`, `SPRINT_DEPENDENCY_MATRIX.md`, `ADR_IMPACT_MATRIX.md`, `ENGINE_USAGE_MATRIX.md`). Repository Discovery determines the final authoritative source. Never assume any file exists.
+   Possible authoritative sources include, but are not limited to:
+   - Sprint Execution: `docs/SPRINT_AUTHORING_GUIDE.md`, `docs/SPRINT_ESTIMATION_GUIDE.md`, `docs/SPRINT_ROADMAP.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md`, `docs/30-sprint-prds/**`, `docs/15-governance/ARCHITECTURE_REVIEW_GATE_STANDARD.md`, EEMP Ch. 03/09/10.
+   - AI Development Playbook: `docs/09-ai/**`, `docs/05-adr/ADR-0008-ai-copilot-pattern.md`, `docs/15-governance/AI_PLATFORM_LAYER_STANDARD.md`, `docs/02-architecture/ai-architecture.md`.
+   - AI Prompt Standards: `docs/09-ai/prompt-library.md`, `docs/09-ai/ai-guardrails.md`, `docs/09-ai/tool-calling.md`.
+   - AI Quality Gates: `docs/09-ai/ai-guardrails.md`, `docs/15-governance/FINDING_SEVERITY_STANDARD.md`, `docs/15-governance/ARCHITECTURE_REVIEW_GATE_STANDARD.md`, `docs/15-governance/PLATFORM_TESTING_STANDARD.md`.
+   - Testing Strategy: `docs/15-governance/PLATFORM_TESTING_STANDARD.md`, `docs/02-architecture/testing-strategy.md`, `docs/15-governance/PERFORMANCE_BUDGETS_STANDARD.md`, `docs/15-governance/ACCESSIBILITY_STANDARD.md` if present under `docs/20-design/ACCESSIBILITY_STANDARD.md`.
 
-2. **Emit Discovery Statistics** into the audit report:
-   Documents Scanned · Documents Referenced · Duplicate Standards · Missing References · Conflicts · Skipped Documents · Outdated Documents.
+   Repository Discovery determines the final source of truth. Never assume any file exists. Any approximate count in the audit report is labeled `(approx.)` with reason.
 
-3. **Amend `02_Repository_Governance.md`** with R-18 through R-23.
-
-4. **Author chapters 06–10** using the standard chapter template (Purpose · Scope · Audience · Responsibilities · Inputs · Outputs · Dependencies · Related Documents · Revision History · Cross References · Open Questions · Approval Status · Evidence · Discovery Inventory · **Traceability Matrix**). Each chapter:
-   - References authoritative sources; does not restate them.
-   - Marks each major section **Normative** or **Informative** (R-22).
+2. **Author chapters 11–15** using the standard template (Purpose · Scope · Audience · Responsibilities · Inputs · Outputs · Dependencies · Related Documents · Revision History · Cross References · Open Questions · Approval Status · Evidence · Discovery Inventory · **Traceability Matrix**). Every chapter:
+   - References authoritative sources; does not restate them (R-19, R-20).
+   - Marks every major section **Normative** or **Informative** (R-22).
    - Carries Evidence with Confidence per R-21.
-   - Obeys **Lowest Duplication Wins** (R-19) and **No Derived Standards** (R-20).
-   - Includes a **Traceability Matrix** with columns:
-     Chapter → Referenced Standards → Referenced ADRs → Referenced PRDs → Referenced Solution Designs → Applicable Modules → Applicable Sprints.
+   - Includes Traceability Matrix per R-23.
+   - For Ch. 12–14: includes a **Lifecycle Note** stating AI-specific guidance is reviewed on a shorter cadence (default **quarterly**) while still following the handbook's versioning and approval workflow (R-08, R-11).
+   - For Ch. 13: scoped explicitly to **engineering prompt governance**; excludes business/application prompt content.
+   - For Ch. 14: explicitly covers the six required controls (prompt validation, tool-invocation validation, context-window management, hallucination mitigation, traceability, human approval gates).
+   - For Ch. 15: orchestrates the seven testing dimensions (Unit, Integration, E2E, Performance, Security, Accessibility, AI evaluation) with references to existing standards; treats config files and test suites as **informative implementation artifacts only**.
 
-   `10_Module_Dependency_Matrix.md` diagrams may use Mermaid `flowchart` or `gitGraph`, whichever is more readable.
+3. **Update Chapter Index** in `README.md` and `indexes/chapter_index.md` only where transitions actually change.
 
-5. **`20_Appendix.md`** — ensure a **Detected Conflicts** section exists; populate from discovery (empty if none). Governance conflicts are recorded, never resolved inside the EEMP.
-
-6. **Update `README.md` and `indexes/chapter_index.md`** only if status transitions actually change.
-
-7. **Author `docs/50-audit-reports/EEMP_PHASE_2_REPORT.md`** in this fixed section order:
-   1. Discovery Summary (incl. Discovery Statistics)
-   2. Files (Created / Modified — actual, not predicted)
-   3. Cross References (chapter → authoritative source)
-   4. Repository Health Findings — each classified by **severity** (Critical / Major / Minor / Informational) **and category** (Duplicate — same content · Overlapping — similar topic, different scope · Conflicting — contradictory guidance)
+4. **Author `docs/50-audit-reports/EEMP_PHASE_3_REPORT.md`** in the same fixed 13-section order:
+   1. Discovery Summary (with **Documents Scanned** vs **Documents Referenced** shown separately; approximations flagged)
+   2. Files (Created / Modified — actual)
+   3. Cross References
+   4. Repository Health Findings — severity **and** category
    5. Duplicate Standards
    6. Missing References
    7. Broken Links
-   8. Conflicts (mirrors `20_Appendix.md → Detected Conflicts`)
-   9. Metrics (Success Metrics snapshot)
-   10. **Compliance Verification** — checklist:
-       - Repository Protection respected
-       - No duplicate standards introduced
-       - No architecture redefined
-       - No governance superseded
-       - Documentation hierarchy respected
-       - Evidence present
-       - Confidence assigned
-       - Cross-references validated
-       - Traceability Matrix present in every new/amended chapter
-       - Normative vs Informative classification applied
-   11. Checklist (R-17 completion)
-   12. Questions (Outstanding)
-   13. Approval (request)
+   8. Conflicts (mirrors Appendix; **no resolution of C-001/C-002**)
+   9. Metrics
+   10. **Compliance Verification** — adds two Phase-3-specific checks:
+       - Every AI-related chapter references applicable Governance, ADRs, and Architecture documents.
+       - No AI workflow or prompt pattern introduced without evidence.
+   11. Checklist (R-17)
+   12. Outstanding Questions
+   13. Approval
 
-8. **Stop.** Do not begin Phase 3 automatically. Do not anticipate future work.
+5. **Stop.** Do not begin Phase 4 automatically. Do not anticipate future work.
 
 ## Non-Goals
 
-- No new architecture, no new standards, no changes to PRD/SD/module/sprint scope.
-- No renames or moves.
-- No resolution of governance conflicts inside the EEMP — only recording them.
-- No modification of documents outside the EEMP folder (Repository Health issues are reported, not fixed).
+- No new architecture, no new standards, no scope changes.
+- No resolution of accepted conflicts C-001/C-002.
+- No modification of authoritative or implementation documents (findings reported, not fixed).
+- No writes outside `docs/02_Engineering_Execution_Master_Plan/` and `docs/50-audit-reports/`.
 
 ## Closing Directive
 
-If all Phase 2 completion criteria are satisfied, execute Phase 2. At completion, stop, generate the audit report, request approval, and wait for explicit authorization before beginning Phase 3.
+If all Phase 3 completion criteria are satisfied, execute Phase 3. At completion, stop, generate the audit report, request approval, and wait for explicit authorization before beginning Phase 4.
