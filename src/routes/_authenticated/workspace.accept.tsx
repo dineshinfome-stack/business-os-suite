@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/workspace/accept")({
   head: () => ({
     meta: [
       { title: `Accept invitation — ${APP_NAME}` },
-      { name: "description", content: "Accept your workspace invitation." },
+      { name: "description", content: "Accept your team invitation." },
     ],
   }),
   component: AcceptPage,
