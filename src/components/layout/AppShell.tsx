@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Outlet } from "@tanstack/react-router";
+import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { PlatformSidebarV2 } from "@/components/platform/navigation/PlatformSidebarV2";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
@@ -69,6 +70,7 @@ export function PageContainer({
 }) {
   return (
     <div className="space-y-6">
+      <Breadcrumb />
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
