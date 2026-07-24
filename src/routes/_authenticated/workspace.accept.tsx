@@ -61,7 +61,7 @@ function AcceptPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button onClick={() => void navigate({ to: "/workspace" })}>Go to workspace</Button>
+          <Button onClick={() => void navigate({ to: "/workspace" })}>Go to business profile</Button>
         </CardContent>
       </Card>
     </PageContainer>
