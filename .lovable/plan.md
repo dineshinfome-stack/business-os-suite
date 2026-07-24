@@ -1,89 +1,42 @@
+## Phase 5 — Sprint Acceptance & Closeout (SPR-MOD-001-002)
 
-# Phase 4 — Testing & QA (SPR-MOD-001-002)
+Governance-only. No code, schema, backend, UI, RPC, or test changes. Follows the same pattern used to close SPR-MOD-001-001 (Acceptance Review + Program Status report + IMP CHANGELOG entry + SIP archival to `archive/2026/`).
 
-Validation-only phase. No new features, no schema, no new RPCs. Reuse SPR-MOD-001-001 patterns.
+### Deliverables (all follow existing repository conventions)
 
-## Discovery (pre-plan verification)
+1. **Sprint Acceptance Review** — `docs/50-audit-reports/SPR_MOD_001_002_ACCEPTANCE_REVIEW.md`
+   - Same 9-section structure as `SPR_MOD_001_001_ACCEPTANCE_REVIEW.md` (Acceptance Criteria Evidence, Traceability, Quality Gate, Documentation Status, Production Readiness, Outstanding Observations, UI Evidence, Board Decision, Exit Criteria).
+   - Rolls up: Phase 1 accepted, Phase 2 accepted (Architecture Board 10/10 per `PHASE2_SPR-MOD-001-002_CLOSEOUT.md`, SIP-014 Deferred), Phase 3 accepted, Phase 4 accepted (49/49 tests, 21 new).
+   - Records **Deferred**: SIP-014 (Settings namespace bootstrap — proposal-only, no reserved sprint id) with pointer to `docs/30-sprint-prds/engineering/PROPOSAL-settings-namespace-bootstrap.md`.
+   - Records **Repository Capability Gaps** (not defects): authenticated integration-test harness absent; Playwright authentication/session infrastructure absent. Disposition: acknowledged only; no remediation proposed.
+   - Closes carry-forwards from SPR-MOD-001-001 that this sprint covered (CF-1 RLS smoke, CF-2 live activation/UI) with status set from Phase 4 evidence; forwards those it did not.
+   - Final line: **"Sprint acceptance recommended. Awaiting Architecture Board confirmation."** (implementation team does not self-certify).
 
-Read from the repository this turn:
+2. **Sprint Completion Report** — `docs/50-audit-reports/SPR_MOD_001_002_ORGANIZATION_STRUCTURE_REPORT.md`
+   - Mirrors the SPR-001 completion report format: Executive Summary, Delivered Scope (Database / Backend / UI / Testing), Deferred Items, Validation Summary (Phase 1 validation, Phase 2 V1–V5, Phase 3 validation, Phase 4 test results), Architecture Compliance, Acceptance Decision.
 
-- `vitest.config.ts` — jsdom + `src/**/*.test.{ts,tsx}` — reuse as-is.
-- `playwright.config.ts` — configured but `e2e/` contains only a README placeholder; **no existing Playwright specs**.
-- Existing test suites: `src/__tests__/smoke.test.ts`, `src/lib/navigation/__tests__/*`, `src/lib/search/__tests__/*`, `src/lib/tenants/__tests__/{lifecycle,slug}.test.ts`. Pattern: pure-function Vitest suites against `lifecycle.ts` / `slug.ts`, colocated in `__tests__/` next to source.
-- Slug normalization for Company/Branch/FY lives in the DB RPC (`private.fn_normalize_slug`); no TS mirror in `src/lib/organizations|branches|financial-years`. The TS mirror `@/lib/tenants/slug` is already covered by `slug.test.ts` — no duplicate needed.
-- **No integration-test harness exists** in the repo for authenticated server functions (no Supabase test client, no auth fixtures, no DB reset strategy).
-- **No Playwright specs or auth helpers exist**.
+3. **SIP update + archival** — per `SIP_LIFECYCLE.md`
+   - Update `docs/05_Sprint_Implementation_Plans/active/SIP-SPR-MOD-001-002.md`: Execution Metadata (`execution_status: Completed`, `phase_3_status: Complete`, add `phase_4_status: Complete`, populate `archive_date`), populate §12 Sprint Outcome block.
+   - Copy to `docs/05_Sprint_Implementation_Plans/archive/2026/SIP-SPR-MOD-001-002.md`.
 
-Consequence: SIP-018's integration and E2E scope cannot be executed as "reuse existing patterns" — the patterns don't exist. See "Gap disclosure" below.
+4. **Program Status Report** — `docs/04_Program_Status/reports/PROGRAM_STATUS_<UTC>Z.md`
+   - Same layout as `PROGRAM_STATUS_20260723T174644Z.md`. Headline: SPR-MOD-001-002 Complete (Acceptance Pending). Update Wave A sprint table, quality-gate snapshot, documentation delta, carry-forward register (retire CF-1/CF-2 where discharged, retain CF-3/CF-4/CF-5, add repository capability gaps as CF-6 integration harness / CF-7 Playwright auth), recommendation.
 
-## In scope this phase
+5. **IMP CHANGELOG entry** — append `v1.0.2 — <date> — SPR-MOD-001-002 Sprint Closure` to `docs/03_Implementation_Master_Plan/CHANGELOG.md` in the existing format.
 
-### 1. Unit tests (SIP-018) — matches existing pattern exactly
+6. **Sprint Register / Index** — none exists in the repository (only per-sprint SIP files + archive/2026 folder). Record this fact in the Acceptance Review §4; no new index is invented.
 
-Add pure-function Vitest suites mirroring `src/lib/tenants/__tests__/lifecycle.test.ts`, colocated under each module's `__tests__/` folder using the existing naming convention:
+### Verifications performed while authoring (read-only)
 
-- `src/lib/organizations/__tests__/lifecycle.test.ts`
-  - valid: `created→active`, `active↔inactive`, `active→archived`, `inactive→archived`
-  - rejects: `created→inactive/archived`, `archived→*`, self-transitions
-  - `assertTransition` throws on illegal
-- `src/lib/branches/__tests__/lifecycle.test.ts`
-  - valid: `active→archived`; rejects: `archived→*`, self, reverse
-  - `assertTransition` throws
-- `src/lib/financial-years/__tests__/lifecycle.test.ts`
-  - full state-machine coverage of `open`, `close`, `archive` per `financial-years/lifecycle.ts`
-  - rejects illegal transitions, self, post-archive
-  - `assertTransition` throws
+- Re-inspect `PHASE2_SPR-MOD-001-002_CLOSEOUT.md` and any Phase-3/Phase-4 evidence already committed to confirm each SIP task's status before it is asserted in the Traceability Matrix.
+- Confirm SIP-014 remains proposal-only (no migration, server function, or sprint id).
+- Confirm no unrecorded architectural deviations by scanning ADRs referenced in the SIP.
+- If any implementation defect surfaces during verification: **stop and report; do not fix.**
 
-Slug normalization: covered by existing `src/lib/tenants/__tests__/slug.test.ts` (shared normalizer). No new TS slug module is introduced — SIP-018 slug items map to the DB RPC and existing TS coverage.
+### Constraints honored
 
-Data-layer invariants named in SIP-018 that live only in RPCs (overlapping-FY rejection, default-branch/company invariant, `already_*` idempotency branches, archive restrictions) are **not** exercisable from pure unit tests. They are named in the integration section below.
+No code / schema / RPC / UI / test changes. No new governance templates. No new reports beyond the six deliverables above. No planning for future sprints. Reuses SPR-001 closure structure verbatim.
 
-### 2. Integration tests — gap disclosure
+### Stop condition
 
-The repo has no harness to call `createServerFn` handlers with an authenticated Supabase session and reset DB state between tests. Building one is net-new infrastructure and would exceed "reuse existing patterns" and "no new architectural changes".
-
-Plan: **do not fabricate a harness this phase.** Record integration coverage of Phase 2 server functions (permission enforcement, RPC execution, audit rows, event emission, `already_*` idempotency, overlap/default invariants) as an explicit gap in the Phase 4 summary. Present the gap to the Architecture Board for disposition; do not pre-select a remedy.
-
-### 3. Playwright E2E — gap disclosure
-
-`e2e/` has no specs and no auth helpers. Authoring the Companies / Branches / FY flows requires: a Supabase-session bootstrap for Playwright, seed data for a tenant, and a login helper. All net-new.
-
-Plan: **do not author E2E specs this phase.** Record as a gap on the same terms as integration. Keep `playwright.config.ts` untouched. Disposition is the Board's.
-
-### 4. Regression verification
-
-- Run `bunx vitest run` — full suite must pass (existing + new lifecycle suites).
-- Run `bunx tsgo --noEmit` — clean.
-- Static sweeps: `rg "console\\." src/lib/organizations src/lib/branches src/lib/financial-years src/routes/_authenticated/platform`, `rg "TODO|\\.only\\(|\\.skip\\(" src/**/*.test.ts` — must be empty (excluding pre-existing approved cases).
-- Confirm every added test file follows the existing repository naming and location conventions (`<module>/__tests__/<subject>.test.ts`, Vitest `describe`/`it`, `@/lib/...` imports).
-
-### 5. Defect policy
-
-If any existing suite or typecheck fails, apply the minimum correction inside Phase 1–3 code, re-run, and record in the summary. No new abstractions.
-
-## Files this phase will create
-
-- `src/lib/organizations/__tests__/lifecycle.test.ts`
-- `src/lib/branches/__tests__/lifecycle.test.ts`
-- `src/lib/financial-years/__tests__/lifecycle.test.ts`
-
-No other files modified unless a defect is discovered.
-
-## Out of scope (per user directive)
-
-Sprint closeout, acceptance report, program status, IMP CHANGELOG, SIP archival, Settings Namespace Bootstrap, Company/Branch Settings UI, any new feature.
-
-## Deliverables at stop
-
-1. SIP-018 execution summary, identifying completed unit-test work and any remaining items that could not be executed because the required repository infrastructure does not exist.
-2. Unit test summary (counts, pass/fail).
-3. Integration test summary — gap disclosure: absence of repository-supported integration test infrastructure, presented to the Architecture Board for disposition. Possible outcomes (Board's decision, not the implementation team's) include acceptance of the gap, a dedicated infrastructure proposal, or incorporation into an existing approved workstream.
-4. Playwright test summary — gap disclosure on the same terms as integration.
-5. Defects found + fixes (expected: none).
-6. Final validation results: `vitest`, `tsgo`, static sweeps, naming/location conformance.
-7. Repository deviations: none proposed; two gaps disclosed for Board disposition.
-8. Recommendation for Phase 5: proceed to Sprint Acceptance pending Architecture Board disposition of the disclosed gaps.
-
-## Stop condition
-
-Stop after the three lifecycle test files are added, all suites and typecheck pass, and the summary with the two neutral gap disclosures is produced. Await Architecture Board decision.
+Governance updates issued; sprint prepared for acceptance; work halts pending Architecture Board countersignature before SPR-MOD-001-003 is authorized.
