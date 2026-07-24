@@ -36,18 +36,17 @@ Key properties of a tenant:
 - **Lifecycle anchor** — provisioning, suspension, export, and deletion operate at the tenant granularity.
 - **Data-residency anchor** — a tenant is the smallest unit that can be pinned to a specific geographic region.
 
-## Tenant / Workspace / Organization / Company / Branch Hierarchy
+## Tenant / Organization / Company / Branch Hierarchy
 
 A tenant is not a flat container. Business entities inside a tenant form a hierarchy that mirrors real enterprise structure without collapsing tenants and organisations into the same concept.
 
-Between Tenant and Company sits **Workspace** — a **logical business container derived from the Tenant context and associated configuration** (see `docs/11-adrs/architecture/ADR-008-platform-tenant-workspace-hierarchy.md`). Workspace has no table today: every Tenant has exactly one logical Workspace, and it introduces no additional ownership boundary. It is shown in the hierarchy so documentation, UI, and services can reference it consistently.
+Tenant is the sole business container above Company. See `docs/11-adrs/architecture/ADR-009-workspace-retirement.md` (supersedes ADR-008).
 
 ```mermaid
 flowchart TD
   T[Tenant]
-  T --> W[Workspace<br/>logical, no table]
-  W --> O1[Organization]
-  W --> O2[Organization]
+  T --> O1[Organization]
+  T --> O2[Organization]
   O1 --> C1[Company]
   O1 --> C2[Company]
   O2 --> C3[Company]
@@ -58,24 +57,22 @@ flowchart TD
   C3 --> B5[Branch]
 
   classDef tenant fill:#0f172a,stroke:#94a3b8,color:#fff;
-  classDef workspace fill:#0f172a,stroke:#64748b,color:#fff,stroke-dasharray: 4 3;
   classDef org fill:#1e293b,stroke:#64748b,color:#fff;
   classDef company fill:#334155,stroke:#94a3b8,color:#fff;
   classDef branch fill:#475569,stroke:#cbd5e1,color:#fff;
   class T tenant;
-  class W workspace;
   class O1,O2 org;
   class C1,C2,C3 company;
   class B1,B2,B3,B4,B5 branch;
 ```
 
 - **Tenant** — the isolation and commercial boundary. Everything below inherits its tenant identifier.
-- **Workspace** — a logical business container per Tenant (1:1 today, no table). May be promoted to a physical entity via a future ADR if promotion criteria are met.
 - **Organization** — an optional grouping layer for enterprises with multiple legal groups, holding structures, or brands under one tenant.
 - **Company** — a legal entity. Accounting books, statutory filings, tax registrations, and fiscal years attach here.
 - **Branch** — an operating location of a company. Inventory, sales, service, and payroll operations attach here.
 
 A tenant with a single company and single branch is the common small-business shape; the hierarchy scales up without schema changes.
+
 
 ## Tenant-Scoped vs Globally Shared Data
 
