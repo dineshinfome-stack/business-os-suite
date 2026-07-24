@@ -1,17 +1,23 @@
 ---
-title: "ADR-008 — Platform → Tenant → Workspace → Company Hierarchy"
-summary: "Formalizes the 5-level conceptual hierarchy and defines Workspace as a logical construct derived from the Tenant context and associated configuration."
+title: "ADR-008 — Platform → Tenant → Workspace → Company Hierarchy (SUPERSEDED)"
+summary: "Superseded by ADR-009. Workspace has been retired as a domain concept; Tenant is now the sole business container."
 layer: "architecture"
 owner: "Platform Architecture"
-status: "accepted"
+status: "superseded"
 updated: "2026-07-24"
-version: "1.0"
-tags: ["adr", "architecture", "multi-tenant", "workspace", "hierarchy"]
+version: "1.1"
+tags: ["adr", "architecture", "multi-tenant", "hierarchy", "superseded"]
 document_type: "ADR"
 supersedes: ""
+superseded_by: "ADR-009"
 ---
 
+> **This ADR is superseded by [ADR-009 — Workspace Retirement](./ADR-009-workspace-retirement.md).**
+> Workspace has been removed as a domain concept. Read ADR-009 for the current hierarchy (Platform → Tenant → Company → Branch).
+
 # ADR-008 — Platform → Tenant → Workspace → Company Hierarchy
+
+
 
 ## Status
 

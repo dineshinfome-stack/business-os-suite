@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: `Dashboard — ${APP_NAME}` },
-      { name: "description", content: `${APP_NAME} business dashboard.` },
+      { name: "description", content: `${APP_NAME} tenant dashboard.` },
     ],
   }),
   component: DashboardPage,
@@ -36,7 +36,7 @@ function DashboardPage() {
   return (
     <PageContainer
       title={profile?.displayName ? `Welcome, ${profile.displayName}` : "Welcome to Business OS"}
-      description="Your business foundation is ready."
+      description="Your tenant is ready."
       actions={
         <Button variant="outline" onClick={handleSignOut}>
           <LogOut className="mr-1 h-4 w-4" /> Sign out

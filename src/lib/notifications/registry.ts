@@ -38,7 +38,7 @@ const defs = [
     category: "security",
     defaultSeverity: "warning",
     label: "Security alerts",
-    description: "Account and workspace security events.",
+    description: "Account and tenant security events.",
   },
   {
     type: "task.assigned",

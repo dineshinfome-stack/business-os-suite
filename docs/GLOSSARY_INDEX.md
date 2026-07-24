@@ -104,8 +104,8 @@ This index SHOULD be regenerated or reviewed whenever a term is added, renamed, 
 | Voucher | `docs/10-erp-core/financial/voucher-engine.md` | ✓ | ✓ | ✓ | — |
 | Webhook | `docs/11-adrs/platform/ADR-024-webhook-delivery.md` | — | ✓ | — | — |
 | Workflow | `docs/10-erp-core/workflow/workflow-engine.md` | ✓ | ✓ | — | — |
-| Workspace (logical) | `docs/11-adrs/architecture/ADR-008-platform-tenant-workspace-hierarchy.md` | — | ✓ | — | — |
-| Platform (hierarchy) | `docs/11-adrs/architecture/ADR-008-platform-tenant-workspace-hierarchy.md` | — | ✓ | — | — |
+| Workspace (retired) | `docs/11-adrs/architecture/ADR-009-workspace-retirement.md` | — | ✓ | — | — |
+| Platform (hierarchy) | `docs/11-adrs/architecture/ADR-009-workspace-retirement.md` | — | ✓ | — | — |
 
 ## References
 

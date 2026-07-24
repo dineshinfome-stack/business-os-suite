@@ -27,13 +27,14 @@ depends_on: []
 
 ## Terms P-T
 
-**Platform** — The Business OS application itself; the top of the conceptual hierarchy (`Platform → Tenant → Workspace → Company → Branch / Financial Year`). See ADR-008.
+**Platform** — The Business OS application itself; the top of the conceptual hierarchy (`Platform → Tenant → Company → Branch / Financial Year`). See ADR-009.
 
-**Tenant** — The isolation, billing, and administration boundary. Backed by `public.tenants`. The only persistence-level isolation boundary in the platform.
+**Tenant** — The isolation, billing, and administration boundary, and the sole business container above Company. Backed by `public.tenants`. See ADR-009.
 
 ## Terms U-Z
 
-**Workspace** — A **logical business container derived from the Tenant context and associated configuration** (ADR-008). One logical Workspace per Tenant today. **Not backed by a table.** Workspace configuration is currently represented by the Tenant's existing configuration and settings; no separate Workspace configuration store exists until a future ADR introduces one.
+**Workspace** — Retired as a domain concept in ADR-009. Historical usages in audit reports are preserved verbatim. The MOD-018 product name "AI Workspace" is a marketed feature name and is unrelated to the retired hierarchy concept.
+
 
 ## References
 

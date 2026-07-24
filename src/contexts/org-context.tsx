@@ -74,7 +74,7 @@ export function OrgProvider({ children }: { children: ReactNode }) {
         logger.error("org-context refresh failed", { error: String(err2) });
         if (!failureToastShownRef.current) {
           failureToastShownRef.current = true;
-          notify.error("Couldn't load your workspace", "Please refresh the page or sign in again.");
+          notify.error("Couldn't load your tenant", "Please refresh the page or sign in again.");
         }
         setStatus("no-organizations");
         return;
