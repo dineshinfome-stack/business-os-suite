@@ -70,6 +70,7 @@ export function PageContainer({
 }) {
   return (
     <div className="space-y-6">
+      <Breadcrumb />
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
