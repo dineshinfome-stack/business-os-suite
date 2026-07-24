@@ -1,175 +1,225 @@
 
-# SPR-PLT-0003 — Workspace Retirement: Impact Analysis
+# ARCH-009 — Workspace Retirement, Tenant Adoption (Rev. B)
 
-**Status:** Analysis for review. No implementation until approved.
-**Decision recorded:** Workspace is removed from the domain model. New hierarchy: `Platform → Tenant → Company → Branch → Financial Year`. Tenant becomes both the isolation boundary and the business container. Existing functionality on `/workspace` (Business Profile, Branding, Team, Invitations) is preserved but relocated under a Tenant-scoped route.
+**Classification:** Architecture Refactor · **Authority:** Architecture Board · **Mode:** Discovery → Impact → Approval → Implementation
 
----
+**Rev. B changes:** Permission-key rename removed from scope (deferred to a future RBAC migration per Board recommendation). Success Criteria section added. Redirect strategy explicitly documented as an operational shim with a removal milestone.
 
-## 1. Scope Summary
-
-- **In scope:** ADR-008 retirement, removal of `src/lib/workspace/*`, rename of `/workspace*` routes, refactor of the navigation registry, rename of `workspace.*` permission keys, docs/glossary/diagram updates, notification-registry copy.
-- **Out of scope (per user directive):** Tenant isolation model, Company/Branch/Financial-Year hierarchy, RLS policies, DB restructuring beyond permission-key rename. **MOD-018 "AI Workspace"** remains a product-module name (not part of the domain hierarchy); this refactor does **not** rename it. Flagging for confirmation in §11.
+Supersedes SPR-PLT-0003 (`/business` direction). Per Board decision, **Tenant** replaces Workspace *and* Business across code, routes, UI, and docs. No compatibility code alias; URL redirects only, time-boxed.
 
 ---
 
-## 2. Decision Points Requiring Approval Before Implementation
+## Phase 0 — Repository Verification (complete, no drift)
 
-| # | Question | Recommendation |
-|---|---|---|
-| D1 | New route path for `/workspace`? | `/business` (user-facing, non-jargon). Alternatives: `/tenant`, or merge into `/settings/business`. |
-| D2 | Rename `workspace.*` permission keys? | Yes — rename to `business.*` (matches new route) via a DB migration + regeneration of `permission-keys.ts`. Alternative: keep DB keys as internal identifiers and only rename UI. |
-| D3 | Keep `/workspace` as a redirect for a deprecation window? | Yes — 1 sprint redirect to `/business`, then delete. Invitation acceptance URL (`/workspace/accept?token=…`) must redirect since links are already in outbound emails. |
-| D4 | MOD-018 "AI Workspace" module name — retain or rename? | Retain. It's a product feature name, not the domain concept. Confirm. |
-| D5 | Historical audit reports, superseded ADRs, baselines — edit or preserve? | Preserve verbatim (historical record); only add supersession banners where already-live ADRs reference Workspace as current architecture. |
+| Check | Result |
+|---|---|
+| `docs/11-adrs/architecture/ADR-008-platform-tenant-workspace-hierarchy.md` | Exists |
+| `src/lib/workspace/current-workspace.ts` accessor | Exists (zero consumers) |
+| `/workspace` routes | `src/routes/_authenticated/workspace.tsx`, `workspace.accept.tsx` |
+| Physical `workspaces` table | None |
+| `workspace_id` column references | None |
+| `useCurrentWorkspace` / `getCurrentWorkspace` consumers | None outside the accessor file itself |
+| Navigation registry Workspace references | Present (`src/lib/navigation/registry.ts`) |
+| Documentation Workspace references | Present (~152 files) |
 
----
-
-## 3. Governance / Documentation Impact
-
-### 3.1 ADRs
-- **Supersede:** `docs/11-adrs/architecture/ADR-008-platform-tenant-workspace-hierarchy.md` → mark `status: superseded`, add pointer to ADR-009.
-- **New:** `docs/11-adrs/architecture/ADR-009-workspace-retirement.md` — declares Tenant as isolation + business container; removes Workspace from vocabulary; supersedes ADR-008.
-
-### 3.2 Architecture & Governance docs (edit to remove Workspace from live model)
-- `docs/02-architecture/multi-tenant-architecture.md` — remove Workspace tier from the hierarchy diagram (mermaid), remove "Workspace" bullets.
-- `docs/15-governance/TENANCY_STANDARD.md` — remove Workspace section.
-- `docs/glossary.md`, `docs/GLOSSARY_INDEX.md` — remove/redirect Workspace entry.
-- `docs/_meta.json` — remove sidebar entries pointing to Workspace-specific docs where they refer to the retired concept (keep MOD-018 "AI Workspace" entries).
-
-### 3.3 Publications, baselines, PRDs (~50 files matched)
-For each `docs/45-module-publications/**/MOD-*.md`, `docs/40-module-baselines/**/*.md`, `docs/60-solution-design/**/*.md`, `docs/30-sprint-prds/**/*.md`, `docs/02_Engineering_Execution_Master_Plan/**`: replace "Workspace" (as domain concept) with "Tenant" or "Business" per context. Do **not** touch:
-- MOD-018 "AI Workspace" occurrences (module name).
-- `google-workspace.md` (external product name).
-- Historical audit reports under `docs/50-audit-reports/` dated before this sprint.
-
-Estimated file edits: **~90 markdown files** (grep-inventoried; full list attached to the sprint report on execution).
+**No drift. Proceeding.**
 
 ---
 
-## 4. Code Impact
+## Phase 1 — Impact Matrix
 
-### 4.1 Files to delete
-- `src/lib/workspace/current-workspace.ts`
-- `src/lib/workspace/types.ts`
-- `src/lib/workspace/query-keys.ts`
-- `src/lib/workspace/functions.ts`  ← **contains all server functions** for Business Profile, Branding, Team, Invitations. Must be relocated, not deleted outright.
+### 1.1 Code (`src/` — 10 files)
 
-### 4.2 Files to relocate
-- `src/lib/workspace/functions.ts` → `src/lib/business/functions.ts` (or `src/lib/tenant/business-functions.ts`). Server functions (`createServerFn`) keep their signatures; only import paths change.
-- `src/lib/workspace/query-keys.ts` → `src/lib/business/query-keys.ts`, top-level key changes from `"workspace"` to `"business"` (invalidates in-memory cache on deploy — acceptable).
-- `src/lib/workspace/types.ts` → `src/lib/business/types.ts`.
+| File | Action |
+|---|---|
+| `src/lib/workspace/current-workspace.ts` | **Delete** (dead accessor) |
+| `src/lib/workspace/types.ts` | **Move** → `src/lib/tenant/business-types.ts` |
+| `src/lib/workspace/query-keys.ts` | **Move** → `src/lib/tenant/query-keys.ts`; root key `"workspace"` → `"tenant"` |
+| `src/lib/workspace/functions.ts` | **Move** → `src/lib/tenant/business-functions.ts`; server-fn signatures unchanged |
+| `src/routes/_authenticated/workspace.tsx` | **Move** → `tenant.tsx`; retitle "Tenant"; relink invitation URL to `/tenant/accept` |
+| `src/routes/_authenticated/workspace.accept.tsx` | **Move** → `tenant.accept.tsx` |
+| `src/lib/navigation/registry.ts` | **Modify** — group `workspace`→`tenant`, nav_ids `workspace.*`→`tenant.*`, routes `/workspace`→`/tenant`, titles/keywords updated. **Permission strings unchanged** (Rev. B) |
+| `src/contexts/org-context.tsx` | Copy: "Couldn't load your workspace" → "Couldn't load your tenant" |
+| `src/lib/notifications/registry.ts` | Copy: "workspace security events" → "tenant security events" |
+| `src/components/navigation/CommandPalette.tsx` | Placeholder: "Search across your business…" → "Search across your tenant…" |
+| `src/routeTree.gen.ts` | Auto-regenerated |
 
-### 4.3 Files to modify
-- `src/routes/_authenticated/workspace.tsx` → move to `src/routes/_authenticated/business.tsx`, update `createFileRoute("/_authenticated/business")`, update `useSearch` paths, update all imports and the invitation link (`/workspace/accept` → `/business/accept`), replace remaining "workspace" copy strings.
-- `src/routes/_authenticated/workspace.accept.tsx` → `business.accept.tsx`, same transforms.
-- `src/lib/navigation/registry.ts` — rename group `workspace` → `business`, nav_ids `workspace.*` → `business.*`, routes `/workspace` → `/business`, permissions per D2.
-- `src/contexts/org-context.tsx` — copy string ("Couldn't load your workspace" → "Couldn't load your business").
-- `src/lib/notifications/registry.ts` — copy string.
-- `src/lib/generated/permission-keys.ts` — **regenerated** from DB via `scripts/generate-permissions.ts` after the migration in §5; do not hand-edit.
-- `src/routeTree.gen.ts` — regenerated by Vite plugin; do not hand-edit.
+### 1.2 Database — **No migration in ARCH-009 (Rev. B)**
 
-### 4.4 Optional deprecation shims (per D3)
-- `src/routes/_authenticated/workspace.tsx` (thin) → `<Navigate to="/business" replace />`.
-- `src/routes/_authenticated/workspace.accept.tsx` → forward `?token=…` to `/business/accept`.
+Permission keys, setting keys, and permission catalog manifest retain the `workspace.*` namespace. They are internal identifiers; UI labels change without touching security schema. A dedicated **RBAC-NNN — Permission Namespace Alignment** ticket is filed for later, sequenced independently.
 
----
+Files intentionally **unchanged in this refactor**:
+- `docs/15-governance/permission-catalog.manifest.yaml`
+- `src/lib/generated/permission-keys.ts`
+- Existing `permissions`, `setting_definitions`, `setting_values` rows
 
-## 5. Database Impact (only if D2 = rename)
+### 1.3 Redirects (operational shim, time-boxed)
 
-Single migration:
-```text
-UPDATE public.permissions SET key = replace(key,'workspace.','business.') WHERE key LIKE 'workspace.%';
-UPDATE public.role_permissions ... (via key FK if applicable)
-```
-Then re-run `scripts/generate-permissions.ts` to regenerate `permission-keys.ts`. No table renames, no RLS changes, no data loss. Existing role grants are preserved (rows updated in place).
+Outbound invitation emails contain `/workspace/accept?token=…`. **Required** transient TSS route shims:
+- `src/routes/_authenticated/workspace.tsx` → `<Navigate to="/tenant" replace />`
+- `src/routes/_authenticated/workspace.accept.tsx` → forwards `?token=…` to `/tenant/accept`
 
-If D2 = keep keys → no DB migration; only rename the TS constant symbols (`WORKSPACE_*` → `BUSINESS_*`) in the generator's mapping.
+Explicit classification: these are **URL redirects for bookmarked links and in-flight invitation emails**, not a domain-model alias. **Removal milestone:** T + longest active `organization_invitations.expires_at` (read at execution), targeted for the next platform sprint. Removal tracked as ARCH-009-CLEANUP.
 
----
+### 1.4 Documentation (`docs/` — ~152 files, tiered)
 
-## 6. Routes Affected
+**Tier A — Live governance/architecture (~10 files, Phase 2)**
+- ADR-008 → mark `status: superseded`, `superseded_by: ADR-009`
+- **New** ADR-009-workspace-retirement.md
+- `docs/02-architecture/multi-tenant-architecture.md` — remove Workspace tier from Mermaid + prose
+- `docs/15-governance/TENANCY_STANDARD.md` — remove Workspace section
+- `docs/glossary.md`, `docs/GLOSSARY_INDEX.md` — remove/redirect Workspace entry
+- `docs/_meta.json` — sidebar labels
+- `docs/11-adrs/ADR_INDEX.md` — add ADR-009
 
-| Old | New | Notes |
-|---|---|---|
-| `/workspace` | `/business` | Primary UI |
-| `/workspace/accept?token=…` | `/business/accept?token=…` | Invitation email URLs in `workspace.tsx` line 444 must be updated *before* removing the redirect |
-| `/workspace/*` (any deep link) | 302 → `/business/*` for one sprint | Then removed |
+**Tier B — Live module/sprint docs (~110 files, Phase 6)**
+Domain-concept "Workspace" → "Tenant" across `docs/40-module-baselines/`, `docs/45-module-publications/`, `docs/60-solution-design/`, `docs/30-sprint-prds/`, `docs/02_Engineering_Execution_Master_Plan/`, catalogs.
 
-Outbound email invitations already sent contain `/workspace/accept?token=…` links → **redirect is mandatory**, not optional, until token TTL expires.
+**Skip list (never touch):**
+- MOD-018 "AI Workspace" — product feature name
+- `docs/06-integrations/google-workspace.md` — external product
+- `docs/40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md`
 
----
+**Tier C — Historical (~30 files, preserved verbatim)**
+- Dated files under `docs/50-audit-reports/`
+- Superseded ADRs (only frontmatter status changes)
 
-## 7. APIs Affected
+### 1.5 APIs
 
-No external APIs. Server functions in `src/lib/workspace/functions.ts` (`listMembers`, `listInvitations`, `getOrgProfile`, `updateOrgProfile`, `getBranding`, `updateBranding`, `getMyProfile`, `updateMyProfile`, `inviteMember`, `revokeInvitation`, `acceptInvitation`, `removeMember`) keep identical signatures; only their module path changes. No consumer outside `src/routes/_authenticated/workspace*.tsx` imports them (verified by grep).
+No external APIs. Server-function signatures unchanged; only import paths shift `@/lib/workspace/*` → `@/lib/tenant/*`. No consumer outside the two workspace route files.
 
----
+### 1.6 Tests
 
-## 8. Migration Strategy (2 sprints)
-
-**Sprint 1 — Architecture refactor (behind redirects)**
-1. Author ADR-009; mark ADR-008 superseded.
-2. DB migration for permission-key rename (if D2=yes).
-3. Regenerate `permission-keys.ts`.
-4. Create `src/lib/business/*` (moved from `src/lib/workspace/*`); update imports in the two route files.
-5. Create `src/routes/_authenticated/business.tsx` and `business.accept.tsx`; update navigation registry to `/business` and `business.*` nav_ids.
-6. Convert old `workspace.tsx` and `workspace.accept.tsx` into redirect shims.
-7. Update invitation-email URL builder to emit `/business/accept`.
-8. Update primary architecture docs (multi-tenant, tenancy standard, glossary, ADR index, `_meta.json`).
-9. Sprint acceptance report to `docs/50-audit-reports/`.
-
-**Sprint 2 — Cleanup**
-1. Delete `src/lib/workspace/` entirely.
-2. Delete `workspace.tsx` and `workspace.accept.tsx` redirect shims (after monitoring window for stale invitation-link hits).
-3. Sweep remaining ~90 docs (publications, baselines, PRDs, EEMP, catalogs) for domain-concept "Workspace" → "Tenant"/"Business". Skip MOD-018, google-workspace, historical audits.
-4. Final verification (§10) and completion report.
+No workspace refs in `src/__tests__/`. Navigation-registry schema tests pick up new IDs automatically. Add validation script: workspace-reference sweep against exit criteria.
 
 ---
 
-## 9. Regression Risks
+## Phase 2 — Architecture Refactor
 
-| Risk | Likelihood | Mitigation |
-|---|---|---|
-| In-flight invitation emails 404 after `/workspace/accept` removed | High if shim skipped | Keep redirect shim through longest invitation token TTL (verify TTL from `organization_invitations`); document removal date. |
-| Broken bookmarks / sidebar favorites for `/workspace` | Medium | Redirect shim + `nav_favorites` migration to rewrite stored routes. |
-| RBAC breaks if permission-key rename migration fails partway | Medium | Wrap rename in a single transaction; add post-migration assertion that no `workspace.*` keys remain. |
-| Query-cache mismatch on deploy (users with open tabs see stale keys) | Low | Query keys change from `"workspace"` to `"business"`; on first refetch new keys populate. Acceptable. |
-| `scripts/generate-permissions.ts` regenerates constants with different casing than call sites expect | Medium | Update the generator's key-to-symbol mapping in the same PR as the DB migration; run typecheck as gate. |
-| Doc supersession loop (ADR-008 referenced by ADR-007) | Low | ADR-009 declares supersession; cross-link both. |
-| Untouched historical audit reports still show old model | Accepted | Historical, not misleading — dated in filename. |
+1. Author `ADR-009-workspace-retirement.md` — Tenant as isolation + business container; new hierarchy diagram; supersedes ADR-008. **Explicitly notes** that permission namespace remains `workspace.*` pending RBAC-NNN.
+2. Frontmatter-mark ADR-008 superseded.
+3. Edit Tier A docs.
+4. Update `docs/_meta.json`.
+
+Deliverable → `docs/50-audit-reports/ARCH_009_ARCHITECTURE_REFACTOR_REPORT_<TS>.md`.
 
 ---
 
-## 10. Validation / Exit Criteria
+## Phase 3 — Code Refactor
 
-- `rg -n "workspace" src/ -g '!routeTree.gen.ts'` returns **only** MOD-018 references or empty.
-- `rg -n "/workspace" src/` returns empty (or only redirect shims during Sprint 1).
-- Typecheck (`tsgo`) and full test suite green.
-- Navigation registry passes existing schema tests.
-- DB assertion: `SELECT count(*) FROM permissions WHERE key LIKE 'workspace.%'` = 0.
-- Manual: sign in, open `/business`, invite member, accept invite via new URL, remove member, update branding, update profile.
-- Docs: `ADR-008` marked superseded; `ADR-009` present; `multi-tenant-architecture.md` diagram no longer shows Workspace tier.
+1. Move `src/lib/workspace/*` → `src/lib/tenant/*` (business-functions, business-types, query-keys). Delete `current-workspace.ts`.
+2. Rewrite imports in the two route files.
+3. Update copy strings in `org-context.tsx`, `notifications/registry.ts`, `CommandPalette.tsx`.
+
+Deliverable: **Code Refactor Summary**.
 
 ---
 
-## 11. Open Questions (Blocking Approval)
+## Phase 4 — Route Refactor
 
-1. **D1** — Confirm new route: `/business` (recommended) vs `/tenant` vs merge into `/settings/business`.
-2. **D2** — Confirm permission-key rename (`workspace.*` → `business.*`) with DB migration, vs keep DB keys as-is.
-3. **D3** — Confirm redirect duration for `/workspace` and `/workspace/accept` (recommend: through longest active invitation-token TTL, minimum one sprint).
-4. **D4** — Confirm MOD-018 "AI Workspace" module name is **retained** (it's a product feature, not domain hierarchy).
-5. **D5** — Confirm historical audit reports and superseded ADRs are preserved unedited (add banners only where currently live).
+1. Rename route files (`workspace.tsx` → `tenant.tsx`, `workspace.accept.tsx` → `tenant.accept.tsx`); update `createFileRoute` strings, `useSearch({ from: ... })`, invitation URL builder.
+2. Create redirect shim files at original names.
+3. `routeTree.gen.ts` auto-regenerates.
 
----
-
-## 12. Rollback Plan
-
-- **Code:** Sprint 1 is fully reversible via a single revert commit — old files remain (as redirect shims) throughout Sprint 1; Sprint 2 deletion is a separate commit that can be reverted independently.
-- **DB (permission-key rename):** Down-migration `UPDATE permissions SET key = replace(key,'business.','workspace.') WHERE key LIKE 'business.%'`. Included in the same migration file as an explicit rollback SQL block.
-- **Docs:** Superseded ADR-008 remains in the repo; reversal is un-superseding it and reverting ADR-009. All doc edits are in git history.
-- **Nav favorites migration:** Include a down-migration to rewrite `/business*` favorites back to `/workspace*` if rollback occurs before shim removal.
+Deliverable: **Route Migration Summary** with redirect removal milestone.
 
 ---
 
-**Awaiting answers to §11 D1–D5 before I begin Sprint 1 implementation.**
+## Phase 5 — Navigation & UI Refactor
+
+`src/lib/navigation/registry.ts`:
+- Group `workspace` → `tenant` (title "Tenant")
+- `workspace.hub` → `tenant.hub` ("Tenant Profile"), route `/tenant`
+- `workspace.team` → `tenant.team` ("Tenant Team")
+- `workspace.invitations` → `tenant.invitations` ("Tenant Invitations")
+- `workspace.dashboard` → `tenant.dashboard`
+- **Permission strings unchanged** — nav entries continue to reference `workspace.workspace.read`, `workspace.member.read`, etc.
+
+Route-file copy sweep: page titles, `head()` meta, breadcrumbs, empty states, notifications in `tenant.tsx` and `tenant.accept.tsx`.
+
+---
+
+## Phase 6 — Documentation Refactor (Tier B)
+
+Automated find-and-replace with explicit skip list. Per-tier review before commit.
+
+Deliverable: **Documentation Migration Summary** with per-file line counts.
+
+---
+
+## Explicitly Out of Scope
+
+- Tenant isolation model, RLS, Company/Branch/Financial-Year hierarchy
+- DB restructuring
+- Licensing
+- **Permission namespace rename** (deferred to RBAC-NNN)
+- New business concepts
+
+---
+
+## Success Criteria (Board addition)
+
+- Business OS no longer contains Workspace as a domain concept.
+- Tenant is the only business container in vocabulary, code, routes, UI, and live docs.
+- All functionality previously under `/workspace` is available under `/tenant`, unchanged in behavior.
+- Existing customer data remains unaffected.
+- No security model changes.
+- No tenant isolation changes.
+- No functional regressions in Business Profile, Branding, Team, Invitations flows.
+- Historical audit reports and superseded ADRs preserved intact.
+
+---
+
+## Validation / Exit Criteria (technical)
+
+- `rg -n "workspace" src/ -g '!routeTree.gen.ts' -g '!generated/**'` returns only: redirect-shim files, MOD-018 product-name references, or permission-key strings (retained per Rev. B).
+- `rg -n "useCurrentWorkspace|getCurrentWorkspace|WorkspaceContext|WorkspaceProvider|workspaceKey|workspace_id" .` returns **empty**.
+- `rg -n "/workspace" src/routes/` returns only redirect-shim files.
+- `tsgo` typecheck green; `bun run test` green; navigation-registry schema tests green.
+- Manual smoke: sign in → `/tenant` → invite → accept via `/tenant/accept?token=…` → verify `/workspace/accept?token=…` also redirects successfully.
+- Docs: ADR-008 marked superseded; ADR-009 present and linked; `multi-tenant-architecture.md` diagram has no Workspace tier.
+
+---
+
+## Regression Risks
+
+| Risk | Mitigation |
+|---|---|
+| In-flight invitation emails 404 after shim removal | Retain shim through longest active `organization_invitations.expires_at`; documented removal milestone (ARCH-009-CLEANUP) |
+| Bookmarks/favorites store `/workspace` route | Redirect shim; optional `nav_favorites.route` rewrite migration (deferred, low priority) |
+| Query-cache mismatch on deploy (open tabs, stale keys) | Root key `"workspace"`→`"tenant"`; auto-refetch on next mount. Acceptable |
+| ADR-007 cross-references ADR-008 | ADR-009 explicitly cross-links; no ADR-007 edit needed |
+| Tier B doc sweep accidentally touches "AI Workspace" / "google-workspace" | Explicit skip list; per-file review |
+| Reviewers confused why permission keys still say `workspace.*` | ADR-009 documents the deferral; RBAC-NNN ticket referenced in ADR |
+
+---
+
+## Rollback Plan
+
+- **Code:** Each phase = independent commit. Reverting Phase 4 restores routes; Phase 3 restores `src/lib/workspace/`; Phase 2 restores ADR-008 authoritative.
+- **DB:** N/A (no migration in Rev. B).
+- **Docs:** Git history; Tier C untouched by design.
+
+---
+
+## Deliverables
+
+1. Repository Discovery Report (this document, expanded on execution)
+2. Impact Analysis (§1)
+3. Architecture Refactor Report (Phase 2)
+4. Code Refactor Summary (Phase 3 + 5)
+5. Route Migration Summary (Phase 4)
+6. Documentation Migration Summary (Phase 6)
+7. Validation Report
+8. Final Completion Report → `docs/50-audit-reports/ARCH_009_COMPLETION_REPORT_<TS>.md`
+9. **RBAC-NNN ticket stub** — Permission Namespace Alignment (workspace.* → tenant.*), filed but not executed
+
+---
+
+## Stop Condition
+
+Halt after validation passes. No unrelated feature work until Board validates completion report.
+
+---
+
+**Rev. B ready for Phase 2 execution on Board approval.**
