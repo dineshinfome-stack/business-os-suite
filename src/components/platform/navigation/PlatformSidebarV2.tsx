@@ -45,6 +45,7 @@ export function PlatformSidebarV2({
   variant = "platform",
   topOffset = "3.5rem",
   subtitle,
+  hideHeader = false,
 }: Props) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { profile, user } = useAuth();
