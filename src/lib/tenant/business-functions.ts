@@ -19,7 +19,7 @@ import type {
   OrganizationProfileRow,
   OrgRole,
   UserProfileRow,
-} from "./types";
+} from "./business-types";
 
 const INVITE_TTL_HOURS = 168; // 7 days
 
