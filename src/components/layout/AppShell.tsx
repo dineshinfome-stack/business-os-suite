@@ -1,15 +1,19 @@
 import type { ReactNode } from "react";
 import { Outlet } from "@tanstack/react-router";
+import { PanelLeft, PanelLeftClose, Pin, PinOff } from "lucide-react";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { PlatformSidebarV2 } from "@/components/platform/navigation/PlatformSidebarV2";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
+import { useAuth } from "@/contexts/auth-context";
 import { ProfileMenu, HelpMenu, SearchTrigger, StatusBar } from "@/components/platform";
 
 export function AppShell({ children }: { children?: ReactNode }) {
   const { pinned, togglePinned, collapsed, toggleCollapsed } = usePlatformNavState("tenant");
+  const { profile, user } = useAuth();
+  const displayName = profile?.displayName ?? user?.email ?? "Tenant";
 
   const sidebarWidth = collapsed ? "pl-16" : "pl-72";
   const contentShift = pinned ? sidebarWidth : "pl-0";
@@ -21,6 +25,33 @@ export function AppShell({ children }: { children?: ReactNode }) {
           role="banner"
           className="fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/80"
         >
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="min-w-0">
+              <div className="truncate text-xs font-medium text-foreground">{displayName}</div>
+              <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand-success)]" />
+                <span className="truncate">Tenant</span>
+              </div>
+            </div>
+            <div className="ml-1 flex items-center gap-0.5">
+              <button
+                type="button"
+                aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
+                onClick={togglePinned}
+                className="inline-flex h-7 w-7 items-center justify-center rounded text-muted-foreground hover:text-foreground"
+              >
+                {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+              </button>
+              <button
+                type="button"
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                onClick={toggleCollapsed}
+                className="inline-flex h-7 w-7 items-center justify-center rounded text-muted-foreground hover:text-foreground"
+              >
+                {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
+              </button>
+            </div>
+          </div>
           <div className="ml-auto flex items-center gap-1.5">
             <SearchTrigger />
             <NotificationBell />
@@ -43,6 +74,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
           onTogglePin={togglePinned}
           collapsed={collapsed}
           onToggleCollapsed={toggleCollapsed}
+          hideHeader
         />
 
         <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
