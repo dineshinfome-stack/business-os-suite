@@ -39,18 +39,23 @@ function FavoritesList({ onNavigate }: { onNavigate: () => void }) {
   }
   return (
     <ul className="max-h-80 overflow-y-auto py-1">
-      {favorites.map((f) => (
-        <li key={f.nav_id}>
-          <Link
-            to={f.route ?? "/"}
-            onClick={onNavigate}
-            className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-white/5"
-          >
-            <Star className="h-3.5 w-3.5" style={{ color: "var(--sn-accent-yellow)" }} />
-            <span className="truncate">{f.title ?? f.nav_id}</span>
-          </Link>
-        </li>
-      ))}
+      {favorites.map((f) => {
+        const item = getNavItem(f.nav_id);
+        const route = item?.route ?? "/";
+        const label = item?.title ?? f.nav_id;
+        return (
+          <li key={f.nav_id}>
+            <Link
+              to={route}
+              onClick={onNavigate}
+              className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-white/5"
+            >
+              <Star className="h-3.5 w-3.5" style={{ color: "var(--sn-accent-yellow)" }} />
+              <span className="truncate">{label}</span>
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }
