@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
       { title: `Settings — ${APP_NAME}` },
-      { name: "description", content: `${APP_NAME} workspace settings.` },
+      { name: "description", content: `${APP_NAME} business settings.` },
     ],
   }),
   component: SettingsPage,
@@ -19,7 +19,7 @@ function SettingsPage() {
   if (hasChild) return <Outlet />;
 
   return (
-    <PageContainer title="Settings" description="Configure your workspace preferences.">
+    <PageContainer title="Settings" description="Configure your business preferences.">
       <div className="grid gap-4 md:grid-cols-2">
         <Link to="/settings/platform" className="block">
           <Card className="h-full transition-colors hover:border-primary">

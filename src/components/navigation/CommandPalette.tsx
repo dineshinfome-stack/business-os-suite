@@ -163,7 +163,7 @@ export function CommandPalette() {
           {canSearch ? (
             <Command shouldFilter={false}>
               <CommandInput
-                placeholder="Search across your workspace…"
+                placeholder="Search across your business…"
                 value={searchQuery}
                 onValueChange={setSearchQuery}
               />

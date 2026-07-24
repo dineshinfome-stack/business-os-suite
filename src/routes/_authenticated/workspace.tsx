@@ -42,7 +42,7 @@ import type { OrgRole } from "@/lib/workspace/types";
 export const Route = createFileRoute("/_authenticated/workspace")({
   head: () => ({
     meta: [
-      { title: `Workspace — ${APP_NAME}` },
+      { title: `Business Profile — ${APP_NAME}` },
       {
         name: "description",
         content: `${APP_NAME} — organization profile, branding, team directory, and invitations.`,
@@ -59,13 +59,13 @@ function WorkspacePage() {
 
   return (
     <PageContainer
-      title={name ? `${name} · Workspace` : "Workspace"}
+      title={name ? `${name} · Business Profile` : "Business Profile"}
       description="Manage your organization's identity, branding, team, and invitations."
     >
       {!organizationId ? (
         <EmptyState
           title="No active organization"
-          description="Select an organization from the top bar to manage workspace settings."
+          description="Select an organization from the top bar to manage business settings."
         />
       ) : (
         <Tabs defaultValue="overview" className="space-y-4">
@@ -153,7 +153,7 @@ function OverviewTab() {
         </CardHeader>
         <CardContent className="flex flex-col gap-2 text-sm">
           <Link className="text-primary hover:underline" to="/settings">
-            Workspace settings
+            Business settings
           </Link>
           <Link className="text-primary hover:underline" to="/dashboard">
             Dashboard
