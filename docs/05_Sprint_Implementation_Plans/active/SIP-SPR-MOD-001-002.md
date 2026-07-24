@@ -7,7 +7,7 @@ version: 1.0.0
 owner: Program Delivery
 approver: Architecture Board
 authority: Execution / Non-authoritative
-lifecycle_state: Draft
+lifecycle_state: Archived
 ---
 
 # SIP-SPR-MOD-001-002 — Organization Structure
@@ -17,15 +17,16 @@ lifecycle_state: Draft
 ## Execution Metadata
 
 ```yaml
-execution_status: Phase 2 — Approved with Conditions
+execution_status: Completed (Acceptance Pending)
 phase_1_status: Complete
-phase_2_status: Approved with Conditions (SIP-014 Deferred)
-phase_3_status: Pending closeout acceptance
-completion_date:
-implemented_by:
-reviewed_by: Architecture Board (Phase 2 review — 10/10)
-quality_gate: V1–V5 passed (see PHASE2_SPR-MOD-001-002_CLOSEOUT.md)
-archive_date:
+phase_2_status: Complete (SIP-014 Deferred — architecture dependency)
+phase_3_status: Complete
+phase_4_status: Complete (SIP-019 / SIP-020 Deferred — repository capability gaps CF-6 / CF-7)
+completion_date: 2026-07-24
+implemented_by: Lovable Agent (Program Delivery)
+reviewed_by: Architecture Board (Phase 2 review — 10/10); Acceptance Review pending countersignature
+quality_gate: V1–V5 passed (see PHASE2_SPR-MOD-001-002_CLOSEOUT.md); Vitest 49/49; tsgo clean
+archive_date: 2026-07-24
 ```
 
 ## Deferred Items
@@ -252,17 +253,32 @@ Restated verbatim from Sprint PRD §1.3:
 
 ## 12. Sprint Outcome
 
-> **Populated at archival only.** Do not edit during the sprint.
+> Populated at archival on 2026-07-24.
 
 ```yaml
-status:
+status: Completed (Acceptance Pending — Architecture Board countersignature required)
 implemented_tasks:
+  - SIP-001..SIP-009 (Phase 1 — Database)
+  - SIP-010..SIP-013 (Phase 2 — Backend, Board-accepted 10/10)
+  - SIP-015..SIP-017 (Phase 3 — UI & RBAC)
+  - SIP-018 (Phase 4 — Unit tests: 21 new; 49/49 total)
+  - SIP-021..SIP-023 (sprint-local + governance)
 deferred:
-blocked:
-known_issues:
+  - SIP-014 — Architecture Dependency (ENG-005 namespace bootstrap); proposal at docs/30-sprint-prds/engineering/PROPOSAL-settings-namespace-bootstrap.md; no sprint id reserved.
+  - SIP-019 → CF-6 — Repository Capability Gap (authenticated integration-test harness).
+  - SIP-020 → CF-7 — Repository Capability Gap (Playwright authentication/session infrastructure).
+  - CF-A — Live per-entity lifecycle exercise (runtime environment).
+  - CF-B — Authenticated UI capture of Companies/Branches/Financial Years (runtime environment).
+blocked: []
+known_issues: []
 lessons_learned:
+  - Repository capability gaps (integration + E2E) should receive standalone Architecture Board disposition rather than being repeatedly carried forward against feature sprints.
+  - PRD §11 as single source of truth for event names successfully prevented drift; retain the pattern.
 references:
-  sprint_completion_report:
+  sprint_completion_report: docs/50-audit-reports/SPR_MOD_001_002_ORGANIZATION_STRUCTURE_REPORT.md
+  acceptance_review: docs/50-audit-reports/SPR_MOD_001_002_ACCEPTANCE_REVIEW.md
+  phase_2_closeout: docs/04_Program_Status/reports/PHASE2_SPR-MOD-001-002_CLOSEOUT.md
+  program_status: docs/04_Program_Status/reports/PROGRAM_STATUS_20260724T024505Z.md
   pull_requests: []
   release_tag:
 ```
