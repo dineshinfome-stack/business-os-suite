@@ -199,6 +199,52 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     enabled: true,
     keywords: ["tenant", "organization", "isolation", "platform admin"],
   },
+  // ── SPR-MOD-001-002 — Organization Structure (SIP-017) ────────────────
+  // Companies, branches, and financial years are tenant/company-scoped; nav
+  // deep-links to the tenant list where the Companies tab lives, per the
+  // Phase 3 nav directive (no fabricated list routes for scoped reads).
+  {
+    id: "administration.platform.companies",
+    id_status: "active",
+    module: "administration",
+    title: "Companies",
+    icon: Building2,
+    route: "/platform/tenants",
+    parent: "administration",
+    display_order: 30,
+    permission: "platform.company.read",
+    visible: true,
+    enabled: true,
+    keywords: ["company", "organization", "org", "subsidiary"],
+  },
+  {
+    id: "administration.platform.branches",
+    id_status: "active",
+    module: "administration",
+    title: "Branches",
+    icon: Building2,
+    route: "/platform/tenants",
+    parent: "administration",
+    display_order: 31,
+    permission: "platform.branch.read",
+    visible: true,
+    enabled: true,
+    keywords: ["branch", "location", "site", "office"],
+  },
+  {
+    id: "administration.platform.financial_years",
+    id_status: "active",
+    module: "administration",
+    title: "Financial Years",
+    icon: Landmark,
+    route: "/platform/tenants",
+    parent: "administration",
+    display_order: 32,
+    permission: "platform.financial_year.read",
+    visible: true,
+    enabled: true,
+    keywords: ["financial year", "fiscal year", "fy", "accounting period"],
+  },
 ] satisfies NavItem[]);
 
 // Dev-only integrity checks — cheap and skipped in production builds.
