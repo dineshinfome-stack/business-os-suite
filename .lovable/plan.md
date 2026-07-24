@@ -1,143 +1,101 @@
+# SPR-PLT-0001 — Super Admin Portal & Tenant Provisioning
+## Discovery Sprint (No Implementation)
 
-# Login Page Redesign — Enterprise Red Theme
+**Classification:** Platform Experience Sprint (PLT)
+**Mode:** Repository-first, governance-driven
+**Stop condition:** Two governance deliverables published; await Architecture Board approval before any implementation sprint is scoped or executed.
 
-Scope: UI-only refresh of `src/routes/login.tsx` (and its co-located `AuthShell`). No auth logic, no route creation, no new dependencies, no new libraries.
+---
 
-## 0. Repository verification rule (do first)
+## Deliverable 1 — Repository Discovery Report
 
-Inspect the repository for existing equivalents and reuse them. Only add new tokens/utilities when no equivalent exists.
+To be authored at `docs/50-audit-reports/SPR_PLT_0001_DISCOVERY_REPORT.md` using the standard 9-section report structure. Preliminary findings (verified against repo in this planning pass):
 
-- Brand/theme tokens in `src/styles.css` (`@theme inline`, existing `--color-*`).
-- Existing `AuthShell` in `src/routes/login.tsx` (already exported).
-- Shared Card/Button/Input/Label/Checkbox/Form primitives under `src/components/ui/` and `src/components/forms/`.
-- Button variants (`outline`, `ghost`, sizes) via existing `buttonVariants`.
-- Animation utilities from `tailwindcss-animate` if configured; otherwise no new animation plugin.
-- Existing routes: confirm `/forgot-password`, `/auth`, `/` before linking. Do not invent routes.
-- Existing `APP_VERSION` in `src/constants/app.ts` — reuse if present; otherwise omit.
-- Existing decorative utilities in `src/styles.css` — reuse before adding a new one.
+### D1. Authentication — EXISTS, REUSE
+- Provider: Supabase Auth; contexts, login/callback/reset routes, bearer attacher, and `_authenticated` gate are already in place.
+- **Conclusion:** No authentication work required. The portal mounts inside the existing protected subtree.
 
-## 1. Design tokens
+### D2. Authorization — EXISTS, REUSE
+- Generated permission keys, `requirePermission` / `requireAnyPermission` / `requireAllPermissions` server helpers, `Can` component, and the governance-owned permission manifest are present.
+- Existing `PLATFORM_TENANT_*`, `PLATFORM_COMPANY_*`, `PLATFORM_AUDIT_VIEW`, `PLATFORM_SETTINGS_MANAGE` cover most Super Admin surfaces.
+- **Conclusion:** Reuse in full. Assess whether additional platform permissions are required for Super Admin dashboard access and tenant provisioning; if so, document proposed names as recommendations for Architecture Board review — no permission keys are defined in this sprint.
 
-Add red brand tokens through the repo's existing Tailwind v4 `@theme inline` block in `src/styles.css`. If an equivalent semantic token already exists, reuse it and only add what's missing. Never hardcode hex in components.
+### D3. Routing & Shell — EXISTS, REUSE
+- Shared AppShell (sidebar, breadcrumb, command palette, notifications, org switcher, theme toggle) and the navigation registry already host platform tenant/company nodes.
+- **Conclusion:** Extend the existing shell and registry. No parallel admin shell.
 
-Candidate additions (only if not already covered):
+### D4. UI Framework — EXISTS, REUSE
+- DataGrid, Form primitives, EmptyState, Skeletons, ErrorBoundary, full shadcn set are available.
+- **Gap:** No KPI / stat-tile / activity-list primitives; no charting library.
 
-- `--brand-red` `#C62828` · `--brand-red-hover` `#B71C1C` · `--brand-red-dark` `#8E0000`
-- `--brand-surface` `#FAFAFA` · `--brand-border` `#E5E7EB`
-- `--brand-text` `#111827` · `--brand-text-muted` `#6B7280`
-- `--brand-success` `#16A34A` · `--brand-error` `#DC2626`
+### D5. Tenant Module — EXISTS, REUSE
+- Tenant lifecycle, CRUD, activation/suspension/archive, audit, events, and slug helpers exist; list and detail routes are in place.
+- **Gap:** No guided multi-step provisioning experience that orchestrates tenant + primary company + admin invitation in one flow.
 
-Mapped to `bg-brand-red`, `text-brand-red`, `border-brand`, `bg-brand-surface`, etc. Do not duplicate utilities already defined.
+### D6. Licensing — DOES NOT EXIST, GAP
+- No plans, subscriptions, licenses, quotas, or entitlements. Feature flags exist but are not a licensing model.
+- **Conclusion:** Register licensing as the next available carry-forward identifier per repository convention. A dedicated future platform sprint should own the licensing engine; this sprint neither designs nor prescribes it.
 
-Reserve red strictly for logo mark, primary CTA, decorative accents, and dev outlined buttons. Keep the rest white/neutral.
+### D7. Audit — EXISTS, REUSE
+- Tenant and auth audit services plus `audit_logs` table and `PLATFORM_AUDIT_VIEW` permission are present.
+- **Gap:** No admin-facing audit browser UI; a read-only recent-activity surface may be desirable on the Super Admin dashboard.
 
-## 2. Page structure (`src/routes/login.tsx`)
+### D8. Dashboard Framework — PARTIAL
+- The existing dashboard route is a member workspace stub. No shared KPI/stat/health-tile primitives.
+- **Conclusion:** Existing dashboard primitives are insufficient; reusable dashboard presentation components will likely be required.
 
-Keep the route config, `beforeLoad` session redirect, zod schema, react-hook-form wiring, `onSubmit`, and `onGoogleSignIn` handlers **unchanged**. Preserve all existing validation messages, error rendering, loading states, and success/error handling exactly as implemented. Rework only JSX + `AuthShell`.
+### D9. Architecture Constraints
+- ADR-030 (auth model), ADR-032 (RBAC+ABAC), TanStack + Supabase integration standards, `_authenticated` subtree gating rules, permission manifest as source of truth, `createServerFn` for all app-internal server logic (no Edge Functions), migrations via the migration tool only.
 
-```
-AuthShell  (bg-brand-surface + subtle dotted grid + red corner accents)
-└── Card   (max-w-[480px], rounded-2xl, soft shadow, thin border, fade-in if available)
-    ├── Header
-    │   ├── Business OS logo mark (red square glyph)
-    │   ├── Wordmark "Business OS"
-    │   ├── Kicker  "Enterprise Operating System"
-    │   ├── Tagline "Manage Companies, Teams, Finance, HR, CRM, Projects, and Operations from one platform."
-    │   ├── H1 "Welcome Back"
-    │   └── Subtitle "Sign in to access your Business Operating System."
-    ├── Continue with Google (outline, existing handler)
-    ├── Divider "──── OR ────"
-    ├── Form
-    │   ├── Email    (autoFocus, autoComplete="email")
-    │   ├── Password (autoComplete="current-password") + show/hide eye toggle
-    │   ├── Row: Remember me checkbox │ Forgot Password link (conditional — see §4)
-    │   └── Primary CTA "Login" — full width, h-12, bg-brand-red, hover bg-brand-red-hover, disabled + Loader2 while submitting
-    ├── Dev-only Quick Access  (import.meta.env.DEV)
-    │   ├── Divider "Development Login"
-    │   └── 2×2 grid: Platform Admin / Tenant Admin / Company Admin / Employee
-    └── Footer links (stacked, centered)
-        ├── "Go to Home"                            → Link to "/"
-        ├── "Don't have an account? Create Account" → Link to "/auth"
-        └── Privacy Policy · Terms of Service (disabled placeholders — see §7)
+### D10. Reuse Strategy Summary
+Build the Super Admin Portal by composing existing shell, permissions, tenant services, audit, forms, and DataGrid. Net-new capabilities anticipated at a high level: (a) dashboard presentation primitives, (b) a provisioning orchestration capability that reuses existing tenant, company, and invitation services, (c) navigation registry entries, (d) licensing intent capture on the tenant record — pending assessment of whether existing tenant metadata suffices or schema evolution is required.
 
-Below card (centered):
-© 2026 Business OS   (append "· v{APP_VERSION}" only if constant already exists)
-```
+### D11. Out of Scope
+Licensing enforcement engine; billing; plan catalog; platform-wide settings editor beyond what exists; new charting library; a full audit browser UI beyond recent activity.
 
-Reuse the repository's existing `Link` import from TanStack Router. Do not introduce plain `<a>` anchors, browser redirects, additional navigation helpers, or wrapper components. Preserve `autoComplete="email"` and `autoComplete="current-password"` for browser password-manager compatibility.
+### D12. Risks
+- R1: Provisioning orchestration must reuse existing invitation flow — verify support for platform-initiated admin invites.
+- R2: Dashboard KPIs (active tenants, storage, health) may require new aggregate read capabilities and appropriate permission gating.
+- R3: Without a licensing engine, any provisioning-time plan capture is aspirational data with no enforcement.
 
-## 3. Password toggle
+---
 
-- Inline `<Input type={show ? 'text' : 'password'}>` next to a Lucide Eye/EyeOff button.
-- Toggle button MUST be `type="button"` (never submits the form).
-- `aria-label="Show password" / "Hide password"` + `aria-pressed={show}`.
-- Fully keyboard operable; focus ring retained. `FormField` component is not modified.
+## Deliverable 2 — Recommended Implementation Sequence (proposal only)
 
-## 4. Forgot Password
+Capability-level recommendations. No file paths, permission names, component names, server-function names, or schema shapes are prescribed here — those are Architecture Board decisions and will be scoped in follow-on implementation sprints.
 
-Verify `/forgot-password` exists before linking. If present, render as a `Link` to that route. If absent, render as a disabled span (no link). Do not invent routes.
+### Proposed Implementation Phase A — Platform Shell & Navigation
+- Introduce a Super Admin surface within the existing protected subtree using existing routing conventions.
+- Extend the navigation registry to expose the Super Admin group to eligible roles.
+- Assess whether additional permission keys are required and, if so, record recommendations for Architecture Board review.
+- Validation gates: type/lint clean; permission manifest governance respected; sidebar visibility gated correctly.
 
-## 5. Development Login (dev-only)
+### Proposed Implementation Phase B — Super Admin Dashboard
+- Provide a platform overview covering tenant status counts, recent activity, and placeholders for licensing/storage/health pending the licensing carry-forward.
+- Determine whether reusable dashboard presentation primitives should be introduced or existing primitives extended.
+- Identify whether new aggregate read capabilities are required or existing services can be composed.
+- Validation gates: unit coverage for any new aggregates; visual smoke; permission gating verified.
 
-- Renders only when `import.meta.env.DEV` is true.
-- Buttons prefill email + password and invoke the **existing** `onSubmit` handler.
-- Must not bypass authentication or introduce alternate auth paths.
-- Reuses the existing two demo users where roles overlap.
+### Proposed Implementation Phase C — Tenant Provisioning Experience
+- Deliver a guided multi-step experience capturing tenant, primary company, primary admin, region/currency/timezone, and desired plan/license intent.
+- Orchestrate existing tenant, company, and invitation capabilities; assess whether a new orchestration capability is required or existing services can be composed transactionally.
+- Assess whether new provisioning-related permissions are required and record recommendations for Architecture Board review.
+- Validation gates: happy-path and rollback coverage; permission gating verified.
 
-## 6. Remember Me
+### Proposed Implementation Phase D — Licensing Intent Capture (data only)
+- Determine whether existing tenant metadata can store licensing intent or whether schema evolution is required.
+- No enforcement, plans table, quotas, or billing in this sprint. Explicitly defer to the licensing carry-forward.
+- Validation gates: schema/migration review if evolution is required; typed helpers covered by tests.
 
-Visual-only checkbox. No auth-logic change and no TODO comment left in code.
+### Proposed Implementation Phase E — Testing & Quality
+- Unit coverage for any new capabilities introduced in A–D.
+- Integration and E2E remain disclosed capability gaps (CF-6 / CF-7) unchanged.
+- Validation gates: full test run green; typecheck clean.
 
-## 7. Privacy / Terms
+### Proposed Implementation Phase F — Sprint Acceptance & Closeout
+- Governance-only. Standard six deliverables (Acceptance Review, Completion Report, SIP archive, Program Status Report, IMP CHANGELOG entry, and any updated carry-forwards).
 
-Disabled placeholder links (non-interactive spans styled like links, `aria-disabled="true"`). Do not invent routes. Do not leave TODO comments.
+---
 
-## 8. Background & decorative accents
-
-Reuse any existing decorative utility first. If a new decorative utility is required, keep it local to `src/styles.css`, implemented with CSS only. Do not introduce image assets, SVG files, icon components, or background libraries.
-
-## 9. Animation
-
-Reuse the repository's existing animation classes only. Use `animate-in fade-in duration-300` on the card only if `tailwindcss-animate` is already configured. Do not add animation plugins. Respect `prefers-reduced-motion`.
-
-## 10. Accessibility
-
-- Every input keeps `<Label htmlFor>` via existing `FormField`.
-- Enter submits (native form). Email autofocused. Full tab order preserved.
-- Icon-only buttons carry `aria-label`.
-- Colour is never the sole state indicator.
-
-## Files touched
-
-1. `src/styles.css` — add red brand tokens (only what's missing) via existing `@theme inline`; add CSS-only dotted-grid + corner-accent `@utility` only if no equivalent exists.
-2. `src/routes/login.tsx` — rework JSX for header, form (password toggle + remember me + autocomplete), dev quick-access grid, footer (with new **Go to Home** above **Create Account**), and `AuthShell` background/version footer. Route config and handlers unchanged.
-
-## Implementation boundary
-
-Code changes are limited to presentation (JSX, styling, local UI state for password visibility) and design tokens. Business logic, authentication flow, routing behavior, validation logic, API calls, and data flow must remain unchanged.
-
-## Out of scope
-
-- No changes to `/auth`, `/forgot-password`, `/reset-password`, `/auth/callback`.
-- No auth logic, RBAC, or role-selection changes.
-- No new routes; no Privacy/Terms pages.
-- No dark-mode variant (light mode only).
-- No new npm packages or UI libraries.
-
-## Verification
-
-- `tsgo --noEmit` clean.
-- No new lint errors.
-- No hardcoded hex in `src/routes/login.tsx`.
-- No `console.*` statements added.
-- No `TODO` comments added.
-- No new dependencies.
-- No duplicate components created.
-- No unused imports.
-- No dead CSS utilities.
-- No image or SVG assets added.
-- Browser autofill retained (`email`, `current-password`).
-- Keyboard accessible (tab order, Enter submits, Eye button `type="button"`).
-- Mobile responsive at ≤ `sm`.
-- Dev quick login hidden in production build.
-- Manual: `/login` renders red theme; **Go to Home** navigates to `/`; **Create Account** navigates to `/auth`.
+## Stop Condition
+Discovery Report (Deliverable 1) and Recommended Implementation Sequence (Deliverable 2) published as governance artifacts. **No implementation until Architecture Board approves.** After approval, each phase is scoped and prompted separately.
