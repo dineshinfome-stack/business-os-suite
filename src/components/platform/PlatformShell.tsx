@@ -2,65 +2,48 @@ import * as React from "react";
 import type { ReactNode } from "react";
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { PlatformTopBar } from "./PlatformTopBar";
-import { PlatformAllDrawer } from "./PlatformAllDrawer";
-import { PLATFORM_NAV } from "./nav-items";
+import { PlatformSidebarV2 } from "./navigation/PlatformSidebarV2";
+import { NAV_REGISTRY } from "@/lib/navigation/registry";
 import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
 
 function resolveTitle(pathname: string): string {
-  const match = [...PLATFORM_NAV]
-    .sort((a, b) => b.to.length - a.to.length)
-    .find((n) => pathname === n.to || pathname.startsWith(n.to + "/"));
-  if (match?.id === "dashboard" || pathname === "/platform" || pathname === "/platform/") {
-    return "Shared admin dashboard";
-  }
-  return match?.label ?? "Platform";
+  const match = [...NAV_REGISTRY]
+    .filter((n) => n.route)
+    .sort((a, b) => (b.route!.length - a.route!.length))
+    .find((n) => pathname === n.route || pathname.startsWith(n.route + "/"));
+  if (pathname === "/platform" || pathname === "/platform/") return "Shared admin dashboard";
+  return match?.title ?? "Platform";
 }
 
 export function PlatformShell({ children }: { children?: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const title = resolveTitle(pathname);
-  const { pinned, togglePinned, activeTab, openTab, closeMenus } = usePlatformNavState();
+  const { pinned, togglePinned, collapsed, toggleCollapsed } = usePlatformNavState();
 
-  // Close menus on route change (but keep pinned drawer open).
-  React.useEffect(() => {
-    closeMenus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
-
-  // Escape closes any open menu/drawer overlay.
-  React.useEffect(() => {
-    const h = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMenus();
-    };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [closeMenus]);
-
-  const drawerOpen = activeTab === "all" || pinned;
-  const contentShift = pinned ? "pl-72" : "";
+  const sidebarWidth = collapsed ? "pl-16" : "pl-72";
+  // Non-pinned still renders but as overlay (no content shift).
+  const contentShift = pinned ? sidebarWidth : "pl-0";
 
   return (
-    <div className="platform-theme min-h-screen" style={{ background: "var(--sn-canvas)" }}>
-      <PlatformTopBar title={title} activeTab={activeTab} onTabClick={openTab} />
+    <div className="platform-theme min-h-screen" style={{ background: "var(--platform-content-bg)" }}>
+      <PlatformTopBar title={title} />
 
-      {/* Overlay when drawer is open but not pinned */}
-      {drawerOpen && !pinned && (
+      {!pinned && (
         <div
-          className="fixed inset-0 top-14 z-20 bg-black/20"
-          onClick={() => openTab(null)}
+          className="fixed inset-0 top-14 z-20 bg-black/20 lg:hidden"
           aria-hidden
+          onClick={togglePinned}
         />
       )}
 
-      {drawerOpen && (
-        <PlatformAllDrawer
-          pinned={pinned}
-          onTogglePin={togglePinned}
-          onNavigate={() => (pinned ? undefined : openTab(null))}
-        />
-      )}
+      <PlatformSidebarV2
+        pinned={pinned}
+        onTogglePin={togglePinned}
+        collapsed={collapsed}
+        onToggleCollapsed={toggleCollapsed}
+      />
 
-      <div className={`pt-14 ${contentShift}`}>
+      <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
         <main id="main" role="main">
           {children ?? <Outlet />}
         </main>

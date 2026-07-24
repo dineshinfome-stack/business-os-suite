@@ -1,129 +1,95 @@
-# ServiceNow-Style Super Admin Theme
+# Business OS Enterprise Navigation v2
 
-Retheme the `/platform/*` shell and dashboard to match the ServiceNow Next Experience look from the references. Scope is presentation only — no changes to routes, RBAC, data, or the tenant (`AppShell`) side.
+Replace the current flat Platform sidebar/drawer (`PlatformAllDrawer`, `PlatformSidebar`) with a data-driven, searchable, grouped navigation. Reuses the existing `NAV_REGISTRY`, permission framework, favorites/history hooks — no hardcoded menus, no ServiceNow visual copy. Original Business OS branding retained.
 
-## Visual direction
+## Scope
 
-- **Top bar (dark navy):** full-width `#1B1F3B`-family navy, white text, holds brand, primary tabs, centered dashboard pill, and right-side utility icons (search, globe, chat, help, notifications, avatar).
-- **Primary tabs in top bar:** `All`, `Favorites`, `History`, `Workspaces`, `Admin`. `All` opens the pinnable side drawer; `Favorites` and `History` open popovers; `Admin` is the active section indicator.
-- **Centered dashboard pill:** rounded white pill showing current dashboard name + star (favorite toggle).
-- **Right utility cluster:** icon buttons for search, locale, chat, help, notifications, plus avatar that opens a profile menu (Profile, Preferences, Keyboard shortcuts, Impersonate user, Elevate role, Log out).
-- **Side navigation ("All" drawer):** dark navy panel, pinnable to the left. Contains a Filter input + refresh + pin icon, then a collapsible module list with hover/star affordances. When unpinned it's an overlay; when pinned it pushes content.
-- **Content canvas:** white/very-light gray (`#F7F8FA`) with a hero band at the top of dashboards: dark navy gradient + subtle decorative dots/waves, white headline + subtext.
-- **Accent color:** ServiceNow magenta/pink `#E4127C` for stars, pinned indicators, and small highlights; ServiceNow green `#62D84E` for brand dot and success. Chart line accent cyan `#00B4D8`.
-- **KPI cards:** large, thin-stroke numerals (e.g. `88%`, `14`), light card background, small trend sparkline, muted "No data available" empty state with an illustration slot.
+- Applies to the **Platform (Super Admin) shell** in this pass (`PlatformShell`). Tenant `AppShell` is untouched.
+- All data comes from `NAV_REGISTRY` via `useNavigation()` (permission + feature-flag filtered). `PLATFORM_NAV` static array is deprecated for rendering.
+- No backend changes. Favorites/history/expand state reuse existing hooks (`useFavorites`, `useRecentPages`, `useNavPreferences`) and `nav_favorites` / `nav_command_history` tables.
 
-## Color tokens (added under a `.platform` scope so tenant theme is untouched)
+## Component structure
 
-```
---sn-navy-900: #0F1235
---sn-navy-800: #1B1F3B
---sn-navy-700: #232852
---sn-navy-hover: #2B2F5A
---sn-navy-active: #E4127C   /* pink accent bar */
---sn-text-onnavy: #FFFFFF
---sn-text-onnavy-muted: #B7BAD0
---sn-canvas: #F7F8FA
---sn-surface: #FFFFFF
---sn-border: #E5E7EF
---sn-text: #1B1F3B
---sn-text-muted: #6B7085
---sn-accent-pink: #E4127C
---sn-accent-green: #62D84E
---sn-accent-cyan: #00B4D8
---sn-hero-gradient: linear-gradient(120deg,#1B1F3B 0%,#2A2F66 60%,#3B2A66 100%)
+```text
+PlatformSidebar (rewritten)
+├── SidebarHeader          brand + collapse/pin toggle
+├── NavigationSearch       ⌘K opens palette; inline filter for tree
+├── NavigationTabs         All · Favorites · Recent
+└── NavigationTree         virtualized when > 60 rows
+    └── NavigationGroup    collapsible module (▼ Platform, ▼ CRM, …)
+        └── NavigationItem title · icon · badge · ★ · ⋮
 ```
 
-Tokens live in `src/styles.css` under a `.platform-theme` class applied by `PlatformShell` (keeps `/dashboard` tenant theme unchanged).
+Each `NavigationItem` reads from a `NavItem` (`id`, `title`, `icon`, `route`, `permission`, `feature_flag`, `keywords`, `children`) plus runtime `badge`, `favorite`, `pinned`.
 
-## File changes
+## Feature list
 
-1. **`src/styles.css`**
-   - Add ServiceNow token block + `.platform-theme` scope.
-   - Add `@utility sn-hero-dots` (radial dots overlay) and `@utility sn-hero-band` (gradient + subtle waves).
-   - Refine `--platform-*` tokens to map onto the new palette for backward compatibility.
+1. **Search** — inline "Search menus… ⌘K" filters the tree by title/module/keywords; ⌘K still opens the full command palette.
+2. **Tabs** — `All | Favorites | Recent` (icons + labels). Favorites = pinned + starred; Recent = last 20 from command history.
+3. **Collapsible groups** — one per top-level module; expand state persisted via `useNavPreferences` keyed by `nav_id`.
+4. **Pin / Favorite** — star toggles favorite; pinned items float to top of All tab and appear in Favorites.
+5. **Row context menu (⋮)** — Open · Pin/Unpin · Copy Link · Open in New Tab · Add Shortcut.
+6. **Badges** — optional numeric badge per item, sourced from a new `useNavBadges()` hook (initial impl returns empty map; wired for Approvals / Notifications / Tasks later).
+7. **Empty state** — "No pages found" with actions: Create command · Search globally · Help.
+8. **Keyboard** — ↑/↓ move, →/← expand/collapse, Enter navigates, `/` focuses search, `Esc` closes.
+9. **Permission-aware** — filtered by `useNavigation()`; hidden items never render.
+10. **Responsive** — desktop pinned (w-72), laptop collapsible mini (w-14, icons only), tablet/mobile overlay drawer via existing pin state.
+11. **Performance** — memoized tree; virtualize (`@tanstack/react-virtual`, already available) once flat row count > 60; expand state persisted.
 
-2. **`src/components/platform/PlatformShell.tsx`**
-   - Wrap in `<div className="platform-theme min-h-screen">`.
-   - Replace fixed 240px left sidebar layout with: fixed top `PlatformTopBar` (56px) + optional pinned left `PlatformAllDrawer` (280px) + main content that shifts right when pinned.
-   - Manage `isPinned` + `activeTab` state (`all` | `favorites` | `history` | `workspaces` | `admin`) via a small local store/hook (`usePlatformNavState`).
+## Theme
 
-3. **`src/components/platform/PlatformTopBar.tsx` (rewrite)**
-   - Dark navy bar, height 56px.
-   - Left: `ServiceNow`-style wordmark using existing "Business OS" brand + green dot; then tab buttons `All / Favorites / History / Workspaces / Admin`.
-   - Center: white rounded "dashboard pill" showing current page title + star toggle.
-   - Right: icon buttons — Search (opens command palette), Globe (locale — static for now), Chat, Help, Notifications, Avatar (opens `ProfileMenu`).
-   - Tabs are buttons that open the corresponding panels; `Admin` remains a static active indicator for `/platform/*`.
+Original Business OS tokens — no ServiceNow pink/navy pallette copy:
+- Sidebar: `--platform-sidebar-bg` (existing dark), text `--platform-sidebar-fg`.
+- Active row: brand primary left bar + subtle tint (`--brand-primary` / existing red), not magenta.
+- Rounded 8px rows, soft elevation, modern typography from existing design tokens.
+- Light workspace area unchanged.
 
-4. **`src/components/platform/PlatformAllDrawer.tsx` (new)**
-   - Dark navy left panel, 280px, top offset 56px, full height.
-   - Header: `Filter` input with icon, refresh icon, pin/unpin icon.
-   - List of collapsible modules from `nav-items.ts`, each row: chevron, label, edit + star on hover.
-   - Overlay mode when unpinned (auto-close on outside click / route change); pushes content when pinned.
-   - Uses `--sn-navy-800` bg, `--sn-text-onnavy` text, pink hover bar `--sn-accent-pink`.
+## Files
 
-5. **`src/components/platform/PlatformFavoritesPopover.tsx` (new)** and **`PlatformHistoryPopover.tsx` (new)**
-   - Small dark navy popovers anchored to their top-bar tabs.
-   - Favorites: list from existing `useFavorites` hook.
-   - History: list from existing `useRecentPages` / `useCommandHistory` hook, grouped by "Today / Yesterday" with relative timestamps.
+**New**
+- `src/components/platform/navigation/PlatformSidebarV2.tsx`
+- `src/components/platform/navigation/NavigationSearch.tsx`
+- `src/components/platform/navigation/NavigationTabs.tsx`
+- `src/components/platform/navigation/NavigationTree.tsx`
+- `src/components/platform/navigation/NavigationGroup.tsx`
+- `src/components/platform/navigation/NavigationItem.tsx`
+- `src/components/platform/navigation/NavigationRowMenu.tsx`
+- `src/components/platform/navigation/NavigationEmptyState.tsx`
+- `src/hooks/navigation/useNavBadges.ts` (stub returning `Map<nav_id, number>`)
+- `src/hooks/navigation/usePinnedNav.ts` (thin wrapper over `useFavorites` exposing `pinned` semantics)
 
-6. **`src/components/platform/PlatformProfileMenu.tsx` (adapt existing `ProfileMenu`)**
-   - Header block: avatar, display name, role, instance name.
-   - Items: Profile, Preferences, Keyboard shortcuts, Impersonate user (disabled/coming soon), Elevate role (disabled/coming soon), Log out.
+**Modified**
+- `src/components/platform/PlatformShell.tsx` — mount `PlatformSidebarV2`; retire `PlatformAllDrawer` usage.
+- `src/components/platform/PlatformTopBar.tsx` — remove `All/Favorites/History/Workspaces` tabs (moved into sidebar); keep brand, search, utility icons, profile.
+- `src/hooks/platform/usePlatformNavState.ts` — simplify to `{ pinned, togglePinned, collapsed, toggleCollapsed }`.
+- `src/components/platform/index.ts` — export new sidebar.
 
-7. **`src/components/platform/nav-items.ts`**
-   - Add grouping metadata (module → sections) so the All drawer can render collapsible groups. No route changes.
+**Deprecated (kept as file, not imported)**
+- `PlatformAllDrawer.tsx`, `PlatformSimplePopover.tsx`, `nav-items.ts` (`PLATFORM_NAV`).
 
-8. **`src/routes/_authenticated/platform/index.tsx` (Super Admin Dashboard rewrite)**
-   - Hero band: `sn-hero-band` background, white headline "Welcome to Admin Home, {name}!" + subtext, decorative dots overlay.
-   - Below hero: "Track what's important to you" section title.
-   - Dashboard title row: `Shared admin dashboard ▾` with Edit + refresh + more.
-   - KPI grid (4 wide → 2 → 1 responsive):
-     - Open incidents (empty state illustration + sparkline placeholder)
-     - Open request items (empty state)
-     - Problems `14`
-     - Hardening compliance score `88%` with descending sparkline
-     - Open P1 incidents `0`
-     - Aging incidents over 24 hrs `0`
-     - Request items over 24 hrs `0`
-     - Request items awaiting approval `0`
-     - Changes `5`
-     - Customer Actions `2`
-   - Below KPIs: "Get information about your instance" section placeholder (matching the reference footer).
-   - All values marked with `Sample` badge (existing convention).
+## Data flow
 
-9. **`src/components/dashboard/StatCard.tsx`**
-   - Add `variant="sn"`: white surface, top-left title, top-right kebab + optional info icon, large centered numeral (thin-weight), optional sparkline slot, optional empty-state illustration slot.
+```text
+NAV_REGISTRY ──► useNavigation() ──► tree (perm + flag filtered)
+                                    │
+useFavorites ─────────────────────► NavigationItem (★ state)
+useRecentPages ───────────────────► Recent tab
+useNavPreferences ────────────────► expanded groups
+useNavBadges ─────────────────────► badge counts
+```
 
-10. **`src/components/dashboard/EmptyIllustration.tsx` (new)**
-    - Minimal inline SVG matching the "No data available" broken-window icon from the reference.
+## Out of scope (follow-up sprints)
 
-11. **`src/components/platform/PlatformStatusBar.tsx`**
-    - Remove (ServiceNow reference has no bottom status bar) OR hide when `platform-theme` is active. Choose: hide only within Platform shell to keep tenant behavior intact.
+- Populating real badge counts (Approvals/Notifications/Tasks endpoints).
+- Applying the same v2 pattern to Tenant `AppShell`.
+- Global command palette redesign (kept as-is; ⌘K still works).
 
-## Interaction details
+## Acceptance
 
-- `All` tab: click toggles the drawer open; pin icon inside drawer toggles pinned state (persisted in localStorage under `platform.nav.pinned`).
-- `Favorites` / `History`: click opens popover anchored to tab; closes on outside click / Escape.
-- Star in the centered pill toggles favorite for the current route via existing `useFavorites`.
-- Search icon opens existing command palette (`useCommandPalette`).
-- Keyboard: `⌘K` opens search; `[` toggles pin; `Esc` closes drawer/popover.
-- Reduced-motion respected on drawer slide (200ms → 0ms).
-
-## Out of scope
-
-- Tenant shell (`/dashboard`, `/tenant/*`) is untouched.
-- No new routes; `Workspaces` tab is a placeholder popover ("No workspaces yet").
-- No new backend, RBAC, or data fetches beyond hooks already in use.
-- Icons reuse `lucide-react`; no new icon pack.
-
-## Validation
-
-- Typecheck.
-- Manual visual pass at `/platform`, `/platform/tenants` in light mode: top bar, pinned + unpinned drawer, popovers, hero, KPI grid, profile menu.
-- Confirm `/dashboard` tenant shell unchanged.
-- A11y: focus rings on all top-bar buttons, `aria-expanded` on tabs, drawer has `role="dialog"` when floating, `role="complementary"` when pinned.
-
-## Deliverable
-
-Updated Platform shell + Super Admin dashboard matching the ServiceNow references, plus a short completion note. No new audit doc unless requested.
+- Sidebar renders grouped modules from `NAV_REGISTRY` with no hardcoded arrays.
+- Search filters within ~50ms; empty state shown on no matches.
+- Favorites/Recent tabs populate from existing tables.
+- Pin/unpin persists across reload; expand state persists per user.
+- All rows respect `permission` and `feature_flag` gates.
+- Keyboard navigation works end-to-end; a11y roles (`tree`, `treeitem`, `group`) applied.
+- Typecheck + build clean; no visual regression on Tenant shell.
