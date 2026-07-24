@@ -15,12 +15,12 @@ export function NavigatorButton() {
       <button
         type="button"
         onClick={togglePinned}
-        aria-label="Toggle navigator"
+        aria-label="Toggle all"
         aria-expanded={pinned}
         className="inline-flex h-8 items-center gap-1.5 rounded-l-md px-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
       >
         <LayoutGrid className="h-3.5 w-3.5" />
-        <span>Navigator</span>
+        <span>All</span>
       </button>
       <div className="h-5 w-px bg-border" aria-hidden />
       <button
