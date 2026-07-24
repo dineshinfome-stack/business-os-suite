@@ -78,12 +78,12 @@ export const PERSISTED_NAV_TABLES = [
  * Core registry. Additive-only: never rename ids; retire instead.
  */
 export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
-  // ── Main / Business (presentation label; nav_id retained) ───────
+  // ── Main / Tenant (presentation label; nav_id retained per ADR-009) ─
   {
     id: "workspace",
     id_status: "active",
     module: "workspace",
-    title: "Business",
+    title: "Tenant",
     route: null,
     parent: null,
     display_order: 10,
@@ -107,15 +107,15 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     id: "workspace.hub",
     id_status: "active",
     module: "workspace",
-    title: "Business Profile",
+    title: "Tenant",
     icon: Building2,
-    route: "/workspace",
+    route: "/tenant",
     parent: "workspace",
     display_order: 20,
     permission: "workspace.workspace.read",
     visible: true,
     enabled: true,
-    keywords: ["organization", "profile", "branding", "team", "invitations", "business"],
+    keywords: ["organization", "profile", "branding", "team", "invitations", "tenant", "business"],
   },
   {
     id: "workspace.team",
@@ -123,7 +123,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     module: "workspace",
     title: "Team",
     icon: Users,
-    route: "/workspace",
+    route: "/tenant",
     parent: "workspace",
     display_order: 30,
     permission: "workspace.member.read",
@@ -137,7 +137,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     module: "workspace",
     title: "Invitations",
     icon: Mail,
-    route: "/workspace",
+    route: "/tenant",
     parent: "workspace",
     display_order: 40,
     permission: "workspace.invitation.read",
@@ -145,6 +145,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     enabled: true,
     keywords: ["invite", "join"],
   },
+
 
   // ── Administration ──────────────────────────────────────────────
   {
