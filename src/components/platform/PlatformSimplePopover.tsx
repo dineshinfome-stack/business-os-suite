@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Star, Clock } from "lucide-react";
 import { useFavorites } from "@/hooks/navigation/useFavorites";
 import { useRecentPages } from "@/hooks/navigation/useRecentPages";
+import { getNavItem } from "@/lib/navigation/registry";
 
 interface Props {
   variant: "favorites" | "history" | "workspaces";
