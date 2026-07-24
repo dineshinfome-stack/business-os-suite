@@ -10,7 +10,7 @@ import { useRecentPages } from "@/hooks/navigation/useRecentPages";
 import { useNavBadges } from "@/hooks/navigation/useNavBadges";
 import { useCurrentTenant } from "@/hooks/tenants/useCurrentTenant";
 import { APP_NAME } from "@/constants/app";
-import { filterNavigationTree } from "@/lib/navigation";
+import { useNavigationSearchIndex } from "@/hooks/navigation/useNavigationSearchIndex";
 import { NavigationSearch } from "./NavigationSearch";
 import { NavigationTabs, type NavTab } from "./NavigationTabs";
 import { NavigationTree } from "./NavigationTree";

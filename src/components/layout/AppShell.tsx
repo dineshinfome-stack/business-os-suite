@@ -3,50 +3,40 @@ import { Outlet } from "@tanstack/react-router";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { PlatformSidebarV2 } from "@/components/platform/navigation/PlatformSidebarV2";
-import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
-import { ProfileMenu, HelpMenu, SearchTrigger, StatusBar } from "@/components/platform";
+import { StatusBar } from "@/components/platform";
 import { HeaderProvider } from "@/contexts/header-context";
-import { BusinessOsLogo } from "@/components/platform/header/BusinessOsLogo";
-import { NavigatorButton } from "@/components/platform/header/NavigatorButton";
-import { FavoritesPopover } from "@/components/platform/header/FavoritesPopover";
-import { RecentPopover } from "@/components/platform/header/RecentPopover";
-import { AiAssistantSlot } from "@/components/platform/header/AiAssistantSlot";
+import { HeaderSlots } from "@/components/layout/HeaderSlots";
+import { useHeaderShortcuts } from "@/hooks/header/useHeaderShortcuts";
+// Side-effect import: registers the standard tenant-header slots exactly once.
+import "@/components/layout/header-slots.registration";
+
+function ShellHeader() {
+  useHeaderShortcuts();
+  return (
+    <header
+      role="banner"
+      className="fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+    >
+      <HeaderSlots area="start" className="flex min-w-0 items-center gap-3" />
+      <HeaderSlots area="end" className="ml-auto flex items-center gap-1" />
+    </header>
+  );
+}
 
 export function AppShell({ children }: { children?: ReactNode }) {
-  const { pinned, togglePinned, collapsed, toggleCollapsed } = usePlatformNavState("tenant");
+  const sidebarState = usePlatformNavState("tenant");
+  const { pinned, togglePinned, collapsed, toggleCollapsed } = sidebarState;
 
   const sidebarWidth = collapsed ? "pl-16" : "pl-72";
   const contentShift = pinned ? sidebarWidth : "pl-0";
 
   return (
     <CommandPaletteProvider>
-      <HeaderProvider>
+      <HeaderProvider sidebar={sidebarState}>
         <div className="min-h-screen bg-background">
-          <header
-            role="banner"
-            className="fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/80"
-          >
-            <div className="flex min-w-0 items-center gap-3">
-              <BusinessOsLogo />
-              <NavigatorButton
-                open={pinned}
-                pinned={pinned}
-                onToggleOpen={togglePinned}
-                onTogglePinned={togglePinned}
-              />
-            </div>
-            <div className="ml-auto flex items-center gap-1">
-              <SearchTrigger />
-              <FavoritesPopover />
-              <RecentPopover />
-              <AiAssistantSlot />
-              <NotificationBell />
-              <HelpMenu />
-              <ProfileMenu />
-            </div>
-          </header>
+          <ShellHeader />
 
           {!pinned && (
             <div
@@ -76,7 +66,6 @@ export function AppShell({ children }: { children?: ReactNode }) {
     </CommandPaletteProvider>
   );
 }
-
 
 export function PageContainer({
   title,
