@@ -4,7 +4,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { AppSidebar } from "@/components/navigation/AppSidebar";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
-import { OrgSwitcher } from "@/components/navigation/OrgSwitcher";
+
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { ProfileMenu, HelpMenu, SearchTrigger, StatusBar } from "@/components/platform";
@@ -26,7 +26,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
               </div>
               <div className="ml-auto flex items-center gap-1.5">
                 <SearchTrigger />
-                <OrgSwitcher />
+                
                 <NotificationBell />
                 <HelpMenu />
                 <ProfileMenu />
