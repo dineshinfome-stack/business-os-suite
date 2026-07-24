@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
       { title: `Settings — ${APP_NAME}` },
-      { name: "description", content: `${APP_NAME} business settings.` },
+      { name: "description", content: `${APP_NAME} tenant settings.` },
     ],
   }),
   component: SettingsPage,
