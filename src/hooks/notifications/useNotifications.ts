@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 
 import { queryKeys } from "@/lib/query-keys";
 import { useOrg } from "@/contexts/org-context";
+import { useAuth } from "@/contexts/auth-context";
 import {
   getUnreadNotificationCount,
   listMyNotifications,
@@ -17,7 +18,9 @@ const POLL_MS = 60_000;
 
 export function useNotifications() {
   const { current } = useOrg();
+  const { status } = useAuth();
   const orgId = current?.organizationId ?? null;
+  const isAuthed = status === "authenticated";
   const qc = useQueryClient();
 
   const listFn = useServerFn(listMyNotifications);
@@ -29,7 +32,7 @@ export function useNotifications() {
   const listQ = useQuery<NotificationRow[]>({
     queryKey: queryKeys.notifications.list(orgId),
     queryFn: () => listFn({ data: { organizationId: orgId, limit: 50 } }),
-    enabled: Boolean(orgId),
+    enabled: isAuthed && Boolean(orgId),
     refetchInterval: POLL_MS,
     staleTime: 15_000,
   });
@@ -37,7 +40,7 @@ export function useNotifications() {
   const countQ = useQuery<{ count: number }>({
     queryKey: queryKeys.notifications.unreadCount(orgId),
     queryFn: () => countFn({ data: { organizationId: orgId } }),
-    enabled: Boolean(orgId),
+    enabled: isAuthed && Boolean(orgId),
     refetchInterval: POLL_MS,
     staleTime: 15_000,
   });
