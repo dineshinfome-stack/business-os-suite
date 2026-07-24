@@ -1,127 +1,67 @@
-# SPR-PLT-0005 — Platform Shell & Enterprise Navigation
+# Plan — Worksuite-Style Super Admin Shell & Dashboard
 
-Foundational UI sprint. Establishes the permanent Business OS shell, theme, navigation, dashboard, and widget framework. Reuses existing routing, auth, RBAC, tenant, and navigation-registry primitives. No business-module logic.
+Restyle the Super Admin (Platform) surface to match the uploaded Worksuite reference: dark left sidebar with light content area, compact top bar, and a KPI + reports dashboard layout. Scope is presentation-only under the `/platform/*` route tree; no RBAC, routing, or data-model changes.
 
-## Scope
+## 1. Scoped Platform Shell
 
-In:
-- Reusable `PlatformShell` (top nav + collapsible left nav + main + status bar)
-- Enterprise theme tokens (Business OS palette; light/dark/high-contrast)
-- Navigation: expanded / collapsed (with hover flyouts) / pinned; favorites, history, quick access, group ordering — driven by existing `NAV_REGISTRY`
-- Global search dialog + command palette (extend existing `useCommandPalette` + `GlobalSearch`)
-- Notification panel (extend existing `NotificationBell`)
-- Profile menu (profile, prefs, shortcuts, theme, language, logout)
-- Super Admin dashboard scaffolding: header, KPI card grid, widget framework
-- Widget framework: `WidgetContainer`, `WidgetHeader`, `WidgetCard` + widget types (StatCard, ChartCard placeholder, Table, Activity, Timeline, Progress) — presentational only, no data pipelines
-- Breadcrumbs, PageHeader, EmptyState, LoadingState primitives (reuse where present)
-- Responsive behavior (desktop → mobile off-canvas)
-- A11y: keyboard, ARIA, focus, WCAG AA
-- Component documentation + validation & completion reports
+Create a dedicated `PlatformShell` used only under `_authenticated/platform/*` so the existing tenant AppShell is untouched.
 
-Out (per prompt): CRM/Accounting/Inventory/etc., licensing, billing, analytics engine, AI features, business dashboards with live data.
+- **Left Sidebar (dark)**
+  - Fixed 240px, background `--surface-inverse` (near-black `#1f2933`-ish), light text.
+  - Top: square brand tile ("W" mark on Enterprise Red) + product name + user line with green status dot ("● Katelyn Denesik" style, wired to current user).
+  - Menu items with lucide icons + label, 44px rows, red left-border + subtle red tint on active. Groups: Dashboard, Packages, Companies, Billing, Admin FAQ, Super Admin, Offline Request, Support Ticket, Front Settings, Settings. (Labels only — each links to existing platform routes; missing ones route to a "Coming soon" placeholder page. No new backend.)
+  - Footer: "Mobile App" pill + version string.
 
-## Reuse (do not duplicate)
+- **Top Bar (light, 56px)**
+  - Left: page title (e.g. "Super Admin Dashboard") + breadcrumb "Home • Super Admin Dashboard".
+  - Right icon buttons: theme, notes, quick-add, notifications (with red dot), power/logout. Uses existing `ProfileMenu`/`HelpMenu` primitives where possible.
 
-- Routing: TanStack Router, `_authenticated` layout gate
-- Shell frame: `src/components/layout/AppShell.tsx` (evolve, don't replace file surface — keep `AppShell` export)
-- Sidebar primitive: `src/components/ui/sidebar.tsx` (shadcn)
-- Nav data: `src/lib/navigation/registry.ts` + `useNavigation()` (already permission/flag-filtered)
-- Command palette: `src/hooks/navigation/useCommandPalette.tsx` + `CommandPalette.tsx`
-- Search: `src/components/search/*`, `useSearch`
-- Notifications: `src/components/notifications/*`
-- Theme: `src/contexts/theme-context.tsx`, `src/styles.css`
-- Favorites / recent / prefs: `src/hooks/navigation/useFavorites`, `useRecentPages`, `useNavPreferences`, `useCommandHistory`
-- Org/Tenant selector: existing `OrgSwitcher`
-- RBAC: `usePermissions`, `<Can>`
+- **Content area**: `--surface-2` light gray, 24px padding.
 
-## Architecture
+## 2. Enterprise Red Theme Tokens (additive)
 
-Presentation-only sprint. No DB migrations, no server functions, no permission-key changes, no `nav_id` rename. All work under `src/components/platform/**`, `src/components/dashboard/**`, plus targeted edits to `AppShell`, theme tokens, and Super Admin index route.
+Add to `src/styles.css` (no removal of existing tokens):
+- `--surface-inverse`, `--surface-inverse-foreground`
+- `--nav-item-active-bar` (red 3px)
+- `--kpi-value` (red) for dashboard numerics
 
-### New component surface
+## 3. Dashboard Rebuild
 
-```
-src/components/platform/
-  PlatformShell.tsx         # composes TopNavigation + AppSidebar + main + StatusBar
-  TopNavigation.tsx         # logo, search trigger, ⌘K, notifications, help, theme, tenant, profile
-  StatusBar.tsx
-  ProfileMenu.tsx
-  HelpMenu.tsx
-  QuickActions.tsx
-src/components/navigation/
-  AppSidebar.tsx            # evolve: pinned/collapsed modes, favorites section, history section, flyouts
-  NavGroup.tsx / NavItem.tsx / NavFlyout.tsx
-  FavoritesSection.tsx
-  HistorySection.tsx
-src/components/dashboard/
-  Dashboard.tsx             # grid host
-  WidgetContainer.tsx
-  WidgetHeader.tsx
-  WidgetCard.tsx
-  widgets/
-    StatCard.tsx
-    ChartCard.tsx           # thin wrapper around recharts (already present)
-    TableWidget.tsx
-    ActivityFeedWidget.tsx
-    TimelineWidget.tsx
-    ProgressWidget.tsx
-src/components/common/
-  PageHeader.tsx            # (reuse PageContainer if exists)
-  Breadcrumb.tsx            # already exists — extend if needed
-```
+Rewrite `src/routes/_authenticated/platform/index.tsx` composition to match reference:
 
-### Routes
+- **Row 1 — KPI cards (3-up, then 2-up)**: Total Companies, Active Companies, License Expired, Inactive Companies, Total Packages. White card, small gray label, large red number, muted icon top-right. Reuses existing `StatCard` with a new `variant="kpi"`.
+- **Row 2 — Two panels**:
+  - *Earnings Reports*: three big totals (Total / This Year / This Month) + month table (Month | Income).
+  - *Subscription Overview*: two big totals (Active / New This Month) + month table (Month | Subscriptions).
+- **Row 3 — Two panels**: *Top Paying Companies* and *Payment Gateway Breakdown* (empty-state "No record found.").
+- All values marked `Sample` badge (per existing convention); no new queries.
 
-- `src/routes/_authenticated/platform/index.tsx` → replace static landing with Super Admin Dashboard using new framework (KPI cards + sample widgets, no live data yet — stub values marked as `Sample`).
+## 4. Files
 
-### Theme
+New:
+- `src/components/platform/PlatformShell.tsx`
+- `src/components/platform/PlatformSidebar.tsx`
+- `src/components/platform/PlatformTopBar.tsx`
+- `src/components/platform/nav-items.ts` (static menu config)
+- `src/components/dashboard/ReportPanel.tsx` (reusable totals+table panel)
 
-Extend `src/styles.css` with Business OS enterprise tokens:
-- Original palette (not ServiceNow): deep slate/graphite surfaces + refined enterprise-red accent already in project
-- Add: `--surface-1..3`, `--elevation-*`, `--radius-enterprise`, `--nav-width-expanded`, `--nav-width-collapsed`, high-contrast variant tokens
-- Keep existing enterprise-red primary; no ServiceNow colors
+Modified:
+- `src/routes/_authenticated/platform/route.tsx` (or `index.tsx` layout) — wrap children in `PlatformShell` instead of default `AppShell`.
+- `src/routes/_authenticated/platform/index.tsx` — new composition.
+- `src/styles.css` — add tokens listed above.
+- `src/components/dashboard/StatCard.tsx` — add `kpi` variant.
 
-### Sidebar behavior
+Untouched: navigation registry, RBAC gates, ADR-009 tenant model, tenant-side AppShell, migrations.
 
-- Modes: `expanded` | `collapsed` | `pinned` — persisted via existing `useNavPreferences`
-- Collapsed: icons only; hover opens flyout submenu (Radix `HoverCard`)
-- Favorites at top (from `useFavorites`)
-- History grouped Today/Yesterday/Earlier (from `useRecentPages`)
-- Data-driven from `useNavigation()` — no hardcoded menu
+## 5. Out of scope
 
-## Phased execution (stop points optional)
+- No new routes, permissions, or DB tables.
+- No changes to tenant-facing shell/nav.
+- Placeholder menu links (Packages, Billing, etc.) resolve to a shared "Coming soon" page — no functional modules built in this pass.
+- No mobile-specific redesign; desktop parity only.
 
-Phase 1 — Theme + shell frame
-- Extend `styles.css` tokens
-- Create `PlatformShell`, `TopNavigation`, `StatusBar`, `ProfileMenu`, `HelpMenu`
-- Rewire `AppShell` to compose these (keep same export contract)
+## 6. Verification
 
-Phase 2 — Navigation
-- Evolve `AppSidebar` with modes, flyouts, favorites, history sections
-- `NavGroup` / `NavItem` primitives sourced from `useNavigation()`
-- Persist mode via `useNavPreferences`
-
-Phase 3 — Dashboard & widget framework
-- `Dashboard`, `WidgetContainer/Header/Card`
-- Widget set (StatCard, ChartCard, Table, Activity, Timeline, Progress)
-- Update `/platform` index to render Super Admin dashboard with sample KPIs (clearly labelled `Sample`)
-
-Phase 4 — Search & palette polish
-- Extend `CommandPalette` sections: Navigate / Actions / Recent / Favorites / Settings / Create New
-- Ensure ⌘K + `/` shortcuts, results grouped by category
-
-Phase 5 — Docs & reports
-- `docs/12-ui-components/platform-shell.md` component docs
-- `docs/50-audit-reports/SPR_PLT_0005_VALIDATION_REPORT.md`
-- `docs/50-audit-reports/SPR_PLT_0005_COMPLETION_REPORT.md`
-
-## Guardrails
-
-- No new permission keys, no `nav_id` changes, no route renames
-- No business logic; widgets render sample/empty states only
-- Typecheck must stay clean; a11y (keyboard + ARIA) verified on shell + sidebar + palette
-- All colors via semantic tokens; no hex literals in components
-
-## Deliverables
-
-Shell, theme, navigation, dashboard + widget framework, search/palette polish, notification panel & profile menu wiring, component docs, validation + completion reports.
+- `tsgo` typecheck clean.
+- Playwright screenshot of `/platform` compared to the reference for layout parity.
+- Confirm `/tenant/*` routes still render the existing AppShell unchanged.
