@@ -37,11 +37,6 @@ function DashboardPage() {
     <PageContainer
       title={profile?.displayName ? `Welcome, ${profile.displayName}` : "Welcome to Business OS"}
       description="Your tenant is ready."
-      actions={
-        <Button variant="outline" onClick={handleSignOut}>
-          <LogOut className="mr-1 h-4 w-4" /> Sign out
-        </Button>
-      }
     >
       <div className="grid gap-4 lg:grid-cols-3">
         <Card>
