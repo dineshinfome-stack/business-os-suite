@@ -59,6 +59,33 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-hover: var(--brand-red-hover);
+  --color-brand-red-dark: var(--brand-red-dark);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-border: var(--brand-border);
+  --color-brand-text: var(--brand-text);
+  --color-brand-text-muted: var(--brand-text-muted);
+  --color-brand-success: var(--brand-success);
+  --color-brand-error: var(--brand-error);
+}
+
+@utility bg-dotted-grid {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--brand-text) 12%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+@utility brand-corner-accent {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 2px solid var(--brand-red);
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 :root {
@@ -95,6 +122,16 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  --brand-red: #c62828;
+  --brand-red-hover: #b71c1c;
+  --brand-red-dark: #8e0000;
+  --brand-surface: #fafafa;
+  --brand-border: #e5e7eb;
+  --brand-text: #111827;
+  --brand-text-muted: #6b7280;
+  --brand-success: #16a34a;
+  --brand-error: #dc2626;
 }
 
 .dark {

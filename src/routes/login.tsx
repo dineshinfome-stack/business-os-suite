@@ -1,17 +1,22 @@
+import { useState } from "react";
 import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Form, FormField, SubmitButton } from "@/components/forms";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 
 import { notify } from "@/lib/notify";
 import { notifyAuthError, mapSupabaseAuthError } from "@/lib/auth-errors";
 import { logAuthEvent } from "@/lib/auth-audit";
 import { sanitizeNextPath } from "@/lib/sanitize-next-path";
-import { APP_NAME } from "@/constants/app";
+import { APP_NAME, APP_VERSION } from "@/constants/app";
 
 const searchSchema = z.object({ redirect: z.string().optional() });
 
@@ -43,6 +48,8 @@ function LoginPage() {
   const navigate = useNavigate();
   const search = Route.useSearch();
   const nextPath = sanitizeNextPath(search.redirect);
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
 
   const form = useForm<Values>({
     resolver: zodResolver(schema),
@@ -74,73 +81,203 @@ function LoginPage() {
     }
   }
 
+  function fillDevCredentials(email: string) {
+    form.setValue("email", email);
+    form.setValue("password", DEMO_PASSWORD);
+    void form.handleSubmit(onSubmit)();
+  }
+
+  const isSubmitting = form.formState.isSubmitting;
+  const emailError = form.formState.errors.email?.message;
+  const passwordError = form.formState.errors.password?.message;
+
   return (
     <AuthShell>
-      <Card>
-        <CardHeader>
-          <CardTitle>Sign in</CardTitle>
-          <CardDescription>Access your {APP_NAME} workspace.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Button variant="outline" className="w-full" onClick={onGoogleSignIn} type="button">
+      <Card className="animate-in fade-in border-brand-border rounded-2xl shadow-xl duration-300">
+        <CardContent className="space-y-6 px-6 py-8 sm:px-8">
+          <div className="space-y-4 text-center">
+            <div className="flex items-center justify-center gap-2">
+              <div
+                className="bg-brand-red grid h-10 w-10 place-items-center rounded-lg font-black text-white shadow-sm"
+                aria-hidden="true"
+              >
+                B
+              </div>
+              <div className="text-left">
+                <div className="text-brand-text text-lg leading-tight font-bold tracking-tight">
+                  {APP_NAME}
+                </div>
+                <div className="text-brand-red text-[10px] font-semibold tracking-widest uppercase">
+                  Enterprise Operating System
+                </div>
+              </div>
+            </div>
+            <p className="text-brand-text-muted mx-auto max-w-sm text-xs">
+              Manage Companies, Teams, Finance, HR, CRM, Projects, and Operations from one platform.
+            </p>
+            <div className="space-y-1 pt-2">
+              <h1 className="text-brand-text text-2xl font-bold tracking-tight">Welcome Back</h1>
+              <p className="text-brand-text-muted text-sm">
+                Sign in to access your Business Operating System.
+              </p>
+            </div>
+          </div>
+
+          <Button
+            variant="outline"
+            className="border-brand-border w-full"
+            onClick={onGoogleSignIn}
+            type="button"
+          >
             Continue with Google
           </Button>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            <div className="h-px flex-1 bg-border" /> OR{" "}
-            <div className="h-px flex-1 bg-border" />
+
+          <div className="text-brand-text-muted flex items-center gap-3 text-xs">
+            <div className="bg-brand-border h-px flex-1" />
+            OR
+            <div className="bg-brand-border h-px flex-1" />
           </div>
+
           <Form form={form} onSubmit={onSubmit}>
             <FormField<Values>
               name="email"
-              label="Email"
+              label="Email Address"
               type="email"
               autoComplete="email"
               required
             />
-            <FormField<Values>
-              name="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              required
-            />
-            <div className="flex items-center justify-between">
-              <Link to="/forgot-password" className="text-sm text-primary hover:underline">
-                Forgot password?
-              </Link>
-              <SubmitButton>Sign in</SubmitButton>
+
+
+            <div className="space-y-1.5">
+              <Label htmlFor="password">
+                Password <span className="text-brand-error">*</span>
+              </Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  aria-invalid={!!passwordError}
+                  className="pr-10"
+                  {...form.register("password")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                  className="text-brand-text-muted hover:text-brand-text focus-visible:ring-ring absolute inset-y-0 right-0 flex items-center px-3 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+              {passwordError ? (
+                <p className="text-brand-error text-xs">{passwordError}</p>
+              ) : null}
+              {emailError ? null : null}
             </div>
+
+            <div className="flex items-center justify-between pt-1">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="remember-me"
+                  checked={rememberMe}
+                  onCheckedChange={(v) => setRememberMe(v === true)}
+                />
+                <Label
+                  htmlFor="remember-me"
+                  className="text-brand-text-muted cursor-pointer text-sm font-normal"
+                >
+                  Remember me
+                </Label>
+              </div>
+              <Link
+                to="/forgot-password"
+                className="text-brand-red hover:text-brand-red-hover text-sm font-medium transition-colors"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+
+            <SubmitButton
+              className="bg-brand-red hover:bg-brand-red-hover mt-2 h-12 w-full rounded-lg text-base font-semibold text-white shadow-sm transition-colors disabled:opacity-70"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                  Signing in…
+                </>
+              ) : (
+                "Login"
+              )}
+            </SubmitButton>
           </Form>
 
-          <div className="rounded-md border border-dashed bg-muted/40 p-3 text-xs">
-            <p className="mb-2 font-medium text-foreground">Demo accounts</p>
-            <ul className="space-y-1.5">
-              {DEMO_USERS.map((u) => (
-                <li key={u.email} className="flex items-center justify-between gap-2">
-                  <span className="text-muted-foreground">
-                    <span className="font-mono">{u.email}</span>
-                    <span className="ml-2 rounded bg-primary/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-primary">
-                      {u.role}
-                    </span>
-                  </span>
+          {import.meta.env.DEV ? (
+            <div className="space-y-3 pt-2">
+              <div className="text-brand-text-muted flex items-center gap-3 text-xs">
+                <div className="bg-brand-border h-px flex-1" />
+                Development Login
+                <div className="bg-brand-border h-px flex-1" />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {DEV_ROLES.map((role) => (
                   <Button
+                    key={role.label}
                     type="button"
-                    size="sm"
-                    variant="ghost"
-                    className="h-6 px-2 text-xs"
-                    onClick={() => {
-                      form.setValue("email", u.email);
-                      form.setValue("password", DEMO_PASSWORD);
-                    }}
+                    variant="outline"
+                    disabled={isSubmitting}
+                    onClick={() => fillDevCredentials(role.email)}
+                    className="border-brand-red text-brand-red hover:bg-brand-red hover:border-brand-red h-10 text-xs font-medium hover:text-white"
                   >
-                    Use
+                    {role.label}
                   </Button>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-2 text-muted-foreground">
-              Password: <span className="font-mono">{DEMO_PASSWORD}</span>
-            </p>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          <div className="border-brand-border space-y-2 border-t pt-4 text-center text-sm">
+            <div>
+              <Link
+                to="/"
+                className="text-brand-text-muted hover:text-brand-red font-medium transition-colors"
+              >
+                Go to Home
+              </Link>
+            </div>
+            <div className="text-brand-text-muted">
+              Don&apos;t have an account?{" "}
+              <Link
+                to="/auth"
+                className="text-brand-red hover:text-brand-red-hover font-semibold transition-colors"
+              >
+                Create Account
+              </Link>
+            </div>
+            <div className="text-brand-text-muted flex items-center justify-center gap-3 text-xs">
+              <span
+                aria-disabled="true"
+                className="cursor-not-allowed opacity-60"
+                role="link"
+              >
+                Privacy Policy
+              </span>
+              <span aria-hidden="true">·</span>
+              <span
+                aria-disabled="true"
+                className="cursor-not-allowed opacity-60"
+                role="link"
+              >
+                Terms of Service
+              </span>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -149,22 +286,30 @@ function LoginPage() {
 }
 
 const DEMO_PASSWORD = "DemoPass123!";
-const DEMO_USERS = [
-  { email: "admin@demo.test", role: "admin" },
-  { email: "member@demo.test", role: "member" },
+const DEV_ROLES = [
+  { label: "Platform Admin", email: "admin@demo.test" },
+  { label: "Tenant Admin", email: "admin@demo.test" },
+  { label: "Company Admin", email: "member@demo.test" },
+  { label: "Employee", email: "member@demo.test" },
 ] as const;
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/30 px-4 py-12">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <Link to="/" className="inline-flex items-center gap-2">
-            <div className="h-7 w-7 rounded bg-primary" />
-            <span className="text-lg font-semibold tracking-tight">{APP_NAME}</span>
-          </Link>
-        </div>
+    <div className="bg-brand-surface relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12">
+      <div className="bg-dotted-grid absolute inset-0 opacity-60" aria-hidden="true" />
+      <div
+        className="brand-corner-accent top-8 left-8 rounded-tl-2xl border-r-0 border-b-0"
+        aria-hidden="true"
+      />
+      <div
+        className="brand-corner-accent right-8 bottom-8 rounded-br-2xl border-t-0 border-l-0"
+        aria-hidden="true"
+      />
+      <div className="relative w-full max-w-[480px] space-y-4">
         {children}
+        <p className="text-brand-text-muted text-center text-xs">
+          © 2026 {APP_NAME} · v{APP_VERSION}
+        </p>
       </div>
     </div>
   );
