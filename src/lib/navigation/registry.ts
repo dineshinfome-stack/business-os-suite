@@ -78,12 +78,12 @@ export const PERSISTED_NAV_TABLES = [
  * Core registry. Additive-only: never rename ids; retire instead.
  */
 export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
-  // ── Main / Workspace ────────────────────────────────────────────
+  // ── Main / Business (presentation label; nav_id retained) ───────
   {
     id: "workspace",
     id_status: "active",
     module: "workspace",
-    title: "Workspace",
+    title: "Business",
     route: null,
     parent: null,
     display_order: 10,
@@ -107,7 +107,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     id: "workspace.hub",
     id_status: "active",
     module: "workspace",
-    title: "Workspace",
+    title: "Business Profile",
     icon: Building2,
     route: "/workspace",
     parent: "workspace",
@@ -115,7 +115,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     permission: "workspace.workspace.read",
     visible: true,
     enabled: true,
-    keywords: ["organization", "profile", "branding", "team", "invitations"],
+    keywords: ["organization", "profile", "branding", "team", "invitations", "business"],
   },
   {
     id: "workspace.team",
