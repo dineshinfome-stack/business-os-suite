@@ -82,7 +82,8 @@ export function PlatformSidebarV2({
     return () => window.removeEventListener("keydown", h);
   }, []);
 
-  const filteredTree = React.useMemo(() => filterNavigationTree(tree, query), [tree, query]);
+  const { filter } = useNavigationSearchIndex();
+  const filteredTree = React.useMemo(() => filter(tree, query), [filter, tree, query]);
   const flatCount = React.useMemo(() => flatten(filteredTree).length, [filteredTree]);
 
   const width = collapsed ? "w-16" : "w-72";
