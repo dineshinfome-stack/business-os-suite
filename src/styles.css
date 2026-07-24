@@ -201,6 +201,48 @@
   pointer-events: none;
 }
 
+/* ────────────────────────────────────────────────────────────── */
+/* Enterprise Navigation v2 — shared tokens (tenant + platform)   */
+/* Component reads only --nav-* variables so the same tree works  */
+/* under a light tenant shell and the dark platform shell.        */
+/* ────────────────────────────────────────────────────────────── */
+.enterprise-sidebar {
+  --nav-bg: var(--sidebar);
+  --nav-fg: var(--sidebar-foreground);
+  --nav-fg-strong: var(--foreground);
+  --nav-fg-muted: var(--muted-foreground);
+  --nav-border: var(--sidebar-border);
+  --nav-hover: color-mix(in oklab, var(--sidebar-accent) 70%, transparent);
+  --nav-active-bg: var(--sidebar-accent);
+  --nav-active-bar: var(--brand-red);
+  --nav-ring: var(--sidebar-ring);
+  --nav-badge-bg: var(--brand-red);
+  --nav-badge-fg: #fff;
+  --nav-pin-active: var(--brand-red);
+  --nav-tab-active-bg: var(--brand-red);
+  --nav-tab-active-fg: #fff;
+  --nav-input-bg: color-mix(in oklab, var(--sidebar-accent) 55%, transparent);
+  --nav-elevation: var(--elevation-2);
+}
+.enterprise-sidebar[data-variant="platform"] {
+  --nav-bg: var(--platform-sidebar-bg);
+  --nav-fg: var(--platform-sidebar-fg);
+  --nav-fg-strong: #ffffff;
+  --nav-fg-muted: var(--platform-sidebar-muted);
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --nav-hover: rgba(255, 255, 255, 0.06);
+  --nav-active-bg: rgba(255, 255, 255, 0.08);
+  --nav-active-bar: var(--brand-red);
+  --nav-ring: rgba(255, 255, 255, 0.15);
+  --nav-badge-bg: var(--brand-red);
+  --nav-badge-fg: #ffffff;
+  --nav-pin-active: var(--sn-accent-yellow);
+  --nav-tab-active-bg: var(--brand-red);
+  --nav-tab-active-fg: #ffffff;
+  --nav-input-bg: rgba(255, 255, 255, 0.05);
+  --nav-elevation: 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+}
+
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
