@@ -217,7 +217,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     permission: "platform.company.read",
     visible: true,
     enabled: true,
-    keywords: ["company", "organization", "org", "subsidiary", "workspace"],
+    keywords: ["company", "organization", "org", "subsidiary", "business"],
   },
   {
     id: "administration.platform.branches",
