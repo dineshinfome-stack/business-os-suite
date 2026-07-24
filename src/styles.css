@@ -68,6 +68,12 @@
   --color-brand-text-muted: var(--brand-text-muted);
   --color-brand-success: var(--brand-success);
   --color-brand-error: var(--brand-error);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --shadow-elevation-1: var(--elevation-1);
+  --shadow-elevation-2: var(--elevation-2);
+  --shadow-elevation-3: var(--elevation-3);
 }
 
 @utility bg-dotted-grid {
@@ -132,6 +138,17 @@
   --brand-text-muted: #6b7280;
   --brand-success: #16a34a;
   --brand-error: #dc2626;
+
+  --surface-1: oklch(1 0 0);
+  --surface-2: oklch(0.985 0.003 247);
+  --surface-3: oklch(0.968 0.007 247.896);
+  --elevation-1: 0 1px 2px 0 color-mix(in oklab, black 6%, transparent);
+  --elevation-2: 0 4px 12px -2px color-mix(in oklab, black 10%, transparent);
+  --elevation-3: 0 12px 32px -8px color-mix(in oklab, black 18%, transparent);
+
+  --nav-width-expanded: 16rem;
+  --nav-width-collapsed: 3.5rem;
+  --topbar-height: 3.5rem;
 }
 
 .dark {
@@ -167,6 +184,13 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+
+  --surface-1: oklch(0.18 0.03 264);
+  --surface-2: oklch(0.22 0.035 264);
+  --surface-3: oklch(0.27 0.04 260);
+  --elevation-1: 0 1px 2px 0 color-mix(in oklab, black 40%, transparent);
+  --elevation-2: 0 6px 18px -4px color-mix(in oklab, black 55%, transparent);
+  --elevation-3: 0 16px 40px -10px color-mix(in oklab, black 70%, transparent);
 }
 
 @layer base {
