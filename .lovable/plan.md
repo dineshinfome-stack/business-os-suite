@@ -1,225 +1,80 @@
 
-# ARCH-009 — Workspace Retirement, Tenant Adoption (Rev. B)
-
-**Classification:** Architecture Refactor · **Authority:** Architecture Board · **Mode:** Discovery → Impact → Approval → Implementation
-
-**Rev. B changes:** Permission-key rename removed from scope (deferred to a future RBAC migration per Board recommendation). Success Criteria section added. Redirect strategy explicitly documented as an operational shim with a removal milestone.
-
-Supersedes SPR-PLT-0003 (`/business` direction). Per Board decision, **Tenant** replaces Workspace *and* Business across code, routes, UI, and docs. No compatibility code alias; URL redirects only, time-boxed.
-
----
-
-## Phase 0 — Repository Verification (complete, no drift)
-
-| Check | Result |
-|---|---|
-| `docs/11-adrs/architecture/ADR-008-platform-tenant-workspace-hierarchy.md` | Exists |
-| `src/lib/workspace/current-workspace.ts` accessor | Exists (zero consumers) |
-| `/workspace` routes | `src/routes/_authenticated/workspace.tsx`, `workspace.accept.tsx` |
-| Physical `workspaces` table | None |
-| `workspace_id` column references | None |
-| `useCurrentWorkspace` / `getCurrentWorkspace` consumers | None outside the accessor file itself |
-| Navigation registry Workspace references | Present (`src/lib/navigation/registry.ts`) |
-| Documentation Workspace references | Present (~152 files) |
-
-**No drift. Proceeding.**
-
----
-
-## Phase 1 — Impact Matrix
-
-### 1.1 Code (`src/` — 10 files)
-
-| File | Action |
-|---|---|
-| `src/lib/workspace/current-workspace.ts` | **Delete** (dead accessor) |
-| `src/lib/workspace/types.ts` | **Move** → `src/lib/tenant/business-types.ts` |
-| `src/lib/workspace/query-keys.ts` | **Move** → `src/lib/tenant/query-keys.ts`; root key `"workspace"` → `"tenant"` |
-| `src/lib/workspace/functions.ts` | **Move** → `src/lib/tenant/business-functions.ts`; server-fn signatures unchanged |
-| `src/routes/_authenticated/workspace.tsx` | **Move** → `tenant.tsx`; retitle "Tenant"; relink invitation URL to `/tenant/accept` |
-| `src/routes/_authenticated/workspace.accept.tsx` | **Move** → `tenant.accept.tsx` |
-| `src/lib/navigation/registry.ts` | **Modify** — group `workspace`→`tenant`, nav_ids `workspace.*`→`tenant.*`, routes `/workspace`→`/tenant`, titles/keywords updated. **Permission strings unchanged** (Rev. B) |
-| `src/contexts/org-context.tsx` | Copy: "Couldn't load your workspace" → "Couldn't load your tenant" |
-| `src/lib/notifications/registry.ts` | Copy: "workspace security events" → "tenant security events" |
-| `src/components/navigation/CommandPalette.tsx` | Placeholder: "Search across your business…" → "Search across your tenant…" |
-| `src/routeTree.gen.ts` | Auto-regenerated |
-
-### 1.2 Database — **No migration in ARCH-009 (Rev. B)**
-
-Permission keys, setting keys, and permission catalog manifest retain the `workspace.*` namespace. They are internal identifiers; UI labels change without touching security schema. A dedicated **RBAC-NNN — Permission Namespace Alignment** ticket is filed for later, sequenced independently.
-
-Files intentionally **unchanged in this refactor**:
-- `docs/15-governance/permission-catalog.manifest.yaml`
-- `src/lib/generated/permission-keys.ts`
-- Existing `permissions`, `setting_definitions`, `setting_values` rows
-
-### 1.3 Redirects (operational shim, time-boxed)
-
-Outbound invitation emails contain `/workspace/accept?token=…`. **Required** transient TSS route shims:
-- `src/routes/_authenticated/workspace.tsx` → `<Navigate to="/tenant" replace />`
-- `src/routes/_authenticated/workspace.accept.tsx` → forwards `?token=…` to `/tenant/accept`
-
-Explicit classification: these are **URL redirects for bookmarked links and in-flight invitation emails**, not a domain-model alias. **Removal milestone:** T + longest active `organization_invitations.expires_at` (read at execution), targeted for the next platform sprint. Removal tracked as ARCH-009-CLEANUP.
-
-### 1.4 Documentation (`docs/` — ~152 files, tiered)
-
-**Tier A — Live governance/architecture (~10 files, Phase 2)**
-- ADR-008 → mark `status: superseded`, `superseded_by: ADR-009`
-- **New** ADR-009-workspace-retirement.md
-- `docs/02-architecture/multi-tenant-architecture.md` — remove Workspace tier from Mermaid + prose
-- `docs/15-governance/TENANCY_STANDARD.md` — remove Workspace section
-- `docs/glossary.md`, `docs/GLOSSARY_INDEX.md` — remove/redirect Workspace entry
-- `docs/_meta.json` — sidebar labels
-- `docs/11-adrs/ADR_INDEX.md` — add ADR-009
-
-**Tier B — Live module/sprint docs (~110 files, Phase 6)**
-Domain-concept "Workspace" → "Tenant" across `docs/40-module-baselines/`, `docs/45-module-publications/`, `docs/60-solution-design/`, `docs/30-sprint-prds/`, `docs/02_Engineering_Execution_Master_Plan/`, catalogs.
-
-**Skip list (never touch):**
-- MOD-018 "AI Workspace" — product feature name
-- `docs/06-integrations/google-workspace.md` — external product
-- `docs/40-module-baselines/MOD018_AI_WORKSPACE_BASELINE_v1.md`
-
-**Tier C — Historical (~30 files, preserved verbatim)**
-- Dated files under `docs/50-audit-reports/`
-- Superseded ADRs (only frontmatter status changes)
-
-### 1.5 APIs
-
-No external APIs. Server-function signatures unchanged; only import paths shift `@/lib/workspace/*` → `@/lib/tenant/*`. No consumer outside the two workspace route files.
-
-### 1.6 Tests
-
-No workspace refs in `src/__tests__/`. Navigation-registry schema tests pick up new IDs automatically. Add validation script: workspace-reference sweep against exit criteria.
-
----
-
-## Phase 2 — Architecture Refactor
-
-1. Author `ADR-009-workspace-retirement.md` — Tenant as isolation + business container; new hierarchy diagram; supersedes ADR-008. **Explicitly notes** that permission namespace remains `workspace.*` pending RBAC-NNN.
-2. Frontmatter-mark ADR-008 superseded.
-3. Edit Tier A docs.
-4. Update `docs/_meta.json`.
-
-Deliverable → `docs/50-audit-reports/ARCH_009_ARCHITECTURE_REFACTOR_REPORT_<TS>.md`.
-
----
-
-## Phase 3 — Code Refactor
-
-1. Move `src/lib/workspace/*` → `src/lib/tenant/*` (business-functions, business-types, query-keys). Delete `current-workspace.ts`.
-2. Rewrite imports in the two route files.
-3. Update copy strings in `org-context.tsx`, `notifications/registry.ts`, `CommandPalette.tsx`.
-
-Deliverable: **Code Refactor Summary**.
-
----
-
-## Phase 4 — Route Refactor
-
-1. Rename route files (`workspace.tsx` → `tenant.tsx`, `workspace.accept.tsx` → `tenant.accept.tsx`); update `createFileRoute` strings, `useSearch({ from: ... })`, invitation URL builder.
-2. Create redirect shim files at original names.
-3. `routeTree.gen.ts` auto-regenerates.
-
-Deliverable: **Route Migration Summary** with redirect removal milestone.
-
----
-
-## Phase 5 — Navigation & UI Refactor
-
-`src/lib/navigation/registry.ts`:
-- Group `workspace` → `tenant` (title "Tenant")
-- `workspace.hub` → `tenant.hub` ("Tenant Profile"), route `/tenant`
-- `workspace.team` → `tenant.team` ("Tenant Team")
-- `workspace.invitations` → `tenant.invitations` ("Tenant Invitations")
-- `workspace.dashboard` → `tenant.dashboard`
-- **Permission strings unchanged** — nav entries continue to reference `workspace.workspace.read`, `workspace.member.read`, etc.
-
-Route-file copy sweep: page titles, `head()` meta, breadcrumbs, empty states, notifications in `tenant.tsx` and `tenant.accept.tsx`.
-
----
-
-## Phase 6 — Documentation Refactor (Tier B)
-
-Automated find-and-replace with explicit skip list. Per-tier review before commit.
-
-Deliverable: **Documentation Migration Summary** with per-file line counts.
-
----
-
-## Explicitly Out of Scope
-
-- Tenant isolation model, RLS, Company/Branch/Financial-Year hierarchy
-- DB restructuring
-- Licensing
-- **Permission namespace rename** (deferred to RBAC-NNN)
-- New business concepts
-
----
-
-## Success Criteria (Board addition)
-
-- Business OS no longer contains Workspace as a domain concept.
-- Tenant is the only business container in vocabulary, code, routes, UI, and live docs.
-- All functionality previously under `/workspace` is available under `/tenant`, unchanged in behavior.
-- Existing customer data remains unaffected.
-- No security model changes.
-- No tenant isolation changes.
-- No functional regressions in Business Profile, Branding, Team, Invitations flows.
-- Historical audit reports and superseded ADRs preserved intact.
-
----
-
-## Validation / Exit Criteria (technical)
-
-- `rg -n "workspace" src/ -g '!routeTree.gen.ts' -g '!generated/**'` returns only: redirect-shim files, MOD-018 product-name references, or permission-key strings (retained per Rev. B).
-- `rg -n "useCurrentWorkspace|getCurrentWorkspace|WorkspaceContext|WorkspaceProvider|workspaceKey|workspace_id" .` returns **empty**.
-- `rg -n "/workspace" src/routes/` returns only redirect-shim files.
-- `tsgo` typecheck green; `bun run test` green; navigation-registry schema tests green.
-- Manual smoke: sign in → `/tenant` → invite → accept via `/tenant/accept?token=…` → verify `/workspace/accept?token=…` also redirects successfully.
-- Docs: ADR-008 marked superseded; ADR-009 present and linked; `multi-tenant-architecture.md` diagram has no Workspace tier.
-
----
-
-## Regression Risks
-
-| Risk | Mitigation |
-|---|---|
-| In-flight invitation emails 404 after shim removal | Retain shim through longest active `organization_invitations.expires_at`; documented removal milestone (ARCH-009-CLEANUP) |
-| Bookmarks/favorites store `/workspace` route | Redirect shim; optional `nav_favorites.route` rewrite migration (deferred, low priority) |
-| Query-cache mismatch on deploy (open tabs, stale keys) | Root key `"workspace"`→`"tenant"`; auto-refetch on next mount. Acceptable |
-| ADR-007 cross-references ADR-008 | ADR-009 explicitly cross-links; no ADR-007 edit needed |
-| Tier B doc sweep accidentally touches "AI Workspace" / "google-workspace" | Explicit skip list; per-file review |
-| Reviewers confused why permission keys still say `workspace.*` | ADR-009 documents the deferral; RBAC-NNN ticket referenced in ADR |
-
----
-
-## Rollback Plan
-
-- **Code:** Each phase = independent commit. Reverting Phase 4 restores routes; Phase 3 restores `src/lib/workspace/`; Phase 2 restores ADR-008 authoritative.
-- **DB:** N/A (no migration in Rev. B).
-- **Docs:** Git history; Tier C untouched by design.
-
----
-
-## Deliverables
-
-1. Repository Discovery Report (this document, expanded on execution)
-2. Impact Analysis (§1)
-3. Architecture Refactor Report (Phase 2)
-4. Code Refactor Summary (Phase 3 + 5)
-5. Route Migration Summary (Phase 4)
-6. Documentation Migration Summary (Phase 6)
-7. Validation Report
-8. Final Completion Report → `docs/50-audit-reports/ARCH_009_COMPLETION_REPORT_<TS>.md`
-9. **RBAC-NNN ticket stub** — Permission Namespace Alignment (workspace.* → tenant.*), filed but not executed
-
----
-
-## Stop Condition
-
-Halt after validation passes. No unrelated feature work until Board validates completion report.
-
----
-
-**Rev. B ready for Phase 2 execution on Board approval.**
+# SPR-PLT-0005 — Platform Shell & Enterprise Navigation
+
+Governance-first, UI-only sprint. Establishes the permanent Business OS shell inspired by enterprise ERP UX (ServiceNow-class) with an original visual identity. Reuses existing auth, RBAC, tenant model, and `NAV_REGISTRY`; no business logic, no new backend tables.
+
+## Scope guardrails
+
+- No new modules, business logic, backend tables, licensing, billing, or AI features.
+- Reuse: `src/router.tsx`, `src/routes/_authenticated.tsx`, `src/contexts/*`, `src/lib/navigation/registry.ts`, permission framework, existing `useNotifications`, `useFavorites`, `useCommandHistory`, `useRecentPages`, tenant hooks.
+- No renames of `nav_id` or permission keys (per ADR-009 deferral).
+- Presentation-only changes; ADR-009 "Tenant" terminology preserved.
+
+## Phased execution (stop between phases for review)
+
+### Phase 1 — Design tokens & theme system
+- Extend `src/styles.css` with a Business OS enterprise palette (original, not ServiceNow): brand primary, accent, surface tiers (`surface-1..4`), elevation shadows, radii scale, dense spacing scale, focus ring, semantic status (info/success/warn/danger).
+- Add high-contrast variant on top of existing light/dark via a `.contrast-high` class; wire into `ThemeToggle` (add third option) and `theme-context`.
+- Typography: pair a display + text sans (system-safe stack; load via `<link>` in `__root.tsx`).
+- Deliver: `docs/20-design/PLATFORM_SHELL_TOKENS.md` documenting tokens.
+
+### Phase 2 — Reusable shell primitives
+New folder `src/components/platform-shell/`:
+- `PlatformShell.tsx` — grid: TopNav / LeftNav / Main / optional StatusBar. Replaces internals of current `AppShell` (kept as a thin wrapper for back-compat).
+- `TopNavigation.tsx` — logo, global search trigger (⌘K), breadcrumbs, tenant selector (uses existing `OrgSwitcher`), favorite-star for current page, quick actions, notifications, help, theme, profile.
+- `LeftNavigation.tsx` — modes: `expanded | collapsed | pinned | temporary`. Collapsed uses Radix HoverCard for flyout children. Persist width + mode in `useNavPreferences`.
+- `NavigationGroup.tsx`, `NavigationItem.tsx` — data-driven from `NAV_REGISTRY`; badge slot; permission-gated via existing `Can`.
+- `StatusBar.tsx` — optional slot.
+- `PageHeader.tsx`, `Breadcrumb` (reuse existing), `EmptyState` (reuse), `LoadingState` (reuse).
+
+### Phase 3 — Navigation features (data-driven)
+- Favorites row at top of LeftNav (existing `useFavorites`).
+- History section grouped Today / Yesterday / Earlier (existing `useRecentPages`).
+- Quick Access module: pinned + recent + favorites merged view.
+- Group ordering & labels sourced entirely from `NAV_REGISTRY` (no hardcoding). Groups collapsible with persisted state.
+
+### Phase 4 — Global Search & Command Palette
+- Upgrade `CommandPalette.tsx`:
+  - Sections: Navigate, Actions, Recent, Favorites, Create New, Settings, Search Everything.
+  - Category-grouped results using existing `useSearch` + registry entries.
+  - Keyboard: `⌘K` / `Ctrl+K`, `/` focuses top-nav search, `?` shows shortcuts modal.
+- Add `KeyboardShortcutsDialog.tsx` triggered from profile menu and `?`.
+
+### Phase 5 — Notifications & Profile menu
+- Refactor `NotificationBell` → `NotificationPanel` with category tabs (System, Workflow, Approvals, Alerts, AI, Tasks, Messages), unread badge, "mark all read". Backed by existing `useNotifications`.
+- `ProfileMenu.tsx` dropdown: Profile, Preferences, Shortcuts, Theme, Language, Notifications, Security, API Tokens (stubs → link to existing `/settings` routes; missing ones render `EmptyState` "Coming soon").
+
+### Phase 6 — Dashboard & widget framework
+New `src/components/dashboard/`:
+- `Dashboard.tsx` — responsive 12-col grid.
+- `WidgetContainer.tsx` with header actions: refresh, fullscreen, settings, export, permission gate. Resize/move stubbed (`data-*` hooks) for future.
+- Widget primitives: `StatCard`, `ChartCard` (recharts wrappers: Line/Bar/Pie/Donut/Area), `TableCard`, `ProgressCard`, `TimelineCard`, `ActivityFeedCard`, `CalendarCard`, `QuickLinksCard`.
+- Personalization store (`useDashboardLayout`) persists per-user layout in `localStorage` for this sprint (server persistence deferred).
+- Rebuild `/dashboard` route as **Super Admin Dashboard**: greeting header, quick actions, and KPI cards wired to **placeholder/derived data only** (counts from existing `listTenants`, session info, etc.). No new backend.
+
+### Phase 7 — Responsive & a11y pass
+- LeftNav auto-collapses < md, becomes off-canvas on mobile (`Sheet`).
+- WCAG AA audit on new components: focus-visible rings, ARIA on nav/landmarks, `<main>` single per route, 44px tap targets.
+- Add `useHydrated` guard around theme + layout reads.
+
+### Phase 8 — Documentation & completion
+- `docs/20-design/PLATFORM_SHELL.md` — architecture, component catalog, usage.
+- `docs/12-ui-components/` entries for each new primitive.
+- `docs/50-audit-reports/SPR_PLT_0005_VALIDATION_REPORT.md` and `SPR_PLT_0005_COMPLETION_REPORT.md`.
+
+## Technical notes
+
+- All colors as semantic tokens in `src/styles.css` via `@theme inline`; zero `bg-[#...]` in components.
+- Icons: existing `lucide-react` only.
+- Charts: `recharts` (already common in shadcn ecosystem; add if missing).
+- Persisted UI prefs reuse `useNavPreferences`; new dashboard layout uses a new `useDashboardLayout` (localStorage this sprint).
+- No changes to `NAV_REGISTRY` ids/routes; only additions if new admin nav items needed for the shell demo.
+- `AppShell` remains exported as a compatibility wrapper delegating to `PlatformShell` so existing routes render unchanged.
+
+## Out of scope (explicit)
+
+Business modules, licensing, billing, analytics engine, AI features, server-side dashboard persistence, drag-to-resize widgets, permission-key renames.
+
+## Deliverables checklist
+
+Shell + TopNav + LeftNav (4 modes) · Favorites/History/Quick Access · ⌘K palette · Global search categories · Notification panel · Profile menu · Theme system (light/dark/high-contrast) · Dashboard + widget framework + 10 widget types · Super Admin dashboard · Responsive + a11y · Docs + validation + completion reports.
