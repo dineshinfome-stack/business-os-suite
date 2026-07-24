@@ -1,0 +1,39 @@
+import {
+  LayoutDashboard,
+  Package,
+  Building2,
+  Receipt,
+  HelpCircle,
+  ShieldCheck,
+  FileClock,
+  LifeBuoy,
+  Palette,
+  Settings,
+  type LucideIcon,
+} from "lucide-react";
+
+export type PlatformNavItem = {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  to: string;
+  exact?: boolean;
+};
+
+/**
+ * Worksuite-inspired Super Admin navigation.
+ * Only "Dashboard" and "Companies" (Tenants) are wired to existing routes;
+ * the rest resolve to a shared "Coming soon" placeholder.
+ */
+export const PLATFORM_NAV: PlatformNavItem[] = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, to: "/platform", exact: true },
+  { id: "packages", label: "Packages", icon: Package, to: "/platform/packages" },
+  { id: "companies", label: "Companies", icon: Building2, to: "/platform/tenants" },
+  { id: "billing", label: "Billing", icon: Receipt, to: "/platform/billing" },
+  { id: "faq", label: "Admin FAQ", icon: HelpCircle, to: "/platform/faq" },
+  { id: "super-admin", label: "Super Admin", icon: ShieldCheck, to: "/platform/super-admin" },
+  { id: "offline", label: "Offline Request", icon: FileClock, to: "/platform/offline-requests" },
+  { id: "support", label: "Support Ticket", icon: LifeBuoy, to: "/platform/support" },
+  { id: "front", label: "Front Settings", icon: Palette, to: "/platform/front-settings" },
+  { id: "settings", label: "Settings", icon: Settings, to: "/platform/settings" },
+];
