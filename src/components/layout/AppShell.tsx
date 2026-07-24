@@ -4,7 +4,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { AppSidebar } from "@/components/navigation/AppSidebar";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
-import { OrgSwitcher } from "@/components/navigation/OrgSwitcher";
+
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { ProfileMenu, HelpMenu, SearchTrigger, StatusBar } from "@/components/platform";
