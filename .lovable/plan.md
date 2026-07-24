@@ -1,97 +1,92 @@
+## Tenant Shell Header — Board Recommendations Follow-Up
 
-# Tenant Shell Header Redesign v2 (Architecture Board Approved)
+The Architecture Board approved the v2 header architecture and asked for six minor enhancements. Scope stays presentation-only: no routing, RBAC, data model, or NAV_REGISTRY schema changes (deferred, per Board Rec 7 of the prior review).
 
-Applies Board recommendations 1–8 to the previously approved plan. Scope stays presentation-only on the **Tenant** shell (`AppShell.tsx`). `NAV_REGISTRY`, permissions, routing, ADR-009 concepts, and Platform shell are untouched.
+### 1. Header Slot Registry (Rec 1)
 
-## Target architecture
+Evolve `HeaderProvider` from an ad-hoc popover coordinator into a **slot registry** so future modules can contribute header items without editing `AppShell`.
 
-```text
-TenantShell
-    │
-    ▼
-AppShell ── HeaderProvider (context)
-                │
-    ┌───────────┼──────────────────────────────┐
-    ▼           ▼                              ▼
- Navigator   HeaderPopover slots           Utility slots
- (sidebar    ├─ FavoritesPopover           ├─ SearchTrigger
- toggle +    ├─ RecentPopover              ├─ AiAssistantSlot (reserved)
- pin)        └─ (future: Notifications,    ├─ NotificationBell
-             Tasks, Bookmarks, AI)         ├─ HelpMenu
-                                           └─ ProfileMenu
-    │
-    ▼
-EnterpriseSidebar (tenant)
-    │
-    ├─ SidebarHeader  (Business OS logo · Current Tenant · collapse)
-    ├─ NavigationIndex (search facade over registry)
-    │      └─ NavigationTree → NavigationItem
-    └─ SidebarFooter  (reserved: version/env/docs/feedback/status)
-```
+- New `src/lib/header/slot-registry.ts` — typed slot list with `id`, `area` (`"start" | "end"`), `order`, `element`.
+- Extend `src/contexts/header-context.tsx` with `registerSlot / unregisterSlot / getSlots(area)` on top of existing popover open/close state.
+- Add `<HeaderSlots area="end" />` renderer used by `AppShell`.
+- Migrate the current end-area items (SearchTrigger, Favorites, Recent, AI, Notifications, Help, Profile) to declarative registrations with stable `order` values (10, 20, 30, 40, 50, 60, 70). Navigator + Logo stay in the `start` area.
+- `AppShell` becomes structural only; no per-item JSX.
 
-## Header layout (left → right)
+### 2. NavigationSearchIndex with caching (Rec 2 + Rec 6)
 
-1. **Business OS logo** (links to `/dashboard`).
-2. **Navigator button** — pill labeled "Navigator" with `LayoutGrid` icon; toggles sidebar `pinned`. Adjacent `Pin`/`PinOff` icon flips pin state without closing. (Board Rec 1 — "All" renamed to "Navigator".)
-3. Spacer.
-4. **FavoritesPopover** trigger.
-5. **RecentPopover** trigger.
-6. **SearchTrigger** (existing ⌘K).
-7. **AiAssistantSlot** — reserved empty slot component, renders nothing today. (Board Rec 8.)
-8. **NotificationBell · HelpMenu · ProfileMenu** (unchanged).
+Rename `src/lib/navigation/index.ts` → `src/lib/navigation/search-index.ts` and expose `NavigationSearchIndex` as the primary export.
 
-## Sidebar layout
+- `buildNavigationSearchIndex(registry)` computes a normalized token index **once per registry identity** (memoized by registry reference via `WeakMap`).
+- `filterNavigationTree(tree, query)` and `searchNavigation(query)` become thin consumers of the cached index.
+- New `useNavigationSearchIndex()` hook returns the memoized index for both sidebar filter and the future command palette.
+- Update `PlatformSidebarV2` to consume the hook instead of calling the filter function on every render.
 
-- **SidebarHeader** — logo mark, then two-line context: `Business OS` (strong) / current tenant display name (muted). Collapse button on the right. (Board Rec 5.)
-- **NavigationIndex** — search input backed by a small index module (`src/lib/navigation/index.ts`) that exposes `search(query)` over registry title / module / keywords / aliases. Tree consumes results, so the index is reusable by future AI Search. (Board Rec 3.)
-- **NavigationTree** — always-on "everything" view; tabs removed.
-- **SidebarFooter** — reserved slot component, empty today. (Board Rec 7.)
+### 3. Search matching precedence (Rec 3)
 
-## Files
+Document the intended order in `docs/standards/NAVIGATION_SEARCH_STANDARD.md` (new):
 
-### New
+1. Exact title match
+2. Alias match (schema deferred; contract documented)
+3. Keyword match
+4. Module match
+5. Description match (future)
 
-- `src/contexts/header-context.tsx` — `HeaderProvider` + `useHeader()`; manages which header popover is open (single-open semantics), exposes slot registration hooks so future badges/AI can plug in without touching `AppShell`. (Board Rec 2.)
-- `src/components/platform/header/HeaderPopover.tsx` — generic popover trigger; props `id`, `label`, `icon`, `badge?`, `children`. Wraps shadcn `Popover`, wired to `HeaderProvider` for single-open behavior. (Board Rec 4.)
-- `src/components/platform/header/FavoritesPopover.tsx` — uses `usePinnedNav()` + `getNavItem()`; empty state matches existing copy. (Board Rec — rename from `HeaderFavoritesMenu`.)
-- `src/components/platform/header/RecentPopover.tsx` — uses `useRecentPages()`; caps at 10; row click navigates and closes.
-- `src/components/platform/header/AiAssistantSlot.tsx` — placeholder component that renders `null` today, keeps layout position stable. (Board Rec 8.)
-- `src/components/platform/header/NavigatorButton.tsx` — "Navigator" pill + inline pin/unpin control.
-- `src/components/platform/navigation/SidebarHeader.tsx` — logo + tenant context row + collapse control.
-- `src/components/platform/navigation/SidebarFooter.tsx` — reserved empty slot.
-- `src/lib/navigation/index.ts` — `buildNavigationIndex()` and `searchNavigation(query)`; pure, permission-agnostic (permissions still applied by `useNavigation()`).
+Implement tiers 1, 3, 4 today inside the cached index scorer; alias/description remain no-ops with typed extension points so wiring them later needs zero call-site changes.
 
-### Modified
+### 4. Sidebar Footer contract (Rec 4)
 
-- `src/components/layout/AppShell.tsx` — wrap tree in `<HeaderProvider>`; header replaced with new layout above; drops the current identity/pin/collapse block.
-- `src/components/platform/navigation/PlatformSidebarV2.tsx` (tenant variant only) — remove `NavigationTabs`, `FavoritesPane`, `RecentPane`, internal `tab` state. Mount `SidebarHeader` + `NavigationIndex` + `NavigationTree` + `SidebarFooter`. Platform variant continues to render tabs for now (out of scope for this pass).
-- `src/components/platform/index.ts` — export new header + sidebar pieces.
+Formalize `src/components/platform/navigation/SidebarFooter.tsx` into a contract:
 
-### Deleted (only if no remaining consumers after edit)
+- Named optional slots: `version`, `environment`, `documentation`, `feedback`, `systemStatus`.
+- Defaults: `version` (from `APP_VERSION` constant) + `environment` (from `import.meta.env.MODE`) render today; the rest are `null` placeholders.
+- Reserve grid layout so appearing/disappearing slots don't jump the sidebar.
 
-- `src/components/platform/navigation/NavigationTabs.tsx` — verify Platform still imports it; if yes, keep and only unmount from tenant variant. If no, delete.
+### 5. Keyboard shortcuts documentation (Rec 5)
 
-## Behavior contract
+Add `docs/standards/KEYBOARD_SHORTCUTS.md` listing:
 
-- Navigator click ⇒ toggle `pinned` via `usePlatformNavState("tenant")`.
-- Pin icon click ⇒ flip `pinned` without closing (stopPropagation).
-- Opening any header popover closes any other (via `HeaderProvider`).
-- Popover row click ⇒ `Link` navigation + `close()` from context.
-- Sidebar search filters the tree via `NavigationIndex.searchNavigation`; `/` focuses, `Esc` clears — unchanged.
-- ⌘K still opens the global CommandPalette.
+- `⌘K / Ctrl+K` — command palette (implemented)
+- `/` — focus sidebar search (already implemented; document it)
+- `Alt+←/→` — expand/collapse current group (planned)
+- `Ctrl+Shift+F` — Favorites popover (planned)
+- `Ctrl+Shift+R` — Recent popover (planned)
+- `Esc` — clear search / close popover (implemented)
 
-## Deferred (documented, not built)
+Wire the two "planned" popover shortcuts through `HeaderProvider.open(id)` since the plumbing already exists — trivial, low risk, keeps the doc in sync with reality. Group-expand shortcut remains documented-only this pass.
 
-- **Rec 6** (extended nav metadata: `description`, `category`, `aliases`, `badgeProvider`): schema-only change in a follow-up sprint; requires `NAV_REGISTRY` migration and cannot be added without touching every entry. Board explicitly marked recommendations as non-blocking.
-- Real Notifications / Tasks / AI popovers — slots reserved via `HeaderProvider`, no components yet.
-- Platform shell adoption of the same pattern.
+### 6. Governance
 
-## Verification
+- Update the ADR trail: add `docs/adr/ADR-010-tenant-header-architecture.md` capturing HeaderProvider, Slot Registry, NavigationSearchIndex, and Sidebar Footer contract as the ratified pattern.
+- Cross-link ADR-010 from ADR-009 (single Tenant concept) so future readers land on the header story from the tenancy story.
 
-- `tsgo` clean.
-- Playwright on `/dashboard`: capture screenshots of (a) collapsed header, (b) Navigator open, (c) FavoritesPopover empty + populated, (d) RecentPopover populated, (e) sidebar with tenant context header and reserved footer.
-- Manual: pin toggle from header persists across reload; popovers mutually exclusive; keyboard focus returns to trigger on close.
+---
 
-## Non-goals
+### Files touched
 
-Routing, permissions, RLS, data model, Platform shell, real badge sources, `NAV_REGISTRY` schema extensions.
+**New**
+
+- `src/lib/header/slot-registry.ts`
+- `src/lib/navigation/search-index.ts` (replaces `index.ts`)
+- `src/hooks/navigation/useNavigationSearchIndex.ts`
+- `docs/standards/NAVIGATION_SEARCH_STANDARD.md`
+- `docs/standards/KEYBOARD_SHORTCUTS.md`
+- `docs/adr/ADR-010-tenant-header-architecture.md`
+
+**Edited**
+
+- `src/contexts/header-context.tsx` — add slot registry APIs
+- `src/components/layout/AppShell.tsx` — replace hardcoded items with `<HeaderSlots />`
+- `src/components/platform/header/*.tsx` — self-register into slot registry via a small `useHeaderSlot` hook
+- `src/components/platform/navigation/PlatformSidebarV2.tsx` — consume `useNavigationSearchIndex()`
+- `src/components/platform/navigation/SidebarFooter.tsx` — formal slot contract
+- `docs/adr/ADR-009-*.md` — add cross-link to ADR-010
+
+**Deleted**
+
+- `src/lib/navigation/index.ts` (renamed)
+
+### Non-goals (explicitly out of scope)
+
+- NAV_REGISTRY schema changes (aliases, badgeProvider) — deferred per Board Rec 7 of prior review.
+- Alt+←/→ group expand/collapse implementation — documented only.
+- Any Platform (Super Admin) shell changes — the tenant work does not touch the platform variant.

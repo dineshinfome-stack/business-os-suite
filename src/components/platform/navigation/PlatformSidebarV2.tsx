@@ -10,7 +10,7 @@ import { useRecentPages } from "@/hooks/navigation/useRecentPages";
 import { useNavBadges } from "@/hooks/navigation/useNavBadges";
 import { useCurrentTenant } from "@/hooks/tenants/useCurrentTenant";
 import { APP_NAME } from "@/constants/app";
-import { filterNavigationTree } from "@/lib/navigation";
+import { useNavigationSearchIndex } from "@/hooks/navigation/useNavigationSearchIndex";
 import { NavigationSearch } from "./NavigationSearch";
 import { NavigationTabs, type NavTab } from "./NavigationTabs";
 import { NavigationTree } from "./NavigationTree";
@@ -82,7 +82,8 @@ export function PlatformSidebarV2({
     return () => window.removeEventListener("keydown", h);
   }, []);
 
-  const filteredTree = React.useMemo(() => filterNavigationTree(tree, query), [tree, query]);
+  const { filter } = useNavigationSearchIndex();
+  const filteredTree = React.useMemo(() => filter(tree, query), [filter, tree, query]);
   const flatCount = React.useMemo(() => flatten(filteredTree).length, [filteredTree]);
 
   const width = collapsed ? "w-16" : "w-72";

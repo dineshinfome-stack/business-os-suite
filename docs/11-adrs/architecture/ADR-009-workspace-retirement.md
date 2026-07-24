@@ -82,3 +82,4 @@ Scope of retirement:
 - Supersedes: [ADR-008 — Platform → Tenant → Workspace → Company Hierarchy](./ADR-008-platform-tenant-workspace-hierarchy.md)
 - Related: [Tenancy Standard](../../15-governance/TENANCY_STANDARD.md)
 - Related: SPR-PLT-0002 Presentation Simplification (predecessor, superseded)
+- Related: [ADR-085 — Tenant Header Architecture](../ui/ADR-085-tenant-header-architecture.md)
