@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useOrg } from "@/contexts/org-context";
+import { useAuth } from "@/contexts/auth-context";
 import { queryKeys } from "@/lib/query-keys";
 import {
   listFavoritesFn,
@@ -12,6 +13,8 @@ import {
 
 export function useFavorites() {
   const { current } = useOrg();
+  const { status } = useAuth();
+  const isAuthed = status === "authenticated";
   const orgId = current?.organizationId ?? null;
   const qc = useQueryClient();
   const listFn = useServerFn(listFavoritesFn);
@@ -22,9 +25,10 @@ export function useFavorites() {
   const query = useQuery<FavoriteRow[]>({
     queryKey: queryKeys.navigation.favorites(orgId),
     queryFn: () => listFn(),
-    enabled: Boolean(orgId),
+    enabled: isAuthed && Boolean(orgId),
     staleTime: 60_000,
   });
+
 
   const invalidate = () =>
     qc.invalidateQueries({ queryKey: queryKeys.navigation.favorites(orgId) });
