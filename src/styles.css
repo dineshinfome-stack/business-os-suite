@@ -68,6 +68,12 @@
   --color-brand-text-muted: var(--brand-text-muted);
   --color-brand-success: var(--brand-success);
   --color-brand-error: var(--brand-error);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --shadow-elevation-1: var(--elevation-1);
+  --shadow-elevation-2: var(--elevation-2);
+  --shadow-elevation-3: var(--elevation-3);
 }
 
 @utility bg-dotted-grid {
