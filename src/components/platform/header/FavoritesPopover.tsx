@@ -22,7 +22,7 @@ export function FavoritesPopover() {
           </div>
           <div className="text-sm font-medium text-foreground">No pinned pages yet</div>
           <div className="text-xs text-muted-foreground">
-            Star any item in the Navigator to pin it here.
+            Star any item in All to pin it here.
           </div>
         </div>
       ) : (
