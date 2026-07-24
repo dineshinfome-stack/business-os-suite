@@ -1,95 +1,75 @@
-# Business OS Enterprise Navigation v2
+# Enterprise Navigation v2 — Verify Platform, then extend to Tenant
 
-Replace the current flat Platform sidebar/drawer (`PlatformAllDrawer`, `PlatformSidebar`) with a data-driven, searchable, grouped navigation. Reuses the existing `NAV_REGISTRY`, permission framework, favorites/history hooks — no hardcoded menus, no ServiceNow visual copy. Original Business OS branding retained.
+You're on `/dashboard` (Tenant AppShell → `AppSidebar.tsx`), which was intentionally out of scope in the v2 rollout. That's why nothing looks different. `PlatformSidebarV2` is live at `/platform/*` only.
 
-## Scope
+Two passes:
 
-- Applies to the **Platform (Super Admin) shell** in this pass (`PlatformShell`). Tenant `AppShell` is untouched.
-- All data comes from `NAV_REGISTRY` via `useNavigation()` (permission + feature-flag filtered). `PLATFORM_NAV` static array is deprecated for rendering.
-- No backend changes. Favorites/history/expand state reuse existing hooks (`useFavorites`, `useRecentPages`, `useNavPreferences`) and `nav_favorites` / `nav_command_history` tables.
+## Pass 1 — Verify Platform v2 (`/platform`)
 
-## Component structure
+1. Navigate the running preview to `/platform`; capture screenshots (default, collapsed, search active, empty state, Favorites tab, Recent tab) via Playwright.
+2. Audit each acceptance item from `.lovable/plan.md` against the running UI:
+   - Data-driven from `NAV_REGISTRY` via `useNavigation()` (no hardcoded arrays)
+   - Search filters title/module/keywords; ⌘K still opens command palette; `/` focuses; `Esc` clears
+   - Tabs: All · Favorites · Recent (icons + labels)
+   - Collapsible groups; expand state persisted via `useNavPreferences`
+   - Pin/★ toggles favorite; pinned float to top of All
+   - Row context menu (⋮): Open · Pin/Unpin · Copy Link · Open in New Tab · Add Shortcut
+   - Badges via `useNavBadges` (stub returns empty; render path present)
+   - Empty state with Create command / Search globally / Help
+   - Keyboard: ↑/↓ move, →/← expand/collapse, Enter navigates
+   - a11y roles `tree` / `treeitem` / `group`
+   - Responsive: pinned (w-72), mini-rail (w-14), overlay on tablet/mobile
+3. Fix any gap found; do not restyle — only reconcile behavior with spec.
+4. Deliverable: `docs/50-audit-reports/PLATFORM_NAV_V2_AUDIT_<ts>.md` with pass/fail per item and screenshots.
 
-```text
-PlatformSidebar (rewritten)
-├── SidebarHeader          brand + collapse/pin toggle
-├── NavigationSearch       ⌘K opens palette; inline filter for tree
-├── NavigationTabs         All · Favorites · Recent
-└── NavigationTree         virtualized when > 60 rows
-    └── NavigationGroup    collapsible module (▼ Platform, ▼ CRM, …)
-        └── NavigationItem title · icon · badge · ★ · ⋮
-```
+## Pass 2 — Extend v2 to Tenant AppShell
 
-Each `NavigationItem` reads from a `NavItem` (`id`, `title`, `icon`, `route`, `permission`, `feature_flag`, `keywords`, `children`) plus runtime `badge`, `favorite`, `pinned`.
+Goal: replace `src/components/navigation/AppSidebar.tsx` usage in `AppShell.tsx` with the same v2 component, theme-tokenized so Platform (dark) and Tenant (light) share code.
 
-## Feature list
+### Refactor plan
+1. **Extract shared sidebar** into `src/components/navigation/EnterpriseSidebar.tsx` (moved from `platform/navigation/PlatformSidebarV2.tsx`). Keep all sub-parts (`NavigationSearch`, `NavigationTabs`, `NavigationTree`, `NavigationGroup`, `NavigationItem`, `NavigationRowMenu`, `NavigationEmptyState`) alongside it.
+2. **Token-drive colors.** Replace hardcoded `text-white`, `bg-white/5`, `text-white/60` with semantic tokens:
+   - `--sidebar-bg`, `--sidebar-fg`, `--sidebar-fg-muted`, `--sidebar-ring`, `--sidebar-active-bar`, `--sidebar-row-hover`.
+   - Platform theme (`.platform-theme`) maps them to the existing dark navy palette (unchanged look).
+   - Tenant theme maps them to the existing tenant tokens (light workspace with brand red active bar).
+3. **Rewrite `AppShell.tsx`** to mount `<EnterpriseSidebar variant="tenant" pinned collapsed … />` and drop the current `AppSidebar` tree.
+4. **Filter registry by shell.** `useNavigation({ shell: "tenant" | "platform" })` — Platform shell shows `super_admin.*` + `administration.*` modules; Tenant shell shows `workspace.*` (labeled Tenant) + tenant-visible modules. Achieved with a lightweight filter, not registry edits.
+5. **Persist per-shell state.** Extend `usePlatformNavState` → `useShellNavState(shell)` so tenant pin/collapse/expand are stored under separate keys (`nav_prefs:tenant.*`).
+6. **Keep `AppSidebar.tsx` as deprecated file** (not imported) for one release, then remove in a follow-up.
+7. Update `PlatformShell.tsx` to consume the shared component via `variant="platform"` — no visual change.
 
-1. **Search** — inline "Search menus… ⌘K" filters the tree by title/module/keywords; ⌘K still opens the full command palette.
-2. **Tabs** — `All | Favorites | Recent` (icons + labels). Favorites = pinned + starred; Recent = last 20 from command history.
-3. **Collapsible groups** — one per top-level module; expand state persisted via `useNavPreferences` keyed by `nav_id`.
-4. **Pin / Favorite** — star toggles favorite; pinned items float to top of All tab and appear in Favorites.
-5. **Row context menu (⋮)** — Open · Pin/Unpin · Copy Link · Open in New Tab · Add Shortcut.
-6. **Badges** — optional numeric badge per item, sourced from a new `useNavBadges()` hook (initial impl returns empty map; wired for Approvals / Notifications / Tasks later).
-7. **Empty state** — "No pages found" with actions: Create command · Search globally · Help.
-8. **Keyboard** — ↑/↓ move, →/← expand/collapse, Enter navigates, `/` focuses search, `Esc` closes.
-9. **Permission-aware** — filtered by `useNavigation()`; hidden items never render.
-10. **Responsive** — desktop pinned (w-72), laptop collapsible mini (w-14, icons only), tablet/mobile overlay drawer via existing pin state.
-11. **Performance** — memoized tree; virtualize (`@tanstack/react-virtual`, already available) once flat row count > 60; expand state persisted.
-
-## Theme
-
-Original Business OS tokens — no ServiceNow pink/navy pallette copy:
-- Sidebar: `--platform-sidebar-bg` (existing dark), text `--platform-sidebar-fg`.
-- Active row: brand primary left bar + subtle tint (`--brand-primary` / existing red), not magenta.
-- Rounded 8px rows, soft elevation, modern typography from existing design tokens.
-- Light workspace area unchanged.
-
-## Files
-
+### Files
 **New**
-- `src/components/platform/navigation/PlatformSidebarV2.tsx`
-- `src/components/platform/navigation/NavigationSearch.tsx`
-- `src/components/platform/navigation/NavigationTabs.tsx`
-- `src/components/platform/navigation/NavigationTree.tsx`
-- `src/components/platform/navigation/NavigationGroup.tsx`
-- `src/components/platform/navigation/NavigationItem.tsx`
-- `src/components/platform/navigation/NavigationRowMenu.tsx`
-- `src/components/platform/navigation/NavigationEmptyState.tsx`
-- `src/hooks/navigation/useNavBadges.ts` (stub returning `Map<nav_id, number>`)
-- `src/hooks/navigation/usePinnedNav.ts` (thin wrapper over `useFavorites` exposing `pinned` semantics)
+- `src/components/navigation/EnterpriseSidebar.tsx` (moved from platform)
+- `src/components/navigation/enterprise/*` (moved sub-parts)
+- `src/hooks/navigation/useShellNavState.ts`
 
 **Modified**
-- `src/components/platform/PlatformShell.tsx` — mount `PlatformSidebarV2`; retire `PlatformAllDrawer` usage.
-- `src/components/platform/PlatformTopBar.tsx` — remove `All/Favorites/History/Workspaces` tabs (moved into sidebar); keep brand, search, utility icons, profile.
-- `src/hooks/platform/usePlatformNavState.ts` — simplify to `{ pinned, togglePinned, collapsed, toggleCollapsed }`.
-- `src/components/platform/index.ts` — export new sidebar.
+- `src/styles.css` — add `--sidebar-*` tokens under `:root` (tenant) and `.platform-theme` (platform)
+- `src/components/layout/AppShell.tsx` — mount `EnterpriseSidebar variant="tenant"`
+- `src/components/platform/PlatformShell.tsx` — mount `EnterpriseSidebar variant="platform"`
+- `src/hooks/navigation/useNavigation.ts` — accept optional `shell` filter
+- `src/components/platform/index.ts` — re-export shared component
 
-**Deprecated (kept as file, not imported)**
-- `PlatformAllDrawer.tsx`, `PlatformSimplePopover.tsx`, `nav-items.ts` (`PLATFORM_NAV`).
+**Deprecated (kept, not imported)**
+- `src/components/navigation/AppSidebar.tsx`
+- `src/components/platform/navigation/PlatformSidebarV2.tsx` (thin re-export during transition)
 
-## Data flow
+### Acceptance
+- `/dashboard`, `/tenant`, `/settings` render with the v2 sidebar (search, tabs, groups, pin, badges, context menu, keyboard, empty state).
+- `/platform` unchanged visually; still passes Pass 1 audit.
+- Tenant sidebar respects tenant permissions via `useNavigation({ shell: "tenant" })`; no super-admin modules leak.
+- Pin/expand state persists per shell (tenant vs platform independent).
+- Tokens only — zero `text-white` / `bg-black` / hex literals in `EnterpriseSidebar` and children.
+- Typecheck + build clean; smoke test passes.
 
-```text
-NAV_REGISTRY ──► useNavigation() ──► tree (perm + flag filtered)
-                                    │
-useFavorites ─────────────────────► NavigationItem (★ state)
-useRecentPages ───────────────────► Recent tab
-useNavPreferences ────────────────► expanded groups
-useNavBadges ─────────────────────► badge counts
-```
+## Technical notes
+- No backend / migration changes. Reuses `nav_favorites`, `nav_command_history`, `NAV_REGISTRY`, `useFavorites`, `useRecentPages`, `useNavPreferences`, `useNavBadges`.
+- Command palette (⌘K) unchanged.
+- Mobile: overlay drawer via existing pin state; existing `use-mobile` hook for breakpoint gate.
+- No new deps; virtualization threshold (`@tanstack/react-virtual` at >60 rows) carried over from v2.
 
-## Out of scope (follow-up sprints)
-
-- Populating real badge counts (Approvals/Notifications/Tasks endpoints).
-- Applying the same v2 pattern to Tenant `AppShell`.
-- Global command palette redesign (kept as-is; ⌘K still works).
-
-## Acceptance
-
-- Sidebar renders grouped modules from `NAV_REGISTRY` with no hardcoded arrays.
-- Search filters within ~50ms; empty state shown on no matches.
-- Favorites/Recent tabs populate from existing tables.
-- Pin/unpin persists across reload; expand state persists per user.
-- All rows respect `permission` and `feature_flag` gates.
-- Keyboard navigation works end-to-end; a11y roles (`tree`, `treeitem`, `group`) applied.
-- Typecheck + build clean; no visual regression on Tenant shell.
+## Out of scope
+- Real badge counts (Approvals/Notifications/Tasks endpoints)
+- Removal of deprecated `AppSidebar.tsx` (next sprint)
+- Redesign of the command palette

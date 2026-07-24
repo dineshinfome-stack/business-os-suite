@@ -1,45 +1,61 @@
 import type { ReactNode } from "react";
 import { Outlet } from "@tanstack/react-router";
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/navigation/AppSidebar";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
-
+import { PlatformSidebarV2 } from "@/components/platform/navigation/PlatformSidebarV2";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
+import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
 import { ProfileMenu, HelpMenu, SearchTrigger, StatusBar } from "@/components/platform";
 
 export function AppShell({ children }: { children?: ReactNode }) {
+  const { pinned, togglePinned, collapsed, toggleCollapsed } = usePlatformNavState("tenant");
+
+  const sidebarWidth = collapsed ? "pl-16" : "pl-72";
+  const contentShift = pinned ? sidebarWidth : "pl-0";
+
   return (
     <CommandPaletteProvider>
-      <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-background">
-          <AppSidebar />
-          <SidebarInset className="flex flex-1 flex-col">
-            <header
-              role="banner"
-              className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/80"
-            >
-              <SidebarTrigger aria-label="Toggle sidebar" />
-              <div className="hidden min-w-0 flex-1 md:block">
-                <Breadcrumb />
-              </div>
-              <div className="ml-auto flex items-center gap-1.5">
-                <SearchTrigger />
-                
-                <NotificationBell />
-                <HelpMenu />
-                <ProfileMenu />
-              </div>
-            </header>
-            <main id="main" role="main" className="flex-1 p-6">
-              <div className="mx-auto w-full max-w-7xl">{children ?? <Outlet />}</div>
-            </main>
-            <StatusBar />
-          </SidebarInset>
+      <div className="min-h-screen bg-background">
+        <header
+          role="banner"
+          className="fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+        >
+          <div className="hidden min-w-0 flex-1 md:block">
+            <Breadcrumb />
+          </div>
+          <div className="ml-auto flex items-center gap-1.5">
+            <SearchTrigger />
+            <NotificationBell />
+            <HelpMenu />
+            <ProfileMenu />
+          </div>
+        </header>
+
+        {!pinned && (
+          <div
+            className="fixed inset-0 top-14 z-20 bg-black/20 lg:hidden"
+            aria-hidden
+            onClick={togglePinned}
+          />
+        )}
+
+        <PlatformSidebarV2
+          variant="tenant"
+          pinned={pinned}
+          onTogglePin={togglePinned}
+          collapsed={collapsed}
+          onToggleCollapsed={toggleCollapsed}
+        />
+
+        <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
+          <main id="main" role="main" className="p-6">
+            <div className="mx-auto w-full max-w-7xl">{children ?? <Outlet />}</div>
+          </main>
+          <StatusBar />
         </div>
-        <CommandPalette />
-      </SidebarProvider>
+      </div>
+      <CommandPalette />
     </CommandPaletteProvider>
   );
 }

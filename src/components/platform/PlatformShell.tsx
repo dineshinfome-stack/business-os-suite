@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { PlatformTopBar } from "./PlatformTopBar";
 import { PlatformSidebarV2 } from "./navigation/PlatformSidebarV2";
+import { CommandPalette } from "@/components/navigation/CommandPalette";
+import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { NAV_REGISTRY } from "@/lib/navigation/registry";
 import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
 
@@ -25,29 +27,33 @@ export function PlatformShell({ children }: { children?: ReactNode }) {
   const contentShift = pinned ? sidebarWidth : "pl-0";
 
   return (
-    <div className="platform-theme min-h-screen" style={{ background: "var(--platform-content-bg)" }}>
-      <PlatformTopBar title={title} />
+    <CommandPaletteProvider>
+      <div className="platform-theme min-h-screen" style={{ background: "var(--platform-content-bg)" }}>
+        <PlatformTopBar title={title} />
 
-      {!pinned && (
-        <div
-          className="fixed inset-0 top-14 z-20 bg-black/20 lg:hidden"
-          aria-hidden
-          onClick={togglePinned}
+        {!pinned && (
+          <div
+            className="fixed inset-0 top-14 z-20 bg-black/20 lg:hidden"
+            aria-hidden
+            onClick={togglePinned}
+          />
+        )}
+
+        <PlatformSidebarV2
+          variant="platform"
+          pinned={pinned}
+          onTogglePin={togglePinned}
+          collapsed={collapsed}
+          onToggleCollapsed={toggleCollapsed}
         />
-      )}
 
-      <PlatformSidebarV2
-        pinned={pinned}
-        onTogglePin={togglePinned}
-        collapsed={collapsed}
-        onToggleCollapsed={toggleCollapsed}
-      />
-
-      <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
-        <main id="main" role="main">
-          {children ?? <Outlet />}
-        </main>
+        <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
+          <main id="main" role="main">
+            {children ?? <Outlet />}
+          </main>
+        </div>
       </div>
-    </div>
+      <CommandPalette />
+    </CommandPaletteProvider>
   );
 }

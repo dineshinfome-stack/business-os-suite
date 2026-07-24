@@ -19,7 +19,7 @@ export function NavigationTabs({ active, onChange }: Props) {
       role="tablist"
       aria-label="Navigation view"
       className="mx-3 mt-3 grid grid-cols-3 gap-1 rounded-md p-1"
-      style={{ background: "rgba(255,255,255,0.05)" }}
+      style={{ background: "var(--nav-input-bg)" }}
     >
       {TABS.map((t) => {
         const Icon = t.icon;
@@ -33,8 +33,8 @@ export function NavigationTabs({ active, onChange }: Props) {
             onClick={() => onChange(t.id)}
             className="inline-flex items-center justify-center gap-1.5 rounded px-2 py-1.5 text-xs font-medium transition-colors"
             style={{
-              background: selected ? "var(--brand-red)" : "transparent",
-              color: selected ? "#fff" : "rgba(255,255,255,0.75)",
+              background: selected ? "var(--nav-tab-active-bg)" : "transparent",
+              color: selected ? "var(--nav-tab-active-fg)" : "var(--nav-fg-muted)",
             }}
           >
             <Icon className="h-3.5 w-3.5" />

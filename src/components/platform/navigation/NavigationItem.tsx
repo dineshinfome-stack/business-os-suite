@@ -24,6 +24,7 @@ export function NavigationItem({
   onNavigate,
 }: Props) {
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const [hover, setHover] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
@@ -44,19 +45,22 @@ export function NavigationItem({
         <span
           aria-hidden
           className="absolute inset-y-1 left-0 w-[3px] rounded-r"
-          style={{ background: "var(--brand-red)" }}
+          style={{ background: "var(--nav-active-bar)" }}
         />
       )}
       {Icon ? (
         <Icon className="h-4 w-4 shrink-0" />
       ) : (
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/30" />
+        <span
+          className="h-1.5 w-1.5 shrink-0 rounded-full"
+          style={{ background: "var(--nav-fg-muted)", opacity: 0.6 }}
+        />
       )}
       <span className="flex-1 truncate text-sm">{node.title}</span>
       {typeof badge === "number" && badge > 0 && (
         <span
-          className="inline-flex min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-semibold text-white"
-          style={{ background: "var(--brand-red)" }}
+          className="inline-flex min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-semibold"
+          style={{ background: "var(--nav-badge-bg)", color: "var(--nav-badge-fg)" }}
         >
           {badge > 99 ? "99+" : badge}
         </span>
@@ -64,9 +68,14 @@ export function NavigationItem({
     </>
   );
 
+  const rowBg = active
+    ? "var(--nav-active-bg)"
+    : hover
+      ? "var(--nav-hover)"
+      : "transparent";
   const rowStyle: React.CSSProperties = {
-    background: active ? "rgba(255,255,255,0.06)" : "transparent",
-    color: active ? "#fff" : "rgba(255,255,255,0.82)",
+    background: rowBg,
+    color: active ? "var(--nav-fg-strong)" : "var(--nav-fg)",
     paddingLeft,
   };
 
@@ -75,12 +84,14 @@ export function NavigationItem({
       role="treeitem"
       aria-selected={active}
       className="group relative flex items-center pr-1"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
       {node.route ? (
         <Link
           to={node.route}
           onClick={onNavigate}
-          className="relative flex min-w-0 flex-1 items-center gap-2 rounded-md py-1.5 pr-1 transition-colors hover:bg-white/5"
+          className="relative flex min-w-0 flex-1 items-center gap-2 rounded-md py-1.5 pr-1 transition-colors"
           style={rowStyle}
         >
           {inner}
@@ -95,7 +106,10 @@ export function NavigationItem({
       )}
 
       {/* Right-side actions (star + more) */}
-      <div className="flex shrink-0 items-center opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 data-[open=true]:opacity-100" data-open={menuOpen}>
+      <div
+        className="flex shrink-0 items-center opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 data-[open=true]:opacity-100"
+        data-open={menuOpen}
+      >
         <button
           type="button"
           aria-label={pinned ? "Unpin" : "Pin"}
@@ -103,11 +117,12 @@ export function NavigationItem({
             e.stopPropagation();
             onTogglePin(node.id);
           }}
-          className="inline-flex h-6 w-6 items-center justify-center rounded hover:bg-white/10"
+          className="inline-flex h-6 w-6 items-center justify-center rounded"
+          style={{ color: "var(--nav-fg-muted)" }}
         >
           <Star
             className="h-3.5 w-3.5"
-            style={{ color: pinned ? "var(--sn-accent-yellow, #ffb703)" : "rgba(255,255,255,0.55)" }}
+            style={{ color: pinned ? "var(--nav-pin-active)" : "var(--nav-fg-muted)" }}
             fill={pinned ? "currentColor" : "none"}
           />
         </button>
@@ -121,18 +136,20 @@ export function NavigationItem({
               e.stopPropagation();
               setMenuOpen((v) => !v);
             }}
-            className="inline-flex h-6 w-6 items-center justify-center rounded hover:bg-white/10"
+            className="inline-flex h-6 w-6 items-center justify-center rounded"
+            style={{ color: "var(--nav-fg-muted)" }}
           >
-            <MoreVertical className="h-3.5 w-3.5 text-white/70" />
+            <MoreVertical className="h-3.5 w-3.5" />
           </button>
           {menuOpen && (
             <div
               role="menu"
-              className="absolute right-0 top-full z-50 mt-1 w-48 overflow-hidden rounded-md shadow-2xl"
+              className="absolute right-0 top-full z-50 mt-1 w-48 overflow-hidden rounded-md"
               style={{
-                background: "var(--platform-sidebar-bg)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                color: "#fff",
+                background: "var(--nav-bg)",
+                border: "1px solid var(--nav-border)",
+                color: "var(--nav-fg-strong)",
+                boxShadow: "var(--nav-elevation)",
               }}
             >
               {node.route && (
@@ -197,17 +214,40 @@ function MenuAction({
   asLink?: string;
 }) {
   const cls =
-    "flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs text-white/85 hover:bg-white/5";
+    "flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs transition-colors";
+  const style: React.CSSProperties = { color: "var(--nav-fg)" };
+  const onHover = (e: React.MouseEvent<HTMLElement>) => {
+    (e.currentTarget as HTMLElement).style.background = "var(--nav-hover)";
+  };
+  const onLeave = (e: React.MouseEvent<HTMLElement>) => {
+    (e.currentTarget as HTMLElement).style.background = "transparent";
+  };
   if (asLink) {
     return (
-      <Link to={asLink} onClick={onClick} className={cls} role="menuitem">
+      <Link
+        to={asLink}
+        onClick={onClick}
+        className={cls}
+        role="menuitem"
+        style={style}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+      >
         {icon}
         {label}
       </Link>
     );
   }
   return (
-    <button type="button" onClick={onClick} className={cls} role="menuitem">
+    <button
+      type="button"
+      onClick={onClick}
+      className={cls}
+      role="menuitem"
+      style={style}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+    >
       {icon}
       {label}
     </button>
