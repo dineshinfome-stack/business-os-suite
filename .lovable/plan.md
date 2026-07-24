@@ -1,71 +1,55 @@
-# SPR-MOD-001-002 — Phase 2: Backend Foundation
+# Phase 2 Closeout — SIP-014 Deferral + Implementation Verification (Rev 2)
 
-Execute SIP tasks **SIP-010, SIP-011, SIP-012, SIP-013, SIP-014** exclusively. Consume Phase 1 RPCs; no schema, UI, tests, docs, or sprint closure.
+Architecture Board approved with 10/10 rating. Rev 2 incorporates the two refinements: reclassify the follow-on as an engineering **proposal** (not a reserved sprint) and add **behavioral** checks to V3.
 
-## Reuse Contract (from SPR-MOD-001-001)
+## 1. Governance recording
 
-- **Event envelope**: replicate the shape used by `src/lib/tenants/events.ts` 1:1 (`event`, `version:1`, `emitted_at`, `<entity>_id`, `actor_id`, `correlation_id`, `data{from_state,to_state,...}`).
-- **Audit writer**: mirror `src/lib/tenants/audit.ts` — one `createServerFn` per entity type, writes `public.audit_logs` under caller JWT (RLS-scoped), includes `actor_id`, `entity_type`, `entity_id`, `from_state`, `to_state`, `correlation_id`.
-- **Lifecycle module**: pure state-machine mirror (`STATES`, `ALLOWED`, `canTransition`, `assertTransition`) matching the DB `private.fn_assert_*_lifecycle_transition` guards.
-- **Server-fn pattern**: `createServerFn` → `.middleware([requireSupabaseAuth])` → Zod `.inputValidator` → `.handler` calling `context.supabase.rpc("fn_*", args as never)`. Reuse the existing repository approach for typing private-schema RPCs.
-- **Permissions**: enforce via `requirePermission(PERMISSIONS.PLATFORM_COMPANY_*|BRANCH_*|FINANCIAL_YEAR_*)` from `src/lib/authorization.server.ts` (generated in Phase 1). No hard-coded permission strings.
-- **Idempotency & audit policy**: follow the approved SPR-001 audit policy — idempotent no-op branches (`already_active`, `already_archived`, etc. returned by the RPC) skip the audit write and return `event: null`. Any deviation is a blocker to raise, not resolve locally.
+Update `docs/05_Sprint_Implementation_Plans/active/SIP-SPR-MOD-001-002.md`:
 
-## Event names & payloads
+- Mark SIP-014: `Status: Deferred — Dependency on ENG-005 (Settings Framework)`.
+- Add **Deferred Items** subsection referencing the Board decision and pointing to the engineering proposal below.
+- Update sprint execution status header to `Phase 2: Approved with Conditions`.
 
-Event builders shall emit exactly the event names and payloads defined in **PRD §11**. This plan does not restate them.
+Create engineering proposal (governance placeholder, **not** a reserved sprint):
 
-## Files (new)
+- `docs/30-sprint-prds/engineering/PROPOSAL-settings-namespace-bootstrap.md` — Draft **engineering proposal / PRD stub**. Scope covers: `company` scope, `branch` scope, `initializeNamespace(scope, entityId)` API, definition seeding, lifecycle integration hook.
+- Opening note (verbatim intent): *"The Architecture Board will determine at intake whether this becomes SPR-ENG-005-001, is folded into another approved workstream, or is deferred. No sprint identifier is reserved."*
 
-**Company** — reuses `public.organizations`:
-- `src/lib/organizations/lifecycle.ts`
-- `src/lib/organizations/events.ts`
-- `src/lib/organizations/audit.ts` — `logCompanyEventFn` (entity_type `"company"`)
-- `src/lib/organizations/company.functions.ts` — `listCompanies`, `createCompany`, `activateCompany`, `deactivateCompany`, `archiveCompany`, `setDefaultCompany`
+Program status entry:
 
-**Branch**:
-- `src/lib/branches/lifecycle.ts`
-- `src/lib/branches/events.ts`
-- `src/lib/branches/audit.ts` — `logBranchEventFn`
-- `src/lib/branches/branch.functions.ts` — `listBranches`, `createBranch`, `updateBranch`, `archiveBranch`, `setDefaultBranch`
+- `docs/04_Program_Status/reports/PHASE2_SPR-MOD-001-002_CLOSEOUT.md` — records Board decision, deferral rationale, V1–V5 verification results, and the proposal handoff.
 
-**Financial Year**:
-- `src/lib/financial-years/lifecycle.ts`
-- `src/lib/financial-years/events.ts`
-- `src/lib/financial-years/audit.ts` — `logFinancialYearEventFn`
-- `src/lib/financial-years/financial-year.functions.ts` — `listFinancialYears`, `createFinancialYear`, `openFinancialYear`, `closeFinancialYear`, `archiveFinancialYear`, `setDefaultFinancialYear`
+## 2. Implementation verification (Board pre-Phase-3 checks)
 
-Each `*.functions.ts` invokes only the corresponding Phase 1 `private.fn_*` RPCs verified in the repository's Phase 1 lifecycle RPC migration.
+Read-only audit against five criteria; results captured in the closeout report.
 
-## Configuration initialization (SIP-014)
+| # | Check | Method |
+|---|---|---|
+| V1 | Lifecycle mutations use only `private.fn_*` RPCs | `rg` for `.from("organizations"\|"branches"\|"financial_years").(update\|insert\|delete)` inside `src/lib/{organizations,branches,financial-years}/` — expect zero hits |
+| V2 | Permission enforcement uses generated `PERMISSIONS.*` constants only | `rg` for raw permission strings (`"platform.company."`, etc.) in the same dirs — expect zero hits |
+| V3 | Audit payload — **structural + behavioral** parity with SPR-001 writer | (a) diff `audit.ts` files against `src/lib/tenants/audit.ts` for shape parity (`action`, `entity_type`, `entity_id`, `actor_id`, `created_by`, `updated_by`, `new_values`); (b) trace each `*.functions.ts` call site to confirm **runtime behavior**: required fields always populated (never undefined), `correlationId` propagated from server-fn input into the audit `new_values.correlation_id`, `entity_type` string is the correct literal for the module (`"company"` / `"branch"` / `"financial_year"`), and `from_state`/`to_state` come from RPC return values rather than client input |
+| V4 | Event names match PRD §11 exactly | Cross-check `buildXxxEvent` name literals against the PRD event catalog table (spelling + casing): `company.created`, `company.updated`, `company.archived`, `branch.created`, `branch.updated`, `financialyear.created`, `financialyear.opened`, `financialyear.closed` |
+| V5 | Events emitted **after** successful RPC completion | Read each `*.functions.ts` handler; confirm `if (error) throw` precedes `logXxxEventFn(...)` and `buildXxxEvent(...)`; confirm idempotent no-op branches (`already_*`) skip both audit and event |
 
-- On successful `activateCompany`, initialize the company-scoped config namespace via the approved settings framework (ENG-005).
-- On successful `createBranch`, initialize the branch-scoped namespace via the same framework.
-- If the settings framework does not expose a suitable initializer, insert a namespace marker row through its existing API — no new abstraction.
-- If neither is possible without schema changes, **stop and report as a blocker** with an ADR recommendation. No schema edits in Phase 2.
+Expected outcome: all five pass. Any deviation is noted in the report and fixed as an implementation defect — not a scope change — then re-verified.
 
-## Constraints & Guardrails
+## 3. Deliverables
 
-- No new DB migrations. No modifications to Phase 1 SQL.
-- No direct table mutations for lifecycle transitions — RPCs only.
-- Reads shall follow the existing repository pattern (RLS-scoped Supabase client or approved repository abstraction). Do not introduce a new data-access pattern.
-- No new event names or payload fields beyond PRD §11.
-- No `console.*` debug logging, no TODOs, no dead code.
-- Client-safe file placement (`src/lib/**/*.functions.ts`); never import `client.server` at module scope.
+1. Updated `SIP-SPR-MOD-001-002.md` with SIP-014 marked Deferred.
+2. New `PROPOSAL-settings-namespace-bootstrap.md` (engineering proposal; no sprint ID reserved).
+3. `PHASE2_SPR-MOD-001-002_CLOSEOUT.md` containing V1–V5 evidence (structural + behavioral for V3).
+4. No code changes unless V1–V5 uncover a defect; in that case a targeted fix + re-verify.
 
-## Validation Before Stop
+## 4. Out of scope
 
-- `bunx tsgo --noEmit` clean.
-- Grep: zero hard-coded permission strings in new files; zero direct lifecycle-table mutations (`.insert|update|delete` against `organizations`, `branches`, `financial_years`) outside approved read helpers.
-- No circular imports (lifecycle → events → audit → functions is one-way).
+- Phase 1 schema amendments.
+- Phase 3 (UI & RBAC) work — starts after this closeout is accepted.
+- Authoring a SIP for the settings proposal (Architecture Board intake first).
+- Any Phase 3 UI element that edits company- or branch-scoped settings — deferred alongside the settings proposal until the enhancement lands.
 
-## Deliverables at Stop
+## Technical notes
 
-- File list of the 12 new modules.
-- Completed SIP task IDs: SIP-010, SIP-011, SIP-012, SIP-013, SIP-014.
-- Validation summary (tsgo + grep results).
-- **Repository deviations**: list any unavoidable deviations from SPR-MOD-001-001 patterns with justification. Ideally "none".
-- Blockers, if any, with ADR recommendation.
-- Recommendations for Phase 3 (UI & RBAC).
-
-**Explicitly out of scope**: UI, nav registry, Playwright, unit/integration tests, Sprint Completion Report, Acceptance Review, Program Status, IMP CHANGELOG, SIP archival.
+- Verification is `rg` + read-only file inspection; no migrations, no server-function edits expected.
+- The follow-on document is explicitly a **proposal**, not a scheduled sprint. Sprint identifier assignment is a Board intake decision.
+- V3 behavioral trace is a static reading of call sites (input → audit payload flow), not a runtime harness — sufficient for this closeout given the small surface (≈17 handlers) and consistent pattern.
+- SIP-014's deferral does not block Phase 3 organization-structure pages; only settings-editing UI for those scopes is gated on the proposal.
