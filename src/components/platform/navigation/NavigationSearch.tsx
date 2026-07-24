@@ -13,10 +13,13 @@ export function NavigationSearch({ value, onChange, inputRef }: Props) {
   return (
     <div className="px-3 pt-3">
       <div
-        className="flex items-center gap-2 rounded-md px-2.5 py-1.5 ring-1 ring-white/5 focus-within:ring-white/15"
-        style={{ background: "rgba(255,255,255,0.05)" }}
+        className="flex items-center gap-2 rounded-md px-2.5 py-1.5 ring-1 focus-within:ring-2"
+        style={{
+          background: "var(--nav-input-bg)",
+          boxShadow: "inset 0 0 0 1px var(--nav-border)",
+        }}
       >
-        <Search className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--platform-sidebar-muted)" }} />
+        <Search className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--nav-fg-muted)" }} />
         <input
           ref={inputRef}
           value={value}
@@ -29,21 +32,23 @@ export function NavigationSearch({ value, onChange, inputRef }: Props) {
           }}
           placeholder="Search menus…"
           aria-label="Search navigation"
-          className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/40"
+          className="w-full bg-transparent text-sm outline-none placeholder:opacity-60"
+          style={{ color: "var(--nav-fg-strong)" }}
         />
         {value ? (
           <button
             type="button"
             aria-label="Clear search"
             onClick={() => onChange("")}
-            className="text-white/60 hover:text-white"
+            className="opacity-70 hover:opacity-100"
+            style={{ color: "var(--nav-fg)" }}
           >
             <X className="h-3.5 w-3.5" />
           </button>
         ) : (
           <kbd
-            className="hidden rounded px-1.5 py-0.5 text-[10px] font-medium text-white/60 sm:inline-block"
-            style={{ background: "rgba(255,255,255,0.06)" }}
+            className="hidden rounded px-1.5 py-0.5 text-[10px] font-medium sm:inline-block"
+            style={{ background: "var(--nav-hover)", color: "var(--nav-fg-muted)" }}
           >
             ⌘K
           </kbd>

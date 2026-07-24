@@ -110,13 +110,12 @@ function NavigationGroup({
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs font-semibold uppercase tracking-wider text-white/60 hover:bg-white/5"
+        className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs font-semibold uppercase tracking-wider transition-colors"
+        style={{ color: "var(--nav-fg-muted)" }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "var(--nav-hover)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
       >
-        {expanded ? (
-          <ChevronDown className="h-3 w-3" />
-        ) : (
-          <ChevronRight className="h-3 w-3" />
-        )}
+        {expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
         {Icon && <Icon className="h-3.5 w-3.5" />}
         <span className="flex-1 truncate">{node.title}</span>
       </button>
