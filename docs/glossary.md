@@ -13,11 +13,13 @@ depends_on: []
 
 ## Terms A-E
 
-> Section stub — content to be filled in a later pass.
+**Branch** — An operating location of a Company. Backed by `public.branches`.
+
+**Company** — A legal entity within a Tenant. Backed by `public.organizations`. Owns Branches and Financial Years.
 
 ## Terms F-J
 
-> Section stub — content to be filled in a later pass.
+**Financial Year** — An accounting period belonging to a Company. Backed by `public.financial_years`.
 
 ## Terms K-O
 
@@ -25,11 +27,13 @@ depends_on: []
 
 ## Terms P-T
 
-> Section stub — content to be filled in a later pass.
+**Platform** — The Business OS application itself; the top of the conceptual hierarchy (`Platform → Tenant → Workspace → Company → Branch / Financial Year`). See ADR-008.
+
+**Tenant** — The isolation, billing, and administration boundary. Backed by `public.tenants`. The only persistence-level isolation boundary in the platform.
 
 ## Terms U-Z
 
-> Section stub — content to be filled in a later pass.
+**Workspace** — A **logical business container derived from the Tenant context and associated configuration** (ADR-008). One logical Workspace per Tenant today. **Not backed by a table.** Workspace configuration is currently represented by the Tenant's existing configuration and settings; no separate Workspace configuration store exists until a future ADR introduces one.
 
 ## References
 

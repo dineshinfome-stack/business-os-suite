@@ -199,7 +199,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     permission: "platform.tenant.read",
     visible: true,
     enabled: true,
-    keywords: ["tenant", "organization", "isolation", "platform admin"],
+    keywords: ["tenant", "workspace", "isolation", "platform admin"],
   },
   // ── SPR-MOD-001-002 — Organization Structure (SIP-017) ────────────────
   // Companies, branches, and financial years are tenant/company-scoped; nav
@@ -217,7 +217,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     permission: "platform.company.read",
     visible: true,
     enabled: true,
-    keywords: ["company", "organization", "org", "subsidiary"],
+    keywords: ["company", "organization", "org", "subsidiary", "workspace"],
   },
   {
     id: "administration.platform.branches",
@@ -231,7 +231,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     permission: "platform.branch.read",
     visible: true,
     enabled: true,
-    keywords: ["branch", "location", "site", "office"],
+    keywords: ["branch", "location", "site", "office", "company"],
   },
   {
     id: "administration.platform.financial_years",
@@ -245,7 +245,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     permission: "platform.financial_year.read",
     visible: true,
     enabled: true,
-    keywords: ["financial year", "fiscal year", "fy", "accounting period"],
+    keywords: ["financial year", "fiscal year", "fy", "accounting period", "company"],
   },
 
   // ── SPR-PLT-0001 Phase A — Super Admin (shell + navigation only) ─────

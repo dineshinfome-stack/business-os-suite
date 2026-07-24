@@ -20,6 +20,26 @@ business table and every server function that reads or writes business data
 MUST enforce organization scoping. Cross-tenant reads or writes are a P1
 security defect.
 
+## Terminology (ADR-008)
+
+The conceptual hierarchy is **Platform → Tenant → Workspace → Company → Branch / Financial Year**.
+Workspace is a **logical construct derived from the Tenant context and associated
+configuration** — it has no table today. See
+`docs/11-adrs/architecture/ADR-008-platform-tenant-workspace-hierarchy.md`.
+
+| Concept        | Current Physical Representation                                              |
+| -------------- | ---------------------------------------------------------------------------- |
+| Platform       | Application                                                                  |
+| Tenant         | `public.tenants`                                                             |
+| Workspace      | Logical business container derived from Tenant context (1:1 today; no table) |
+| Company        | `public.organizations`                                                       |
+| Branch         | `public.branches`                                                            |
+| Financial Year | `public.financial_years`                                                     |
+
+> `organization_id` remains the primary **company-scoping** key within a Tenant's
+> logical Workspace. It does not replace or redefine the Tenant isolation
+> boundary.
+
 ## Model
 
 - **Tenant unit:** `public.organizations` row (one organization = one tenant).
