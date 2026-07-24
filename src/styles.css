@@ -149,6 +149,17 @@
   --nav-width-expanded: 16rem;
   --nav-width-collapsed: 3.5rem;
   --topbar-height: 3.5rem;
+
+  /* Platform (Super Admin) shell — Worksuite-inspired dark sidebar */
+  --platform-sidebar-bg: #2b3038;
+  --platform-sidebar-fg: #d9dde3;
+  --platform-sidebar-muted: #8a929c;
+  --platform-sidebar-active-bg: #232830;
+  --platform-sidebar-hover-bg: #333944;
+  --platform-sidebar-active-bar: var(--brand-red);
+  --platform-content-bg: #f4f5f7;
+  --platform-topbar-bg: #ffffff;
+  --kpi-value: var(--brand-red);
 }
 
 .dark {

@@ -29,6 +29,7 @@ import { Route as AuthenticatedPlatformIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedWorkspaceAcceptRouteImport } from './routes/_authenticated/workspace.accept'
 import { Route as AuthenticatedTenantAcceptRouteImport } from './routes/_authenticated/tenant.accept'
 import { Route as AuthenticatedSettingsPlatformRouteImport } from './routes/_authenticated/settings.platform'
+import { Route as AuthenticatedPlatformSplatRouteImport } from './routes/_authenticated/platform/$'
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
 import { Route as AuthenticatedPlatformTenantsTenantIdRouteImport } from './routes/_authenticated/platform/tenants/$tenantId'
 import { Route as AuthenticatedPlatformCompaniesCompanyIdRouteImport } from './routes/_authenticated/platform/companies/$companyId'
@@ -136,6 +137,12 @@ const AuthenticatedSettingsPlatformRoute =
     path: '/platform',
     getParentRoute: () => AuthenticatedSettingsRoute,
   } as any)
+const AuthenticatedPlatformSplatRoute =
+  AuthenticatedPlatformSplatRouteImport.update({
+    id: '/platform/$',
+    path: '/platform/$',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedPlatformTenantsIndexRoute =
   AuthenticatedPlatformTenantsIndexRouteImport.update({
     id: '/platform/tenants/',
@@ -171,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
+  '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/settings/platform': typeof AuthenticatedSettingsPlatformRoute
   '/tenant/accept': typeof AuthenticatedTenantAcceptRoute
   '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
@@ -194,6 +202,7 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs': typeof DocsIndexRoute
+  '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/settings/platform': typeof AuthenticatedSettingsPlatformRoute
   '/tenant/accept': typeof AuthenticatedTenantAcceptRoute
   '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
@@ -220,6 +229,7 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
+  '/_authenticated/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/_authenticated/settings/platform': typeof AuthenticatedSettingsPlatformRoute
   '/_authenticated/tenant/accept': typeof AuthenticatedTenantAcceptRoute
   '/_authenticated/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
+    | '/platform/$'
     | '/settings/platform'
     | '/tenant/accept'
     | '/workspace/accept'
@@ -269,6 +280,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/docs/$'
     | '/docs'
+    | '/platform/$'
     | '/settings/platform'
     | '/tenant/accept'
     | '/workspace/accept'
@@ -294,6 +306,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
+    | '/_authenticated/platform/$'
     | '/_authenticated/settings/platform'
     | '/_authenticated/tenant/accept'
     | '/_authenticated/workspace/accept'
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsPlatformRouteImport
       parentRoute: typeof AuthenticatedSettingsRoute
     }
+    '/_authenticated/platform/$': {
+      id: '/_authenticated/platform/$'
+      path: '/platform/$'
+      fullPath: '/platform/$'
+      preLoaderRoute: typeof AuthenticatedPlatformSplatRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/platform/tenants/': {
       id: '/_authenticated/platform/tenants/'
       path: '/platform/tenants'
@@ -524,6 +544,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRouteWithChildren
   AuthenticatedTenantRoute: typeof AuthenticatedTenantRouteWithChildren
   AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRouteWithChildren
+  AuthenticatedPlatformSplatRoute: typeof AuthenticatedPlatformSplatRoute
   AuthenticatedPlatformIndexRoute: typeof AuthenticatedPlatformIndexRoute
   AuthenticatedPlatformCompaniesCompanyIdRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   AuthenticatedPlatformTenantsTenantIdRoute: typeof AuthenticatedPlatformTenantsTenantIdRoute
@@ -535,6 +556,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRouteWithChildren,
   AuthenticatedTenantRoute: AuthenticatedTenantRouteWithChildren,
   AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRouteWithChildren,
+  AuthenticatedPlatformSplatRoute: AuthenticatedPlatformSplatRoute,
   AuthenticatedPlatformIndexRoute: AuthenticatedPlatformIndexRoute,
   AuthenticatedPlatformCompaniesCompanyIdRoute:
     AuthenticatedPlatformCompaniesCompanyIdRoute,

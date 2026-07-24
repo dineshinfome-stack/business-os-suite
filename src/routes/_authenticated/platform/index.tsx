@@ -1,86 +1,71 @@
 /**
- * SPR-PLT-0005 — Super Admin Dashboard
+ * SPR-PLT-0005 — Super Admin Dashboard (Worksuite-inspired)
  *
- * Presentation-only dashboard that composes the reusable Dashboard,
- * WidgetCard, StatCard, ActivityFeed, Progress, and Table widgets.
- * All numeric values are sample data (marked `Sample`) and will be
- * replaced by live signals in a subsequent data sprint.
+ * Presentation-only KPI + reports layout. All values are sample data
+ * (marked `Sample`) and will be wired to live signals in a later sprint.
  */
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
-  Building2,
-  KeyRound,
-  ScrollText,
-  Users,
-  ShieldCheck,
-  ArrowRight,
-  Activity,
-  Server,
-  Gauge,
-  UserPlus,
+  Store,
+  CheckCircle2,
+  Ban,
+  StoreIcon,
+  Package,
+  type LucideIcon,
 } from "lucide-react";
 
 import { Can } from "@/components/auth/Can";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Dashboard,
-  DashboardRow,
-  DashboardSection,
-  StatCard,
-  ActivityFeedWidget,
-  ProgressWidget,
-  TableWidget,
-} from "@/components/dashboard";
+import { ReportPanel, EmptyPanel } from "@/components/dashboard/ReportPanel";
 
 export const Route = createFileRoute("/_authenticated/platform/")({
   component: PlatformAdministrationPage,
   head: () => ({
     meta: [
-      { title: "Platform Administration — Super Admin" },
+      { title: "Super Admin Dashboard — Business OS" },
       {
         name: "description",
-        content:
-          "Super Admin control center for the Business OS platform: tenants, licensing, audit, and health.",
+        content: "Super Admin control center: companies, packages, billing, and platform KPIs.",
       },
-      { property: "og:title", content: "Platform Administration — Super Admin" },
+      { property: "og:title", content: "Super Admin Dashboard — Business OS" },
       {
         property: "og:description",
-        content:
-          "Super Admin control center for the Business OS platform: tenants, licensing, audit, and health.",
+        content: "Super Admin control center: companies, packages, billing, and platform KPIs.",
       },
     ],
   }),
 });
 
-const QUICK_LINKS = [
-  {
-    title: "Tenants",
-    description: "Provision, activate, suspend, archive.",
-    icon: Building2,
-    to: "/platform/tenants" as const,
-    available: true,
-  },
-  {
-    title: "Licensing",
-    description: "Plans, seats, and entitlements.",
-    icon: KeyRound,
-    available: false,
-  },
-  {
-    title: "Audit",
-    description: "Cross-tenant activity trail.",
-    icon: ScrollText,
-    available: false,
-  },
-  {
-    title: "Users",
-    description: "Platform identities and roles.",
-    icon: Users,
-    available: false,
-  },
-] as const;
+function Kpi({
+  label,
+  value,
+  icon: Icon,
+}: {
+  label: string;
+  value: string;
+  icon: LucideIcon;
+}) {
+  return (
+    <div
+      className="relative flex items-start justify-between rounded-md border bg-card p-5"
+      style={{ borderColor: "var(--brand-border)", boxShadow: "var(--elevation-1)" }}
+    >
+      <div>
+        <div className="text-sm text-muted-foreground">{label}</div>
+        <div
+          className="mt-3 text-2xl font-semibold"
+          style={{ color: "var(--kpi-value)" }}
+        >
+          {value}
+        </div>
+      </div>
+      <div className="flex flex-col items-end gap-2">
+        <Icon className="h-6 w-6 text-muted-foreground/50" />
+        <Badge variant="outline" className="text-[10px]">Sample</Badge>
+      </div>
+    </div>
+  );
+}
 
 function PlatformAdministrationPage() {
   return (
@@ -95,171 +80,63 @@ function PlatformAdministrationPage() {
         </div>
       }
     >
-      <div className="space-y-8">
-        <header className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="rounded-lg bg-primary/10 p-3 text-primary">
-              <ShieldCheck className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                Super Admin
-              </p>
-              <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                Platform Control Center
-              </h1>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                Cross-tenant health, licensing, and administration for the Business OS.
-              </p>
-            </div>
-          </div>
-          <Button asChild>
-            <Link to="/platform/tenants">
-              <Building2 className="h-4 w-4" /> Manage tenants
-            </Link>
-          </Button>
-        </header>
+      <div className="space-y-6">
+        {/* KPI row 1 */}
+        <div className="grid gap-5 md:grid-cols-3">
+          <Kpi label="Total Companies" value="6" icon={Store} />
+          <Kpi label="Active Companies" value="6" icon={CheckCircle2} />
+          <Kpi label="License Expired" value="0" icon={Ban} />
+        </div>
+        {/* KPI row 2 */}
+        <div className="grid gap-5 md:grid-cols-3">
+          <Kpi label="Inactive Companies" value="0" icon={StoreIcon} />
+          <Kpi label="Total Packages" value="4" icon={Package} />
+          <div className="hidden md:block" />
+        </div>
 
-        <DashboardSection title="Overview" description="Platform-wide operational signals.">
-          <Dashboard>
-            <StatCard
-              label="Active tenants"
-              value="—"
-              delta={{ value: "+0", direction: "flat" }}
-              icon={Building2}
-              hint="last 30d"
-              sample
-            />
-            <StatCard
-              label="Active users"
-              value="—"
-              delta={{ value: "+0", direction: "flat" }}
-              icon={Users}
-              hint="last 30d"
-              sample
-            />
-            <StatCard
-              label="Uptime"
-              value="99.9%"
-              delta={{ value: "stable", direction: "flat" }}
-              icon={Gauge}
-              hint="30-day SLA"
-              sample
-            />
-            <StatCard
-              label="Incidents"
-              value="0"
-              delta={{ value: "0", direction: "flat" }}
-              icon={Activity}
-              hint="open"
-              sample
-            />
-          </Dashboard>
-        </DashboardSection>
-
-        <DashboardRow>
-          <div className="lg:col-span-2">
-            <TableWidget
-              title="Recent tenants (sample)"
-              rows={[
-                { id: "t-001", name: "Acme Trading", status: "Active", created: "2 days ago" },
-                { id: "t-002", name: "Northwind Ltd", status: "Trial", created: "5 days ago" },
-                { id: "t-003", name: "Contoso GmbH", status: "Active", created: "1 week ago" },
-              ]}
-              columns={[
-                { key: "name", header: "Tenant", render: (r) => r.name },
-                {
-                  key: "status",
-                  header: "Status",
-                  render: (r) => <Badge variant="secondary">{r.status}</Badge>,
-                },
-                {
-                  key: "created",
-                  header: "Created",
-                  align: "right",
-                  render: (r) => (
-                    <span className="text-muted-foreground">{r.created}</span>
-                  ),
-                },
-              ]}
-            />
-          </div>
-          <ActivityFeedWidget
-            title="Platform activity"
-            items={[
-              {
-                id: "a1",
-                icon: <UserPlus className="h-4 w-4" />,
-                title: "Super admin signed in",
-                meta: "Session established",
-                timestamp: "just now",
-              },
-              {
-                id: "a2",
-                icon: <Server className="h-4 w-4" />,
-                title: "Migrations verified",
-                meta: "0 drift",
-                timestamp: "today",
-              },
+        {/* Reports */}
+        <div className="grid gap-5 lg:grid-cols-2">
+          <ReportPanel
+            title="Earning Reports"
+            right="Total"
+            sample
+            totals={[
+              { label: "Total Earnings", value: "$0.00" },
+              { label: "This Year", value: "$0.00" },
+              { label: "This Month", value: "$0.00" },
             ]}
-          />
-        </DashboardRow>
-
-        <DashboardRow>
-          <ProgressWidget
-            title="Capacity (sample)"
+            rowsHeader={["Month", "Income"]}
             rows={[
-              { label: "Database", value: 24, right: "24%" },
-              { label: "Storage", value: 12, right: "12%" },
-              { label: "AI credits", value: 8, right: "8%" },
+              { label: "July 2026", value: "$0.00" },
+              { label: "June 2026", value: "$0.00" },
+              { label: "May 2026", value: "$0.00" },
+              { label: "April 2026", value: "$0.00" },
+              { label: "March 2026", value: "$0.00" },
             ]}
           />
-          <div className="lg:col-span-2">
-            <DashboardSection title="Quick actions">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {QUICK_LINKS.map((q) => {
-                  const Icon = q.icon;
-                  const body = (
-                    <Card
-                      className={
-                        q.available
-                          ? "h-full transition-colors hover:border-primary/40"
-                          : "h-full opacity-70"
-                      }
-                    >
-                      <CardHeader>
-                        <div className="flex items-center justify-between">
-                          <div className="rounded-md bg-surface-3 p-2">
-                            <Icon className="h-4 w-4" />
-                          </div>
-                          <Badge variant={q.available ? "secondary" : "outline"}>
-                            {q.available ? "Available" : "Planned"}
-                          </Badge>
-                        </div>
-                        <CardTitle className="mt-3 text-base">{q.title}</CardTitle>
-                        <CardDescription>{q.description}</CardDescription>
-                      </CardHeader>
-                      {q.available && "to" in q && q.to ? (
-                        <CardContent>
-                          <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-                            Open <ArrowRight className="h-4 w-4" />
-                          </span>
-                        </CardContent>
-                      ) : null}
-                    </Card>
-                  );
-                  return q.available && "to" in q && q.to ? (
-                    <Link key={q.title} to={q.to} className="block">
-                      {body}
-                    </Link>
-                  ) : (
-                    <div key={q.title}>{body}</div>
-                  );
-                })}
-              </div>
-            </DashboardSection>
-          </div>
-        </DashboardRow>
+          <ReportPanel
+            title="Subscription Overview"
+            sample
+            totals={[
+              { label: "Active Subscriptions", value: "6" },
+              { label: "New This Month", value: "0" },
+            ]}
+            rowsHeader={["Month", "Subscriptions"]}
+            rows={[
+              { label: "July 2026", value: "0" },
+              { label: "June 2026", value: "0" },
+              { label: "May 2026", value: "0" },
+              { label: "April 2026", value: "0" },
+              { label: "March 2026", value: "0" },
+            ]}
+          />
+        </div>
+
+        {/* Bottom row */}
+        <div className="grid gap-5 lg:grid-cols-2">
+          <EmptyPanel title="Top Paying Companies" columns={["Name", "Amount"]} sample />
+          <EmptyPanel title="Payment Gateway Breakdown" columns={["Payment Gateway", "Amount"]} sample />
+        </div>
       </div>
     </Can>
   );
