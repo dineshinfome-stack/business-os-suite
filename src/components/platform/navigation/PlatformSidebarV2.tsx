@@ -89,7 +89,7 @@ export function PlatformSidebarV2({
   const resolvedSubtitle = subtitle ?? (variant === "platform" ? "Super Admin" : "Tenant");
   const tenantContext =
     variant === "tenant"
-      ? (tenantQuery.data?.legalName ?? tenantQuery.data?.name ?? displayName)
+      ? (tenantQuery.data?.display_name ?? displayName)
       : displayName;
   const isTenant = variant === "tenant";
 
