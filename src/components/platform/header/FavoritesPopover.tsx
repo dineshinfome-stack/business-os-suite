@@ -14,7 +14,7 @@ export function FavoritesPopover() {
     .filter((n) => n.route);
 
   return (
-    <HeaderPopover id="favorites" label="Favorites" icon={Star}>
+    <HeaderPopover id="favorites" label="Favorites" icon={Star} variant="text" align="start">
       {items.length === 0 ? (
         <div className="flex flex-col items-center gap-2 px-6 py-8 text-center">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
