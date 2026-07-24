@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { PlatformTopBar } from "./PlatformTopBar";
 import { PlatformSidebarV2 } from "./navigation/PlatformSidebarV2";
+import { CommandPalette } from "@/components/navigation/CommandPalette";
+import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { NAV_REGISTRY } from "@/lib/navigation/registry";
 import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
 
