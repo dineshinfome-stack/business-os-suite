@@ -17,13 +17,26 @@ lifecycle_state: Draft
 ## Execution Metadata
 
 ```yaml
-execution_status: Draft
+execution_status: Phase 2 — Approved with Conditions
+phase_1_status: Complete
+phase_2_status: Approved with Conditions (SIP-014 Deferred)
+phase_3_status: Pending closeout acceptance
 completion_date:
 implemented_by:
-reviewed_by:
-quality_gate:
+reviewed_by: Architecture Board (Phase 2 review — 10/10)
+quality_gate: V1–V5 passed (see PHASE2_SPR-MOD-001-002_CLOSEOUT.md)
 archive_date:
 ```
+
+## Deferred Items
+
+| Item | Status | Reason | Resolution Path |
+|---|---|---|---|
+| SIP-014 — Config namespace initialization on company activation / branch creation via ENG-005 | **Deferred** | ENG-005 exposes no namespace-init primitive and no company- or branch-scoped `setting_definitions` exist. Implementing either requires a schema/catalog change outside Phase 2 scope. | Tracked as an engineering proposal: `docs/30-sprint-prds/engineering/PROPOSAL-settings-namespace-bootstrap.md`. The Architecture Board will decide at intake whether it becomes SPR-ENG-005-001, is folded into another workstream, or is deferred further. No sprint identifier is reserved. |
+
+Phase 3 (UI & RBAC) may proceed. Any UI element that edits company- or branch-scoped settings is out of scope until the settings enhancement lands.
+
+
 
 ## Evidence
 
@@ -102,7 +115,7 @@ Migration filenames use the **next available filename per repository migration n
 | SIP-011 | `src/lib/organizations/organizations.functions.ts` — `listCompanies`, `createCompany`, `activateCompany`, `deactivateCompany`, `archiveCompany`, `setDefaultCompany` under `requireSupabaseAuth`; Zod validators; idempotent branches. | Backend | PRD §5.1, §5.4 | Not Started |
 | SIP-012 | `src/lib/branches/{lifecycle,events,audit}.ts` + `branches.functions.ts` (`listBranches`, `createBranch`, `updateBranch`, `archiveBranch`, `setDefaultBranch`). | Backend | PRD §5.2, §5.4 | Not Started |
 | SIP-013 | `src/lib/financial-years/{lifecycle,events,audit,overlap}.ts` + `financial-years.functions.ts` (`listFinancialYears`, `createFinancialYear`, `openFinancialYear`, `closeFinancialYear`, `archiveFinancialYear`, `setDefaultFinancialYear`). | Backend | PRD §5.3, R6 | Not Started |
-| SIP-014 | Company-scoped config namespace initialization on activation via ENG-005 (branch-scoped on branch creation). | Backend | PRD §1.2, §5.1 | Not Started |
+| SIP-014 | Company-scoped config namespace initialization on activation via ENG-005 (branch-scoped on branch creation). | Backend | PRD §1.2, §5.1 | **Deferred — Architecture Dependency (ENG-005)**. See Deferred Items and `PROPOSAL-settings-namespace-bootstrap.md`. |
 | SIP-015 | Extend `/platform/tenants/$tenantId` UI: add Companies tab (DataGrid + create/activate/deactivate/archive/set-default actions gated by `<Can>`), label "Company", status badges match PRD state names. | Frontend | WEB-001; PRD §5.1 | Not Started |
 | SIP-016 | Add Company detail route with nested Branches and Financial Years tabs; DataGrids and lifecycle action buttons gated by `<Can>`. | Frontend | WEB-001; PRD §5.2, §5.3 | Not Started |
 | SIP-017 | Register nav nodes in `src/lib/navigation/registry.ts` (no new top-level module). | Frontend | WEB-001 | Not Started |
