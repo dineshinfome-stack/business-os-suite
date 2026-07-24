@@ -153,7 +153,7 @@ function OverviewTab() {
         </CardHeader>
         <CardContent className="flex flex-col gap-2 text-sm">
           <Link className="text-primary hover:underline" to="/settings">
-            Workspace settings
+            Business settings
           </Link>
           <Link className="text-primary hover:underline" to="/dashboard">
             Dashboard
