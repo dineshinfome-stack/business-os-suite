@@ -1,75 +1,97 @@
-# Enterprise Navigation v2 — Verify Platform, then extend to Tenant
 
-You're on `/dashboard` (Tenant AppShell → `AppSidebar.tsx`), which was intentionally out of scope in the v2 rollout. That's why nothing looks different. `PlatformSidebarV2` is live at `/platform/*` only.
+# Tenant Shell Header Redesign v2 (Architecture Board Approved)
 
-Two passes:
+Applies Board recommendations 1–8 to the previously approved plan. Scope stays presentation-only on the **Tenant** shell (`AppShell.tsx`). `NAV_REGISTRY`, permissions, routing, ADR-009 concepts, and Platform shell are untouched.
 
-## Pass 1 — Verify Platform v2 (`/platform`)
+## Target architecture
 
-1. Navigate the running preview to `/platform`; capture screenshots (default, collapsed, search active, empty state, Favorites tab, Recent tab) via Playwright.
-2. Audit each acceptance item from `.lovable/plan.md` against the running UI:
-   - Data-driven from `NAV_REGISTRY` via `useNavigation()` (no hardcoded arrays)
-   - Search filters title/module/keywords; ⌘K still opens command palette; `/` focuses; `Esc` clears
-   - Tabs: All · Favorites · Recent (icons + labels)
-   - Collapsible groups; expand state persisted via `useNavPreferences`
-   - Pin/★ toggles favorite; pinned float to top of All
-   - Row context menu (⋮): Open · Pin/Unpin · Copy Link · Open in New Tab · Add Shortcut
-   - Badges via `useNavBadges` (stub returns empty; render path present)
-   - Empty state with Create command / Search globally / Help
-   - Keyboard: ↑/↓ move, →/← expand/collapse, Enter navigates
-   - a11y roles `tree` / `treeitem` / `group`
-   - Responsive: pinned (w-72), mini-rail (w-14), overlay on tablet/mobile
-3. Fix any gap found; do not restyle — only reconcile behavior with spec.
-4. Deliverable: `docs/50-audit-reports/PLATFORM_NAV_V2_AUDIT_<ts>.md` with pass/fail per item and screenshots.
+```text
+TenantShell
+    │
+    ▼
+AppShell ── HeaderProvider (context)
+                │
+    ┌───────────┼──────────────────────────────┐
+    ▼           ▼                              ▼
+ Navigator   HeaderPopover slots           Utility slots
+ (sidebar    ├─ FavoritesPopover           ├─ SearchTrigger
+ toggle +    ├─ RecentPopover              ├─ AiAssistantSlot (reserved)
+ pin)        └─ (future: Notifications,    ├─ NotificationBell
+             Tasks, Bookmarks, AI)         ├─ HelpMenu
+                                           └─ ProfileMenu
+    │
+    ▼
+EnterpriseSidebar (tenant)
+    │
+    ├─ SidebarHeader  (Business OS logo · Current Tenant · collapse)
+    ├─ NavigationIndex (search facade over registry)
+    │      └─ NavigationTree → NavigationItem
+    └─ SidebarFooter  (reserved: version/env/docs/feedback/status)
+```
 
-## Pass 2 — Extend v2 to Tenant AppShell
+## Header layout (left → right)
 
-Goal: replace `src/components/navigation/AppSidebar.tsx` usage in `AppShell.tsx` with the same v2 component, theme-tokenized so Platform (dark) and Tenant (light) share code.
+1. **Business OS logo** (links to `/dashboard`).
+2. **Navigator button** — pill labeled "Navigator" with `LayoutGrid` icon; toggles sidebar `pinned`. Adjacent `Pin`/`PinOff` icon flips pin state without closing. (Board Rec 1 — "All" renamed to "Navigator".)
+3. Spacer.
+4. **FavoritesPopover** trigger.
+5. **RecentPopover** trigger.
+6. **SearchTrigger** (existing ⌘K).
+7. **AiAssistantSlot** — reserved empty slot component, renders nothing today. (Board Rec 8.)
+8. **NotificationBell · HelpMenu · ProfileMenu** (unchanged).
 
-### Refactor plan
-1. **Extract shared sidebar** into `src/components/navigation/EnterpriseSidebar.tsx` (moved from `platform/navigation/PlatformSidebarV2.tsx`). Keep all sub-parts (`NavigationSearch`, `NavigationTabs`, `NavigationTree`, `NavigationGroup`, `NavigationItem`, `NavigationRowMenu`, `NavigationEmptyState`) alongside it.
-2. **Token-drive colors.** Replace hardcoded `text-white`, `bg-white/5`, `text-white/60` with semantic tokens:
-   - `--sidebar-bg`, `--sidebar-fg`, `--sidebar-fg-muted`, `--sidebar-ring`, `--sidebar-active-bar`, `--sidebar-row-hover`.
-   - Platform theme (`.platform-theme`) maps them to the existing dark navy palette (unchanged look).
-   - Tenant theme maps them to the existing tenant tokens (light workspace with brand red active bar).
-3. **Rewrite `AppShell.tsx`** to mount `<EnterpriseSidebar variant="tenant" pinned collapsed … />` and drop the current `AppSidebar` tree.
-4. **Filter registry by shell.** `useNavigation({ shell: "tenant" | "platform" })` — Platform shell shows `super_admin.*` + `administration.*` modules; Tenant shell shows `workspace.*` (labeled Tenant) + tenant-visible modules. Achieved with a lightweight filter, not registry edits.
-5. **Persist per-shell state.** Extend `usePlatformNavState` → `useShellNavState(shell)` so tenant pin/collapse/expand are stored under separate keys (`nav_prefs:tenant.*`).
-6. **Keep `AppSidebar.tsx` as deprecated file** (not imported) for one release, then remove in a follow-up.
-7. Update `PlatformShell.tsx` to consume the shared component via `variant="platform"` — no visual change.
+## Sidebar layout
 
-### Files
-**New**
-- `src/components/navigation/EnterpriseSidebar.tsx` (moved from platform)
-- `src/components/navigation/enterprise/*` (moved sub-parts)
-- `src/hooks/navigation/useShellNavState.ts`
+- **SidebarHeader** — logo mark, then two-line context: `Business OS` (strong) / current tenant display name (muted). Collapse button on the right. (Board Rec 5.)
+- **NavigationIndex** — search input backed by a small index module (`src/lib/navigation/index.ts`) that exposes `search(query)` over registry title / module / keywords / aliases. Tree consumes results, so the index is reusable by future AI Search. (Board Rec 3.)
+- **NavigationTree** — always-on "everything" view; tabs removed.
+- **SidebarFooter** — reserved slot component, empty today. (Board Rec 7.)
 
-**Modified**
-- `src/styles.css` — add `--sidebar-*` tokens under `:root` (tenant) and `.platform-theme` (platform)
-- `src/components/layout/AppShell.tsx` — mount `EnterpriseSidebar variant="tenant"`
-- `src/components/platform/PlatformShell.tsx` — mount `EnterpriseSidebar variant="platform"`
-- `src/hooks/navigation/useNavigation.ts` — accept optional `shell` filter
-- `src/components/platform/index.ts` — re-export shared component
+## Files
 
-**Deprecated (kept, not imported)**
-- `src/components/navigation/AppSidebar.tsx`
-- `src/components/platform/navigation/PlatformSidebarV2.tsx` (thin re-export during transition)
+### New
 
-### Acceptance
-- `/dashboard`, `/tenant`, `/settings` render with the v2 sidebar (search, tabs, groups, pin, badges, context menu, keyboard, empty state).
-- `/platform` unchanged visually; still passes Pass 1 audit.
-- Tenant sidebar respects tenant permissions via `useNavigation({ shell: "tenant" })`; no super-admin modules leak.
-- Pin/expand state persists per shell (tenant vs platform independent).
-- Tokens only — zero `text-white` / `bg-black` / hex literals in `EnterpriseSidebar` and children.
-- Typecheck + build clean; smoke test passes.
+- `src/contexts/header-context.tsx` — `HeaderProvider` + `useHeader()`; manages which header popover is open (single-open semantics), exposes slot registration hooks so future badges/AI can plug in without touching `AppShell`. (Board Rec 2.)
+- `src/components/platform/header/HeaderPopover.tsx` — generic popover trigger; props `id`, `label`, `icon`, `badge?`, `children`. Wraps shadcn `Popover`, wired to `HeaderProvider` for single-open behavior. (Board Rec 4.)
+- `src/components/platform/header/FavoritesPopover.tsx` — uses `usePinnedNav()` + `getNavItem()`; empty state matches existing copy. (Board Rec — rename from `HeaderFavoritesMenu`.)
+- `src/components/platform/header/RecentPopover.tsx` — uses `useRecentPages()`; caps at 10; row click navigates and closes.
+- `src/components/platform/header/AiAssistantSlot.tsx` — placeholder component that renders `null` today, keeps layout position stable. (Board Rec 8.)
+- `src/components/platform/header/NavigatorButton.tsx` — "Navigator" pill + inline pin/unpin control.
+- `src/components/platform/navigation/SidebarHeader.tsx` — logo + tenant context row + collapse control.
+- `src/components/platform/navigation/SidebarFooter.tsx` — reserved empty slot.
+- `src/lib/navigation/index.ts` — `buildNavigationIndex()` and `searchNavigation(query)`; pure, permission-agnostic (permissions still applied by `useNavigation()`).
 
-## Technical notes
-- No backend / migration changes. Reuses `nav_favorites`, `nav_command_history`, `NAV_REGISTRY`, `useFavorites`, `useRecentPages`, `useNavPreferences`, `useNavBadges`.
-- Command palette (⌘K) unchanged.
-- Mobile: overlay drawer via existing pin state; existing `use-mobile` hook for breakpoint gate.
-- No new deps; virtualization threshold (`@tanstack/react-virtual` at >60 rows) carried over from v2.
+### Modified
 
-## Out of scope
-- Real badge counts (Approvals/Notifications/Tasks endpoints)
-- Removal of deprecated `AppSidebar.tsx` (next sprint)
-- Redesign of the command palette
+- `src/components/layout/AppShell.tsx` — wrap tree in `<HeaderProvider>`; header replaced with new layout above; drops the current identity/pin/collapse block.
+- `src/components/platform/navigation/PlatformSidebarV2.tsx` (tenant variant only) — remove `NavigationTabs`, `FavoritesPane`, `RecentPane`, internal `tab` state. Mount `SidebarHeader` + `NavigationIndex` + `NavigationTree` + `SidebarFooter`. Platform variant continues to render tabs for now (out of scope for this pass).
+- `src/components/platform/index.ts` — export new header + sidebar pieces.
+
+### Deleted (only if no remaining consumers after edit)
+
+- `src/components/platform/navigation/NavigationTabs.tsx` — verify Platform still imports it; if yes, keep and only unmount from tenant variant. If no, delete.
+
+## Behavior contract
+
+- Navigator click ⇒ toggle `pinned` via `usePlatformNavState("tenant")`.
+- Pin icon click ⇒ flip `pinned` without closing (stopPropagation).
+- Opening any header popover closes any other (via `HeaderProvider`).
+- Popover row click ⇒ `Link` navigation + `close()` from context.
+- Sidebar search filters the tree via `NavigationIndex.searchNavigation`; `/` focuses, `Esc` clears — unchanged.
+- ⌘K still opens the global CommandPalette.
+
+## Deferred (documented, not built)
+
+- **Rec 6** (extended nav metadata: `description`, `category`, `aliases`, `badgeProvider`): schema-only change in a follow-up sprint; requires `NAV_REGISTRY` migration and cannot be added without touching every entry. Board explicitly marked recommendations as non-blocking.
+- Real Notifications / Tasks / AI popovers — slots reserved via `HeaderProvider`, no components yet.
+- Platform shell adoption of the same pattern.
+
+## Verification
+
+- `tsgo` clean.
+- Playwright on `/dashboard`: capture screenshots of (a) collapsed header, (b) Navigator open, (c) FavoritesPopover empty + populated, (d) RecentPopover populated, (e) sidebar with tenant context header and reserved footer.
+- Manual: pin toggle from header persists across reload; popovers mutually exclusive; keyboard focus returns to trigger on close.
+
+## Non-goals
+
+Routing, permissions, RLS, data model, Platform shell, real badge sources, `NAV_REGISTRY` schema extensions.

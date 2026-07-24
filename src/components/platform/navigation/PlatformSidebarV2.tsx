@@ -8,12 +8,16 @@ import { getNavItem } from "@/lib/navigation/registry";
 import { usePinnedNav } from "@/hooks/navigation/usePinnedNav";
 import { useRecentPages } from "@/hooks/navigation/useRecentPages";
 import { useNavBadges } from "@/hooks/navigation/useNavBadges";
+import { useCurrentTenant } from "@/hooks/tenants/useCurrentTenant";
 import { APP_NAME } from "@/constants/app";
+import { filterNavigationTree } from "@/lib/navigation";
 import { NavigationSearch } from "./NavigationSearch";
 import { NavigationTabs, type NavTab } from "./NavigationTabs";
 import { NavigationTree } from "./NavigationTree";
 import { NavigationItem } from "./NavigationItem";
 import { NavigationEmptyState } from "./NavigationEmptyState";
+import { SidebarHeader as EnterpriseSidebarHeader } from "./SidebarHeader";
+import { SidebarFooter as EnterpriseSidebarFooter } from "./SidebarFooter";
 
 export type SidebarVariant = "platform" | "tenant";
 
@@ -55,6 +59,7 @@ export function PlatformSidebarV2({
   const badges = useNavBadges();
   const { pinnedIds, togglePin } = usePinnedNav();
   const { recent } = useRecentPages();
+  const tenantQuery = useCurrentTenant();
 
   const [tab, setTab] = React.useState<NavTab>("all");
   const [query, setQuery] = React.useState("");
@@ -77,11 +82,16 @@ export function PlatformSidebarV2({
     return () => window.removeEventListener("keydown", h);
   }, []);
 
-  const filteredTree = React.useMemo(() => filterTree(tree, query), [tree, query]);
+  const filteredTree = React.useMemo(() => filterNavigationTree(tree, query), [tree, query]);
   const flatCount = React.useMemo(() => flatten(filteredTree).length, [filteredTree]);
 
   const width = collapsed ? "w-16" : "w-72";
   const resolvedSubtitle = subtitle ?? (variant === "platform" ? "Super Admin" : "Tenant");
+  const tenantContext =
+    variant === "tenant"
+      ? (tenantQuery.data?.display_name ?? displayName)
+      : displayName;
+  const isTenant = variant === "tenant";
 
   return (
     <aside
@@ -98,51 +108,60 @@ export function PlatformSidebarV2({
       }}
     >
       {!hideHeader && (
-        <div
-          className="flex items-center gap-2 px-3 py-2.5"
-          style={{ borderBottom: "1px solid var(--nav-border)" }}
-        >
-          {!collapsed && (
-            <div className="min-w-0 flex-1">
-              <div
-                className="truncate text-xs font-medium"
-                style={{ color: "var(--nav-fg-strong)" }}
-              >
-                {displayName}
+        isTenant ? (
+          <EnterpriseSidebarHeader
+            variant={variant}
+            contextLabel={tenantContext}
+            collapsed={collapsed}
+            onToggleCollapsed={onToggleCollapsed}
+          />
+        ) : (
+          <div
+            className="flex items-center gap-2 px-3 py-2.5"
+            style={{ borderBottom: "1px solid var(--nav-border)" }}
+          >
+            {!collapsed && (
+              <div className="min-w-0 flex-1">
+                <div
+                  className="truncate text-xs font-medium"
+                  style={{ color: "var(--nav-fg-strong)" }}
+                >
+                  {displayName}
+                </div>
+                <div
+                  className="flex items-center gap-1.5 text-[10px]"
+                  style={{ color: "var(--nav-fg-muted)" }}
+                >
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full"
+                    style={{ background: "var(--brand-success)" }}
+                  />
+                  <span className="truncate">{resolvedSubtitle}</span>
+                </div>
               </div>
-              <div
-                className="flex items-center gap-1.5 text-[10px]"
+            )}
+            <div className="ml-auto flex items-center gap-0.5">
+              <button
+                type="button"
+                aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
+                onClick={onTogglePin}
+                className="inline-flex h-7 w-7 items-center justify-center rounded"
+                style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
+              >
+                {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+              </button>
+              <button
+                type="button"
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                onClick={onToggleCollapsed}
+                className="inline-flex h-7 w-7 items-center justify-center rounded"
                 style={{ color: "var(--nav-fg-muted)" }}
               >
-                <span
-                  className="inline-block h-1.5 w-1.5 rounded-full"
-                  style={{ background: "var(--brand-success)" }}
-                />
-                <span className="truncate">{resolvedSubtitle}</span>
-              </div>
+                {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
+              </button>
             </div>
-          )}
-          <div className="ml-auto flex items-center gap-0.5">
-            <button
-              type="button"
-              aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
-              onClick={onTogglePin}
-              className="inline-flex h-7 w-7 items-center justify-center rounded"
-              style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
-            >
-              {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
-            </button>
-            <button
-              type="button"
-              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-              onClick={onToggleCollapsed}
-              className="inline-flex h-7 w-7 items-center justify-center rounded"
-              style={{ color: "var(--nav-fg-muted)" }}
-            >
-              {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
-            </button>
           </div>
-        </div>
+        )
       )}
 
       {collapsed ? (
@@ -150,10 +169,10 @@ export function PlatformSidebarV2({
       ) : (
         <>
           <NavigationSearch value={query} onChange={setQuery} inputRef={searchRef} />
-          <NavigationTabs active={tab} onChange={setTab} />
+          {!isTenant && <NavigationTabs active={tab} onChange={setTab} />}
 
           <div className="mt-1 flex-1 overflow-y-auto">
-            {tab === "all" &&
+            {(isTenant || tab === "all") &&
               (flatCount === 0 ? (
                 <NavigationEmptyState query={query} />
               ) : (
@@ -167,22 +186,26 @@ export function PlatformSidebarV2({
                 />
               ))}
 
-            {tab === "favorites" && (
+            {!isTenant && tab === "favorites" && (
               <FavoritesPane pinnedIds={pinnedIds} onTogglePin={togglePin} pathname={pathname} badges={badges} />
             )}
 
-            {tab === "recent" && <RecentPane recent={recent} pathname={pathname} />}
+            {!isTenant && tab === "recent" && <RecentPane recent={recent} pathname={pathname} />}
           </div>
 
-          <div
-            className="px-4 py-2 text-[10px]"
-            style={{
-              color: "var(--nav-fg-muted)",
-              borderTop: "1px solid var(--nav-border)",
-            }}
-          >
-            Business OS · v1.0
-          </div>
+          {isTenant ? (
+            <EnterpriseSidebarFooter />
+          ) : (
+            <div
+              className="px-4 py-2 text-[10px]"
+              style={{
+                color: "var(--nav-fg-muted)",
+                borderTop: "1px solid var(--nav-border)",
+              }}
+            >
+              Business OS · v1.0
+            </div>
+          )}
         </>
       )}
     </aside>
@@ -190,29 +213,6 @@ export function PlatformSidebarV2({
 }
 
 /* ────────────────────────────────────────────────────────────── */
-
-function filterTree(tree: NavNode[], q: string): NavNode[] {
-  const qq = q.trim().toLowerCase();
-  if (!qq) return tree;
-  const walk = (nodes: NavNode[]): NavNode[] => {
-    const out: NavNode[] = [];
-    for (const n of nodes) {
-      const hay =
-        n.title.toLowerCase() +
-        " " +
-        n.module.toLowerCase() +
-        " " +
-        (n.keywords ?? []).join(" ").toLowerCase();
-      const matches = hay.includes(qq);
-      const children = walk(n.children);
-      if (matches || children.length > 0) {
-        out.push({ ...n, children });
-      }
-    }
-    return out;
-  };
-  return walk(tree);
-}
 
 function FavoritesPane({
   pinnedIds,
