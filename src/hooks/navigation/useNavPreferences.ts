@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useOrg } from "@/contexts/org-context";
+import { useAuth } from "@/contexts/auth-context";
 import { queryKeys } from "@/lib/query-keys";
 import {
   getNavPreferencesFn,
@@ -11,6 +12,8 @@ import {
 
 export function useNavPreferences() {
   const { current } = useOrg();
+  const { status } = useAuth();
+  const isAuthed = status === "authenticated";
   const orgId = current?.organizationId ?? null;
   const qc = useQueryClient();
   const getFn = useServerFn(getNavPreferencesFn);
@@ -19,9 +22,10 @@ export function useNavPreferences() {
   const query = useQuery({
     queryKey: queryKeys.navigation.preferences(orgId),
     queryFn: () => getFn(),
-    enabled: Boolean(orgId),
+    enabled: isAuthed && Boolean(orgId),
     staleTime: 5 * 60_000,
   });
+
 
   const mutation = useMutation({
     mutationFn: (preferences: NavPreferences) => setFn({ data: { preferences } }),
