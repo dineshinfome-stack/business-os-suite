@@ -1,99 +1,89 @@
-# Phase 3 — UI & RBAC for SPR-MOD-001-002
 
-Consume Phase 2 server functions in `src/lib/organizations`, `src/lib/branches`, `src/lib/financial-years`. Zero backend/database/test/documentation work.
+# Phase 4 — Testing & QA (SPR-MOD-001-002)
 
-## Architecture Board Decision — SIP-018
+Validation-only phase. No new features, no schema, no new RPCs. Reuse SPR-MOD-001-001 patterns.
 
-**SIP-018 is deferred to Phase 4 (Testing & Quality Assurance).** Phase 3 scope is limited to **SIP-015, SIP-016, and SIP-017**. This deferment is an approved phase-boundary decision and is **not** a scope deviation.
+## Discovery (pre-plan verification)
 
-## Repository Reuse Baseline (from SPR-MOD-001-001)
+Read from the repository this turn:
 
-Reference implementation: `src/routes/_authenticated/platform/tenants/{index,$tenantId}.tsx`. All new UI mirrors these files' structure and imports:
+- `vitest.config.ts` — jsdom + `src/**/*.test.{ts,tsx}` — reuse as-is.
+- `playwright.config.ts` — configured but `e2e/` contains only a README placeholder; **no existing Playwright specs**.
+- Existing test suites: `src/__tests__/smoke.test.ts`, `src/lib/navigation/__tests__/*`, `src/lib/search/__tests__/*`, `src/lib/tenants/__tests__/{lifecycle,slug}.test.ts`. Pattern: pure-function Vitest suites against `lifecycle.ts` / `slug.ts`, colocated in `__tests__/` next to source.
+- Slug normalization for Company/Branch/FY lives in the DB RPC (`private.fn_normalize_slug`); no TS mirror in `src/lib/organizations|branches|financial-years`. The TS mirror `@/lib/tenants/slug` is already covered by `slug.test.ts` — no duplicate needed.
+- **No integration-test harness exists** in the repo for authenticated server functions (no Supabase test client, no auth fixtures, no DB reset strategy).
+- **No Playwright specs or auth helpers exist**.
 
-- Routing: TanStack `createFileRoute` under `_authenticated/platform/…`
-- Data: `useServerFn` + `useQuery` / `useMutation` + `queryClient.invalidateQueries`
-- Tables: `@/components/tables/DataGrid` with `ColumnDef`
-- Dialogs: `@/components/ui/dialog`
-- Permission gates: `<Can permission={PERMISSIONS.*}>` from `@/components/auth/Can`
-- Toasts: `sonner` (respect `already_*` result flags exactly like tenant page)
-- Status: local `LifecycleBadge` pattern with same variant mapping
-- Loading: inline muted text (same as tenant pages) — no new skeleton components
-- Forms: `Input` + `Label` inside `Dialog`; no new form abstractions
-- Empty state: `DataGrid` handles empty rendering
+Consequence: SIP-018's integration and E2E scope cannot be executed as "reuse existing patterns" — the patterns don't exist. See "Gap disclosure" below.
 
-No new component library, no new state manager, no new routing pattern.
+## In scope this phase
 
-**Query keys**: inspect the repository for a centralized query-key module (e.g. `src/lib/query-keys.ts`); if a convention exists, extend it. If not, use inline arrays consistent with the tenant page (`["platform","tenant",tenantId,"companies"]` etc.).
+### 1. Unit tests (SIP-018) — matches existing pattern exactly
 
-## Deliverables
+Add pure-function Vitest suites mirroring `src/lib/tenants/__tests__/lifecycle.test.ts`, colocated under each module's `__tests__/` folder using the existing naming convention:
 
-### SIP-015 — Companies tab on Tenant detail
+- `src/lib/organizations/__tests__/lifecycle.test.ts`
+  - valid: `created→active`, `active↔inactive`, `active→archived`, `inactive→archived`
+  - rejects: `created→inactive/archived`, `archived→*`, self-transitions
+  - `assertTransition` throws on illegal
+- `src/lib/branches/__tests__/lifecycle.test.ts`
+  - valid: `active→archived`; rejects: `archived→*`, self, reverse
+  - `assertTransition` throws
+- `src/lib/financial-years/__tests__/lifecycle.test.ts`
+  - full state-machine coverage of `open`, `close`, `archive` per `financial-years/lifecycle.ts`
+  - rejects illegal transitions, self, post-archive
+  - `assertTransition` throws
 
-Extend `src/routes/_authenticated/platform/tenants/$tenantId.tsx`:
+Slug normalization: covered by existing `src/lib/tenants/__tests__/slug.test.ts` (shared normalizer). No new TS slug module is introduced — SIP-018 slug items map to the DB RPC and existing TS coverage.
 
-- Add a Companies section using the tenant page's existing layout conventions (introduce `<Tabs>` from `@/components/ui/tabs` only if the current page has no equivalent grouping; otherwise match its structure).
-- DataGrid columns: Name, Slug, Default, Lifecycle, Created.
-- Actions gated by `<Can>` with `PERMISSIONS.*` constants:
-  - Create → dialog (name, slug) → `createCompany`
-  - Row actions: Activate / Deactivate / Archive / Set default → respective server fns
-- Query invalidation on mutation success following tenant page pattern.
-- Toasts respect `already_active` / `already_archived` / etc. flags returned by Phase 2.
+Data-layer invariants named in SIP-018 that live only in RPCs (overlapping-FY rejection, default-branch/company invariant, `already_*` idempotency branches, archive restrictions) are **not** exercisable from pure unit tests. They are named in the integration section below.
 
-### SIP-016 — Company detail with Branches & Financial Years tabs
+### 2. Integration tests — gap disclosure
 
-New route: `src/routes/_authenticated/platform/companies/$companyId.tsx`
+The repo has no harness to call `createServerFn` handlers with an authenticated Supabase session and reset DB state between tests. Building one is net-new infrastructure and would exceed "reuse existing patterns" and "no new architectural changes".
 
-- Header: company name/slug, `LifecycleBadge`, action buttons (Activate/Deactivate/Archive/Set default) gated by `<Can>`, enable/disable driven by `canTransition()` from `src/lib/organizations/lifecycle.ts`.
-- **Edit dialog omitted** — `updateCompany` does not exist in `company.functions.ts`; matches PRD note "Edit Company (where supported by PRD)".
-- Tabs: `Branches` | `Financial Years`.
-  - **Branches**: DataGrid (Name, Code, Default, Lifecycle, Created). Actions: Create (dialog), Update (dialog), Archive, Set default → `branch.functions.ts`. Enable/disable via `canTransition` from `src/lib/branches/lifecycle.ts`.
-  - **Financial Years**: DataGrid (Label, Start, End, Default, Lifecycle). Actions: Create (dialog: label, startDate, endDate), Open, Close, Archive, Set default → `financial-year.functions.ts`. Enable/disable via `canTransition` from `src/lib/financial-years/lifecycle.ts`.
-- Query keys namespaced under `["platform","company",companyId,…]` (or centralized module if present).
-- Link from Companies row (SIP-015) → `/platform/companies/$companyId`.
+Plan: **do not fabricate a harness this phase.** Record integration coverage of Phase 2 server functions (permission enforcement, RPC execution, audit rows, event emission, `already_*` idempotency, overlap/default invariants) as an explicit gap in the Phase 4 summary. Present the gap to the Architecture Board for disposition; do not pre-select a remedy.
 
-### SIP-017 — Navigation registration
+### 3. Playwright E2E — gap disclosure
 
-Extend `src/lib/navigation/registry.ts` under the existing `administration.platform` group (no new top-level module):
+`e2e/` has no specs and no auth helpers. Authoring the Companies / Branches / FY flows requires: a Supabase-session bootstrap for Playwright, seed data for a tenant, and a login helper. All net-new.
 
-- Inspect the existing `listCompanies` / `listBranches` / `listFinancialYears` server-function signatures and implement the navigation pattern that matches them. **Do not introduce additional routes solely to satisfy navigation.**
-  - If a signature is cross-tenant (no required tenantId), register a top-level list route.
-  - If a signature is tenant/company-scoped, register a nav item that deep-links to the appropriate parent context (Tenant detail Companies tab / Company detail Branches or Financial Years tab) and add discovery keywords for the command palette.
-- All new nav items use generated `PermissionKey` constants from `@/lib/generated/permission-keys` — no string literals.
-- Follow the stable `nav_id` contract documented at the top of `registry.ts` (permanent ids, no renames).
+Plan: **do not author E2E specs this phase.** Record as a gap on the same terms as integration. Keep `playwright.config.ts` untouched. Disposition is the Board's.
 
-Any Companies list route required by SIP-017 is created at `src/routes/_authenticated/platform/companies/index.tsx` only if `listCompanies` supports cross-tenant listing.
+### 4. Regression verification
 
-## Permission & Server Function Contract
+- Run `bunx vitest run` — full suite must pass (existing + new lifecycle suites).
+- Run `bunx tsgo --noEmit` — clean.
+- Static sweeps: `rg "console\\." src/lib/organizations src/lib/branches src/lib/financial-years src/routes/_authenticated/platform`, `rg "TODO|\\.only\\(|\\.skip\\(" src/**/*.test.ts` — must be empty (excluding pre-existing approved cases).
+- Confirm every added test file follows the existing repository naming and location conventions (`<module>/__tests__/<subject>.test.ts`, Vitest `describe`/`it`, `@/lib/...` imports).
 
-- Only imports from `@/lib/generated/permission-keys` (`PERMISSIONS.*`) — no permission string literals.
-- Only imports from `company.functions.ts`, `branch.functions.ts`, `financial-year.functions.ts` — no direct `.rpc()`, no direct `supabase.from()` on lifecycle tables, no duplication of lifecycle logic or validation.
-- `canTransition()` helpers gate button enablement; server remains authoritative.
+### 5. Defect policy
 
-## Validation Before Stop
+If any existing suite or typecheck fails, apply the minimum correction inside Phase 1–3 code, re-run, and record in the summary. No new abstractions.
 
-- `bunx tsgo --noEmit` clean.
-- Route tree regenerates automatically (no manual edits to `routeTree.gen.ts`).
-- `rg` sweeps across new/modified UI files:
-  - no `\.rpc\(`
-  - no permission string literals matching `platform\.(company|branch|financialyear)\.`
-  - no `console.`
-  - no `TODO`
-- No circular imports.
-- All lifecycle actions dispatch through Phase 2 server functions.
+## Files this phase will create
 
-## Stop Deliverables
+- `src/lib/organizations/__tests__/lifecycle.test.ts`
+- `src/lib/branches/__tests__/lifecycle.test.ts`
+- `src/lib/financial-years/__tests__/lifecycle.test.ts`
 
-- List of new/modified files and routes.
-- SIP task status: SIP-015 ✅, SIP-016 ✅, SIP-017 ✅, SIP-018 ⏸ Deferred to Phase 4 (Board decision).
-- Validation summary (tsgo + rg sweeps).
-- Repository deviations (if any) with justification.
-- Blockers (if any).
-- Phase 4 recommendations (vitest coverage for lifecycle machines + FY overlap + default-flag invariant + slug normalization per SIP-018; Playwright flows for company/branch/FY lifecycle transitions).
+No other files modified unless a defect is discovered.
 
-## Out of Scope (Explicit)
+## Out of scope (per user directive)
 
-Testing, documentation, Sprint Completion Report, Acceptance Review, Program Status, IMP CHANGELOG, SIP archival, Company/Branch Settings UI, Settings Namespace Bootstrap proposal implementation.
+Sprint closeout, acceptance report, program status, IMP CHANGELOG, SIP archival, Settings Namespace Bootstrap, Company/Branch Settings UI, any new feature.
 
-## Stop Condition
+## Deliverables at stop
 
-Stop immediately after SIP-015, SIP-016, and SIP-017 are complete and validation passes. Await Architecture Board review before proceeding to Phase 4.
+1. SIP-018 execution summary, identifying completed unit-test work and any remaining items that could not be executed because the required repository infrastructure does not exist.
+2. Unit test summary (counts, pass/fail).
+3. Integration test summary — gap disclosure: absence of repository-supported integration test infrastructure, presented to the Architecture Board for disposition. Possible outcomes (Board's decision, not the implementation team's) include acceptance of the gap, a dedicated infrastructure proposal, or incorporation into an existing approved workstream.
+4. Playwright test summary — gap disclosure on the same terms as integration.
+5. Defects found + fixes (expected: none).
+6. Final validation results: `vitest`, `tsgo`, static sweeps, naming/location conformance.
+7. Repository deviations: none proposed; two gaps disclosed for Board disposition.
+8. Recommendation for Phase 5: proceed to Sprint Acceptance pending Architecture Board disposition of the disclosed gaps.
+
+## Stop condition
+
+Stop after the three lifecycle test files are added, all suites and typecheck pass, and the summary with the two neutral gap disclosures is produced. Await Architecture Board decision.
