@@ -26,12 +26,14 @@ import {
   LayoutDashboard,
   Settings,
   Shield,
+  ShieldCheck,
   Cog,
   Building2,
   Users,
   Mail,
   Landmark,
 } from "lucide-react";
+
 
 import type { ComponentType } from "react";
 import type { PermissionKey } from "@/lib/generated/permission-keys";
@@ -245,7 +247,40 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     enabled: true,
     keywords: ["financial year", "fiscal year", "fy", "accounting period"],
   },
+
+  // ── SPR-PLT-0001 Phase A — Super Admin (shell + navigation only) ─────
+  // Landing surface for platform-wide super-admin capabilities. Later
+  // phases (Dashboard, Provisioning, Licensing, Audit, User Management)
+  // will attach as children under `super_admin`.
+  {
+    id: "super_admin",
+    id_status: "active",
+    module: "super_admin",
+    title: "Super Admin",
+    icon: ShieldCheck,
+    route: null,
+    parent: null,
+    display_order: 95,
+    permission: "platform.settings.manage",
+    visible: true,
+    enabled: true,
+  },
+  {
+    id: "super_admin.platform",
+    id_status: "active",
+    module: "super_admin",
+    title: "Platform Administration",
+    icon: ShieldCheck,
+    route: "/platform",
+    parent: "super_admin",
+    display_order: 10,
+    permission: "platform.settings.manage",
+    visible: true,
+    enabled: true,
+    keywords: ["super admin", "platform", "administration", "control panel"],
+  },
 ] satisfies NavItem[]);
+
 
 // Dev-only integrity checks — cheap and skipped in production builds.
 if (import.meta.env.DEV) {
