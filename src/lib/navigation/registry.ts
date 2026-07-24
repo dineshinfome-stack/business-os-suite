@@ -199,7 +199,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     permission: "platform.tenant.read",
     visible: true,
     enabled: true,
-    keywords: ["tenant", "organization", "isolation", "platform admin"],
+    keywords: ["tenant", "workspace", "isolation", "platform admin"],
   },
   // ── SPR-MOD-001-002 — Organization Structure (SIP-017) ────────────────
   // Companies, branches, and financial years are tenant/company-scoped; nav
