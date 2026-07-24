@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { Outlet } from "@tanstack/react-router";
-import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { PlatformSidebarV2 } from "@/components/platform/navigation/PlatformSidebarV2";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
@@ -21,9 +20,6 @@ export function AppShell({ children }: { children?: ReactNode }) {
           role="banner"
           className="fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/80"
         >
-          <div className="hidden min-w-0 flex-1 md:block">
-            <Breadcrumb />
-          </div>
           <div className="ml-auto flex items-center gap-1.5">
             <SearchTrigger />
             <NotificationBell />
