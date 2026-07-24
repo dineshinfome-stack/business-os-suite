@@ -159,7 +159,7 @@ function ModuleGroup({
   );
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className="px-2 py-0.5">
       {!collapsed && (
         <SidebarGroupLabel asChild>
           <button
