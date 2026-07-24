@@ -28,6 +28,8 @@ interface Props {
   topOffset?: string;
   /** Optional subtitle under the display name. */
   subtitle?: string;
+  /** Hide the identity/pin/collapse header block (when rendered elsewhere). */
+  hideHeader?: boolean;
 }
 
 /**
