@@ -17,15 +17,16 @@ import { AiAssistantSlot } from "@/components/platform/header/AiAssistantSlot";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { ProfileMenu, HelpMenu, SearchTrigger } from "@/components/platform";
 
-// Start area — brand + primary navigator control.
+// Start area — brand + primary navigation entries (ServiceNow-style: All,
+// Favorites, History sit next to the brand mark).
 registerHeaderSlot({ id: "logo", area: "start", order: 10, component: BusinessOsLogo });
 registerHeaderSlot({ id: "navigator", area: "start", order: 20, component: NavigatorButton });
+registerHeaderSlot({ id: "favorites", area: "start", order: 30, component: FavoritesPopover });
+registerHeaderSlot({ id: "recent", area: "start", order: 40, component: RecentPopover });
 
 // End area — productivity + identity. Order gaps reserved for future slots
 // (e.g. Tasks=45, Announcements=55).
 registerHeaderSlot({ id: "search", area: "end", order: 10, component: SearchTrigger });
-registerHeaderSlot({ id: "favorites", area: "end", order: 20, component: FavoritesPopover });
-registerHeaderSlot({ id: "recent", area: "end", order: 30, component: RecentPopover });
 registerHeaderSlot({ id: "ai-assistant", area: "end", order: 40, component: AiAssistantSlot });
 registerHeaderSlot({ id: "notifications", area: "end", order: 50, component: NotificationBell });
 registerHeaderSlot({ id: "help", area: "end", order: 60, component: HelpMenu });

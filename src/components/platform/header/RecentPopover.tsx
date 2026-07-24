@@ -10,7 +10,7 @@ export function RecentPopover() {
   const items = recent.slice(0, 10);
 
   return (
-    <HeaderPopover id="recent" label="Recent" icon={Clock}>
+    <HeaderPopover id="recent" label="History" icon={Clock} variant="text" align="start">
       {items.length === 0 ? (
         <div className="flex flex-col items-center gap-2 px-6 py-8 text-center">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
