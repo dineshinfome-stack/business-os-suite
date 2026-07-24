@@ -28,6 +28,8 @@ interface Props {
   topOffset?: string;
   /** Optional subtitle under the display name. */
   subtitle?: string;
+  /** Hide the identity/pin/collapse header block (when rendered elsewhere). */
+  hideHeader?: boolean;
 }
 
 /**
@@ -43,6 +45,7 @@ export function PlatformSidebarV2({
   variant = "platform",
   topOffset = "3.5rem",
   subtitle,
+  hideHeader = false,
 }: Props) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { profile, user } = useAuth();
@@ -94,52 +97,53 @@ export function PlatformSidebarV2({
         boxShadow: "var(--nav-elevation)",
       }}
     >
-      {/* Header: identity + pin + collapse */}
-      <div
-        className="flex items-center gap-2 px-3 py-2.5"
-        style={{ borderBottom: "1px solid var(--nav-border)" }}
-      >
-        {!collapsed && (
-          <div className="min-w-0 flex-1">
-            <div
-              className="truncate text-xs font-medium"
-              style={{ color: "var(--nav-fg-strong)" }}
-            >
-              {displayName}
+      {!hideHeader && (
+        <div
+          className="flex items-center gap-2 px-3 py-2.5"
+          style={{ borderBottom: "1px solid var(--nav-border)" }}
+        >
+          {!collapsed && (
+            <div className="min-w-0 flex-1">
+              <div
+                className="truncate text-xs font-medium"
+                style={{ color: "var(--nav-fg-strong)" }}
+              >
+                {displayName}
+              </div>
+              <div
+                className="flex items-center gap-1.5 text-[10px]"
+                style={{ color: "var(--nav-fg-muted)" }}
+              >
+                <span
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ background: "var(--brand-success)" }}
+                />
+                <span className="truncate">{resolvedSubtitle}</span>
+              </div>
             </div>
-            <div
-              className="flex items-center gap-1.5 text-[10px]"
+          )}
+          <div className="ml-auto flex items-center gap-0.5">
+            <button
+              type="button"
+              aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
+              onClick={onTogglePin}
+              className="inline-flex h-7 w-7 items-center justify-center rounded"
+              style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
+            >
+              {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+            </button>
+            <button
+              type="button"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              onClick={onToggleCollapsed}
+              className="inline-flex h-7 w-7 items-center justify-center rounded"
               style={{ color: "var(--nav-fg-muted)" }}
             >
-              <span
-                className="inline-block h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--brand-success)" }}
-              />
-              <span className="truncate">{resolvedSubtitle}</span>
-            </div>
+              {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
+            </button>
           </div>
-        )}
-        <div className="ml-auto flex items-center gap-0.5">
-          <button
-            type="button"
-            aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
-            onClick={onTogglePin}
-            className="inline-flex h-7 w-7 items-center justify-center rounded"
-            style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
-          >
-            {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
-          </button>
-          <button
-            type="button"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            onClick={onToggleCollapsed}
-            className="inline-flex h-7 w-7 items-center justify-center rounded"
-            style={{ color: "var(--nav-fg-muted)" }}
-          >
-            {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
-          </button>
         </div>
-      </div>
+      )}
 
       {collapsed ? (
         <MiniRail tree={tree} pathname={pathname} />
