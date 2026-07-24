@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { Outlet } from "@tanstack/react-router";
-import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { PlatformSidebarV2 } from "@/components/platform/navigation/PlatformSidebarV2";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
