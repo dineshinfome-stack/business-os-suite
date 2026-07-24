@@ -144,9 +144,9 @@ function LoginPage() {
               label="Email Address"
               type="email"
               autoComplete="email"
-              autoFocus
               required
             />
+
 
             <div className="space-y-1.5">
               <Label htmlFor="password">
