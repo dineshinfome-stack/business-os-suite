@@ -350,8 +350,17 @@
         {
           "title": "SPR-MOD-001-006 \u2014 Audit Review Platform Administration",
           "path": "30-sprint-prds/platform/SPR-MOD-001-006-audit-review-platform-administration"
+        },
+        {
+          "title": "SPR-PLT-0001 \u2014 Discovery Report",
+          "path": "50-audit-reports/SPR_PLT_0001_DISCOVERY_REPORT"
+        },
+        {
+          "title": "SPR-PLT-0001 \u2014 Recommended Implementation Sequence",
+          "path": "50-audit-reports/SPR_PLT_0001_RECOMMENDED_IMPLEMENTATION_SEQUENCE"
         }
       ]
+
     },
     {
       "label": "Modules \u2014 MOD-002 Accounting",
