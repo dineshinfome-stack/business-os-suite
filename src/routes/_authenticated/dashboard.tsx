@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: `Dashboard — ${APP_NAME}` },
-      { name: "description", content: `${APP_NAME} workspace dashboard.` },
+      { name: "description", content: `${APP_NAME} business dashboard.` },
     ],
   }),
   component: DashboardPage,
