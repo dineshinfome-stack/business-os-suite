@@ -12,7 +12,7 @@ import { useCurrentTenant } from "@/hooks/tenants/useCurrentTenant";
 import { APP_NAME } from "@/constants/app";
 import { useNavigationSearchIndex } from "@/hooks/navigation/useNavigationSearchIndex";
 import { NavigationSearch } from "./NavigationSearch";
-import { NavigationTabs, type NavTab } from "./NavigationTabs";
+import { useSecondaryNavTab } from "@/hooks/platform/useSecondaryNavTab";
 import { NavigationTree } from "./NavigationTree";
 import { NavigationItem } from "./NavigationItem";
 import { NavigationEmptyState } from "./NavigationEmptyState";
@@ -63,7 +63,7 @@ export function PlatformSidebarV2({
   const { recent } = useRecentPages();
   const tenantQuery = useCurrentTenant({ enabled: isTenant });
 
-  const [tab, setTab] = React.useState<NavTab>("all");
+  const { tab } = useSecondaryNavTab();
   const [query, setQuery] = React.useState("");
   const searchRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -177,7 +177,6 @@ export function PlatformSidebarV2({
         <MiniRail tree={tree} pathname={pathname} />
       ) : (
         <>
-          <NavigationTabs active={tab} onChange={setTab} />
           <NavigationSearch
             value={query}
             onChange={setQuery}
