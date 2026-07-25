@@ -44,17 +44,19 @@ This matrix SHOULD be regenerated or reviewed whenever any ADR is authored, supe
 | ADR-005 Clean Architecture | master-architecture, domain-driven-design | ENG-001..ENG-028 | All | ✓ | — |
 | ADR-006 CQRS Usage Guidelines | database-architecture, api-architecture | ENG-021, ENG-022 | Analytics, Accounting, Reporting consumers | ✓ | — |
 
-### Data (ADR-010..016)
+### Data / Architecture (ADR-010..017)
 
 | ADR | Architecture Documents | ERP Core Engines | Module PRDs | Coding Standards | Design Standards |
 | --- | --- | --- | --- | --- | --- |
 | ADR-010 PostgreSQL as System of Record | database-architecture, database-standards | ENG-016, ENG-020, ENG-021 | All | ✓ | — |
-| ADR-011 Multi-Tenant Isolation | multi-tenant-architecture, database-architecture, security-architecture | ENG-001, ENG-002 | All | ✓ | — |
+| ADR-011 Multi-Tenant Isolation (Platform DB only after ADR-017) | multi-tenant-architecture, database-architecture, security-architecture | ENG-001, ENG-002 | All | ✓ | — |
 | ADR-012 UUID Primary Keys | database-standards, data-dictionary | — | All | ✓ | — |
 | ADR-013 Money Representation | data-dictionary, database-standards | ENG-015, ENG-016 | Accounting, Sales, Payroll, POS | ✓ | — |
 | ADR-014 Audit Strategy | security-architecture, observability-architecture | ENG-004 | All | ✓ | — |
 | ADR-015 Soft Delete Policy | database-standards, data-dictionary | — | All | ✓ | — |
 | ADR-016 Data Versioning | database-standards, event-catalog | ENG-024 | All event producers | ✓ | — |
+| **ADR-017 Dedicated Database per Tenant** (supersedes ADR-009; supersedes shared-DB posture of ADR-011 for Tenant business data) | multi-tenant-architecture, database-architecture, deployment-architecture, devops-architecture, security-architecture | ENG-001, ENG-002, ENG-004 | All | ✓ | — |
+
 
 ### Platform (ADR-020..026)
 
