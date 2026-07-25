@@ -156,3 +156,39 @@ Next authoring wave: `SPR-MOD-001-004` (Configuration), `SPR-MOD-001-005` (Licen
 ## 10. Stop Rule
 
 **STOP.** Await Architecture Board approval before initiating Phase B2 (`SPR-MOD-001-004` … `-007`). No implementation is authorised.
+
+## 11. Architecture Board Decision
+
+- **Decision:** **APPROVED**
+- **Approval date:** 2026-07-25
+- **Reviewer:** Architecture Board (governance checkpoint; documentation-only review)
+- **Scope reviewed:** SPR-MOD-001-001, SPR-MOD-001-002, SPR-MOD-001-003, MOD-001 Phase B1 Cross-PRD Consistency Matrix, and §1–§10 of this report.
+
+### 11.1 Reviewer Summary
+
+The three Phase B1 Sprint PRDs (v2) inherit ADR-017 by reference without restating its invariants, apply TENANCY_STANDARD v2.0 (including R6: no cross-tenant queries), and consistently locate every business record inside the Tenant DB while keeping the Platform DB scoped to platform metadata. Workspace is treated as a logical, non-persistent surface in all three PRDs; no `workspaces` table is proposed anywhere. Ownership of Tenant, Company/Branch/Financial Year, and Identity/Role/Permission capabilities is partitioned cleanly across SPR-001/002/003 with no overlap and no shared-DB wording.
+
+### 11.2 Checklist Results
+
+| Area | Result |
+| --- | :-: |
+| Architecture — ADR-017 inheritance, dedicated Tenant DB, logical Workspace, Platform/Tenant DB responsibilities | ✓ |
+| Governance — standards referenced not restated, no duplication, no contradictions | ✓ |
+| Cross-PRD consistency — 10/10 axes and 6/6 pair-wise interactions | ✓ |
+| Traceability — 39/39 FRs linked to Capability + ADR + Module Objective + AC; 0 orphans | ✓ |
+| Dependency validation — 0 cycles, 0 forward runtime dependencies, sequencing 001 → 002 → 003 | ✓ |
+| Repository safety — changes confined to `docs/`; no `src/`, `supabase/`, `scripts/`, or package-file modifications in the Phase B1 delta | ✓ |
+
+### 11.3 Findings
+
+None blocking. Pre-existing risks R-B1-01 through R-B1-03 (§8) are acknowledged and carried forward as Solution-Design-stage obligations, not Phase B1 defects.
+
+### 11.4 Recommendations (Non-Blocking, for Phase B2)
+
+1. Escalate ADR-030 (Authentication Model) from Proposed to Accepted **before** SPR-MOD-001-003 enters Stage 2 (Solution Design); track as an entry criterion, not a Phase B1 defect.
+2. Preserve the License-hook pass-through contract in SPR-003 until SPR-MOD-001-005 lands; call it out in the Phase B2 authoring brief so enforcement wiring is authored, not re-designed.
+3. Reuse the same reuse-review, traceability, and dependency-validation gates applied here for SPR-MOD-001-004 … -007.
+
+### 11.5 Authorization
+
+Phase B1 is accepted. **Phase B2 authoring (`SPR-MOD-001-004` Configuration, `SPR-MOD-001-005` Licensing, `SPR-MOD-001-006` Localization, `SPR-MOD-001-007` Workspace Services) is authorized to begin upon explicit user instruction.** No implementation, migration, or source change is authorized by this decision.
