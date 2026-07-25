@@ -5,10 +5,9 @@
  * Tenant, and future module dashboards share layout, permission gating,
  * and widget composition.
  */
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { UserPlus, Users, ShieldCheck } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { UserPlus, Users } from "lucide-react";
 import { Can } from "@/components/auth/Can";
-import { Button } from "@/components/ui/button";
 import { DashboardTemplate } from "@/dashboard/template";
 import { APP_NAME } from "@/constants/app";
 
@@ -40,20 +39,7 @@ function PlatformDashboardPage() {
         config={{
           title: "Platform Dashboard",
           description: "Operate tenants, identity, and platform-wide health.",
-          headerActions: (
-            <>
-              <Button asChild size="sm" variant="outline">
-                <Link to="/platform/tenants">
-                  <Users className="mr-1 h-3.5 w-3.5" /> Tenants
-                </Link>
-              </Button>
-              <Button asChild size="sm" variant="outline">
-                <Link to="/platform">
-                  <ShieldCheck className="mr-1 h-3.5 w-3.5" /> Admin Home
-                </Link>
-              </Button>
-            </>
-          ),
+          headerActions: null,
           quickActions: {
             items: [
               {
