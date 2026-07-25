@@ -23,6 +23,7 @@ import { initials } from "@/utils/string";
  */
 export function ProfileMenu() {
   const auth = useAuth();
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const palette = useCommandPalette();
 
