@@ -256,7 +256,10 @@
   --nav-tab-active-fg: #ffffff;
   --nav-input-bg: rgba(255, 255, 255, 0.05);
   --nav-elevation: 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+  --nav-bg-popup: color-mix(in oklab, var(--nav-bg) 80%, transparent);
+  --nav-popup-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.6), 0 8px 20px -6px rgba(0, 0, 0, 0.4);
 }
+
 
 
 .dark {
