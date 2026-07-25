@@ -2,6 +2,7 @@ import * as React from "react";
 import type { ReactNode } from "react";
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { PlatformTopBar } from "./PlatformTopBar";
+import { PlatformSecondaryHeader } from "./PlatformSecondaryHeader";
 import { PlatformSidebarV2 } from "./navigation/PlatformSidebarV2";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
@@ -30,10 +31,11 @@ export function PlatformShell({ children }: { children?: ReactNode }) {
     <CommandPaletteProvider>
       <div className="platform-theme min-h-screen" style={{ background: "var(--platform-content-bg)" }}>
         <PlatformTopBar title={title} />
+        <PlatformSecondaryHeader />
 
         {!pinned && (
           <div
-            className="fixed inset-0 top-14 z-20 bg-black/20 lg:hidden"
+            className="fixed inset-0 top-[6rem] z-20 bg-black/20 lg:hidden"
             aria-hidden
             onClick={togglePinned}
           />
@@ -45,9 +47,10 @@ export function PlatformShell({ children }: { children?: ReactNode }) {
           onTogglePin={togglePinned}
           collapsed={collapsed}
           onToggleCollapsed={toggleCollapsed}
+          topOffset="6rem"
         />
 
-        <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
+        <div className={`pt-24 transition-[padding] duration-200 ${contentShift}`}>
           <main id="main" role="main">
             {children ?? <Outlet />}
           </main>

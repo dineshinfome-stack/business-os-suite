@@ -177,6 +177,8 @@
   --platform-sidebar-active-bar: var(--brand-red);
   --platform-content-bg: var(--sn-canvas);
   --platform-topbar-bg: var(--sn-surface);
+  --platform-secondary-header-bg: #f1f2f5;
+  --platform-secondary-header-border: color-mix(in oklab, var(--sn-text) 10%, transparent);
   --kpi-value: var(--sn-navy-800);
 
 }
@@ -300,6 +302,8 @@
   --platform-sidebar-hover-bg: var(--sn-navy-hover);
   --platform-sidebar-active-bar: var(--sn-accent-pink);
   --platform-topbar-bg: var(--sn-navy-800);
+  --platform-secondary-header-bg: var(--sn-navy-700, #232a5c);
+  --platform-secondary-header-border: rgba(255, 255, 255, 0.08);
 }
 
 .enterprise-sidebar[data-variant="platform"] {

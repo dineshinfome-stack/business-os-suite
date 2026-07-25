@@ -1,17 +1,43 @@
-## Problem
+## Goal
 
-In the light theme, the sidebar Filter input's text/placeholder ("Filter") is invisible because `NavigationSearch` renders it with `color: var(--nav-fg-strong)`, and `.enterprise-sidebar[data-variant="platform"]` in `src/styles.css` hardcodes `--nav-fg-strong: #ffffff` regardless of theme. In light mode the platform sidebar background is white, so white-on-white hides the placeholder and typed text.
+Add a secondary header bar directly below the `PlatformTopBar` that hosts the three navigation triggers — **All**, **Favorites**, **Recent** — matching the uploaded reference. The bar is theme-aware:
 
-## Fix
+- **Light theme:** light grey background
+- **Dark theme:** blue (navy, matching current platform sidebar/topbar)
 
-Single-file change in `src/styles.css`, scoped to the platform sidebar variant tokens:
+## Scope
 
-1. In the base `.enterprise-sidebar[data-variant="platform"]` block (line 228), change `--nav-fg-strong: #ffffff` to `--nav-fg-strong: var(--platform-sidebar-fg)`. `--platform-sidebar-fg` already resolves to a dark ink in light mode and to the on-navy foreground in `.dark`, so this fixes light theme without regressing dark.
-2. In the dark override `.dark .enterprise-sidebar[data-variant="platform"]` block (line 313), explicitly re-set `--nav-fg-strong: #ffffff` to keep dark-theme visuals byte-identical to today.
+Platform shell only (`/platform/*`). No changes to the Tenant shell, business logic, data, or routing.
 
-No other tokens, components, or routes are touched. The generic (non-platform) sidebar variant already resolves `--nav-fg-strong` via `var(--foreground)` and is unaffected.
+## Changes
 
-## Verification
+### 1. New component: `src/components/platform/PlatformSecondaryHeader.tsx`
 
-- On `/platform/dashboard` in light theme, the sidebar Filter input shows the "Filter" placeholder and typed characters in dark ink.
-- Toggle to dark theme via the profile menu: the Filter input text remains white on navy, unchanged from current behavior.
+- Fixed bar under the topbar (`top-14`, height ~40px, `z-30`).
+- Left cluster: three pill/text buttons — `All` (LayoutGrid icon), `Favorites` (Star icon), `Recent` (Clock icon, active/red state as in image).
+- `All` toggles sidebar pin (reuse `usePlatformNavState` via a passed prop, or lift through `PlatformShell`).
+- `Favorites` / `Recent` open placeholder popovers (or wire to existing favorites/recent registries if present — behavior parity with tenant `NavigatorButton`/tabs is out of scope for this pass; buttons render and are clickable, active state visible).
+- Uses semantic tokens: `bg-[color:var(--platform-secondary-header-bg)]`, foreground via existing sidebar tokens. Active state uses `--brand-red`.
+
+### 2. Tokens in `src/styles.css`
+
+Add:
+- `:root` → `--platform-secondary-header-bg: <light grey, e.g. oklch matching #f1f2f5>`
+- `.dark` → `--platform-secondary-header-bg: <navy, matches current topbar>`
+
+### 3. `PlatformShell.tsx`
+
+- Render `<PlatformSecondaryHeader />` right after `<PlatformTopBar />`.
+- Bump main content top padding from `pt-14` to `pt-[92px]` (14 topbar + ~40 secondary).
+- Adjust sidebar `top` offset if the sidebar starts at `top-14` today, so it starts below the secondary header too (verify in `PlatformSidebarV2`).
+
+## Out of scope
+
+- Wiring Favorites/Recent popover contents (kept as visual triggers unless already available as reusable components — will reuse if trivial, otherwise stub).
+- Tenant shell changes.
+- Any change to nav registry, search, or business logic.
+
+## Technical notes
+
+- All colors via CSS variables — no hardcoded `bg-white` / `bg-slate-*`.
+- Component is presentational; state (pin toggle) comes through the existing `usePlatformNavState` hook already used by `PlatformShell`.
