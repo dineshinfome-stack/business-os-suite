@@ -17,6 +17,11 @@ import { logTenantEventFn } from "./audit";
 import { buildTenantEvent } from "./events";
 import type { TenantLifecycleState } from "./lifecycle";
 import { normalizeSlug, isValidSlug } from "./slug";
+import {
+  SearchTenantsSchema,
+  UpdateTenantMetadataSchema,
+  toTenantColumnPatch,
+} from "./registry";
 
 // ── Validators ──────────────────────────────────────────────────────────
 const CreateInput = z.object({
