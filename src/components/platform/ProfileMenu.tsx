@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { LogOut, Settings, User as UserIcon, Keyboard, Sun, Moon, Monitor } from "lucide-react";
 import {
   DropdownMenu,
