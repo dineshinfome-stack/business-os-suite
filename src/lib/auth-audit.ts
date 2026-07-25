@@ -1,6 +1,8 @@
 import { logAuthEventFn } from "./auth.functions";
 import { getOrCreateCorrelationId } from "./correlation";
 import { logger } from "./logger";
+import { supabase } from "@/integrations/supabase/client";
+
 
 /**
  * Whitelisted authentication audit actions. Past-tense verb form per
