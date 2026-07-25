@@ -11,6 +11,8 @@ document_type: "Status Register"
 
 # Repository Solution Status
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > Derived, mutable status projection. Authoritative content lives in the referenced audit reports; on conflict, the audit report wins.
 
 ## Current Repository State

@@ -1,22 +1,27 @@
 ---
 title: "Multi-Tenant Architecture"
-summary: "Tenant definition, hierarchy, isolation strategy, row-level security philosophy, tenant lifecycle, cross-tenant operations, and data residency for the BusinessOS platform."
+summary: "Tenant definition, hierarchy, isolation strategy (dedicated database per Tenant), row-level security philosophy, tenant lifecycle, cross-tenant operations, and data residency for the BusinessOS platform."
 layer: "platform"
 owner: "Platform Architecture"
 status: "approved"
-updated: "2026-07-05"
-tags: ["architecture", "multi-tenant", "pass-4b"]
+updated: "2026-07-25"
+tags: ["architecture", "multi-tenant", "pass-4b", "adr-017"]
 depends_on:
   - "02-architecture/master-architecture"
   - "02-architecture/domain-driven-design"
   - "02-architecture/domain-map"
   - "02-architecture/database-architecture"
 referenced_by: []
+supersedes_posture: "shared-schema per ADR-011 (for Tenant business data)"
+aligned_to: "ADR-017"
 ---
 
 # Multi-Tenant Architecture
 
-> Part of **Pass 4B — Data Foundation (Data Constitution)**. Defines *what a tenant is* in BusinessOS, how data is scoped to tenants, how tenants are isolated, and how tenant lifecycles are managed. Concrete RLS policies, DDL, and infrastructure choices are out of scope.
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture** (supersedes the shared-database posture of ADR-011 for Tenant business data). ADR-011 continues to apply to the Platform database's own single-schema deployment. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
+> Part of **Pass 4B — Data Foundation (Data Constitution)**. Defines *what a tenant is* in BusinessOS, how data is scoped to tenants, how tenants are isolated (via a dedicated database per Tenant), and how tenant lifecycles are managed. Concrete provisioning tooling, connection routing code, RLS DDL, and infrastructure choices are out of scope.
+
 
 ## Overview
 
@@ -36,11 +41,12 @@ Key properties of a tenant:
 - **Lifecycle anchor** — provisioning, suspension, export, and deletion operate at the tenant granularity.
 - **Data-residency anchor** — a tenant is the smallest unit that can be pinned to a specific geographic region.
 
-## Tenant / Organization / Company / Branch Hierarchy
+## Tenant / Workspace / Company / Branch Hierarchy
 
-A tenant is not a flat container. Business entities inside a tenant form a hierarchy that mirrors real enterprise structure without collapsing tenants and organisations into the same concept.
+Under ADR-017 the hierarchy is **Platform → Tenant → [Dedicated Database + Logical Workspace] → Company → Branch / Financial Year**. Tenant owns exactly one dedicated database (the *persistence boundary*) and exactly one **logical Workspace** — a non-persistent container with no table, no identifier, and no independent configuration store. Workspace is a naming and navigation construct that organises everything a Tenant sees (Companies, Branches, Financial Years, Users, Roles, Permissions, Settings, AI Workspace, Modules).
 
-Tenant is the sole business container above Company. See `docs/11-adrs/architecture/ADR-009-workspace-retirement.md` (supersedes ADR-008).
+See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md` (supersedes ADR-009, which itself superseded ADR-008).
+
 
 ```mermaid
 flowchart TD
@@ -93,26 +99,28 @@ Globally shared data is **read-only from a tenant's perspective**; only platform
 
 ## Isolation Strategy
 
-Isolation is enforced in layers so that a single failed layer cannot compromise the tenancy invariant.
+Under ADR-017, tenant isolation is a **physical database boundary**, not only a row-level filter. Layers exist so that a single failed layer cannot compromise the tenancy invariant.
 
-1. **Identity layer** — every authenticated request carries a resolved tenant claim; there is no anonymous access to tenant data.
-2. **Application layer** — every domain service accepts tenant scope as an explicit input and refuses ambiguous scope.
-3. **Data layer** — every tenant-scoped query is filtered by tenant identifier via row-level security policies enforced by the database, not by application code.
-4. **Cache layer** — cache keys embed tenant identifier; there is no shared-key path that could leak cross-tenant.
-5. **Transport layer** — outbound integrations resolve tenant-specific credentials; a tenant cannot use another tenant's integration credentials.
+1. **Identity layer** — every authenticated request carries a resolved Tenant claim; there is no anonymous access to Tenant data.
+2. **Tenant-resolution layer** — the Platform database resolves the Tenant claim to a dedicated Tenant database connection via registry metadata. No handler proceeds without a Tenant-scoped connection.
+3. **Persistence layer** — Tenant business data lives **only** inside that Tenant's dedicated database. Cross-tenant table joins are impossible by construction; there is no shared table to join.
+4. **Application layer** — every domain service accepts Tenant scope as an explicit input and refuses ambiguous scope. No code path holds connections to two Tenant databases simultaneously for a business read/write.
+5. **Cache layer** — cache keys embed the Tenant identifier; there is no shared-key path that could leak cross-tenant.
+6. **Transport layer** — outbound integrations resolve Tenant-specific credentials; a Tenant cannot use another Tenant's integration credentials.
 
-Isolation model: **shared schema, tenant-column-scoped, RLS-enforced**. Dedicated schemas or dedicated databases per tenant are reserved for high-tier customers with regulatory or contractual demands and are handled as a deployment topology variant.
+**Isolation model:** *dedicated database per Tenant*. The Platform database stores only platform metadata (tenant registry, platform users, licenses, subscriptions, platform audit, provisioning state, connection routing) and holds **no Tenant business data**.
 
-## Row-Level Security Strategy
+## Row-Level Security Strategy (Defense-in-Depth)
 
-Row-level security (RLS) is the enforcement mechanism that makes the tenancy invariant a data-layer fact rather than a coding convention.
+Under ADR-017, the **primary** tenant boundary is the dedicated database. Row-level security (RLS) is a **defense-in-depth** mechanism, not the primary isolation mechanism.
 
-- **Every tenant-scoped table has an RLS policy** that filters rows by the caller's resolved tenant identifier.
-- **The tenant claim is set once per request** in the database session/context by the trusted request pipeline; domain code cannot forge it.
+- **Inside a Tenant database**, RLS may still scope data to Companies, Branches, Users, or roles as a within-Tenant defense-in-depth layer.
+- **Inside the Platform database** (single-schema deployment), ADR-011's shared-schema/RLS posture continues to apply to platform metadata.
+- **The Tenant claim is set once per request** in the resolved Tenant DB session/context by the trusted request pipeline; domain code cannot forge it.
 - **Bypass is a privileged, audited action** — only platform-level roles used by controlled infrastructure operations may bypass RLS, and every bypass is logged.
-- **RLS is defence in depth**, not a substitute for correct application-layer scoping.
-- **Global tables have no RLS** and are read-only for tenant sessions.
-- Concrete policy DDL, role names, and enforcement mechanics live in downstream ADRs and implementation documents.
+- **Global reference data** (see Reference Data) is served either from the Platform database or from per-Tenant seed copies; either way it is read-only for Tenant sessions.
+- Concrete RLS DDL, role names, and enforcement mechanics live in downstream ADRs and implementation documents.
+
 
 ## Cross-Tenant Operations
 

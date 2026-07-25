@@ -11,6 +11,8 @@ supersedes: none
 
 # Chapter 08 — Security Standards
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > Orchestration only. Authoritative security rules live in Governance and Architecture; this chapter references them (R-19, R-20).
 
 ## Purpose *(Normative)*

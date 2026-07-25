@@ -7,6 +7,8 @@ approval_status: Draft
 
 # 13 — Database Strategy
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 ## Migration Sequencing
 Migrations execute in numerical order (`0NN_*.sql`) matching sprint order. Wave order dictates the migration order across modules.
 

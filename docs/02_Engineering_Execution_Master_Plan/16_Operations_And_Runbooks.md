@@ -11,6 +11,8 @@ supersedes: none
 
 # Chapter 16 — Operations and Runbooks
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 ## Purpose *(Normative)*
 
 Orchestrate how engineering operates the platform in production: observability, alerting, incident response, on-call, and runbook stewardship. Chapter 16 references authoritative operational standards and never restates them (R-19, R-20).

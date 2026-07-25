@@ -19,6 +19,8 @@ referenced_by: []
 
 # Security Architecture
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** For Tenant business data the persistence boundary is the dedicated Tenant database; the shared-database posture of ADR-011 continues to apply only to the Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > Part of **Pass 4C — Platform Constitution**. Defines the security principles, authorization model, isolation strategy, data classification, and compliance posture every BusinessOS capability must obey. It does **not** contain IAM policy documents, RLS SQL, secret values, cryptographic algorithm choices, or vendor tooling — those are downstream of this document.
 
 ## Overview

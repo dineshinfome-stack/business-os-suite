@@ -1,105 +1,91 @@
 ---
 title: "Tenancy Standard"
-summary: "Multi-tenant data isolation rules that every business table and server function must follow."
+summary: "Multi-tenant isolation rules under ADR-017 (dedicated database per Tenant). Every business table, connection, and server function must obey them."
 layer: "governance"
 owner: "Platform"
 status: "approved"
-updated: "2026-07-22"
-version: "1.0"
-tags: ["governance", "database", "multi-tenant"]
+updated: "2026-07-25"
+version: "2.0"
+tags: ["governance", "database", "multi-tenant", "adr-017"]
 document_type: "Standard"
-supersedes: ""
+supersedes: "Tenancy Standard v1.0 (shared-schema posture)"
+aligned_to: "ADR-017"
 ---
 
-# Tenancy Standard v1.0
+# Tenancy Standard v2.0
 
 ## Purpose
 
-Establish the tenant-isolation contract for the Business OS platform. Every
-business table and every server function that reads or writes business data
-MUST enforce organization scoping. Cross-tenant reads or writes are a P1
-security defect.
+Establish the tenant-isolation contract for the Business OS platform under **ADR-017 — Dedicated Database per Tenant Architecture**. Every Tenant business table lives in that Tenant's dedicated database; every server function that reads or writes business data MUST resolve a Tenant-scoped connection before it runs. Cross-tenant reads or writes are a P1 security defect and, under ADR-017, structurally impossible for correctly written code paths.
 
-## Terminology (ADR-009)
+## Terminology (ADR-017, supersedes ADR-009)
 
-The conceptual hierarchy is **Platform → Tenant → Company → Branch / Financial Year**.
-Tenant is the sole business container above Company. See
-`docs/11-adrs/architecture/ADR-009-workspace-retirement.md` (supersedes ADR-008).
+The conceptual hierarchy is **Platform → Tenant → [Dedicated Database + Logical Workspace] → Company → Branch / Financial Year**.
 
-| Concept        | Current Physical Representation |
-| -------------- | ------------------------------- |
-| Platform       | Application                     |
-| Tenant         | `public.tenants`                |
-| Company        | `public.organizations`          |
-| Branch         | `public.branches`               |
-| Financial Year | `public.financial_years`        |
+- **Tenant** is the persistence and administration boundary. One Tenant = one dedicated database.
+- **Workspace** is reintroduced as a **logical, non-persistent container** within a Tenant — no `workspaces` table, no `workspace_id` column, no independent configuration store. It is a naming and navigation construct only.
+- **Company** is the primary company-scoping key **within** a Tenant database, still backed by `public.organizations`.
 
-> `organization_id` remains the primary **company-scoping** key within a
-> Tenant. It does not replace or redefine the Tenant isolation boundary.
+See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
 
+| Concept        | Physical Representation |
+| -------------- | --------------------------------- |
+| Platform       | Application + Platform database   |
+| Tenant         | Dedicated Tenant database (row in Platform `public.tenants` registry) |
+| Workspace      | Logical (non-persistent)          |
+| Company        | `public.organizations` (in Tenant DB) |
+| Branch         | `public.branches` (in Tenant DB)  |
+| Financial Year | `public.financial_years` (in Tenant DB) |
 
-## Model
-
-- **Tenant unit:** `public.organizations` row (one organization = one tenant).
-- **Membership:** `public.organization_members(organization_id, user_id, role, status)`.
-- **Roles:** `owner | admin | member` (`public.org_role`).
-- **Statuses:** `active | invited | suspended` (`public.org_member_status`).
-- **Personal org:** auto-provisioned on signup by `private.fn_handle_new_auth_user`.
+> `organization_id` remains the primary **company-scoping** key **within** a Tenant database. It does not define the Tenant isolation boundary; the Tenant database itself does.
 
 ## Rules
 
 ### R1 — Every business table carries `organization_id`
 
-Every table that stores tenant-owned business data MUST include:
+Inside a Tenant database, every table that stores company-owned business data MUST include:
 
 ```sql
 organization_id uuid NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE
 ```
 
-Foundation tables that are inherently user-scoped and not tenant-scoped
+Foundation tables that are inherently user-scoped and not company-scoped
 (`public.profiles`, `public.user_roles`, `public.audit_logs`) are exempt.
 
-### R2 — Org-scoped RLS on every business table
+### R2 — Within-Tenant RLS is defense-in-depth
 
-RLS policies MUST use `private.fn_is_org_member(auth.uid(), organization_id)`
-for read paths and `private.fn_org_role(auth.uid(), organization_id)` for
-write-permission decisions. Direct `auth.uid()`-only checks are not
-sufficient — they leak cross-tenant data to any authenticated user.
+Under ADR-017 the **primary** tenant boundary is the dedicated database, not RLS. Inside a Tenant database, RLS remains the enforcement mechanism for **within-Tenant** scoping (Company, Branch, User, role). Policies MUST use `private.fn_is_org_member(auth.uid(), organization_id)` for read paths and `private.fn_org_role(auth.uid(), organization_id)` for write-permission decisions. RLS in the Platform database follows the historical ADR-011 posture for platform metadata.
 
 ### R3 — Server functions resolve org context via `requireOrgContext`
 
-Server functions that touch tenant data MUST use `requireOrgContext`
-middleware (from `src/integrations/supabase/org-middleware.ts`) instead of
-accepting `organizationId` as caller-supplied input. The middleware
-resolves the current org from the `current_org_id` cookie and verifies
-active membership before any handler runs. This makes tenant scoping
-tamper-proof from the client.
+Server functions that touch tenant data MUST use `requireOrgContext` middleware (from `src/integrations/supabase/org-middleware.ts`) instead of accepting `organizationId` as caller-supplied input. Under ADR-017, the middleware chain additionally MUST resolve a **Tenant-scoped database connection** before handler execution; the concrete connection-routing middleware is delivered by the sprint sequence in `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN_v2.md`.
 
-### R4 — Never accept `organizationId` from client payloads
+### R4 — Never accept `organizationId` or `tenantId` from client payloads
 
-Client callers select the current organization via the org-switcher
-(`setCurrentOrganization` server fn), which writes the cookie server-side
-after verifying membership. Handlers read from `context.organizationId` —
-never from the request body.
+Client callers select the current organization via the org-switcher (`setCurrentOrganization` server fn), which writes the cookie server-side after verifying membership. Tenant identity is resolved server-side from the authenticated session and Platform registry, never from the request body.
 
 ### R5 — Cascade on organization delete
 
-FKs to `public.organizations(id)` MUST use `ON DELETE CASCADE` so that
-tenant deletion removes all owned rows atomically. Soft-delete on the
-`organizations` row (setting `deleted_at`) is the normal path; hard delete
-is reserved for tenant off-boarding.
+FKs to `public.organizations(id)` MUST use `ON DELETE CASCADE` so that company deletion removes all owned rows atomically. Soft-delete on the `organizations` row (setting `deleted_at`) is the normal path; hard delete is reserved for company off-boarding within a Tenant. Tenant off-boarding is a separate, higher-privileged operation that drops the entire Tenant database and is scoped to the Platform Admin surface.
+
+### R6 — No cross-Tenant queries (new under ADR-017)
+
+Application code MUST resolve exactly one Tenant-scoped database connection per request. No code path — server function, background job, report, or admin tool — may hold connections to two Tenant databases simultaneously for a business read or write. Cross-tenant platform metrics MUST operate on anonymised or pre-aggregated derivations produced inside each Tenant database and delivered to the Platform layer.
 
 ## Enforcement
 
-- Migrations that introduce a business table without `organization_id` +
-  org-scoped RLS MUST be rejected in review.
-- Server functions that touch tenant tables without `requireOrgContext`
-  MUST be rejected in review.
-- The Wave 0 verification report includes a check that every non-foundation
-  public table has an `organization_id` column and org-scoped policies.
+- Migrations that introduce a business table without `organization_id` + within-Tenant RLS MUST be rejected in review.
+- Server functions that touch tenant data without `requireOrgContext` + Tenant-scoped connection resolution MUST be rejected in review.
+- Any code that opens a second Tenant DB connection in the same request scope MUST be rejected in review.
+- The Wave 0 verification report includes a check that every non-foundation public table has an `organization_id` column and org-scoped policies. The MOD-001 v2 sprint programme adds a per-request connection-routing check.
 
 ## Related
 
+- `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`
+- `docs/11-adrs/architecture/ADR-009-workspace-retirement.md` (superseded by ADR-017)
+- `docs/11-adrs/data/ADR-011-multi-tenant-isolation.md` (Platform database only)
 - `docs/15-governance/DATABASE_STANDARD.md`
 - `docs/15-governance/PLATFORM_OBSERVABILITY_STANDARD.md`
-- Migration `006` — Organizations & Membership
+- `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md`
+- `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN_v2.md`
+
