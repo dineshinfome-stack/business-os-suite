@@ -1,43 +1,50 @@
 ## Goal
 
-Add a secondary header bar directly below the `PlatformTopBar` that hosts the three navigation triggers — **All**, **Favorites**, **Recent** — matching the uploaded reference. The bar is theme-aware:
+Make the Admin Home hero band ("Welcome to Admin Home, Demo!") readable in Light theme: soft grey background with black text, while the current navy gradient stays for Dark theme.
 
-- **Light theme:** light grey background
-- **Dark theme:** blue (navy, matching current platform sidebar/topbar)
+## Current state (verified)
 
-## Scope
-
-Platform shell only (`/platform/*`). No changes to the Tenant shell, business logic, data, or routing.
+- `src/routes/_authenticated/platform/index.tsx` L152–162 renders the hero using the `sn-hero-band` utility, hardcodes `text-white` on the H1, and uses `--sn-text-onnavy-muted` for the subtitle.
+- `src/styles.css` defines a single navy `--sn-hero-gradient` and `sn-hero-band` utility with no light/dark variant, so it's dark in both themes.
 
 ## Changes
 
-### 1. New component: `src/components/platform/PlatformSecondaryHeader.tsx`
+**1. Introduce theme-aware hero tokens in `src/styles.css`**
 
-- Fixed bar under the topbar (`top-14`, height ~40px, `z-30`).
-- Left cluster: three pill/text buttons — `All` (LayoutGrid icon), `Favorites` (Star icon), `Recent` (Clock icon, active/red state as in image).
-- `All` toggles sidebar pin (reuse `usePlatformNavState` via a passed prop, or lift through `PlatformShell`).
-- `Favorites` / `Recent` open placeholder popovers (or wire to existing favorites/recent registries if present — behavior parity with tenant `NavigatorButton`/tabs is out of scope for this pass; buttons render and are clickable, active state visible).
-- Uses semantic tokens: `bg-[color:var(--platform-secondary-header-bg)]`, foreground via existing sidebar tokens. Active state uses `--brand-red`.
+Add to `:root` (light defaults):
+```
+--sn-hero-bg:        #eef0f4;   /* soft neutral grey, matches --platform-secondary-header-bg family */
+--sn-hero-fg:        #0f1235;   /* near-black navy — reads as black on grey */
+--sn-hero-fg-muted:  #4b5063;
+--sn-hero-dot-1:     rgba(15, 18, 53, 0.10);
+--sn-hero-dot-accent: rgba(228, 18, 124, 0.22);
+```
 
-### 2. Tokens in `src/styles.css`
+Add to `.dark` block (preserve current look):
+```
+--sn-hero-bg:        var(--sn-hero-gradient);  /* keep navy → indigo gradient */
+--sn-hero-fg:        var(--sn-text-onnavy);
+--sn-hero-fg-muted:  var(--sn-text-onnavy-muted);
+--sn-hero-dot-1:     rgba(255,255,255,0.18);
+--sn-hero-dot-accent: rgba(228, 18, 124, 0.35);
+```
 
-Add:
-- `:root` → `--platform-secondary-header-bg: <light grey, e.g. oklch matching #f1f2f5>`
-- `.dark` → `--platform-secondary-header-bg: <navy, matches current topbar>`
+Update the two utilities to consume the tokens:
+- `sn-hero-band` → `background: var(--sn-hero-bg); color: var(--sn-hero-fg);`
+- `sn-hero-dots` → use `--sn-hero-dot-1` / `--sn-hero-dot-accent` (drop the always-bright cyan/green dots so light theme stays calm; dark theme still gets the pink accent).
 
-### 3. `PlatformShell.tsx`
+**2. Fix the route to stop hardcoding white**
 
-- Render `<PlatformSecondaryHeader />` right after `<PlatformTopBar />`.
-- Bump main content top padding from `pt-14` to `pt-[92px]` (14 topbar + ~40 secondary).
-- Adjust sidebar `top` offset if the sidebar starts at `top-14` today, so it starts below the secondary header too (verify in `PlatformSidebarV2`).
+In `src/routes/_authenticated/platform/index.tsx`:
+- H1: replace `text-white` with `style={{ color: "var(--sn-hero-fg)" }}`.
+- Subtitle: swap `--sn-text-onnavy-muted` for `--sn-hero-fg-muted`.
 
-## Out of scope
+## Suggestions that fit Light theme (I'll apply as part of #1)
 
-- Wiring Favorites/Recent popover contents (kept as visual triggers unless already available as reusable components — will reuse if trivial, otherwise stub).
-- Tenant shell changes.
-- Any change to nav registry, search, or business logic.
+- **Background**: soft neutral grey `#eef0f4` — matches the new secondary header bar so the hero reads as a continuous "admin canvas" rather than a heavy banner.
+- **Headline**: near-black navy `#0f1235` instead of pure `#000` — keeps brand affinity and looks less harsh on grey.
+- **Subtitle**: cool slate `#4b5063` for hierarchy without losing contrast (AA on the grey background).
+- **Accent dots**: drop the neon cyan/green in light mode; keep faint navy + a whisper of brand-red so the band still has texture but doesn't look like a dark-theme leftover.
+- **Optional bottom hairline**: add a 1px `--sn-border` divider under the band so it separates cleanly from the "Track what's important" section.
 
-## Technical notes
-
-- All colors via CSS variables — no hardcoded `bg-white` / `bg-slate-*`.
-- Component is presentational; state (pin toggle) comes through the existing `usePlatformNavState` hook already used by `PlatformShell`.
+No behavior or copy changes; Dark theme is untouched.
