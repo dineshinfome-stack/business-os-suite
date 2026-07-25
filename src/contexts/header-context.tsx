@@ -8,8 +8,11 @@ import * as React from "react";
 export interface SidebarControls {
   pinned: boolean;
   collapsed: boolean;
+  open: boolean;
   togglePinned: () => void;
   toggleCollapsed: () => void;
+  toggleOpen: () => void;
+  closeOpen: () => void;
 }
 
 interface HeaderContextValue {
