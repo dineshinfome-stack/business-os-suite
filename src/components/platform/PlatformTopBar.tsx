@@ -49,11 +49,8 @@ export function PlatformTopBar({ title }: PlatformTopBarProps) {
         </div>
       </div>
 
-      {/* Current page title */}
-      <div className="hidden min-w-0 items-center gap-2 md:flex">
-        <span className="text-[color:var(--platform-sidebar-muted)]">/</span>
-        <span className="truncate text-sm font-medium text-[color:var(--platform-sidebar-fg)]">{title}</span>
-      </div>
+      {/* Current page title removed */}
+
 
       {/* Right utility */}
       <div className="ml-auto flex items-center gap-0.5">
