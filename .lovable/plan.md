@@ -1,118 +1,141 @@
-# Phase 0 (v4) — Engineering Readiness + Reuse-Before-Build Rule
+# Phase 1 — Platform Foundation Implementation (SPR-MOD-001-001)
 
-**Mode:** Documentation-only. No code, schema, migration, route, component, ADR, PRD, or baseline changes. Publishes the "Reuse Before Build" governance standard and six evidence-backed engineering-readiness documents preceding SPR-MOD-001-001.
+**Mode:** Implementation. Framework and integration only. No tenant provisioning, no database changes, no business workflows.
 
 ## Objective
 
-1. Codify **Reuse Before Build** as a permanent global engineering rule.
-2. Publish Phase 0 readiness reports (health, technical debt, checklist, summary).
-3. Publish the **Reuse Inventory**, **Duplicate/Superseded Detection**, **Engineering Blockers**, and **Dependency Readiness** reviews so SPR-MOD-001-001 begins with an actionable, traceable map.
+Establish the Platform module as the integration root for all Platform features by wiring it into the existing Business OS repository. Prepare — but do not build — the surfaces later phases (Tenant Registry, Provisioning, Lifecycle) will consume.
 
-## New Governance Standard
+## Governing Standards
 
-`docs/15-governance/REUSE_BEFORE_BUILD_STANDARD.md` — permanent global rule:
+- ADR-017 (dedicated-database-per-tenant; Workspace logical only)
+- Certified MOD-001 Platform Foundation v1.0
+- REUSE_BEFORE_BUILD_STANDARD (Reuse → Extend → Refactor → Defer → Create)
+- Phase 0 Reuse Inventory (primary source of truth for existing assets)
 
-- Priority order: **Reuse → Extend → Refactor → Defer → Create**.
-- Mandatory pre-implementation discovery (Layouts, Pages, Components, Auth, Services, Hooks, Utilities, Styling).
-- Every sprint publishes a Reuse Analysis using the fixed inventory schema below.
-- Restrictions: no duplicate sidebar, dashboard layout, auth system, Supabase client, services, hooks, or UI primitives.
-- Every `CREATE`, `REFACTOR`, and `DEFER` decision requires written justification.
-- Acceptance criteria reused as sprint DoD addendum; sprint audit reports must cite this standard.
-- Cross-refs: EEMP Ch. 03 & 04, REPOSITORY_NAVIGATION_STANDARD, FINDING_SEVERITY_STANDARD.
-- Frontmatter v1.0.0, Approved, Active + Revision History.
+## Repository Safety
 
-## Terminology (consistent across all Phase 0 documents)
+**Allowed**
+- Extend existing files
+- Create missing Platform foundation files
+- Register navigation, permissions, routes
+- Add thin wrappers, shared types, constants
 
-- **Finding fields:** Severity · Evidence · Impact · Recommendation · **Disposition** (Blocker / Pre-Phase-2 Recommendation / Future Improvement / Technical Debt).
-- **Duplicate Detection Classification:** Active / Legacy / Superseded / Duplicate / Unknown.
-- **Reuse Confidence:** High / Medium / Low (see schema).
-- **Dependency Implementation Risk:** Low / Medium / High.
+**Not Allowed**
+- Delete existing files
+- Rename existing modules
+- Move existing folders
+- Replace authentication, navigation, Supabase client, or dashboard framework
 
-## Discovery Order (read-only)
+## No Silent Refactors
 
-1. `docs/11-adrs/architecture/ADR-017`
-2. `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md`
-3. `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN_v2.md` + `SPR-MOD-001-001` PRD
-4. `docs/15-governance/*`
-5. Prior audit reports under `docs/50-audit-reports/`, `docs/51-architecture-validation/`, `docs/57-…`, `docs/58-…`, `docs/60-release-readiness/`, `docs/62-post-release-verification/` — reused as sources of existing finding IDs (see Cross-Reference rule below).
-6. Repo surface: `src/router.tsx`, `src/routes/**`, `src/components/**`, `src/dashboard/template/**`, `src/contexts/**`, `src/hooks/**`, `src/lib/**`, `src/integrations/supabase/**`, `src/config/**`, `src/utils/**`
-7. Build tooling: `package.json`, `vite.config.ts`, `tsconfig.json`, `eslint.config.js`, `vitest.config.ts`, `playwright.config.ts`
+Any REFACTOR must preserve public behavior. If a refactor would change APIs, routing, contracts, or user-visible behavior, STOP and request approval before proceeding.
 
-## Validation Coverage (12 areas)
+## Rollback Expectation
 
-Repository Health · Folder Structure · Tech Stack · Environment · Authentication · Routing · UI Framework · Supabase · Security · Code Quality · Testing · Build. Each finding records: **Severity · Evidence · Impact · Recommendation · Disposition**. No fixes.
+If implementation introduces a build failure, test regression, routing regression, or authentication regression, restore repository stability before continuing. Do not stack additional work on an unstable repository.
 
-## Reuse Inventory — Fixed Schema
+## Repository Discovery (mandatory, before any change)
 
-| Field | Description |
-|---|---|
-| Component | Item being reviewed |
-| Repository Evidence | File path(s) |
-| Current Capability | What it already does |
-| Gap | What's missing for SPR-MOD-001-001 |
-| Recommendation | REUSE / EXTEND / REFACTOR / DEFER / CREATE |
-| Reuse Confidence | High / Medium / Low |
-| Justification | Required for REFACTOR, DEFER, CREATE |
-| Suggested Owner | Platform UI / Security / Platform Backend / Infrastructure / Data — **advisory only; does not modify repository ownership or governance responsibilities** |
+Inventory the following against the Phase 0 Reuse Inventory and confirm the disposition (Reuse/Extend/Refactor/Defer/Create) of each:
 
-Decision definitions (also codified in the standard):
-- **REUSE** — use as-is (typically High confidence).
-- **EXTEND** — add functionality without altering existing behavior.
-- **REFACTOR** — improve without changing behavior.
-- **DEFER** — exists, not needed for SPR-MOD-001-001, remains untouched.
-- **CREATE** — no reusable asset exists.
+- Platform routes: `src/routes/_authenticated/platform/**`
+- Platform shell + navigation: `src/components/platform/**`, `src/lib/navigation/**`, `src/hooks/platform/**`
+- Dashboard template: `src/dashboard/template/**`
+- Auth + RBAC: `src/contexts/auth-context.tsx`, `src/contexts/permissions-context.tsx`, `src/routes/_authenticated.tsx`
+- Supabase clients: `src/integrations/supabase/**`
+- Shared hooks/services/utils: `src/hooks/**`, `src/services/**`, `src/utils/**`, `src/lib/**`
+- Config + feature flags: `src/config/**`, `src/hooks/settings/**`
 
-Categories: Layouts · Navigation · Pages · Shared Components · Dashboard Template · Auth · Supabase Integration · Services / Server Functions · Hooks · Contexts · Utilities · Styling.
+## Scope
 
-## Duplicate & Superseded Detection
+### 1. Platform module boundary
+Prefer extending existing folders (`src/routes/_authenticated/platform/**`, `src/components/platform/**`, `src/hooks/platform/**`) over introducing a new `src/modules/platform/` tree. Any new folder requires a written CREATE justification citing the Reuse Inventory.
 
-Record every occurrence and classify without deleting anything in Phase 0. Scope: duplicate pages, layouts, navigation entries, hooks, services, dashboard widgets, obsolete/orphaned components. Fields: item · evidence · **Classification** (Active / Legacy / Superseded / Duplicate / Unknown) · successor pointer where known · **existing finding reference** (see below).
+### 2. Routing
+- Verify `/platform/*` routes load under the authenticated + platform-admin gate.
+- Add only routes missing for the foundation (placeholders acceptable).
+- Explicitly verify: lazy loading (if used), route guards, error boundaries, 404 handling, breadcrumb metadata.
+- No route rewrites.
 
-## Dependency Readiness
+### 3. Layout & shell
+Reuse existing app layout, platform shell, sidebar, header, secondary nav, dashboard template. Extension only where a Platform-specific slot is required.
 
-For each shared platform dependency required by MOD-001, record two fields:
+### 4. Navigation
+Verify sidebar, secondary nav, breadcrumbs, favorites, recent, search, and command palette surface Platform entries via `src/lib/navigation/registry.ts`. Zero duplicates. No parallel registries.
 
-- **Availability:** Exists / Missing / Partial / Not Required
-- **Implementation Risk:** Low / Medium / High
+### 5. Platform services (thin scaffolds, no tenant logic)
+- Platform configuration accessor (wraps existing config)
+- Feature flag accessor (wraps existing `useFeatureFlag`)
+- Platform metadata accessor (module id, version, capability catalog reference)
+- Platform logging helper (wraps existing logger)
 
-Dependencies: authentication · RBAC · navigation · configuration · logging · notifications · feature flags · audit infrastructure · error handling.
+No tenant CRUD, no provisioning, no new DB calls.
 
-## Engineering Blockers
+### 6. Shared types
+`Platform`, `PlatformStatus`, `PlatformSettings`, `PlatformMetadata`. No `Tenant*` entities in this phase.
 
-Rolled up from finding **Dispositions** across all Phase 0 documents into a single verdict in the Readiness Report: **GO / GO WITH OBSERVATIONS / BLOCKED**.
+### 7. Constants
+Centralize Platform route ids, nav ids, permission keys, and feature-flag keys — reusing existing constants where present.
 
-## Cross-Reference Rule
+### 8. Error handling
+Reuse existing error boundaries, toast, notification, and logging surfaces. Extend only for Platform-specific messaging.
 
-If Phase 0 identifies a duplicate, technical debt, or blocker item already documented in an existing audit report, **reference the existing finding ID** instead of assigning a new one. Only genuinely new items get Phase 0 identifiers (format `PH0-<AREA>-<NNN>`).
+### 9. Auth integration
+Verify (do not redesign) that Platform pages consume the existing session, protected-route gate, role checks, and permission checks.
 
-## Deliverables (1 governance standard + 6 Phase 0 documents)
+### 10. Authorization
+Register Platform permission keys against the existing RBAC/permissions catalog. No second permission system.
 
-1. `docs/15-governance/REUSE_BEFORE_BUILD_STANDARD.md`
-2. `docs/60-engineering/PHASE0_ENGINEERING_READINESS_REPORT.md` — exec summary, verdict, exit-criteria matrix, cross-refs, **and a single-page Implementation Readiness Summary table** with the following rows: Repository Health · Architecture Alignment · Authentication · Navigation · Supabase · Technical Debt · Blockers · Reuse Inventory · Duplicate Review · Dependency Readiness · **Phase 1 Decision (GO / GO WITH OBSERVATIONS / BLOCKED)**.
-3. `docs/60-engineering/PHASE0_REPOSITORY_HEALTH.md` — areas 1, 3, 4, 8, 12.
-4. `docs/60-engineering/PHASE0_TECHNICAL_DEBT.md` — areas 2, 5, 6, 7, 9, 10, 11.
-5. `docs/60-engineering/PHASE0_IMPLEMENTATION_READINESS_CHECKLIST.md` — PASS/FAIL/N/A per exit criterion + evidence pointer.
-6. `docs/60-engineering/PHASE0_REUSE_INVENTORY.md` — full inventory using the fixed schema, plus a scoped **"SPR-MOD-001-001 Reuse Analysis"** section cited by the sprint's implementation plan. Includes the Duplicate/Superseded Detection and Dependency Readiness subsections.
+### 11. Dashboard integration
+Extend `/platform/dashboard` using the existing dashboard template. Placeholder widgets/quick-actions/stats are acceptable and must:
+- Clearly indicate "Coming in Phase 2"
+- Render disabled actions where relevant
+- Never invoke mock provisioning logic
+- Never present fake tenant counts or fabricated metrics as real data
 
-All documents use Business OS frontmatter + Revision History table.
-
-## Exit Criteria
-
-- Reuse Before Build standard published.
-- Repository builds (dev + prod) verified read-only.
-- No Blocker-Disposition findings outstanding.
-- Stack, env, auth, routing, Supabase integration validated.
-- Reuse Inventory covers every category with file-path evidence and Reuse Confidence.
-- Duplicate/Superseded Detection completed; existing finding IDs reused where applicable.
-- Dependency Readiness recorded for all nine dependencies with Availability + Implementation Risk.
-- **Every planned CREATE action reviewed and confirmed that no reusable repository asset satisfies the requirement.**
-- Implementation Readiness Summary table published in the Readiness Report.
-- All seven documents published.
-
-## Stop Rule
-
-After publishing the seven documents: **STOP.** No implementation of SPR-MOD-001-001, no new platform code, no database objects, no UI. Await explicit authorization for Phase 1.
+### 12. Configuration
+Wire Platform module into the existing env/feature-flag/settings framework. No new configuration framework.
 
 ## Out of Scope
 
-Business logic, UI, DB, migrations, APIs, components, routes, architecture, ADR/PRD/Baseline edits, dependency upgrades, deletion of duplicate/superseded assets, "quick fixes" surfaced during validation, EEMP chapter body edits.
+Tenant CRUD, provisioning, DB creation, Workspace/Company/Branch/Financial-Year creation, licensing, audit engine work, background jobs, edge functions, migrations, schema changes, business workflows, new governance docs.
+
+## Definition of Done
+
+- Build passes
+- Lint passes
+- Tests pass (existing 49/49 green)
+- No duplicate assets introduced
+- Reuse Inventory honored
+- Navigation updated
+- Platform routes operational
+- Platform Dashboard operational
+- Existing behavior preserved
+- Implementation summary published (structure below)
+
+## Implementation Summary (required structure)
+
+- Reused Assets
+- Extended Assets
+- Created Assets
+- CREATE Justifications
+- Refactored Assets
+- Deferred Items
+- Known Limitations
+- Next Phase Dependencies
+
+## Stop Rule
+
+When the Platform Foundation is operational and the Definition of Done is met: **STOP.** Do not begin Tenant Registry. Await Phase 2 authorization.
+
+## Execution Steps
+
+1. Review SPR-MOD-001-001 PRD, ADR-017, Phase 0 Reuse Inventory.
+2. Repository discovery pass → disposition table (Reuse/Extend/Refactor/Defer/Create).
+3. Wire/extend Platform module boundary against existing folders.
+4. Verify + extend routing and navigation registry (incl. guards, error boundaries, 404, breadcrumbs).
+5. Add thin Platform services, types, constants, config wiring.
+6. Extend Platform dashboard with clearly-labeled Phase 2 placeholders.
+7. Build, lint, test; scan for duplicates; restore stability immediately on any regression.
+8. Publish structured Implementation Summary; STOP.
