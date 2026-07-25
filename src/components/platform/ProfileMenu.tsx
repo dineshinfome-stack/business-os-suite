@@ -95,7 +95,10 @@ export function ProfileMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onSelect={() => {
-            void auth.signOut();
+            void (async () => {
+              await auth.signOut();
+              await navigate({ to: "/login" });
+            })();
           }}
           className="text-destructive focus:text-destructive"
         >
