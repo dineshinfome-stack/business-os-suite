@@ -193,15 +193,6 @@ export function PlatformSidebarV2({
                   >
                     {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
                   </button>
-                  <button
-                    type="button"
-                    aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                    onClick={onToggleCollapsed}
-                    className="inline-flex h-7 w-7 items-center justify-center rounded"
-                    style={{ color: "var(--nav-fg-muted)" }}
-                  >
-                    {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
-                  </button>
                 </>
               ) : null
             }
