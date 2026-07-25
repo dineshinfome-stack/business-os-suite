@@ -66,6 +66,7 @@ function LoginPage() {
       .is("deleted_at", null);
     const roles = (data ?? []).map((r) => r.role as string);
     if (roles.includes("super_admin") || roles.includes("platform_admin")) return "/platform/dashboard";
+    if (roles.includes("company_admin")) return "/platform/companies";
     return nextPath;
   }
 
