@@ -5,6 +5,7 @@ import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { PlatformSidebarV2 } from "@/components/platform/navigation/PlatformSidebarV2";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
+import { SecondaryNavTabProvider } from "@/hooks/platform/useSecondaryNavTab";
 import { StatusBar } from "@/components/platform";
 import { HeaderProvider } from "@/contexts/header-context";
 import { HeaderSlots } from "@/components/layout/HeaderSlots";
