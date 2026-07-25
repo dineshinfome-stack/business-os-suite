@@ -1,27 +1,18 @@
 import * as React from "react";
 import { LayoutGrid, Star, Clock } from "lucide-react";
+import { useSecondaryNavTab, type SecondaryNavTab } from "@/hooks/platform/useSecondaryNavTab";
 
-export type SecondaryHeaderTab = "all" | "favorites" | "recent";
-
-interface Props {
-  active?: SecondaryHeaderTab | null;
-  onSelect?: (tab: SecondaryHeaderTab) => void;
-}
+export type SecondaryHeaderTab = SecondaryNavTab;
 
 /**
  * Platform secondary header — renders below the topbar with the
- * All / Favorites / Recent triggers. Theme-aware:
+ * All / Favorites / Recent triggers. Drives the sidebar's active tab
+ * via SecondaryNavTabProvider. Theme-aware:
  *  • Light theme → light grey background
  *  • Dark theme  → navy blue background
  */
-export function PlatformSecondaryHeader({ active = null, onSelect }: Props) {
-  const [internal, setInternal] = React.useState<SecondaryHeaderTab | null>(active);
-  const current = onSelect ? active : internal;
-
-  const handle = (tab: SecondaryHeaderTab) => {
-    if (onSelect) onSelect(tab);
-    else setInternal((prev) => (prev === tab ? null : tab));
-  };
+export function PlatformSecondaryHeader() {
+  const { tab, setTab } = useSecondaryNavTab();
 
   return (
     <div
@@ -31,23 +22,18 @@ export function PlatformSecondaryHeader({ active = null, onSelect }: Props) {
         borderBottom: "1px solid var(--platform-secondary-header-border)",
       }}
     >
-      <TabButton
-        label="All"
-        icon={LayoutGrid}
-        active={current === "all"}
-        onClick={() => handle("all")}
-      />
+      <TabButton label="All" icon={LayoutGrid} active={tab === "all"} onClick={() => setTab("all")} />
       <TabButton
         label="Favorites"
         icon={Star}
-        active={current === "favorites"}
-        onClick={() => handle("favorites")}
+        active={tab === "favorites"}
+        onClick={() => setTab("favorites")}
       />
       <TabButton
         label="Recent"
         icon={Clock}
-        active={current === "recent"}
-        onClick={() => handle("recent")}
+        active={tab === "recent"}
+        onClick={() => setTab("recent")}
       />
     </div>
   );
