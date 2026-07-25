@@ -177,6 +177,7 @@ export function PlatformSidebarV2({
         <MiniRail tree={tree} pathname={pathname} />
       ) : (
         <>
+          <NavigationTabs active={tab} onChange={setTab} />
           <NavigationSearch
             value={query}
             onChange={setQuery}
@@ -206,7 +207,7 @@ export function PlatformSidebarV2({
               ) : null
             }
           />
-          <NavigationTabs active={tab} onChange={setTab} />
+
 
 
           <div className="mt-1 flex-1 overflow-y-auto">
