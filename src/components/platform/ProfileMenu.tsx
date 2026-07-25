@@ -57,7 +57,7 @@ export function ProfileMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link to="/tenant" className="flex items-center gap-2">
+          <Link to="/settings" className="flex items-center gap-2">
             <UserIcon className="h-4 w-4" /> My business
           </Link>
         </DropdownMenuItem>
