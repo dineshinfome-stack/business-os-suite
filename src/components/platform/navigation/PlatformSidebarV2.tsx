@@ -41,6 +41,9 @@ interface Props {
   open?: boolean;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  /** In popup mode, viewport-x to anchor the popup left edge to; null = flush left slide-in. */
+  anchorX?: number | null;
+
 }
 
 
@@ -62,7 +65,9 @@ export function PlatformSidebarV2({
   open = true,
   onMouseEnter,
   onMouseLeave,
+  anchorX = null,
 }: Props) {
+
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isTenant = variant === "tenant";
@@ -176,6 +181,13 @@ export function PlatformSidebarV2({
     return null;
   }
 
+  const isAnchored = isPopup && anchorX != null;
+  const popupAnim = isPopup
+    ? isAnchored
+      ? "animate-in slide-in-from-top-2 fade-in-0 duration-200"
+      : "animate-in slide-in-from-left-4 duration-200"
+    : "transition-[width] duration-200";
+
   return (
     <aside
       aria-label="Application navigation"
@@ -183,18 +195,21 @@ export function PlatformSidebarV2({
       data-mode={mode}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`enterprise-sidebar fixed left-0 z-30 flex flex-col ${width} ${isPopup ? "animate-in slide-in-from-left-4 duration-200" : "transition-[width] duration-200"}`}
+      className={`enterprise-sidebar fixed z-30 flex flex-col ${width} ${popupAnim} ${isAnchored ? "" : "left-0"} ${isAnchored ? "rounded-b-lg" : ""}`}
       style={{
         top: topOffset,
-        height: `calc(100vh - ${topOffset})`,
+        left: isAnchored ? `${Math.max(0, anchorX!)}px` : undefined,
+        height: isAnchored ? "auto" : `calc(100vh - ${topOffset})`,
+        maxHeight: isAnchored ? `calc(100vh - ${topOffset} - 1rem)` : undefined,
         background: isPopup ? "var(--nav-bg-popup)" : "var(--nav-bg)",
         backdropFilter: isPopup ? "blur(var(--nav-popup-blur)) saturate(140%)" : undefined,
         color: "var(--nav-fg)",
-        borderRight: "1px solid var(--nav-border)",
+        border: isAnchored ? "1px solid var(--nav-border)" : undefined,
+        borderRight: isAnchored ? undefined : "1px solid var(--nav-border)",
         boxShadow: isPopup ? "var(--nav-popup-shadow)" : "var(--nav-elevation)",
-
       }}
     >
+
       {collapsed ? (
         <MiniRail tree={tree} pathname={pathname} />
       ) : (
