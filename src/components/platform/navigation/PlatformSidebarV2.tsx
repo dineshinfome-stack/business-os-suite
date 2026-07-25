@@ -183,7 +183,7 @@ export function PlatformSidebarV2({
       data-mode={mode}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`enterprise-sidebar fixed left-0 z-30 flex flex-col transition-[width,transform,opacity] duration-200 ${width} ${isPopup ? "animate-slide-in-from-left" : ""}`}
+      className={`enterprise-sidebar fixed left-0 z-30 flex flex-col ${width} ${isPopup ? "animate-in slide-in-from-left-4 duration-200" : "transition-[width] duration-200"}`}
       style={{
         top: topOffset,
         height: `calc(100vh - ${topOffset})`,
