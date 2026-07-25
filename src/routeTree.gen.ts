@@ -22,8 +22,6 @@ import { Route as DocsIndexRouteImport } from './routes/docs.index'
 import { Route as DocsSplatRouteImport } from './routes/docs.$'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedPlatformIndexRouteImport } from './routes/_authenticated/platform/index'
-import { Route as AuthenticatedWorkspaceAcceptRouteImport } from './routes/_authenticated/workspace.accept'
-import { Route as AuthenticatedTenantAcceptRouteImport } from './routes/_authenticated/tenant.accept'
 import { Route as AuthenticatedPlatformDashboardRouteImport } from './routes/_authenticated/platform/dashboard'
 import { Route as AuthenticatedPlatformSplatRouteImport } from './routes/_authenticated/platform/$'
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
@@ -96,18 +94,6 @@ const AuthenticatedPlatformIndexRoute =
     path: '/platform/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedWorkspaceAcceptRoute =
-  AuthenticatedWorkspaceAcceptRouteImport.update({
-    id: '/workspace/accept',
-    path: '/workspace/accept',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedTenantAcceptRoute =
-  AuthenticatedTenantAcceptRouteImport.update({
-    id: '/tenant/accept',
-    path: '/tenant/accept',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const AuthenticatedPlatformDashboardRoute =
   AuthenticatedPlatformDashboardRouteImport.update({
     id: '/platform/dashboard',
@@ -159,8 +145,6 @@ export interface FileRoutesByFullPath {
   '/docs/': typeof DocsIndexRoute
   '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
-  '/tenant/accept': typeof AuthenticatedTenantAcceptRoute
-  '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
   '/platform/': typeof AuthenticatedPlatformIndexRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
@@ -180,8 +164,6 @@ export interface FileRoutesByTo {
   '/docs': typeof DocsIndexRoute
   '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
-  '/tenant/accept': typeof AuthenticatedTenantAcceptRoute
-  '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
   '/platform': typeof AuthenticatedPlatformIndexRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
@@ -204,8 +186,6 @@ export interface FileRoutesById {
   '/docs/': typeof DocsIndexRoute
   '/_authenticated/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/_authenticated/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
-  '/_authenticated/tenant/accept': typeof AuthenticatedTenantAcceptRoute
-  '/_authenticated/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
   '/_authenticated/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/_authenticated/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
@@ -228,8 +208,6 @@ export interface FileRouteTypes {
     | '/docs/'
     | '/platform/$'
     | '/platform/dashboard'
-    | '/tenant/accept'
-    | '/workspace/accept'
     | '/platform/'
     | '/platform/companies/$companyId'
     | '/platform/tenants/$tenantId'
@@ -249,8 +227,6 @@ export interface FileRouteTypes {
     | '/docs'
     | '/platform/$'
     | '/platform/dashboard'
-    | '/tenant/accept'
-    | '/workspace/accept'
     | '/platform'
     | '/platform/companies/$companyId'
     | '/platform/tenants/$tenantId'
@@ -272,8 +248,6 @@ export interface FileRouteTypes {
     | '/docs/'
     | '/_authenticated/platform/$'
     | '/_authenticated/platform/dashboard'
-    | '/_authenticated/tenant/accept'
-    | '/_authenticated/workspace/accept'
     | '/_authenticated/platform/'
     | '/_authenticated/platform/companies/$companyId'
     | '/_authenticated/platform/tenants/$tenantId'
@@ -386,20 +360,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/workspace/accept': {
-      id: '/_authenticated/workspace/accept'
-      path: '/workspace/accept'
-      fullPath: '/workspace/accept'
-      preLoaderRoute: typeof AuthenticatedWorkspaceAcceptRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/tenant/accept': {
-      id: '/_authenticated/tenant/accept'
-      path: '/tenant/accept'
-      fullPath: '/tenant/accept'
-      preLoaderRoute: typeof AuthenticatedTenantAcceptRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/platform/dashboard': {
       id: '/_authenticated/platform/dashboard'
       path: '/platform/dashboard'
@@ -448,8 +408,6 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedPlatformSplatRoute: typeof AuthenticatedPlatformSplatRoute
   AuthenticatedPlatformDashboardRoute: typeof AuthenticatedPlatformDashboardRoute
-  AuthenticatedTenantAcceptRoute: typeof AuthenticatedTenantAcceptRoute
-  AuthenticatedWorkspaceAcceptRoute: typeof AuthenticatedWorkspaceAcceptRoute
   AuthenticatedPlatformIndexRoute: typeof AuthenticatedPlatformIndexRoute
   AuthenticatedPlatformCompaniesCompanyIdRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   AuthenticatedPlatformTenantsTenantIdRoute: typeof AuthenticatedPlatformTenantsTenantIdRoute
@@ -460,8 +418,6 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedPlatformSplatRoute: AuthenticatedPlatformSplatRoute,
   AuthenticatedPlatformDashboardRoute: AuthenticatedPlatformDashboardRoute,
-  AuthenticatedTenantAcceptRoute: AuthenticatedTenantAcceptRoute,
-  AuthenticatedWorkspaceAcceptRoute: AuthenticatedWorkspaceAcceptRoute,
   AuthenticatedPlatformIndexRoute: AuthenticatedPlatformIndexRoute,
   AuthenticatedPlatformCompaniesCompanyIdRoute:
     AuthenticatedPlatformCompaniesCompanyIdRoute,
