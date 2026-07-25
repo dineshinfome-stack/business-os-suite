@@ -24,7 +24,6 @@ import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedPlatformIndexRouteImport } from './routes/_authenticated/platform/index'
 import { Route as AuthenticatedWorkspaceAcceptRouteImport } from './routes/_authenticated/workspace.accept'
 import { Route as AuthenticatedTenantAcceptRouteImport } from './routes/_authenticated/tenant.accept'
-import { Route as AuthenticatedSettingsPlatformRouteImport } from './routes/_authenticated/settings.platform'
 import { Route as AuthenticatedPlatformDashboardRouteImport } from './routes/_authenticated/platform/dashboard'
 import { Route as AuthenticatedPlatformSplatRouteImport } from './routes/_authenticated/platform/$'
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
@@ -109,12 +108,6 @@ const AuthenticatedTenantAcceptRoute =
     path: '/tenant/accept',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedSettingsPlatformRoute =
-  AuthenticatedSettingsPlatformRouteImport.update({
-    id: '/settings/platform',
-    path: '/settings/platform',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const AuthenticatedPlatformDashboardRoute =
   AuthenticatedPlatformDashboardRouteImport.update({
     id: '/platform/dashboard',
@@ -166,7 +159,6 @@ export interface FileRoutesByFullPath {
   '/docs/': typeof DocsIndexRoute
   '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
-  '/settings/platform': typeof AuthenticatedSettingsPlatformRoute
   '/tenant/accept': typeof AuthenticatedTenantAcceptRoute
   '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
   '/platform/': typeof AuthenticatedPlatformIndexRoute
@@ -188,7 +180,6 @@ export interface FileRoutesByTo {
   '/docs': typeof DocsIndexRoute
   '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
-  '/settings/platform': typeof AuthenticatedSettingsPlatformRoute
   '/tenant/accept': typeof AuthenticatedTenantAcceptRoute
   '/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
   '/platform': typeof AuthenticatedPlatformIndexRoute
@@ -213,7 +204,6 @@ export interface FileRoutesById {
   '/docs/': typeof DocsIndexRoute
   '/_authenticated/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/_authenticated/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
-  '/_authenticated/settings/platform': typeof AuthenticatedSettingsPlatformRoute
   '/_authenticated/tenant/accept': typeof AuthenticatedTenantAcceptRoute
   '/_authenticated/workspace/accept': typeof AuthenticatedWorkspaceAcceptRoute
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
@@ -238,7 +228,6 @@ export interface FileRouteTypes {
     | '/docs/'
     | '/platform/$'
     | '/platform/dashboard'
-    | '/settings/platform'
     | '/tenant/accept'
     | '/workspace/accept'
     | '/platform/'
@@ -260,7 +249,6 @@ export interface FileRouteTypes {
     | '/docs'
     | '/platform/$'
     | '/platform/dashboard'
-    | '/settings/platform'
     | '/tenant/accept'
     | '/workspace/accept'
     | '/platform'
@@ -284,7 +272,6 @@ export interface FileRouteTypes {
     | '/docs/'
     | '/_authenticated/platform/$'
     | '/_authenticated/platform/dashboard'
-    | '/_authenticated/settings/platform'
     | '/_authenticated/tenant/accept'
     | '/_authenticated/workspace/accept'
     | '/_authenticated/platform/'
@@ -413,13 +400,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTenantAcceptRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/settings/platform': {
-      id: '/_authenticated/settings/platform'
-      path: '/settings/platform'
-      fullPath: '/settings/platform'
-      preLoaderRoute: typeof AuthenticatedSettingsPlatformRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/platform/dashboard': {
       id: '/_authenticated/platform/dashboard'
       path: '/platform/dashboard'
@@ -468,7 +448,6 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedPlatformSplatRoute: typeof AuthenticatedPlatformSplatRoute
   AuthenticatedPlatformDashboardRoute: typeof AuthenticatedPlatformDashboardRoute
-  AuthenticatedSettingsPlatformRoute: typeof AuthenticatedSettingsPlatformRoute
   AuthenticatedTenantAcceptRoute: typeof AuthenticatedTenantAcceptRoute
   AuthenticatedWorkspaceAcceptRoute: typeof AuthenticatedWorkspaceAcceptRoute
   AuthenticatedPlatformIndexRoute: typeof AuthenticatedPlatformIndexRoute
@@ -481,7 +460,6 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedPlatformSplatRoute: AuthenticatedPlatformSplatRoute,
   AuthenticatedPlatformDashboardRoute: AuthenticatedPlatformDashboardRoute,
-  AuthenticatedSettingsPlatformRoute: AuthenticatedSettingsPlatformRoute,
   AuthenticatedTenantAcceptRoute: AuthenticatedTenantAcceptRoute,
   AuthenticatedWorkspaceAcceptRoute: AuthenticatedWorkspaceAcceptRoute,
   AuthenticatedPlatformIndexRoute: AuthenticatedPlatformIndexRoute,
