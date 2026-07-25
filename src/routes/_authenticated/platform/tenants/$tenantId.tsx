@@ -41,6 +41,7 @@ import {
   activateTenant,
   suspendTenant,
   archiveTenant,
+  updateTenant,
 } from "@/lib/tenants/tenants.functions";
 import { canTransition, type TenantLifecycleState } from "@/lib/tenants/lifecycle";
 import {
