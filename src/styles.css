@@ -228,7 +228,7 @@
 .enterprise-sidebar[data-variant="platform"] {
   --nav-bg: var(--platform-sidebar-bg);
   --nav-fg: var(--platform-sidebar-fg);
-  --nav-fg-strong: #ffffff;
+  --nav-fg-strong: var(--platform-sidebar-fg);
   --nav-fg-muted: var(--platform-sidebar-muted);
   --nav-border: rgba(255, 255, 255, 0.08);
   --nav-hover: rgba(255, 255, 255, 0.06);
@@ -311,6 +311,7 @@
   --nav-elevation: var(--elevation-2);
 }
 .dark .enterprise-sidebar[data-variant="platform"] {
+  --nav-fg-strong: #ffffff;
   --nav-border: rgba(255, 255, 255, 0.08);
   --nav-hover: rgba(255, 255, 255, 0.06);
   --nav-active-bg: rgba(255, 255, 255, 0.08);
