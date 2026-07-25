@@ -26,7 +26,7 @@ export function NavigationSearch({
           className="flex flex-1 items-center gap-2 rounded-md border px-2.5 py-1.5 focus-within:ring-2"
           style={{
             background: "var(--nav-input-bg)",
-            borderColor: "var(--nav-border)",
+            borderColor: "color-mix(in srgb, var(--nav-border) 40%, transparent)",
           }}
         >
           <Filter className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--nav-fg-muted)" }} />
