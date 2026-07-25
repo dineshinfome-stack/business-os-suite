@@ -194,6 +194,77 @@ permissions:
     name: Set default financial year
     description: Mark a financial year as the company default
 
+  # --- Identity & Access Foundation (SPR-MOD-001-003) -----------------------
+  - key: platform.dashboard.view
+    name: View platform dashboard
+    description: Access the super-admin platform dashboard
+  - key: platform.identity.dashboard.view
+    name: View identity dashboard
+    description: Access the Identity & Access module dashboard
+  - key: platform.users.suspend
+    name: Suspend users
+    description: Suspend a user account
+  - key: platform.users.activate
+    name: Activate users
+    description: Activate a suspended user account
+  - key: platform.users.archive
+    name: Archive users
+    description: Archive a user account (soft delete)
+  - key: platform.users.restore
+    name: Restore users
+    description: Restore an archived user account
+  - key: platform.users.reset_password
+    name: Reset user password
+    description: Send a password reset link to a user
+  - key: platform.users.force_reset
+    name: Force password reset
+    description: Require a user to reset their password on next sign-in
+  - key: platform.users.lock
+    name: Lock user account
+    description: Lock a user account against sign-in
+  - key: platform.users.unlock
+    name: Unlock user account
+    description: Unlock a locked user account
+  - key: platform.users.invite
+    name: Invite users
+    description: Send platform user invitations
+  - key: platform.roles.create
+    name: Create roles
+    description: Create custom roles
+  - key: platform.roles.update
+    name: Update roles
+    description: Update a role definition or its permissions
+  - key: platform.roles.clone
+    name: Clone roles
+    description: Duplicate an existing role
+  - key: platform.roles.archive
+    name: Archive roles
+    description: Archive an unused role
+  - key: platform.roles.delete
+    name: Delete roles
+    description: Permanently delete an unused custom role
+  - key: platform.permissions.view
+    name: Browse permissions
+    description: Browse the platform permission catalog
+  - key: platform.memberships.manage
+    name: Manage memberships
+    description: Manage tenant, company, and branch memberships
+  - key: platform.policies.view
+    name: View authorization policies
+    description: View role scope and policy assignments
+  - key: platform.policies.manage
+    name: Manage authorization policies
+    description: Assign or update role scopes and policies
+  - key: platform.invitations.view
+    name: View platform invitations
+    description: View platform-scope invitations
+  - key: platform.invitations.manage
+    name: Manage platform invitations
+    description: Send, resend, or cancel platform invitations
+
+
+
+
 
 
 
