@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRouterState, Link } from "@tanstack/react-router";
-import { PanelLeftClose, PanelLeft, Pin, PinOff, Clock } from "lucide-react";
+import { PanelLeftClose, PanelLeft, Pin, PinOff, Clock, RefreshCw } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { useNavigation } from "@/hooks/navigation/useNavigation";
 import { flatten, type NavNode } from "@/lib/navigation/tree";
@@ -18,6 +18,7 @@ import { NavigationItem } from "./NavigationItem";
 import { NavigationEmptyState } from "./NavigationEmptyState";
 import { SidebarHeader as EnterpriseSidebarHeader } from "./SidebarHeader";
 import { SidebarFooter as EnterpriseSidebarFooter } from "./SidebarFooter";
+
 
 export type SidebarVariant = "platform" | "tenant";
 
