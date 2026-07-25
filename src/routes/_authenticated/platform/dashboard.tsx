@@ -40,20 +40,7 @@ function PlatformDashboardPage() {
         config={{
           title: "Platform Dashboard",
           description: "Operate tenants, identity, and platform-wide health.",
-          headerActions: (
-            <>
-              <Button asChild size="sm" variant="outline">
-                <Link to="/platform/tenants">
-                  <Users className="mr-1 h-3.5 w-3.5" /> Tenants
-                </Link>
-              </Button>
-              <Button asChild size="sm" variant="outline">
-                <Link to="/platform">
-                  <ShieldCheck className="mr-1 h-3.5 w-3.5" /> Admin Home
-                </Link>
-              </Button>
-            </>
-          ),
+          headerActions: null,
           quickActions: {
             items: [
               {
