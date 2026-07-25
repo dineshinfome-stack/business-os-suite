@@ -35,7 +35,14 @@ interface Props {
   subtitle?: string;
   /** Hide the identity/pin/collapse header block (when rendered elsewhere). */
   hideHeader?: boolean;
+  /** Layout mode: static ("pinned") or floating flyout ("popup"). */
+  mode?: "pinned" | "popup";
+  /** Whether the sidebar is currently shown (only relevant in popup mode). */
+  open?: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
+
 
 /**
  * Business OS Enterprise Navigation v2 — data-driven, searchable sidebar.
