@@ -50,7 +50,8 @@ Every baseline mirrors the same section order (see [`MOD001_PLATFORM_BASELINE_v1
 
 | Baseline | Module | Version | Status |
 | --- | --- | --- | --- |
-| [`MOD001_PLATFORM_BASELINE_v1`](./MOD001_PLATFORM_BASELINE_v1.md) | MOD-001 Platform Administration | 1.0 | Baseline |
+| [`MOD001_PLATFORM_BASELINE_v2`](./MOD001_PLATFORM_BASELINE_v2.md) | MOD-001 Platform Administration | 2.0 | Baseline (current) |
+| [`MOD001_PLATFORM_BASELINE_v1`](./MOD001_PLATFORM_BASELINE_v1.md) | MOD-001 Platform Administration | 1.0 | Superseded by v2 |
 | [`MOD002_ACCOUNTING_BASELINE_v1`](./MOD002_ACCOUNTING_BASELINE_v1.md) | MOD-002 Accounting | 1.0 | Baseline |
 | [`MOD003_SALES_BASELINE_v1`](./MOD003_SALES_BASELINE_v1.md) | MOD-003 Sales | 1.0 | Baseline |
 | [`MOD004_PURCHASE_BASELINE_v1`](./MOD004_PURCHASE_BASELINE_v1.md) | MOD-004 Purchase | 1.0 | Baseline |
