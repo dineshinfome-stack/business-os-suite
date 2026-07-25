@@ -198,9 +198,10 @@ permissions:
   - key: platform.dashboard.view
     name: View platform dashboard
     description: Access the super-admin platform dashboard
-  - key: platform.identity.dashboard.view
+  - key: platform.identity_dashboard.view
     name: View identity dashboard
     description: Access the Identity & Access module dashboard
+
   - key: platform.users.suspend
     name: Suspend users
     description: Suspend a user account
