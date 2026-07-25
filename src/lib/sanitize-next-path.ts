@@ -10,9 +10,9 @@
  *  - absolute URLs / anything containing ':' before the first '/'
  *  - empty / non-string values
  *
- * Falls back to '/settings/platform' on any rejection.
+ * Falls back to '/platform/dashboard' on any rejection.
  */
-export const DEFAULT_NEXT_PATH = "/settings/platform";
+export const DEFAULT_NEXT_PATH = "/platform/dashboard";
 
 export function sanitizeNextPath(input: unknown): string {
   if (typeof input !== "string" || input.length === 0) return DEFAULT_NEXT_PATH;
