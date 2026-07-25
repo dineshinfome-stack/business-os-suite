@@ -219,29 +219,28 @@ function LoginPage() {
             </SubmitButton>
           </Form>
 
-          {import.meta.env.DEV ? (
-            <div className="space-y-3 pt-2">
-              <div className="text-brand-text-muted flex items-center gap-3 text-xs">
-                <div className="bg-brand-border h-px flex-1" />
-                Development Login
-                <div className="bg-brand-border h-px flex-1" />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {DEV_ROLES.map((role) => (
-                  <Button
-                    key={role.label}
-                    type="button"
-                    variant="outline"
-                    disabled={isSubmitting}
-                    onClick={() => fillDevCredentials(role.email)}
-                    className="border-brand-red text-brand-red hover:bg-brand-red hover:border-brand-red h-10 text-xs font-medium hover:text-white"
-                  >
-                    {role.label}
-                  </Button>
-                ))}
-              </div>
+          <div className="space-y-3 pt-2">
+            <div className="text-brand-text-muted flex items-center gap-3 text-xs">
+              <div className="bg-brand-border h-px flex-1" />
+              Development Login
+              <div className="bg-brand-border h-px flex-1" />
             </div>
-          ) : null}
+            <div className="grid grid-cols-2 gap-2">
+              {DEV_ROLES.map((role) => (
+                <Button
+                  key={role.label}
+                  type="button"
+                  variant="outline"
+                  disabled={isSubmitting}
+                  onClick={() => fillDevCredentials(role.email)}
+                  className="border-brand-red text-brand-red hover:bg-brand-red hover:border-brand-red h-10 text-xs font-medium hover:text-white"
+                >
+                  {role.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+
 
           <div className="border-brand-border space-y-2 border-t pt-4 text-center text-sm">
             <div>
