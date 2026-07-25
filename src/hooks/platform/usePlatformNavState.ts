@@ -15,7 +15,9 @@ export function usePlatformNavState(scope: "platform" | "tenant" = "platform") {
 
   React.useEffect(() => {
     setPinned(storage.get<boolean>(PIN_KEY, true) ?? true);
-    setCollapsed(storage.get<boolean>(COLLAPSED_KEY, false) ?? false);
+    // Collapse toggle removed from UI — always render expanded and clear any stale preference.
+    setCollapsed(false);
+    storage.set(COLLAPSED_KEY, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scope]);
 
