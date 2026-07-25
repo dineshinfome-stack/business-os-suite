@@ -20,9 +20,7 @@ export function SecondaryNavTabProvider({ children }: { children: React.ReactNod
 export function useSecondaryNavTab(): Ctx {
   const ctx = React.useContext(SecondaryNavTabContext);
   if (!ctx) {
-    // Fallback for isolated usage (no provider).
-    const [tab, setTab] = React.useState<SecondaryNavTab>("all");
-    return { tab, setTab };
+    throw new Error("useSecondaryNavTab must be used within SecondaryNavTabProvider");
   }
   return ctx;
 }
