@@ -29,8 +29,6 @@ import {
   ShieldCheck,
   Cog,
   Building2,
-  Users,
-  Mail,
   Landmark,
 } from "lucide-react";
 
