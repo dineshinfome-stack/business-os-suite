@@ -65,7 +65,9 @@ export function PlatformSidebarV2({
   open = true,
   onMouseEnter,
   onMouseLeave,
+  anchorX = null,
 }: Props) {
+
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isTenant = variant === "tenant";
