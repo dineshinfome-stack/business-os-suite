@@ -35,29 +35,31 @@ export function AppShell({ children }: { children?: ReactNode }) {
 
   return (
     <CommandPaletteProvider>
-      <HeaderProvider sidebar={sidebarState}>
-        <div className="min-h-screen bg-background">
-          <ShellHeader />
+      <SecondaryNavTabProvider>
+        <HeaderProvider sidebar={sidebarState}>
+          <div className="min-h-screen bg-background">
+            <ShellHeader />
 
-          {pinned && (
-            <PlatformSidebarV2
-              variant="tenant"
-              pinned={pinned}
-              onTogglePin={togglePinned}
-              collapsed={collapsed}
-              onToggleCollapsed={toggleCollapsed}
-            />
-          )}
+            {pinned && (
+              <PlatformSidebarV2
+                variant="tenant"
+                pinned={pinned}
+                onTogglePin={togglePinned}
+                collapsed={collapsed}
+                onToggleCollapsed={toggleCollapsed}
+              />
+            )}
 
-          <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
-            <main id="main" role="main" className="p-6">
-              <div className="mx-auto w-full max-w-7xl">{children ?? <Outlet />}</div>
-            </main>
-            <StatusBar />
+            <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
+              <main id="main" role="main" className="p-6">
+                <div className="mx-auto w-full max-w-7xl">{children ?? <Outlet />}</div>
+              </main>
+              <StatusBar />
+            </div>
           </div>
-        </div>
-        <CommandPalette />
-      </HeaderProvider>
+          <CommandPalette />
+        </HeaderProvider>
+      </SecondaryNavTabProvider>
     </CommandPaletteProvider>
   );
 }
