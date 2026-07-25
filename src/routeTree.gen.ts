@@ -21,7 +21,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
 import { Route as DocsSplatRouteImport } from './routes/docs.$'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedPlatformIndexRouteImport } from './routes/_authenticated/platform/index'
 import { Route as AuthenticatedWorkspaceAcceptRouteImport } from './routes/_authenticated/workspace.accept'
 import { Route as AuthenticatedTenantAcceptRouteImport } from './routes/_authenticated/tenant.accept'
@@ -92,11 +91,6 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/callback',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
 const AuthenticatedPlatformIndexRoute =
   AuthenticatedPlatformIndexRouteImport.update({
     id: '/platform/',
@@ -117,9 +111,9 @@ const AuthenticatedTenantAcceptRoute =
   } as any)
 const AuthenticatedSettingsPlatformRoute =
   AuthenticatedSettingsPlatformRouteImport.update({
-    id: '/platform',
-    path: '/platform',
-    getParentRoute: () => AuthenticatedSettingsRoute,
+    id: '/settings/platform',
+    path: '/settings/platform',
+    getParentRoute: () => AuthenticatedRoute,
   } as any)
 const AuthenticatedPlatformDashboardRoute =
   AuthenticatedPlatformDashboardRouteImport.update({
@@ -167,7 +161,6 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
@@ -190,7 +183,6 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs': typeof DocsIndexRoute
@@ -216,7 +208,6 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
@@ -242,7 +233,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/settings'
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
@@ -265,7 +255,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/settings'
     | '/auth/callback'
     | '/docs/$'
     | '/docs'
@@ -290,7 +279,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/_authenticated/settings'
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
@@ -404,13 +392,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/platform/': {
       id: '/_authenticated/platform/'
       path: '/platform'
@@ -434,10 +415,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/settings/platform': {
       id: '/_authenticated/settings/platform'
-      path: '/platform'
+      path: '/settings/platform'
       fullPath: '/settings/platform'
       preLoaderRoute: typeof AuthenticatedSettingsPlatformRouteImport
-      parentRoute: typeof AuthenticatedSettingsRoute
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/platform/dashboard': {
       id: '/_authenticated/platform/dashboard'
@@ -484,23 +465,10 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthenticatedSettingsRouteChildren {
-  AuthenticatedSettingsPlatformRoute: typeof AuthenticatedSettingsPlatformRoute
-}
-
-const AuthenticatedSettingsRouteChildren: AuthenticatedSettingsRouteChildren = {
-  AuthenticatedSettingsPlatformRoute: AuthenticatedSettingsPlatformRoute,
-}
-
-const AuthenticatedSettingsRouteWithChildren =
-  AuthenticatedSettingsRoute._addFileChildren(
-    AuthenticatedSettingsRouteChildren,
-  )
-
 interface AuthenticatedRouteChildren {
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRouteWithChildren
   AuthenticatedPlatformSplatRoute: typeof AuthenticatedPlatformSplatRoute
   AuthenticatedPlatformDashboardRoute: typeof AuthenticatedPlatformDashboardRoute
+  AuthenticatedSettingsPlatformRoute: typeof AuthenticatedSettingsPlatformRoute
   AuthenticatedTenantAcceptRoute: typeof AuthenticatedTenantAcceptRoute
   AuthenticatedWorkspaceAcceptRoute: typeof AuthenticatedWorkspaceAcceptRoute
   AuthenticatedPlatformIndexRoute: typeof AuthenticatedPlatformIndexRoute
@@ -511,9 +479,9 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRouteWithChildren,
   AuthenticatedPlatformSplatRoute: AuthenticatedPlatformSplatRoute,
   AuthenticatedPlatformDashboardRoute: AuthenticatedPlatformDashboardRoute,
+  AuthenticatedSettingsPlatformRoute: AuthenticatedSettingsPlatformRoute,
   AuthenticatedTenantAcceptRoute: AuthenticatedTenantAcceptRoute,
   AuthenticatedWorkspaceAcceptRoute: AuthenticatedWorkspaceAcceptRoute,
   AuthenticatedPlatformIndexRoute: AuthenticatedPlatformIndexRoute,
