@@ -53,6 +53,7 @@ export function PlatformSidebarV2({
   hideHeader = false,
 }: Props) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isTenant = variant === "tenant";
   const { profile, user } = useAuth();
   const displayName =
     profile?.displayName ?? user?.email ?? (variant === "platform" ? "Super Admin" : APP_NAME);
@@ -60,7 +61,7 @@ export function PlatformSidebarV2({
   const badges = useNavBadges();
   const { pinnedIds, togglePin } = usePinnedNav();
   const { recent } = useRecentPages();
-  const tenantQuery = useCurrentTenant();
+  const tenantQuery = useCurrentTenant({ enabled: isTenant });
 
   const [tab, setTab] = React.useState<NavTab>("all");
   const [query, setQuery] = React.useState("");
@@ -93,7 +94,6 @@ export function PlatformSidebarV2({
     variant === "tenant"
       ? (tenantQuery.data?.display_name ?? displayName)
       : displayName;
-  const isTenant = variant === "tenant";
 
   if (isTenant) {
     return (
