@@ -1,6 +1,7 @@
 import * as React from "react";
 import { LayoutGrid, Star, Clock } from "lucide-react";
 import { useSecondaryNavTab, type SecondaryNavTab } from "@/hooks/platform/useSecondaryNavTab";
+import { useSidebarPopup } from "@/hooks/platform/useSidebarPopup";
 
 export type SecondaryHeaderTab = SecondaryNavTab;
 
@@ -13,6 +14,12 @@ export type SecondaryHeaderTab = SecondaryNavTab;
  */
 export function PlatformSecondaryHeader() {
   const { tab, setTab } = useSecondaryNavTab();
+  const popup = useSidebarPopup();
+
+  const activate = (t: SecondaryNavTab, el: HTMLElement) => {
+    setTab(t);
+    if (popup.isPopupMode) popup.openFromAnchor(el);
+  };
 
   return (
     <div
@@ -22,18 +29,23 @@ export function PlatformSecondaryHeader() {
         borderBottom: "1px solid var(--platform-secondary-header-border)",
       }}
     >
-      <TabButton label="All" icon={LayoutGrid} active={tab === "all"} onClick={() => setTab("all")} />
+      <TabButton
+        label="All"
+        icon={LayoutGrid}
+        active={tab === "all"}
+        onClick={(e) => activate("all", e.currentTarget)}
+      />
       <TabButton
         label="Favorites"
         icon={Star}
         active={tab === "favorites"}
-        onClick={() => setTab("favorites")}
+        onClick={(e) => activate("favorites", e.currentTarget)}
       />
       <TabButton
         label="Recent"
         icon={Clock}
         active={tab === "recent"}
-        onClick={() => setTab("recent")}
+        onClick={(e) => activate("recent", e.currentTarget)}
       />
     </div>
   );
@@ -48,7 +60,7 @@ function TabButton({
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   active: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   return (
     <button
