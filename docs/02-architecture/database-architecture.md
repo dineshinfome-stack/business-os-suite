@@ -1,27 +1,49 @@
 ---
 title: "Database Architecture"
-summary: "Data architecture principles, transaction and aggregate boundaries, OLTP/analytical split, partitioning, archival, backup, and replication philosophy for the BusinessOS platform."
+summary: "Data architecture principles, transaction and aggregate boundaries, OLTP/analytical split, partitioning, archival, backup, and replication philosophy under the ADR-017 dedicated-database-per-Tenant posture."
 layer: "platform"
 owner: "Platform Architecture"
 status: "approved"
-updated: "2026-07-05"
-tags: ["architecture", "data", "pass-4b"]
+updated: "2026-07-25"
+tags: ["architecture", "data", "pass-4b", "adr-017"]
 depends_on:
   - "02-architecture/master-architecture"
   - "02-architecture/domain-driven-design"
   - "02-architecture/domain-map"
 referenced_by: []
+supersedes_posture: "shared-schema per ADR-011 (for Tenant business data)"
+aligned_to: "ADR-017"
 ---
 
 # Database Architecture
+
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture** (supersedes the shared-database posture of ADR-011 for Tenant business data). ADR-011 continues to apply to the Platform database's own single-schema deployment. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
 
 > Part of **Pass 4B — Data Foundation (Data Constitution)**. Defines the data-layer *philosophy* that every engine, domain, and module must obey. Physical schemas, DDL, ORM choices, and vendor-specific mechanics are intentionally out of scope.
 
 ## Overview
 
-The BusinessOS data layer exists to serve a multi-tenant, multi-domain ERP that spans transactional (OLTP) workloads and analytical (read-heavy, historical) workloads. This document defines the principles, boundaries, and lifecycles that govern how data is created, stored, replicated, archived, and retired — independent of any specific database engine, storage service, or ORM.
+The BusinessOS data layer serves a multi-tenant, multi-domain ERP that spans transactional (OLTP) workloads and analytical (read-heavy, historical) workloads. This document defines the principles, boundaries, and lifecycles that govern how data is created, stored, replicated, archived, and retired — independent of any specific database engine, storage service, or ORM.
 
-The concrete choice of database technology is a downstream ADR concern. **Specific frameworks, runtime versions, vendors, and implementation choices are intentionally deferred to ADRs and implementation documentation.**
+Under ADR-017, the persistence topology is **one Platform database plus one dedicated database per Tenant**. Concrete engine, provisioning, and routing choices are downstream ADR concerns. **Specific frameworks, runtime versions, vendors, and implementation choices are intentionally deferred to ADRs and implementation documentation.**
+
+## Platform vs Tenant Database Responsibilities
+
+| Concern | Platform Database | Tenant Database |
+| --- | --- | --- |
+| Tenant registry (slug, display name, region, lifecycle state) | ✔ | — |
+| Tenant → Database routing metadata | ✔ | — |
+| Platform users and Super Admin / Platform Admin roles | ✔ | — |
+| License, subscription, plan limits, entitlements | ✔ | — |
+| Platform audit (provisioning, licensing, elevation, cross-tenant admin actions) | ✔ | — |
+| Companies, Branches, Financial Years | — | ✔ |
+| Tenant users, roles, permission grants | — | ✔ |
+| Tenant configuration and feature flags | — | ✔ |
+| Tenant audit (business events) | — | ✔ |
+| All business module data (Accounting, Sales, Inventory, …) | — | ✔ |
+
+**Cross-tenant table joins are impossible by construction** — there is no shared table to join. Cross-tenant reporting for platform metrics operates on anonymised or pre-aggregated derivations produced inside each Tenant database and delivered to the Platform layer.
+
 
 ## Data Architecture Principles
 
@@ -85,17 +107,18 @@ Partitioning exists to bound working-set size, isolate noisy tenants, and keep h
 ## Backup Philosophy
 
 - **Point-in-time recovery** is a platform capability, not a per-module concern.
+- **Under ADR-017, backup and restore operate at Tenant-database granularity.** Each Tenant's dedicated database is backed up independently; a single Tenant can be restored, exported, or replicated without touching another Tenant. The Platform database is backed up independently as platform metadata.
 - **Backups are geographically redundant** and encrypted at rest and in transit.
-- **Restore is regularly rehearsed**; an untested backup is treated as no backup.
-- **Recovery objectives** (RPO/RTO) are defined per tenant tier and captured in the platform SLA; concrete numbers are downstream of this document.
-- **Backups respect tenant boundaries** — restore procedures can rewind a single tenant without disturbing others.
+- **Restore is regularly rehearsed** per Tenant tier; an untested backup is treated as no backup.
+- **Recovery objectives** (RPO/RTO) are defined per Tenant tier and captured in the platform SLA; concrete numbers are downstream of this document.
 
 ## Replication and Read Scaling
 
 - **Replication topology serves availability and read scaling**, not consistency shortcuts.
-- **Read replicas serve analytical, reporting, and long-running read paths**; transactional reads default to the write master unless the caller opts into eventual consistency.
-- **Cross-region replication is a data-residency and DR concern**, not a latency-optimisation trick.
-- **Replicas carry the same tenant-scoping and access controls as the primary** — replication is not a security boundary.
+- **Read replicas are per-Tenant** (or per Tenant-tier) — a replica of one Tenant DB never carries another Tenant's data.
+- **Cross-region replication is a data-residency and DR concern**, not a latency-optimisation trick, and is pinned to the Tenant's residency zone.
+- **Replicas carry the same access controls as the primary** — replication is not a security boundary.
+
 
 ## Data Lifecycle
 
