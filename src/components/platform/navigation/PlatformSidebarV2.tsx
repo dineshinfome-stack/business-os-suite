@@ -173,41 +173,41 @@ export function PlatformSidebarV2({
         boxShadow: "var(--nav-elevation)",
       }}
     >
-      {!hideHeader && (
-        <div
-          className="flex items-center gap-2 px-3 py-2.5"
-          style={{ borderBottom: "1px solid var(--nav-border)" }}
-        >
-
-          <div className="ml-auto flex items-center gap-0.5">
-            <button
-              type="button"
-              aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
-              onClick={onTogglePin}
-              className="inline-flex h-7 w-7 items-center justify-center rounded"
-              style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
-            >
-              {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
-            </button>
-            <button
-              type="button"
-              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-              onClick={onToggleCollapsed}
-              className="inline-flex h-7 w-7 items-center justify-center rounded"
-              style={{ color: "var(--nav-fg-muted)" }}
-            >
-              {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
-            </button>
-          </div>
-        </div>
-      )}
-
       {collapsed ? (
         <MiniRail tree={tree} pathname={pathname} />
       ) : (
         <>
-          <NavigationSearch value={query} onChange={setQuery} inputRef={searchRef} />
+          <NavigationSearch
+            value={query}
+            onChange={setQuery}
+            inputRef={searchRef}
+            actions={
+              !hideHeader ? (
+                <>
+                  <button
+                    type="button"
+                    aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
+                    onClick={onTogglePin}
+                    className="inline-flex h-7 w-7 items-center justify-center rounded"
+                    style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
+                  >
+                    {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    onClick={onToggleCollapsed}
+                    className="inline-flex h-7 w-7 items-center justify-center rounded"
+                    style={{ color: "var(--nav-fg-muted)" }}
+                  >
+                    {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
+                  </button>
+                </>
+              ) : null
+            }
+          />
           <NavigationTabs active={tab} onChange={setTab} />
+
 
           <div className="mt-1 flex-1 overflow-y-auto">
             {tab === "all" &&
