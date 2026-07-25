@@ -35,7 +35,7 @@ This catalog SHOULD be regenerated or reviewed whenever a Module PRD is added, r
 
 | Module ID | Module Name | Status | Primary Domain | PRD | Engine Dependencies | Owner |
 | --- | --- | --- | --- | --- | --- | --- |
-| MOD-001 | Platform Administration | Authored | Platform | [`docs/20-module-prds/platform/MODULE_PRD.md`](./20-module-prds/platform/MODULE_PRD.md) | See Section 12 of the PRD | Platform |
+| MOD-001 | Platform Administration | Certified (Platform Foundation v1.0) | Platform | [`docs/20-module-prds/platform/MODULE_PRD.md`](./20-module-prds/platform/MODULE_PRD.md) | See Section 12 of the PRD | Platform |
 | MOD-002 | Accounting | Authored | Finance | [`docs/20-module-prds/accounting/MODULE_PRD.md`](./20-module-prds/accounting/MODULE_PRD.md) | See Section 12 of the PRD | Finance |
 | MOD-003 | Sales | Authored | Revenue | [`docs/20-module-prds/sales/MODULE_PRD.md`](./20-module-prds/sales/MODULE_PRD.md) | See Section 12 of the PRD | Revenue |
 | MOD-004 | Purchase | Authored | Procurement | [`docs/20-module-prds/purchase/MODULE_PRD.md`](./20-module-prds/purchase/MODULE_PRD.md) | See Section 12 of the PRD | Procurement |

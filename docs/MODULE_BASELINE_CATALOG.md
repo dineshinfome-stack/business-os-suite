@@ -39,7 +39,7 @@ A future `Stage` column (Planning / Authoring / Baseline) MAY be introduced once
 
 | Baseline ID | Module | Version | Status | Source Module PRD | Sprint Range | Path |
 | --- | --- | --- | --- | --- | --- | --- |
-| MOD001_PLATFORM_BASELINE_v2 | MOD-001 Platform Administration | 2.0 | Baseline | `docs/20-module-prds/platform/MODULE_PRD.md` | SPR-MOD-001-001 … SPR-MOD-001-010 | [`40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md`](40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md) |
+| MOD001_PLATFORM_BASELINE_v2 | MOD-001 Platform Administration | 2.0 | Certified — Platform Foundation v1.0 (2026-07-25) | `docs/20-module-prds/platform/MODULE_PRD.md` | SPR-MOD-001-001 … SPR-MOD-001-010 | [`40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md`](40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md) |
 | MOD001_PLATFORM_BASELINE_v1 | MOD-001 Platform Administration | 1.0 | Superseded | `docs/20-module-prds/platform/MODULE_PRD.md` | SPR-MOD-001-001 … SPR-MOD-001-006 | [`40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`](40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md) |
 | MOD002_ACCOUNTING_BASELINE_v1 | MOD-002 Accounting | 1.0 | Baseline | `docs/20-module-prds/accounting/MODULE_PRD.md` | SPR-MOD-002-001 … SPR-MOD-002-006 | [`40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md`](40-module-baselines/MOD002_ACCOUNTING_BASELINE_v1.md) |
 | MOD003_SALES_BASELINE_v1 | MOD-003 Sales | 1.0 | Baseline | `docs/20-module-prds/sales/MODULE_PRD.md` | SPR-MOD-003-001 … SPR-MOD-003-006 | [`40-module-baselines/MOD003_SALES_BASELINE_v1.md`](40-module-baselines/MOD003_SALES_BASELINE_v1.md) |
