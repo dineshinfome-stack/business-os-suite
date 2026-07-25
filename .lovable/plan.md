@@ -1,141 +1,187 @@
-# Phase 1 — Platform Foundation Implementation (SPR-MOD-001-001)
 
-**Mode:** Implementation. Framework and integration only. No tenant provisioning, no database changes, no business workflows.
+# Phase 2 — Tenant Registry Implementation (SPR-MOD-001-001) — v6
 
-## Objective
+**Mode:** Implementation. Metadata registry only — no provisioning, no dedicated-database creation, no infrastructure orchestration.
 
-Establish the Platform module as the integration root for all Platform features by wiring it into the existing Business OS repository. Prepare — but do not build — the surfaces later phases (Tenant Registry, Provisioning, Lifecycle) will consume.
+**Governing standards:** ADR-017 · MOD-001 v1.0 Certification · REUSE_BEFORE_BUILD_STANDARD · TENANCY_STANDARD v2.0 · DATABASE_STANDARD · Phase 0 Reuse Inventory · Phase 1 Foundation Summary.
 
-## Governing Standards
+**Source-of-truth precedence.** Where this prompt names a concrete field, lifecycle state, permission, index, or event, the **certified PRD** (`docs/30-sprint-prds/platform/SPR-MOD-001-001_v2.md`) and the corresponding Solution Design in the repository override this prompt on any discrepancy. This prompt does not define the data model.
 
-- ADR-017 (dedicated-database-per-tenant; Workspace logical only)
-- Certified MOD-001 Platform Foundation v1.0
-- REUSE_BEFORE_BUILD_STANDARD (Reuse → Extend → Refactor → Defer → Create)
-- Phase 0 Reuse Inventory (primary source of truth for existing assets)
+## Execution gates (sequential — do not skip)
 
-## Repository Safety
+Implementation proceeds strictly in this order. Each gate must be green before the next begins.
 
-**Allowed**
-- Extend existing files
-- Create missing Platform foundation files
-- Register navigation, permissions, routes
-- Add thin wrappers, shared types, constants
+- **Gate 0 — Discovery.** Reuse inventory + pre-implementation permission check complete.
+- **Gate 1 — Migration.** Schema migration authored, applied, and verified. Must pass:
+  - Migration Rules + Migration Verification (clean DB, populated DB, idempotency, automated RLS/GRANT/index inspection).
+  - Existing Tenant APIs pass backward-compatibility tests (integration suite + response-shape snapshot diff) **against the migrated schema, with no code changes to the API layer.**
+  - `bun run build` · `tsgo --noEmit` · `bun test` green.
+  - **Halt condition:** any failure ⇒ revert migration, restore Phase 1 state, stop and report.
+- **Gate 2 — Backend.** `updateTenant`, `searchTenants`, `getTenantRegistryStats` + validators + full server test matrix. Build/type/test green.
+- **Gate 3 — UI.** List/create/detail extensions wired to the Gate 2 backend.
+- **Gate 4 — Dashboard.** Placeholder retired; Tenant Registry widget wired to `getTenantRegistryStats`.
+- **Gate 5 — Definition of Done.** Verification table + summary document published.
 
-**Not Allowed**
-- Delete existing files
-- Rename existing modules
-- Move existing folders
-- Replace authentication, navigation, Supabase client, or dashboard framework
+UI and dashboard work MUST NOT begin until Gate 1 is green.
 
-## No Silent Refactors
+## Discovery — assets to reuse (do not replace)
 
-Any REFACTOR must preserve public behavior. If a refactor would change APIs, routing, contracts, or user-visible behavior, STOP and request approval before proceeding.
+- `src/lib/tenants/tenants.functions.ts` — `listTenants`, `getTenant`, `createTenant`, `activateTenant`, `suspendTenant`, `archiveTenant` (all `requireSupabaseAuth`, lifecycle RPCs in `private`).
+- `src/lib/tenants/{slug,lifecycle,events,audit}.ts` — validators, state machine, event builder, `logTenantEventFn`.
+- `src/routes/_authenticated/platform/tenants/index.tsx` (+ detail route if present).
+- `src/lib/generated/permission-keys.ts` — `platform.tenant.{read,create,activate,suspend,archive}`.
+- `public.tenants` (existing columns + lifecycle enum).
+- `src/dashboard/template/*` — registry + Phase 1 placeholder widget.
+- Shared UI: `DataGrid`, `Dialog`, `Input`, `Label`, `Badge`, `Can`, `toast`, `useAuth`.
 
-## Rollback Expectation
-
-If implementation introduces a build failure, test regression, routing regression, or authentication regression, restore repository stability before continuing. Do not stack additional work on an unstable repository.
-
-## Repository Discovery (mandatory, before any change)
-
-Inventory the following against the Phase 0 Reuse Inventory and confirm the disposition (Reuse/Extend/Refactor/Defer/Create) of each:
-
-- Platform routes: `src/routes/_authenticated/platform/**`
-- Platform shell + navigation: `src/components/platform/**`, `src/lib/navigation/**`, `src/hooks/platform/**`
-- Dashboard template: `src/dashboard/template/**`
-- Auth + RBAC: `src/contexts/auth-context.tsx`, `src/contexts/permissions-context.tsx`, `src/routes/_authenticated.tsx`
-- Supabase clients: `src/integrations/supabase/**`
-- Shared hooks/services/utils: `src/hooks/**`, `src/services/**`, `src/utils/**`, `src/lib/**`
-- Config + feature flags: `src/config/**`, `src/hooks/settings/**`
+**Pre-implementation permission check.** Before adding a new permission key, grep `docs/15-governance/permission-catalog.manifest.yaml` and `src/lib/generated/permission-keys.ts` for an existing equivalent (e.g. `platform.tenant.edit`, `platform.tenant.manage`). Reuse the existing key if one exists; only add `platform.tenant.update` when none is present.
 
 ## Scope
 
-### 1. Platform module boundary
-Prefer extending existing folders (`src/routes/_authenticated/platform/**`, `src/components/platform/**`, `src/hooks/platform/**`) over introducing a new `src/modules/platform/` tree. Any new folder requires a written CREATE justification citing the Reuse Inventory.
+### 1. Schema extension (migration) — **Gate 1**
 
-### 2. Routing
-- Verify `/platform/*` routes load under the authenticated + platform-admin gate.
-- Add only routes missing for the foundation (placeholders acceptable).
-- Explicitly verify: lazy loading (if used), route guards, error boundaries, 404 handling, breadcrumb metadata.
-- No route rewrites.
+Extend `public.tenants` with the metadata fields defined in the **certified Solution Design and PRD**. Do not introduce fields absent from those artifacts.
 
-### 3. Layout & shell
-Reuse existing app layout, platform shell, sidebar, header, secondary nav, dashboard template. Extension only where a Platform-specific slot is required.
+**Migration Rules (mandatory):**
+- Backward compatible; new columns nullable or defaulted.
+- Idempotent (`IF NOT EXISTS`, guarded `DO` blocks).
+- Preserve existing data, RLS policies, and GRANTs (re-issue GRANTs per DATABASE_STANDARD; never widen).
+- No destructive operations, no column drops, no data rewrites, no policy relaxation.
+- Lifecycle model unchanged unless the certified PRD/SD already extends it.
 
-### 4. Navigation
-Verify sidebar, secondary nav, breadcrumbs, favorites, recent, search, and command palette surface Platform entries via `src/lib/navigation/registry.ts`. Zero duplicates. No parallel registries.
+**Migration Verification (mandatory, evidence in summary):**
+- Runs cleanly on an empty database.
+- Runs cleanly on the current populated database.
+- Repeated execution is safe.
+- Existing tenant rows unchanged except for the new nullable/defaulted columns.
+- RLS + GRANTs post-migration match pre-migration state via **automated schema inspection** (queries against `pg_policies`, `information_schema.table_privileges`, `pg_indexes`).
+- Existing Tenant API integration tests + response-shape snapshot diff pass **without code changes to the API layer.**
 
-### 5. Platform services (thin scaffolds, no tenant logic)
-- Platform configuration accessor (wraps existing config)
-- Feature flag accessor (wraps existing `useFeatureFlag`)
-- Platform metadata accessor (module id, version, capability catalog reference)
-- Platform logging helper (wraps existing logger)
+### 2. Domain & validation — **Gate 2**
 
-No tenant CRUD, no provisioning, no new DB calls.
+Add `src/lib/tenants/registry.ts` — Zod validators for the certified create/update payload. Reuse `normalizeSlug`/`isValidSlug`. No parallel validation stack.
 
-### 6. Shared types
-`Platform`, `PlatformStatus`, `PlatformSettings`, `PlatformMetadata`. No `Tenant*` entities in this phase.
+### 3. Server functions (extend the existing module) — **Gate 2**
 
-### 7. Constants
-Centralize Platform route ids, nav ids, permission keys, and feature-flag keys — reusing existing constants where present.
+Extend `src/lib/tenants/tenants.functions.ts`:
 
-### 8. Error handling
-Reuse existing error boundaries, toast, notification, and logging surfaces. Extend only for Platform-specific messaging.
+- `updateTenant` — patch registry metadata; no lifecycle change.
+- `searchTenants` — server-side filter + pagination.
+- `getTenantRegistryStats` — counts per lifecycle_state.
 
-### 9. Auth integration
-Verify (do not redesign) that Platform pages consume the existing session, protected-route gate, role checks, and permission checks.
+**Reuse rules:** reuse `requireSupabaseAuth`, existing permission enforcement, `logTenantEventFn`, existing transaction/RPC patterns, validators, and error-shaping helpers. No duplicated auth, authorization, audit, transactions, mapping, or error handling.
 
-### 10. Authorization
-Register Platform permission keys against the existing RBAC/permissions catalog. No second permission system.
+### 4. Search behavior (specified) — **Gate 2**
 
-### 11. Dashboard integration
-Extend `/platform/dashboard` using the existing dashboard template. Placeholder widgets/quick-actions/stats are acceptable and must:
-- Clearly indicate "Coming in Phase 2"
-- Render disabled actions where relevant
-- Never invoke mock provisioning logic
-- Never present fake tenant counts or fabricated metrics as real data
+- Exact match on tenant code (case-insensitive).
+- Partial match on display name and slug (case-insensitive, prefix + substring).
+- Filter by `lifecycle_state` and `provisioning_status` per certified model.
+- Deterministic default sort (`created_at desc, id desc`); stable pagination.
+- **Collation.** Reuse the existing repository/database collation conventions (`citext`/`ILIKE`/`lower()` as already used by existing tenant queries). No new collation strategy.
 
-### 12. Configuration
-Wire Platform module into the existing env/feature-flag/settings framework. No new configuration framework.
+**Performance:**
+- Reuse existing indexes where available.
+- Add new indexes only when the certified SD requires them; declare them in the Gate 1 migration.
+- Avoid full-table scans on search paths that are indexed by the certified SD.
+- **Index usage verification.** For each new SD-declared index, capture an `EXPLAIN` plan showing the index is used.
+  - `EXPLAIN ANALYZE` may only be run against **development or seed datasets.** Never production. Plain `EXPLAIN` is sufficient elsewhere.
 
-## Out of Scope
+### 5. Audit — **Gate 2**
 
-Tenant CRUD, provisioning, DB creation, Workspace/Company/Branch/Financial-Year creation, licensing, audit engine work, background jobs, edge functions, migrations, schema changes, business workflows, new governance docs.
+Reuse `logTenantEventFn` with action names defined by the certified PRD (`tenant.updated`, etc.). **Preserve the existing event schema and correlation identifiers** — no new event envelope, no renamed fields, no removed correlation IDs. Downstream audit consumers must remain functional.
+
+### 6. UI — extend existing pages — **Gate 3**
+
+- `platform/tenants/index.tsx`: expand create dialog to certified metadata; add filter/search bar; add columns for surfaced fields; wire pagination.
+- Tenant detail page: **extend if present; otherwise add minimal route consistent with existing conventions.** Metadata Edit form + Archive confirmation. Existing lifecycle actions untouched.
+- Reuse only existing shared components. No new shared components.
+
+### 7. Dashboard integration — **Gate 4**
+
+Replace the **Phase 1 placeholder widget** on `/platform/dashboard` with a Tenant Registry widget rendering live counts from `getTenantRegistryStats`. Register via the existing widget registry — no module-scope side effects in the route file (Phase 1 fix stands).
+
+### 8. Navigation
+
+`administration.platform.tenants` already exists — **no changes**. No duplicates.
+
+### 9. RBAC — **Gate 2**
+
+If (and only if) no equivalent exists, add `platform.tenant.update` to `docs/15-governance/permission-catalog.manifest.yaml` and regenerate `src/lib/generated/permission-keys.ts` via `bun run generate:permissions`.
+
+## Ownership boundary (documented in code + summary)
+
+- **Tenant Registry (this phase) OWNS:** metadata, status flags, contacts, references, opaque `dedicated_database_ref`, opaque `subscription_ref`.
+- **Provisioning Engine (Phase 3) OWNS:** dedicated database creation, secrets, Supabase project APIs, provisioning jobs, workers, infrastructure secrets.
+- Registry code MUST NOT call any infrastructure API, spawn jobs, or write outside the Platform database. Provisioning-adjacent TODOs use the `PHASE-3-PROVISIONING` comment tag — never a feature flag.
+
+## Repository safety
+
+**Allowed:** extend existing tenant module, add one migration, add one widget, add one permission (only if none exists), add registry validators + tests.
+**Not allowed:** delete/rename files; refactor auth/RBAC/navigation/dashboard shell; introduce provisioning code (even behind feature flags); module-scope side effects in route files; new shared components; parallel service/hook/validation stacks.
+**No silent refactors:** if routing/contracts/permission model must change, STOP and request approval.
+**Rollback:** if any gate fails — revert to Phase 1 state.
+
+## Testing (mandatory coverage)
+
+Under `src/lib/tenants/__tests__/`:
+
+- **Unit** — validators (code, email, domain, phone, slug edges).
+- **Integration** — `updateTenant`, `searchTenants`, `getTenantRegistryStats` happy paths.
+- **Permission** — unauthenticated + missing permission → 401/403; each action checks its declared permission.
+- **Validation** — rejects malformed metadata; enforces uniqueness where declared.
+- **Search** — exact code, partial name/slug, case-insensitivity, filter combinations.
+- **Pagination** — deterministic order, stable across pages, correct total.
+- **Archive** — transitions honored; idempotent; no regression on already-archived tenants.
+- **Stats** — counts equal ground-truth query on seed data.
+- **Backward compatibility** — pre-existing `listTenants`/`getTenant`/`createTenant`/`activateTenant`/`suspendTenant`/`archiveTenant` shapes and behavior unchanged after migration. Evidence: existing integration tests remain green **plus** a response-shape snapshot per API captured before/after and diffed in the summary. This suite runs at Gate 1.
 
 ## Definition of Done
 
-- Build passes
-- Lint passes
-- Tests pass (existing 49/49 green)
-- No duplicate assets introduced
-- Reuse Inventory honored
-- Navigation updated
-- Platform routes operational
-- Platform Dashboard operational
-- Existing behavior preserved
-- Implementation summary published (structure below)
+- All 5 gates green in order.
+- Migration applied per Migration Rules; Migration Verification executed with automated-inspection evidence recorded (Gate 1).
+- `updateTenant`, `searchTenants`, `getTenantRegistryStats` implemented, permission-gated, audited with preserved event schema (Gate 2).
+- Tenant list supports specified search + filter + pagination; create dialog captures certified metadata; detail page supports edit + archive (Gate 3).
+- Dashboard widget shows live registry counts, Phase 1 placeholder retired (Gate 4).
+- Permission reused or (if absent) `platform.tenant.update` generated and enforced.
+- **Existing Tenant APIs behave backward compatibly** (evidence per §Testing).
+- `bun run build` · `tsgo --noEmit` · `bun test` all green.
+- No duplicate services/pages/hooks/validators introduced.
+- `docs/60-engineering/PHASE2_TENANT_REGISTRY_SUMMARY.md` published — Reused / Extended / Created / CREATE justifications / Refactored / Deferred / Known Limitations / Phase 3 dependencies / Ownership boundary — including the verification table below and inspection/EXPLAIN/snapshot evidence.
 
-## Implementation Summary (required structure)
+### Required verification table in the summary
 
-- Reused Assets
-- Extended Assets
-- Created Assets
-- CREATE Justifications
-- Refactored Assets
-- Deferred Items
-- Known Limitations
-- Next Phase Dependencies
+| Gate | Verification | Result | Evidence |
+|---|---|---|---|
+| 1 | Migration — clean DB | PASS/FAIL | Applied successfully |
+| 1 | Migration — populated DB | PASS/FAIL | Applied without data change to existing rows |
+| 1 | Migration — idempotency | PASS/FAIL | Re-applied safely |
+| 1 | RLS + GRANTs preserved | PASS/FAIL | Automated inspection diff (`pg_policies`, `information_schema.table_privileges`) |
+| 1 | Backward compatibility (post-migration, pre-backend) | PASS/FAIL | Existing tenant API integration tests + response-shape snapshot diff, no API code changes |
+| 1 | Build / Type / Test after migration | PASS/FAIL | `bun run build` · `tsgo --noEmit` · `bun test` |
+| 2 | Index usage | PASS/FAIL | `EXPLAIN` output per new SD-declared index (dev/seed only for `ANALYZE`) |
+| 2 | Backend test matrix | PASS/FAIL | `bun test` (counts + new suite names) |
+| 3 | UI reuse | PASS/FAIL | No new shared components; existing dialogs/grid reused |
+| 4 | Dashboard widget live | PASS/FAIL | Placeholder retired; counts from `getTenantRegistryStats` |
+| 5 | Reuse-Before-Build | PASS/FAIL | No duplicate implementations |
+| 5 | Ownership boundary | PASS/FAIL | No infrastructure calls in registry code |
+| 5 | Final Build / Type / Test | PASS/FAIL | All green |
 
 ## Stop Rule
 
-When the Platform Foundation is operational and the Definition of Done is met: **STOP.** Do not begin Tenant Registry. Await Phase 2 authorization.
+When DoD is met: **STOP.** No Provisioning Engine, no dedicated DB creation, no lifecycle automation. **No Provisioning-Engine code, even behind feature flags.** Await Phase 3 authorization.
 
-## Execution Steps
+## Technical section
 
-1. Review SPR-MOD-001-001 PRD, ADR-017, Phase 0 Reuse Inventory.
-2. Repository discovery pass → disposition table (Reuse/Extend/Refactor/Defer/Create).
-3. Wire/extend Platform module boundary against existing folders.
-4. Verify + extend routing and navigation registry (incl. guards, error boundaries, 404, breadcrumbs).
-5. Add thin Platform services, types, constants, config wiring.
-6. Extend Platform dashboard with clearly-labeled Phase 2 placeholders.
-7. Build, lint, test; scan for duplicates; restore stability immediately on any regression.
-8. Publish structured Implementation Summary; STOP.
+**Files changed / created:**
+
+- `supabase/migrations/<ts>_tenant_registry_metadata.sql` *(new — Gate 1)*.
+- `src/lib/tenants/registry.ts` *(new — Gate 2)*.
+- `src/lib/tenants/tenants.functions.ts` — add `updateTenant`, `searchTenants`, `getTenantRegistryStats` *(Gate 2)*.
+- `src/lib/tenants/__tests__/*.test.ts` *(new — Gate 1 backward-compat snapshot suite; Gate 2 full matrix)*.
+- `src/routes/_authenticated/platform/tenants/index.tsx` — expanded dialog, filter/search, pagination *(Gate 3)*.
+- Tenant detail route — extend if present; otherwise add per existing conventions *(Gate 3)*.
+- New Tenant Registry widget under `src/dashboard/template/widgets/`, replacing the Phase 1 placeholder *(Gate 4)*.
+- `docs/15-governance/permission-catalog.manifest.yaml` — only if no equivalent exists; regenerate `src/lib/generated/permission-keys.ts` *(Gate 2)*.
+- `docs/60-engineering/PHASE2_TENANT_REGISTRY_SUMMARY.md` *(new — Gate 5)*.
+
+**Not touched:** auth context, RBAC middleware, navigation registry, Supabase clients, dashboard template shell, Phase 1 foundation (`src/lib/platform/*`), lifecycle RPCs, event schema.
