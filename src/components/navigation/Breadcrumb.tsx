@@ -8,7 +8,7 @@ export function Breadcrumb() {
 
   return (
     <nav aria-label="Breadcrumb" className="flex items-center text-sm text-muted-foreground">
-      <Link to="/tenant" className="flex items-center hover:text-foreground" aria-label="Home">
+      <Link to="/settings" className="flex items-center hover:text-foreground" aria-label="Home">
         <Home className="h-3.5 w-3.5" />
       </Link>
       {crumbs.map((c, idx) => {

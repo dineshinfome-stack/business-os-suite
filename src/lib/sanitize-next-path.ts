@@ -10,9 +10,9 @@
  *  - absolute URLs / anything containing ':' before the first '/'
  *  - empty / non-string values
  *
- * Falls back to '/tenant' on any rejection.
+ * Falls back to '/settings' on any rejection.
  */
-export const DEFAULT_NEXT_PATH = "/tenant";
+export const DEFAULT_NEXT_PATH = "/settings";
 
 export function sanitizeNextPath(input: unknown): string {
   if (typeof input !== "string" || input.length === 0) return DEFAULT_NEXT_PATH;

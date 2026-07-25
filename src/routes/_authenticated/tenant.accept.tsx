@@ -37,7 +37,7 @@ function AcceptPage() {
       .then(() => {
         setStatus("done");
         notify.success("Invitation accepted — welcome!");
-        void navigate({ to: "/tenant" });
+        void navigate({ to: "/settings" });
       })
       .catch((e: unknown) => {
         setStatus("error");
@@ -61,7 +61,7 @@ function AcceptPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button onClick={() => void navigate({ to: "/tenant" })}>Go to tenant</Button>
+          <Button onClick={() => void navigate({ to: "/settings" })}>Go to tenant</Button>
         </CardContent>
       </Card>
     </PageContainer>

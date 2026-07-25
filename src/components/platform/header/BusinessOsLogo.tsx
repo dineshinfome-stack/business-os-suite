@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
  * Business OS brand mark. Mirrors the PlatformTopBar wordmark but sized for
  * the tenant header.
  */
-export function BusinessOsLogo({ to = "/tenant" }: { to?: string }) {
+export function BusinessOsLogo({ to = "/settings" }: { to?: string }) {
   return (
     <Link to={to} aria-label="Business OS home" className="flex items-center gap-2">
       <span
