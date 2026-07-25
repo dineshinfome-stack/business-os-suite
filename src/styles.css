@@ -150,7 +150,7 @@
   --nav-width-collapsed: 3.5rem;
   --topbar-height: 3.5rem;
 
-  /* Platform (Super Admin) shell — ServiceNow Next Experience inspired */
+  /* Platform (Platform Admin) shell — ServiceNow Next Experience inspired */
   --sn-navy-900: #0f1235;
   --sn-navy-800: #1b1f3b;
   --sn-navy-700: #232852;
@@ -303,7 +303,7 @@
   --elevation-2: 0 6px 18px -4px color-mix(in oklab, black 55%, transparent);
   --elevation-3: 0 16px 40px -10px color-mix(in oklab, black 70%, transparent);
 
-  /* Platform (Super Admin) shell — dark theme overrides */
+  /* Platform (Platform Admin) shell — dark theme overrides */
   --sn-canvas: #0b0e24;
   --sn-surface: #1b1f3b;
   --sn-border: rgba(255, 255, 255, 0.10);

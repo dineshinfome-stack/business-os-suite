@@ -5,7 +5,7 @@ import { PLATFORM_NAV } from "./nav-items";
 export function PlatformSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { profile, user } = useAuth();
-  const displayName = profile?.displayName ?? user?.email ?? "Super Admin";
+  const displayName = profile?.displayName ?? user?.email ?? "Platform Admin";
 
   return (
     <aside
@@ -34,7 +34,7 @@ export function PlatformSidebar() {
       </div>
 
       {/* Menu */}
-      <nav className="flex-1 overflow-y-auto py-2" aria-label="Super Admin">
+      <nav className="flex-1 overflow-y-auto py-2" aria-label="Platform Admin">
         <ul className="space-y-0.5">
           {PLATFORM_NAV.map((item) => {
             const Icon = item.icon;

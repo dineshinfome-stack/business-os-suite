@@ -49,7 +49,7 @@ interface Props {
 
 /**
  * Business OS Enterprise Navigation v2 — data-driven, searchable sidebar.
- * Shared between the Platform (Super Admin) shell and the Tenant AppShell.
+ * Shared between the Platform (Platform Admin) shell and the Tenant AppShell.
  * All items come from NAV_REGISTRY via useNavigation() (permission-aware).
  */
 export function PlatformSidebarV2({
@@ -73,7 +73,7 @@ export function PlatformSidebarV2({
   const isTenant = variant === "tenant";
   const { profile, user } = useAuth();
   const displayName =
-    profile?.displayName ?? user?.email ?? (variant === "platform" ? "Super Admin" : APP_NAME);
+    profile?.displayName ?? user?.email ?? (variant === "platform" ? "Platform Admin" : APP_NAME);
   const tree = useNavigation();
   const badges = useNavBadges();
   const { pinnedIds, togglePin } = usePinnedNav();
@@ -106,7 +106,7 @@ export function PlatformSidebarV2({
   const flatCount = React.useMemo(() => flatten(filteredTree).length, [filteredTree]);
 
   const width = collapsed ? "w-16" : "w-72";
-  const resolvedSubtitle = subtitle ?? (variant === "platform" ? "Super Admin" : "Tenant");
+  const resolvedSubtitle = subtitle ?? (variant === "platform" ? "Platform Admin" : "Tenant");
   const tenantContext =
     variant === "tenant"
       ? (tenantQuery.data?.display_name ?? displayName)

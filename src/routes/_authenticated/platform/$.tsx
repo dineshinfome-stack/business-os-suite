@@ -6,8 +6,8 @@ export const Route = createFileRoute("/_authenticated/platform/$")({
   component: ComingSoonPage,
   head: () => ({
     meta: [
-      { title: "Coming soon — Super Admin" },
-      { name: "description", content: "This Super Admin area is not yet available." },
+      { title: "Coming soon — Platform Admin" },
+      { name: "description", content: "This Platform Admin area is not yet available." },
     ],
   }),
 });
@@ -24,7 +24,7 @@ function ComingSoonPage() {
       </div>
       <h2 className="mt-4 text-lg font-semibold">{label} — Coming soon</h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        This Super Admin surface is planned. The navigation entry is reserved so the shell layout stays consistent.
+        This Platform Admin surface is planned. The navigation entry is reserved so the shell layout stays consistent.
       </p>
     </div>
   );

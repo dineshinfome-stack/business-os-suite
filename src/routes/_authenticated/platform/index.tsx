@@ -1,5 +1,5 @@
 /**
- * Super Admin Dashboard — ServiceNow Next Experience inspired.
+ * Platform Admin Dashboard — ServiceNow Next Experience inspired.
  * Presentation-only; all values are sample data.
  */
 import { createFileRoute } from "@tanstack/react-router";
@@ -14,15 +14,15 @@ export const Route = createFileRoute("/_authenticated/platform/")({
   component: PlatformAdministrationPage,
   head: () => ({
     meta: [
-      { title: "Super Admin Dashboard — Business OS" },
+      { title: "Platform Admin Dashboard — Business OS" },
       {
         name: "description",
-        content: "Super Admin control center: monitor incidents, requests, changes, and platform health.",
+        content: "Platform Admin control center: monitor incidents, requests, changes, and platform health.",
       },
-      { property: "og:title", content: "Super Admin Dashboard — Business OS" },
+      { property: "og:title", content: "Platform Admin Dashboard — Business OS" },
       {
         property: "og:description",
-        content: "Super Admin control center: monitor incidents, requests, changes, and platform health.",
+        content: "Platform Admin control center: monitor incidents, requests, changes, and platform health.",
       },
     ],
   }),

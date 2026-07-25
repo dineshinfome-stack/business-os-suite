@@ -249,7 +249,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     keywords: ["financial year", "fiscal year", "fy", "accounting period", "company"],
   },
 
-  // ── SPR-PLT-0001 Phase A — Super Admin (shell + navigation only) ─────
+  // ── SPR-PLT-0001 Phase A — Platform Admin (shell + navigation only) ─────
   // Landing surface for platform-wide super-admin capabilities. Later
   // phases (Dashboard, Provisioning, Licensing, Audit, User Management)
   // will attach as children under `super_admin`.
@@ -257,7 +257,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     id: "super_admin",
     id_status: "active",
     module: "super_admin",
-    title: "Super Admin",
+    title: "Platform Admin",
     icon: ShieldCheck,
     route: null,
     parent: null,
