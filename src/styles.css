@@ -168,16 +168,17 @@
   --sn-accent-yellow: #ffb703;
   --sn-hero-gradient: linear-gradient(120deg, #1b1f3b 0%, #2a2f66 55%, #3b2a66 100%);
 
-  /* Legacy platform aliases (kept so older components keep working) */
-  --platform-sidebar-bg: var(--sn-navy-800);
-  --platform-sidebar-fg: var(--sn-text-onnavy);
-  --platform-sidebar-muted: var(--sn-text-onnavy-muted);
-  --platform-sidebar-active-bg: var(--sn-navy-700);
-  --platform-sidebar-hover-bg: var(--sn-navy-hover);
-  --platform-sidebar-active-bar: var(--sn-accent-pink);
+  /* Legacy platform aliases — light theme defaults */
+  --platform-sidebar-bg: var(--sn-surface);
+  --platform-sidebar-fg: var(--sn-text);
+  --platform-sidebar-muted: var(--sn-text-muted);
+  --platform-sidebar-active-bg: color-mix(in oklab, var(--brand-red) 12%, transparent);
+  --platform-sidebar-hover-bg: color-mix(in oklab, var(--sn-text) 6%, transparent);
+  --platform-sidebar-active-bar: var(--brand-red);
   --platform-content-bg: var(--sn-canvas);
-  --platform-topbar-bg: var(--sn-navy-800);
+  --platform-topbar-bg: var(--sn-surface);
   --kpi-value: var(--sn-navy-800);
+
 }
 
 @utility sn-hero-band {
@@ -291,7 +292,33 @@
   --sn-border: rgba(255, 255, 255, 0.10);
   --sn-text: #f5f6fa;
   --sn-text-muted: #b7bad0;
+
+  --platform-sidebar-bg: var(--sn-navy-800);
+  --platform-sidebar-fg: var(--sn-text-onnavy);
+  --platform-sidebar-muted: var(--sn-text-onnavy-muted);
+  --platform-sidebar-active-bg: var(--sn-navy-700);
+  --platform-sidebar-hover-bg: var(--sn-navy-hover);
+  --platform-sidebar-active-bar: var(--sn-accent-pink);
+  --platform-topbar-bg: var(--sn-navy-800);
 }
+
+.enterprise-sidebar[data-variant="platform"] {
+  --nav-border: var(--sn-border);
+  --nav-hover: color-mix(in oklab, var(--sn-text) 6%, transparent);
+  --nav-active-bg: color-mix(in oklab, var(--brand-red) 12%, transparent);
+  --nav-ring: color-mix(in oklab, var(--sn-text) 15%, transparent);
+  --nav-input-bg: color-mix(in oklab, var(--sn-text) 5%, transparent);
+  --nav-elevation: var(--elevation-2);
+}
+.dark .enterprise-sidebar[data-variant="platform"] {
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --nav-hover: rgba(255, 255, 255, 0.06);
+  --nav-active-bg: rgba(255, 255, 255, 0.08);
+  --nav-ring: rgba(255, 255, 255, 0.15);
+  --nav-input-bg: rgba(255, 255, 255, 0.05);
+  --nav-elevation: 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+}
+
 
 
 @layer base {
