@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, RefreshCw, Pin, PinOff } from "lucide-react";
 import { HeaderPopover } from "./HeaderPopover";
 import { useHeader } from "@/contexts/header-context";
 import { useNavigation } from "@/hooks/navigation/useNavigation";
@@ -46,7 +46,37 @@ export function AllPopover() {
       align="start"
       contentClassName="w-[22rem] p-0"
     >
-      <NavigationSearch value={query} onChange={setQuery} inputRef={searchRef} />
+      <NavigationSearch
+        value={query}
+        onChange={setQuery}
+        inputRef={searchRef}
+        actions={
+          <div className="flex items-center gap-0.5">
+            <button
+              type="button"
+              aria-label="Reset filter"
+              onClick={() => {
+                setQuery("");
+                setTimeout(() => searchRef.current?.focus(), 0);
+              }}
+              className="flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-[var(--nav-hover)]"
+              style={{ color: "var(--nav-fg-muted)" }}
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+            </button>
+            <button
+              type="button"
+              aria-label={header.sidebar.pinned ? "Unpin sidebar" : "Pin sidebar"}
+              aria-pressed={header.sidebar.pinned}
+              onClick={() => header.sidebar.togglePinned()}
+              className="flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-[var(--nav-hover)]"
+              style={{ color: header.sidebar.pinned ? "var(--nav-fg-strong)" : "var(--nav-fg-muted)" }}
+            >
+              {header.sidebar.pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+            </button>
+          </div>
+        }
+      />
       <div className="max-h-[70vh] overflow-y-auto">
         {flatCount === 0 ? (
           <NavigationEmptyState query={query} />
