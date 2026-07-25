@@ -253,6 +253,165 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
   );
 }
 
+type TenantRecord = NonNullable<Awaited<ReturnType<typeof getTenant>>>;
+
+function EditMetadataDialog({ tenant }: { tenant: TenantRecord }) {
+  const update = useServerFn(updateTenant);
+  const qc = useQueryClient();
+  const [open, setOpen] = React.useState(false);
+  const [displayName, setDisplayName] = React.useState(tenant.display_name);
+  const [code, setCode] = React.useState(tenant.code ?? "");
+  const [contactName, setContactName] = React.useState(
+    tenant.primary_contact_name ?? "",
+  );
+  const [contactEmail, setContactEmail] = React.useState(
+    tenant.primary_contact_email ?? "",
+  );
+  const [contactPhone, setContactPhone] = React.useState(
+    tenant.primary_contact_phone ?? "",
+  );
+  const [billingEmail, setBillingEmail] = React.useState(
+    tenant.billing_email ?? "",
+  );
+  const [domain, setDomain] = React.useState(tenant.primary_domain ?? "");
+  const [notes, setNotes] = React.useState(tenant.notes ?? "");
+
+  React.useEffect(() => {
+    if (!open) return;
+    setDisplayName(tenant.display_name);
+    setCode(tenant.code ?? "");
+    setContactName(tenant.primary_contact_name ?? "");
+    setContactEmail(tenant.primary_contact_email ?? "");
+    setContactPhone(tenant.primary_contact_phone ?? "");
+    setBillingEmail(tenant.billing_email ?? "");
+    setDomain(tenant.primary_domain ?? "");
+    setNotes(tenant.notes ?? "");
+  }, [open, tenant]);
+
+  const mut = useMutation({
+    mutationFn: () => {
+      const trim = (s: string) => s.trim();
+      const orNull = (s: string) => (trim(s).length ? trim(s) : null);
+      const patch = {
+        displayName: trim(displayName),
+        code: orNull(code),
+        primaryContactName: orNull(contactName),
+        primaryContactEmail: orNull(contactEmail),
+        primaryContactPhone: orNull(contactPhone),
+        billingEmail: orNull(billingEmail),
+        primaryDomain: orNull(domain),
+        notes: orNull(notes),
+      };
+      return update({ data: { tenantId: tenant.id, patch } });
+    },
+    onSuccess: () => {
+      toast.success("Tenant updated");
+      qc.invalidateQueries({ queryKey: ["platform", "tenants"] });
+      qc.invalidateQueries({ queryKey: ["platform", "tenant", tenant.id] });
+      setOpen(false);
+    },
+    onError: (e) => toast.error((e as Error).message),
+  });
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm">
+          Edit metadata
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Edit tenant metadata</DialogTitle>
+        </DialogHeader>
+        <div className="grid grid-cols-2 gap-3 py-2">
+          <div className="col-span-2 space-y-1">
+            <Label htmlFor="edit-name">Display name</Label>
+            <Input
+              id="edit-name"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="edit-code">Code</Label>
+            <Input
+              id="edit-code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="ACME"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="edit-domain">Primary domain</Label>
+            <Input
+              id="edit-domain"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              placeholder="acme.io"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="edit-contact-name">Contact name</Label>
+            <Input
+              id="edit-contact-name"
+              value={contactName}
+              onChange={(e) => setContactName(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="edit-contact-email">Contact email</Label>
+            <Input
+              id="edit-contact-email"
+              value={contactEmail}
+              onChange={(e) => setContactEmail(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="edit-contact-phone">Contact phone</Label>
+            <Input
+              id="edit-contact-phone"
+              value={contactPhone}
+              onChange={(e) => setContactPhone(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="edit-billing-email">Billing email</Label>
+            <Input
+              id="edit-billing-email"
+              value={billingEmail}
+              onChange={(e) => setBillingEmail(e.target.value)}
+            />
+          </div>
+          <div className="col-span-2 space-y-1">
+            <Label htmlFor="edit-notes">Notes</Label>
+            <Input
+              id="edit-notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button
+            variant="ghost"
+            onClick={() => setOpen(false)}
+            disabled={mut.isPending}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => mut.mutate()}
+            disabled={!displayName.trim() || mut.isPending}
+          >
+            {mut.isPending ? "Saving…" : "Save"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ────────────────────────────────────────────────────────────────────────
 // Companies panel — SIP-015
 // ────────────────────────────────────────────────────────────────────────
