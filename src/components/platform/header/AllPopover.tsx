@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, RefreshCw, Pin, PinOff } from "lucide-react";
 import { HeaderPopover } from "./HeaderPopover";
 import { useHeader } from "@/contexts/header-context";
 import { useNavigation } from "@/hooks/navigation/useNavigation";
