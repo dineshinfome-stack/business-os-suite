@@ -23,7 +23,7 @@
  * ────────────────────────────────────────────────────────────────
  */
 import {
-  LayoutDashboard,
+  
   Settings,
   Shield,
   ShieldCheck,
@@ -89,19 +89,6 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     display_order: 10,
     visible: true,
     enabled: true,
-  },
-  {
-    id: "workspace.dashboard",
-    id_status: "active",
-    module: "workspace",
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    route: "/dashboard",
-    parent: "workspace",
-    display_order: 10,
-    visible: true,
-    enabled: true,
-    keywords: ["home", "overview"],
   },
   {
     id: "workspace.hub",
