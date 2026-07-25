@@ -1,23 +1,26 @@
-## Problem
+## Goal
+Add a platform-wide **Companies** list route at `/platform/companies` that mirrors the pattern of `/platform/tenants` — a filterable list + "New company" dialog — and deep-links into the existing `/platform/companies/$companyId` detail page.
 
-On `/dashboard` (tenant `AppShell`), the app crashes with:
-`useSecondaryNavTab must be used within SecondaryNavTabProvider`
+## Scope
+1. **New route file** — `src/routes/_authenticated/platform/companies/index.tsx`
+   - Mirrors `src/routes/_authenticated/platform/tenants/index.tsx` (React Query + `DataGrid` + shadcn Dialog).
+   - `head()` with title/description for "Companies — Platform Administration".
+   - Query: `useServerFn(listCompanies)` with no `tenantId` → returns companies across all tenants (the existing server fn already supports this; permission `platform.company.read` is enforced server-side).
+   - Columns: Slug (link to `/platform/companies/$companyId`), Name, Tenant (show `tenant_id` for now, or resolve via a lightweight `listTenants` map for a friendlier label), Region, Lifecycle state (badge — reuse the same `LifecycleBadge` pattern from tenants), Created date.
+   - "New company" dialog behind `<Can permission="platform.company.create">`, calling `createCompany`. Because `createCompany` requires `tenantId`, the dialog includes a **tenant selector** (populated from `listTenants`) plus slug + display name (and reasonable defaults for region/locale/timezone that the server fn already applies).
+   - Invalidates `["platform", "companies"]` on success; toasts on success/error (sonner).
+   - Gated on `auth.status === "authenticated"` like the tenants page.
 
-## Root cause (verified)
+2. **Navigation registry** — `src/lib/navigation/registry.ts`
+   - Repoint `administration.platform.companies` from `route: "/platform/tenants"` to `route: "/platform/companies"` so the sidebar entry lands on the new page.
+   - Leave `branches` and `financial_years` untouched (they remain company-scoped and continue to link into the tenant detail flow).
 
-`AppShell` renders `PlatformSidebarV2`, which calls `useSecondaryNavTab()`. That hook throws unless a `SecondaryNavTabProvider` sits above it. Only `PlatformShell` currently wraps its subtree in `SecondaryNavTabProvider` (and `SidebarPopupProvider`). `AppShell` doesn't — so any tenant page using the sidebar crashes.
+## Out of scope
+- No changes to the existing `/platform/companies/$companyId` detail page.
+- No new server functions or migrations — `listCompanies` / `createCompany` already exist and enforce the correct platform permissions.
+- No changes to branches / financial-year nav entries.
 
-This became reachable now that sign-out navigates to `/login` → the user re-enters the tenant shell on `/dashboard` and hits the missing provider.
-
-## Fix
-
-Wrap `AppShell`'s tree in the same two providers `PlatformShell` uses:
-
-- `SecondaryNavTabProvider` — required by `PlatformSidebarV2`.
-- `SidebarPopupProvider` — `useSidebarPopup` has a fallback, but the tenant shell should behave like the platform shell (popup mode works when unpinned). Wrap it too for parity.
-
-No changes to sign-out, routing, or platform shell.
-
-### File to edit
-
-- `src/components/layout/AppShell.tsx` — add the two providers around the existing `HeaderProvider` subtree.
+## Verification
+- Visit `/platform/companies` as a Platform Admin → list renders, row link opens the existing detail page.
+- Sidebar "Companies" entry navigates to `/platform/companies`.
+- "New company" dialog creates a company under the selected tenant and the list refreshes.
