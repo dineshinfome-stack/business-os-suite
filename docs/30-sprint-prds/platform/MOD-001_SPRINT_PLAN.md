@@ -1,3 +1,5 @@
+> **Status:** Superseded by [`MOD-001_SPRINT_PLAN_v2.md`](./MOD-001_SPRINT_PLAN_v2.md) under **[ADR-017 — Dedicated Database per Tenant Architecture](../../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md)** and **[MOD-001 Baseline v2.0](../../40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md)**. The v2 plan defines ten sprints (SPR-MOD-001-001 through SPR-MOD-001-010). This v1 plan and its six previously authored Sprint PRDs are retained for historical continuity; new PRDs will be authored under Plan B once the Architecture Board approves ADR-017. Body preserved below verbatim.
+
 ---
 title: "MOD-001 Platform Administration — Sprint Plan (Stage 1)"
 summary: "Stage 1 sprint planning for MOD-001 Platform Administration. Proposes an ordered sprint sequence with engines, ADRs, dependencies, and exit criteria. Reserves sprint identifiers; authors no Sprint PRDs."
