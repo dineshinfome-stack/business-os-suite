@@ -35,7 +35,14 @@ interface Props {
   subtitle?: string;
   /** Hide the identity/pin/collapse header block (when rendered elsewhere). */
   hideHeader?: boolean;
+  /** Layout mode: static ("pinned") or floating flyout ("popup"). */
+  mode?: "pinned" | "popup";
+  /** Whether the sidebar is currently shown (only relevant in popup mode). */
+  open?: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
+
 
 /**
  * Business OS Enterprise Navigation v2 — data-driven, searchable sidebar.
@@ -51,7 +58,12 @@ export function PlatformSidebarV2({
   topOffset = "3.5rem",
   subtitle,
   hideHeader = false,
+  mode = "pinned",
+  open = true,
+  onMouseEnter,
+  onMouseLeave,
 }: Props) {
+
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isTenant = variant === "tenant";
   const { profile, user } = useAuth();
@@ -159,18 +171,28 @@ export function PlatformSidebarV2({
     );
   }
 
+  const isPopup = mode === "popup";
+  if (isPopup && !open) {
+    return null;
+  }
+
   return (
     <aside
       aria-label="Application navigation"
       data-variant={variant}
-      className={`enterprise-sidebar fixed left-0 z-30 flex flex-col transition-[width] duration-200 ${width}`}
+      data-mode={mode}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className={`enterprise-sidebar fixed left-0 z-30 flex flex-col ${width} ${isPopup ? "animate-in slide-in-from-left-4 duration-200" : "transition-[width] duration-200"}`}
       style={{
         top: topOffset,
         height: `calc(100vh - ${topOffset})`,
-        background: "var(--nav-bg)",
+        background: isPopup ? "var(--nav-bg-popup)" : "var(--nav-bg)",
+        backdropFilter: isPopup ? "blur(var(--nav-popup-blur)) saturate(140%)" : undefined,
         color: "var(--nav-fg)",
         borderRight: "1px solid var(--nav-border)",
-        boxShadow: "var(--nav-elevation)",
+        boxShadow: isPopup ? "var(--nav-popup-shadow)" : "var(--nav-elevation)",
+
       }}
     >
       {collapsed ? (

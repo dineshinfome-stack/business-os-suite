@@ -24,9 +24,37 @@ export function PlatformShell({ children }: { children?: ReactNode }) {
   const title = resolveTitle(pathname);
   const { pinned, togglePinned, collapsed, toggleCollapsed } = usePlatformNavState();
 
-  const sidebarWidth = collapsed ? "pl-16" : "pl-72";
-  // Non-pinned still renders but as overlay (no content shift).
-  const contentShift = pinned ? sidebarWidth : "pl-0";
+  const [popupOpen, setPopupOpen] = React.useState(false);
+  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearClose = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+  const scheduleClose = React.useCallback(() => {
+    clearClose();
+    closeTimer.current = setTimeout(() => setPopupOpen(false), 180);
+  }, []);
+  const openNow = React.useCallback(() => {
+    clearClose();
+    setPopupOpen(true);
+  }, []);
+
+  // Close popup on route change or Escape.
+  React.useEffect(() => {
+    setPopupOpen(false);
+  }, [pathname]);
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPopupOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const contentShift = pinned ? "pl-72" : "pl-0";
 
   return (
     <CommandPaletteProvider>
@@ -35,21 +63,31 @@ export function PlatformShell({ children }: { children?: ReactNode }) {
           <PlatformTopBar title={title} />
           <PlatformSecondaryHeader />
 
+          {/* Edge hover trigger — only when unpinned */}
           {!pinned && (
             <div
-              className="fixed inset-0 top-[6rem] z-20 bg-black/20 lg:hidden"
               aria-hidden
-              onClick={togglePinned}
+              onMouseEnter={openNow}
+              onClick={openNow}
+              className="fixed left-0 z-20"
+              style={{ top: "6rem", height: "calc(100vh - 6rem)", width: "8px" }}
             />
           )}
 
           <PlatformSidebarV2
             variant="platform"
             pinned={pinned}
-            onTogglePin={togglePinned}
+            onTogglePin={() => {
+              togglePinned();
+              setPopupOpen(false);
+            }}
             collapsed={collapsed}
             onToggleCollapsed={toggleCollapsed}
             topOffset="6rem"
+            mode={pinned ? "pinned" : "popup"}
+            open={pinned || popupOpen}
+            onMouseEnter={openNow}
+            onMouseLeave={scheduleClose}
           />
 
           <div className={`pt-24 transition-[padding] duration-200 ${contentShift}`}>
