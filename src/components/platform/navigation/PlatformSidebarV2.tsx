@@ -95,6 +95,70 @@ export function PlatformSidebarV2({
       : displayName;
   const isTenant = variant === "tenant";
 
+  if (isTenant) {
+    return (
+      <aside
+        aria-label="Application navigation"
+        data-variant={variant}
+        className="enterprise-sidebar fixed left-0 z-30 flex w-72 flex-col"
+        style={{
+          top: topOffset,
+          height: `calc(100vh - ${topOffset})`,
+          background: "var(--nav-bg)",
+          color: "var(--nav-fg)",
+          borderRight: "1px solid var(--nav-border)",
+          boxShadow: "var(--nav-elevation)",
+        }}
+      >
+        <NavigationSearch
+          value={query}
+          onChange={setQuery}
+          inputRef={searchRef}
+          actions={
+            <div className="flex items-center gap-0.5">
+              <button
+                type="button"
+                aria-label="Reset filter"
+                onClick={() => {
+                  setQuery("");
+                  setTimeout(() => searchRef.current?.focus(), 0);
+                }}
+                className="flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-[var(--nav-hover)]"
+                style={{ color: "var(--nav-fg-muted)" }}
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+              </button>
+              <button
+                type="button"
+                aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
+                aria-pressed={pinned}
+                onClick={onTogglePin}
+                className="flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-[var(--nav-hover)]"
+                style={{ color: pinned ? "var(--nav-fg-strong)" : "var(--nav-fg-muted)" }}
+              >
+                {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+              </button>
+            </div>
+          }
+        />
+        <div className="flex-1 overflow-y-auto">
+          {flatCount === 0 ? (
+            <NavigationEmptyState query={query} />
+          ) : (
+            <NavigationTree
+              tree={filteredTree}
+              pinnedIds={pinnedIds}
+              onTogglePin={togglePin}
+              badges={badges}
+              pathname={pathname}
+              forceExpanded={Boolean(query.trim())}
+            />
+          )}
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside
       aria-label="Application navigation"
@@ -110,60 +174,51 @@ export function PlatformSidebarV2({
       }}
     >
       {!hideHeader && (
-        isTenant ? (
-          <EnterpriseSidebarHeader
-            variant={variant}
-            contextLabel={tenantContext}
-            collapsed={collapsed}
-            onToggleCollapsed={onToggleCollapsed}
-          />
-        ) : (
-          <div
-            className="flex items-center gap-2 px-3 py-2.5"
-            style={{ borderBottom: "1px solid var(--nav-border)" }}
-          >
-            {!collapsed && (
-              <div className="min-w-0 flex-1">
-                <div
-                  className="truncate text-xs font-medium"
-                  style={{ color: "var(--nav-fg-strong)" }}
-                >
-                  {displayName}
-                </div>
-                <div
-                  className="flex items-center gap-1.5 text-[10px]"
-                  style={{ color: "var(--nav-fg-muted)" }}
-                >
-                  <span
-                    className="inline-block h-1.5 w-1.5 rounded-full"
-                    style={{ background: "var(--brand-success)" }}
-                  />
-                  <span className="truncate">{resolvedSubtitle}</span>
-                </div>
-              </div>
-            )}
-            <div className="ml-auto flex items-center gap-0.5">
-              <button
-                type="button"
-                aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
-                onClick={onTogglePin}
-                className="inline-flex h-7 w-7 items-center justify-center rounded"
-                style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
+        <div
+          className="flex items-center gap-2 px-3 py-2.5"
+          style={{ borderBottom: "1px solid var(--nav-border)" }}
+        >
+          {!collapsed && (
+            <div className="min-w-0 flex-1">
+              <div
+                className="truncate text-xs font-medium"
+                style={{ color: "var(--nav-fg-strong)" }}
               >
-                {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
-              </button>
-              <button
-                type="button"
-                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                onClick={onToggleCollapsed}
-                className="inline-flex h-7 w-7 items-center justify-center rounded"
+                {displayName}
+              </div>
+              <div
+                className="flex items-center gap-1.5 text-[10px]"
                 style={{ color: "var(--nav-fg-muted)" }}
               >
-                {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
-              </button>
+                <span
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ background: "var(--brand-success)" }}
+                />
+                <span className="truncate">{resolvedSubtitle}</span>
+              </div>
             </div>
+          )}
+          <div className="ml-auto flex items-center gap-0.5">
+            <button
+              type="button"
+              aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
+              onClick={onTogglePin}
+              className="inline-flex h-7 w-7 items-center justify-center rounded"
+              style={{ color: pinned ? "var(--nav-active-bar)" : "var(--nav-fg-muted)" }}
+            >
+              {pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+            </button>
+            <button
+              type="button"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              onClick={onToggleCollapsed}
+              className="inline-flex h-7 w-7 items-center justify-center rounded"
+              style={{ color: "var(--nav-fg-muted)" }}
+            >
+              {collapsed ? <PanelLeft className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
+            </button>
           </div>
-        )
+        </div>
       )}
 
       {collapsed ? (
@@ -171,10 +226,10 @@ export function PlatformSidebarV2({
       ) : (
         <>
           <NavigationSearch value={query} onChange={setQuery} inputRef={searchRef} />
-          {!isTenant && <NavigationTabs active={tab} onChange={setTab} />}
+          <NavigationTabs active={tab} onChange={setTab} />
 
           <div className="mt-1 flex-1 overflow-y-auto">
-            {(isTenant || tab === "all") &&
+            {tab === "all" &&
               (flatCount === 0 ? (
                 <NavigationEmptyState query={query} />
               ) : (
@@ -188,31 +243,28 @@ export function PlatformSidebarV2({
                 />
               ))}
 
-            {!isTenant && tab === "favorites" && (
+            {tab === "favorites" && (
               <FavoritesPane pinnedIds={pinnedIds} onTogglePin={togglePin} pathname={pathname} badges={badges} />
             )}
 
-            {!isTenant && tab === "recent" && <RecentPane recent={recent} pathname={pathname} />}
+            {tab === "recent" && <RecentPane recent={recent} pathname={pathname} />}
           </div>
 
-          {isTenant ? (
-            <EnterpriseSidebarFooter />
-          ) : (
-            <div
-              className="px-4 py-2 text-[10px]"
-              style={{
-                color: "var(--nav-fg-muted)",
-                borderTop: "1px solid var(--nav-border)",
-              }}
-            >
-              Business OS · v1.0
-            </div>
-          )}
+          <div
+            className="px-4 py-2 text-[10px]"
+            style={{
+              color: "var(--nav-fg-muted)",
+              borderTop: "1px solid var(--nav-border)",
+            }}
+          >
+            Business OS · v1.0
+          </div>
         </>
       )}
     </aside>
   );
 }
+
 
 /* ────────────────────────────────────────────────────────────── */
 
