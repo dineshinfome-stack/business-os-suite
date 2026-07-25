@@ -57,6 +57,8 @@ Adding, superseding, or changing the status of any ADR MUST update this index in
 | ADR-004 | [Plugin Extension Model](./architecture/ADR-004-plugin-extension-model.md) | Architecture | Accepted | ENG-005, ENG-013, ENG-014 | — | — |
 | ADR-005 | [Clean Architecture](./architecture/ADR-005-clean-architecture.md) | Architecture | Accepted | ENG-001..ENG-028 | — | — |
 | ADR-006 | [CQRS Usage Guidelines](./architecture/ADR-006-cqrs-usage-guidelines.md) | Architecture | Proposed | ENG-022, ENG-023, ENG-024 | — | — |
+| ADR-008 | [Platform → Tenant → Workspace → Company Hierarchy](./architecture/ADR-008-platform-tenant-workspace-hierarchy.md) | Architecture | Superseded | ENG-001 | — | ADR-009 |
+| ADR-009 | [Workspace Retirement](./architecture/ADR-009-workspace-retirement.md) | Architecture | Superseded | ENG-001 | ADR-008 | ADR-017 |
 | ADR-010 | [PostgreSQL as System of Record](./data/ADR-010-postgresql-as-system-of-record.md) | Data | Proposed | ENG-018, ENG-019, ENG-020 | — | — |
 | ADR-011 | [Multi-Tenant Isolation](./data/ADR-011-multi-tenant-isolation.md) | Data | Accepted | ENG-001, ENG-002 | — | — |
 | ADR-012 | [UUID Primary Keys](./data/ADR-012-uuid-primary-keys.md) | Data | Proposed | — | — | — |
@@ -64,6 +66,7 @@ Adding, superseding, or changing the status of any ADR MUST update this index in
 | ADR-014 | [Audit Strategy](./data/ADR-014-audit-strategy.md) | Data | Accepted | ENG-004 | — | — |
 | ADR-015 | [Soft Delete Policy](./data/ADR-015-soft-delete-policy.md) | Data | Proposed | — | — | — |
 | ADR-016 | [Data Versioning](./data/ADR-016-data-versioning.md) | Data | Proposed | ENG-025 | — | — |
+| ADR-017 | [Dedicated Database per Tenant Architecture](./architecture/ADR-017-dedicated-database-per-tenant-architecture.md) | Architecture / Data | Accepted | ENG-001, ENG-002, ENG-004, ENG-005, ENG-024 | ADR-009 | — |
 | ADR-020 | [API Style: REST-First](./platform/ADR-020-api-style-rest-first.md) | Platform | Proposed | ENG-021 | — | — |
 | ADR-021 | [API Versioning](./platform/ADR-021-api-versioning.md) | Platform | Proposed | ENG-021 | — | — |
 | ADR-022 | [Error Envelope](./platform/ADR-022-error-envelope.md) | Platform | Proposed | ENG-021 | — | — |

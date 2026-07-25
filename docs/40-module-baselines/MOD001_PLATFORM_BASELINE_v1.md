@@ -1,3 +1,5 @@
+> **Status:** Superseded by [`MOD001_PLATFORM_BASELINE_v2`](./MOD001_PLATFORM_BASELINE_v2.md) under **[ADR-017 — Dedicated Database per Tenant Architecture](../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md)**. This v1 baseline was authored under a shared-database, RLS-enforced posture. Downstream modules MUST consume Baseline v2. Body preserved below verbatim for historical continuity.
+
 ---
 title: "MOD001_PLATFORM_BASELINE_v1 — Platform Administration Module Baseline"
 summary: "Stage 3 Module Baseline for MOD-001 Platform Administration. Freezes the module after successful completion of Sprint PRDs SPR-MOD-001-001..006. Reference consolidation only — introduces no new requirements, engines, ADRs, or Sprint PRDs."

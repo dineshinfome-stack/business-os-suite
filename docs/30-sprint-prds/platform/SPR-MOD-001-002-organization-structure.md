@@ -1,3 +1,6 @@
+> **Status:** Superseded by [`MOD-001_SPRINT_PLAN_v2.md`](./MOD-001_SPRINT_PLAN_v2.md) under [ADR-017 — Dedicated Database per Tenant Architecture](../../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md). A new Sprint PRD will be authored under Plan B; this v1 PRD is retained for historical continuity.
+
+---
 ---
 title: "SPR-MOD-001-002 — Organization Structure"
 summary: "Sprint PRD for the organizational hierarchy layer of MOD-001 Platform Administration: company, branch, and financial-year lifecycles under a tenant; Tenant → Company → Branch → Financial Year hierarchy; default organization and default financial-year selection; organizational validation rules; org-scoped configuration initialization; audit integration; and company.*, branch.*, and financialyear.* events. Consumes upstream layers; never redefines them."

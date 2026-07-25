@@ -1,3 +1,5 @@
+> **Status:** Superseded by [ADR-017 — Dedicated Database per Tenant Architecture](./ADR-017-dedicated-database-per-tenant-architecture.md). ADR-009 retired Workspace as a domain concept under the shared-database posture. ADR-017 reintroduces Workspace as a **logical (non-persistent) container** under a **dedicated-database-per-Tenant** posture. ADR-009 is retained for historical continuity; future implementation and governance follow ADR-017. Body preserved below verbatim.
+
 ---
 title: "ADR-009 — Workspace Retirement: Tenant as the Sole Business Container"
 summary: "Retires Workspace as a domain concept across code, routes, navigation, and documentation. Tenant becomes the single, canonical business container in the Business OS hierarchy."

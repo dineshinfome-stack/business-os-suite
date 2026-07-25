@@ -1,3 +1,5 @@
+> **Architecture alignment notice (2026-07-25).** MOD-001 is republished under **[ADR-017 — Dedicated Database per Tenant Architecture](../../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md)** and **[MOD-001 Baseline v2.0](../../40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md)**. The Business OS platform now provisions **one dedicated database per Tenant** and treats **Workspace as a logical (non-persistent) container**. Downstream readers MUST consume Baseline v2.0 as the source of truth for capability shape; this PRD body is preserved for continuity but any implicit shared-database phrasing is subordinate to Baseline v2.0 and ADR-017.
+
 ---
 title: "MOD-001 — Platform Administration Module PRD"
 summary: "Authoritative business specification for the Platform Administration bounded context. Consumes ERP Core Engines and Accepted ADRs; does not redefine platform behavior."

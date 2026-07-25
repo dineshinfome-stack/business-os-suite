@@ -1,3 +1,6 @@
+> **Status:** Superseded by [`MOD-001_SPRINT_PLAN_v2.md`](./MOD-001_SPRINT_PLAN_v2.md) under [ADR-017 — Dedicated Database per Tenant Architecture](../../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md). A new Sprint PRD will be authored under Plan B; this v1 PRD is retained for historical continuity.
+
+---
 ---
 title: "SPR-MOD-001-004 — Configuration Hierarchy"
 summary: "Sprint PRD for the configuration hierarchy layer of MOD-001 Platform Administration: tenant, company, branch, and financial-year configuration scopes; configuration inheritance and override precedence; feature-flag lifecycle; business preference management; effective-configuration resolution surface (owned by ENG-005); configuration version tracking; audit integration; and configuration.* and featureflag.* events. Consumes upstream layers; never redefines them."
