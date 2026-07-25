@@ -1,42 +1,40 @@
-## Pin/Unpin Sidebar Behavior (ServiceNow-style)
+## Anchor the unpinned sidebar popup to the clicked All/Favorites/Recent tab
 
-Make the pin toggle in the platform sidebar switch between **static** (pinned) and **popup/flyout** (unpinned) modes, matching the reference GIF.
+Today the unpinned popup always slides in flush against the left viewport edge, regardless of what opened it. Change it so clicking a secondary-header tab (All, Favorites, Recent) opens the sidebar as a dropdown anchored to that button.
 
 ### Behavior
 
-- **Pinned (default):** Sidebar is fixed, always visible, shifts main content right (current behavior).
-- **Unpinned:** Sidebar collapses out of layout. A slim edge trigger (menu strip) on the left of the viewport reveals the sidebar as a floating popup on hover/click. Popup auto-hides when the pointer leaves it (or on route change / Esc). Main content spans full width.
-- **Popup width:** Identical to the static sidebar (`w-72` / 288px, same `topOffset`, same height).
-- **Popup background:** Slightly translucent — same `--nav-bg` with reduced alpha via `color-mix(...)` plus a `backdrop-filter: blur(...)` for the ServiceNow glass feel. Applied only in popup mode; pinned mode stays fully opaque.
-- Pin icon inside the sidebar toggles the two modes. Pinned state persists via existing `usePlatformNavState` (already wired to localStorage).
+- **Pinned:** unchanged — sidebar static, flush left.
+- **Unpinned + hover left edge:** unchanged — slides in from left edge (existing edge trigger).
+- **Unpinned + click a secondary-header tab:** switch to that tab AND open the sidebar as a dropdown positioned directly under the clicked tab button (aligned to the button's left edge). Same `w-72` width, same translucent + blurred background. Enter animation: slide/fade down from the top instead of from the left.
+- Clicking the same tab again (or clicking outside / Escape / route change) closes the popup. Hovering the popup keeps it open; leaving auto-closes (existing behavior).
 
 ### Files to change
 
 1. **`src/components/platform/PlatformShell.tsx`**
-   - When `!pinned`, do not reserve space (already true). Add a hover-trigger strip on the left edge (`fixed left-0 top-24 h-full w-2`) that sets a local `hovering` state; also toggle open on click.
-   - Pass a new `mode: "pinned" | "popup"` and `open: boolean` to `PlatformSidebarV2`. In popup mode, only render the sidebar when `open`.
-   - Remove the current mobile overlay backdrop coupling; unpinned popup handles its own hover-out to close.
+   - Add `anchorX: number | null` state (null = flush-left slide-in).
+   - Provide two open helpers via context/props: `openFromEdge()` (existing hover trigger, sets `anchorX = null`) and `openFromAnchor(x)` (sets `anchorX` to the button's viewport-left).
+   - Pass `anchorX` to `PlatformSidebarV2` alongside `mode` / `open`.
 
-2. **`src/components/platform/navigation/PlatformSidebarV2.tsx`**
-   - Accept `mode` + `open` props (keep `pinned` for the icon state).
-   - Root `<aside>`: when `mode === "popup"`, apply translucent background + blur + stronger shadow, and mount/unmount based on `open` with a slide-in transition (`-translate-x-full` → `translate-x-0`). Width stays `w-72`.
-   - Add `onMouseEnter` / `onMouseLeave` handlers that call back to the shell to keep it open while hovered and close on leave (with small close delay).
+2. **`src/hooks/platform/useSecondaryNavTab.tsx`**
+   - Extend context with an optional `onTabActivate?(el: HTMLElement)` callback the shell registers, so the header can notify the shell where the click came from without prop drilling. (Or expose a small `usePlatformSidebarPopup` hook from the shell — I'll pick whichever is smaller during implementation; behavior is identical.)
 
-3. **`src/styles.css`**
-   - Add tokens:
-     - `--nav-bg-popup: color-mix(in oklab, var(--nav-bg) 85%, transparent)` (light)
-     - Dark override: `color-mix(in oklab, var(--nav-bg) 80%, transparent)`
-     - `--nav-popup-blur: 12px`
-     - `--nav-popup-shadow`: stronger elevation for the floating panel
-   - No other token/theme changes.
+3. **`src/components/platform/PlatformSecondaryHeader.tsx`**
+   - On tab click: always `setTab(...)`. Additionally, when the sidebar is unpinned, call the shell's `openFromAnchor(button.getBoundingClientRect().left)`.
+
+4. **`src/components/platform/navigation/PlatformSidebarV2.tsx`**
+   - Accept `anchorX?: number | null`.
+   - When `mode === "popup"` and `anchorX != null`: render with `left: anchorX` (inline style) instead of `left-0`, keep `top: topOffset`, keep `w-72`, add rounded-b corners + full border for a dropdown look, and swap the enter animation from `slide-in-from-left-4` to `slide-in-from-top-4 fade-in`.
+   - When `anchorX == null` (edge hover), keep current flush-left slide-from-left behavior.
 
 ### Out of scope
 
-- No changes to registry, permissions, routing, or tenant sidebar variant behavior (tenant shell keeps current pinned-only flow unless the same treatment is requested later).
+- No change to tenant sidebar variant, registry, permissions, or routing.
 - No new dependencies.
 
 ### Verification
 
-- Pinned: sidebar static, content offset by `pl-72`, opaque bg — unchanged from today.
-- Unpinned: content spans full width; hovering the left edge slides the sidebar in as a translucent blurred popup at `w-72`; leaving it hides it; clicking the pin re-pins.
-- Works in both light and dark themes.
+- Pinned mode unchanged.
+- Unpinned + hover left edge: slides in from the left (unchanged).
+- Unpinned + click "Favorites": sidebar drops down under the Favorites button, `w-72` wide, translucent/blurred, showing the Favorites tab. Same for All and Recent.
+- Popup closes on Escape, outside-click (mouse leave), or route change.
