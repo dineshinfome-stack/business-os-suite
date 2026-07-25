@@ -23,7 +23,7 @@ export function NavigationSearch({
     <div className="px-3 pt-3">
       <div className="flex items-center gap-1.5">
         <div
-          className="flex flex-1 items-center gap-2 rounded-md border px-2.5 py-1.5 focus-within:ring-2"
+          className="flex flex-1 items-center gap-2 rounded-md border px-2.5 py-1.5 transition-colors focus-within:border-[color:var(--nav-border)]"
           style={{
             background: "var(--nav-input-bg)",
             borderColor: "color-mix(in srgb, var(--nav-border) 40%, transparent)",
