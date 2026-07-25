@@ -11,6 +11,8 @@ document_type: "Governance Guide"
 
 # Document Traceability
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > **Derived document.** This guide is a projection of authoritative sources (Foundation Freeze, Canon, Business Blueprint, Architecture, ERP Core Engines, ADRs). On any conflict, the source file wins and this guide is corrected in the same change.
 
 ## Purpose

@@ -11,6 +11,8 @@ document_type: "Governance Guide"
 
 # Module Baseline Catalog
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > **Derived document.** Projection of `docs/40-module-baselines/`. Authoritative baseline content lives in each `MOD<NNN>_<MODULE>_BASELINE_v<version>.md`. On any conflict, the baseline file wins and this catalog is corrected in the same change.
 
 ## Purpose

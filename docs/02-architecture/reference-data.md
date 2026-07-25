@@ -19,6 +19,8 @@ referenced_by: []
 
 # Reference Data
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** For Tenant business data the persistence boundary is the dedicated Tenant database; the shared-database posture of ADR-011 continues to apply only to the Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > Part of **Pass 4B — Data Foundation (Data Constitution)**. Defines what qualifies as reference data in BusinessOS, how it is governed, how it flows to tenants, and which canonical catalogs exist. Physical shape, seed content, and distribution mechanics are downstream.
 
 ## Overview

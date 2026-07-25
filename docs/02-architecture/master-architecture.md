@@ -15,6 +15,8 @@ tags: ["architecture", "master", "blueprint", "principles"]
 
 # Master Architecture
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** For Tenant business data the persistence boundary is the dedicated Tenant database; the shared-database posture of ADR-011 continues to apply only to the Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 ## Conforms to Canon
 
 This document is subordinate to `canon.md` and to the Business Blueprint. It conforms specifically to:

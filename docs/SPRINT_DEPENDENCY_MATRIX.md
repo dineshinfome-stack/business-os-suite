@@ -11,6 +11,8 @@ document_type: "Sprint Layer Guide"
 
 # Sprint Dependency Matrix
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > **Derived document.** Cross-references `docs/module-dependency-matrix.md`. On any conflict with the Module Dependency Matrix, the upstream Module Dependency Matrix wins and this document is corrected in the same change.
 
 ## Purpose

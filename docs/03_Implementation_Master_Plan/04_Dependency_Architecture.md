@@ -7,6 +7,8 @@ approval_status: Draft
 
 # 04 — Dependency Architecture
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 ## Purpose
 Consolidate the module and shared-service dependency graph used to sequence implementation. Derived from ADR-007, Module PRDs, and Module Publications.
 

@@ -11,6 +11,8 @@ supersedes: none
 
 # Chapter 07 — Database Standards
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > Orchestration only. `docs/15-governance/DATABASE_STANDARD.md` is the authoritative database standard. This chapter does not derive, reinterpret, or expand it (R-20).
 
 ## Purpose *(Normative)*

@@ -7,6 +7,8 @@ approval_status: Draft
 
 # 03 — Implementation Strategy
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 ## Principles (from IMP charter)
 1. **Platform First** — MOD-001 and shared services before any business module.
 2. **Dependency First** — a module ships only after every module it depends on is at least Alpha.

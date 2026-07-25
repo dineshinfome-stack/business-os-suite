@@ -11,6 +11,8 @@ document_type: "Governance Guide"
 
 # Repository Map
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > **Derived document.** Projection of the folder layout under `docs/`. On any conflict, the actual folder contents and the layer's own README win; this map is corrected in the same change.
 
 ## Purpose

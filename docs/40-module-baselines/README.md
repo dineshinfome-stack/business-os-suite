@@ -11,6 +11,8 @@ document_type: "Layer Guide"
 
 # Module Baselines
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > **Authoritative and versioned.** Each Module Baseline in this folder freezes a module for downstream consumption at the moment its Sprint PRD family (Stage 2) is complete. Baselines are reference consolidations only — they do not introduce new requirements, engines, ADRs, or Sprint PRDs. Future changes to a module require a new versioned baseline revision (e.g. `_v2`) rather than in-place edits.
 
 ## Purpose

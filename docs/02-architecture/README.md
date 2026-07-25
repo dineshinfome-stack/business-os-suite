@@ -28,6 +28,8 @@ document_type: "Architecture Guide"
 
 # BusinessOS Architecture — Index
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** For Tenant business data the persistence boundary is the dedicated Tenant database; the shared-database posture of ADR-011 continues to apply only to the Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 This document is the **single entry point** to the BusinessOS architecture. It is
 informational and navigational: it introduces no new principles, no new
 standards, and no implementation content. Its sole purpose is to help humans

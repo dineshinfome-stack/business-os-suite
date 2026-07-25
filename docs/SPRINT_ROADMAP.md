@@ -11,6 +11,8 @@ document_type: "Sprint Layer Guide"
 
 # Sprint Roadmap
 
+> **Aligned to ADR-017 — Dedicated Database per Tenant Architecture.** All persistence, provisioning, backup, and connection-routing guidance in this document assumes one dedicated database per Tenant plus a single Platform database. See `docs/11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md`.
+
 > **Planning document.** This roadmap sequences Sprint PRD authoring across all 18 modules in dependency order. It is authoritative for *ordering* but not for *content*: each Sprint PRD, once authored, is authoritative for its own scope. On any conflict with an authored Sprint PRD, the Sprint PRD wins and this roadmap is corrected in the same change.
 
 ## How to Read
