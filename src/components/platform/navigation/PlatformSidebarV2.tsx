@@ -181,14 +181,8 @@ export function PlatformSidebarV2({
           {!collapsed && (
             <div className="min-w-0 flex-1">
               <div
-                className="truncate text-xs font-medium"
+                className="flex items-center gap-1.5 text-[11px] font-medium"
                 style={{ color: "var(--nav-fg-strong)" }}
-              >
-                {displayName}
-              </div>
-              <div
-                className="flex items-center gap-1.5 text-[10px]"
-                style={{ color: "var(--nav-fg-muted)" }}
               >
                 <span
                   className="inline-block h-1.5 w-1.5 rounded-full"
@@ -198,6 +192,7 @@ export function PlatformSidebarV2({
               </div>
             </div>
           )}
+
           <div className="ml-auto flex items-center gap-0.5">
             <button
               type="button"
