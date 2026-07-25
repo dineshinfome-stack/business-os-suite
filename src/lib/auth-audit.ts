@@ -33,10 +33,18 @@ interface LogAuthEventOptions {
  */
 export function logAuthEvent(action: AuthAuditAction, options: LogAuthEventOptions = {}): string {
   const correlationId = getOrCreateCorrelationId({ callerId: options.correlationId });
-  void logAuthEventFn({ data: { action, correlationId, entityId: options.entityId } }).catch(
-    (err: unknown) => {
+  void (async () => {
+    try {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        logger.info("auth-audit skipped (no session)", { action, correlationId });
+        return;
+      }
+      await logAuthEventFn({ data: { action, correlationId, entityId: options.entityId } });
+    } catch (err) {
       logger.warn("auth-audit write failed", { action, correlationId, error: String(err) });
-    },
-  );
+    }
+  })();
   return correlationId;
 }
+
