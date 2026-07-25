@@ -41,6 +41,9 @@ interface Props {
   open?: boolean;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  /** In popup mode, viewport-x to anchor the popup left edge to; null = flush left slide-in. */
+  anchorX?: number | null;
+
 }
 
 
