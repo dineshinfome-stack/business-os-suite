@@ -275,7 +275,7 @@ export const updateTenant = createServerFn({ method: "POST" })
 
     const { data: row, error } = await context.supabase
       .from("tenants")
-      .update(columnPatch)
+      .update(columnPatch as never)
       .eq("id", data.tenantId)
       .select("id, lifecycle_state")
       .single();
