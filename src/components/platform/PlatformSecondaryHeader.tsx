@@ -15,10 +15,11 @@ export type SecondaryHeaderTab = SecondaryNavTab;
 export function PlatformSecondaryHeader() {
   const { tab, setTab } = useSecondaryNavTab();
   const popup = useSidebarPopup();
+  const allRef = React.useRef<HTMLButtonElement | null>(null);
 
-  const activate = (t: SecondaryNavTab, el: HTMLElement) => {
+  const activate = (t: SecondaryNavTab) => {
     setTab(t);
-    if (popup.isPopupMode) popup.openFromAnchor(el);
+    if (popup.isPopupMode && allRef.current) popup.openFromAnchor(allRef.current);
   };
 
   return (
@@ -30,40 +31,40 @@ export function PlatformSecondaryHeader() {
       }}
     >
       <TabButton
+        ref={allRef}
         label="All"
         icon={LayoutGrid}
         active={tab === "all"}
-        onClick={(e) => activate("all", e.currentTarget)}
+        onClick={() => activate("all")}
       />
       <TabButton
         label="Favorites"
         icon={Star}
         active={tab === "favorites"}
-        onClick={(e) => activate("favorites", e.currentTarget)}
+        onClick={() => activate("favorites")}
       />
       <TabButton
         label="Recent"
         icon={Clock}
         active={tab === "recent"}
-        onClick={(e) => activate("recent", e.currentTarget)}
+        onClick={() => activate("recent")}
       />
     </div>
   );
 }
 
-function TabButton({
-  label,
-  icon: Icon,
-  active,
-  onClick,
-}: {
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-  active: boolean;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}) {
+const TabButton = React.forwardRef<
+  HTMLButtonElement,
+  {
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    active: boolean;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  }
+>(function TabButton({ label, icon: Icon, active, onClick }, ref) {
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onClick}
       aria-pressed={active}
@@ -81,4 +82,4 @@ function TabButton({
       <span>{label}</span>
     </button>
   );
-}
+});
