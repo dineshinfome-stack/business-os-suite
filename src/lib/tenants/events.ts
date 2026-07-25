@@ -8,7 +8,8 @@ export type TenantEventName =
   | "tenant.created"
   | "tenant.activated"
   | "tenant.suspended"
-  | "tenant.archived";
+  | "tenant.archived"
+  | "tenant.updated";
 
 type JsonPrimitive = string | number | boolean | null;
 export type TenantEventData = { [k: string]: JsonPrimitive | undefined };
