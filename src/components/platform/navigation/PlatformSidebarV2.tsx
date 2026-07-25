@@ -171,18 +171,28 @@ export function PlatformSidebarV2({
     );
   }
 
+  const isPopup = mode === "popup";
+  if (isPopup && !open) {
+    return null;
+  }
+
   return (
     <aside
       aria-label="Application navigation"
       data-variant={variant}
-      className={`enterprise-sidebar fixed left-0 z-30 flex flex-col transition-[width] duration-200 ${width}`}
+      data-mode={mode}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className={`enterprise-sidebar fixed left-0 z-30 flex flex-col transition-[width,transform,opacity] duration-200 ${width} ${isPopup ? "animate-slide-in-from-left" : ""}`}
       style={{
         top: topOffset,
         height: `calc(100vh - ${topOffset})`,
-        background: "var(--nav-bg)",
+        background: isPopup ? "var(--nav-bg-popup)" : "var(--nav-bg)",
+        backdropFilter: isPopup ? "blur(var(--nav-popup-blur)) saturate(140%)" : undefined,
         color: "var(--nav-fg)",
         borderRight: "1px solid var(--nav-border)",
-        boxShadow: "var(--nav-elevation)",
+        boxShadow: isPopup ? "var(--nav-popup-shadow)" : "var(--nav-elevation)",
+
       }}
     >
       {collapsed ? (
