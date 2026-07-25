@@ -10,6 +10,8 @@ interface Props {
   align?: "start" | "center" | "end";
   contentClassName?: string;
   variant?: "icon" | "text";
+  /** When true, the trigger renders but the popover cannot open. */
+  disabled?: boolean;
   children: React.ReactNode;
 }
 
@@ -27,14 +29,20 @@ export function HeaderPopover({
   align = "end",
   contentClassName,
   variant = "icon",
+  disabled = false,
   children,
 }: Props) {
   const header = useHeader();
-  const open = header.isOpen(id);
+  const open = header.isOpen(id) && !disabled;
   const isText = variant === "text";
 
+  React.useEffect(() => {
+    if (disabled && header.isOpen(id)) header.setOpen(id, false);
+  }, [disabled, header, id]);
+
   return (
-    <Popover open={open} onOpenChange={(next) => header.setOpen(id, next)}>
+    <Popover open={open} onOpenChange={(next) => !disabled && header.setOpen(id, next)}>
+
       <PopoverTrigger asChild>
         <button
           type="button"
