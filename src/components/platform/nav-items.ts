@@ -21,7 +21,7 @@ export type PlatformNavItem = {
 };
 
 /**
- * Worksuite-inspired Super Admin navigation.
+ * Worksuite-inspired Platform Admin navigation.
  * Only "Dashboard" and "Companies" (Tenants) are wired to existing routes;
  * the rest resolve to a shared "Coming soon" placeholder.
  */
@@ -31,7 +31,7 @@ export const PLATFORM_NAV: PlatformNavItem[] = [
   { id: "companies", label: "Companies", icon: Building2, to: "/platform/tenants" },
   { id: "billing", label: "Billing", icon: Receipt, to: "/platform/billing" },
   { id: "faq", label: "Admin FAQ", icon: HelpCircle, to: "/platform/faq" },
-  { id: "super-admin", label: "Super Admin", icon: ShieldCheck, to: "/platform/super-admin" },
+  { id: "super-admin", label: "Platform Admin", icon: ShieldCheck, to: "/platform/super-admin" },
   { id: "offline", label: "Offline Request", icon: FileClock, to: "/platform/offline-requests" },
   { id: "support", label: "Support Ticket", icon: LifeBuoy, to: "/platform/support" },
   { id: "front", label: "Front Settings", icon: Palette, to: "/platform/front-settings" },
