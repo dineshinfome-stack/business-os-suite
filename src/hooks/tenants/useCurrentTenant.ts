@@ -4,8 +4,10 @@
  */
 import { useQuery } from "@tanstack/react-query";
 import { listTenants } from "@/lib/tenants/tenants.functions";
+import { useAuth } from "@/contexts/auth-context";
 
 export function useCurrentTenant() {
+  const { status } = useAuth();
   return useQuery({
     queryKey: ["tenants", "current"],
     queryFn: async () => {
@@ -14,6 +16,7 @@ export function useCurrentTenant() {
       // are a member of via tenants_select_member RLS. First row is "current".
       return rows[0] ?? null;
     },
+    enabled: status === "authenticated",
     staleTime: 60_000,
   });
 }
