@@ -33,6 +33,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { DataGrid } from "@/components/tables/DataGrid";
 import { Can } from "@/components/auth/Can";
+import { useAuth } from "@/contexts/auth-context";
 import { PERMISSIONS } from "@/lib/generated/permission-keys";
 
 import {
@@ -69,6 +70,7 @@ type CompanyRow = Awaited<ReturnType<typeof listCompanies>>[number];
 
 function TenantDetailPage() {
   const { tenantId } = useParams({ from: "/_authenticated/platform/tenants/$tenantId" });
+  const auth = useAuth();
   const get = useServerFn(getTenant);
   const activate = useServerFn(activateTenant);
   const suspend = useServerFn(suspendTenant);
@@ -78,6 +80,7 @@ function TenantDetailPage() {
   const { data: tenant, isLoading } = useQuery({
     queryKey: ["platform", "tenant", tenantId],
     queryFn: () => get({ data: { tenantId } }),
+    enabled: auth.status === "authenticated",
   });
 
   const invalidate = () => {
@@ -241,6 +244,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 // ────────────────────────────────────────────────────────────────────────
 
 function CompaniesPanel({ tenantId }: { tenantId: string }) {
+  const auth = useAuth();
   const list = useServerFn(listCompanies);
   const create = useServerFn(createCompany);
   const activate = useServerFn(activateCompany);
@@ -253,6 +257,7 @@ function CompaniesPanel({ tenantId }: { tenantId: string }) {
   const { data, isLoading } = useQuery({
     queryKey: companiesKey,
     queryFn: () => list({ data: { tenantId } }),
+    enabled: auth.status === "authenticated",
   });
 
   const invalidate = () => {

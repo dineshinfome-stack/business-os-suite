@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Can } from "@/components/auth/Can";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/auth-context";
 
 import {
   listTenants,
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/_authenticated/platform/tenants/")({
 type TenantRow = Awaited<ReturnType<typeof listTenants>>[number];
 
 function PlatformTenantsPage() {
+  const auth = useAuth();
   const list = useServerFn(listTenants);
   const create = useServerFn(createTenant);
   const qc = useQueryClient();
@@ -49,6 +51,7 @@ function PlatformTenantsPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["platform", "tenants"],
     queryFn: () => list(),
+    enabled: auth.status === "authenticated",
   });
 
   const [open, setOpen] = React.useState(false);
