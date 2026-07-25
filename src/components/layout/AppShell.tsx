@@ -29,8 +29,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
   const sidebarState = usePlatformNavState("tenant");
   const { pinned, togglePinned, collapsed, toggleCollapsed } = sidebarState;
 
-  const sidebarWidth = collapsed ? "pl-16" : "pl-72";
-  const contentShift = pinned ? sidebarWidth : "pl-0";
+  const contentShift = pinned ? "pl-72" : "pl-0";
 
   return (
     <CommandPaletteProvider>
@@ -38,21 +37,15 @@ export function AppShell({ children }: { children?: ReactNode }) {
         <div className="min-h-screen bg-background">
           <ShellHeader />
 
-          {!pinned && (
-            <div
-              className="fixed inset-0 top-14 z-20 bg-black/20 lg:hidden"
-              aria-hidden
-              onClick={togglePinned}
+          {pinned && (
+            <PlatformSidebarV2
+              variant="tenant"
+              pinned={pinned}
+              onTogglePin={togglePinned}
+              collapsed={collapsed}
+              onToggleCollapsed={toggleCollapsed}
             />
           )}
-
-          <PlatformSidebarV2
-            variant="tenant"
-            pinned={pinned}
-            onTogglePin={togglePinned}
-            collapsed={collapsed}
-            onToggleCollapsed={toggleCollapsed}
-          />
 
           <div className={`pt-14 transition-[padding] duration-200 ${contentShift}`}>
             <main id="main" role="main" className="p-6">
@@ -66,6 +59,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
     </CommandPaletteProvider>
   );
 }
+
 
 export function PageContainer({
   title,
