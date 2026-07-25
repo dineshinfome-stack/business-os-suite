@@ -5,10 +5,9 @@
  * Tenant, and future module dashboards share layout, permission gating,
  * and widget composition.
  */
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { UserPlus, Users, ShieldCheck } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { UserPlus, Users } from "lucide-react";
 import { Can } from "@/components/auth/Can";
-import { Button } from "@/components/ui/button";
 import { DashboardTemplate } from "@/dashboard/template";
 import { APP_NAME } from "@/constants/app";
 
