@@ -1,4 +1,4 @@
-> **Status:** Superseded by [`MOD-001_SPRINT_PLAN_v2.md`](./MOD-001_SPRINT_PLAN_v2.md) under [ADR-017 ? Dedicated Database per Tenant Architecture](../../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md). A new Sprint PRD will be authored under Plan B; this v1 PRD is retained for historical continuity.
+> **Status:** Superseded by [`MOD-001_SPRINT_PLAN_v2.md`](./MOD-001_SPRINT_PLAN_v2.md) under [ADR-017 — Dedicated Database per Tenant Architecture](../../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md). A new Sprint PRD will be authored under Plan B; this v1 PRD is retained for historical continuity.
 
 ---
 ---
