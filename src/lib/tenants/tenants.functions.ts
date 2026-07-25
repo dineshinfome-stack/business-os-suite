@@ -257,3 +257,122 @@ export const archiveTenant = createServerFn({ method: "POST" })
           }),
     };
   });
+
+// ── Update (registry metadata, no lifecycle change) ─────────────────────
+export const updateTenant = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        tenantId: z.string().uuid(),
+        patch: UpdateTenantMetadataSchema,
+        correlationId: z.string().min(1).optional(),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const columnPatch = toTenantColumnPatch(data.patch);
+
+    const { data: row, error } = await context.supabase
+      .from("tenants")
+      .update(columnPatch)
+      .eq("id", data.tenantId)
+      .select("id, lifecycle_state")
+      .single();
+    if (error) throw error;
+
+    await logTenantEventFn({
+      data: {
+        action: "tenant.updated",
+        tenantId: row.id,
+        toState: row.lifecycle_state as TenantLifecycleState,
+        correlationId: data.correlationId,
+        extras: { fields: Object.keys(columnPatch) },
+      },
+    });
+
+    return {
+      tenant: row,
+      event: buildTenantEvent("tenant.updated", {
+        tenantId: row.id,
+        actorId: context.userId,
+        toState: row.lifecycle_state as TenantLifecycleState,
+        correlationId: data.correlationId,
+      }),
+    };
+  });
+
+// ── Search (server-side filter + pagination) ────────────────────────────
+export const searchTenants = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => SearchTenantsSchema.parse(d ?? {}))
+  .handler(async ({ data, context }) => {
+    let q = context.supabase
+      .from("tenants")
+      .select(
+        "id, slug, code, display_name, region, default_locale, timezone, plan_tier, lifecycle_state, provisioning_status, primary_contact_email, primary_domain, created_at, activated_at, suspended_at, archived_at",
+        { count: "exact" },
+      );
+
+    if (data.query && data.query.length > 0) {
+      const term = data.query.toLowerCase();
+      // Exact code match (case-insensitive) OR partial name/slug.
+      // PostgREST or() uses commas; escape by wrapping values.
+      const esc = term.replace(/[,()"]/g, "");
+      q = q.or(
+        `code.ilike.${esc},display_name.ilike.%${esc}%,slug.ilike.%${esc}%`,
+      );
+    }
+    if (data.lifecycleState) q = q.eq("lifecycle_state", data.lifecycleState);
+    if (data.provisioningStatus)
+      q = q.eq("provisioning_status", data.provisioningStatus);
+
+    q = q
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: false })
+      .range(data.offset, data.offset + data.limit - 1);
+
+    const { data: rows, error, count } = await q;
+    if (error) throw error;
+
+    return {
+      rows: rows ?? [],
+      total: count ?? 0,
+      limit: data.limit,
+      offset: data.offset,
+    };
+  });
+
+// ── Stats (counts per lifecycle_state) ──────────────────────────────────
+export const getTenantRegistryStats = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("tenants")
+      .select("lifecycle_state, provisioning_status");
+    if (error) throw error;
+
+    const byLifecycle: Record<string, number> = {
+      created: 0,
+      active: 0,
+      suspended: 0,
+      archived: 0,
+    };
+    const byProvisioning: Record<string, number> = {
+      not_started: 0,
+      in_progress: 0,
+      provisioned: 0,
+      failed: 0,
+    };
+    for (const r of data ?? []) {
+      const ls = String(r.lifecycle_state);
+      const ps = String((r as { provisioning_status?: string }).provisioning_status ?? "not_started");
+      byLifecycle[ls] = (byLifecycle[ls] ?? 0) + 1;
+      byProvisioning[ps] = (byProvisioning[ps] ?? 0) + 1;
+    }
+    return {
+      total: data?.length ?? 0,
+      byLifecycle,
+      byProvisioning,
+    };
+  });
