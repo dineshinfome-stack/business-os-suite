@@ -155,7 +155,7 @@ export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
     module: "administration",
     title: "Companies",
     icon: Building2,
-    route: "/platform/tenants",
+    route: "/platform/companies",
     parent: "administration",
     display_order: 30,
     permission: "platform.company.read",
