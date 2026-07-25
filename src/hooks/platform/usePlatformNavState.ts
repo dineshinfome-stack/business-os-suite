@@ -12,6 +12,9 @@ export function usePlatformNavState(scope: "platform" | "tenant" = "platform") {
 
   const [pinned, setPinned] = React.useState<boolean>(true);
   const [collapsed, setCollapsed] = React.useState<boolean>(false);
+  // Transient drawer state — opened via the "All" header trigger when the
+  // sidebar is not pinned. Never persisted.
+  const [open, setOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     setPinned(storage.get<boolean>(PIN_KEY, true) ?? true);
@@ -23,6 +26,8 @@ export function usePlatformNavState(scope: "platform" | "tenant" = "platform") {
     setPinned((prev) => {
       const next = !prev;
       storage.set(PIN_KEY, next);
+      // Pinning implicitly reveals the sidebar; unpinning closes the drawer.
+      setOpen(false);
       return next;
     });
   }, [PIN_KEY]);
@@ -35,5 +40,16 @@ export function usePlatformNavState(scope: "platform" | "tenant" = "platform") {
     });
   }, [COLLAPSED_KEY]);
 
-  return { pinned, togglePinned, collapsed, toggleCollapsed };
+  const toggleOpen = React.useCallback(() => setOpen((p) => !p), []);
+  const closeOpen = React.useCallback(() => setOpen(false), []);
+
+  return {
+    pinned,
+    togglePinned,
+    collapsed,
+    toggleCollapsed,
+    open,
+    toggleOpen,
+    closeOpen,
+  };
 }
