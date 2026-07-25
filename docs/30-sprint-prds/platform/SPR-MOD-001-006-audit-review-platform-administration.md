@@ -1,3 +1,6 @@
+> **Status:** Superseded by [`MOD-001_SPRINT_PLAN_v2.md`](./MOD-001_SPRINT_PLAN_v2.md) under [ADR-017 ? Dedicated Database per Tenant Architecture](../../11-adrs/architecture/ADR-017-dedicated-database-per-tenant-architecture.md). A new Sprint PRD will be authored under Plan B; this v1 PRD is retained for historical continuity.
+
+---
 ---
 title: "SPR-MOD-001-006 — Audit Review & Platform Administration"
 summary: "Sprint PRD for the platform-level audit review and administrative operational surface of MOD-001 Platform Administration: audit search, filtering, timeline exploration, audit export, cross-linking to audit events, and administrative operational review. Consumes `ENG-004` for audit collection, storage, integrity, and lifecycle; consumes `ENG-005` for effective configuration; consumes `ENG-024` for event delivery; consumes `ENG-001` for administrator identity. Owns audit review presentation events only. Consumes upstream layers; never redefines them."
