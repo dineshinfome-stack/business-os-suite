@@ -1,22 +1,23 @@
-## Anchor Favorites/Recent popups to the "All" button position
+## Problem
 
-Right now clicking All, Favorites, or Recent opens the unpinned sidebar dropdown under whichever button was clicked, so Favorites and Recent slide out mid-page. Change it so all three tabs open the popup at the same left position — aligned to the "All" button — while still switching the active tab.
+On `/dashboard` (tenant `AppShell`), the app crashes with:
+`useSecondaryNavTab must be used within SecondaryNavTabProvider`
 
-### Change
+## Root cause (verified)
 
-**`src/components/platform/PlatformSecondaryHeader.tsx`**
-- Add a ref to the "All" `TabButton`.
-- In the click handler, always call `setTab(t)`, and when unpinned call `openFromAnchor(allButtonRef.current)` regardless of which tab was clicked (All / Favorites / Recent).
-- Remove the per-button `e.currentTarget` anchor.
+`AppShell` renders `PlatformSidebarV2`, which calls `useSecondaryNavTab()`. That hook throws unless a `SecondaryNavTabProvider` sits above it. Only `PlatformShell` currently wraps its subtree in `SecondaryNavTabProvider` (and `SidebarPopupProvider`). `AppShell` doesn't — so any tenant page using the sidebar crashes.
 
-### Out of scope
+This became reachable now that sign-out navigates to `/login` → the user re-enters the tenant shell on `/dashboard` and hits the missing provider.
 
-- No change to pinned mode, edge-hover trigger, popup width, styling, or close behavior.
-- No change to `PlatformShell`, `PlatformSidebarV2`, or the popup context — `openFromAnchor(el)` already accepts any element.
+## Fix
 
-### Verification
+Wrap `AppShell`'s tree in the same two providers `PlatformShell` uses:
 
-- Unpinned + click All → dropdown opens under All (unchanged).
-- Unpinned + click Favorites → dropdown opens under All's left edge, showing the Favorites pane.
-- Unpinned + click Recent → same left position, showing the Recent pane.
-- Pinned mode and left-edge hover trigger unchanged.
+- `SecondaryNavTabProvider` — required by `PlatformSidebarV2`.
+- `SidebarPopupProvider` — `useSidebarPopup` has a fallback, but the tenant shell should behave like the platform shell (popup mode works when unpinned). Wrap it too for parity.
+
+No changes to sign-out, routing, or platform shell.
+
+### File to edit
+
+- `src/components/layout/AppShell.tsx` — add the two providers around the existing `HeaderProvider` subtree.
