@@ -155,7 +155,7 @@ function OverviewTab() {
           <Link className="text-primary hover:underline" to="/settings">
             Tenant settings
           </Link>
-          <Link className="text-primary hover:underline" to="/dashboard">
+          <Link className="text-primary hover:underline" to="/tenant">
             Dashboard
           </Link>
         </CardContent>
