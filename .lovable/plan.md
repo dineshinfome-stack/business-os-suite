@@ -1,110 +1,92 @@
+## Revised Sequence: Plan A → Plan A.5 (Architecture Sync) → Plan B
 
-# MOD-001 Platform Administration v2.0 — Architecture Refresh
+Plan A (ADR-017, MOD-001 Baseline v2, Sprint Plan v2, Audit Report) is already published. Before authoring any Sprint PRDs, insert a new **Plan A.5 — Architecture Baseline Synchronization** pass so every foundational document describes the dedicated-database-per-tenant model authoritatively. Plan B (SPR-MOD-001-001 … -010 PRD authoring) is gated on Plan A.5 completion.
 
-**Type:** Governance / documentation-only. No source code, migrations, RBAC, API, schema, or navigation changes.
+---
 
-**Approval strategy:** Split into two gates (per your recommendation).
-- **Plan A (this plan):** ADR-010, MOD-001 Baseline v2.0, Sprint Plan v2.0, Audit Report → Architecture Board approval.
-- **Plan B (deferred):** SPR-MOD-001-001 through -010 PRDs, authored only after Board approves Plan A.
+## Plan A.5 — Architecture Baseline Synchronization
 
-## Phase 0 — Repository Discovery (read-only)
+**Trigger:** Architecture Board approval of ADR-017.
+**Exit criterion:** Zero foundational document still describes the shared-database posture as current for Tenant business data.
 
-Before authoring, read (in this order) and record findings in the audit report:
+### Step 1 — Pre-flight verification of ADR-017
 
-1. `docs/REPOSITORY_MAP.md`, `docs/DOCUMENT_OWNERSHIP_MATRIX.md`, `docs/DOCUMENT_TRACEABILITY.md`
-2. `docs/15-governance/` (all standards; identify anything asserting shared-DB)
-3. `docs/02_Engineering_Execution_Master_Plan/`, `docs/03_Implementation_Master_Plan/10_Platform_Foundation.md`
-4. `docs/02-architecture/multi-tenant-architecture.md`, `database-architecture.md`, `deployment-architecture.md`
-5. `docs/11-adrs/ADR_INDEX.md`, `ADR-007`, `ADR-008`, `ADR-009`, `ADR-011` (Multi-Tenant Isolation), `ADR-014`, `ADR-032`
-6. `docs/20-module-prds/platform/README.md` + `MODULE_PRD.md`
-7. `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md`, `docs/40-module-baselines/README.md`
-8. `docs/45-module-publications/README.md` + any MOD-001 publication under `45-module-publications/platform/`
-9. `docs/30-sprint-prds/platform/` (existing SPR-MOD-001-00x)
-10. `docs/50-audit-reports/` (SPRINT_0 reports + prior MOD-001 audits)
-11. `docs/SPRINT_ROADMAP.md`, `SPRINT_DEPENDENCY_MATRIX.md`
+Before touching downstream documents, confirm ADR-017 contains all eleven required elements:
 
-Discovery output: a list of documents to **supersede**, documents to **cross-link**, and every location where a shared-database assumption appears.
+1. Dedicated database per tenant
+2. Platform database responsibilities
+3. Tenant provisioning
+4. Database provisioning lifecycle
+5. Logical Workspace (non-persistent)
+6. Company hierarchy (Tenant → Company → Branch / Financial Year)
+7. Licensing model (attached to Tenant)
+8. Authentication flow (Platform → Tenant resolution → dedicated DB connection)
+9. Backup/restore responsibility
+10. Platform vs Tenant responsibilities matrix
+11. Migration strategy from the previous shared-DB model
+12. Explicit "Supersedes ADR-009"
 
-## Phase 1 — ADR-010 (new) + ADR-009 amendment
+If any element is missing, amend ADR-017 first (as an in-place clarification, not a new ADR) and re-request board sign-off on the amendment before proceeding.
 
-**Create** `docs/11-adrs/architecture/ADR-010-dedicated-database-per-tenant-architecture.md`
+### Step 2 — Update `docs/02-architecture/**`
 
-Sections:
-- Status: Accepted; `supersedes: ADR-009`
-- Context — evolution ADR-008 → ADR-009 → ADR-010; why the shared-schema/RLS model is replaced with dedicated-DB-per-tenant and logical Workspace is reintroduced (as non-persistent)
-- Decision — Dedicated Database Per Tenant + Logical Workspace + Company/Branch/Financial Year hierarchy
-- Platform vs Tenant database responsibilities (platform DB holds only tenant registry, licenses, platform users, audit; no business data)
-- Authentication flow: Platform login → Tenant resolution → Dedicated DB connection → Workspace → Company → Modules
-- Licensing: attaches to Tenant (not Company, not Branch)
-- Architectural Invariants (7 items from prompt)
-- Migration/transition posture from the ADR-009 conceptual model (no code migration in this ADR)
-- Promotion Criteria (when Workspace becomes physical)
-- Non-Goals (no `workspaces` table; no schema changes in this ADR)
-- Consequences, Alternatives Considered, References
+Republish the architecture reference set to ADR-017. Each file gets a "Supersedes: shared-database posture per ADR-011; aligned to ADR-017" note in front-matter and body edits where the shared-DB assumption is load-bearing:
 
-**Amend** `docs/11-adrs/architecture/ADR-009-workspace-retirement.md`:
-- Add a top-of-file notice: `Status: Superseded by ADR-010 — Dedicated Database per Tenant Architecture.` Body preserved verbatim for historical integrity.
+- `multi-tenant-architecture.md` — replace shared-schema/RLS-as-primary-boundary narrative with dedicated-DB-per-Tenant; keep RLS discussion scoped to the Platform database and within-Tenant defense-in-depth.
+- `database-architecture.md` — split into Platform DB vs Tenant DB responsibilities; document connection routing, per-tenant backup/restore, per-tenant schema-version drift.
+- `deployment-architecture.md` — add per-Tenant DB provisioning topology; note cost/monitoring implications.
+- `devops-architecture.md` — tenant-aware backup, upgrade, and observability pipelines.
+- `integration-architecture.md`, `event-catalog.md`, `observability-architecture.md`, `quality-attributes.md`, `reference-data.md`, `testing-strategy.md` — targeted edits only where they assert a single shared database.
+- `README.md` — update index to point at ADR-017 as the authoritative isolation ADR for Tenant business data.
 
-**Update** `docs/11-adrs/ADR_INDEX.md` — register ADR-010, mark ADR-009 superseded, update ADR-008 chain note.
+### Step 3 — Update `docs/15-governance/TENANCY_STANDARD.md`
 
-## Phase 2 — MOD-001 Baseline v2.0
+- Add ADR-017 to Terminology block; reintroduce **Workspace** as logical (non-persistent) container.
+- Rewrite the Model section: Tenant is the *database* boundary; `organization_id` remains the company-scoping key **within** a Tenant DB.
+- Rewrite R2 (RLS) to clarify RLS is defense-in-depth *inside* a Tenant DB, not the primary tenant boundary.
+- Add a new rule: **R6 — No cross-Tenant queries**. Application code MUST resolve a Tenant-scoped DB connection per request; no code path may hold connections to two Tenant DBs simultaneously for a business read/write.
+- Keep R1, R3, R4, R5 with minor wording updates.
 
-**Create** `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md` and mark v1 superseded (front-matter + top notice; v1 file retained).
+### Step 4 — Update Glossary and cross-references
 
-Baseline v2.0 covers:
-- Overview & objectives (dedicated-DB-per-tenant)
-- Capabilities: Tenant lifecycle, **Database provisioning lifecycle**, Workspace (logical), Org structure, Users/Roles/Permissions, Configuration, Localization, **Licensing**, Platform Operations (monitoring, backup, recovery, DB versioning), Audit, Notifications, Search, Documents, Workflow, Reporting
-- Architecture diagram (Mermaid) reflecting Platform DB ↔ per-Tenant DBs
-- Dependency map, consumer modules (MOD-002..MOD-018)
-- Cross-links to ADR-010, ADR-007, ADR-011, ADR-014, ADR-032
-- Traceability to Module PRD and Engine Catalog
+- `docs/glossary.md` — restore **Workspace** entry as "logical, non-persistent container within a Tenant (ADR-017)"; update **Tenant** entry to note the dedicated-DB boundary.
+- `docs/GLOSSARY_INDEX.md`, `docs/ADR_IMPACT_MATRIX.md`, `docs/decision-register.md` — add ADR-017 rows and mark ADR-009 superseded.
+- `docs/DOCUMENT_TRACEABILITY.md`, `docs/REPOSITORY_MAP.md` — reference ADR-017 where they cite ADR-009/ADR-011.
 
-**Update** `docs/40-module-baselines/README.md` and `docs/MODULE_BASELINE_CATALOG.md` to list v2 as current.
+### Step 5 — Update architecture diagrams
 
-**Amend** `docs/20-module-prds/platform/MODULE_PRD.md` — replace shared-DB assumptions; add pointer to Baseline v2.0 and ADR-010. Do not fork the PRD.
+- `docs/02_Engineering_Execution_Master_Plan/indexes/diagram_index.md` — register the new diagrams.
+- Add/refresh Mermaid diagrams under `docs/11-erd/` and `docs/02-architecture/` for: (a) Platform DB vs Tenant DB split, (b) authentication + tenant-resolution + DB-routing flow, (c) revised hierarchy (Platform → Tenant → [Dedicated DB, Logical Workspace] → Company → Branch/FY).
 
-## Phase 3 — Sprint Plan v2.0
+### Step 6 — Update Implementation & Engineering master references
 
-**Create** `docs/30-sprint-prds/platform/SPRINT_PLAN_v2.md` listing SPR-MOD-001-001 through -010 exactly as specified (Provisioning, Workspace/Org, Identity, Configuration, Licensing, Localization, Workspace Services, Platform Operations, Audit & Compliance, Admin Console) with objectives, sequence, dependency arrows, and inheritance from EEMP/IMP/ADR-010.
+- `docs/03_Implementation_Master_Plan/**` — align phase gates and dependency notes to ADR-017; flag any prior assumption of a single shared DB.
+- `docs/02_Engineering_Execution_Master_Plan/**` — same treatment; ensure delivery workflow reflects per-Tenant provisioning.
+- `docs/MODULE_BASELINE_CATALOG.md`, `docs/SPRINT_ROADMAP.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md`, `docs/SOLUTION_STATUS.md` — cross-reference ADR-017; mark v1 MOD-001 baseline superseded (already done in Plan A, verify).
+- `docs/40-module-baselines/README.md` — confirm v2 is the active MOD-001 baseline.
 
-**Amend** `docs/SPRINT_ROADMAP.md` and `docs/SPRINT_DEPENDENCY_MATRIX.md` to reference v2.0 and mark the earlier MOD-001 roadmap superseded.
+### Step 7 — Architecture Baseline Freeze audit report
 
-Existing SPR-MOD-001-001 and -002 sprint artifacts are **not deleted**; they receive a top-of-file notice: "Superseded by Sprint Plan v2.0; PRD to be re-authored under Plan B." No code touched.
+Author `docs/50-audit-reports/ARCHITECTURE_BASELINE_SYNC_ADR017_REPORT.md` enumerating: every file touched, every file inspected and intentionally left unchanged, and an explicit statement that no foundational document still contradicts ADR-017. This is the artifact the Architecture Board signs to close Plan A.5.
 
-## Phase 4 — Audit Report
+### Non-goals for Plan A.5
 
-**Create** `docs/50-audit-reports/MOD001_V2_ARCHITECTURE_REFRESH_REPORT.md`:
-- Repository discovery summary (files read, findings)
-- Documents superseded (ADR-009, Baseline v1, prior Sprint Plan, prior SPR PRDs)
-- Documents published (ADR-010, Baseline v2, Sprint Plan v2, this report)
-- Every location where a shared-DB assumption was found and how it was addressed (amended vs superseded)
-- Traceability matrix: ADR-010 ↔ Baseline v2 ↔ Sprint Plan v2 ↔ Module PRD ↔ Engine Catalog
-- Verification checklist (no code / migrations / RBAC / API / schema / navigation changes)
-- Risks and outstanding decisions (tenant DB provisioning vendor, connection routing, backup topology, license enforcement point — all deferred to Plan B PRDs / follow-up ADRs)
-- Explicit **STOP** — awaiting Architecture Board approval before Plan B.
+- No source code changes (`src/**` untouched).
+- No SQL migrations.
+- No new ADRs (ADR-017 stands; amendments only if Step 1 finds gaps).
+- No Sprint PRDs (that is Plan B).
+- Historical audit reports under `docs/50-audit-reports/` and prior superseded ADRs remain frozen.
 
-## Deliverables (Plan A)
+---
 
-1. `docs/11-adrs/architecture/ADR-010-dedicated-database-per-tenant-architecture.md` (new)
-2. `docs/11-adrs/architecture/ADR-009-workspace-retirement.md` (amended header only)
-3. `docs/11-adrs/ADR_INDEX.md` (updated)
-4. `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md` (new)
-5. `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v1.md` (superseded notice)
-6. `docs/40-module-baselines/README.md`, `docs/MODULE_BASELINE_CATALOG.md` (updated indexes)
-7. `docs/20-module-prds/platform/MODULE_PRD.md` (amended for v2 alignment)
-8. `docs/30-sprint-prds/platform/SPRINT_PLAN_v2.md` (new)
-9. `docs/SPRINT_ROADMAP.md`, `docs/SPRINT_DEPENDENCY_MATRIX.md` (updated)
-10. Existing SPR-MOD-001-001/-002 files (superseded notice only)
-11. `docs/50-audit-reports/MOD001_V2_ARCHITECTURE_REFRESH_REPORT.md` (new)
+## Plan B — Gated on Plan A.5
 
-## Not in this plan (Plan B — deferred)
+After the Step 7 audit report is signed, proceed with the previously-scoped PRD authoring: SPR-MOD-001-001 through SPR-MOD-001-010, each written against the fully synchronized ADR-017 baseline.
 
-Ten Sprint PRDs (SPR-MOD-001-001 through -010) — authored only after Architecture Board approves Plan A. This avoids rewriting ten PRDs if the Board revises the baseline.
+---
 
-## Guardrails
+## Technical Notes
 
-- Documentation only. Zero source, migration, RBAC, API, schema, or navigation edits.
-- ADR immutability preserved (ADR-009 amended header only; body untouched).
-- Every new document declares inheritance from Governance Framework, EEMP, IMP, ADR-010.
-- All cross-links verified before publishing the audit report.
-- After the audit report is written, STOP and request Architecture Board approval.
+- ADR-017 numbering is kept. ADRs are immutable identifiers; no renumbering.
+- ADR-011 (shared-schema RLS) remains part of the historical record and continues to apply to the Platform database's own single-schema deployment — this nuance must be preserved in every rewrite in Step 2 and Step 3.
+- Presentation-layer `nav_id` values (`workspace.hub`, etc.) and `workspace.*` permission keys remain unchanged in this pass, per the Design Constraints in ADR-009 (carried forward). Any rename is a separate future RBAC migration.
