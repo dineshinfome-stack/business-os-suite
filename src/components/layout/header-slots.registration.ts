@@ -10,7 +10,7 @@
  */
 import { registerHeaderSlot } from "@/lib/header/slot-registry";
 import { BusinessOsLogo } from "@/components/platform/header/BusinessOsLogo";
-import { NavigatorButton } from "@/components/platform/header/NavigatorButton";
+import { AllPopover } from "@/components/platform/header/AllPopover";
 import { FavoritesPopover } from "@/components/platform/header/FavoritesPopover";
 import { RecentPopover } from "@/components/platform/header/RecentPopover";
 import { AiAssistantSlot } from "@/components/platform/header/AiAssistantSlot";
@@ -20,7 +20,7 @@ import { ProfileMenu, HelpMenu, SearchTrigger } from "@/components/platform";
 // Start area — brand + primary navigation entries (ServiceNow-style: All,
 // Favorites, History sit next to the brand mark).
 registerHeaderSlot({ id: "logo", area: "start", order: 10, component: BusinessOsLogo });
-registerHeaderSlot({ id: "navigator", area: "start", order: 20, component: NavigatorButton });
+registerHeaderSlot({ id: "all", area: "start", order: 20, component: AllPopover });
 registerHeaderSlot({ id: "favorites", area: "start", order: 30, component: FavoritesPopover });
 registerHeaderSlot({ id: "recent", area: "start", order: 40, component: RecentPopover });
 
