@@ -23,7 +23,7 @@ export function PlatformTopBar({ title }: PlatformTopBarProps) {
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-md text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-md text-[color:var(--platform-sidebar-muted)] transition-colors hover:bg-[color:var(--platform-sidebar-hover-bg)] hover:text-[color:var(--platform-sidebar-fg)]"
     >
       {children}
     </button>
@@ -51,8 +51,8 @@ export function PlatformTopBar({ title }: PlatformTopBarProps) {
 
       {/* Current page title */}
       <div className="hidden min-w-0 items-center gap-2 md:flex">
-        <span className="text-white/50">/</span>
-        <span className="truncate text-sm font-medium text-white">{title}</span>
+        <span className="text-[color:var(--platform-sidebar-muted)]">/</span>
+        <span className="truncate text-sm font-medium text-[color:var(--platform-sidebar-fg)]">{title}</span>
       </div>
 
       {/* Right utility */}
