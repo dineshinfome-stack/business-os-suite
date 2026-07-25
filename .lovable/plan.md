@@ -1,105 +1,118 @@
-# Phase C — MOD-001 Module Certification & Publication (v1)
+# Phase 0 (v4) — Engineering Readiness + Reuse-Before-Build Rule
 
-## Purpose
+**Mode:** Documentation-only. No code, schema, migration, route, component, ADR, PRD, or baseline changes. Publishes the "Reuse Before Build" governance standard and six evidence-backed engineering-readiness documents preceding SPR-MOD-001-001.
 
-Certify, publish, and freeze the completed MOD-001 Platform Foundation. Phase C is a governance and quality audit — **no new authoring**, no FRs, no architecture evolution, no Sprint PRDs, no Solution Design, no implementation.
+## Objective
 
-## Scope
+1. Codify **Reuse Before Build** as a permanent global engineering rule.
+2. Publish Phase 0 readiness reports (health, technical debt, checklist, summary).
+3. Publish the **Reuse Inventory**, **Duplicate/Superseded Detection**, **Engineering Blockers**, and **Dependency Readiness** reviews so SPR-MOD-001-001 begins with an actionable, traceable map.
 
-- **In scope:** Validation of existing MOD-001 artifacts, certification decision, publication of Platform Foundation v1.0, Platform Contract Baseline v1.0 freeze, Repository Baseline Snapshot certification.
-- **Out of scope:** MOD-002 authoring, any source code, database, or infrastructure changes.
+## New Governance Standard
 
-## Preconditions (verify at start; abort on failure)
+`docs/15-governance/REUSE_BEFORE_BUILD_STANDARD.md` — permanent global rule:
 
-1. ADR-017 Accepted and active.
-2. Architecture Baseline Freeze approved.
-3. MOD001 Platform Baseline v2 active.
-4. MOD001 Sprint Plan v2 active.
-5. Phase B3 completed (all seven deliverables present).
-6. Architecture Board Final Certification authorized.
-7. No unapproved documentation changes since the Repository Baseline Snapshot.
+- Priority order: **Reuse → Extend → Refactor → Defer → Create**.
+- Mandatory pre-implementation discovery (Layouts, Pages, Components, Auth, Services, Hooks, Utilities, Styling).
+- Every sprint publishes a Reuse Analysis using the fixed inventory schema below.
+- Restrictions: no duplicate sidebar, dashboard layout, auth system, Supabase client, services, hooks, or UI primitives.
+- Every `CREATE`, `REFACTOR`, and `DEFER` decision requires written justification.
+- Acceptance criteria reused as sprint DoD addendum; sprint audit reports must cite this standard.
+- Cross-refs: EEMP Ch. 03 & 04, REPOSITORY_NAVIGATION_STANDARD, FINDING_SEVERITY_STANDARD.
+- Frontmatter v1.0.0, Approved, Active + Revision History.
 
-If any precondition fails → **ABORT**, record findings, do not proceed.
+## Terminology (consistent across all Phase 0 documents)
 
-## Execution Workflow
+- **Finding fields:** Severity · Evidence · Impact · Recommendation · **Disposition** (Blocker / Pre-Phase-2 Recommendation / Future Improvement / Technical Debt).
+- **Duplicate Detection Classification:** Active / Legacy / Superseded / Duplicate / Unknown.
+- **Reuse Confidence:** High / Medium / Low (see schema).
+- **Dependency Implementation Risk:** Low / Medium / High.
 
-### Stage 1 — Repository Discovery (read-only)
+## Discovery Order (read-only)
 
-Read, in precedence order: ADR-017 → Architecture reference set → TENANCY_STANDARD v2 → Repository Baseline Snapshot → Governance standards (Documentation, Publication, Template, Audit) → MOD001 Baseline v2 → MOD001 Sprint Plan v2 → SPR-MOD-001-001..010 → Phase B1/B2/B3 Authoring Reports → Final Cross-PRD Consistency Matrix → Platform Capability Coverage Matrix.
+1. `docs/11-adrs/architecture/ADR-017`
+2. `docs/40-module-baselines/MOD001_PLATFORM_BASELINE_v2.md`
+3. `docs/30-sprint-prds/platform/MOD-001_SPRINT_PLAN_v2.md` + `SPR-MOD-001-001` PRD
+4. `docs/15-governance/*`
+5. Prior audit reports under `docs/50-audit-reports/`, `docs/51-architecture-validation/`, `docs/57-…`, `docs/58-…`, `docs/60-release-readiness/`, `docs/62-post-release-verification/` — reused as sources of existing finding IDs (see Cross-Reference rule below).
+6. Repo surface: `src/router.tsx`, `src/routes/**`, `src/components/**`, `src/dashboard/template/**`, `src/contexts/**`, `src/hooks/**`, `src/lib/**`, `src/integrations/supabase/**`, `src/config/**`, `src/utils/**`
+7. Build tooling: `package.json`, `vite.config.ts`, `tsconfig.json`, `eslint.config.js`, `vitest.config.ts`, `playwright.config.ts`
 
-### Stage 2 — Certification Validation
+## Validation Coverage (12 areas)
 
-Execute the following validation gates. Each gate produces a PASS / FAIL / OBSERVATION with artifact + section + evidence references.
+Repository Health · Folder Structure · Tech Stack · Environment · Authentication · Routing · UI Framework · Supabase · Security · Code Quality · Testing · Build. Each finding records: **Severity · Evidence · Impact · Recommendation · Disposition**. No fixes.
 
-| Gate | Check |
-|------|-------|
-| G1 Architecture | ADR-017 compliance, Freeze compliance, no drift, no deprecated tenancy wording, no shared-DB terminology, platform-first architecture. |
-| G2 Repository Integrity | Snapshot unchanged, no unauthorized modifications, no missing artifacts, no duplicate Sprint PRDs, no unpublished superseded versions. |
-| G3 Traceability | Every FR → Capability + ADR + Module Objective + Acceptance Criterion. Expect zero orphan FRs. |
-| G4 Capability Coverage | Every Platform capability has exactly one owning Sprint PRD; no duplicates or gaps. |
-| G5 Cross-PRD (A1–A15) | Revalidate Final Cross-PRD Consistency Matrix. Zero failures. |
-| G6 Dependency | Linear 001→010 chain. Zero cycles, zero forward runtime dependencies. |
-| G7 Contract Certification | Platform Contract Freeze holds — single owner, version pinned, consumer refs, no redefinitions. On pass → declare **Platform Contract Baseline v1.0 Certified**. |
-| G8 Event Certification | Single publisher per event, payload owner declared, no duplicate definitions, multiple consumers permitted. On pass → certify Platform Event Catalog. |
-| G9 Publication Metadata | Every artifact carries Version, Status, Owner, Approval, Last Updated, ADR references, Supersedes metadata. |
-| G10 Baseline Snapshot | Snapshot hash + contents + artifact versions + certification timestamp validated. On pass → Snapshot becomes immutable. |
+## Reuse Inventory — Fixed Schema
 
-### Stage 3 — Certification Decision
+| Field | Description |
+|---|---|
+| Component | Item being reviewed |
+| Repository Evidence | File path(s) |
+| Current Capability | What it already does |
+| Gap | What's missing for SPR-MOD-001-001 |
+| Recommendation | REUSE / EXTEND / REFACTOR / DEFER / CREATE |
+| Reuse Confidence | High / Medium / Low |
+| Justification | Required for REFACTOR, DEFER, CREATE |
+| Suggested Owner | Platform UI / Security / Platform Backend / Infrastructure / Data — **advisory only; does not modify repository ownership or governance responsibilities** |
 
-Record exactly one:
+Decision definitions (also codified in the standard):
+- **REUSE** — use as-is (typically High confidence).
+- **EXTEND** — add functionality without altering existing behavior.
+- **REFACTOR** — improve without changing behavior.
+- **DEFER** — exists, not needed for SPR-MOD-001-001, remains untouched.
+- **CREATE** — no reusable asset exists.
 
-- **CERTIFIED**
-- **CERTIFIED WITH OBSERVATIONS**
-- **CHANGES REQUIRED**
+Categories: Layouts · Navigation · Pages · Shared Components · Dashboard Template · Auth · Supabase Integration · Services / Server Functions · Hooks · Contexts · Utilities · Styling.
 
-Every observation/failure cites: Artifact · Section · Repository evidence · Recommended corrective action.
+## Duplicate & Superseded Detection
 
-### Stage 4 — Publication Actions (only if CERTIFIED or CERTIFIED WITH OBSERVATIONS)
+Record every occurrence and classify without deleting anything in Phase 0. Scope: duplicate pages, layouts, navigation entries, hooks, services, dashboard widgets, obsolete/orphaned components. Fields: item · evidence · **Classification** (Active / Legacy / Superseded / Duplicate / Unknown) · successor pointer where known · **existing finding reference** (see below).
 
-1. Mark MOD-001 status as **Certified**.
-2. Publish **Platform Foundation v1.0**.
-3. Freeze **Platform Contract Baseline v1.0**.
-4. Mark Repository Baseline Snapshot as the certified baseline.
-5. Update repository publication indexes.
-6. Update module catalog.
+## Dependency Readiness
 
-## Deliverables
+For each shared platform dependency required by MOD-001, record two fields:
 
-**Create (4):**
+- **Availability:** Exists / Missing / Partial / Not Required
+- **Implementation Risk:** Low / Medium / High
 
-1. `docs/40-module-baselines/MOD001_MODULE_CERTIFICATION_REPORT.md`
-2. `docs/40-module-baselines/MOD001_PUBLICATION_RECORD.md`
-3. `docs/40-module-baselines/MOD001_PLATFORM_FOUNDATION_CERTIFICATE.md`
-4. `docs/50-audit-reports/MOD001_PHASE_C_CERTIFICATION_REPORT.md`
+Dependencies: authentication · RBAC · navigation · configuration · logging · notifications · feature flags · audit infrastructure · error handling.
 
-**Metadata-only updates (status / version / approval headers, no body changes):**
+## Engineering Blockers
 
-- MOD001 Platform Baseline v2
-- MOD001 Sprint Plan v2
-- Repository publication indexes
-- Module catalog
+Rolled up from finding **Dispositions** across all Phase 0 documents into a single verdict in the Readiness Report: **GO / GO WITH OBSERVATIONS / BLOCKED**.
 
-## Repository Safety
+## Cross-Reference Rule
 
-Writes are limited to the four certification deliverables and publication metadata headers listed above. **No changes** to Sprint PRDs, FRs, architecture, ADRs, Solution Designs, source code, database, infrastructure, or configuration.
+If Phase 0 identifies a duplicate, technical debt, or blocker item already documented in an existing audit report, **reference the existing finding ID** instead of assigning a new one. Only genuinely new items get Phase 0 identifiers (format `PH0-<AREA>-<NNN>`).
+
+## Deliverables (1 governance standard + 6 Phase 0 documents)
+
+1. `docs/15-governance/REUSE_BEFORE_BUILD_STANDARD.md`
+2. `docs/60-engineering/PHASE0_ENGINEERING_READINESS_REPORT.md` — exec summary, verdict, exit-criteria matrix, cross-refs, **and a single-page Implementation Readiness Summary table** with the following rows: Repository Health · Architecture Alignment · Authentication · Navigation · Supabase · Technical Debt · Blockers · Reuse Inventory · Duplicate Review · Dependency Readiness · **Phase 1 Decision (GO / GO WITH OBSERVATIONS / BLOCKED)**.
+3. `docs/60-engineering/PHASE0_REPOSITORY_HEALTH.md` — areas 1, 3, 4, 8, 12.
+4. `docs/60-engineering/PHASE0_TECHNICAL_DEBT.md` — areas 2, 5, 6, 7, 9, 10, 11.
+5. `docs/60-engineering/PHASE0_IMPLEMENTATION_READINESS_CHECKLIST.md` — PASS/FAIL/N/A per exit criterion + evidence pointer.
+6. `docs/60-engineering/PHASE0_REUSE_INVENTORY.md` — full inventory using the fixed schema, plus a scoped **"SPR-MOD-001-001 Reuse Analysis"** section cited by the sprint's implementation plan. Includes the Duplicate/Superseded Detection and Dependency Readiness subsections.
+
+All documents use Business OS frontmatter + Revision History table.
+
+## Exit Criteria
+
+- Reuse Before Build standard published.
+- Repository builds (dev + prod) verified read-only.
+- No Blocker-Disposition findings outstanding.
+- Stack, env, auth, routing, Supabase integration validated.
+- Reuse Inventory covers every category with file-path evidence and Reuse Confidence.
+- Duplicate/Superseded Detection completed; existing finding IDs reused where applicable.
+- Dependency Readiness recorded for all nine dependencies with Availability + Implementation Risk.
+- **Every planned CREATE action reviewed and confirmed that no reusable repository asset satisfies the requirement.**
+- Implementation Readiness Summary table published in the Readiness Report.
+- All seven documents published.
 
 ## Stop Rule
 
-After certification recording and publication: **STOP**. Do not begin MOD-002. Await explicit authorization for MOD-002 Foundation & Master Data authoring.
+After publishing the seven documents: **STOP.** No implementation of SPR-MOD-001-001, no new platform code, no database objects, no UI. Await explicit authorization for Phase 1.
 
-## Completion Criteria
+## Out of Scope
 
-Phase C is complete only when all are true:
-
-- G1–G10 gates recorded with results.
-- Zero orphan FRs, zero dependency cycles, A1–A15 pass, Capability Coverage pass.
-- Platform Contract Baseline v1.0 certified; Platform Event Catalog certified.
-- Repository Baseline Snapshot certified and immutable.
-- MOD-001 published as canonical Platform Foundation.
-- Four certification deliverables published.
-- Publication indexes and module catalog updated.
-- Certification decision recorded.
-
-## Forward Recommendation
-
-On completion, promote this workflow (integrity → validation → publication → freeze) as the standard **Module Certification Template** reusable across MOD-002..MOD-019, with contract/event certification applied only where modules own contracts or events.
+Business logic, UI, DB, migrations, APIs, components, routes, architecture, ADR/PRD/Baseline edits, dependency upgrades, deletion of duplicate/superseded assets, "quick fixes" surfaced during validation, EEMP chapter body edits.
