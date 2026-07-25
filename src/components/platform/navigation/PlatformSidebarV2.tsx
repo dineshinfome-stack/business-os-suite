@@ -58,7 +58,12 @@ export function PlatformSidebarV2({
   topOffset = "3.5rem",
   subtitle,
   hideHeader = false,
+  mode = "pinned",
+  open = true,
+  onMouseEnter,
+  onMouseLeave,
 }: Props) {
+
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isTenant = variant === "tenant";
   const { profile, user } = useAuth();
