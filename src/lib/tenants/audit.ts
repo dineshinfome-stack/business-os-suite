@@ -11,6 +11,7 @@ const TENANT_ACTIONS = [
   "tenant.activated",
   "tenant.suspended",
   "tenant.archived",
+  "tenant.updated",
 ] as const;
 
 const Payload = z.object({

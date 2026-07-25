@@ -131,6 +131,9 @@ permissions:
   - key: platform.tenant.create
     name: Create tenant
     description: Provision a new tenant
+  - key: platform.tenant.update
+    name: Update tenant
+    description: Update tenant registry metadata (non-lifecycle)
   - key: platform.tenant.activate
     name: Activate tenant
     description: Transition a tenant to active

@@ -1153,15 +1153,25 @@ export type Database = {
         Row: {
           activated_at: string | null
           archived_at: string | null
+          billing_email: string | null
+          code: string | null
           created_at: string
           created_by: string | null
+          dedicated_database_ref: string | null
           default_locale: string
           display_name: string
           id: string
           lifecycle_state: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          notes: string | null
           plan_tier: string
+          primary_contact_email: string | null
+          primary_contact_name: string | null
+          primary_contact_phone: string | null
+          primary_domain: string | null
+          provisioning_status: Database["public"]["Enums"]["tenant_provisioning_status"]
           region: string
           slug: string
+          subscription_ref: string | null
           suspended_at: string | null
           timezone: string
           updated_at: string
@@ -1169,15 +1179,25 @@ export type Database = {
         Insert: {
           activated_at?: string | null
           archived_at?: string | null
+          billing_email?: string | null
+          code?: string | null
           created_at?: string
           created_by?: string | null
+          dedicated_database_ref?: string | null
           default_locale?: string
           display_name: string
           id?: string
           lifecycle_state?: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          notes?: string | null
           plan_tier?: string
+          primary_contact_email?: string | null
+          primary_contact_name?: string | null
+          primary_contact_phone?: string | null
+          primary_domain?: string | null
+          provisioning_status?: Database["public"]["Enums"]["tenant_provisioning_status"]
           region?: string
           slug: string
+          subscription_ref?: string | null
           suspended_at?: string | null
           timezone?: string
           updated_at?: string
@@ -1185,15 +1205,25 @@ export type Database = {
         Update: {
           activated_at?: string | null
           archived_at?: string | null
+          billing_email?: string | null
+          code?: string | null
           created_at?: string
           created_by?: string | null
+          dedicated_database_ref?: string | null
           default_locale?: string
           display_name?: string
           id?: string
           lifecycle_state?: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          notes?: string | null
           plan_tier?: string
+          primary_contact_email?: string | null
+          primary_contact_name?: string | null
+          primary_contact_phone?: string | null
+          primary_domain?: string | null
+          provisioning_status?: Database["public"]["Enums"]["tenant_provisioning_status"]
           region?: string
           slug?: string
+          subscription_ref?: string | null
           suspended_at?: string | null
           timezone?: string
           updated_at?: string
@@ -1347,6 +1377,11 @@ export type Database = {
         | "json"
       setting_scope: "platform" | "organization"
       tenant_lifecycle_state: "created" | "active" | "suspended" | "archived"
+      tenant_provisioning_status:
+        | "not_started"
+        | "in_progress"
+        | "provisioned"
+        | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1492,6 +1527,12 @@ export const Constants = {
       ],
       setting_scope: ["platform", "organization"],
       tenant_lifecycle_state: ["created", "active", "suspended", "archived"],
+      tenant_provisioning_status: [
+        "not_started",
+        "in_progress",
+        "provisioned",
+        "failed",
+      ],
     },
   },
 } as const

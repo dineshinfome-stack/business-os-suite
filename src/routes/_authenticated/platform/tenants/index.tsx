@@ -10,6 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -22,7 +29,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/contexts/auth-context";
 
 import {
-  listTenants,
+  searchTenants,
   createTenant,
 } from "@/lib/tenants/tenants.functions";
 
@@ -40,17 +47,54 @@ export const Route = createFileRoute("/_authenticated/platform/tenants/")({
   }),
 });
 
-type TenantRow = Awaited<ReturnType<typeof listTenants>>[number];
+type SearchResult = Awaited<ReturnType<typeof searchTenants>>;
+type TenantRow = SearchResult["rows"][number];
+
+const LIFECYCLE_OPTIONS = ["created", "active", "suspended", "archived"] as const;
+const PROVISIONING_OPTIONS = [
+  "not_started",
+  "in_progress",
+  "provisioned",
+  "failed",
+] as const;
+
+const ANY = "__any__";
 
 function PlatformTenantsPage() {
   const auth = useAuth();
-  const list = useServerFn(listTenants);
+  const search = useServerFn(searchTenants);
   const create = useServerFn(createTenant);
   const qc = useQueryClient();
 
+  const [query, setQuery] = React.useState("");
+  const [debouncedQuery, setDebouncedQuery] = React.useState("");
+  const [lifecycleState, setLifecycleState] = React.useState<string>(ANY);
+  const [provisioningStatus, setProvisioningStatus] =
+    React.useState<string>(ANY);
+
+  React.useEffect(() => {
+    const t = setTimeout(() => setDebouncedQuery(query.trim()), 250);
+    return () => clearTimeout(t);
+  }, [query]);
+
+  const queryInput = React.useMemo(
+    () => ({
+      query: debouncedQuery || undefined,
+      lifecycleState:
+        lifecycleState === ANY
+          ? undefined
+          : (lifecycleState as (typeof LIFECYCLE_OPTIONS)[number]),
+      provisioningStatus:
+        provisioningStatus === ANY
+          ? undefined
+          : (provisioningStatus as (typeof PROVISIONING_OPTIONS)[number]),
+    }),
+    [debouncedQuery, lifecycleState, provisioningStatus],
+  );
+
   const { data, isLoading } = useQuery({
-    queryKey: ["platform", "tenants"],
-    queryFn: () => list(),
+    queryKey: ["platform", "tenants", "search", queryInput],
+    queryFn: () => search({ data: queryInput }),
     enabled: auth.status === "authenticated",
   });
 
@@ -87,12 +131,29 @@ function PlatformTenantsPage() {
         ),
       },
       { accessorKey: "display_name", header: "Name" },
+      {
+        accessorKey: "code",
+        header: "Code",
+        cell: ({ row }) =>
+          row.original.code ? (
+            <span className="font-mono text-xs">{row.original.code}</span>
+          ) : (
+            <span className="text-muted-foreground">—</span>
+          ),
+      },
       { accessorKey: "region", header: "Region" },
       { accessorKey: "plan_tier", header: "Plan" },
       {
         accessorKey: "lifecycle_state",
         header: "State",
         cell: ({ row }) => <LifecycleBadge state={row.original.lifecycle_state} />,
+      },
+      {
+        accessorKey: "provisioning_status",
+        header: "Provisioning",
+        cell: ({ row }) => (
+          <ProvisioningBadge status={row.original.provisioning_status} />
+        ),
       },
       {
         accessorKey: "created_at",
@@ -110,7 +171,7 @@ function PlatformTenantsPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Tenants</h1>
           <p className="text-sm text-muted-foreground">
-            Platform-level tenant isolation and lifecycle.
+            Platform-level tenant registry and lifecycle.
           </p>
         </div>
         <Can permission="platform.tenant.create">
@@ -155,10 +216,76 @@ function PlatformTenantsPage() {
         </Can>
       </div>
 
+      <div className="flex flex-wrap items-end gap-3">
+        <div className="min-w-64 flex-1 space-y-1">
+          <Label htmlFor="search" className="text-xs">
+            Search
+          </Label>
+          <Input
+            id="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Name, slug, or exact code"
+          />
+        </div>
+        <div className="space-y-1">
+          <Label className="text-xs">Lifecycle</Label>
+          <Select value={lifecycleState} onValueChange={setLifecycleState}>
+            <SelectTrigger className="w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={ANY}>Any</SelectItem>
+              {LIFECYCLE_OPTIONS.map((s) => (
+                <SelectItem key={s} value={s}>
+                  {s}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-1">
+          <Label className="text-xs">Provisioning</Label>
+          <Select
+            value={provisioningStatus}
+            onValueChange={setProvisioningStatus}
+          >
+            <SelectTrigger className="w-44">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={ANY}>Any</SelectItem>
+              {PROVISIONING_OPTIONS.map((s) => (
+                <SelectItem key={s} value={s}>
+                  {s.replace(/_/g, " ")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        {(debouncedQuery ||
+          lifecycleState !== ANY ||
+          provisioningStatus !== ANY) && (
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setQuery("");
+              setLifecycleState(ANY);
+              setProvisioningStatus(ANY);
+            }}
+          >
+            Clear
+          </Button>
+        )}
+        <div className="ml-auto text-xs text-muted-foreground">
+          {data ? `${data.total} tenant${data.total === 1 ? "" : "s"}` : null}
+        </div>
+      </div>
+
       {isLoading ? (
         <p className="text-sm text-muted-foreground">Loading…</p>
       ) : (
-        <DataGrid data={data ?? []} columns={columns} />
+        <DataGrid data={data?.rows ?? []} columns={columns} />
       )}
     </div>
   );
@@ -174,4 +301,21 @@ function LifecycleBadge({ state }: { state: string }) {
           ? "outline"
           : "secondary";
   return <Badge variant={variant as never}>{state}</Badge>;
+}
+
+function ProvisioningBadge({ status }: { status: string | null }) {
+  const s = status ?? "not_started";
+  const variant =
+    s === "provisioned"
+      ? "default"
+      : s === "failed"
+        ? "destructive"
+        : s === "in_progress"
+          ? "secondary"
+          : "outline";
+  return (
+    <Badge variant={variant as never} className="whitespace-nowrap">
+      {s.replace(/_/g, " ")}
+    </Badge>
+  );
 }
