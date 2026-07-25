@@ -177,6 +177,8 @@
   --platform-sidebar-active-bar: var(--brand-red);
   --platform-content-bg: var(--sn-canvas);
   --platform-topbar-bg: var(--sn-surface);
+  --platform-secondary-header-bg: #f1f2f5;
+  --platform-secondary-header-border: color-mix(in oklab, var(--sn-text) 10%, transparent);
   --kpi-value: var(--sn-navy-800);
 
 }
