@@ -234,7 +234,11 @@
   --nav-tab-active-fg: #fff;
   --nav-input-bg: color-mix(in oklab, var(--sidebar-accent) 55%, transparent);
   --nav-elevation: var(--elevation-2);
+  --nav-bg-popup: color-mix(in oklab, var(--nav-bg) 85%, transparent);
+  --nav-popup-blur: 12px;
+  --nav-popup-shadow: 0 24px 60px -12px rgba(15, 18, 53, 0.35), 0 8px 20px -6px rgba(15, 18, 53, 0.2);
 }
+
 .enterprise-sidebar[data-variant="platform"] {
   --nav-bg: var(--platform-sidebar-bg);
   --nav-fg: var(--platform-sidebar-fg);
