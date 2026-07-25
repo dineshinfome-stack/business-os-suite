@@ -29,6 +29,7 @@ import { Route as AuthenticatedSettingsPlatformRouteImport } from './routes/_aut
 import { Route as AuthenticatedPlatformDashboardRouteImport } from './routes/_authenticated/platform/dashboard'
 import { Route as AuthenticatedPlatformSplatRouteImport } from './routes/_authenticated/platform/$'
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
+import { Route as AuthenticatedPlatformCompaniesIndexRouteImport } from './routes/_authenticated/platform/companies/index'
 import { Route as AuthenticatedPlatformTenantsTenantIdRouteImport } from './routes/_authenticated/platform/tenants/$tenantId'
 import { Route as AuthenticatedPlatformCompaniesCompanyIdRouteImport } from './routes/_authenticated/platform/companies/$companyId'
 
@@ -138,6 +139,12 @@ const AuthenticatedPlatformTenantsIndexRoute =
     path: '/platform/tenants/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPlatformCompaniesIndexRoute =
+  AuthenticatedPlatformCompaniesIndexRouteImport.update({
+    id: '/platform/companies/',
+    path: '/platform/companies/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedPlatformTenantsTenantIdRoute =
   AuthenticatedPlatformTenantsTenantIdRouteImport.update({
     id: '/platform/tenants/$tenantId',
@@ -172,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/platform/': typeof AuthenticatedPlatformIndexRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -194,6 +202,7 @@ export interface FileRoutesByTo {
   '/platform': typeof AuthenticatedPlatformIndexRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/platform/companies': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/tenants': typeof AuthenticatedPlatformTenantsIndexRoute
 }
 export interface FileRoutesById {
@@ -219,6 +228,7 @@ export interface FileRoutesById {
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
   '/_authenticated/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/_authenticated/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/_authenticated/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/_authenticated/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
 }
 export interface FileRouteTypes {
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/platform/'
     | '/platform/companies/$companyId'
     | '/platform/tenants/$tenantId'
+    | '/platform/companies/'
     | '/platform/tenants/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -266,6 +277,7 @@ export interface FileRouteTypes {
     | '/platform'
     | '/platform/companies/$companyId'
     | '/platform/tenants/$tenantId'
+    | '/platform/companies'
     | '/platform/tenants'
   id:
     | '__root__'
@@ -290,6 +302,7 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/'
     | '/_authenticated/platform/companies/$companyId'
     | '/_authenticated/platform/tenants/$tenantId'
+    | '/_authenticated/platform/companies/'
     | '/_authenticated/platform/tenants/'
   fileRoutesById: FileRoutesById
 }
@@ -447,6 +460,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformTenantsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/platform/companies/': {
+      id: '/_authenticated/platform/companies/'
+      path: '/platform/companies'
+      fullPath: '/platform/companies/'
+      preLoaderRoute: typeof AuthenticatedPlatformCompaniesIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/platform/tenants/$tenantId': {
       id: '/_authenticated/platform/tenants/$tenantId'
       path: '/platform/tenants/$tenantId'
@@ -486,6 +506,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedPlatformIndexRoute: typeof AuthenticatedPlatformIndexRoute
   AuthenticatedPlatformCompaniesCompanyIdRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   AuthenticatedPlatformTenantsTenantIdRoute: typeof AuthenticatedPlatformTenantsTenantIdRoute
+  AuthenticatedPlatformCompaniesIndexRoute: typeof AuthenticatedPlatformCompaniesIndexRoute
   AuthenticatedPlatformTenantsIndexRoute: typeof AuthenticatedPlatformTenantsIndexRoute
 }
 
@@ -500,6 +521,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedPlatformCompaniesCompanyIdRoute,
   AuthenticatedPlatformTenantsTenantIdRoute:
     AuthenticatedPlatformTenantsTenantIdRoute,
+  AuthenticatedPlatformCompaniesIndexRoute:
+    AuthenticatedPlatformCompaniesIndexRoute,
   AuthenticatedPlatformTenantsIndexRoute:
     AuthenticatedPlatformTenantsIndexRoute,
 }
