@@ -147,14 +147,27 @@ function TenantDetailPage() {
 
         <TabsContent value="overview" className="space-y-6">
           <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Overview</CardTitle>
+              <Can permission={PERMISSIONS.PLATFORM_TENANT_UPDATE}>
+                <EditMetadataDialog tenant={tenant} />
+              </Can>
             </CardHeader>
             <CardContent className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
+              <Field label="Code" value={tenant.code ?? "—"} />
               <Field label="Region" value={tenant.region} />
               <Field label="Locale" value={tenant.default_locale} />
               <Field label="Timezone" value={tenant.timezone} />
               <Field label="Plan" value={tenant.plan_tier} />
+              <Field
+                label="Primary contact"
+                value={tenant.primary_contact_name ?? "—"}
+              />
+              <Field
+                label="Contact email"
+                value={tenant.primary_contact_email ?? "—"}
+              />
+              <Field label="Domain" value={tenant.primary_domain ?? "—"} />
               <Field
                 label="Created"
                 value={new Date(tenant.created_at).toLocaleString()}
