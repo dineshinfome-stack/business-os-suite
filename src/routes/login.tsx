@@ -56,6 +56,19 @@ function LoginPage() {
     defaultValues: { email: "", password: "" },
   });
 
+  async function resolvePostLoginPath(userId: string | undefined): Promise<string> {
+    if (!userId) return nextPath;
+    // Route super admins to the Platform Dashboard; everyone else to nextPath.
+    const { data } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .is("deleted_at", null);
+    const roles = (data ?? []).map((r) => r.role as string);
+    if (roles.includes("super_admin")) return "/platform/dashboard";
+    return nextPath;
+  }
+
   async function onSubmit(values: Values) {
     const { data, error } = await supabase.auth.signInWithPassword(values);
     if (error) {
@@ -65,7 +78,8 @@ function LoginPage() {
     }
     notify.success("Signed in");
     logAuthEvent("user_logged_in", { entityId: data.user?.id });
-    void navigate({ to: nextPath, replace: true });
+    const dest = await resolvePostLoginPath(data.user?.id);
+    void navigate({ to: dest, replace: true });
   }
 
   async function onGoogleSignIn() {
@@ -86,6 +100,7 @@ function LoginPage() {
     form.setValue("password", DEMO_PASSWORD);
     void form.handleSubmit(onSubmit)();
   }
+
 
   const isSubmitting = form.formState.isSubmitting;
   const emailError = form.formState.errors.email?.message;
