@@ -152,10 +152,13 @@ function PlatformAdministrationPage() {
         <section className="sn-hero-band px-8 py-10">
           <div className="sn-hero-dots" aria-hidden />
           <div className="relative">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">
+            <h1
+              className="text-3xl font-semibold tracking-tight"
+              style={{ color: "var(--sn-hero-fg)" }}
+            >
               Welcome to Admin Home, {name}!
             </h1>
-            <p className="mt-2 max-w-2xl text-sm" style={{ color: "var(--sn-text-onnavy-muted)" }}>
+            <p className="mt-2 max-w-2xl text-sm" style={{ color: "var(--sn-hero-fg-muted)" }}>
               Manage, monitor, and discover all your day-to-day administrative actions and tools
               across the platform.
             </p>
