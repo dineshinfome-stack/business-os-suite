@@ -66,13 +66,13 @@ export function AllPopover() {
             </button>
             <button
               type="button"
-              aria-label={header.pinned ? "Unpin sidebar" : "Pin sidebar"}
-              aria-pressed={header.pinned}
-              onClick={() => header.togglePinned()}
+              aria-label={header.sidebar.pinned ? "Unpin sidebar" : "Pin sidebar"}
+              aria-pressed={header.sidebar.pinned}
+              onClick={() => header.sidebar.togglePinned()}
               className="flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-[var(--nav-hover)]"
-              style={{ color: header.pinned ? "var(--nav-fg-strong)" : "var(--nav-fg-muted)" }}
+              style={{ color: header.sidebar.pinned ? "var(--nav-fg-strong)" : "var(--nav-fg-muted)" }}
             >
-              {header.pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+              {header.sidebar.pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
             </button>
           </div>
         }
