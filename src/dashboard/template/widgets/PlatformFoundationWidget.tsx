@@ -7,6 +7,20 @@
  * widgets.
  */
 import { getPlatformMetadata } from "@/lib/platform";
+import { registerDashboardWidget } from "@/dashboard/template/registry";
+
+registerDashboardWidget({
+  id: "platform.foundation.placeholder",
+  title: "Tenant Registry",
+  component: PlatformFoundationWidgetImpl,
+  permission: "platform.dashboard.view",
+});
+
+export function PlatformFoundationWidget() {
+  return <PlatformFoundationWidgetImpl />;
+}
+
+function PlatformFoundationWidgetImpl() {
 
 export function PlatformFoundationWidget() {
   const meta = getPlatformMetadata();
