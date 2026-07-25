@@ -23,10 +23,10 @@ export function NavigationSearch({
     <div className="px-3 pt-3">
       <div className="flex items-center gap-1.5">
         <div
-          className="flex flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 ring-1 focus-within:ring-2"
+          className="flex flex-1 items-center gap-2 rounded-md border px-2.5 py-1.5 focus-within:ring-2"
           style={{
             background: "var(--nav-input-bg)",
-            boxShadow: "inset 0 0 0 1px var(--nav-border)",
+            borderColor: "var(--nav-border)",
           }}
         >
           <Filter className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--nav-fg-muted)" }} />
