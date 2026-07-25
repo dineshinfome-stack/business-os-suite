@@ -8,18 +8,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { UserPlus, Users } from "lucide-react";
 import { Can } from "@/components/auth/Can";
-import { DashboardTemplate, registerDashboardWidget } from "@/dashboard/template";
-import { PlatformFoundationWidget } from "@/dashboard/template/widgets/PlatformFoundationWidget";
+import { DashboardTemplate } from "@/dashboard/template";
+import "@/dashboard/template/widgets/PlatformFoundationWidget";
 import { APP_NAME } from "@/constants/app";
 
-// Phase 1 — Platform Foundation: register the placeholder widget so the
-// dashboard clearly indicates Phase 2 (Tenant Registry) is pending.
-registerDashboardWidget({
-  id: "platform.foundation.placeholder",
-  title: "Tenant Registry",
-  component: PlatformFoundationWidget,
-  permission: "platform.dashboard.view",
-});
 
 export const Route = createFileRoute("/_authenticated/platform/dashboard")({
   head: () => ({

@@ -1,12 +1,8 @@
 /**
  * Phase 1 — Platform Foundation placeholder widget.
- *
- * Rendered on `/platform/dashboard` to make the Phase 2 gap explicit.
- * Displays no metrics, invokes no mock provisioning, and clearly labels
- * itself as pending. Removed when Phase 2 (Tenant Registry) ships real
- * widgets.
  */
 import { getPlatformMetadata } from "@/lib/platform";
+import { registerDashboardWidget } from "@/dashboard/template/registry";
 
 export function PlatformFoundationWidget() {
   const meta = getPlatformMetadata();
@@ -33,3 +29,10 @@ export function PlatformFoundationWidget() {
     </div>
   );
 }
+
+registerDashboardWidget({
+  id: "platform.foundation.placeholder",
+  title: "Tenant Registry",
+  component: PlatformFoundationWidget,
+  permission: "platform.dashboard.view",
+});
