@@ -9,8 +9,7 @@ import { StatusBar } from "@/components/platform";
 import { HeaderProvider } from "@/contexts/header-context";
 import { HeaderSlots } from "@/components/layout/HeaderSlots";
 import { useHeaderShortcuts } from "@/hooks/header/useHeaderShortcuts";
-// Side-effect import: registers the standard tenant-header slots exactly once.
-import "@/components/layout/header-slots.registration";
+import { registerStandardHeaderSlots } from "@/components/layout/header-slots.registration";
 
 function ShellHeader() {
   useHeaderShortcuts();
@@ -26,6 +25,8 @@ function ShellHeader() {
 }
 
 export function AppShell({ children }: { children?: ReactNode }) {
+  registerStandardHeaderSlots();
+
   const sidebarState = usePlatformNavState("tenant");
   const { pinned, togglePinned, collapsed, toggleCollapsed } = sidebarState;
 
