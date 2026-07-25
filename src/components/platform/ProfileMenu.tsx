@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { LogOut, Settings, User as UserIcon, Keyboard, Sun, Moon, Monitor } from "lucide-react";
 import {
   DropdownMenu,
@@ -23,6 +23,7 @@ import { initials } from "@/utils/string";
  */
 export function ProfileMenu() {
   const auth = useAuth();
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const palette = useCommandPalette();
 
@@ -94,7 +95,10 @@ export function ProfileMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onSelect={() => {
-            void auth.signOut();
+            void (async () => {
+              await auth.signOut();
+              await navigate({ to: "/login" });
+            })();
           }}
           className="text-destructive focus:text-destructive"
         >
