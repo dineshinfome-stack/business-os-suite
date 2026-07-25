@@ -8,6 +8,7 @@ import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { CommandPaletteProvider } from "@/hooks/navigation/useCommandPalette";
 import { NAV_REGISTRY } from "@/lib/navigation/registry";
 import { usePlatformNavState } from "@/hooks/platform/usePlatformNavState";
+import { SecondaryNavTabProvider } from "@/hooks/platform/useSecondaryNavTab";
 
 function resolveTitle(pathname: string): string {
   const match = [...NAV_REGISTRY]
@@ -29,34 +30,36 @@ export function PlatformShell({ children }: { children?: ReactNode }) {
 
   return (
     <CommandPaletteProvider>
-      <div className="platform-theme min-h-screen" style={{ background: "var(--platform-content-bg)" }}>
-        <PlatformTopBar title={title} />
-        <PlatformSecondaryHeader />
+      <SecondaryNavTabProvider>
+        <div className="platform-theme min-h-screen" style={{ background: "var(--platform-content-bg)" }}>
+          <PlatformTopBar title={title} />
+          <PlatformSecondaryHeader />
 
-        {!pinned && (
-          <div
-            className="fixed inset-0 top-[6rem] z-20 bg-black/20 lg:hidden"
-            aria-hidden
-            onClick={togglePinned}
+          {!pinned && (
+            <div
+              className="fixed inset-0 top-[6rem] z-20 bg-black/20 lg:hidden"
+              aria-hidden
+              onClick={togglePinned}
+            />
+          )}
+
+          <PlatformSidebarV2
+            variant="platform"
+            pinned={pinned}
+            onTogglePin={togglePinned}
+            collapsed={collapsed}
+            onToggleCollapsed={toggleCollapsed}
+            topOffset="6rem"
           />
-        )}
 
-        <PlatformSidebarV2
-          variant="platform"
-          pinned={pinned}
-          onTogglePin={togglePinned}
-          collapsed={collapsed}
-          onToggleCollapsed={toggleCollapsed}
-          topOffset="6rem"
-        />
-
-        <div className={`pt-24 transition-[padding] duration-200 ${contentShift}`}>
-          <main id="main" role="main">
-            {children ?? <Outlet />}
-          </main>
+          <div className={`pt-24 transition-[padding] duration-200 ${contentShift}`}>
+            <main id="main" role="main">
+              {children ?? <Outlet />}
+            </main>
+          </div>
         </div>
-      </div>
-      <CommandPalette />
+        <CommandPalette />
+      </SecondaryNavTabProvider>
     </CommandPaletteProvider>
   );
 }
