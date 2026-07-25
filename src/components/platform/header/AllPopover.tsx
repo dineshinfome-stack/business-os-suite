@@ -45,6 +45,7 @@ export function AllPopover() {
       variant="text"
       align="start"
       contentClassName="w-[22rem] p-0"
+      disabled={header.sidebar.pinned}
     >
       <NavigationSearch
         value={query}
