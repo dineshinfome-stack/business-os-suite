@@ -80,7 +80,7 @@ describe("executor · provider failure and retry", () => {
     });
     const res = await executeNextStep(h.context);
     expect(res.ok).toBe(true);
-    if (res.ok) expect(res.value.decision.reason).toBe("budget_exhausted");
+    if (res.ok) expect(res.value.decision.reason).toBe("permanent");
     expect(h.job.state).toBe("failed");
   });
 

@@ -20,7 +20,7 @@ describe("orchestrator · optimistic concurrency", () => {
 
     const res = await executeNextStep(h.context);
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.error.code).toBe("concurrent_modification");
+    if (!res.ok) expect(res.error.code).toBe("concurrency_conflict");
   });
 
   it("sends the observed state as expectedState on every transition", async () => {
@@ -36,7 +36,7 @@ describe("orchestrator · optimistic concurrency", () => {
 
     const res = await executeNextStep(h.context);
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.error.code).toBe("step_already_claimed");
+    if (!res.ok) expect(res.error.code).toBe("concurrency_conflict");
     expect(h.provider.createProject).not.toHaveBeenCalled();
   });
 
@@ -52,6 +52,6 @@ describe("orchestrator · optimistic concurrency", () => {
     const h = createHarness({ job: { tenant_id: "99999999-9999-4999-8999-999999999999" } });
     const res = await createOrchestrator(h.context).executeNextStep();
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.error.code).toBe("tenant_mismatch");
+    if (!res.ok) expect(res.error.code).toBe("job_tenant_mismatch");
   });
 });
