@@ -3,7 +3,7 @@ title: "ADR-019 — Provisioning Orchestrator Architecture"
 summary: "Defines how the Provisioning Orchestrator coordinates tenant provisioning: responsibilities, execution model, transaction boundaries, idempotency, concurrency, event flow, provider interaction, failure handling, observability and security. Coordination only — lifecycle, retry, rollback, provider contract and job schema remain owned by ADR-018 and the Gate 3.1 domain foundation."
 layer: "architecture"
 owner: "Platform Architecture"
-status: "proposed"
+status: "accepted"
 updated: "2026-07-26"
 version: "1.0"
 tags: ["adr", "architecture", "provisioning", "orchestration", "multi-tenant", "platform"]
@@ -18,7 +18,7 @@ related_adrs: ["ADR-011", "ADR-014", "ADR-017", "ADR-018", "ADR-051", "ADR-053"]
 
 ## Status
 
-**Proposed.** Authored during Phase 3 after Gate 3.1 (Provisioning Domain Foundation) completed and certified. This ADR governs the implementation authorized under **Phase 3 — Gate 3.2**. No implementation exists at the time of authoring.
+**Accepted** — ratified by the Architecture Review Board on **2026-07-26**, consistent with the ADR-018 precedent. Authored during Phase 3 after Gate 3.1 (Provisioning Domain Foundation) completed and certified. This ADR is now the authoritative governing document for **Phase 3 — Gate 3.2**; no implementation exists at the time of acceptance.
 
 ## Context
 

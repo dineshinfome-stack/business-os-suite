@@ -31,11 +31,11 @@ The "orchestration already exists → STOP" condition did not trigger.
 
 ## Files created
 
-- `docs/11-adrs/architecture/ADR-019-provisioning-orchestrator-architecture.md` — Status **Proposed**.
+- `docs/11-adrs/architecture/ADR-019-provisioning-orchestrator-architecture.md` — Status **Accepted** (promoted 2026-07-26; authored as Proposed).
 
 ## Files modified
 
-- `docs/11-adrs/ADR_INDEX.md` — registered ADR-019, category *Architecture / Platform*, status *Proposed*.
+- `docs/11-adrs/ADR_INDEX.md` — registered ADR-019, category *Architecture / Platform*, status *Accepted*.
 - `docs/60-engineering/ADR019_AUTHORING_SUMMARY.md` — this document.
 
 No other file in the repository was touched.
@@ -79,7 +79,7 @@ ADR-019 fixes the following, and only the following:
 
 ## Decision
 
-ADR-019 is published as **Proposed**. It is the governing document for Gate 3.2. Promotion to *Accepted* follows Architecture Review Board sign-off, consistent with the ADR-018 precedent.
+ADR-019 was published as *Proposed* and promoted to **Accepted** on 2026-07-26 by Architecture Review Board sign-off, consistent with the ADR-018 precedent. It is the authoritative governing document for Gate 3.2. See `docs/60-engineering/PHASE3_ADR019_ACCEPTANCE_SUMMARY.md`.
 
 ## Ready for Gate 3.2
 
