@@ -75,7 +75,10 @@ export function AttentionTable({
               </TableCell>
               <TableCell className="space-x-2 text-right whitespace-nowrap">
                 <Button variant="ghost" size="sm" asChild>
-                  <Link to={item.destination}>{item.destinationLabel}</Link>
+                  {/* Destinations are server-composed absolute paths. */}
+                  <Link to={item.destination as "/platform/provisioning"}>
+                    {item.destinationLabel}
+                  </Link>
                 </Button>
                 {item.status === "open" && onAcknowledge ? (
                   <Button
