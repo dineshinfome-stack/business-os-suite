@@ -42,6 +42,9 @@ import { Route as AuthenticatedPlatformCompaniesCompanyIdRouteImport } from './r
 import { Route as AuthenticatedPlatformAdminTenantsRouteImport } from './routes/_authenticated/platform/admin/tenants'
 import { Route as AuthenticatedPlatformAdminSettingsRouteImport } from './routes/_authenticated/platform/admin/settings'
 import { Route as AuthenticatedPlatformAdminProvidersRouteImport } from './routes/_authenticated/platform/admin/providers'
+import { Route as AuthenticatedPlatformAdminNotificationsRouteImport } from './routes/_authenticated/platform/admin/notifications'
+import { Route as AuthenticatedPlatformAdminFeaturesRouteImport } from './routes/_authenticated/platform/admin/features'
+import { Route as AuthenticatedPlatformAdminAuditRouteImport } from './routes/_authenticated/platform/admin/audit'
 import { Route as AuthenticatedPlatformAdminAttentionRouteImport } from './routes/_authenticated/platform/admin/attention'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -229,6 +232,24 @@ const AuthenticatedPlatformAdminProvidersRoute =
     path: '/providers',
     getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
   } as any)
+const AuthenticatedPlatformAdminNotificationsRoute =
+  AuthenticatedPlatformAdminNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminFeaturesRoute =
+  AuthenticatedPlatformAdminFeaturesRouteImport.update({
+    id: '/features',
+    path: '/features',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminAuditRoute =
+  AuthenticatedPlatformAdminAuditRouteImport.update({
+    id: '/audit',
+    path: '/audit',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
 const AuthenticatedPlatformAdminAttentionRoute =
   AuthenticatedPlatformAdminAttentionRouteImport.update({
     id: '/attention',
@@ -254,6 +275,9 @@ export interface FileRoutesByFullPath {
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/platform/': typeof AuthenticatedPlatformIndexRoute
   '/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/platform/admin/audit': typeof AuthenticatedPlatformAdminAuditRoute
+  '/platform/admin/features': typeof AuthenticatedPlatformAdminFeaturesRoute
+  '/platform/admin/notifications': typeof AuthenticatedPlatformAdminNotificationsRoute
   '/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
   '/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
   '/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
@@ -286,6 +310,9 @@ export interface FileRoutesByTo {
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/platform': typeof AuthenticatedPlatformIndexRoute
   '/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/platform/admin/audit': typeof AuthenticatedPlatformAdminAuditRoute
+  '/platform/admin/features': typeof AuthenticatedPlatformAdminFeaturesRoute
+  '/platform/admin/notifications': typeof AuthenticatedPlatformAdminNotificationsRoute
   '/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
   '/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
   '/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
@@ -323,6 +350,9 @@ export interface FileRoutesById {
   '/_authenticated/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
   '/_authenticated/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/_authenticated/platform/admin/audit': typeof AuthenticatedPlatformAdminAuditRoute
+  '/_authenticated/platform/admin/features': typeof AuthenticatedPlatformAdminFeaturesRoute
+  '/_authenticated/platform/admin/notifications': typeof AuthenticatedPlatformAdminNotificationsRoute
   '/_authenticated/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
   '/_authenticated/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
   '/_authenticated/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
@@ -360,6 +390,9 @@ export interface FileRouteTypes {
     | '/platform/dashboard'
     | '/platform/'
     | '/platform/admin/attention'
+    | '/platform/admin/audit'
+    | '/platform/admin/features'
+    | '/platform/admin/notifications'
     | '/platform/admin/providers'
     | '/platform/admin/settings'
     | '/platform/admin/tenants'
@@ -392,6 +425,9 @@ export interface FileRouteTypes {
     | '/platform/dashboard'
     | '/platform'
     | '/platform/admin/attention'
+    | '/platform/admin/audit'
+    | '/platform/admin/features'
+    | '/platform/admin/notifications'
     | '/platform/admin/providers'
     | '/platform/admin/settings'
     | '/platform/admin/tenants'
@@ -428,6 +464,9 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/dashboard'
     | '/_authenticated/platform/'
     | '/_authenticated/platform/admin/attention'
+    | '/_authenticated/platform/admin/audit'
+    | '/_authenticated/platform/admin/features'
+    | '/_authenticated/platform/admin/notifications'
     | '/_authenticated/platform/admin/providers'
     | '/_authenticated/platform/admin/settings'
     | '/_authenticated/platform/admin/tenants'
@@ -692,6 +731,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformAdminProvidersRouteImport
       parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
     }
+    '/_authenticated/platform/admin/notifications': {
+      id: '/_authenticated/platform/admin/notifications'
+      path: '/notifications'
+      fullPath: '/platform/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/features': {
+      id: '/_authenticated/platform/admin/features'
+      path: '/features'
+      fullPath: '/platform/admin/features'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminFeaturesRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/audit': {
+      id: '/_authenticated/platform/admin/audit'
+      path: '/audit'
+      fullPath: '/platform/admin/audit'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
     '/_authenticated/platform/admin/attention': {
       id: '/_authenticated/platform/admin/attention'
       path: '/attention'
@@ -704,6 +764,9 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedPlatformAdminRouteRouteChildren {
   AuthenticatedPlatformAdminAttentionRoute: typeof AuthenticatedPlatformAdminAttentionRoute
+  AuthenticatedPlatformAdminAuditRoute: typeof AuthenticatedPlatformAdminAuditRoute
+  AuthenticatedPlatformAdminFeaturesRoute: typeof AuthenticatedPlatformAdminFeaturesRoute
+  AuthenticatedPlatformAdminNotificationsRoute: typeof AuthenticatedPlatformAdminNotificationsRoute
   AuthenticatedPlatformAdminProvidersRoute: typeof AuthenticatedPlatformAdminProvidersRoute
   AuthenticatedPlatformAdminSettingsRoute: typeof AuthenticatedPlatformAdminSettingsRoute
   AuthenticatedPlatformAdminTenantsRoute: typeof AuthenticatedPlatformAdminTenantsRoute
@@ -714,6 +777,11 @@ const AuthenticatedPlatformAdminRouteRouteChildren: AuthenticatedPlatformAdminRo
   {
     AuthenticatedPlatformAdminAttentionRoute:
       AuthenticatedPlatformAdminAttentionRoute,
+    AuthenticatedPlatformAdminAuditRoute: AuthenticatedPlatformAdminAuditRoute,
+    AuthenticatedPlatformAdminFeaturesRoute:
+      AuthenticatedPlatformAdminFeaturesRoute,
+    AuthenticatedPlatformAdminNotificationsRoute:
+      AuthenticatedPlatformAdminNotificationsRoute,
     AuthenticatedPlatformAdminProvidersRoute:
       AuthenticatedPlatformAdminProvidersRoute,
     AuthenticatedPlatformAdminSettingsRoute:
