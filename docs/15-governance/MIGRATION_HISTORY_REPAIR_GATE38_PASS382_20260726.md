@@ -446,7 +446,13 @@ Field rules:
 | Preparation baseline | CLEAN |
 | Forensic identity chain | PASS |
 | Path-history disposition | `ONLY_COMMIT_VERIFIED` |
-| Obsolete version-gate search | `PASS` |
+| Obsolete version-gate search | `PASS` (measurement mode `HISTORICAL_RECONSTRUCTION`) |
+| Historical search baseline commit | `77656a1462918c636c94c6c7389570cccc62693e` |
+| Historical hits recorded | 18 |
+| Historical ledger validation | `PASS` |
+| Current-state search review (supplemental) | `PASS` (57 / 47 / 33 / 24 / 0) |
+| Hidden active-surface review | `PASS` |
+| `canonical_output_sha256` | `2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef` |
 | Unresolved active assumptions | 0 |
 | ACL result rows / exposure / evidence failure | 1 / false / false |
 | Security blocker | false |
