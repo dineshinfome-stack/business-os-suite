@@ -7,7 +7,7 @@
  */
 import { vi } from "vitest";
 import { PROVISIONING_STEP_SEQUENCE } from "../../constants";
-import { isTerminal, type ProvisioningState } from "../../lifecycle";
+import type { ProvisioningState } from "../../lifecycle";
 import type { ProvisioningProvider } from "../../provider";
 import type { ProvisioningEventEnvelope } from "../../events";
 import type { OrchestratorLogFields, OrchestratorLogger } from "../../orchestrator/types";
@@ -89,6 +89,7 @@ export interface MemoryStore extends ProvisioningDataClient {
   /** Ordered log of every persistence/event operation, for ordering assertions. */
   readonly journal: string[];
   setJobState(state: ProvisioningState): void;
+  setOtherActiveJobs(tenantId: string, count: number): void;
 }
 
 export function createMemoryDataClient(options: {
@@ -103,6 +104,7 @@ export function createMemoryDataClient(options: {
     claims: [] as StepClaimCommand[],
     outcomes: [] as StepOutcomeCommand[],
     journal: options.journal ?? ([] as string[]),
+    otherActiveJobs: new Map<string, number>(),
   };
 
   return {
@@ -127,6 +129,9 @@ export function createMemoryDataClient(options: {
     setJobState(next) {
       state.job = { ...state.job, state: next };
     },
+    setOtherActiveJobs(tenantId, count) {
+      state.otherActiveJobs.set(tenantId, count);
+    },
 
     async selectJob(jobId) {
       return jobId === state.job.id ? { ...state.job } : null;
@@ -135,7 +140,8 @@ export function createMemoryDataClient(options: {
       return state.steps.filter((s) => s.job_id === jobId).map((s) => ({ ...s }));
     },
     async countActiveJobs(tenantId) {
-      return state.job.tenant_id === tenantId && !isTerminal(state.job.state) ? 1 : 0;
+      // Counts OTHER active jobs for the tenant. The store holds only this job.
+      return state.otherActiveJobs.get(tenantId) ?? 0;
     },
 
     async updateJobIfState(command) {
