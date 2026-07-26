@@ -1,123 +1,57 @@
-# Plan v19 — Pass 3.8.2 Step 0B-prep (documentation + read-only verification only)
+## Objective
 
-Repository status stays `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`. Pass 3.8.3 stays NOT STARTED. No migration, harness, registry, RPC, RLS, grant, DTO, or read-layer change.
+Fix the remaining evidence defect: the manifest declares `total_hits: 18` / `hits_inside_allow_list: 18` while `hits: []` is empty and its terminal object already says `COMPLETE`; the exception document has only the aggregate classification table. Populate a reproducible, decodable seven-field ledger in both files, add the hidden-surface control and missing counter, then rerun only the required revalidation gates. No migration changes, no §9 completion, no new files.
 
-## Write allow-list (exactly two files)
+## Scope
+
+Writable (exactly two):
+
 - `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md`
 - `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json`
 
-## Phase 0A — Capture clean baseline (no repository mutation)
-`git rev-parse HEAD`, `git branch --show-current`, `git remote get-url origin` (store canonical owner/repo or the observed URL with any credentials stripped), `git status --porcelain=v1` (must be empty). Held in temporary evidence only:
-```json
-"step_0b_prep_baseline": {
-  "repository": "<observed>", "branch": "<observed>",
-  "preparation_start_commit": "<40-char SHA>", "captured_at_utc": "<timestamp>",
-  "working_tree_clean": true, "staged_changes": 0, "unstaged_changes": 0, "untracked_files": 0
-}
-```
-Dirty ⇒ `PREPARATION_BASELINE_DIRTY`, repository changes 0, reported externally only, halt.
+`.lovable/plan.md` must remain byte-identical from the baseline onward.
 
-## Phase 0B — Forensic identity chain, failure-safe (no repository mutation)
-```bash
-set -euo pipefail
-ORIGINAL_COMMIT="1907718fa16ecd48f7e3f0b16091d196909a76c3"
-MIGRATION_PATH="supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql"
-RECOVERED_FILE="$(mktemp)"
-trap 'rm -f "${RECOVERED_FILE}"' EXIT
-git cat-file -e "${ORIGINAL_COMMIT}^{commit}"
-RECOVERED_BLOB="$(git rev-parse "${ORIGINAL_COMMIT}:${MIGRATION_PATH}")"
-git cat-file blob "${ORIGINAL_COMMIT}:${MIGRATION_PATH}" > "${RECOVERED_FILE}"
-sha256sum "${RECOVERED_FILE}"
-wc -c < "${RECOVERED_FILE}"
-wc -l < "${RECOVERED_FILE}"
-git log --follow --format=%H -- "${MIGRATION_PATH}"
-```
-Required: `RECOVERED_BLOB = 12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2`; SHA-256 = `584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3`; bytes 11460; line count 254. Mismatch ⇒ `FORENSIC_IDENTITY_FAILURE`, repository changes 0, reported externally only, halt.
+## Steps
 
-Path history: exactly one commit ⇒ `ONLY_COMMIT_VERIFIED`, retain "only commit touching this path"; otherwise `CLAIM_NEUTRALLY_CORRECTED`, reword to "commit containing the verified original executable form" and record the other commits.
+1. **Clean-baseline gate.** Capture `correction_start_commit` only after any platform plan synchronization has finished; `git status --porcelain=v1` must be empty. That 40-character SHA is also `search_baseline_commit`. Record the `.lovable/plan.md` digest at that point.
 
-## Phase 0C — First mutation: persist baseline + forensic results
-Only after 0A and 0B pass, write both evidence sets into the two allow-listed files, mirrored so parity holds.
+2. **Historical eight-query reproduction.** Re-run the eight recorded queries with the exact recorded command form (`rg -n --fixed-strings -i "<query>" --glob '!node_modules' --glob '!.git' .`) under `set -euo pipefail`, raw output to `/tmp`. This reproduces the historical 18-match set unchanged.
 
-## Phase 0D — Remaining documentation work
-1. **Full SHA replacement (4 occurrences):** document §1 table, §1 retrieval command, §7 rollback retrieval reference, manifest `subject_migration.original_commit` ⇒ `1907718fa16ecd48f7e3f0b16091d196909a76c3`. Post-edit search for standalone `1907718` returns zero active occurrences in the two files.
-2. **Neutral retention wording:** replace the §4 sentence ending "…this is explicitly acknowledged and accepted." with:
+3. **Hidden active-surface control.** Run the same eight queries with `rg --hidden -n --fixed-strings -i "$query" --glob '!.git/**' --glob '!node_modules/**' .lovable/plan.md`. Classify contextually: current-plan reference → `CURRENT_PLAN_CONTEXT_VALID` (retained, no correction); obsolete identity or executable-gate assumption → `SCOPE_EXPANSION_REQUIRED` (no mutation, approval NOT REQUESTED). Assert only zero **unresolved obsolete assumptions**, never zero matches. These records live outside the historical arithmetic.
+
+4. **Canonical evidence.** Build canonical JSON Lines — one compact UTF-8 object per match, fixed key order `{"query","path","line_at_search_baseline","matched_text"}`, paths with leading `./` stripped, matched text preserved exactly after the second `:`, deduplicated by `path:line:query`, sorted `LC_ALL=C` by path, numeric line, then query, final newline required. `canonical_output_sha256` is the SHA-256 over those exact bytes, and the ledger is generated from that same file. `raw_output_sha256` is retained as the digest of the unmodified combined rg output. Record a `canonicalization` object (record_format, path_normalization, sort_order, deduplication_key, encoding).
+
+5. **Document encoding rule.** Markdown ledger cells escape `\` → `\\` and `|` → `\|`. The parity validator compares **decoded** values, never the escaped Markdown source.
+
+6. **Pre-mutation failure handling — external-only.** `PREPARATION_BASELINE_DIRTY`, `SEARCH_EVIDENCE_FAILURE`, `COUNT_DRIFT` (canonical count != 18), or `SCOPE_EXPANSION_REQUIRED` produce no repository change. The external report must state explicitly: the existing `step_0b_prep_result.status = COMPLETE` is invalid for approval purposes because the search-evidence correction did not complete; Step 0B approval = NOT REQUESTED; the Architecture Office must not rely on the repository `COMPLETE` value.
+
+7. **Manifest ledger.** Under `preflight.obsolete_version_gate_search`, replace `hits: []` with 18 seven-field objects (`query`, `path`, `line_at_search_baseline`, `matched_text`, `classification`, `reason`, `action`), plus `hits_recorded: 18`, `allow_list_context_valid_hits: 18`, `quoted_context_hits: 0`, `deduplication_key`, `search_baseline_commit`, `raw_output_sha256`, `canonical_output_sha256`, `canonicalization`. Add `hidden_active_surface_review` as a **sibling** of `obsolete_version_gate_search` under `preflight`, with `path`, `executed`, `matches` (same seven-field schema), `unresolved_obsolete_assumptions`, `result`. All §9-controlled fields stay `null`.
+
+8. **Document ledger.** After the existing §3 count table, insert the seven-column table with the same 18 decoded rows, preceded by:
+
 ```text
-The tombstone does not retroactively undo historical execution against
-existing databases.
-
-Retention of the original executable SQL in
-supabase_migrations.schema_migrations.statements is disclosed for the
-approver and remains pending an explicit disposition under §3.1 and §9.
+All ledger line numbers refer to search_baseline_commit and are not expected
+to match line numbers after this ledger is inserted.
 ```
-Confirm `historical retention accepted`, `acknowledged and accepted`, `statements[] accepted`, `immutable evidence accepted` appear nowhere outside the labelled non-authoritative template.
-3. **Classified version-gate search:** record exact commands; queries `20260726114237 must appear applied`, `version 20260726114237`, `20260726114237`, `20260726114243`, `schema_migrations`, `filename prefix`, `stored version`, `migration version`. Rewrite only inside the two files. Classification: active governing/executable surface ⇒ BLOCK, request scope expansion; superseded doc ⇒ record, request amendment; immutable historical record ⇒ record as historical, do not rewrite; quoted/commented context ⇒ review, no auto-block; false positive ⇒ record excluded with reason. Result states `PASS`, `PASS_WITH_HISTORICAL_HITS`, `SCOPE_EXPANSION_REQUIRED`, `SEARCH_EVIDENCE_FAILURE`. Manifest stores `executed`, `commands`, `queries`, `hits` array (`[]` when empty; `path`, `line`, `matched_text`, `classification`, `reason`, `action`), counts, `result`.
-4. **Identity gate (mirrored):**
-```json
-"clean_replay_identity_gate": {
-  "history_table": "supabase_migrations.schema_migrations",
-  "identity_column": "name",
-  "expected_name": "20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466",
-  "expected_row_count": 1,
-  "version_semantics": "runtime apply timestamp; not filename prefix",
-  "observed_existing_version": "20260726114243",
-  "expected_clean_replay_version": null,
-  "clean_replay_version_rule": "record observed value; do not pre-assert"
-}
-```
-plus document **§3.3** in prose.
-5. **ACL evidence + blocker derivation:** inside `BEGIN TRANSACTION READ ONLY; … COMMIT;`, return `current_database()`, `session_user`, `current_user`, `current_setting('transaction_read_only')` and the four `has_schema_privilege`/`has_table_privilege` results. Passing evidence: exit 0, one row, `transaction_read_only = on`, four `false`. Never substitute `false` for a failed query.
-```text
-acl_exposure     = OR of the four privilege results
-evidence_failure = exit != 0 OR row_count != 1 OR transaction_read_only != "on"
-                   OR any privilege result null OR not a JSON boolean
-security_blocker = acl_exposure OR evidence_failure
-```
-Store `security_blocker_derivation`, `executed`, `executed_at_utc`, `database_engine`, `history_table`, `database_name`, `session_user`, `current_user`, `transaction_read_only`, `query_exit_status`, `result_row_count`, `project_environment`, exact SQL, four `checks` as JSON booleans, the effective-privilege note, `acl_exposure`, `evidence_failure`, `security_blocker`; mirror into document §3.2.
-6. **Approval schema and rules:** §9 gains `Historical statements[] decision`, left null/pending.
-```json
-"step_0b_approval": {
-  "state": "pending", "approver_identity": null, "decision": null,
-  "decision_timestamp_utc": null, "approved_tombstone_strategy": null,
-  "historical_statements_decision": null, "approval_commit_sha": null
-}
-```
-`pending` ⇒ all approval fields null; `approved` ⇒ `APPROVED_WITH_BINDING_CONDITIONS`, strategy true, disposition `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE`, `security_blocker` false, 40-char SHA; `blocked` ⇒ strategy false, disposition `SEPARATE_SANITIZATION_REQUIRED_BEFORE_TOMBSTONE`, SHA null, Commit A blocked, migration byte-identical.
-7. **Approval-SHA handling / template:** §9 `Approval commit SHA` = literal `Captured after commit and recorded in the provisional manifest and terminal audit.` Template fenced, prefixed `NON-AUTHORITATIVE APPROVAL TEMPLATE — NOT AN APPROVAL RECORD`, placeholders `<APPROVER_IDENTITY>`, `<DECISION>`, `<UTC_TIMESTAMP>`; no bare `APPROVED` unless prefixed `EXAMPLE ONLY`.
 
-## Phase 0E — Two-pass terminal validation, then halt
+Then mirror the hidden-surface review's match count, classifications, unresolved count and result. Existing summary table and `Unresolved active assumptions: 0` retained.
 
-**Pass 1 — candidate validation (temporary evidence only)**
-- Immutability: six files itemised; 6/6 blob PASS; 6/6 SHA-256 PASS; 12/12 total; drift 0.
-- Duplicate-key-aware JSON parse of the manifest.
-- Document–manifest parity: baseline, forensic chain, exact-name identity, observed version `20260726114243`, clean-replay version not pre-asserted, full 40-char SHA, two disposition values, four ACL booleans, derived blocker, approval pending, SHA in manifest only.
-- Changed paths: union of `git diff --name-status --find-renames <start>..HEAD`, `git diff --name-status --find-renames`, `git diff --cached --name-status --find-renames`, `git ls-files --others --exclude-standard`.
-- Binary detection: `git diff --numstat <start>..HEAD`, `git diff --numstat`, `git diff --cached --numstat`; both files must show numeric add/delete counts; a `-`/`-` pair is a binary diff and is rejected.
-- Required: exactly two paths, statuses `M`,`M`, renames 0, copies 0, additions 0, deletions 0, unexpected paths 0, binary files 0.
+9. **Final result object (success path only).** `status: "COMPLETE"`, `search_hits_recorded: 18`, `search_ledger_validation: "PASS"`, `search_baseline_commit`, `canonical_output_sha256`, `corrected_at_utc`.
 
-**Pass 2 — persist then revalidate the final bytes**
-Write:
-```json
-"step_0b_prep_result": {
-  "status": "COMPLETE", "completed_at_utc": "<timestamp>",
-  "forensic_identity": "PASS",
-  "path_history_disposition": "ONLY_COMMIT_VERIFIED | CLAIM_NEUTRALLY_CORRECTED",
-  "obsolete_version_gate_search_result": "PASS | PASS_WITH_HISTORICAL_HITS",
-  "unresolved_active_hits": 0, "acl_exposure": false, "evidence_failure": false,
-  "security_blocker": false, "document_manifest_parity": "PASS",
-  "hash_comparisons_passed": 12, "hash_comparisons_total": 12,
-  "changed_paths": 2, "unexpected_paths": 0, "binary_changes": 0
-}
-```
-Then rerun against the final bytes: JSON syntax, duplicate-key detection, required-key cardinality, document–manifest parity, changed-path union, name-status validation, numstat binary detection, approval-field validation. `"status": "COMPLETE"` is permitted only after these post-write checks pass — a COMPLETE result must describe the final bytes, not the candidate versions. If post-write validation fails: set `VALIDATION_FAILURE`, `Step 0B approval = NOT REQUESTED`, and leave no stale COMPLETE result.
+10. **Two-pass revalidation (candidate, then written bytes — the written-byte pass is final authority):**
+    - duplicate-key-aware JSON parse;
+    - classification formula `18 = 18 + 0 + 0 + 0 + 0 + 0` (allow_list_context_valid, active_governing_surface, superseded_documentation, immutable_historical, quoted_context, false_positive), plus `len(hits) == hits_recorded == total_hits == hits_inside_allow_list == 18`, `unresolved_active_hits == 0`; hidden-surface records excluded;
+    - bidirectional seven-field decoded-value parity between document and manifest;
+    - changed-path union of `git diff --name-status --find-renames --find-copies <correction_start_commit>..HEAD`, unstaged, staged, and `git ls-files --others --exclude-standard` — exactly the two `M` governance entries, `.lovable/plan.md` changes 0 (byte-identical), no R/C/A/D, `git diff --numstat` no binary changes. A clean tree with platform auto-commits is acceptable;
+    - 12 immutability comparisons (blob SHA + SHA-256 over the subject migration and the five Step 0D runtime files), drift 0.
 
-Halt at Step 0B.
+11. **Stale-COMPLETE prevention.** `status` may remain `COMPLETE` only if the written-byte pass succeeds. On failure: `VALIDATION_FAILURE`, approval NOT REQUESTED, no stale `COMPLETE` left in the file; corrections limited to the two allow-listed files, then JSON, parity, path, binary and immutability checks rerun.
 
-## Failure-recording rule
-- Pre-Phase-0C failures (`PREPARATION_BASELINE_DIRTY`, `FORENSIC_IDENTITY_FAILURE`): temporary evidence and the closing message only; repository changes remain 0.
-- Post-Phase-0C failures (`SCOPE_EXPANSION_REQUIRED`, `SEARCH_EVIDENCE_FAILURE`, `SECURITY_BLOCKED`, `VALIDATION_FAILURE`): persisted only within the two-file allow-list.
+12. **Not repeated:** forensic commit/blob extraction and the database ACL query (1 row, read-only `on`, four privileges false, `security_blocker: false`).
 
-Out of scope: tombstoning, `supabase/tests` harness, registry updates, marking the exception approved or retention accepted, Commit A, Pass 3.8.3.
+13. **Report and halt** with the terminal state block, then wait for the Architecture Office §9 decision. The approval SHA is captured only in a later turn.
 
-## Conditional end state
-All gates green ⇒ `Step 0B-prep = COMPLETE`, `Step 0B approval = PENDING`. Otherwise the matching failure status is reported per the recording rule and approval is NOT REQUESTED. In every outcome: Commit A NOT STARTED, `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`, Pass 3.8.3 NOT STARTED.
+## Technical notes
+
+- JSON rewritten via a duplicate-key-detecting parse/serialize round-trip preserving key order and formatting.
+- All shell evidence uses `set -euo pipefail` with temp files so no failure is masked by a downstream pipe stage.
