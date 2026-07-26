@@ -160,7 +160,7 @@ export const archiveBranch = createServerFn({ method: "POST" })
       { _id: data.branchId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as { id: string; already_archived: boolean };
+    const result = (rpcResult ?? {}) as unknown as { id: string; already_archived: boolean };
 
     const fromState: BranchLifecycleState = "active";
     if (!result.already_archived) {
@@ -200,7 +200,7 @@ export const setDefaultBranch = createServerFn({ method: "POST" })
       { _id: data.branchId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as { id: string; already_default: boolean };
+    const result = (rpcResult ?? {}) as unknown as { id: string; already_default: boolean };
 
     if (!result.already_default) {
       await logBranchEventFn({

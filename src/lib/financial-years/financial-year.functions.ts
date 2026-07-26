@@ -124,7 +124,7 @@ export const openFinancialYear = createServerFn({ method: "POST" })
       { _id: data.financialYearId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as { id: string; already_open: boolean };
+    const result = (rpcResult ?? {}) as unknown as { id: string; already_open: boolean };
 
     const fromState: FinancialYearLifecycleState = "created";
     if (!result.already_open) {
@@ -167,7 +167,7 @@ export const closeFinancialYear = createServerFn({ method: "POST" })
       { _id: data.financialYearId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as { id: string; already_closed: boolean };
+    const result = (rpcResult ?? {}) as unknown as { id: string; already_closed: boolean };
 
     const fromState: FinancialYearLifecycleState = "open";
     if (!result.already_closed) {
@@ -210,7 +210,7 @@ export const archiveFinancialYear = createServerFn({ method: "POST" })
       { _id: data.financialYearId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as {
+    const result = (rpcResult ?? {}) as unknown as {
       id: string;
       already_archived: boolean;
     };
@@ -245,7 +245,7 @@ export const setDefaultFinancialYear = createServerFn({ method: "POST" })
       { _id: data.financialYearId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as {
+    const result = (rpcResult ?? {}) as unknown as {
       id: string;
       already_default: boolean;
     };

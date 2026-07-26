@@ -61,7 +61,6 @@ export const createCompany = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => CreateInput.parse(d))
   .handler(async ({ data, context }) => {
     const { data: newId, error } = await context.supabase.rpc(
-      // @ts-expect-error — private-schema RPC not in generated types
       "fn_create_company",
       {
         _tenant_id: data.tenantId,
@@ -104,7 +103,6 @@ export const activateCompany = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => CompanyIdInput.parse(d))
   .handler(async ({ data, context }) => {
     const { data: rpcResult, error } = await context.supabase.rpc(
-      // @ts-expect-error — private-schema RPC not in generated types
       "fn_activate_company",
       { _id: data.companyId } as never,
     );
@@ -147,7 +145,6 @@ export const deactivateCompany = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => CompanyIdInput.parse(d))
   .handler(async ({ data, context }) => {
     const { data: rpcResult, error } = await context.supabase.rpc(
-      // @ts-expect-error — private-schema RPC not in generated types
       "fn_deactivate_company",
       { _id: data.companyId } as never,
     );
@@ -190,7 +187,6 @@ export const archiveCompany = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => CompanyIdInput.parse(d))
   .handler(async ({ data, context }) => {
     const { data: rpcResult, error } = await context.supabase.rpc(
-      // @ts-expect-error — private-schema RPC not in generated types
       "fn_archive_company",
       { _id: data.companyId } as never,
     );
@@ -233,7 +229,6 @@ export const setDefaultCompany = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => CompanyIdInput.parse(d))
   .handler(async ({ data, context }) => {
     const { data: rpcResult, error } = await context.supabase.rpc(
-      // @ts-expect-error — private-schema RPC not in generated types
       "fn_set_default_company",
       { _id: data.companyId } as never,
     );
