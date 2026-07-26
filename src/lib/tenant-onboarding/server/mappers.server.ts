@@ -377,3 +377,81 @@ export function mergeActivity(
     .flat()
     .sort((a, b) => Date.parse(b.occurredAt) - Date.parse(a.occurredAt));
 }
+
+/* ------------------------------------------------- queue envelope (3.8.2R) */
+
+/**
+ * Pass 3.8.2 remediation (REM-382-002).
+ *
+ * `public.fn_tenant_onboarding_queue` returns a single envelope carrying an
+ * EXACT filtered total plus the requested page, both derived from one
+ * filtered snapshot. Nothing is cast: the raw jsonb is validated here before
+ * a single field reaches a v1 DTO.
+ *
+ * `rows` is `z.array(...)`, so `rows: null` is a CONTRACT VIOLATION and is
+ * rejected rather than coerced — the SQL side guarantees `[]` via COALESCE.
+ */
+const queueEnvelopeRowSchema = z
+  .object({
+    result_position: z.number().int().positive(),
+    tenant_id: z.string(),
+    display_name: z.string(),
+    slug: z.string(),
+    code: z.string().nullable(),
+    tenant_created_at: z.string(),
+    tenant_updated_at: z.string(),
+    current_step_key: z.string().nullable(),
+    onboarding: z
+      .object({
+        id: z.string(),
+        tenant_id: z.string(),
+        state: z.string(),
+        version: z.number(),
+        started_at: z.string().nullable(),
+        ready_at: z.string().nullable(),
+        activated_at: z.string().nullable(),
+        cancelled_at: z.string().nullable(),
+        blocked_at: z.string().nullable(),
+        blocked_reason_code: z.string().nullable(),
+        blocked_reason_summary: z.string().nullable(),
+        last_readiness_checked_at: z.string().nullable(),
+        last_correlation_id: z.string().nullable(),
+        created_at: z.string(),
+        updated_at: z.string(),
+      })
+      .nullable(),
+  })
+  .passthrough();
+
+export const queueEnvelopeSchema = z.object({
+  total_count: z.coerce.number().int().nonnegative(),
+  rows: z.array(queueEnvelopeRowSchema),
+  page: z.coerce.number().int().positive(),
+  page_size: z.coerce.number().int().positive(),
+});
+
+export type QueueEnvelope = z.infer<typeof queueEnvelopeSchema>;
+export type QueueEnvelopeRow = QueueEnvelope["rows"][number];
+
+export function parseQueueEnvelope(raw: unknown): QueueEnvelope {
+  return queueEnvelopeSchema.parse(raw);
+}
+
+/** Envelope row → the tenant row shape the DTO mappers already consume. */
+export function envelopeTenantRow(row: QueueEnvelopeRow): TenantRowLike {
+  return {
+    id: row.tenant_id,
+    display_name: row.display_name,
+    slug: row.slug,
+    code: row.code,
+    created_at: row.tenant_created_at,
+    updated_at: row.tenant_updated_at,
+  };
+}
+
+/** Envelope row → the onboarding row shape the DTO mappers already consume. */
+export function envelopeOnboardingRow(
+  row: QueueEnvelopeRow,
+): OnboardingRowLike | null {
+  return (row.onboarding as OnboardingRowLike | null) ?? null;
+}
