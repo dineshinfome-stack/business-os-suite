@@ -35,13 +35,43 @@ which is now a comment-only tombstone.
 Set `DB` to the target connection string (a non-production database unless the
 Architecture Office directs otherwise).
 
-```bash
-# 1. Certification run — expect sixteen PASS markers, then ROLLBACK
-psql "$DB" -f supabase/tests/pass_3_8_2_queue_certification.sql 2>&1 | tee /tmp/pass382-cert.log
+Never inline a database URL, password or any credential into these commands —
+export `DB` from your own secret store.
 
-# 2. MANDATORY fresh-session residue postcheck (new session, always run it)
-psql "$DB" -f supabase/tests/pass_3_8_2_queue_certification_postcheck.sql 2>&1 | tee /tmp/pass382-postcheck.log
+```bash
+set -u
+set -o pipefail
+set +e
+
+# 1. Certification run — expect sixteen numbered PASS markers, then ROLLBACK
+psql "$DB" \
+  -f supabase/tests/pass_3_8_2_queue_certification.sql \
+  2>&1 | tee /tmp/pass382-cert.log
+HARNESS_EXIT=${PIPESTATUS[0]}
+
+# 2. MANDATORY fresh-session residue postcheck — runs no matter what step 1 did
+psql "$DB" \
+  -f supabase/tests/pass_3_8_2_queue_certification_postcheck.sql \
+  2>&1 | tee /tmp/pass382-postcheck.log
+POSTCHECK_EXIT=${PIPESTATUS[0]}
+
+set -e
+
+test "$HARNESS_EXIT" -eq 0
+test "$POSTCHECK_EXIT" -eq 0
+test "$(
+  grep -Eo 'PASS382-CERT-[0-9]{3} PASS' /tmp/pass382-cert.log |
+  sort -u |
+  wc -l
+)" -eq 16
+test "$(
+  grep -Fc 'PASS382-POSTCHECK PASS' /tmp/pass382-postcheck.log
+)" -eq 1
 ```
+
+`set -o pipefail` plus `${PIPESTATUS[0]}` is required: without them the pipeline
+reports `tee`'s status and a failed `psql` run looks successful. `set +e` around
+both invocations is what guarantees step 2 still runs when step 1 fails.
 
 Step 2 is mandatory **after every run — success, failure, or forced failure**.
 A rollback claim is only credible when an independent session confirms it.
@@ -65,24 +95,58 @@ PASS382-CERT-013 PASS
 PASS382-CERT-016 PASS
 PASS382-CERT-014 PASS
 PASS382-CERT-015 PASS
+PASS382-SUPPLEMENTAL-ACL PASS
 ROLLBACK
 ```
 
 Markers are emitted as `NOTICE`s on stderr — always capture with `2>&1`.
 `CERT-016` is emitted before `CERT-014`/`CERT-015` because it must run while the
 authorized synthetic claims are still active; all sixteen must be present.
+`PASS382-SUPPLEMENTAL-ACL PASS` is deliberately **not** numbered: it is an extra
+invocation-denial proof, not a seventeenth certified assertion.
+
+The postcheck session prints `PASS382-POSTCHECK PASS` exactly once.
 
 ### Failure-path drill
 
 ```bash
+set -u
+set -o pipefail
+set +e
+
 PGOPTIONS="-c pass382.force_failure=on" \
-  psql "$DB" -f supabase/tests/pass_3_8_2_queue_certification.sql 2>&1 | tee /tmp/pass382-forced.log
-psql "$DB" -f supabase/tests/pass_3_8_2_queue_certification_postcheck.sql 2>&1
+psql "$DB" \
+  -f supabase/tests/pass_3_8_2_queue_certification.sql \
+  2>&1 | tee /tmp/pass382-forced.log
+FORCED_EXIT=${PIPESTATUS[0]}
+
+# Runs regardless of the forced failure above
+psql "$DB" \
+  -f supabase/tests/pass_3_8_2_queue_certification_postcheck.sql \
+  2>&1 | tee /tmp/pass382-forced-postcheck.log
+FORCED_POSTCHECK_EXIT=${PIPESTATUS[0]}
+
+set -e
+
+test "$FORCED_EXIT" -ne 0
+test "$FORCED_POSTCHECK_EXIT" -eq 0
+test "$(
+  grep -Fc 'PASS382-POSTCHECK PASS' /tmp/pass382-forced-postcheck.log
+)" -eq 1
+test "$(
+  grep -Eo 'PASS382-CERT-[0-9]{3} PASS' /tmp/pass382-forced.log |
+  sort -u |
+  wc -l
+)" -ne 16
 ```
+
+A forced-failure run must never be reported as a 16/16 certification: the last
+assertion above exists precisely to block that claim.
 
 The forced failure raises **after** the synthetic identities, role assignment
 and 1,205 tenant fixtures exist, so the postcheck proves the abort path cleans
 up as completely as the success path.
+
 
 ## Assertion index
 
@@ -106,7 +170,12 @@ up as completely as the success path.
 | 016 | Row level security lets the permission holder see the fixtures and read the onboarding tables. |
 
 A supplemental ACL check additionally asserts that `anon` and `service_role`
-hold no `EXECUTE` privilege on the queue routine and that `PUBLIC` holds none.
+hold no `EXECUTE` privilege on the queue routine and that `PUBLIC` holds none,
+and then proves it by actually switching transaction-locally to `anon`, calling
+the queue routine and requiring SQLSTATE `42501` with no envelope returned. It
+emits `PASS382-SUPPLEMENTAL-ACL PASS` — deliberately outside the numbered
+`PASS382-CERT-NNN PASS` marker space, so it is never counted as a seventeenth
+assertion.
 
 ## Preconditions the harness enforces before doing anything
 

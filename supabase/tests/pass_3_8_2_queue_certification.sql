@@ -414,10 +414,46 @@ BEGIN
   RAISE NOTICE 'PASS382-CERT-015 PASS';
 
   -- ------------------------------- supplemental ACL check (not numbered)
+  -- Privilege catalog: anon, service_role and PUBLIC must hold nothing.
   EXECUTE 'SET LOCAL ROLE NONE';
+  PERFORM set_config('request.jwt.claims', '', true);
   IF has_function_privilege('anon', c_sig, 'EXECUTE') THEN
-    RAISE EXCEPTION 'PASS382-CERT supplemental ACL: anon can invoke the queue routine';
+    RAISE EXCEPTION 'PASS382-SUPPLEMENTAL-ACL: anon holds EXECUTE on the queue routine';
   END IF;
+  IF has_function_privilege('service_role', c_sig, 'EXECUTE') THEN
+    RAISE EXCEPTION 'PASS382-SUPPLEMENTAL-ACL: service_role holds EXECUTE on the queue routine';
+  END IF;
+  IF EXISTS (
+    SELECT 1
+    FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace,
+         LATERAL aclexplode(p.proacl) a
+    WHERE n.nspname = 'public' AND p.proname = 'fn_tenant_onboarding_queue'
+      AND a.grantee = 0
+  ) THEN
+    RAISE EXCEPTION 'PASS382-SUPPLEMENTAL-ACL: PUBLIC holds a privilege on the queue routine';
+  END IF;
+
+  -- Actual invocation-denial proof: a role without EXECUTE must be refused
+  -- by the executor itself, not merely by the catalog.
+  BEGIN
+    EXECUTE 'SET LOCAL ROLE anon';
+    BEGIN
+      v_env := public.fn_tenant_onboarding_queue(_page => 1, _page_size => 10);
+      RAISE EXCEPTION 'PASS382-SUPPLEMENTAL-ACL: role anon received an envelope: %', v_env;
+    EXCEPTION
+      WHEN sqlstate '42501' THEN NULL;
+    END;
+    EXECUTE 'SET LOCAL ROLE NONE';
+  EXCEPTION
+    WHEN OTHERS THEN
+      EXECUTE 'SET LOCAL ROLE NONE';
+      RAISE;
+  END;
+  IF current_user IS DISTINCT FROM session_user THEN
+    EXECUTE 'SET LOCAL ROLE NONE';
+  END IF;
+  RAISE NOTICE 'PASS382-SUPPLEMENTAL-ACL PASS';
+
 
   -- --------------------------------------------------------- teardown
   PERFORM set_config('request.jwt.claims', '', true);

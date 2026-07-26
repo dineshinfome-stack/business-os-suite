@@ -100,6 +100,6 @@ BEGIN
       current_setting('session_replication_role');
   END IF;
 
-  RAISE NOTICE 'PASS382-POSTCHECK-RESIDUE PASS';
+  RAISE NOTICE 'PASS382-POSTCHECK PASS';
 END
 $post$;
