@@ -42,7 +42,7 @@ import type {
 
 export type AnyClient = {
   from: (table: string) => any;
-  rpc?: (fn: string, args?: Record<string, unknown>) => any;
+  rpc?: (...args: any[]) => any;
 };
 
 export const ONBOARDING_ACTIVITY_LIMIT = 100;
