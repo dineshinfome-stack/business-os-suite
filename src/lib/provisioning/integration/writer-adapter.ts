@@ -21,17 +21,25 @@ import type { ProvisioningDataClient } from "./data-client";
 const asJson = (record: ProvisioningErrorRecord | null | undefined): Json =>
   record ? (record as unknown as Json) : null;
 
-/** Folds provider resources into the job's `provider_resource_reference` map. */
+/**
+ * Folds provider resources into the job's `provider_resource_reference` map.
+ * Keys follow the `<kind>_reference` convention read by the step runner.
+ */
 export function foldResources(
   resources: readonly ProviderResource[] | undefined,
+  existing?: Json,
 ): Json | undefined {
   if (!resources || resources.length === 0) return undefined;
-  const reference: Record<string, Json> = {};
+  const base =
+    existing && typeof existing === "object" && !Array.isArray(existing)
+      ? { ...(existing as Record<string, Json>) }
+      : {};
   for (const resource of resources) {
-    reference[resource.kind] = resource.reference;
+    base[`${resource.kind}_reference`] = resource.reference;
   }
-  return reference;
+  return base;
 }
+
 
 export interface WriterAdapterOptions {
   dataClient: ProvisioningDataClient;
