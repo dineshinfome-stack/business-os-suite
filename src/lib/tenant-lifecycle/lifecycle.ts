@@ -8,7 +8,7 @@
  * This module is INDEPENDENT of provisioning: provisioning drives a job's
  * state, lifecycle drives a tenant's operational state.
  */
-import { PERMISSIONS } from "@/lib/generated/permission-keys";
+import { PERMISSIONS, type PermissionKey } from "@/lib/generated/permission-keys";
 
 export const TENANT_LIFECYCLE_STATES = [
   "created",
@@ -81,7 +81,7 @@ export interface LifecycleOperationSpec {
   readonly operation: LifecycleOperation;
   readonly label: string;
   readonly target: TenantLifecycleState;
-  readonly permission: string;
+  readonly permission: PermissionKey;
   /** States the operation may be invoked from. */
   readonly from: readonly TenantLifecycleState[];
   readonly requiresReason: boolean;
