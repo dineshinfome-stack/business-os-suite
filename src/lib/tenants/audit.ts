@@ -12,6 +12,13 @@ const TENANT_ACTIONS = [
   "tenant.suspended",
   "tenant.archived",
   "tenant.updated",
+  // Gate 3.6 — operational lifecycle
+  "tenant.maintenance_entered",
+  "tenant.maintenance_exited",
+  "tenant.restored",
+  "tenant.deletion_scheduled",
+  "tenant.deletion_cancelled",
+  "tenant.deleted",
 ] as const;
 
 const Payload = z.object({

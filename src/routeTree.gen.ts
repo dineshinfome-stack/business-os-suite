@@ -29,6 +29,7 @@ import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/
 import { Route as AuthenticatedPlatformProvisioningIndexRouteImport } from './routes/_authenticated/platform/provisioning/index'
 import { Route as AuthenticatedPlatformCompaniesIndexRouteImport } from './routes/_authenticated/platform/companies/index'
 import { Route as ApiProvisioningEventsJobIdRouteImport } from './routes/api/provisioning/events.$jobId'
+import { Route as AuthenticatedPlatformTenantsLifecycleRouteImport } from './routes/_authenticated/platform/tenants/lifecycle'
 import { Route as AuthenticatedPlatformTenantsTenantIdRouteImport } from './routes/_authenticated/platform/tenants/$tenantId'
 import { Route as AuthenticatedPlatformProvisioningQueueRouteImport } from './routes/_authenticated/platform/provisioning/queue'
 import { Route as AuthenticatedPlatformProvisioningHistoryRouteImport } from './routes/_authenticated/platform/provisioning/history'
@@ -144,6 +145,12 @@ const ApiProvisioningEventsJobIdRoute =
     path: '/api/provisioning/events/$jobId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedPlatformTenantsLifecycleRoute =
+  AuthenticatedPlatformTenantsLifecycleRouteImport.update({
+    id: '/platform/tenants/lifecycle',
+    path: '/platform/tenants/lifecycle',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedPlatformTenantsTenantIdRoute =
   AuthenticatedPlatformTenantsTenantIdRouteImport.update({
     id: '/platform/tenants/$tenantId',
@@ -210,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
   '/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/platform/tenants/lifecycle': typeof AuthenticatedPlatformTenantsLifecycleRoute
   '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
   '/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
@@ -236,6 +244,7 @@ export interface FileRoutesByTo {
   '/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
   '/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/platform/tenants/lifecycle': typeof AuthenticatedPlatformTenantsLifecycleRoute
   '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
   '/platform/companies': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning': typeof AuthenticatedPlatformProvisioningIndexRoute
@@ -266,6 +275,7 @@ export interface FileRoutesById {
   '/_authenticated/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
   '/_authenticated/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/_authenticated/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/_authenticated/platform/tenants/lifecycle': typeof AuthenticatedPlatformTenantsLifecycleRoute
   '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
   '/_authenticated/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/_authenticated/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
     | '/platform/provisioning/history'
     | '/platform/provisioning/queue'
     | '/platform/tenants/$tenantId'
+    | '/platform/tenants/lifecycle'
     | '/api/provisioning/events/$jobId'
     | '/platform/companies/'
     | '/platform/provisioning/'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/platform/provisioning/history'
     | '/platform/provisioning/queue'
     | '/platform/tenants/$tenantId'
+    | '/platform/tenants/lifecycle'
     | '/api/provisioning/events/$jobId'
     | '/platform/companies'
     | '/platform/provisioning'
@@ -351,6 +363,7 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/provisioning/history'
     | '/_authenticated/platform/provisioning/queue'
     | '/_authenticated/platform/tenants/$tenantId'
+    | '/_authenticated/platform/tenants/lifecycle'
     | '/api/provisioning/events/$jobId'
     | '/_authenticated/platform/companies/'
     | '/_authenticated/platform/provisioning/'
@@ -512,6 +525,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProvisioningEventsJobIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/platform/tenants/lifecycle': {
+      id: '/_authenticated/platform/tenants/lifecycle'
+      path: '/platform/tenants/lifecycle'
+      fullPath: '/platform/tenants/lifecycle'
+      preLoaderRoute: typeof AuthenticatedPlatformTenantsLifecycleRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/platform/tenants/$tenantId': {
       id: '/_authenticated/platform/tenants/$tenantId'
       path: '/platform/tenants/$tenantId'
@@ -601,6 +621,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedPlatformIndexRoute: typeof AuthenticatedPlatformIndexRoute
   AuthenticatedPlatformCompaniesCompanyIdRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   AuthenticatedPlatformTenantsTenantIdRoute: typeof AuthenticatedPlatformTenantsTenantIdRoute
+  AuthenticatedPlatformTenantsLifecycleRoute: typeof AuthenticatedPlatformTenantsLifecycleRoute
   AuthenticatedPlatformCompaniesIndexRoute: typeof AuthenticatedPlatformCompaniesIndexRoute
   AuthenticatedPlatformTenantsIndexRoute: typeof AuthenticatedPlatformTenantsIndexRoute
 }
@@ -615,6 +636,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedPlatformCompaniesCompanyIdRoute,
   AuthenticatedPlatformTenantsTenantIdRoute:
     AuthenticatedPlatformTenantsTenantIdRoute,
+  AuthenticatedPlatformTenantsLifecycleRoute:
+    AuthenticatedPlatformTenantsLifecycleRoute,
   AuthenticatedPlatformCompaniesIndexRoute:
     AuthenticatedPlatformCompaniesIndexRoute,
   AuthenticatedPlatformTenantsIndexRoute:

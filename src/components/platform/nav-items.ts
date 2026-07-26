@@ -46,7 +46,16 @@ export const PLATFORM_NAV: PlatformNavItem[] = [
   },
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, to: "/platform", exact: true },
   { id: "packages", label: "Packages", icon: Package, to: "/platform/packages" },
-  { id: "companies", label: "Companies", icon: Building2, to: "/platform/tenants" },
+  {
+    id: "companies",
+    label: "Companies",
+    icon: Building2,
+    to: "/platform/tenants",
+    children: [
+      { id: "tenants-registry", label: "Registry", to: "/platform/tenants", exact: true },
+      { id: "tenants-lifecycle", label: "Lifecycle", to: "/platform/tenants/lifecycle" },
+    ],
+  },
   {
     id: "provisioning",
     label: "Provisioning",

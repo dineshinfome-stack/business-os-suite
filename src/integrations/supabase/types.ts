@@ -1510,6 +1510,10 @@ export type Database = {
     Functions: {
       fn_activate_company: { Args: { _id: string }; Returns: Json }
       fn_archive_company: { Args: { _id: string }; Returns: Json }
+      fn_cancel_tenant_deletion: {
+        Args: { _reason: string; _tenant: string }
+        Returns: Json
+      }
       fn_create_company: {
         Args: {
           _default_locale: string
@@ -1523,6 +1527,20 @@ export type Database = {
         Returns: string
       }
       fn_deactivate_company: { Args: { _id: string }; Returns: Json }
+      fn_delete_tenant: {
+        Args: { _reason: string; _tenant: string }
+        Returns: Json
+      }
+      fn_enter_maintenance: {
+        Args: { _reason: string; _tenant: string }
+        Returns: Json
+      }
+      fn_exit_maintenance: { Args: { _tenant: string }; Returns: Json }
+      fn_restore_tenant: { Args: { _tenant: string }; Returns: Json }
+      fn_schedule_tenant_deletion: {
+        Args: { _reason: string; _retention_days?: number; _tenant: string }
+        Returns: Json
+      }
       fn_set_default_company: { Args: { _id: string }; Returns: Json }
     }
     Enums: {
