@@ -58,7 +58,7 @@ describe("TenantRegistryWidget — rendering", () => {
   it("shows a loading state before data resolves", () => {
     statsMock.mockReturnValue(new Promise(() => {}));
     const { container } = renderWidget();
-    expect(container.querySelectorAll('[data-slot="skeleton"]').length).toBeGreaterThan(0);
+    expect(container.querySelectorAll(".animate-pulse").length).toBeGreaterThan(0);
   });
 
   it("displays the counts returned by the backend", async () => {
