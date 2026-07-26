@@ -47,7 +47,25 @@ export const PLATFORM_NAV: PlatformNavItem[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, to: "/platform", exact: true },
   { id: "packages", label: "Packages", icon: Package, to: "/platform/packages" },
   { id: "companies", label: "Companies", icon: Building2, to: "/platform/tenants" },
-  { id: "provisioning", label: "Provisioning", icon: ServerCog, to: "/platform/provisioning" },
+  {
+    id: "provisioning",
+    label: "Provisioning",
+    icon: ServerCog,
+    to: "/platform/provisioning",
+    children: [
+      {
+        id: "provisioning-overview",
+        label: "Overview",
+        to: "/platform/provisioning",
+        exact: true,
+      },
+      { id: "provisioning-history", label: "History", to: "/platform/provisioning/history" },
+      { id: "provisioning-queue", label: "Live queue", to: "/platform/provisioning/queue" },
+      { id: "provisioning-failed", label: "Failures", to: "/platform/provisioning/failed" },
+      { id: "provisioning-health", label: "Provider health", to: "/platform/provisioning/health" },
+    ],
+  },
+
   { id: "billing", label: "Billing", icon: Receipt, to: "/platform/billing" },
   { id: "faq", label: "Admin FAQ", icon: HelpCircle, to: "/platform/faq" },
   { id: "super-admin", label: "Platform Admin", icon: ShieldCheck, to: "/platform/super-admin" },
