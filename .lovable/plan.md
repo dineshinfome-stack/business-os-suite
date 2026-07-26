@@ -1,154 +1,178 @@
-## Pass 3.8.1 — Contract Co-location Closure
 
-Verified in code: both concepts exist and are exported — co-located, not omitted.
+# Pass 3.8.2 — Remediation Closure (v5, approved + 3 execution safeguards)
 
-| Required contract | Actual export | File |
+Status stays `COMPLETE — REMEDIATION REQUIRED` until every completion-gate item verifies. Remediation only: no commands, no routes, no UI, no Pass 3.8.3 work.
+
+## Verified current state (pre-plan evidence)
+
+| Item | Evidence |
+|---|---|
+| Grants | `service_role=arwdDxtm` on both onboarding tables; `authenticated=r`; no `anon` |
+| Onboarding RLS | One SELECT policy per table using `private.fn_has_role(auth.uid(),'admin')` |
+| `public.tenants` RLS | `tenants_select_platform_admin` (legacy enum predicate) + separate tenant-member policy |
+| Queue | `ONBOARDING_QUEUE_SCAN_LIMIT = 1000`; filter/sort/count/page in JS |
+| Date filters | `createdFrom`/`createdTo` currently applied to mapped `updatedAt` |
+| Zod contract | `page >= 1`; `1 <= pageSize <= 100`; enum state/step/sort/direction; offset-aware ISO datetimes; `createdFrom <= createdTo` |
+| Mapper current step | first canonical step whose status is not `completed` or `skipped` |
+| Sequence | Not persisted; TS `ONBOARDING_STEPS` canonical |
+| Auth drift | A `platform_owner` holds `platform.tenant.read` with enum role `NULL` → Resolution B |
+
+## Scope statement
+
+No protected source-code paths are modified. One approved cross-domain database authorization change is made: an additive SELECT policy on `public.tenants` for the canonical `platform.tenant.read` permission. No tenant schema, lifecycle behavior, INSERT policy, UPDATE policy, member policy, or existing platform-admin policy is removed or weakened. No business table schema outside the two onboarding tables changes.
+
+## Phase A — Baseline capture
+Record migrations, `relacl`, `pg_policies`, RLS flags, constraints, indexes, function ACLs, 497 tests, typecheck, production build. Confirm no Pass 3.8.3 artifacts.
+
+## Phase B — Forward corrective migration (new file; originals untouched)
+
+1. **Grants** — `REVOKE ALL` on both onboarding tables from `anon`, `authenticated`, `service_role`; `GRANT SELECT` to `authenticated`, `service_role`. No sequences exist (UUID defaults).
+2. **Onboarding RLS (Resolution B)** — drop `*_select_platform_admin`; create `*_select_platform_permission` `FOR SELECT TO authenticated USING (private.fn_user_has_permission(auth.uid(), NULL, 'platform.tenant.read'))` on both tables.
+3. **Additive tenants policy**
+   ```sql
+   CREATE POLICY tenants_select_platform_permission
+     ON public.tenants FOR SELECT TO authenticated
+     USING (private.fn_user_has_permission(auth.uid(), NULL, 'platform.tenant.read'));
+   ```
+   Permissive policies OR together: member access OR legacy platform-admin OR canonical permission. The RPC keeps its own guard, so an ordinary member exposed by the member policy still cannot invoke the global queue.
+4. **`public.fn_tenant_onboarding_queue(...)`** — `LANGUAGE plpgsql`, `STABLE`, `SECURITY INVOKER`, `SET search_path = pg_catalog, public, private`, every object schema-qualified.
+   - Projection: `public.tenants` where `deleted_at IS NULL` and `lifecycle_state NOT IN ('pending_deletion','deleted')`, `LEFT JOIN public.tenant_onboarding`, `LEFT JOIN` step CTE.
+
+### 1. Unauthorized RPC behavior (explicit)
+PL/pgSQL is chosen precisely so denial is procedural and unambiguous:
+```sql
+IF NOT private.fn_user_has_permission(auth.uid(), NULL, 'platform.tenant.read') THEN
+  RAISE EXCEPTION 'Insufficient permission' USING ERRCODE = '42501';
+END IF;
+```
+An unauthorized direct caller never receives an envelope. An authorized caller over an empty population receives exactly one envelope with `total_count = 0`, `rows = []`. Tests assert both outcomes and that they are distinguishable.
+
+### 2. Pagination envelope (bound behaviour)
+Single-row envelope `{ total_count, rows, page, page_size }`. `total_count` is the exact filtered count computed independently of `OFFSET/LIMIT`; `rows` is `[]` on an empty or out-of-range page; `page`/`page_size` echo the effective values. The application never infers `total = 0` from `rows = []`. A private internal Zod schema in `mappers.server.ts` parses the envelope before mapping — no direct cast of unvalidated jsonb to a v1 DTO.
+
+**Safeguard 1 — guaranteed empty array.** `jsonb_agg` returns `NULL` over zero rows, so the aggregate is wrapped:
+```sql
+COALESCE(jsonb_agg(to_jsonb(page_rows) ORDER BY page_rows.result_position), '[]'::jsonb)
+```
+The internal Zod schema **rejects `rows: null`** rather than coercing it — a null array is a contract violation, not a tolerated shape. A test asserts `rows` is `[]` (not null) for both an empty population and an out-of-range page.
+
+**Safeguard 2 — one filtered snapshot.** The exact total and the page rows come from the *same* filtered CTE in a **single** SQL statement:
+```sql
+WITH canonical_steps AS (...),
+     step_projection AS (...),
+     filtered AS MATERIALIZED (...),
+     ranked AS (...),
+     page_rows AS (...)
+SELECT
+  (SELECT count(*) FROM filtered),
+  COALESCE((SELECT jsonb_agg(to_jsonb(page_rows) ORDER BY result_position) FROM page_rows), '[]'::jsonb),
+  effective_page,
+  effective_page_size
+INTO ...;
+```
+No separate count statement followed by an independent page statement — concurrent tenant changes must not produce a total and a row set from different snapshots.
+
+### 3. Deterministic JSON element order
+`result_position` is the row number assigned by the paginating window (static `CASE` sort expressions, `NULLS LAST`, `tenant_id ASC` tie-breaker), and the aggregate orders by it explicitly. No dynamic SQL, no concatenated caller text.
+
+### 4. Database validation mirrors the Zod contract
+| Input | RPC behavior |
+|---|---|
+| Missing page | default `1` |
+| Missing page size | default `25` |
+| Page `< 1` | reject |
+| Page size `< 1` or `> 100` | reject |
+| Invalid sort/direction/state/step | reject |
+| Invalid or inverted datetime range | reject |
+| Blank/whitespace search | normalize to `NULL` |
+| Valid `createdFrom` | `tenants.created_at >= createdFrom` |
+| Valid `createdTo` | `tenants.created_at <= createdTo` |
+
+Offset-aware `timestamptz` comparison throughout — no truncation to calendar dates, no implicit end-of-day. Offset arithmetic overflow-protected. Rejections raise, matching application-level rejection rather than silently clamping.
+
+### 5. Full-signature ACL operations (Safeguard 3)
+Every grant, revoke, catalog check, and effective-privilege assertion names the **complete** signature with the final parameter types and order, so no overload or stale signature retains rights:
+```sql
+REVOKE EXECUTE ON FUNCTION public.fn_tenant_onboarding_queue(
+  text, text, text, boolean, text, text,
+  timestamptz, timestamptz, text, text, integer, integer
+) FROM PUBLIC, anon, service_role;
+
+GRANT EXECUTE ON FUNCTION public.fn_tenant_onboarding_queue(
+  text, text, text, boolean, text, text,
+  timestamptz, timestamptz, text, text, integer, integer
+) TO authenticated;
+```
+Tests use the same full signature:
+```sql
+has_function_privilege('authenticated',
+  'public.fn_tenant_onboarding_queue(<exact argument types>)', 'EXECUTE')
+```
+A test also asserts exactly one function with that name exists (no unintended overload).
+
+### 6. Current-step SQL semantics
+`currentStepKey` = first canonical registry step whose status is **not** `completed` and **not** `skipped`; a missing step row projects as `not_started`; when every applicable step is settled, `currentStepKey = NULL`. Computed via a non-persisted, parity-tested inline ordered `VALUES` mirror of `ONBOARDING_STEPS` (`('provisioning_verified',1) … ('activation',10)`), used only to compute/filter the current step — no column, no step-definition table, not a configuration source.
+
+### 7. Date-filter semantics (binding decision)
+`createdFrom`/`createdTo` filter `public.tenants.created_at`, as their names imply. The current behaviour (filtering mapped `updatedAt`) is recorded in `PHASE3_GATE38_ONBOARDING_MATRIX.md` as a defect corrected here, with before/after semantics stated explicitly — a contract clarification, not new scope.
+
+### 8. Blocker contract preserved
+No blocker aggregation. `blockerCount = 0`, `blockers = []`, `hasBlockers = true` yields no rows, `hasBlockers = false` excludes nothing, `blocked_reason_summary` stays in its existing summary field. `invitationStatus = none` and `readinessStatus = not_evaluated` remain constants. Blocker evaluation stays deferred to Pass 3.8.5.
+
+## Phase C — Read layer
+`getOnboardingQueue` calls the RPC with validated inputs, parses the envelope (rejecting `rows: null`), maps through `mappers.server.ts`, and fetches step rows only for the returned page's tenant IDs. `ONBOARDING_QUEUE_SCAN_LIMIT` removed from queue correctness (`ONBOARDING_ACTIVITY_LIMIT` retained). Caller-scoped `context.supabase` throughout; synthetic `not_started` identity rules, audit-permission degradation, tenant-member denial, and no-read-side-writes preserved.
+
+## Phase D — Ratify registry-owned sequence
+Matrix decision record: sequence not persisted; `ONBOARDING_STEPS` canonical; SQL validates the key set and may carry a parity-tested non-persisted ordering mirror; supersedes the earlier `(step_key, sequence)` design.
+
+## Phase E — Tests
+
+### Large-population proof against the actual RPC
+```
+isolated/transactional database
+→ seed 1,205+ real public.tenants rows (owner/test-admin identity; app roles stay read-only)
+→ mix persisted and synthetic workflows
+→ invoke the actual public.fn_tenant_onboarding_queue(...) as an authorized caller
+→ page through everything
+→ assert exact total, full union, no duplicates, no omissions
+→ delete seeded rows / destroy the ephemeral environment
+```
+Must exercise the real function through the database — not a copied body, not a mock. A `generate_series` SQL unit test may be retained as an extra check. If the actual-function run cannot be performed, remediation does not close.
+
+### Authorization matrix (drift directions)
+| Legacy enum role | Canonical `platform.tenant.read` | Expected |
 |---|---|---|
-| Blocker DTO | `TenantOnboardingBlockerDTO`, `OnboardingBlockerSeverity` | `types/v1/onboarding-progress.dto.ts` |
-| Filter DTO | `OnboardingListFilterDTO` | `types/v1/onboarding-page.dto.ts` |
+| `admin` | present | allowed |
+| `admin` | absent | denied (`42501`) |
+| null / non-admin | present | allowed |
+| null / non-admin | absent | denied (`42501`) |
 
-### Remediation
+Plus: tenant member without the permission cannot invoke the queue; permission holder reads `public.tenants` through RLS; permission holder reads both onboarding tables through RLS; the same caller succeeds through the actual RPC; direct RPC execution cannot bypass the guard and never returns an envelope when denied; no tenant INSERT/UPDATE/member/legacy-admin policy changed; anon denied everywhere.
 
-1. Add a "Contract Co-location Record" to `PHASE3_GATE38_ONBOARDING_MATRIX.md`: blockers co-located with progress contracts; filters with the page contract, mirrored by `onboardingListFilterSchema`.
-2. Add `export type TenantOnboardingFilterDTO = OnboardingListFilterDTO;` in `types/v1/onboarding-page.dto.ts`. Type-only — no runtime artifact, no duplicate interface. Verify propagation through `types/v1/index.ts → types/index.ts → src/lib/tenant-onboarding/index.ts`.
-3. Add type-level public-import assertions for both spec-named identifiers.
-4. Re-run typecheck, full suite, production build; all 481 existing tests stay green.
-5. Append to `PHASE3_GATE38_PASS381_COMPLETION_REPORT.md`, leaving the original evidence intact:
+### Ordering / pagination
+Array order equals the requested sort; equal primary-sort values tie-break on `tenant_id ASC`; repeated calls over static data return identical sequences; ascending and descending page unions contain no duplicates or omissions; empty population; final partial page; first and far out-of-range pages; filtered result whose requested page is empty (correct total, `rows: []`, never null); search hitting a tenant beyond the former 1,000 ceiling; null ordering.
 
-```text
-## Amendment — Contract Co-location Closure
-Date / Reason / Files modified / Type alias added /
-Documentation record added / Tests updated / Final test count /
-Typecheck / Production build / Net generated-file changes
-```
+### Current-step parity
+All step rows absent; early step completed; skipped conditional step; blocked step; failed step; all steps settled (`NULL`); SQL current step equals mapper current step over the same dataset. Registry parity on key set **and** sequence (unique, contiguous); mapper ignores any externally supplied `sequence`.
 
-Record `Pass 3.8.1 — COMPLETE AND CLOSED`. Discovery immutable; financial-year trigger deferred to 3.8.5.
+### Privilege verification — ACL text **and** effective privileges
+Catalog: `relacl`, `pg_policies`, `relrowsecurity`; function `prosecdef = false`, `provolatile = 's'`, owner recorded, `proconfig` contains the hardened `search_path`, `proacl` (looked up by full signature) shows PUBLIC/`anon`/`service_role` execute absent and `authenticated` present.
+Effective: `has_table_privilege` / `has_function_privilege` assertions for both tables and all relevant privileges, e.g. `anon`/SELECT false, `authenticated`/INSERT false, `service_role`/UPDATE false, `authenticated`/EXECUTE true, `service_role`/EXECUTE false. Also verify role inheritance does not restore a privilege absent from the direct ACL entry.
 
-## Pass 3.8.2 — Persistence, RLS and Read Models
-
-### Persistence
-
-Only `tenant_onboarding` and `tenant_onboarding_steps`. No readiness, activity, blocker or step-definition tables.
-
-- `tenant_onboarding.tenant_id → tenants.id`, unique per tenant. No organization FK.
-- `tenant_onboarding_steps.tenant_onboarding_id → tenant_onboarding.id`; parent-scoped unique `(tenant_onboarding_id, step_key)`.
-- **Step-parent tenant integrity** — if `tenant_id` is retained on step rows, enforce it in the database: unique `(id, tenant_id)` on `tenant_onboarding` plus composite FK `(tenant_onboarding_id, tenant_id) → tenant_onboarding(id, tenant_id)`. Trigger only if the repository database standard prefers it. Never application-only. If not retained, scoping and RLS derive through `tenant_onboarding`.
-- The step constraint validates the approved `(step_key, sequence)` **pair**.
-- State/status CHECKs, optimistic-concurrency version, timestamps, indexes.
-- Follow the pre-seed vs. lazy decision already recorded in the onboarding matrix.
-
-Order: tables/constraints → indexes → enable (and force where required) RLS → policies → grants → automated inspection.
-
-### RLS and grant matrix (read-only pass)
-
-| Role | Pass 3.8.2 privileges | RLS expectation |
+| Role | Tables | RPC |
 |---|---|---|
-| anon | none | no access |
-| authenticated | SELECT only | existing platform permission required |
-| authenticated tenant member | no visible rows | denied |
-| authenticated non-platform user | no visible rows | denied |
-| service_role | SELECT only | trusted operational role |
+| anon | none | no execute |
+| authenticated | SELECT only | execute |
+| service_role | SELECT only | no execute |
+| database owner | owner-controlled | owner-controlled |
 
-No `GRANT ALL`; no INSERT/UPDATE/DELETE in this pass. Write privileges land in Pass 3.8.3 with command services, optimistic-concurrency writes, idempotency, command authorization and write-path tests. Migration and integration fixtures use the repository's approved database-owner / test-administration mechanism. If a repository standard already mandates service-role DML on application tables, cite it and justify the exception in both migration and report.
+### Other
+Direct-RPC input hardening cases per the validation matrix; original migrations byte-unchanged; corrective migration applies on both clean and populated Pass 3.8.2 databases; regression suite (synthetic identity, no read-side writes, readiness pinned to `not_evaluated`, activity degradation without `platform.audit.view`, DTO sanitisation, architecture allow-list of exactly three server files, neutral blockers); date-filter semantics test asserting `created_at` filtering.
 
-Policies reuse the canonical platform-permission helper — no hard-coded roles, IDs or emails, no second permission function. Inspection asserts table privileges, sequence privileges, RLS enabled, RLS forced where required, policy command/role targets, and absence of anon and write grants.
+## Phase F — Report and completion gate
+Append `## Amendment — Pass 3.8.2 Remediation Closure` (dated) to `PHASE3_GATE38_PASS382_COMPLETION_REPORT.md`, original body preserved: original defects stated honestly; corrective migration; final database state (grants, effective privileges, policies including the additive tenants policy recorded as an **approved remediation dependency**, full-signature function ACL/config); lifecycle-enum evidence and exclusion rationale; unauthorized-RPC denial contract; date-filter decision; test totals (497 baseline + new).
 
-### Caller-scoped read authorization
+Mark `Pass 3.8.2 — COMPLETE AND CLOSED` only when every item holds: original migrations byte-identical; corrective migration succeeds on clean and populated databases; `anon` has no table or function privileges; `authenticated` has onboarding-table SELECT and RPC EXECUTE only; `service_role` has table SELECT only and no RPC execution; onboarding RLS uses `platform.tenant.read`; the additive tenants policy works for canonical permission holders; legacy admin without the canonical permission is denied; the actual RPC passes the 1,205+ tenant test; empty and out-of-range pages return exact totals and `rows: []`; filters and sorting are exact and deterministic; SQL and TypeScript current-step results match; SQL key/sequence mirror matches the registry; date filtering uses `tenants.created_at`; neutral blocker/invitation/readiness behavior unchanged; no service-role client or read-side write introduced; all 497 existing plus new tests pass; typecheck clean; production build succeeds; generated-file and protected-path reviews pass; the amendment is appended. Then stop — Pass 3.8.3 remains NOT STARTED.
 
-```text
-queries.functions.ts
-  -> authentication
-  -> PLATFORM_TENANT_READ (or repository-approved equivalent)
-  -> caller-scoped authenticated client (RLS under caller JWT)
-  -> RLS permission policy
-  -> query-service.server.ts
-```
-
-The query facade never uses the service-role client. No new permissions.
-
-### Activity authorization
-
-Queue, detail, steps, progress, blockers and the unevaluated readiness contract require the existing platform tenant-read permission. Audit-derived activity additionally requires the repository's canonical platform audit-view permission (e.g. `PLATFORM_AUDIT_VIEW`) where that is the existing guard on global audit data.
-
-Preferred design — separate query:
-
-```text
-getTenantOnboardingDetail   -> PLATFORM_TENANT_READ
-getTenantOnboardingActivity -> PLATFORM_TENANT_READ + PLATFORM_AUDIT_VIEW
-```
-
-If the repository has no such canonical permission, use the alternative: the detail response carries step-derived activity only, and the DTO explicitly marks audit-derived entries as omitted — never implying the history is complete.
-
-Do not relax `audit_logs` RLS, grant audit access through `PLATFORM_TENANT_READ`, create a duplicate audit permission, query audit logs with the service-role client, or fail the whole detail read when the caller lacks audit-view.
-
-### Queue eligibility
-
-The queue begins from the tenant population approved in the onboarding/readiness matrices. The query service explicitly defines treatment of every lifecycle state — created, active, suspended, maintenance, archived, pending deletion, deleted — none silently omitted. Deleted tenants produce no synthetic workflow unless an approved operational requirement demands historical visibility. Archived and pending-deletion tenants are included, excluded or marked non-actionable per the approved lifecycle policy, decided in the query service, never inferred by mapper or UI.
-
-### Synthetic (unpersisted) reads
-
-- No row ⇒ synthetic, non-persisted `not_started` DTO; the query path never inserts.
-- Detail reads return canonical steps in `not_started` from the TypeScript registry.
-- No database error for a legitimate `not_started` tenant.
-
-**Workflow identity:** no fabricated onboarding UUID (never zero/random), version, timestamps or persisted-source claim. Real tenant ID; onboarding ID null/absent; state `not_started`; version null or a documented non-persisted value; `persisted: false` only if the DTO supports or formally adds it; timestamps null.
-
-**Step identity:** no fabricated step-row IDs, onboarding IDs, versions, correlation IDs, timestamps or persisted-source claims. Allowed: canonical step key, canonical sequence, approved display label, `not_started` status, required/conditional classification, null/absent persistence metadata.
-
-Where v1 cannot express either case, apply the smallest backward-compatible amendment, document it in the onboarding matrix, and test it before writing the mapper.
-
-### Queue projection and pagination
-
-```text
-authorized tenants
-  LEFT JOIN tenant_onboarding
-  -> derive persisted state or not_started
-  -> filter -> count -> sort -> paginate -> map to v1 DTO
-```
-
-Search, filtering, sorting, totals and pagination apply to the combined projection. Never paginate persisted rows first and append synthetic tenants, compute totals from `tenant_onboarding` alone, or synthesize in the browser.
-
-### Read layer
-
-```text
-queries.functions.ts -> query-service.server.ts -> database projection
-  -> mappers.server.ts -> types/v1
-```
-
-Add `query-service.server.ts`, `mappers.server.ts`, `queries.functions.ts`. No command service, no repository file. Capabilities: queue, filters, pagination, detail, steps, progress, derived blockers, composed activity, readiness. The mapper — not SQL — owns DTO conversion.
-
-**Activity timeline** from step fields (`started_at`, `blocked_at`, `completed_at`, and `updated_at` only where it is an approved event) plus allow-listed audit actions limited to tenant onboarding, provisioning, tenant lifecycle, organization bootstrap, branch bootstrap and administrator invitation. Every audit record correlates to the requested tenant via an authoritative tenant identifier — never an unrestricted audit browser. Stable source discriminator and source ID, deterministic ordering, de-duplication by `(source, sourceId, eventType)`, sanitized summaries, no raw `audit_logs.metadata`, documented as not a complete retry history.
-
-**Readiness** always `{ evaluationStatus: 'not_evaluated', overallStatus: null, evaluatedAt: null, checks: [], blockingCount: 0, warningCount: 0 }` (or the exact v1 equivalent).
-
-### Architecture boundary evolution
-
-Update `architecture.test.ts` to allow-list exactly `query-service.server.ts`, `mappers.server.ts`, `queries.functions.ts`, while continuing to enforce that `contracts.ts`, `state-machine.ts`, `schemas.ts`, `query-keys.ts`, `required-settings.registry.ts` and `types/v1/**` import no server, database, Supabase, env, route or UI module. Pure contracts never import the read layer; direction as diagrammed; no command-service or repository file.
-
-Mapper boundary: `mappers.server.ts` must not export raw database-row types or return raw rows from any public function; every public mapper result is a v1 DTO or an explicit internal mapping result that is not barrel-exported. Importing private projection types is permitted.
-
-### Authorization-scope tests
-
-- Platform administrator with the approved global permission reads all tenants the platform authorization model permits.
-- Authenticated non-platform user cannot list or read onboarding data.
-- Tenant organization member receives no rows merely by membership.
-- Detail request outside the caller's authorized platform scope returns the repository-standard denied or not-found result.
-- Queries never broaden scope beyond the authorized tenant projection.
-- Tenant-read without audit-view: core onboarding data allowed; audit-derived entries denied or omitted.
-- Tenant-read plus audit-view: allow-listed, tenant-correlated audit events included.
-- Audit-view without tenant-read: onboarding detail denied. Neither: denied.
-- No service-role client in either normal read path.
-
-No tenant-scoped platform administrator is invented if the repository lacks that concept.
-
-### Other tests
-
-Migration validation and repeatability; grant/RLS/policy/sequence inspection including absence of write grants; step-parent integrity rejects mismatch; step-key parity (every TS key in SQL, no extra SQL key, matching sequences, unique, contiguous where required); synthetic workflow and step identity; queue eligibility per lifecycle state; pagination across mixed persisted/synthetic pages; activity allow-list and tenant correlation; DTO sanitization; readiness pinned; typecheck, build, full regression.
-
-### Completion evidence
-
-Author `docs/60-engineering/PHASE3_GATE38_PASS382_COMPLETION_REPORT.md` covering: migration and repeatability evidence; final table, constraint and index inventory; exact grants and RLS policies; authorization test matrix; any synthetic-identity DTO amendments; files created and modified; final build, typecheck and test results; protected-path review; known limitations; confirmation Pass 3.8.3 was not started.
-
-### Excluded
-
-Start/resume commands, bootstrap and invitation mutations, readiness evaluation, activation, audit writes, notification writes, routes, UI, tenant-member access, new permissions, readiness/activity/blocker tables, any write grant, any `audit_logs` RLS change. Hard stop before Pass 3.8.3.
+## Files
+New: one `supabase/migrations/*.sql`. Modified: `server/query-service.server.ts`, `server/mappers.server.ts`, `queries.functions.ts` (only if filter plumbing requires it), `__tests__/**`, `PHASE3_GATE38_ONBOARDING_MATRIX.md`, `PHASE3_GATE38_PASS382_COMPLETION_REPORT.md`.
