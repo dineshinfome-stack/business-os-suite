@@ -1,4 +1,5 @@
 import {
+  Gauge,
   LayoutDashboard,
   Package,
   Building2,
