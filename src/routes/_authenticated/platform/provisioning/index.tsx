@@ -66,18 +66,18 @@ function ProvisioningDashboardPage() {
 
   async function handleExport() {
     const result = await exporter.mutateAsync(filters);
-    if (!result.ok) {
-      toast.error(result.message);
+    if (!result.ok || !result.csv) {
+      toast.error(result.message ?? "Export failed.");
       return;
     }
     const blob = new Blob([result.csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = result.filename;
+    anchor.download = `provisioning-jobs-${new Date().toISOString().slice(0, 10)}.csv`;
     anchor.click();
     URL.revokeObjectURL(url);
-    toast.success(result.message);
+    toast.success(`Exported ${result.rowCount} jobs.`);
   }
 
   return (
@@ -121,7 +121,7 @@ function ProvisioningDashboardPage() {
             exporting={exporter.isPending}
           />
           <ProvisioningTable
-            rows={jobs.data?.items ?? []}
+            rows={jobs.data?.rows ?? []}
             isLoading={jobs.isLoading}
             error={jobs.error}
             onSelect={(row) => openJob(row.jobId)}
@@ -143,7 +143,7 @@ function ProvisioningDashboardPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  disabled={!jobs.data.hasMore}
+                  disabled={jobs.data.page >= jobs.data.pageCount}
                   onClick={() => patch({ page: jobs.data.page + 1 })}
                 >
                   Next
@@ -155,7 +155,7 @@ function ProvisioningDashboardPage() {
 
         <TabsContent value="queue">
           <ProvisioningTable
-            rows={queue.data?.items ?? []}
+            rows={queue.data?.rows ?? []}
             isLoading={queue.isLoading}
             error={queue.error}
             emptyMessage="No provisioning jobs are currently running."
@@ -165,7 +165,7 @@ function ProvisioningDashboardPage() {
 
         <TabsContent value="failed">
           <ProvisioningTable
-            rows={failed.data?.items ?? []}
+            rows={failed.data ?? []}
             isLoading={failed.isLoading}
             error={failed.error}
             emptyMessage="No failed provisioning jobs. "
@@ -178,10 +178,10 @@ function ProvisioningDashboardPage() {
             <LoadingState label="Loading provider health" />
           ) : health.error ? (
             <ErrorState error={health.error} />
-          ) : (health.data?.providers.length ?? 0) === 0 ? (
+          ) : (health.data?.length ?? 0) === 0 ? (
             <EmptyState message="No providers are registered." />
           ) : (
-            health.data?.providers.map((provider) => (
+            health.data?.map((provider) => (
               <ProviderHealthCard key={provider.providerKey} health={provider} />
             ))
           )}
