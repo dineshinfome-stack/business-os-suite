@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Approved With Binding Conditions — Reaffirmed and SHA Pinned
+status: Commit A Complete and Pinned — Commit B Pending
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
@@ -11,14 +11,20 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Approved With Binding Conditions — Reaffirmed and SHA Pinned`:**
+**Repository status while this document is `Commit A Complete and Pinned — Commit B Pending`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
-No migration file has been modified. The Step 0B authority decision is recorded
-in §9, was suspended under §9.3, was reaffirmed under §9.4, and the
-reaffirmation commit SHA `303d2f7bc2158b04e88811ad5a3fcda39262b92d` is now PINNED_AND_VERIFIED. Commit A is
-AUTHORIZED — NOT STARTED. Pass 3.8.3 is NOT STARTED.
+The subject migration was modified only by the Architecture Office-approved
+Commit A transition to a comment-only tombstone. Commit A
+`98019c2cad8ae8467d123a46a5714dcced929a50` is complete, evidence-verified and
+pinned. The authoritative remediation migration and five protected runtime
+files remain unchanged. Commit B and Commit C are not started. Pass 3.8.3 is
+not started.
+
+The Step 0B authority decision is recorded in §9, was suspended under §9.3, was
+reaffirmed under §9.4, and the reaffirmation commit SHA
+`303d2f7bc2158b04e88811ad5a3fcda39262b92d` is PINNED_AND_VERIFIED.
 
 ---
 
@@ -421,7 +427,7 @@ terminal audit.
 | Approved tombstone strategy | `true` |
 | Historical `statements[]` decision | `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE` (see §3.1) |
 | Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
-| Scope of authorization | Commit A — AUTHORIZED — NOT STARTED. Pass 3.8.3 — NOT AUTHORIZED. |
+| Scope of authorization | Commit A — AUTHORIZED (state at the time of the decision; Commit A is now COMPLETE and PINNED, see §11). Pass 3.8.3 — NOT AUTHORIZED. |
 | Approval commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` — `PINNED_AND_VERIFIED` (see §9.4). |
 | Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
 | Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
@@ -566,21 +572,26 @@ Commit A was executed under the reaffirmed, SHA-pinned Step 0B authority
 
 | Item | Value |
 | --- | --- |
-| Commit A SHA | `98019c2cad8ae8467d123a46a5714dcced929a50` |
+| Commit A SHA (technical repair) | `98019c2cad8ae8467d123a46a5714dcced929a50` |
 | State | `COMPLETE_PINNED_AND_VERIFIED` |
-| Baseline | `b88afb9e` |
+| Step 0B pin record (baseline) | `b88afb9e4b0941c64344c435fdaa0718eb46cf35` |
+| Approval SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` |
+| Governance pin commit | `465667fa36719916aa46ab4dbf357549682c631f` |
+| Commit A evidence normalization commit | `PENDING PLATFORM COMMIT` (describes this governance correction only; it does not replace the technical Commit A SHA) |
 | Cumulative changed paths | 4 (1 `M`, 3 `A`) |
-| Renames / copies / deletions / binary changes | 0 / 0 / 0 / 0 |
+| Unexpected paths / renames / copies / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Protected-file drift | 0 — 10 / 10 comparisons PASS |
 
-### 11.1 Changed paths
+### 11.1 Changed paths and complete file identities
 
-| Path | Status | Git blob SHA | Role |
-| --- | --- | --- | --- |
-| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` | `M` | `02f0d1fd6430a6a2419c0e15bfcef986535a2d23` | Comment-only tombstone (SHA-256 `fea6643cd6f11b3c0ae2ac1e787db55c77312a3119afc3c91f059849da3edd01`) |
-| `supabase/tests/pass_3_8_2_queue_certification.sql` | `A` | `b90c3f96b787f64a63fdd35a822788185df73a1d` | Deterministic certification harness |
-| `supabase/tests/pass_3_8_2_queue_certification_postcheck.sql` | `A` | `570119cfe3135f1ec6812962f2a7d737f76f32eb` | Mandatory fresh-session residue postcheck |
-| `supabase/tests/README.md` | `A` | `6294481acaa5755b9940020a760a6f5428ab16c4` | Certification runbook |
+| Path | Status | Git blob SHA | SHA-256 | Bytes | Lines | Final newline | Role |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` | `M` | `02f0d1fd6430a6a2419c0e15bfcef986535a2d23` | `fea6643cd6f11b3c0ae2ac1e787db55c77312a3119afc3c91f059849da3edd01` | 3056 | 61 | yes | Comment-only tombstone (runtime effect: none) |
+| `supabase/tests/pass_3_8_2_queue_certification.sql` | `A` | `b90c3f96b787f64a63fdd35a822788185df73a1d` | `4b7e0cee2bf78f8bdfbd726b1e4f6f1bbbf22590268504f34c95687143a0057d` | 22242 | 464 | yes | Deterministic certification harness |
+| `supabase/tests/pass_3_8_2_queue_certification_postcheck.sql` | `A` | `570119cfe3135f1ec6812962f2a7d737f76f32eb` | `926bba585896885bad82d5b9b83d81cc50c41435b7cdcac6b27079991968e770` | 4407 | 105 | yes | Mandatory fresh-session residue postcheck |
+| `supabase/tests/README.md` | `A` | `6294481acaa5755b9940020a760a6f5428ab16c4` | `a6ac76e59881a02795f73fe1d29315f0e72ff64c69adfd5af47f41a20d065483` | 7974 | 200 | yes | Certification runbook |
+
+Newline counts equal the line counts above; every file ends with a final newline.
 
 ### 11.2 Verification results
 
@@ -595,13 +606,29 @@ Commit A was executed under the reaffirmed, SHA-pinned Step 0B authority
 | Success-path residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS` exactly once, residue 0 |
 | Forced-failure drill | `PASS` — harness exit 3, 0 unique numbered markers |
 | Forced-failure residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS`, residue 0 |
-| Test suite | `PASS` — 49 files, 512 / 512 tests |
-| Typecheck | `PASS` — `tsc --noEmit` clean |
-| Production build | Not executed — Commit A changed SQL and documentation only |
+| Test suite (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TEST RUN` |
+| Typecheck (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TYPECHECK RUN` |
+| Production build (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN THE PRODUCTION BUILD` |
+
+Supplemental, non-authoritative observations recorded during Commit A evidence
+verification (they do not satisfy any Commit B gate and must be rerun under
+Commit B): tests 49 files, 512 / 512 PASS; `tsc --noEmit` clean.
+
+Commit B: `ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED`.
+Commit C: `NOT STARTED`. Pass 3.8.3: `NOT STARTED`.
 
 ## 12. Separate finding registration
 
-**`FND-20260726-AUTH-SIGNUP-TENANTID` — High — REGISTERED, OUT OF SCOPE FOR COMMIT A**
+**`FINDING-AUTH-SIGNUP-TENANT-FK-20260726`** (legacy / reported alias
+`FND-20260726-AUTH-SIGNUP-TENANTID`)
+
+| Field | Value |
+| --- | --- |
+| Severity | `UNASSESSED — PENDING ARCHITECTURE OFFICE TRIAGE` |
+| Status | `SEPARATE_TRIAGE_REQUIRED` |
+| Scope relationship | `DISCOVERED_DURING_COMMIT_A_CERTIFICATION — OUTSIDE_COMMIT_A` |
+| Commit A pin blocker | `false` |
+| Release / signup impact | `TRIAGE_REQUIRED` |
 
 `private.fn_handle_new_auth_user()` inserts into `public.organizations`
 (`name`, `slug`, `created_by`, `updated_by`) only. A later migration made
@@ -612,12 +639,11 @@ not-null constraint`) at line 38 of the trigger function.
 
 - **Reproduced** during clean replay of the 31-migration chain with a single
   trigger-enabled synthetic `auth.users` insert inside a transaction.
-- **Impact:** end-user sign-up provisioning is expected to fail on any
-  environment replayed from the current migration chain.
 - **Harness containment:** the certification harness sets
   `session_replication_role = replica` (`SET LOCAL`) for its single synthetic
   `auth.users` insert and restores `origin` immediately; the residue postcheck
   asserts no leakage.
 - **Disposition:** referred to the Architecture Office as a separate
-  remediation item. It is not repaired under
-  `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` and does not block Commit A.
+  remediation item requiring triage. It is not repaired under
+  `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` and does not block the Commit A
+  pin.
