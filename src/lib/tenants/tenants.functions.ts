@@ -127,7 +127,7 @@ export const activateTenant = createServerFn({ method: "POST" })
     );
     if (error) throw error;
 
-    const result = (rpcResult ?? {}) as {
+    const result = (rpcResult ?? {}) as unknown as {
       tenant_id: string;
       organization_id: string;
       branch_id: string;
@@ -183,7 +183,7 @@ export const suspendTenant = createServerFn({ method: "POST" })
       { _tenant: data.tenantId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as {
+    const result = (rpcResult ?? {}) as unknown as {
       tenant_id: string;
       already_suspended: boolean;
       from_state: TenantLifecycleState;
@@ -226,7 +226,7 @@ export const archiveTenant = createServerFn({ method: "POST" })
       { _tenant: data.tenantId } as never,
     );
     if (error) throw error;
-    const result = (rpcResult ?? {}) as {
+    const result = (rpcResult ?? {}) as unknown as {
       tenant_id: string;
       already_archived: boolean;
       from_state: TenantLifecycleState;
