@@ -1,60 +1,85 @@
-# Plan v23.1 — Step 0B-prep Search-Evidence Correction (Historical Reconstruction)
+# Plan v24.1 — Step 0B-prep Path-Gate Correction (effective baseline `64f2a34d…`), with four binding amendments
 
-Disposition: **HISTORICAL RECONSTRUCTION**, incorporating the three binding corrections. The historical count of 18 is preserved; the current-state result is supplemental and excluded from historical arithmetic.
-
-## Confirmed pre-flight facts (read-only)
-
-- Working tree clean; HEAD `e850022b6374cb65d30f5c219e85796faa8703f8` (supersedes `0b92b8fa…`).
-- Historical commit `77656a1462918c636c94c6c7389570cccc62693e` resolves; blobs verified as `67c07fdb8cda5393c1b00dfcaf34d78f98a604d1` (document) and `824c7815113e72f5cf1614b9bc37c7581461eac9` (manifest).
-- Eight-query reproduction against those immutable bytes: doc 12 + manifest 6 = **18**, distribution identical to the approved table.
+Documentation-only. Exactly two writable paths; no migration, runtime, code, or §9 change. §9 stays PENDING and untouched; approval-controlled fields stay `null`.
 
 ## Writable paths (exactly two)
 
 1. `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md`
 2. `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json`
 
-All other paths read-only. No migration, runtime, code, or §9 change. §9 stays PENDING; approval-controlled fields stay `null`.
+All other paths read-only.
 
-## Phase 1 — New governed baseline
+## Scope of re-execution (Amendment 4)
 
-1. After plan synchronization completes, require `git status --porcelain=v1` empty; otherwise `PREPARATION_BASELINE_DIRTY`, external-only report, halt.
-2. Capture `correction_start_commit` = new HEAD (40 chars).
-3. Capture `.lovable/plan.md` SHA-256; must remain byte-identical through final validation.
+The ACL query and forensic migration identity extraction are not repeated.
 
-## Phase 2 — Historical ledger (immutable source)
+The historical eight-query extraction is rerun only against the already pinned immutable
+governance blobs for the strict matched-text fidelity correction. It does not reopen the
+historical baseline, count, classification or forensic identity decisions.
 
-1. `git show 77656a14…:<path>` for both files; assert blob SHAs equal the two pinned values.
-2. Run the eight fixed-string, case-insensitive queries against those bytes; assert per-query/per-file distribution equals the approved table and total = 18. Any deviation → `COUNT_DRIFT`, external-only, halt.
-3. Build 18 seven-field records: `query`, `path`, `line_at_historical_search_baseline`, `matched_text`, `classification`, `reason`, `action`.
-4. Build canonical JSON Lines from the **four evidence fields** in fixed key order `{"query","path","line_at_historical_search_baseline","matched_text"}`, `./` stripped, dedup by `path:line:query`, `LC_ALL=C` sort by path → numeric line → query, UTF-8, trailing newline. `canonical_output_sha256` = SHA-256 over exactly those bytes.
+## Stage 0 — Pre-mutation recertification (Amendment 1)
 
-## Phase 3 — Current-state review (observed gate, supplemental)
+Immediately before any write, under `set -euo pipefail` with
+`EFFECTIVE_BASELINE=64f2a34dab813c1abe59c4846c4c17a6c506e3e2`:
 
-Rerun the same eight queries against the working tree at the **new** baseline and record observations. Expected reference: canonical 57 / path-line 47 / document 33 / manifest 24 / outside-allow-list 0.
+- `git merge-base --is-ancestor "$EFFECTIVE_BASELINE" HEAD` → baseline is an ancestor of HEAD.
+- `git status --porcelain=v1` → empty.
+- `git log --format=%H --reverse "$EFFECTIVE_BASELINE"..HEAD -- <two governance paths>` → first entry `698ca914acf0a7c4bca8b0af32f1093bc6f3af0a`.
+- `git diff --name-status --find-renames --find-copies "$EFFECTIVE_BASELINE"..HEAD` → exactly the two governance `M` entries, no R/C/A/D.
+- `.lovable/plan.md` net change zero; digest `00b23fcf2725822570305a78889999e0b7942ed2228a14b3e1f77b6d7f8c43b1`.
 
-- Match → `classification: SELF_REFERENTIAL_GOVERNANCE_CONTEXT_VALID`, `unresolved_obsolete_assumptions: 0`, `result: PASS`.
-- Mismatch → `CURRENT_STATE_COUNT_DRIFT`, 0 repository changes, Step 0B approval NOT REQUESTED, report expected vs observed externally, halt.
+Any deviation → record `EFFECTIVE_BASELINE_DRIFT`, 0 repository changes, Step 0B approval
+NOT REQUESTED, report externally only, halt.
 
-Hidden-surface review of `.lovable/plan.md` (`rg --hidden`) recorded separately; assert zero unresolved obsolete assumptions, never zero matches.
+## Stage 1 — Effective-baseline correction
 
-## Phase 4 — Write the two documents
+In both governance files:
 
-Manifest `preflight` gains three sibling objects:
+- Set the effective correction baseline to `64f2a34dab813c1abe59c4846c4c17a6c506e3e2`.
+- Retain `ebb14bf25fe75f3afb247520aa3a70a6afe86db9` only as `superseded_preparation_baseline`.
+- Record the four structured baseline proofs: (a) `64f2a34d` immediately precedes the first
+  governance mutation `698ca914`; (b) neither governance file changed at `64f2a34d`
+  (`src/routeTree.gen.ts` only); (c) `.lovable/plan.md` at that commit hashes `00b23fcf…`,
+  identical to the final state; (d) the union from that commit is exactly the two governance files.
+- Remove `platform_generated_paths_excluded` from the manifest.
+- Remove the corresponding "Platform-generated path excluded" row from the document.
 
-- `obsolete_version_gate_search` — `measurement_mode: "HISTORICAL_RECONSTRUCTION"`, `historical_search_baseline_commit`, `historical_source_blobs`, `hits` (18 seven-field objects), `hits_recorded/total_hits/hits_inside_allow_list/allow_list_context_valid_hits: 18`, `unresolved_active_hits: 0`, `canonicalization`, `raw_output_sha256`, `canonical_output_sha256`.
-- `current_state_search_review` — observed counts, classification, result.
-- `hidden_active_surface_review` — path, executed, matches, unresolved count, result.
+## Stage 2 — Strict historical-text fidelity (verbatim matched text)
 
-Document gains the 18-row markdown ledger (cells escape `\`→`\\`, `|`→`\|`), a note that line numbers refer to the historical baseline, and the two-paragraph statement that the current 57-record result neither contradicts nor supersedes the historical measurement, plus a mirrored current-state and hidden-surface summary.
+- Re-extract the two pinned immutable blobs: `67c07fdb…` (document) and `824c7815…` (manifest)
+  at `77656a1462918c636c94c6c7389570cccc62693e`.
+- Rerun the eight fixed-string, case-insensitive queries; reproduce exactly 18 matches
+  (document 12 / manifest 6).
+- Retain all text after the `path:line:` separator verbatim, including leading indentation.
+- Set `matched_text_normalization` to `"none"`; path `./`-stripping, fixed key order, dedup by
+  `path:line:query`, `LC_ALL=C` sort (path → numeric line → query), UTF-8 and trailing newline are unchanged.
+- Regenerate the four-field canonical JSONL and recompute `canonical_output_sha256`.
+- Record `2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef` as superseded, with the
+  reason: it was computed under the withdrawn trimming rule.
 
-## Phase 5 — Two-pass validation (candidate, then final bytes = authority)
+## Stage 3 — Document update and counters
 
-- Duplicate-key-aware JSON parse.
-- Historical arithmetic uses only `obsolete_version_gate_search`: `len(hits) == 18` and classification formula `18 = 18 + 0 + 0 + 0 + 0 + 0`; the 57-record review, hidden-plan matches and current self-referential text are excluded.
-- **Digest recomputation:** re-read the final manifest, extract its 18 hit objects, reconstruct the four-field canonical JSONL under the documented key order/sort/normalization/encoding/newline rules, recompute SHA-256 over those bytes, and require equality with the recorded `canonical_output_sha256`. The complete manifest file is never hashed for this comparison. Reported as: ledger objects 18 / reconstructed records 18 / recorded digest / recomputed digest / PASS.
-- **Parity:** after decoding Markdown escaping, each document row equals the corresponding manifest hit object field-by-field across all seven fields (`query`, `path`, `line_at_historical_search_baseline`, `matched_text`, `classification`, `reason`, `action`), bidirectionally. Semantic equality with the four canonical evidence fields; no byte-identity claim against the JSONL.
-- **Path gate:** union of `git diff --name-status --find-renames --find-copies <correction_start_commit>..HEAD`, staged, unstaged and untracked = exactly the two `M` governance entries; no R/C/A/D; `git diff --numstat` shows no binary changes; `.lovable/plan.md` unchanged and digest identical to Phase 1.
-- **Immutability:** 12 comparisons (blob SHA + SHA-256 over the subject migration and five Step 0D runtime files), drift 0.
+- Update all 18 Markdown ledger rows.
+- Encode every `matched_text` cell as a JSON string literal (all 18 rows follow the one rule, including
+  rows with no leading whitespace), e.g. `"      \"history_table\": \"supabase_migrations.schema_migrations\","`,
+  then apply Markdown escaping (`\`→`\\`, `|`→`\|`) on top (Amendment 3).
+- The manifest continues to store the real decoded string in `matched_text`.
+- `query`, `path`, `line_at_historical_search_baseline`, `classification`, `reason`, `action` unchanged.
+- Add `"quoted_context_hits": 0` to the machine-readable counters (Amendment 2).
+
+## Stage 4 — Candidate and final-byte validation (run twice; final bytes are authority)
+
+1. Duplicate-key-aware manifest parse.
+2. `len(hits) == 18`.
+3. Six explicit numeric counters, validated from the actual fields (not the preformatted string):
+   `total_hits = allow_list_context_valid_hits + active_governing_surface_hits + superseded_documentation_hits + immutable_historical_hits + quoted_context_hits + false_positive_hits` → `18 = 18+0+0+0+0+0`.
+4. Canonical JSONL reconstruction from the final manifest's 18 hit objects.
+5. Canonical digest equality with the recorded `canonical_output_sha256` (the whole manifest file is never hashed for this comparison).
+6. Seven-field document–manifest parity, bidirectional, after: parse Markdown cell → undo Markdown escaping → JSON-decode the string literal → compare with manifest `matched_text`.
+7. Exact two-path union from `64f2a34d` across committed, staged, unstaged and untracked; no R/C/A/D.
+8. Binary gate across all three surfaces — `git diff --numstat 64f2a34d..HEAD`, `git diff --numstat`, `git diff --cached --numstat`; any `-\t-\t<path>` row fails.
+9. `.lovable/plan.md` digest unchanged (`00b23fcf…`).
+10. Immutability: 12 comparisons (blob SHA + SHA-256 over the subject migration and the five Step 0D runtime files); runtime and migration drift 0.
 
 ## Terminal result object (success path only)
 
@@ -62,14 +87,17 @@ Document gains the 18-row markdown ledger (cells escape `\`→`\\`, `|`→`\|`),
 {
   "status": "COMPLETE",
   "measurement_mode": "HISTORICAL_RECONSTRUCTION",
-  "historical_search_baseline_commit": "77656a1462918c636c94c6c7389570cccc62693e",
+  "effective_correction_start_commit": "64f2a34dab813c1abe59c4846c4c17a6c506e3e2",
+  "superseded_preparation_baseline": "ebb14bf25fe75f3afb247520aa3a70a6afe86db9",
+  "changed_path_union": 2,
+  "path_gate_result": "PASS",
   "historical_hits_recorded": 18,
-  "historical_ledger_validation": "PASS",
-  "current_state_search_review": "PASS",
-  "hidden_active_surface_review": "PASS",
+  "quoted_context_hits": 0,
+  "matched_text_normalization": "none",
+  "canonical_output_sha256": "<recomputed 64-char digest>",
+  "superseded_canonical_output_sha256": "2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef",
   "document_manifest_parity": "PASS",
-  "canonical_output_sha256": "<64-char digest>",
-  "corrected_at_utc": "<UTC timestamp>",
+  "immutability_comparisons": "12/12",
   "step_0b_authority_approval": "PENDING",
   "commit_a": "NOT STARTED",
   "pass_3_8_3": "NOT STARTED"
@@ -78,11 +106,20 @@ Document gains the 18-row markdown ledger (cells escape `\`→`\\`, `|`→`\|`),
 
 ## Failure rules
 
-Pre-mutation failures (`PREPARATION_BASELINE_DIRTY`, `SEARCH_EVIDENCE_FAILURE`, `COUNT_DRIFT`, `CURRENT_STATE_COUNT_DRIFT`, `SCOPE_EXPANSION_REQUIRED`) produce zero repository changes, are reported externally only, and explicitly invalidate the manifest's existing `COMPLETE` claim for approval purposes. Post-mutation failure records `VALIDATION_FAILURE` with no stale `COMPLETE` left in the file; corrections stay within the two allow-listed files and all gates rerun.
+Pre-mutation failures (`EFFECTIVE_BASELINE_DRIFT`, `PREPARATION_BASELINE_DIRTY`, `COUNT_DRIFT`)
+produce zero repository changes, are reported externally only, and explicitly invalidate the
+manifest's existing `COMPLETE` claim for approval purposes. Post-mutation failure records
+`VALIDATION_FAILURE` with no stale `COMPLETE` left in the file; corrections stay within the two
+allow-listed files and all gates rerun.
 
 ## Expected end state (conditional on all gates passing)
 
 ```text
+Path gate ................... PASS
+Historical ledger ........... 18/18 PASS
+Canonical fidelity .......... PASS
+Document–manifest parity .... PASS
+Immutability ................ 12/12 PASS
 Step 0B-prep ................ COMPLETE
 Step 0B authority approval .. PENDING
 §9 disposition .............. PENDING
@@ -90,3 +127,5 @@ Commit A .................... NOT STARTED
 Pass 3.8.2 .................. COMPLETE, REMEDIATION REQUIRED
 Pass 3.8.3 .................. NOT STARTED
 ```
+
+Execution halts here for the Architecture Office §9 decision; Pass 3.8.3 does not start.
