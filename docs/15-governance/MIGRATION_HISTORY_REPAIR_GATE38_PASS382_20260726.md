@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Approved With Binding Conditions
+status: Approval Recorded — Effectiveness Suspended Pending Prerequisite Remediation
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
@@ -11,13 +11,13 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Approved With Binding Conditions`:**
+**Repository status while this document is `Approval Recorded — Effectiveness Suspended Pending Prerequisite Remediation`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
-No migration file has been modified. Step 0B authority approval is recorded in
-§9: Commit A is AUTHORIZED but NOT STARTED, subject to every binding condition
-recorded in this document and the manifest. Pass 3.8.3 is not authorized.
+No migration file has been modified. The Step 0B authority decision is recorded
+in §9 and preserved verbatim, but its effectiveness is SUSPENDED under §9.3.
+Commit A is NOT AUTHORIZED FOR EXECUTION and Pass 3.8.3 is NOT STARTED.
 
 ---
 
@@ -244,32 +244,35 @@ Queries: `20260726114237 must appear applied`, `version 20260726114237`,
 | Superseded documentation outside the allow-list | 0 | none required |
 | Immutable historical record | 0 | none required |
 | Hits inside the two allow-listed governance files | 18 | no change required |
+| Quoted-context hits | 0 | none |
 | False positives (excluded, unrelated phrasing) | 0 | none |
 
-Classification arithmetic: `18 = 18 + 0 + 0 + 0 + 0 + 0`.
+Classification arithmetic: `18 = 18 allow-list-context-valid + 0 active-governing + 0 superseded-documentation + 0 immutable-historical + 0 quoted-context + 0 false-positive`.
+
+Matched-text canonicalization: `none — matched text retained verbatim after the line separator`. Ledger `Matched text` cells are JSON string literals with Markdown escaping applied afterwards.
 
 #### 3.4.1 Historical hit ledger (18 records, pinned to the historical baseline)
 
 | # | Query | Path | Line (historical baseline) | Matched text | Classification | Reason | Action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 27 | \| Path \| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 2 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 39 | git show 1907718:supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 3 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 71 | \| Migration history table \| `supabase_migrations.schema_migrations` \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 4 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 75 | \| Version semantics \| `version` is the **apply timestamp**, not the filename prefix. The subject file is recorded as version `20260726114243`, name `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466`. \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 5 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 75 | \| Version semantics \| `version` is the **apply timestamp**, not the filename prefix. The subject file is recorded as version `20260726114243`, name `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466`. \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 6 | `filename prefix` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 75 | \| Version semantics \| `version` is the **apply timestamp**, not the filename prefix. The subject file is recorded as version `20260726114243`, name `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466`. \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 7 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 78 | \| Recorded evidence of the original executable form \| Retained in the database: for version `20260726114243`, `statements` embeds the admin UUID (`true`) and the `REM382 Tenant` fixture text (`true`), 11,457 bytes, 0 rollback statements. \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 8 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 83 | remains immutably recorded in `supabase_migrations.schema_migrations.statements` | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 9 | `migration version` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 90 | \| Environment \| Migration version status \| Runtime action after repair \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 10 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 92 | \| Existing development DB \| Already applied (version `20260726114243`) \| No new SQL executed; historical statements retained in history \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 11 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 137 | `supabase_migrations.schema_migrations.statements`. Reverting the tombstone | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 12 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 166 | \| Original path \| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` \| | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 13 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 15 | "history_table": "supabase_migrations.schema_migrations", | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 14 | `filename prefix` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 19 | "version_semantics": "apply timestamp, not filename prefix", | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 15 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 20 | "subject_recorded_version": "20260726114243", | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 16 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 21 | "subject_recorded_name": "20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466", | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 17 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 61 | "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql", | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
-| 18 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 73 | "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql", | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 1 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 27 | "\| Path \| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 2 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 39 | "git show 1907718:supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 3 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 71 | "\| Migration history table \| `supabase_migrations.schema_migrations` \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 4 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 75 | "\| Version semantics \| `version` is the **apply timestamp**, not the filename prefix. The subject file is recorded as version `20260726114243`, name `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466`. \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 5 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 75 | "\| Version semantics \| `version` is the **apply timestamp**, not the filename prefix. The subject file is recorded as version `20260726114243`, name `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466`. \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 6 | `filename prefix` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 75 | "\| Version semantics \| `version` is the **apply timestamp**, not the filename prefix. The subject file is recorded as version `20260726114243`, name `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466`. \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 7 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 78 | "\| Recorded evidence of the original executable form \| Retained in the database: for version `20260726114243`, `statements` embeds the admin UUID (`true`) and the `REM382 Tenant` fixture text (`true`), 11,457 bytes, 0 rollback statements. \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 8 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 83 | "remains immutably recorded in `supabase_migrations.schema_migrations.statements`" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 9 | `migration version` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 90 | "\| Environment \| Migration version status \| Runtime action after repair \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 10 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 92 | "\| Existing development DB \| Already applied (version `20260726114243`) \| No new SQL executed; historical statements retained in history \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 11 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 137 | "`supabase_migrations.schema_migrations.statements`. Reverting the tombstone" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 12 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` | 166 | "\| Original path \| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` \|" | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 13 | `schema_migrations` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 15 | "      \\"history_table\\": \\"supabase_migrations.schema_migrations\\"," | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 14 | `filename prefix` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 19 | "      \\"version_semantics\\": \\"apply timestamp, not filename prefix\\"," | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 15 | `20260726114243` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 20 | "      \\"subject_recorded_version\\": \\"20260726114243\\"," | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 16 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 21 | "      \\"subject_recorded_name\\": \\"20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466\\"," | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 17 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 61 | "    \\"path\\": \\"supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql\\"," | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
+| 18 | `20260726114237` | `docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` | 73 | "      \\"supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql\\"," | ALLOW_LIST_CONTEXT_VALID | Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption. | No change required |
 
 Canonical evidence: the four evidence fields (`query`, `path`,
 `line_at_historical_search_baseline`, `matched_text`) serialised as JSON Lines
@@ -417,9 +420,11 @@ terminal audit.
 | Approved tombstone strategy | `true` |
 | Historical `statements[]` decision | `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE` (see §3.1) |
 | Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
-| Scope of authorization | Commit A — AUTHORIZED. Pass 3.8.3 — NOT AUTHORIZED. |
-| Approval commit SHA | `PENDING_POST_COMMIT_PIN` — captured after this commit and recorded in the manifest and terminal audit. |
+| Scope of authorization | Commit A — NOT AUTHORIZED FOR EXECUTION while §9.3 suspension is in force. Pass 3.8.3 — NOT AUTHORIZED. |
+| Approval commit SHA | `null` — `NOT_ELIGIBLE_FOR_PINNING` (see §9.3). |
 | Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
+| Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
+| Effective approval state | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` (see §9.3) |
 
 ### 9.1 Binding conditions
 
@@ -437,6 +442,31 @@ terminal audit.
 12. Pass 3.8.3 remains NOT STARTED until terminal governance formally closes Pass 3.8.2.
 13. Historical executable SQL retained in `supabase_migrations.schema_migrations.statements` is accepted as immutable migration evidence for already-applied databases.
 14. This acceptance does not authorize further exposure, copying or publication of the historical SQL outside controlled evidence surfaces.
+
+### 9.3 Approval Effectiveness Suspension
+
+> **APPROVAL RECORDED — EFFECTIVENESS SUSPENDED.**
+> The Architecture Office decision in §9 and §9.1 is genuine, is preserved
+> verbatim, and is not withdrawn. Its *effectiveness* is suspended because the
+> repository did not satisfy the binding Step 0B-prep prerequisites at the time
+> the decision was recorded.
+
+| Field | Value |
+| --- | --- |
+| Authority decision recorded | YES |
+| Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
+| Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
+| Effective approval state | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` (see §9.3) |
+| Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
+| Effective approval state | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` |
+| Reason | The approval prerequisite gate was later found to retain the withdrawn trimming canonicalization, authorship-based path exclusion and obsolete correction baseline. |
+| Approval commit SHA | `null` — `NOT_ELIGIBLE_FOR_PINNING` |
+| Commit A | NOT AUTHORIZED FOR EXECUTION |
+| Pass 3.8.3 | NOT STARTED |
+
+The suspension is lifted only by an explicit Architecture Office reaffirmation
+recorded after the Step 0B-prep path gate and strict matched-text corrections
+pass against final bytes.
 
 ### 9.2 Approval template — SUPERSEDED BY THE BINDING APPROVAL RECORD ABOVE
 
@@ -476,17 +506,24 @@ Field rules:
 | Historical ledger validation | `PASS` |
 | Current-state search review (supplemental) | `PASS` (57 / 47 / 33 / 24 / 0) |
 | Hidden active-surface review | `PASS` |
-| `canonical_output_sha256` | `2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef` |
+| `canonical_output_sha256` | `dfc2f8f20e9cc53ecaa75f42ac551e23556f4d4459b79297e8e88502000276e4` |
+| `superseded_canonical_output_sha256` | `2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef` (withdrawn trimming rule) |
+| Matched-text normalization | `none — verbatim` |
 | Unresolved active assumptions | 0 |
 | ACL result rows / exposure / evidence failure | 1 / false / false |
 | Security blocker | false |
 | Hash comparisons | 12 / 12 PASS (6 blob + 6 SHA-256), drift 0 files |
-| Changed paths (author-attributable) | exactly two `M` entries (this document and the manifest) |
-| Platform-generated path excluded | `src/routeTree.gen.ts` in isolated platform commit `64f2a34dab813c1abe59c4846c4c17a6c506e3e2` (router codegen, no governance content) |
-| `.lovable/plan.md` | byte-identical, digest `00b23fcf2725822570305a78889999e0b7942ed2228a14b3e1f77b6d7f8c43b1` |
+| Changed paths | exactly two `M` entries (this document and the manifest) |
+| Path exclusions | 0 — no path may be excluded from the execution path gate |
+| Historical path boundary | `64f2a34dab813c1abe59c4846c4c17a6c506e3e2` (removed ten lines from `src/routeTree.gen.ts`; disclosed, not excluded) |
+| First governance mutation commit | `698ca914acf0a7c4bca8b0af32f1093bc6f3af0a` |
+| Execution correction start commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
+| Superseded preparation baseline | `ebb14bf25fe75f3afb247520aa3a70a6afe86db9` |
+| `.lovable/plan.md` | byte-identical, digest `968cc11d8f149e7584ccdc90be0361812b2410c93b181c0eace94ee02ec7dcde` |
 | Renames / copies / additions / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Step 0B-prep | COMPLETE |
-| Step 0B authority approval | `APPROVED_WITH_BINDING_CONDITIONS` |
-| Commit A | AUTHORIZED — NOT STARTED |
+| Step 0B authority approval | `RECORDED — EFFECTIVENESS SUSPENDED` |
+| Authority effectiveness | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` |
+| Commit A | NOT AUTHORIZED FOR EXECUTION |
 | Repository status | `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` |
 | Pass 3.8.3 | NOT STARTED |
