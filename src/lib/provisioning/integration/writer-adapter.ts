@@ -61,7 +61,14 @@ export function createWriterAdapter(options: WriterAdapterOptions): JobWriter {
 
   return {
     async transitionState(input: TransitionInput) {
-      const resourceReference = foldResources(input.resources);
+      const resourceReference =
+        input.resources && input.resources.length > 0
+          ? foldResources(
+              input.resources,
+              (await dataClient.selectJob(input.jobId))?.provider_resource_reference,
+            )
+          : undefined;
+
       const affected = await dataClient.updateJobIfState({
         jobId: input.jobId,
         expectedState: input.expectedState,
