@@ -229,7 +229,7 @@ export interface SupabaseProviderDeps {
   seeds: SeedSource;
   authAdmin: AuthAdminApi;
   /** Injected so a pg / Neon / RDS-proxy executor can replace the API one. */
-  createSqlExecutor(credentials: SupabaseCredentials): SqlExecutor;
+  createSqlExecutor?: (credentials: SupabaseCredentials) => SqlExecutor;
   /** Cancels in-flight polling and requests. */
   signal?: AbortSignal;
   /** Deterministic in tests. */

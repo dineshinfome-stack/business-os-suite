@@ -81,9 +81,7 @@ export function buildSupabaseProvider(
     migrations: options.migrations,
     seeds: options.seeds,
     authAdmin: createAuthAdminApi(fetchImpl),
-    createSqlExecutor: options.createSqlExecutor ?? (() => {
-      throw new Error("createSqlExecutor is resolved per session by the provider");
-    }),
+    ...(options.createSqlExecutor ? { createSqlExecutor: options.createSqlExecutor } : {}),
     ...(options.signal ? { signal: options.signal } : {}),
     ...(options.passwordFactory ? { passwordFactory: options.passwordFactory } : {}),
   });
