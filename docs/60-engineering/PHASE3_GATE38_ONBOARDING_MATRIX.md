@@ -213,3 +213,27 @@ Every key below was verified to exist in `public.setting_definitions`.
 `financial_year_start_month`, `week_start_day`. None exists in
 `setting_definitions` today; adding any of them requires a settings migration
 owned by the settings module, not by onboarding.
+
+---
+
+## 5. Contract co-location record (Pass 3.8.1 closure)
+
+Both spec-mandated contracts exist and are publicly exported. They are
+**co-located** with the contracts they belong to rather than declared in
+standalone files — this is intentional and recorded here so future passes do
+not re-create duplicates.
+
+| Spec concept | Canonical export | File | Rationale |
+|---|---|---|---|
+| Blocker DTO | `TenantOnboardingBlockerDTO`, `OnboardingBlockerSeverity` | `types/v1/onboarding-progress.dto.ts` | Blockers are derived from, and always read alongside, onboarding progress. |
+| Filter DTO | `OnboardingListFilterDTO` (alias `TenantOnboardingFilterDTO`) | `types/v1/onboarding-page.dto.ts` | Filters parameterise `OnboardingPageDTO<T>`; mirrored by `onboardingListFilterSchema` in `schemas.ts`. |
+
+`TenantOnboardingFilterDTO` is a **type-only alias** for
+`OnboardingListFilterDTO`. `OnboardingListFilterDTO` remains canonical. No
+duplicate interface, no runtime artifact, no second Zod schema.
+
+Both identifiers propagate through
+`types/v1/index.ts` → `types/index.ts` → `src/lib/tenant-onboarding/index.ts`
+and are asserted at type level in
+`__tests__/contract-colocation.test-d`-style assertions inside
+`__tests__/contracts.test.ts`.
