@@ -476,7 +476,7 @@
     "authority_decision_origin_commit_sha": "e403d7aec345fc40137cc61288d349d984108c20",
     "binding_conditions_recorded": 14,
     "binding_conditions_parity": "PASS",
-    "commit_a": "AUTHORIZED — NOT STARTED",
+    "commit_a": "COMPLETE — 98019c2cad8ae8467d123a46a5714dcced929a50 — PINNED AND VERIFIED",
     "pass_3_8_3": "NOT STARTED",
     "measurement_mode": "HISTORICAL_RECONSTRUCTION",
     "historical_search_baseline_commit": "77656a1462918c636c94c6c7389570cccc62693e",
@@ -514,8 +514,8 @@
     "original_line_count": 254,
     "original_byte_count": 11460,
     "original_commit": "1907718fa16ecd48f7e3f0b16091d196909a76c3",
-    "repaired": false,
-    "tombstone_git_blob_sha": "TBD",
+    "repaired": true,
+    "tombstone_git_blob_sha": "02f0d1fd6430a6a2419c0e15bfcef986535a2d23",
     "tombstone_sha256": "TBD"
   },
   "planned_surfaces": {
@@ -542,17 +542,68 @@
   },
   "terminal_audit_path": "docs/50-audit-reports/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_AUDIT_20260726.md",
   "evidence": {
-    "clean_replay": "not executed",
-    "migration_history_comparison": "not executed",
-    "harness_assertions": "not executed",
-    "failure_path_postcheck": "not executed",
-    "tests": "not executed",
-    "typecheck": "not executed",
-    "production_build": "not executed"
+    "clean_replay": "PASS — 31/31 migrations applied on a disposable PostgreSQL 17 cluster; environment destroyed after verification",
+    "migration_history_comparison": "PASS — exactly 1 history row named 20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466, version 20260726114237; 31 rows total; 0 live UUID / REM382 / request.jwt.claims / set_config tokens in the recorded statements; 0 certification fixture rows created by the chain",
+    "harness_assertions": "PASS — 16/16 unique PASS382-CERT-NNN PASS markers plus 1 PASS382-SUPPLEMENTAL-ACL PASS (anon invocation denied with 42501); explicit ROLLBACK",
+    "success_path_postcheck": "PASS — fresh session, exit 0, PASS382-POSTCHECK PASS emitted exactly once, residue 0",
+    "failure_path_postcheck": "PASS — forced-failure run exited 3 with 0 unique numbered markers; mandatory fresh-session postcheck still exited 0 with PASS382-POSTCHECK PASS, residue 0",
+    "tests": "PASS — 49 files, 512/512 tests passed",
+    "typecheck": "PASS — tsc --noEmit clean",
+    "production_build": "not executed — Commit A changes are SQL and documentation only; no application source was modified"
   },
   "historical_residue_check_utc_2026_07_26": {
     "public.tenants": 0,
     "public.tenant_onboarding": 0,
     "public.tenant_onboarding_steps": 0
-  }
+  },
+  "commit_a_execution": {
+    "state": "COMPLETE_PINNED_AND_VERIFIED",
+    "commit_a_sha": "98019c2cad8ae8467d123a46a5714dcced929a50",
+    "authorized_by_approval_commit": "303d2f7bc2158b04e88811ad5a3fcda39262b92d",
+    "baseline_commit": "b88afb9e",
+    "cumulative_changed_paths": 4,
+    "changed_paths": [
+      {
+        "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
+        "status": "M",
+        "git_blob_sha": "02f0d1fd6430a6a2419c0e15bfcef986535a2d23",
+        "role": "comment-only tombstone"
+      },
+      {
+        "path": "supabase/tests/pass_3_8_2_queue_certification.sql",
+        "status": "A",
+        "git_blob_sha": "b90c3f96b787f64a63fdd35a822788185df73a1d",
+        "role": "deterministic certification harness"
+      },
+      {
+        "path": "supabase/tests/pass_3_8_2_queue_certification_postcheck.sql",
+        "status": "A",
+        "git_blob_sha": "570119cfe3135f1ec6812962f2a7d737f76f32eb",
+        "role": "mandatory fresh-session residue postcheck"
+      },
+      {
+        "path": "supabase/tests/README.md",
+        "status": "A",
+        "git_blob_sha": "6294481acaa5755b9940020a760a6f5428ab16c4",
+        "role": "certification runbook"
+      }
+    ],
+    "protected_file_drift": "0 — 10/10 drift comparisons PASS",
+    "renames_copies_deletions_binary": "0 / 0 / 0 / 0",
+    "migration_file_inventory": "39 files present; 31 executable migrations replayed; the remainder are comment-only or superseded foundation files"
+  },
+  "separate_findings": [
+    {
+      "finding_id": "FND-20260726-AUTH-SIGNUP-TENANTID",
+      "title": "private.fn_handle_new_auth_user inserts into public.organizations without tenant_id",
+      "severity": "High",
+      "status": "REGISTERED — OUT OF SCOPE FOR COMMIT A",
+      "surface": "private.fn_handle_new_auth_user() trigger on auth.users",
+      "description": "The new-user trigger inserts into public.organizations (name, slug, created_by, updated_by) only. A later migration made public.organizations.tenant_id NOT NULL, so any trigger-enabled auth.users insert aborts with 23502: null value in column \"tenant_id\" of relation \"organizations\" violates not-null constraint.",
+      "reproduction": "Clean replay of the 31-migration chain, then a single trigger-enabled auth.users insert inside a transaction; the insert fails at private.fn_handle_new_auth_user() line 38 and the transaction rolls back.",
+      "impact": "End-user sign-up provisioning is expected to fail on any environment replayed from the current migration chain.",
+      "workaround_in_harness": "The certification harness sets session_replication_role = replica (SET LOCAL) for its single synthetic auth.users insert and restores origin immediately; the residue postcheck asserts no leakage.",
+      "disposition": "Referred to the Architecture Office as a separate remediation item. It is not repaired under MIG-20260726-GATE38-PASS382-HISTORY-REPAIR and does not block Commit A."
+    }
+  ]
 }
