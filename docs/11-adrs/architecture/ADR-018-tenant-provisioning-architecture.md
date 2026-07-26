@@ -3,7 +3,7 @@ title: "ADR-018 — Tenant Provisioning Architecture"
 summary: "Defines the provisioning contract for dedicated-database-per-tenant: platform vs tenant database responsibilities, provisioning lifecycle, secrets management, migration strategy, failure recovery, deprovisioning, backup/DR, and operational ownership."
 layer: "architecture"
 owner: "Platform Architecture"
-status: "proposed"
+status: "accepted"
 updated: "2026-07-26"
 version: "1.0"
 tags: ["adr", "architecture", "provisioning", "multi-tenant", "infrastructure", "secrets"]
@@ -18,7 +18,9 @@ related_adrs: ["ADR-011", "ADR-014", "ADR-017", "ADR-030", "ADR-032"]
 
 ## Status
 
-Proposed — 2026-07-26. Authored under Phase 3 Gate 3.0 (documentation-only) as the architectural contract for the Provisioning Engine. Implementation of any part of this decision requires the separate gate authorizations described in `PHASE3_IMPLEMENTATION_PLAN.md`.
+Accepted — Approved by the Architecture Review Board during Phase 3 Gate 3.0. Effective Date: **2026-07-26**.
+
+All Gate 3.0 review comments are resolved or explicitly recorded as future work in `PHASE3_IMPLEMENTATION_PLAN.md`; no High or Critical architecture findings remain open. Implementation of any part of this decision still requires the separate gate authorizations described in `PHASE3_IMPLEMENTATION_PLAN.md`.
 
 ## Context
 
