@@ -15,6 +15,7 @@ import type { RollbackPlan } from "../types";
 import type { OrchestrationContext } from "./context";
 import { loadJob } from "./job-loader";
 import { persistStepOutcome, persistTransition } from "./job-persistence";
+import { stateForStep } from "./step-map";
 import { runRollbackAction } from "./step-runner";
 import { executeNextStep } from "./executor";
 import {
