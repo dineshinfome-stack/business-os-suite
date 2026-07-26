@@ -64,7 +64,35 @@ export function PlatformSidebar() {
                   <Icon className="h-4 w-4 shrink-0" />
                   <span className="truncate">{item.label}</span>
                 </Link>
+                {active && item.children ? (
+                  <ul className="space-y-0.5 pb-1">
+                    {item.children.map((child) => {
+                      const childActive = child.exact
+                        ? pathname === child.to || pathname === child.to + "/"
+                        : pathname === child.to || pathname.startsWith(child.to + "/");
+                      return (
+                        <li key={child.id}>
+                          <Link
+                            to={child.to}
+                            className="flex h-9 items-center pl-11 pr-4 text-xs transition-colors"
+                            style={{
+                              color: childActive
+                                ? "#fff"
+                                : "var(--platform-sidebar-muted)",
+                              background: childActive
+                                ? "var(--platform-sidebar-hover-bg)"
+                                : "transparent",
+                            }}
+                          >
+                            <span className="truncate">{child.label}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
               </li>
+
             );
           })}
         </ul>
