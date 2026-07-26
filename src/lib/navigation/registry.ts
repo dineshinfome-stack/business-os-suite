@@ -23,7 +23,7 @@
  * ────────────────────────────────────────────────────────────────
  */
 import {
-  
+  Gauge,
   Settings,
   Shield,
   ShieldCheck,
@@ -76,6 +76,22 @@ export const PERSISTED_NAV_TABLES = [
  * Core registry. Additive-only: never rename ids; retire instead.
  */
 export const NAV_REGISTRY: readonly NavItem[] = Object.freeze([
+  // ── Platform Dashboard (first item) ─────────────────────────────
+  {
+    id: "platform_dashboard",
+    id_status: "active",
+    module: "platform_dashboard",
+    title: "Platform Dashboard",
+    icon: Gauge,
+    route: "/platform/dashboard",
+    parent: null,
+    display_order: 1,
+    permission: "platform.dashboard.view",
+    visible: true,
+    enabled: true,
+    keywords: ["dashboard", "platform", "overview", "kpi", "home"],
+  },
+
   // ── Main / Tenant (presentation label; nav_id retained per ADR-009) ─
   {
     id: "workspace",
