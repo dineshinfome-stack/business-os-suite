@@ -9,7 +9,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { UserPlus, Users } from "lucide-react";
 import { Can } from "@/components/auth/Can";
 import { DashboardTemplate } from "@/dashboard/template";
-import "@/dashboard/template/widgets/PlatformFoundationWidget";
+import "@/dashboard/template/widgets/TenantRegistryWidget";
 import { APP_NAME } from "@/constants/app";
 
 
