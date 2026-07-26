@@ -32,7 +32,10 @@ export const Route = createFileRoute("/_authenticated/platform/provisioning/$job
 
 function ProvisioningJobPage() {
   const { jobId } = Route.useParams();
-  const { status: liveStatus } = useProvisioningEvents(jobId, true);
+  // SSE is kept disabled until an authenticated stream endpoint exists:
+  // EventSource cannot attach the bearer token this app uses, so the
+  // dashboard runs on the backend-declared polling cadence instead.
+  const { status: liveStatus } = useProvisioningEvents(jobId, false);
   const job = useProvisioningJob(jobId, { poll: liveStatus !== "live" });
 
   return (
