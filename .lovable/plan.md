@@ -1,92 +1,103 @@
-# Gate 3.7 — Platform Administration & Operations
+## Gate 3.8 — Tenant Onboarding, Organization Activation & Workspace Bootstrap
+### Staged execution plan v2 (master spec = uploaded prompt; execution = 9 controlled passes)
 
-## What I verified in the repository first
+All four corrections and the recommended improvements are incorporated below.
 
-- **Provisioning admin facade already exists**: `src/lib/provisioning-admin/` (`queries.functions.ts`, `commands.functions.ts`, `query-service.server.ts`, `mappers.server.ts`, `events.server.ts`, `provider-resolver.server.ts`) plus the dashboard at `/platform/provisioning/*` and module `src/modules/platform/provisioning/`.
-- **Tenant lifecycle already exists**: `src/lib/tenant-lifecycle/` (state machine, timeline, `lifecycle.functions.ts`) and the console at `/platform/tenants/lifecycle`.
-- **Settings framework exists**: `src/lib/settings.functions.ts` + `settings-validation.ts` over `setting_definitions` / `setting_values`, with `platform` and `organization` scopes, system/sensitive flags and redaction. Reads currently run through `requireOrgContext`.
-- **Feature flags exist**: `src/lib/feature-flags.functions.ts` over `feature_flags` (platform row + org override, `rollout_stage`), also org-context bound.
-- **Audit exists**: `public.audit_logs` written by module-specific writers (`src/lib/tenants/audit.ts`, `organizations/`, `branches/`, `financial-years/`, `auth.functions.ts`). No global platform-wide audit query yet.
-- **Notifications exist**: `src/lib/notifications/` (registry, service, providers) over `notifications` / `notification_preferences`.
-- **Permissions**: a large `platform.*` catalog already exists including `platform.audit.view`, `platform.settings.manage`, `platform.policies.view/manage`, `platform.dashboard.view`, `platform.tenant.*`. No `platform.admin.*` namespace.
-- **Query keys** are centralized in `src/lib/query-keys.ts`; nav in `src/components/platform/nav-items.ts`.
+---
 
-## Scope classification (drives what gets built)
+### Verified repository facts (checked this turn)
 
-| Capability | Class | Note |
-|---|---|---|
-| Operations overview / summary | Add (composition) | Aggregates existing provisioning + tenant reads |
-| Tenant operations directory | Add (composition) | Server-side search/filter over `tenants` + job status |
-| Attention queue | Add (derivation) | Derived server-side from jobs + tenant lifecycle columns + audit |
-| Provider & region visibility | Extend | Reuses `provider-resolver.server.ts` + historical job stats; config is code/env-based → read-only, mutation deferred |
-| Platform settings | Reuse + extend | Reuse settings service; add platform-scope read/write path that does not require org context. No new table |
-| Feature controls | Reuse + extend | Reuse `feature_flags`; platform-scope only in this gate. No percentage rollout/targeting |
-| Global audit explorer | Extend | New platform-wide query over existing `audit_logs`, paginated + CSV export |
-| Notification operations | Reuse (read-only) | Show persisted rows only; delivery-state and retry deferred unless a persisted delivery column exists |
-| Operational policies | Extend | Rendered from settings registry entries; engine-owned values displayed read-only |
-| Billing / usage / live telemetry / remediation | Defer | No authoritative source |
+- Tables: `tenants`, `organizations` (has `is_default`, `company_lifecycle_state`, `legal_name`, `slug`, `region`, `timezone`, `default_locale`), `organization_profiles`, `organization_branding`, `branches` (`is_default`, `code`, `branch_lifecycle_state`), `organization_invitations` (`token_hash`, `status`, `expires_at`, `revoked_at`, `accepted_at`, `role`), `organization_members`, `roles` / `permissions` / `role_permissions` / `user_roles`, `setting_definitions` / `setting_values`, `feature_flags`, `financial_years`, `notifications`, `audit_logs`, `provisioning_jobs` / `provisioning_steps`.
+- Public RPCs: `fn_create_company`, `fn_activate_company`, `fn_deactivate_company`, `fn_archive_company`, `fn_set_default_company`, plus tenant lifecycle RPCs.
+- Services: `src/lib/organizations`, `src/lib/branches`, `src/lib/financial-years`, `src/lib/tenants`, `src/lib/tenant-lifecycle`, `src/lib/notifications`, `src/lib/settings.functions.ts`, `src/lib/settings-validation.ts`, generated `src/lib/generated/permission-keys.ts` (from `docs/15-governance/permission-catalog.manifest.yaml` via `scripts/generate-permissions.ts`).
+- Console pattern to mirror: `src/lib/platform-admin/*` + `src/modules/platform/administration/*`.
+- No onboarding table, no onboarding permissions, no tenant-facing route tree — all routes live under `/platform/*`.
 
-## Technical plan
+Strong signal (to be confirmed, not assumed): `organizations` **is** this repository's company entity — `fn_create_company` writes it and `company_lifecycle_state` types it. Hierarchy is therefore **tenant → organization/company → branch**.
 
-**Discovery doc first** — `docs/60-engineering/PHASE3_GATE37_DISCOVERY.md` and `PHASE3_GATE37_OPERATIONS_MATRIX.md`, before production code.
+**Binding rule:** No separate company abstraction, persistence, service, route, DTO or onboarding step may be introduced unless Pass 3.8.0 proves the repository has a distinct company domain separate from `organizations`.
 
-**Application layer** `src/lib/platform-admin/`
-- `queries.functions.ts`, `commands.functions.ts` (thin server-fn wrappers only)
-- `query-service.server.ts`, `command-service.server.ts`, `mappers.server.ts`
-- `validation.ts` (allow-listed setting/feature keys; rejects unknown keys)
-- `query-keys.ts` (`['platform-admin', ...]`, documented invalidation sets)
-- `types/v1/index.ts` — the 14 DTOs in the spec, sanitized (no rows, no provider objects, no credentials, no SQL, no stack traces)
+---
 
-**Permissions** — reuse existing keys rather than adding a `platform.admin.*` namespace: `platform.dashboard.view` (overview), `platform.tenant.read` (directory/attention), `platform.settings.manage`, `platform.audit.view`, `platform.policies.view/manage`. One addition only if discovery proves a gap: `platform.features.manage`. Any addition goes into the manifest, migration seed, role grants, generated keys, guards and tests together.
+### Governance rules applying to every pass
 
-**Routes** — `src/routes/_authenticated/platform/admin/route.tsx` guarded layout with sub-nav, plus `index` (Overview), `operations`, `tenants`, `attention`, `providers`, `settings`, `features`, `audit`, `notifications`, `policies`. Nav entry added to `PLATFORM_NAV`. Row actions deep-link to the existing provisioning/lifecycle consoles — no duplicated workflows.
+- **Baselines.** Record at pass start and end: test count, typecheck result, files changed, migrations added, protected files touched, known failures, deferred work.
+- **Test integrity.** The Gate 3.7 baseline is 444 passing tests. Existing tests must not be deleted, skipped, weakened or rewritten merely to make Gate 3.8 pass. Legitimate shared-contract updates are allowed only with written justification in the pass inventory.
+- **Scope.** Execute only the named pass; repository-first; preserve prior architecture; run pass-specific tests; return a concise inventory; stop for approval.
 
-**UI** — `src/modules/platform/administration/` with the components listed in the spec, reusing the existing `States` (Loading/Empty/Error) and badge patterns from the provisioning module. Every card handles loading/empty/error/success; severity and status are server-computed and rendered verbatim.
+---
 
-**Commands** — `updatePlatformSetting`, `updateFeatureControl`, `acknowledgeAttentionItem`, `updateOperationalPolicy`; `retryNotificationDelivery` only if delivery state is persisted. Each: authenticate → authorize → allow-list key validation → typed value validation → execute → audit row (previous value, new value, actor, timestamp, correlation id, reason) → typed result → documented invalidation.
+### Pass 3.8.0 — Repository discovery only
 
-**Migration** — expected to be needed only for: new audit action values for admin actions, an `acknowledged_at`/`acknowledged_by` marker if attention acknowledgement is kept persistent, and any seed rows for new permission/setting definitions. Nothing added purely to fill dashboard cards.
+Deliverable: `docs/60-engineering/PHASE3_GATE38_DISCOVERY.md`. Documentation-only: no production code, no migrations, no routes, DTOs, permissions or tests. Records the current typecheck, build and test baseline without modifying tests, and cites the exact authoritative file/service behind every conclusion.
 
-## Adopted refinements
+Must resolve or explicitly escalate:
 
-**1. Settings registry ownership contract.** Every platform setting surfaced by this gate is declared in one registry (`src/lib/platform-admin/validation.ts`, mirrored in the operations matrix) with six mandatory attributes: **owner**, **validation rule** (type + bounds/enum, enforced server-side), **default**, **mutability** (`editable` | `read-only-system` | `read-only-environment` | `engine-owned`), **audit requirement** (always `required` for editable entries), and **source of truth**. A setting absent from the registry is rejected by the command layer. Engine-owned values (retry, rollback, concurrency) are registered as display-only.
+1. Is `organizations` the company entity, or does a distinct company domain exist?
+2. Must the first-admin invitation be **accepted** before activation, or is pending acceptance a warning?
+3. Financial year: mandatory, conditional on an enabled module, or optional?
+4. Tenant lifecycle `active` vs onboarding `activated` — does activation delegate to the existing lifecycle RPC?
+5. Canonical platform route: `/platform/onboarding` vs `/platform/admin/onboarding`.
+6. Is there an approved tenant-authenticated route context and shell? If not, the tenant wizard is delivered by the approved alternative or formally deferred.
+7. Which existing permissions cover onboarding; which (if any) genuinely need adding.
+8. Repository-standard location for versioned application-layer DTOs.
+9. Authoritative source for the activity timeline: `audit_logs`, onboarding step history, notifications, or a composed view.
 
-**2. Attention queue priority policy.** Severity and ordering are computed server-side. Deterministic precedence when several conditions apply to one tenant: `provisioning_rollback_failed` > `provisioning_retry_exhausted` > `provisioning_failed` > `deletion_purge_overdue` > `pending_deletion` > `job_exceeds_expected_duration` > `maintenance_beyond_threshold` > `configuration_validation_issue` > `notification_delivery_issue`. Ties break by `severity`, then oldest `created_at`, then tenant id. Deduplicated by `tenant_id + type`, so ordering is stable across refreshes.
+Also classifies every Gate 3.8 capability as reuse / extend / add / defer. Stops; does not begin 3.8.1.
 
-**3. Export redaction parity.** CSV export is generated server-side from the **same mapper functions** as the screen DTOs — never from raw rows — so redaction, sensitive-field exclusion and the existing export row limit apply identically. A test asserts field-set equality between the audit DTO and the exported CSV, and that secret-shaped fields (token, password, key, secret, connection string, provider payload, stack trace) appear in neither.
+### Pass 3.8.1 — Architecture and contracts (no UI, no applied migration)
 
-**4. Operations matrix "Owning Module" column.** `PHASE3_GATE37_OPERATIONS_MATRIX.md` gains an **Owning Module** column identifying the responsible subsystem for each surface (Provisioning, Tenant Lifecycle, Settings, Feature Flags, Audit, Notifications, RBAC, Platform Admin composition). Columns become: Surface | Owning Module | Data source | Authoritative owner | Permission | Query | Command | Audit event | Cache invalidation | Known limitation. Surfaces owned by another module are marked *composed, read-only* so ownership reviews can tell aggregation from authorship at a glance.
+- `PHASE3_GATE38_ONBOARDING_MATRIX.md` and `PHASE3_GATE38_READINESS_MATRIX.md` (the matrix decides which readiness checks are mandatory, warning, conditional or deferred — with justification for anything omitted or merged).
+- Pure state machine: `not_started → in_progress → blocked → ready_for_activation → activated | cancelled`, full transition table, invalid transitions rejected, `activated` terminal.
+- Step model and step statuses; versioned application DTOs under the repository-standard application-layer contract location, **preferably `src/lib/tenant-onboarding/types/v1/`** — never owned by the Platform UI module unless discovery confirms that convention. Presentation-only types may live in the UI module.
+- Zod schemas, canonical query keys, permission plan.
+- Migration **design** written into documentation only. No executable SQL is placed in the active migrations directory during this pass.
+- Tests: state machine + contract validation.
 
-**5. Attention item explainability.** `PlatformAttentionItemDTO` carries an optional server-generated `explanation` string (plus the structured `reasonCode` and `reasonParams` it renders from) — e.g. *"Provisioning retry exhausted after 5 attempts; last failure 2h ago"*, *"In maintenance for 9 days, beyond the 7-day display threshold"*. The string is composed server-side from persisted values only (never fabricated), sanitized like every other DTO field, and shown inline on the queue row so operators understand the item without navigating away. The deep link remains the action; the explanation is context.
+### Pass 3.8.2 — Persistence, RLS and read models (no readiness business rules)
 
-**6. Breadcrumb consistency for composed vs. deep-linked views.** Every `/platform/admin/*` route declares breadcrumb metadata rooted at *Platform › Administration › {Section}*, marking it as a **composed administrative overview**. When a row action deep-links into an owning console (`/platform/provisioning/*`, `/platform/tenants/*`), navigation carries an origin marker so those pages show *Platform › Administration › {Section} › {Workflow}* with a back affordance to the admin surface, while direct visits keep their native breadcrumb trail. This makes the aggregation boundary visible in the UI and is covered by a navigation test.
+- Migration: `tenant_onboarding` (unique `tenant_id`, state check, `version` optimistic guard) and `tenant_onboarding_steps` (unique `(tenant_id, step_key)`, status and step-key checks), indexes, GRANTs, RLS with tenant isolation.
+- Permission rows added **only** if 3.8.0/3.8.1 concluded existing semantics are insufficient — and then synchronized in one change across the permission manifest, generated constants, role grants, route guards, server guards and tests.
+- Read layer: `query-service.server.ts`, `mappers.server.ts` (sanitized DTOs — no tokens, no raw errors), `queries.functions.ts` facade — platform queue with server-side search/filter/pagination, detail, steps, progress, persisted blockers, activity timeline (sourced from the authority named in 3.8.0; no duplicate event-history table).
+- Readiness: DTO and query contract only, returning `evaluationStatus: not_evaluated`. Authoritative readiness evaluation belongs exclusively to Pass 3.8.5.
+- Tests: RLS, sanitization, query mapping, regression, typecheck.
 
-## Architecture boundary (unchanged, enforced by test)
+### Pass 3.8.3 — Bootstrap commands
 
-```text
-Platform Administration UI
-        │
-        ▼
-Platform Admin Facade (queries / commands)
-        │
-        ├── Provisioning Query Facade
-        ├── Tenant Lifecycle Query Facade
-        ├── Settings Framework
-        ├── Feature Flags
-        ├── Audit
-        └── Notifications
-```
+- Organization/company bootstrap according to the hierarchy confirmed in Pass 3.8.0 (one concept unless discovery proved otherwise).
+- Primary branch bootstrap.
+- Role initialization.
+- Settings initialization.
+- Financial-year initialization according to the approved readiness policy.
 
-The browser bundle must not reach repositories, providers, orchestrators, retry/rollback engines, migration/seed runners, SQL, or the Supabase SDK — asserted by an executable architecture-integrity test over the client import graph.
+Every command delegates to the existing application service or RPC; onboarding never writes domain tables directly. Proves idempotency (retry returns the existing record) and concurrency safety (version-conflict rejection) before continuing. Start and resume commands land here too.
 
-**Testing** — query tests (aggregation, directory search/filter/pagination, attention classification/dedupe/ordering/explanation, provider history, audit filtering, DTO sanitization), command tests (registry allow-list, validation, permission denial, audit creation, invalidation, duplicate submission), UI tests (states, filters, dialogs, keyboard, ARIA, deep links, breadcrumb origin), security tests (unauthorized route/server-fn, unknown keys, secret-shaped field exclusion, export redaction parity), and the architecture-integrity test. All 428 existing tests remain unmodified and green.
+### Pass 3.8.4 — First administrator invitation
 
-**Closure** — typecheck, production build, full suite, then `docs/60-engineering/PHASE3_GATE37_COMPLETION_REPORT.md`. Stop; Gate 3.8 not started.
+Reuses `organization_invitations` and `organization_members`: create, reuse an outstanding valid invitation, resend, revoke, expiry handling, acceptance and membership detection, initial role assignment through RBAC, audit and notification wiring. Tests assert no token in any DTO or log, no platform-role leakage into tenant scope, and no cross-tenant invitation.
 
-## Known limitations that will be reported honestly
+### Pass 3.8.5 — Readiness and activation
 
-Provider health is historical, not live. No infrastructure usage/uptime metrics. Notification delivery outcomes shown only if persisted. Feature controls are platform-wide only. Environment-managed configuration is read-only. Attention items require manual resolution — no automatic remediation, no purge execution, no billing.
+- `readiness-service.server.ts` — pure and deterministic. Implements every mandatory check approved in `PHASE3_GATE38_READINESS_MATRIX.md`; the master spec's 17 checks are candidates, not automatically mandatory.
+- Result: overall status (`not_ready | ready_with_warnings | ready`), timestamp, tenant, workflow version, per-check results with sanitized explanations and deep links, blocking/warning counts, correlation ID.
+- Activation: recomputes readiness first, is idempotent (repeat returns the existing result), rejects cancelled workflows, delegates to tenant lifecycle where 3.8.0 says it should, audits and de-duplicates notifications. Cancellation with reason, and explicit restart.
 
-## Delivery
+### Pass 3.8.6 — Platform console
 
-Final response will be the structured inventory only (files, routes, components, DTOs, queries, commands, permissions, tests, counts, build/integrity status, limitations, deferrals, gate status) — the narrative lives in the completion report.
+Queue with filters and server-side pagination, detail header, step list, blockers panel, readiness panel, activity timeline, start/resume/cancel/activate dialogs, deep links to provisioning and lifecycle, navigation entry — reusing existing shell, table, badge and dialog primitives. No duplicated provisioning or lifecycle actions.
+
+### Pass 3.8.7 — Tenant wizard (conditional)
+
+Executes only if Pass 3.8.0 confirms an approved tenant-authenticated route context and shell. If no safe tenant application shell exists, this pass implements only the approved alternative (e.g. an operator-run wizard inside `/platform`) or formally defers the tenant-facing wizard. Creating a new tenant shell is out of scope for Gate 3.8.
+
+Content when it runs: resumable steps, server-owned progress, per-step validation and retry, review and readiness, completion summary, accessibility (keyboard, focus trap, ARIA live regions, no colour-only status) and responsive layout.
+
+### Pass 3.8.8 — Verification and certification
+
+Typecheck, production build, migration validation, RLS tests, full suite (no weakened or removed existing tests), architecture-integrity test (onboarding UI must not import the Supabase SDK, repositories or `*.server.ts`; provisioning, lifecycle, retry and rollback engines untouched), accessibility tests, protected-file diff review, then `PHASE3_GATE38_COMPLETION_REPORT.md`. Stops before Gate 3.9.
+
+---
+
+## Next action — Execute Pass 3.8.0 only
+
+Produce `docs/60-engineering/PHASE3_GATE38_DISCOVERY.md`. Documentation-only: no production code, no migrations, no routes, DTOs, permissions or tests. Confirm whether `organizations` is the repository's company entity, resolve or escalate all nine blockers, classify every capability as reuse/extend/add/defer, record the typecheck/build/test baseline without modifying tests, cite authoritative files for each conclusion, return a concise inventory, and stop. Do not begin Pass 3.8.1.
