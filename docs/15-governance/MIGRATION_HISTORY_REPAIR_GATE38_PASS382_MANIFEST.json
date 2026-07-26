@@ -168,7 +168,38 @@
       "drift_files": 0
     }
   },
+  "step_0b_prep_result": {
+    "status": "COMPLETE",
+    "completed_at_utc": "2026-07-26T13:40:00Z",
+    "preparation_baseline": "CLEAN",
+    "forensic_identity": "PASS",
+    "path_history_disposition": "ONLY_COMMIT_VERIFIED",
+    "obsolete_version_gate_search_result": "PASS",
+    "unresolved_active_hits": 0,
+    "acl_result_rows": 1,
+    "acl_exposure": false,
+    "evidence_failure": false,
+    "security_blocker": false,
+    "document_manifest_parity": "PASS",
+    "manifest_json_validation": "PASS",
+    "duplicate_keys": 0,
+    "hash_comparisons_passed": 12,
+    "hash_comparisons_total": 12,
+    "drift_files": 0,
+    "changed_paths": 2,
+    "changed_path_statuses": ["M", "M"],
+    "unexpected_paths": 0,
+    "renames": 0,
+    "copies": 0,
+    "additions": 0,
+    "deletions": 0,
+    "binary_changes": 0,
+    "step_0b_authority_approval": "PENDING",
+    "commit_a": "NOT STARTED",
+    "pass_3_8_3": "NOT STARTED"
+  },
   "subject_migration": {
+
     "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
     "original_git_blob_sha": "12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2",
     "original_sha256": "584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3",
