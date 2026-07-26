@@ -50,7 +50,19 @@ describe("integration · writer adapter", () => {
     expect(store.updates).toHaveLength(0);
   });
 
-  it("persists attempt counts, errors and terminal timestamps", async () => {
+  it("records a terminal completion timestamp when the job rolls back", async () => {
+    const store = createMemoryDataClient({ job: { state: "failed" } });
+    await writer(store).transitionState({
+      jobId: JOB_ID,
+      expectedState: "failed",
+      nextState: "rolled_back",
+      correlationId: CORRELATION_ID,
+      at: NOW,
+    });
+    expect(store.job.completed_at).toBe(NOW);
+  });
+
+  it("persists attempt counts, errors and failure details", async () => {
     const store = createMemoryDataClient({ job: { state: "seeding" } });
     await writer(store).transitionState({
       jobId: JOB_ID,
@@ -69,7 +81,8 @@ describe("integration · writer adapter", () => {
 
     expect(store.job.state).toBe("failed");
     expect(store.job.attempt_count).toBe(3);
-    expect(store.job.completed_at).toBe(NOW);
+    // `failed` is recoverable, not terminal — no completion timestamp yet.
+    expect(store.job.completed_at).toBeNull();
     expect(store.job.last_error).toMatchObject({ code: "provider_unavailable" });
   });
 
@@ -167,7 +180,15 @@ describe("integration · writer adapter", () => {
         { kind: "project", reference: "proj_1", step_key: "create_project" },
         { kind: "database", reference: "db_1", step_key: "create_project" },
       ]),
-    ).toEqual({ project: "proj_1", database: "db_1" });
+    ).toEqual({ project_reference: "proj_1", database_reference: "db_1" });
+
+    // Existing references are preserved, not clobbered.
+    expect(
+      foldResources(
+        [{ kind: "database", reference: "db_2", step_key: "create_project" }],
+        { project_reference: "proj_1" },
+      ),
+    ).toEqual({ project_reference: "proj_1", database_reference: "db_2" });
   });
 
   it("logs every write with correlation, tenant and job context", async () => {

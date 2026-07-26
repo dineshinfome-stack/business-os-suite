@@ -52,6 +52,7 @@ describe("integration · optimistic concurrency", () => {
 
     await h.service.executeNextStep();
     const stateAfterFirst = h.store.job.state;
+    // A second call must not re-run the already-applied migration step.
     await h.service.executeNextStep();
 
     expect(stateAfterFirst).toBe("seeding");
