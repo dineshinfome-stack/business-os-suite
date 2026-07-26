@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Approved With Binding Conditions — Reaffirmed After Prerequisite Recovery
+status: Approved With Binding Conditions — Reaffirmed and SHA Pinned
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
@@ -11,15 +11,14 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Approved With Binding Conditions — Reaffirmed After Prerequisite Recovery`:**
+**Repository status while this document is `Approved With Binding Conditions — Reaffirmed and SHA Pinned`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
 No migration file has been modified. The Step 0B authority decision is recorded
-in §9, was suspended under §9.3, and has been reaffirmed under §9.4 after the
-prerequisite recovery. Commit A is AUTHORIZED but its execution remains blocked
-until the reaffirmation commit SHA is pinned and verified. Pass 3.8.3 is
-NOT STARTED.
+in §9, was suspended under §9.3, was reaffirmed under §9.4, and the
+reaffirmation commit SHA `303d2f7bc2158b04e88811ad5a3fcda39262b92d` is now PINNED_AND_VERIFIED. Commit A is
+AUTHORIZED — NOT STARTED. Pass 3.8.3 is NOT STARTED.
 
 ---
 
@@ -422,8 +421,8 @@ terminal audit.
 | Approved tombstone strategy | `true` |
 | Historical `statements[]` decision | `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE` (see §3.1) |
 | Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
-| Scope of authorization | Commit A — AUTHORIZED; execution blocked until the reaffirmation commit SHA is pinned. Pass 3.8.3 — NOT AUTHORIZED. |
-| Approval commit SHA | `PENDING_POST_COMMIT_PIN` — pinned in a separate controlled turn (see §9.4). |
+| Scope of authorization | Commit A — AUTHORIZED — NOT STARTED. Pass 3.8.3 — NOT AUTHORIZED. |
+| Approval commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` — `PINNED_AND_VERIFIED` (see §9.4). |
 | Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
 | Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
 | Effective approval state | `REAFFIRMED_APPROVED_WITH_BINDING_CONDITIONS` — suspension lifted (see §9.4) |
@@ -486,10 +485,13 @@ pass against final bytes.
 | Prerequisite-recovery commit reviewed | `8afac0732ead75e3ec735d59f6588c881eeccbae` |
 | Corrected canonical digest reviewed | `dfc2f8f20e9cc53ecaa75f42ac551e23556f4d4459b79297e8e88502000276e4` |
 | Binding conditions reaffirmed | 14/14 |
-| Effective approval | Yes — pending durable pinning of the reaffirmation commit SHA |
-| Commit A | Authorized by authority decision, but execution remains blocked until the reaffirmation commit SHA is pinned and verified |
+| Effective approval | Yes — reaffirmation commit SHA pinned and verified |
+| Commit A | AUTHORIZED — NOT STARTED |
 | Pass 3.8.3 | NOT STARTED |
-| Reaffirmation commit SHA | `PENDING_POST_COMMIT_PIN` |
+| Reaffirmation commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` |
+| Approval commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` |
+| Approval SHA status | `PINNED_AND_VERIFIED` |
+| SHA verification timestamp (UTC) | `2026-07-26T16:28:58Z` |
 
 Reaffirmation statement (verbatim):
 
@@ -549,10 +551,11 @@ Field rules:
 | `.lovable/plan.md` | byte-identical, digest `968cc11d8f149e7584ccdc90be0361812b2410c93b181c0eace94ee02ec7dcde` |
 | Renames / copies / additions / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Step 0B-prep | COMPLETE |
-| Step 0B authority approval | `REAFFIRMED_APPROVED_WITH_BINDING_CONDITIONS — COMMIT SHA PENDING` |
-| Authority effectiveness | `EFFECTIVE_PENDING_APPROVAL_SHA_PIN` |
+| Step 0B authority approval | `APPROVED_WITH_BINDING_CONDITIONS — REAFFIRMED — SHA PINNED` |
+| Authority effectiveness | `EFFECTIVE` |
+| Approval commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` — `PINNED_AND_VERIFIED` |
 | Prerequisite-recovery commit reviewed | `8afac0732ead75e3ec735d59f6588c881eeccbae` |
 | Reaffirmation timestamp (UTC) | `2026-07-26T16:23:26Z` |
-| Commit A | AUTHORIZED — EXECUTION BLOCKED UNTIL APPROVAL SHA PIN |
+| Commit A | AUTHORIZED — NOT STARTED |
 | Repository status | `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` |
 | Pass 3.8.3 | NOT STARTED |

@@ -367,8 +367,8 @@
       "authority_decision_note": "Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3.",
       "authorizes_commit_a": true,
       "authorizes_pass_3_8_3": false,
-      "approval_commit_sha": null,
-      "approval_commit_sha_state": "PENDING_POST_COMMIT_PIN",
+      "approval_commit_sha": "303d2f7bc2158b04e88811ad5a3fcda39262b92d",
+      "approval_commit_sha_state": "PINNED_AND_VERIFIED",
       "authority_decision_origin_commit_sha": "e403d7aec345fc40137cc61288d349d984108c20",
       "binding_conditions": [
         "This approval authorizes Commit A only.",
@@ -397,7 +397,10 @@
       "prerequisite_recovery_commit_sha": "8afac0732ead75e3ec735d59f6588c881eeccbae",
       "reaffirmed_canonical_output_sha256": "dfc2f8f20e9cc53ecaa75f42ac551e23556f4d4459b79297e8e88502000276e4",
       "reaffirmed_binding_conditions": 14,
-      "reaffirmation_statement": "I have reviewed the corrected Step 0B-prep evidence, including the strict verbatim historical ledger, corrected canonical digest, dual-baseline path model, removal of authorship-based exclusions, exact two-path gate and 12/12 immutability verification. I reaffirm the original APPROVED_WITH_BINDING_CONDITIONS decision and its fourteen binding conditions. This reaffirmation authorizes Commit A only and does not authorize Pass 3.8.3."
+      "reaffirmation_statement": "I have reviewed the corrected Step 0B-prep evidence, including the strict verbatim historical ledger, corrected canonical digest, dual-baseline path model, removal of authorship-based exclusions, exact two-path gate and 12/12 immutability verification. I reaffirm the original APPROVED_WITH_BINDING_CONDITIONS decision and its fourteen binding conditions. This reaffirmation authorizes Commit A only and does not authorize Pass 3.8.3.",
+      "approval_commit_sha_verified": true,
+      "approval_commit_sha_verified_at_utc": "2026-07-26T16:28:58Z",
+      "reaffirmation_commit_sha": "303d2f7bc2158b04e88811ad5a3fcda39262b92d"
     },
     "step_0d_runtime_immutability_baseline": [
       {
@@ -469,11 +472,11 @@
     "additions": 0,
     "deletions": 0,
     "binary_changes": 0,
-    "step_0b_authority_approval": "REAFFIRMED_APPROVED_WITH_BINDING_CONDITIONS — COMMIT SHA PENDING",
+    "step_0b_authority_approval": "APPROVED_WITH_BINDING_CONDITIONS — REAFFIRMED — SHA PINNED",
     "authority_decision_origin_commit_sha": "e403d7aec345fc40137cc61288d349d984108c20",
     "binding_conditions_recorded": 14,
     "binding_conditions_parity": "PASS",
-    "commit_a": "AUTHORIZED — EXECUTION BLOCKED UNTIL APPROVAL SHA PIN",
+    "commit_a": "AUTHORIZED — NOT STARTED",
     "pass_3_8_3": "NOT STARTED",
     "measurement_mode": "HISTORICAL_RECONSTRUCTION",
     "historical_search_baseline_commit": "77656a1462918c636c94c6c7389570cccc62693e",
@@ -495,11 +498,14 @@
     "route_tree_historical_chronology_note": "Commit 64f2a34dab813c1abe59c4846c4c17a6c506e3e2 removed ten lines from src/routeTree.gen.ts and is disclosed as the historical path boundary; it is not excluded from any gate.",
     "superseded_canonical_output_sha256": "2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef",
     "matched_text_normalization": "none — matched text retained verbatim after the line separator",
-    "step_0b_authority_effectiveness": "EFFECTIVE_PENDING_APPROVAL_SHA_PIN",
+    "step_0b_authority_effectiveness": "EFFECTIVE",
     "binding_condition_completion_commit_sha": "98f70721145faeb7bfc08d01fc9e937e224d77ab",
     "authority_effective": true,
     "reaffirmation_prerequisite_recovery_commit": "8afac0732ead75e3ec735d59f6588c881eeccbae",
-    "reaffirmation_timestamp_utc": "2026-07-26T16:23:26Z"
+    "reaffirmation_timestamp_utc": "2026-07-26T16:23:26Z",
+    "approval_commit_sha": "303d2f7bc2158b04e88811ad5a3fcda39262b92d",
+    "approval_commit_sha_state": "PINNED_AND_VERIFIED",
+    "approval_commit_sha_verified_at_utc": "2026-07-26T16:28:58Z"
   },
   "subject_migration": {
     "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
