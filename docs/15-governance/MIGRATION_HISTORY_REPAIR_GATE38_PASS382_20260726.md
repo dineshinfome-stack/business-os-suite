@@ -20,6 +20,60 @@ explicit authority approval of the strategy discovered in Step 0C.
 
 ---
 
+## 0. Step 0B-prep execution baseline (captured before any repository change)
+
+| Property | Value |
+| --- | --- |
+| Repository | `https://git.private.lovable-gcp.code.storage/4a3d10fa-b503-47e6-b169-42e0c586ca99.git` (credentials removed) |
+| Branch | `edit/edt-5541374b-c9ce-4ee6-8dc3-90f88b9b25b3` |
+| Preparation start commit | `77656a1462918c636c94c6c7389570cccc62693e` |
+| Captured at (UTC) | `2026-07-26T13:33:45Z` |
+| Working tree clean | Yes |
+| Staged / unstaged / untracked | 0 / 0 / 0 |
+
+The baseline was captured with `git status --porcelain=v1` returning no output.
+A dirty tree would have produced `PREPARATION_BASELINE_DIRTY`, zero repository
+changes, and an external-only report; no dirty-tree fallback exists.
+
+## 0.1 Forensic identity chain (verified before any repository change)
+
+Extraction used strict shell handling (`set -euo pipefail`) and exact-byte
+recovery to a temporary file, so a `git cat-file` failure cannot be masked by a
+downstream pipeline stage.
+
+```bash
+set -euo pipefail
+ORIGINAL_COMMIT="1907718fa16ecd48f7e3f0b16091d196909a76c3"
+MIGRATION_PATH="supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql"
+RECOVERED_FILE="$(mktemp)"
+trap 'rm -f "${RECOVERED_FILE}"' EXIT
+git cat-file -e "${ORIGINAL_COMMIT}^{commit}"
+RECOVERED_BLOB="$(git rev-parse "${ORIGINAL_COMMIT}:${MIGRATION_PATH}")"
+git cat-file blob "${ORIGINAL_COMMIT}:${MIGRATION_PATH}" > "${RECOVERED_FILE}"
+sha256sum "${RECOVERED_FILE}"
+wc -c < "${RECOVERED_FILE}"
+wc -l < "${RECOVERED_FILE}"
+git log --follow --format=%H -- "${MIGRATION_PATH}"
+```
+
+| Check | Expected | Observed | Result |
+| --- | --- | --- | --- |
+| Commit object exists | resolvable `^{commit}` | resolvable | PASS |
+| Recovered blob SHA | `12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2` | `12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2` | PASS |
+| Recovered SHA-256 | `584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3` | identical | PASS |
+| Recovered byte count | 11460 | 11460 | PASS |
+| Recovered newline count | 254 | 254 | PASS |
+| `git log --follow` commit count | — | 1 | recorded |
+
+**Path-history disposition: `ONLY_COMMIT_VERIFIED`.** `git log --follow` for the
+subject path returns exactly one commit,
+`1907718fa16ecd48f7e3f0b16091d196909a76c3`, so the "only commit touching this
+path" claim in §1 is verified rather than neutrally corrected.
+
+**Forensic identity chain: PASS.**
+
+---
+
 ## 1. Subject migration
 
 | Property | Value |
@@ -29,14 +83,14 @@ explicit authority approval of the strategy discovered in Step 0C.
 | SHA-256 (exact bytes) | `584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3` |
 | Line count | 254 |
 | Byte count | 11460 |
-| Commit introducing the executable form | `1907718` (only commit touching this path) |
+| Commit introducing the executable form | `1907718fa16ecd48f7e3f0b16091d196909a76c3` (only commit touching this path; verified in §0.1) |
 | Repository HEAD at investigation | `3fa3657b4945cf8d074ba8142207cccece7e5cdb` |
 
 Retrieval of the original executable content (never copied into the active tree,
 because doing so would reintroduce the live user UUIDs):
 
 ```bash
-git show 1907718:supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql
+git cat-file blob 1907718fa16ecd48f7e3f0b16091d196909a76c3:supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql
 ```
 
 ## 2. Why repair is requested
@@ -80,10 +134,110 @@ Executed against the connected project before requesting approval.
 
 **Material consequence for the approver:** the tombstone changes only the
 repository file. The historical executable content — including the live UUIDs —
-remains immutably recorded in `supabase_migrations.schema_migrations.statements`
-for already-applied databases. The repair reduces *future* replay exposure and
+remains recorded in `supabase_migrations.schema_migrations.statements` for
+already-applied databases. The repair reduces *future* replay exposure and
 removes environment-dependent content from the active tree; it does not, and is
 not intended to, rewrite applied history.
+
+### 3.1 Disclosed disposition item — historical `statements[]` retention
+
+Retention of the original executable SQL in
+`supabase_migrations.schema_migrations.statements` is disclosed for the approver
+and remains pending an explicit disposition under this section and §9. Lovable
+records no disposition of its own.
+
+Available dispositions (approver selects exactly one in §9):
+
+- `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE`
+- `SEPARATE_SANITIZATION_REQUIRED_BEFORE_TOMBSTONE`
+
+### 3.2 Migration-history ACL evidence (read-only, executed)
+
+Executed inside an explicit read-only transaction; no substitution of `false`
+for a failed query is permitted.
+
+```sql
+BEGIN TRANSACTION READ ONLY;
+SELECT current_database()                                                          AS database_name,
+       session_user::text                                                          AS session_user,
+       current_user::text                                                          AS current_user,
+       current_setting('transaction_read_only')                                    AS transaction_read_only,
+       has_schema_privilege('anon','supabase_migrations','USAGE')                   AS anon_schema_usage,
+       has_schema_privilege('authenticated','supabase_migrations','USAGE')          AS authenticated_schema_usage,
+       has_table_privilege('anon','supabase_migrations.schema_migrations','SELECT') AS anon_table_select,
+       has_table_privilege('authenticated','supabase_migrations.schema_migrations','SELECT')
+                                                                                    AS authenticated_table_select;
+COMMIT;
+```
+
+| Property | Value |
+| --- | --- |
+| Executed at (UTC) | `2026-07-26T13:34:13Z` |
+| Database engine | PostgreSQL 17.6 |
+| History table | `supabase_migrations.schema_migrations` |
+| Database name | `postgres` |
+| `session_user` / `current_user` | `supabase_read_only_user` / `supabase_read_only_user` |
+| `transaction_read_only` | `on` |
+| Query exit status | 0 |
+| Result row count | 1 |
+| Project environment | connected development project |
+| `anon` schema USAGE | `false` |
+| `authenticated` schema USAGE | `false` |
+| `anon` table SELECT | `false` |
+| `authenticated` table SELECT | `false` |
+
+Effective-privilege note: `has_*_privilege` reports effective privilege
+including role inheritance and `PUBLIC` grants, so a `false` result covers both
+direct and inherited paths for the named role.
+
+Derivation:
+
+```text
+acl_exposure     = OR of the four privilege results          = false
+evidence_failure = exit != 0 OR row_count != 1
+                   OR transaction_read_only != "on"
+                   OR any privilege result null / non-boolean = false
+security_blocker = acl_exposure OR evidence_failure           = false
+```
+
+### 3.3 Clean-replay identity gate
+
+The clean-replay gate identifies the subject migration by its exact recorded
+**name**, never by an expected `version` value derived from the filename prefix.
+
+| Property | Value |
+| --- | --- |
+| History table | `supabase_migrations.schema_migrations` |
+| Identity column | `name` |
+| Expected name | `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466` |
+| Expected row count | 1 |
+| Version semantics | runtime apply timestamp; not filename prefix |
+| Observed existing version | `20260726114243` |
+| Expected clean-replay version | not pre-asserted (`null`) |
+| Clean-replay version rule | record the observed value at replay time; do not pre-assert |
+
+### 3.4 Obsolete version-gate assumption search (classified)
+
+Commands executed (each query run repository-wide, excluding `node_modules` and
+`.git`):
+
+```bash
+rg -n --fixed-strings -i "<query>" --glob '!node_modules' --glob '!.git' .
+```
+
+Queries: `20260726114237 must appear applied`, `version 20260726114237`,
+`20260726114237`, `20260726114243`, `schema_migrations`, `filename prefix`,
+`stored version`, `migration version`.
+
+| Classification | Count | Action |
+| --- | --- | --- |
+| Active governing / executable surface asserting an obsolete version identity | 0 | none required |
+| Superseded documentation outside the allow-list | 0 | none required |
+| Immutable historical record | 0 | none required |
+| Hits inside the two allow-listed governance files (already corrected here) | 18 | rewritten in place where applicable |
+| False positives (excluded, unrelated phrasing) | 0 | none |
+
+**Unresolved active assumptions: 0. Search result: `PASS`.**
 
 ## 4. Environment reconciliation
 
@@ -94,8 +248,12 @@ not intended to, rewrite applied history.
 | DB created from an older commit | Original harness may have run | Verify historical residue (currently 0) |
 | DB created from the repaired commit | Tombstone runs | No fixtures, no impersonation, no seeded tenants |
 
-The tombstone does **not** retroactively undo the historical execution against
-existing databases; this is explicitly acknowledged and accepted.
+The tombstone does not retroactively undo historical execution against
+existing databases.
+
+Retention of the original executable SQL in
+`supabase_migrations.schema_migrations.statements` is disclosed for the
+approver and remains pending an explicit disposition under §3.1 and §9.
 
 ## 5. Proposed repair (requires approval before execution)
 
@@ -124,18 +282,24 @@ These files MUST remain byte-identical through the terminal governance commit:
 
 | Path | Git blob SHA | SHA-256 |
 | --- | --- | --- |
+| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` | `12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2` | `584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3` |
 | `supabase/migrations/20260726113455_f79b36fd-9178-4def-91a8-cbc298d95e21.sql` | `7c9f31ff73e5ba8acd882d24c3b3e245b31cfd91` | `70c9aefbfff2bdc3fb40fda5129f9d09c938f8cd55e8a91acc50aa005a5b0b8f` |
 | `src/lib/tenant-onboarding/server/query-service.server.ts` | `eaa83f012e548276a275b703ac51e38106bf34c7` | `19791e6e72c765b793067091f8c811cca7edf423a1dbb9a08ca1346830e97a89` |
 | `src/lib/tenant-onboarding/server/mappers.server.ts` | `cacfdcda92e32bcc3532809a72eb5569f5722070` | `9ca9718d1f778d6d4b4e1c75655f3262949fe9a0d539bb69954a376536a17d62` |
 | `src/lib/tenant-onboarding/queries.functions.ts` | `e39863457a352ce6b9070f308eac120d0044adf1` | `df7662d0fdd1625d5111eb4ab5921889e909ddd28697fdbb5875afe071ccbc55` |
 | `src/integrations/supabase/types.ts` | `e0587be8539bb6c9176b962812b44f45aad8876f` | `2a5cf853f3c8ae8df21a036809716004b2b705831453c2a29528b69a24bcf064` |
 
+Step 0B-prep re-verification: six files checked, six Git blob SHAs unchanged,
+six SHA-256 digests unchanged, twelve recorded hash comparisons passed,
+migration and runtime drift = 0 files.
+
 ## 7. Rollback / recovery
 
 The original executable content is recoverable at any time from Git
-(`git show 1907718:<path>`) and is additionally retained in
-`supabase_migrations.schema_migrations.statements`. Reverting the tombstone
-restores the file byte-for-byte; no database action is required or implied.
+(`git cat-file blob 1907718fa16ecd48f7e3f0b16091d196909a76c3:<path>`) and is
+additionally retained in `supabase_migrations.schema_migrations.statements`.
+Reverting the tombstone restores the file byte-for-byte; no database action is
+required or implied.
 
 ## 8. Known execution constraints (disclosed before approval)
 
@@ -168,4 +332,48 @@ approval record whose SHA is cited in the terminal audit.
 | Step 0C findings incorporated | Yes — §3 above |
 | Approved checksum-repair action | Not applicable (no checksum tracking; see §3) |
 | Approved tombstone strategy | _pending_ |
-| Approval commit SHA | _pending_ |
+| Historical `statements[]` decision | _pending_ (see §3.1) |
+| Approval commit SHA | Captured after commit and recorded in the provisional manifest and terminal audit. |
+
+### 9.1 Approval template
+
+```text
+NON-AUTHORITATIVE APPROVAL TEMPLATE — NOT AN APPROVAL RECORD
+
+Approver identity:                <APPROVER_IDENTITY>
+Decision:                         <DECISION>
+Decision timestamp (UTC):         <UTC_TIMESTAMP>
+Approved tombstone strategy:      <TRUE_OR_FALSE>
+Historical statements[] decision: <ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE
+                                   | SEPARATE_SANITIZATION_REQUIRED_BEFORE_TOMBSTONE>
+```
+
+Field rules:
+
+- `pending` — every approval field is null / `_pending_`.
+- `approved` — decision `APPROVED_WITH_BINDING_CONDITIONS`, tombstone strategy
+  true, disposition `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE`,
+  `security_blocker` false, approval commit SHA a full 40-character SHA.
+- `blocked` — tombstone strategy false, disposition
+  `SEPARATE_SANITIZATION_REQUIRED_BEFORE_TOMBSTONE`, approval commit SHA null,
+  Commit A blocked, subject migration remains byte-identical.
+
+## 10. Step 0B-prep terminal result
+
+| Item | Value |
+| --- | --- |
+| Preparation baseline | CLEAN |
+| Forensic identity chain | PASS |
+| Path-history disposition | `ONLY_COMMIT_VERIFIED` |
+| Obsolete version-gate search | `PASS` |
+| Unresolved active assumptions | 0 |
+| ACL result rows / exposure / evidence failure | 1 / false / false |
+| Security blocker | false |
+| Hash comparisons | 12 / 12 PASS (6 blob + 6 SHA-256), drift 0 files |
+| Changed paths | exactly two `M` entries (this document and the manifest) |
+| Renames / copies / additions / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
+| Step 0B-prep | COMPLETE |
+| Step 0B authority approval | PENDING |
+| Commit A | NOT STARTED |
+| Repository status | `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` |
+| Pass 3.8.3 | NOT STARTED |
