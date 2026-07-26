@@ -457,7 +457,9 @@ Field rules:
 | ACL result rows / exposure / evidence failure | 1 / false / false |
 | Security blocker | false |
 | Hash comparisons | 12 / 12 PASS (6 blob + 6 SHA-256), drift 0 files |
-| Changed paths | exactly two `M` entries (this document and the manifest) |
+| Changed paths (author-attributable) | exactly two `M` entries (this document and the manifest) |
+| Platform-generated path excluded | `src/routeTree.gen.ts` in isolated platform commit `64f2a34dab813c1abe59c4846c4c17a6c506e3e2` (router codegen, no governance content) |
+| `.lovable/plan.md` | byte-identical, digest `00b23fcf2725822570305a78889999e0b7942ed2228a14b3e1f77b6d7f8c43b1` |
 | Renames / copies / additions / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Step 0B-prep | COMPLETE |
 | Step 0B authority approval | PENDING |
