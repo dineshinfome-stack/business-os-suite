@@ -20,7 +20,22 @@ function walk(dir: string): string[] {
 }
 
 const DTO_FILES = walk(DTO_DIR);
-const MODULE_FILES = walk(ROOT);
+const ALL_FILES = walk(ROOT);
+
+/**
+ * Pass 3.8.2 boundary evolution: the module gains a READ layer. Exactly three
+ * files may reach the server; every other file in the module stays pure.
+ */
+const SERVER_ALLOW_LIST = [
+  "queries.functions.ts",
+  path.join("server", "query-service.server.ts"),
+  path.join("server", "mappers.server.ts"),
+].map((rel) => path.join(ROOT, rel));
+
+const SERVER_ALLOW_SET = new Set(SERVER_ALLOW_LIST);
+
+/** Every module file that is NOT an allow-listed server file. */
+const MODULE_FILES = ALL_FILES.filter((f) => !SERVER_ALLOW_SET.has(f));
 
 /** Property-name fragments that must never appear in a DTO contract. */
 const FORBIDDEN = [
@@ -113,6 +128,30 @@ describe("DTO security + architecture boundaries", () => {
       }
       expect(source).not.toContain("process.env");
       expect(source).not.toContain("import.meta.env");
+    }
+  });
+
+  it("allow-lists exactly the three server files", () => {
+    const present = ALL_FILES.filter((f) => SERVER_ALLOW_SET.has(f)).sort();
+    expect(present).toEqual([...SERVER_ALLOW_LIST].sort());
+
+    const serverLike = ALL_FILES.filter(
+      (f) => f.endsWith(".server.ts") || f.endsWith(".functions.ts"),
+    ).sort();
+    expect(serverLike).toEqual([...SERVER_ALLOW_LIST].sort());
+  });
+
+  it("keeps the read layer free of the service-role client and env access", () => {
+    for (const file of SERVER_ALLOW_LIST) {
+      const source = readFileSync(file, "utf8");
+      expect(source, file).not.toContain("client.server");
+      expect(source, file).not.toContain("supabaseAdmin");
+      expect(source, file).not.toContain("SERVICE_ROLE");
+      expect(source, file).not.toContain("process.env");
+      // Read-only pass: no persistence writes anywhere in the read layer.
+      for (const write of [".insert(", ".update(", ".upsert(", ".delete("]) {
+        expect(source.includes(write), `${file} performs ${write}`).toBe(false);
+      }
     }
   });
 

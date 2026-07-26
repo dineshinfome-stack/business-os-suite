@@ -33,6 +33,12 @@ export interface TenantOnboardingDetailDTO {
   blockers: TenantOnboardingBlockerDTO[];
   readiness: TenantOnboardingReadinessDTO;
   availableActions: OnboardingAvailableActionDTO[];
-  /** Optimistic-concurrency token for future command calls. */
-  version: number;
+  /**
+   * Optimistic-concurrency token for future command calls. `null` when the
+   * workflow is not persisted yet (Pass 3.8.2 synthetic-identity contract) —
+   * a non-persisted workflow has no version to guard.
+   */
+  version: number | null;
+  /** `false` when no `tenant_onboarding` row exists for the tenant. */
+  persisted: boolean;
 }

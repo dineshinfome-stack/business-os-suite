@@ -1276,6 +1276,145 @@ export type Database = {
           },
         ]
       }
+      tenant_onboarding: {
+        Row: {
+          activated_at: string | null
+          activated_by: string | null
+          blocked_at: string | null
+          blocked_reason_code: string | null
+          blocked_reason_summary: string | null
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          created_at: string
+          id: string
+          last_correlation_id: string | null
+          last_readiness_checked_at: string | null
+          ready_at: string | null
+          started_at: string | null
+          started_by: string | null
+          state: string
+          tenant_id: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          activated_at?: string | null
+          activated_by?: string | null
+          blocked_at?: string | null
+          blocked_reason_code?: string | null
+          blocked_reason_summary?: string | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          created_at?: string
+          id?: string
+          last_correlation_id?: string | null
+          last_readiness_checked_at?: string | null
+          ready_at?: string | null
+          started_at?: string | null
+          started_by?: string | null
+          state?: string
+          tenant_id: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          activated_at?: string | null
+          activated_by?: string | null
+          blocked_at?: string | null
+          blocked_reason_code?: string | null
+          blocked_reason_summary?: string | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          created_at?: string
+          id?: string
+          last_correlation_id?: string | null
+          last_readiness_checked_at?: string | null
+          ready_at?: string | null
+          started_at?: string | null
+          started_by?: string | null
+          state?: string
+          tenant_id?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_onboarding_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: true
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenant_onboarding_steps: {
+        Row: {
+          attempt_count: number
+          blocked_at: string | null
+          completed_at: string | null
+          correlation_id: string | null
+          created_at: string
+          failure_code: string | null
+          failure_summary: string | null
+          id: string
+          started_at: string | null
+          status: string
+          step_key: string
+          tenant_id: string
+          tenant_onboarding_id: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          attempt_count?: number
+          blocked_at?: string | null
+          completed_at?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          failure_code?: string | null
+          failure_summary?: string | null
+          id?: string
+          started_at?: string | null
+          status?: string
+          step_key: string
+          tenant_id: string
+          tenant_onboarding_id: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          attempt_count?: number
+          blocked_at?: string | null
+          completed_at?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          failure_code?: string | null
+          failure_summary?: string | null
+          id?: string
+          started_at?: string | null
+          status?: string
+          step_key?: string
+          tenant_id?: string
+          tenant_onboarding_id?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_onboarding_steps_parent_fk"
+            columns: ["tenant_onboarding_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenant_onboarding"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           activated_at: string | null

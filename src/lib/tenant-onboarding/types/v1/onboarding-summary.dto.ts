@@ -28,4 +28,10 @@ export interface TenantOnboardingSummaryDTO {
   updatedAt: string;
   readyAt: string | null;
   activatedAt: string | null;
+  /**
+   * Pass 3.8.2 synthetic-identity contract: `false` when no
+   * `tenant_onboarding` row exists yet. Such a workflow is projected as
+   * `not_started` with NO fabricated id, version or timestamps.
+   */
+  persisted: boolean;
 }
