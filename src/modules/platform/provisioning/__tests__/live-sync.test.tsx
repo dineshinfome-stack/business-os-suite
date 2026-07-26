@@ -4,7 +4,8 @@
  * Confirms the documented invalidation sets fire per command and that the SSE
  * transport degrades to polling exactly as specified.
  */
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import * as React from "react";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -88,6 +89,11 @@ class FakeEventSource {
   }
 }
 
+function wrapper({ children }: { children: React.ReactNode }) {
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
+}
+
 describe("live updates", () => {
   beforeEach(() => {
     FakeEventSource.instances = [];
@@ -101,14 +107,14 @@ describe("live updates", () => {
   });
 
   it("connects to the job stream and reports live", () => {
-    const { result } = renderHook(() => useProvisioningEvents("job-1", true));
+    const { result } = renderHook(() => useProvisioningEvents("job-1", true), { wrapper });
     expect(FakeEventSource.instances[0].url).toBe("/api/provisioning/events/job-1");
     act(() => FakeEventSource.instances[0].emit("open"));
     expect(result.current.status).toBe("live");
   });
 
   it("falls back to polling after five consecutive failures", async () => {
-    const { result } = renderHook(() => useProvisioningEvents("job-1", true));
+    const { result } = renderHook(() => useProvisioningEvents("job-1", true), { wrapper });
     for (let i = 0; i < 5; i += 1) {
       act(() => FakeEventSource.instances.at(-1)!.emit("error"));
       act(() => {
@@ -120,13 +126,13 @@ describe("live updates", () => {
   });
 
   it("stays closed and opens no stream when disabled", () => {
-    const { result } = renderHook(() => useProvisioningEvents("job-1", false));
+    const { result } = renderHook(() => useProvisioningEvents("job-1", false), { wrapper });
     expect(FakeEventSource.instances).toHaveLength(0);
     expect(result.current.status).toBe("closed");
   });
 
   it("closes the stream on unmount (route change / browser navigation)", () => {
-    const { unmount } = renderHook(() => useProvisioningEvents("job-1", true));
+    const { unmount } = renderHook(() => useProvisioningEvents("job-1", true), { wrapper });
     const source = FakeEventSource.instances[0];
     unmount();
     expect(source.closed).toBe(true);
