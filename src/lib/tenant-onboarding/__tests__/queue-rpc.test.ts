@@ -136,7 +136,7 @@ describe("getOnboardingQueue (RPC-backed)", () => {
     const rows = [tenantRow(9), tenantRow(4), tenantRow(7)];
     const { client } = fakeClient(envelope(rows, 3));
     const page = await getOnboardingQueue(client, baseFilters);
-    expect(page.rows.map((r) => r.displayName)).toEqual([
+    expect(page.rows.map((r) => r.tenantName)).toEqual([
       "Tenant 9",
       "Tenant 4",
       "Tenant 7",
