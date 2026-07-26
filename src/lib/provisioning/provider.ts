@@ -19,8 +19,13 @@ export interface ProviderCapabilities {
   supportsSeeding: boolean;
   supportsDestroy: boolean;
   supportsHealthCheck: boolean;
+  /** Gate 3.3 additive flags — optional so existing providers stay valid. */
+  supportsRollback?: boolean;
+  supportsSqlExecution?: boolean;
+  supportsAdminCreation?: boolean;
   regions: readonly string[];
 }
+
 
 export interface CreateProjectInput {
   tenantId: string;
