@@ -24,6 +24,7 @@ import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedPlatformIndexRouteImport } from './routes/_authenticated/platform/index'
 import { Route as AuthenticatedPlatformDashboardRouteImport } from './routes/_authenticated/platform/dashboard'
 import { Route as AuthenticatedPlatformSplatRouteImport } from './routes/_authenticated/platform/$'
+import { Route as AuthenticatedPlatformProvisioningRouteRouteImport } from './routes/_authenticated/platform/provisioning/route'
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
 import { Route as AuthenticatedPlatformProvisioningIndexRouteImport } from './routes/_authenticated/platform/provisioning/index'
 import { Route as AuthenticatedPlatformCompaniesIndexRouteImport } from './routes/_authenticated/platform/companies/index'
@@ -108,6 +109,12 @@ const AuthenticatedPlatformSplatRoute =
     path: '/platform/$',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPlatformProvisioningRouteRoute =
+  AuthenticatedPlatformProvisioningRouteRouteImport.update({
+    id: '/platform/provisioning',
+    path: '/platform/provisioning',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedPlatformTenantsIndexRoute =
   AuthenticatedPlatformTenantsIndexRouteImport.update({
     id: '/platform/tenants/',
@@ -116,9 +123,9 @@ const AuthenticatedPlatformTenantsIndexRoute =
   } as any)
 const AuthenticatedPlatformProvisioningIndexRoute =
   AuthenticatedPlatformProvisioningIndexRouteImport.update({
-    id: '/platform/provisioning/',
-    path: '/platform/provisioning/',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPlatformProvisioningRouteRoute,
   } as any)
 const AuthenticatedPlatformCompaniesIndexRoute =
   AuthenticatedPlatformCompaniesIndexRouteImport.update({
@@ -134,9 +141,9 @@ const AuthenticatedPlatformTenantsTenantIdRoute =
   } as any)
 const AuthenticatedPlatformProvisioningJobIdRoute =
   AuthenticatedPlatformProvisioningJobIdRouteImport.update({
-    id: '/platform/provisioning/$jobId',
-    path: '/platform/provisioning/$jobId',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/$jobId',
+    path: '/$jobId',
+    getParentRoute: () => AuthenticatedPlatformProvisioningRouteRoute,
   } as any)
 const AuthenticatedPlatformCompaniesCompanyIdRoute =
   AuthenticatedPlatformCompaniesCompanyIdRouteImport.update({
@@ -157,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
+  '/platform/provisioning': typeof AuthenticatedPlatformProvisioningRouteRouteWithChildren
   '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/platform/': typeof AuthenticatedPlatformIndexRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
+  '/_authenticated/platform/provisioning': typeof AuthenticatedPlatformProvisioningRouteRouteWithChildren
   '/_authenticated/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/_authenticated/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
@@ -226,6 +235,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
+    | '/platform/provisioning'
     | '/platform/$'
     | '/platform/dashboard'
     | '/platform/'
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
+    | '/_authenticated/platform/provisioning'
     | '/_authenticated/platform/$'
     | '/_authenticated/platform/dashboard'
     | '/_authenticated/platform/'
@@ -400,6 +411,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformSplatRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/platform/provisioning': {
+      id: '/_authenticated/platform/provisioning'
+      path: '/platform/provisioning'
+      fullPath: '/platform/provisioning'
+      preLoaderRoute: typeof AuthenticatedPlatformProvisioningRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/platform/tenants/': {
       id: '/_authenticated/platform/tenants/'
       path: '/platform/tenants'
@@ -409,10 +427,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/platform/provisioning/': {
       id: '/_authenticated/platform/provisioning/'
-      path: '/platform/provisioning'
+      path: '/'
       fullPath: '/platform/provisioning/'
       preLoaderRoute: typeof AuthenticatedPlatformProvisioningIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      parentRoute: typeof AuthenticatedPlatformProvisioningRouteRoute
     }
     '/_authenticated/platform/companies/': {
       id: '/_authenticated/platform/companies/'
@@ -430,10 +448,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/platform/provisioning/$jobId': {
       id: '/_authenticated/platform/provisioning/$jobId'
-      path: '/platform/provisioning/$jobId'
+      path: '/$jobId'
       fullPath: '/platform/provisioning/$jobId'
       preLoaderRoute: typeof AuthenticatedPlatformProvisioningJobIdRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      parentRoute: typeof AuthenticatedPlatformProvisioningRouteRoute
     }
     '/_authenticated/platform/companies/$companyId': {
       id: '/_authenticated/platform/companies/$companyId'
@@ -445,32 +463,47 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedPlatformProvisioningRouteRouteChildren {
+  AuthenticatedPlatformProvisioningJobIdRoute: typeof AuthenticatedPlatformProvisioningJobIdRoute
+  AuthenticatedPlatformProvisioningIndexRoute: typeof AuthenticatedPlatformProvisioningIndexRoute
+}
+
+const AuthenticatedPlatformProvisioningRouteRouteChildren: AuthenticatedPlatformProvisioningRouteRouteChildren =
+  {
+    AuthenticatedPlatformProvisioningJobIdRoute:
+      AuthenticatedPlatformProvisioningJobIdRoute,
+    AuthenticatedPlatformProvisioningIndexRoute:
+      AuthenticatedPlatformProvisioningIndexRoute,
+  }
+
+const AuthenticatedPlatformProvisioningRouteRouteWithChildren =
+  AuthenticatedPlatformProvisioningRouteRoute._addFileChildren(
+    AuthenticatedPlatformProvisioningRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
+  AuthenticatedPlatformProvisioningRouteRoute: typeof AuthenticatedPlatformProvisioningRouteRouteWithChildren
   AuthenticatedPlatformSplatRoute: typeof AuthenticatedPlatformSplatRoute
   AuthenticatedPlatformDashboardRoute: typeof AuthenticatedPlatformDashboardRoute
   AuthenticatedPlatformIndexRoute: typeof AuthenticatedPlatformIndexRoute
   AuthenticatedPlatformCompaniesCompanyIdRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRoute
-  AuthenticatedPlatformProvisioningJobIdRoute: typeof AuthenticatedPlatformProvisioningJobIdRoute
   AuthenticatedPlatformTenantsTenantIdRoute: typeof AuthenticatedPlatformTenantsTenantIdRoute
   AuthenticatedPlatformCompaniesIndexRoute: typeof AuthenticatedPlatformCompaniesIndexRoute
-  AuthenticatedPlatformProvisioningIndexRoute: typeof AuthenticatedPlatformProvisioningIndexRoute
   AuthenticatedPlatformTenantsIndexRoute: typeof AuthenticatedPlatformTenantsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedPlatformProvisioningRouteRoute:
+    AuthenticatedPlatformProvisioningRouteRouteWithChildren,
   AuthenticatedPlatformSplatRoute: AuthenticatedPlatformSplatRoute,
   AuthenticatedPlatformDashboardRoute: AuthenticatedPlatformDashboardRoute,
   AuthenticatedPlatformIndexRoute: AuthenticatedPlatformIndexRoute,
   AuthenticatedPlatformCompaniesCompanyIdRoute:
     AuthenticatedPlatformCompaniesCompanyIdRoute,
-  AuthenticatedPlatformProvisioningJobIdRoute:
-    AuthenticatedPlatformProvisioningJobIdRoute,
   AuthenticatedPlatformTenantsTenantIdRoute:
     AuthenticatedPlatformTenantsTenantIdRoute,
   AuthenticatedPlatformCompaniesIndexRoute:
     AuthenticatedPlatformCompaniesIndexRoute,
-  AuthenticatedPlatformProvisioningIndexRoute:
-    AuthenticatedPlatformProvisioningIndexRoute,
   AuthenticatedPlatformTenantsIndexRoute:
     AuthenticatedPlatformTenantsIndexRoute,
 }
