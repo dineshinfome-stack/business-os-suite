@@ -6,7 +6,7 @@
  */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
-import { act, renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { invalidateAfterCommand, provisioningKeys } from "../hooks/query-keys";
@@ -113,7 +113,7 @@ describe("live updates", () => {
     expect(result.current.status).toBe("live");
   });
 
-  it("falls back to polling after five consecutive failures", async () => {
+  it("falls back to polling after five consecutive failures", () => {
     const { result } = renderHook(() => useProvisioningEvents("job-1", true), { wrapper });
     for (let i = 0; i < 5; i += 1) {
       act(() => FakeEventSource.instances.at(-1)!.emit("error"));
@@ -121,7 +121,7 @@ describe("live updates", () => {
         vi.advanceTimersByTime(60_000);
       });
     }
-    await waitFor(() => expect(result.current.status).toBe("polling"));
+    expect(result.current.status).toBe("polling");
     expect(result.current.pollingFallback).toBe(true);
   });
 
