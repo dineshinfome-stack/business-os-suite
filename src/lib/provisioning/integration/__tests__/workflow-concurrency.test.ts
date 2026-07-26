@@ -19,9 +19,9 @@ async function runToCompletion(h: IntegrationHarness) {
 }
 
 function batch(size: number): IntegrationHarness[] {
-  return Array.from({ length: size }, (_, index) =>
-    createIntegrationHarness({ job: { tenant_id: `tenant-${index}` } }),
-  );
+  // Each harness owns an isolated store + service, mirroring the per-request
+  // composition the command facade performs for every job.
+  return Array.from({ length: size }, () => createIntegrationHarness());
 }
 
 describe("operational · concurrent batches", () => {
