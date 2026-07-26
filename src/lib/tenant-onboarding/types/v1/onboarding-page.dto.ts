@@ -28,3 +28,13 @@ export interface OnboardingListFilterDTO {
   page?: number;
   pageSize?: number;
 }
+
+/**
+ * Contract co-location closure (Pass 3.8.1 amendment).
+ *
+ * The governing spec names this contract `TenantOnboardingFilterDTO`; the
+ * repository's canonical declaration is `OnboardingListFilterDTO`, co-located
+ * with the pagination contract it parameterises. This is a TYPE-ONLY alias:
+ * no duplicate interface and no runtime artifact is introduced.
+ */
+export type TenantOnboardingFilterDTO = OnboardingListFilterDTO;
