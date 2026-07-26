@@ -25,9 +25,11 @@ import { Route as AuthenticatedPlatformIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedPlatformDashboardRouteImport } from './routes/_authenticated/platform/dashboard'
 import { Route as AuthenticatedPlatformSplatRouteImport } from './routes/_authenticated/platform/$'
 import { Route as AuthenticatedPlatformProvisioningRouteRouteImport } from './routes/_authenticated/platform/provisioning/route'
+import { Route as AuthenticatedPlatformAdminRouteRouteImport } from './routes/_authenticated/platform/admin/route'
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
 import { Route as AuthenticatedPlatformProvisioningIndexRouteImport } from './routes/_authenticated/platform/provisioning/index'
 import { Route as AuthenticatedPlatformCompaniesIndexRouteImport } from './routes/_authenticated/platform/companies/index'
+import { Route as AuthenticatedPlatformAdminIndexRouteImport } from './routes/_authenticated/platform/admin/index'
 import { Route as ApiProvisioningEventsJobIdRouteImport } from './routes/api/provisioning/events.$jobId'
 import { Route as AuthenticatedPlatformTenantsLifecycleRouteImport } from './routes/_authenticated/platform/tenants/lifecycle'
 import { Route as AuthenticatedPlatformTenantsTenantIdRouteImport } from './routes/_authenticated/platform/tenants/$tenantId'
@@ -37,6 +39,13 @@ import { Route as AuthenticatedPlatformProvisioningHealthRouteImport } from './r
 import { Route as AuthenticatedPlatformProvisioningFailedRouteImport } from './routes/_authenticated/platform/provisioning/failed'
 import { Route as AuthenticatedPlatformProvisioningJobIdRouteImport } from './routes/_authenticated/platform/provisioning/$jobId'
 import { Route as AuthenticatedPlatformCompaniesCompanyIdRouteImport } from './routes/_authenticated/platform/companies/$companyId'
+import { Route as AuthenticatedPlatformAdminTenantsRouteImport } from './routes/_authenticated/platform/admin/tenants'
+import { Route as AuthenticatedPlatformAdminSettingsRouteImport } from './routes/_authenticated/platform/admin/settings'
+import { Route as AuthenticatedPlatformAdminProvidersRouteImport } from './routes/_authenticated/platform/admin/providers'
+import { Route as AuthenticatedPlatformAdminNotificationsRouteImport } from './routes/_authenticated/platform/admin/notifications'
+import { Route as AuthenticatedPlatformAdminFeaturesRouteImport } from './routes/_authenticated/platform/admin/features'
+import { Route as AuthenticatedPlatformAdminAuditRouteImport } from './routes/_authenticated/platform/admin/audit'
+import { Route as AuthenticatedPlatformAdminAttentionRouteImport } from './routes/_authenticated/platform/admin/attention'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -121,6 +130,12 @@ const AuthenticatedPlatformProvisioningRouteRoute =
     path: '/platform/provisioning',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPlatformAdminRouteRoute =
+  AuthenticatedPlatformAdminRouteRouteImport.update({
+    id: '/platform/admin',
+    path: '/platform/admin',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedPlatformTenantsIndexRoute =
   AuthenticatedPlatformTenantsIndexRouteImport.update({
     id: '/platform/tenants/',
@@ -138,6 +153,12 @@ const AuthenticatedPlatformCompaniesIndexRoute =
     id: '/platform/companies/',
     path: '/platform/companies/',
     getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedPlatformAdminIndexRoute =
+  AuthenticatedPlatformAdminIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
   } as any)
 const ApiProvisioningEventsJobIdRoute =
   ApiProvisioningEventsJobIdRouteImport.update({
@@ -193,6 +214,48 @@ const AuthenticatedPlatformCompaniesCompanyIdRoute =
     path: '/platform/companies/$companyId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPlatformAdminTenantsRoute =
+  AuthenticatedPlatformAdminTenantsRouteImport.update({
+    id: '/tenants',
+    path: '/tenants',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminSettingsRoute =
+  AuthenticatedPlatformAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminProvidersRoute =
+  AuthenticatedPlatformAdminProvidersRouteImport.update({
+    id: '/providers',
+    path: '/providers',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminNotificationsRoute =
+  AuthenticatedPlatformAdminNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminFeaturesRoute =
+  AuthenticatedPlatformAdminFeaturesRouteImport.update({
+    id: '/features',
+    path: '/features',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminAuditRoute =
+  AuthenticatedPlatformAdminAuditRouteImport.update({
+    id: '/audit',
+    path: '/audit',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminAttentionRoute =
+  AuthenticatedPlatformAdminAttentionRouteImport.update({
+    id: '/attention',
+    path: '/attention',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -206,10 +269,18 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
+  '/platform/admin': typeof AuthenticatedPlatformAdminRouteRouteWithChildren
   '/platform/provisioning': typeof AuthenticatedPlatformProvisioningRouteRouteWithChildren
   '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/platform/': typeof AuthenticatedPlatformIndexRoute
+  '/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/platform/admin/audit': typeof AuthenticatedPlatformAdminAuditRoute
+  '/platform/admin/features': typeof AuthenticatedPlatformAdminFeaturesRoute
+  '/platform/admin/notifications': typeof AuthenticatedPlatformAdminNotificationsRoute
+  '/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
+  '/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
+  '/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
   '/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
@@ -219,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/platform/tenants/lifecycle': typeof AuthenticatedPlatformTenantsLifecycleRoute
   '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
+  '/platform/admin/': typeof AuthenticatedPlatformAdminIndexRoute
   '/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
@@ -237,6 +309,13 @@ export interface FileRoutesByTo {
   '/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/platform': typeof AuthenticatedPlatformIndexRoute
+  '/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/platform/admin/audit': typeof AuthenticatedPlatformAdminAuditRoute
+  '/platform/admin/features': typeof AuthenticatedPlatformAdminFeaturesRoute
+  '/platform/admin/notifications': typeof AuthenticatedPlatformAdminNotificationsRoute
+  '/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
+  '/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
+  '/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
   '/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
@@ -246,6 +325,7 @@ export interface FileRoutesByTo {
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/platform/tenants/lifecycle': typeof AuthenticatedPlatformTenantsLifecycleRoute
   '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
+  '/platform/admin': typeof AuthenticatedPlatformAdminIndexRoute
   '/platform/companies': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/platform/tenants': typeof AuthenticatedPlatformTenantsIndexRoute
@@ -264,10 +344,18 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/docs/$': typeof DocsSplatRoute
   '/docs/': typeof DocsIndexRoute
+  '/_authenticated/platform/admin': typeof AuthenticatedPlatformAdminRouteRouteWithChildren
   '/_authenticated/platform/provisioning': typeof AuthenticatedPlatformProvisioningRouteRouteWithChildren
   '/_authenticated/platform/$': typeof AuthenticatedPlatformSplatRoute
   '/_authenticated/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
+  '/_authenticated/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/_authenticated/platform/admin/audit': typeof AuthenticatedPlatformAdminAuditRoute
+  '/_authenticated/platform/admin/features': typeof AuthenticatedPlatformAdminFeaturesRoute
+  '/_authenticated/platform/admin/notifications': typeof AuthenticatedPlatformAdminNotificationsRoute
+  '/_authenticated/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
+  '/_authenticated/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
+  '/_authenticated/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
   '/_authenticated/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/_authenticated/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
   '/_authenticated/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
@@ -277,6 +365,7 @@ export interface FileRoutesById {
   '/_authenticated/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/_authenticated/platform/tenants/lifecycle': typeof AuthenticatedPlatformTenantsLifecycleRoute
   '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
+  '/_authenticated/platform/admin/': typeof AuthenticatedPlatformAdminIndexRoute
   '/_authenticated/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/_authenticated/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/_authenticated/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
@@ -295,10 +384,18 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
+    | '/platform/admin'
     | '/platform/provisioning'
     | '/platform/$'
     | '/platform/dashboard'
     | '/platform/'
+    | '/platform/admin/attention'
+    | '/platform/admin/audit'
+    | '/platform/admin/features'
+    | '/platform/admin/notifications'
+    | '/platform/admin/providers'
+    | '/platform/admin/settings'
+    | '/platform/admin/tenants'
     | '/platform/companies/$companyId'
     | '/platform/provisioning/$jobId'
     | '/platform/provisioning/failed'
@@ -308,6 +405,7 @@ export interface FileRouteTypes {
     | '/platform/tenants/$tenantId'
     | '/platform/tenants/lifecycle'
     | '/api/provisioning/events/$jobId'
+    | '/platform/admin/'
     | '/platform/companies/'
     | '/platform/provisioning/'
     | '/platform/tenants/'
@@ -326,6 +424,13 @@ export interface FileRouteTypes {
     | '/platform/$'
     | '/platform/dashboard'
     | '/platform'
+    | '/platform/admin/attention'
+    | '/platform/admin/audit'
+    | '/platform/admin/features'
+    | '/platform/admin/notifications'
+    | '/platform/admin/providers'
+    | '/platform/admin/settings'
+    | '/platform/admin/tenants'
     | '/platform/companies/$companyId'
     | '/platform/provisioning/$jobId'
     | '/platform/provisioning/failed'
@@ -335,6 +440,7 @@ export interface FileRouteTypes {
     | '/platform/tenants/$tenantId'
     | '/platform/tenants/lifecycle'
     | '/api/provisioning/events/$jobId'
+    | '/platform/admin'
     | '/platform/companies'
     | '/platform/provisioning'
     | '/platform/tenants'
@@ -352,10 +458,18 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/docs/$'
     | '/docs/'
+    | '/_authenticated/platform/admin'
     | '/_authenticated/platform/provisioning'
     | '/_authenticated/platform/$'
     | '/_authenticated/platform/dashboard'
     | '/_authenticated/platform/'
+    | '/_authenticated/platform/admin/attention'
+    | '/_authenticated/platform/admin/audit'
+    | '/_authenticated/platform/admin/features'
+    | '/_authenticated/platform/admin/notifications'
+    | '/_authenticated/platform/admin/providers'
+    | '/_authenticated/platform/admin/settings'
+    | '/_authenticated/platform/admin/tenants'
     | '/_authenticated/platform/companies/$companyId'
     | '/_authenticated/platform/provisioning/$jobId'
     | '/_authenticated/platform/provisioning/failed'
@@ -365,6 +479,7 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/tenants/$tenantId'
     | '/_authenticated/platform/tenants/lifecycle'
     | '/api/provisioning/events/$jobId'
+    | '/_authenticated/platform/admin/'
     | '/_authenticated/platform/companies/'
     | '/_authenticated/platform/provisioning/'
     | '/_authenticated/platform/tenants/'
@@ -497,6 +612,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformProvisioningRouteRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/platform/admin': {
+      id: '/_authenticated/platform/admin'
+      path: '/platform/admin'
+      fullPath: '/platform/admin'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/platform/tenants/': {
       id: '/_authenticated/platform/tenants/'
       path: '/platform/tenants'
@@ -517,6 +639,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/platform/companies/'
       preLoaderRoute: typeof AuthenticatedPlatformCompaniesIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/platform/admin/': {
+      id: '/_authenticated/platform/admin/'
+      path: '/'
+      fullPath: '/platform/admin/'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
     }
     '/api/provisioning/events/$jobId': {
       id: '/api/provisioning/events/$jobId'
@@ -581,8 +710,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/platform/admin/tenants': {
+      id: '/_authenticated/platform/admin/tenants'
+      path: '/tenants'
+      fullPath: '/platform/admin/tenants'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminTenantsRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/settings': {
+      id: '/_authenticated/platform/admin/settings'
+      path: '/settings'
+      fullPath: '/platform/admin/settings'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/providers': {
+      id: '/_authenticated/platform/admin/providers'
+      path: '/providers'
+      fullPath: '/platform/admin/providers'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminProvidersRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/notifications': {
+      id: '/_authenticated/platform/admin/notifications'
+      path: '/notifications'
+      fullPath: '/platform/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/features': {
+      id: '/_authenticated/platform/admin/features'
+      path: '/features'
+      fullPath: '/platform/admin/features'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminFeaturesRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/audit': {
+      id: '/_authenticated/platform/admin/audit'
+      path: '/audit'
+      fullPath: '/platform/admin/audit'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/attention': {
+      id: '/_authenticated/platform/admin/attention'
+      path: '/attention'
+      fullPath: '/platform/admin/attention'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminAttentionRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
   }
 }
+
+interface AuthenticatedPlatformAdminRouteRouteChildren {
+  AuthenticatedPlatformAdminAttentionRoute: typeof AuthenticatedPlatformAdminAttentionRoute
+  AuthenticatedPlatformAdminAuditRoute: typeof AuthenticatedPlatformAdminAuditRoute
+  AuthenticatedPlatformAdminFeaturesRoute: typeof AuthenticatedPlatformAdminFeaturesRoute
+  AuthenticatedPlatformAdminNotificationsRoute: typeof AuthenticatedPlatformAdminNotificationsRoute
+  AuthenticatedPlatformAdminProvidersRoute: typeof AuthenticatedPlatformAdminProvidersRoute
+  AuthenticatedPlatformAdminSettingsRoute: typeof AuthenticatedPlatformAdminSettingsRoute
+  AuthenticatedPlatformAdminTenantsRoute: typeof AuthenticatedPlatformAdminTenantsRoute
+  AuthenticatedPlatformAdminIndexRoute: typeof AuthenticatedPlatformAdminIndexRoute
+}
+
+const AuthenticatedPlatformAdminRouteRouteChildren: AuthenticatedPlatformAdminRouteRouteChildren =
+  {
+    AuthenticatedPlatformAdminAttentionRoute:
+      AuthenticatedPlatformAdminAttentionRoute,
+    AuthenticatedPlatformAdminAuditRoute: AuthenticatedPlatformAdminAuditRoute,
+    AuthenticatedPlatformAdminFeaturesRoute:
+      AuthenticatedPlatformAdminFeaturesRoute,
+    AuthenticatedPlatformAdminNotificationsRoute:
+      AuthenticatedPlatformAdminNotificationsRoute,
+    AuthenticatedPlatformAdminProvidersRoute:
+      AuthenticatedPlatformAdminProvidersRoute,
+    AuthenticatedPlatformAdminSettingsRoute:
+      AuthenticatedPlatformAdminSettingsRoute,
+    AuthenticatedPlatformAdminTenantsRoute:
+      AuthenticatedPlatformAdminTenantsRoute,
+    AuthenticatedPlatformAdminIndexRoute: AuthenticatedPlatformAdminIndexRoute,
+  }
+
+const AuthenticatedPlatformAdminRouteRouteWithChildren =
+  AuthenticatedPlatformAdminRouteRoute._addFileChildren(
+    AuthenticatedPlatformAdminRouteRouteChildren,
+  )
 
 interface AuthenticatedPlatformProvisioningRouteRouteChildren {
   AuthenticatedPlatformProvisioningJobIdRoute: typeof AuthenticatedPlatformProvisioningJobIdRoute
@@ -615,6 +827,7 @@ const AuthenticatedPlatformProvisioningRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedPlatformAdminRouteRoute: typeof AuthenticatedPlatformAdminRouteRouteWithChildren
   AuthenticatedPlatformProvisioningRouteRoute: typeof AuthenticatedPlatformProvisioningRouteRouteWithChildren
   AuthenticatedPlatformSplatRoute: typeof AuthenticatedPlatformSplatRoute
   AuthenticatedPlatformDashboardRoute: typeof AuthenticatedPlatformDashboardRoute
@@ -627,6 +840,8 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedPlatformAdminRouteRoute:
+    AuthenticatedPlatformAdminRouteRouteWithChildren,
   AuthenticatedPlatformProvisioningRouteRoute:
     AuthenticatedPlatformProvisioningRouteRouteWithChildren,
   AuthenticatedPlatformSplatRoute: AuthenticatedPlatformSplatRoute,

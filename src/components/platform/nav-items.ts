@@ -11,6 +11,7 @@ import {
   LifeBuoy,
   Palette,
   Settings,
+  SlidersHorizontal,
   type LucideIcon,
 } from "lucide-react";
 
@@ -72,6 +73,22 @@ export const PLATFORM_NAV: PlatformNavItem[] = [
       { id: "provisioning-queue", label: "Live queue", to: "/platform/provisioning/queue" },
       { id: "provisioning-failed", label: "Failures", to: "/platform/provisioning/failed" },
       { id: "provisioning-health", label: "Provider health", to: "/platform/provisioning/health" },
+    ],
+  },
+  {
+    id: "administration",
+    label: "Administration",
+    icon: SlidersHorizontal,
+    to: "/platform/admin",
+    children: [
+      { id: "admin-operations", label: "Operations", to: "/platform/admin", exact: true },
+      { id: "admin-attention", label: "Attention", to: "/platform/admin/attention" },
+      { id: "admin-tenants", label: "Tenant operations", to: "/platform/admin/tenants" },
+      { id: "admin-providers", label: "Providers & regions", to: "/platform/admin/providers" },
+      { id: "admin-settings", label: "Settings", to: "/platform/admin/settings" },
+      { id: "admin-features", label: "Feature controls", to: "/platform/admin/features" },
+      { id: "admin-audit", label: "Audit explorer", to: "/platform/admin/audit" },
+      { id: "admin-notifications", label: "Notifications", to: "/platform/admin/notifications" },
     ],
   },
 
