@@ -6,7 +6,12 @@
  * suite only exercises what Gates 3.1–3.4 already built.
  */
 import { describe, it, expect, vi } from "vitest";
-import { createIntegrationHarness, VALID_TENANT, type IntegrationHarness } from "./harness";
+import {
+  createIntegrationHarness,
+  makeStepRow,
+  VALID_TENANT,
+  type IntegrationHarness,
+} from "./harness";
 
 const PROJECT_REF = { project_reference: "proj_fake_1" };
 
@@ -256,9 +261,19 @@ describe("workflow · rollback", () => {
   it("releases resources in reverse order and lands on rolled_back", async () => {
     const h = createIntegrationHarness({
       job: { state: "failed", provider_resource_reference: PROJECT_REF },
+      steps: [
+        makeStepRow("create_project", { status: "succeeded" }),
+        makeStepRow("apply_migrations", { status: "failed" }),
+      ],
     });
     const result = await h.service.rollbackProvisioning();
     expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.actions.map((a) => a.step_key)).toEqual([
+        "apply_migrations",
+        "create_project",
+      ]);
+    }
     expect(h.provider.destroyProject).toHaveBeenCalled();
     expect(h.store.job.state).toBe("rolled_back");
   });
@@ -279,6 +294,7 @@ describe("workflow · rollback", () => {
   it("surfaces a rollback failure without corrupting the job row", async () => {
     const h = createIntegrationHarness({
       job: { state: "failed", provider_resource_reference: PROJECT_REF },
+      steps: [makeStepRow("create_project", { status: "succeeded" })],
       provider: {
         destroyProject: vi.fn(async () => {
           throw new Error("destroy refused");
