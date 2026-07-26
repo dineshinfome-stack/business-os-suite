@@ -237,7 +237,7 @@
           "query": "schema_migrations",
           "path": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json",
           "line_at_historical_search_baseline": 15,
-          "matched_text": "\"history_table\": \"supabase_migrations.schema_migrations\",",
+          "matched_text": "      \"history_table\": \"supabase_migrations.schema_migrations\",",
           "classification": "ALLOW_LIST_CONTEXT_VALID",
           "reason": "Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption.",
           "action": "No change required"
@@ -246,7 +246,7 @@
           "query": "filename prefix",
           "path": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json",
           "line_at_historical_search_baseline": 19,
-          "matched_text": "\"version_semantics\": \"apply timestamp, not filename prefix\",",
+          "matched_text": "      \"version_semantics\": \"apply timestamp, not filename prefix\",",
           "classification": "ALLOW_LIST_CONTEXT_VALID",
           "reason": "Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption.",
           "action": "No change required"
@@ -255,7 +255,7 @@
           "query": "20260726114243",
           "path": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json",
           "line_at_historical_search_baseline": 20,
-          "matched_text": "\"subject_recorded_version\": \"20260726114243\",",
+          "matched_text": "      \"subject_recorded_version\": \"20260726114243\",",
           "classification": "ALLOW_LIST_CONTEXT_VALID",
           "reason": "Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption.",
           "action": "No change required"
@@ -264,7 +264,7 @@
           "query": "20260726114237",
           "path": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json",
           "line_at_historical_search_baseline": 21,
-          "matched_text": "\"subject_recorded_name\": \"20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466\",",
+          "matched_text": "      \"subject_recorded_name\": \"20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466\",",
           "classification": "ALLOW_LIST_CONTEXT_VALID",
           "reason": "Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption.",
           "action": "No change required"
@@ -273,7 +273,7 @@
           "query": "20260726114237",
           "path": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json",
           "line_at_historical_search_baseline": 61,
-          "matched_text": "\"path\": \"supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql\",",
+          "matched_text": "    \"path\": \"supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql\",",
           "classification": "ALLOW_LIST_CONTEXT_VALID",
           "reason": "Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption.",
           "action": "No change required"
@@ -282,7 +282,7 @@
           "query": "20260726114237",
           "path": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json",
           "line_at_historical_search_baseline": 73,
-          "matched_text": "\"supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql\",",
+          "matched_text": "      \"supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql\",",
           "classification": "ALLOW_LIST_CONTEXT_VALID",
           "reason": "Match occurs inside an allow-listed governance evidence file and documents the corrected name-based identity gate; it is not an obsolete version-based assumption.",
           "action": "No change required"
@@ -297,7 +297,7 @@
       "immutable_historical_hits": 0,
       "false_positive_hits": 0,
       "unresolved_active_hits": 0,
-      "classification_arithmetic": "18 = 18 + 0 + 0 + 0 + 0 + 0",
+      "classification_arithmetic": "18 = 18 allow-list-context-valid + 0 active-governing + 0 superseded-documentation + 0 immutable-historical + 0 quoted-context + 0 false-positive",
       "canonicalization": {
         "format": "JSON Lines",
         "fields": [
@@ -308,7 +308,7 @@
         ],
         "key_order": "fixed, as listed in fields",
         "path_normalization": "leading './' removed",
-        "matched_text_normalization": "leading and trailing whitespace trimmed",
+        "matched_text_normalization": "none — matched text retained verbatim after the line separator",
         "deduplication": "path:line:query",
         "sort": "LC_ALL=C by path, then numeric line, then query",
         "encoding": "UTF-8",
@@ -316,8 +316,11 @@
         "final_newline": true
       },
       "raw_output_sha256": "333f0938027bf036b1b4d2212b54f682c97c41c88947c6b659eb0b709f168ad3",
-      "canonical_output_sha256": "2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef",
-      "result": "PASS"
+      "canonical_output_sha256": "dfc2f8f20e9cc53ecaa75f42ac551e23556f4d4459b79297e8e88502000276e4",
+      "result": "PASS",
+      "quoted_context_hits": 0,
+      "superseded_canonical_output_sha256": "2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef",
+      "superseded_canonical_output_sha256_reason": "Computed under withdrawn leading/trailing whitespace trimming rule."
     },
     "current_state_search_review": {
       "executed": true,
@@ -341,7 +344,8 @@
       "classification": "SELF_REFERENTIAL_GOVERNANCE_CONTEXT_VALID",
       "unresolved_obsolete_assumptions": 0,
       "supersession_note": "The current-state count neither contradicts nor supersedes the historical measurement of 18; it is a later, self-referential measurement of the evidence files themselves.",
-      "result": "PASS"
+      "result": "PASS",
+      "review_baseline_commit_role": "superseded_preparation_baseline"
     },
     "hidden_active_surface_review": {
       "executed": true,
@@ -353,7 +357,7 @@
       "result": "PASS"
     },
     "step_0b_approval": {
-      "state": "approved",
+      "state": "recorded_suspended",
       "approval_authority": "Architecture Office — Migration Authority",
       "approver_identity": "Dino Loy (GitHub: dineshinfome-stack)",
       "decision": "APPROVED_WITH_BINDING_CONDITIONS",
@@ -361,10 +365,10 @@
       "approved_tombstone_strategy": true,
       "historical_statements_decision": "ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE",
       "authority_decision_note": "Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3.",
-      "authorizes_commit_a": true,
+      "authorizes_commit_a": false,
       "authorizes_pass_3_8_3": false,
       "approval_commit_sha": null,
-      "approval_commit_sha_state": "PENDING_POST_COMMIT_PIN",
+      "approval_commit_sha_state": "NOT_ELIGIBLE_FOR_PINNING",
       "authority_decision_origin_commit_sha": "e403d7aec345fc40137cc61288d349d984108c20",
       "binding_conditions": [
         "This approval authorizes Commit A only.",
@@ -381,7 +385,10 @@
         "Pass 3.8.3 remains NOT STARTED until terminal governance formally closes Pass 3.8.2.",
         "Historical executable SQL retained in supabase_migrations.schema_migrations.statements is accepted as immutable migration evidence for already-applied databases.",
         "This acceptance does not authorize further exposure, copying or publication of the historical SQL outside controlled evidence surfaces."
-      ]
+      ],
+      "effective": false,
+      "suspension_reason": "STEP_0B_PREP_PREREQUISITES_NOT_SATISFIED",
+      "binding_condition_completion_commit_sha": "98f70721145faeb7bfc08d01fc9e937e224d77ab"
     },
     "step_0d_runtime_immutability_baseline": [
       {
@@ -453,11 +460,11 @@
     "additions": 0,
     "deletions": 0,
     "binary_changes": 0,
-    "step_0b_authority_approval": "APPROVED_WITH_BINDING_CONDITIONS",
+    "step_0b_authority_approval": "RECORDED — EFFECTIVENESS SUSPENDED",
     "authority_decision_origin_commit_sha": "e403d7aec345fc40137cc61288d349d984108c20",
     "binding_conditions_recorded": 14,
     "binding_conditions_parity": "PASS",
-    "commit_a": "AUTHORIZED — NOT STARTED",
+    "commit_a": "NOT AUTHORIZED FOR EXECUTION",
     "pass_3_8_3": "NOT STARTED",
     "measurement_mode": "HISTORICAL_RECONSTRUCTION",
     "historical_search_baseline_commit": "77656a1462918c636c94c6c7389570cccc62693e",
@@ -465,21 +472,22 @@
     "historical_ledger_validation": "PASS",
     "current_state_search_review": "PASS",
     "hidden_active_surface_review": "PASS",
-    "canonical_output_sha256": "2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef",
-    "corrected_at_utc": "2026-07-26T14:05:00Z",
-    "correction_start_commit": "ebb14bf25fe75f3afb247520aa3a70a6afe86db9",
-    "changed_paths_author_attributable": 2,
-    "platform_generated_paths_excluded": [
-      {
-        "path": "src/routeTree.gen.ts",
-        "commit": "64f2a34dab813c1abe59c4846c4c17a6c506e3e2",
-        "author": "gpt-engineer-app[bot]",
-        "reason": "router codegen artifact regenerated by the platform in an isolated commit containing no governance content; not author-attributable to this correction"
-      }
-    ],
+    "canonical_output_sha256": "dfc2f8f20e9cc53ecaa75f42ac551e23556f4d4459b79297e8e88502000276e4",
+    "corrected_at_utc": "2026-07-26T16:03:51Z",
     "path_gate_result": "PASS",
     "plan_md_sha256_unchanged": true,
-    "plan_md_sha256": "00b23fcf2725822570305a78889999e0b7942ed2228a14b3e1f77b6d7f8c43b1"
+    "plan_md_sha256": "968cc11d8f149e7584ccdc90be0361812b2410c93b181c0eace94ee02ec7dcde",
+    "historical_path_boundary": "64f2a34dab813c1abe59c4846c4c17a6c506e3e2",
+    "first_governance_mutation_commit": "698ca914acf0a7c4bca8b0af32f1093bc6f3af0a",
+    "execution_correction_start_commit": "98f70721145faeb7bfc08d01fc9e937e224d77ab",
+    "superseded_preparation_baseline": "ebb14bf25fe75f3afb247520aa3a70a6afe86db9",
+    "path_exclusions": 0,
+    "path_exclusion_policy": "none — no path may be excluded from the execution path gate",
+    "route_tree_historical_chronology_note": "Commit 64f2a34dab813c1abe59c4846c4c17a6c506e3e2 removed ten lines from src/routeTree.gen.ts and is disclosed as the historical path boundary; it is not excluded from any gate.",
+    "superseded_canonical_output_sha256": "2fde824bba0ef0c3267ef73a2e5c059c07c22dee52c66460f017f1bec80172ef",
+    "matched_text_normalization": "none — matched text retained verbatim after the line separator",
+    "step_0b_authority_effectiveness": "SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION",
+    "binding_condition_completion_commit_sha": "98f70721145faeb7bfc08d01fc9e937e224d77ab"
   },
   "subject_migration": {
     "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
