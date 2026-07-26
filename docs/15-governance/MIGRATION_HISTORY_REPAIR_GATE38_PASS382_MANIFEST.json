@@ -1,0 +1,108 @@
+{
+  "manifest_id": "MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST",
+  "migration_id": "MIG-20260726-GATE38-PASS382-HISTORY-REPAIR",
+  "status": "Pending Final Hashes",
+  "gate": "Phase 3 · Gate 3.8 · Pass 3.8.2",
+  "repository_status": "Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED",
+  "created_utc": "2026-07-26",
+  "repository_head_at_investigation": "3fa3657b4945cf8d074ba8142207cccece7e5cdb",
+  "preflight": {
+    "step_0a_exception_request": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md",
+    "step_0c_checksum_investigation": {
+      "executed": true,
+      "database_engine": "PostgreSQL 17.6",
+      "migration_runner": "Lovable-managed Supabase migration runner",
+      "history_table": "supabase_migrations.schema_migrations",
+      "history_columns": ["version", "statements", "name", "created_by", "idempotency_key", "rollback"],
+      "checksum_column_present": false,
+      "content_retained_in_history": true,
+      "version_semantics": "apply timestamp, not filename prefix",
+      "subject_recorded_version": "20260726114243",
+      "subject_recorded_name": "20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466",
+      "editing_applied_file_detected": false,
+      "history_or_checksum_repair_required": false
+    },
+    "step_0b_approval": {
+      "state": "pending",
+      "approver_identity": null,
+      "decision": null,
+      "decision_timestamp_utc": null,
+      "approval_commit_sha": null
+    },
+    "step_0d_runtime_immutability_baseline": [
+      {
+        "path": "supabase/migrations/20260726113455_f79b36fd-9178-4def-91a8-cbc298d95e21.sql",
+        "git_blob_sha": "7c9f31ff73e5ba8acd882d24c3b3e245b31cfd91",
+        "sha256": "70c9aefbfff2bdc3fb40fda5129f9d09c938f8cd55e8a91acc50aa005a5b0b8f"
+      },
+      {
+        "path": "src/lib/tenant-onboarding/server/query-service.server.ts",
+        "git_blob_sha": "eaa83f012e548276a275b703ac51e38106bf34c7",
+        "sha256": "19791e6e72c765b793067091f8c811cca7edf423a1dbb9a08ca1346830e97a89"
+      },
+      {
+        "path": "src/lib/tenant-onboarding/server/mappers.server.ts",
+        "git_blob_sha": "cacfdcda92e32bcc3532809a72eb5569f5722070",
+        "sha256": "9ca9718d1f778d6d4b4e1c75655f3262949fe9a0d539bb69954a376536a17d62"
+      },
+      {
+        "path": "src/lib/tenant-onboarding/queries.functions.ts",
+        "git_blob_sha": "e39863457a352ce6b9070f308eac120d0044adf1",
+        "sha256": "df7662d0fdd1625d5111eb4ab5921889e909ddd28697fdbb5875afe071ccbc55"
+      },
+      {
+        "path": "src/integrations/supabase/types.ts",
+        "git_blob_sha": "e0587be8539bb6c9176b962812b44f45aad8876f",
+        "sha256": "2a5cf853f3c8ae8df21a036809716004b2b705831453c2a29528b69a24bcf064"
+      }
+    ]
+  },
+  "subject_migration": {
+    "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
+    "original_git_blob_sha": "12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2",
+    "original_sha256": "584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3",
+    "original_line_count": 254,
+    "original_byte_count": 11460,
+    "original_commit": "1907718",
+    "repaired": false,
+    "tombstone_git_blob_sha": "TBD",
+    "tombstone_sha256": "TBD"
+  },
+  "planned_surfaces": {
+    "commit_a_technical_repair": [
+      "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
+      "supabase/tests/pass_3_8_2_queue_certification.sql",
+      "supabase/tests/pass_3_8_2_queue_certification_postcheck.sql",
+      "supabase/tests/README.md"
+    ],
+    "commit_b_verified_closure": [
+      "docs/60-engineering/PHASE3_GATE38_ONBOARDING_MATRIX.md",
+      "docs/60-engineering/PHASE3_GATE38_PASS382_COMPLETION_REPORT.md",
+      "docs/60-engineering/PHASE3_GATE38_PASS382_REMEDIATION_CLOSURE_REPORT.md",
+      "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md",
+      "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json"
+    ],
+    "commit_c_terminal_governance_allow_list": [
+      "docs/15-governance/MIGRATION_REGISTRY.md",
+      "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md",
+      "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json",
+      "docs/50-audit-reports/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_AUDIT_20260726.md",
+      "docs/60-engineering/PHASE3_GATE38_PASS382_REMEDIATION_CLOSURE_REPORT.md"
+    ]
+  },
+  "terminal_audit_path": "docs/50-audit-reports/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_AUDIT_20260726.md",
+  "evidence": {
+    "clean_replay": "not executed",
+    "migration_history_comparison": "not executed",
+    "harness_assertions": "not executed",
+    "failure_path_postcheck": "not executed",
+    "tests": "not executed",
+    "typecheck": "not executed",
+    "production_build": "not executed"
+  },
+  "historical_residue_check_utc_2026_07_26": {
+    "public.tenants": 0,
+    "public.tenant_onboarding": 0,
+    "public.tenant_onboarding_steps": 0
+  }
+}
