@@ -1,44 +1,38 @@
-## Phase 2 — Gate 4: Dashboard Integration (SPR-MOD-001-001)
+## Phase 2 — Gate 5: Final Verification & Publication (SPR-MOD-001-001)
 
-Presentation-only. No backend, database, API, or provisioning changes.
+Documentation-and-verification only. No backend, database, UI, or feature changes.
 
-### Verified current state
-- Placeholder `PlatformFoundationWidget` (id `platform.foundation.placeholder`) is registered in `src/dashboard/template/widgets/PlatformFoundationWidget.tsx` and referenced only by `src/routes/_authenticated/platform/dashboard.tsx` (side-effect import + `widgets: [...]`).
-- No Tenant Registry widget exists yet — no duplicate implementation.
-- `getTenantRegistryStats()` in `src/lib/tenants/tenants.functions.ts` returns `{ total, byLifecycle: { created, active, suspended, archived }, byProvisioning: { not_started, in_progress, provisioned, failed } }`.
-- Reusable assets confirmed: `WidgetCard`, `registerDashboardWidget`, `DashboardWidgets` (permission-filtered), `CardSkeleton`, `NoData`/`EmptyState`, `Alert`, `Badge`, `Button`, `Card` — all re-exported from `@/components/common`.
+### Confirmed present (pre-plan discovery)
+- `docs/60-engineering/` with `PHASE1_PLATFORM_FOUNDATION_SUMMARY.md` and `PHASE2_GATE4_DASHBOARD_SUMMARY.md`
+- `src/lib/tenants/` — `registry.ts`, `lifecycle.ts`, `audit.ts`, `events.ts`, `slug.ts`, `tenants.functions.ts`
+- `src/lib/tenants/__tests__/` — `registry.test.ts`, `lifecycle.test.ts`, `slug.test.ts`
+- `src/dashboard/template/widgets/TenantRegistryWidget.tsx` + `__tests__/TenantRegistryWidget.test.tsx`
+- `supabase/migrations/` (20 migrations), platform routes `dashboard.tsx`, `tenants/`, `companies/`
 
-### 1. New widget — `src/dashboard/template/widgets/TenantRegistryWidget.tsx`
-- Title "Tenant Registry", subtitle "Platform-wide tenant overview", rendered inside the existing `WidgetCard`.
-- Data via `useServerFn(getTenantRegistryStats)` + a single `useQuery` (`staleTime` set, no polling, no refetch interval, no realtime).
-- States:
-  - loading → existing `CardSkeleton`
-  - error → existing `Alert` with "Unable to load tenant statistics." and a Retry button calling `refetch()`
-  - `total === 0` → existing `NoData`/`EmptyState` with "No tenant statistics available."
-  - success → stat tiles: Total, Active, Created (draft), Suspended, Archived, Provisioned, In progress, Failed — values rendered exactly as returned; only number formatting is applied.
-- Existing `Badge` variants and theme tokens only; no new colors or components.
-- Accessibility: section heading provided by `WidgetCard` title, each tile labelled via `aria-label`/`<dl>` semantics, retry is a real focusable `Button`.
-- Registration via `registerDashboardWidget({ id: "platform.tenant.registry", ... })` in this same module, matching the existing mechanism, with no widget-specific permission (inherits `platform.dashboard.view` gating of the dashboard route).
+Permission catalog/generated keys and duplicate/orphan scans are not yet verified — that is Step 1–2 work below.
 
-### 2. Registration swap (unregister first, delete later)
-- `src/routes/_authenticated/platform/dashboard.tsx`: change the side-effect import to the new widget module and set `widgets: ["platform.tenant.registry"]`.
-- The Phase 1 placeholder becomes unregistered by virtue of no longer being imported. `PlatformFoundationWidget.tsx` is **not** deleted in this step.
+### Execution steps
 
-### 3. Tests — `src/dashboard/template/widgets/__tests__/TenantRegistryWidget.test.tsx`
-- Unit: renders; loading skeleton; empty state; error state + retry; counts displayed correctly.
-- Integration: widget resolves from the registry by id; placeholder id is not registered on the dashboard; single stats call asserted (mocked server fn call count).
-- Regression: existing `bun test` suite (80 tests) must stay green.
+1. **Repository discovery** — confirm remaining artifacts: `permission-catalog.manifest.yaml`, generated `permission-keys.ts`, Gate 1 migration file(s) for the tenant registry columns. Record anything missing.
 
-### 4. Verification
-`bun run build`, `tsgo --noEmit`, `bun test` — all must pass before any cleanup.
+2. **Integrity audit** — ripgrep scans for duplicate widget IDs, duplicate dashboard registrations, duplicate route paths, duplicate server-function names, duplicate permission keys, and orphaned imports/exports (including any leftover reference to the removed `PlatformFoundationWidget`).
 
-### 5. Post-validation cleanup (only after step 4 is green)
-- Re-run a repository-wide reference scan for `PlatformFoundationWidget` and `platform.foundation.placeholder` across source, tests, stories, exports, and docs.
-- If zero live code references remain (documentation-only mentions in `PHASE1_PLATFORM_FOUNDATION_SUMMARY.md` do not block), delete the file and re-run build/typecheck/tests.
-- If any live reference remains, retain the file unregistered and record it as a known limitation in the Gate 4 summary.
+3. **Gate-by-gate verification** — read the Gate 1–4 artifacts and record PASS/FAIL evidence per gate: migration safety/RLS/grants/indexes; registry validators, server functions, audit, search, permissions; Tenant UI metadata editing, filters, pagination, RBAC; dashboard registration, widget, accessibility, caching.
 
-### 6. Documentation
-`docs/60-engineering/PHASE2_GATE4_DASHBOARD_SUMMARY.md` — reused components, new/modified files, registration evidence, reference-scan output for the placeholder, its retained-or-deleted disposition, test/build/typecheck results, explicit confirmation of no backend/DB/API/provisioning change, known limitations (manual refresh only; stats computed by row scan, acceptable at current volume).
+4. **Reuse & dependency audit** — build the Reuse Matrix (Component / Action / Reason) across components, services, layout, dashboard, permissions, logger, theme, validation, routing. Confirm zero dependencies on Provisioning, dedicated-DB, Workers, Notifications, Realtime, or infrastructure APIs.
+
+5. **Security & regression validation** — confirm no RLS/grant/permission/auth/navigation regressions by diffing intent against Gate 1–4 records; run `bun run build`, `tsgo --noEmit`, and `bun test`. All three must pass; failures are reported, not silently fixed.
+
+6. **Repository health** — Critical/High/Medium/Low counts, known limitations, technical debt carried forward. No remediation performed in this gate.
+
+7. **Publish** two documents:
+   - `docs/60-engineering/PHASE2_FINAL_CERTIFICATION.md` — executive summary, discovery, engineering audit, reuse audit, dependency audit, security audit, testing results, repository health, Definition of Done checklist, certification matrix, known limitations, Phase 3 readiness, approval block.
+   - `docs/60-engineering/PHASE2_IMPLEMENTATION_AUDIT.md` — gate-by-gate evidence, files created/modified/removed, verification evidence, lessons learned.
+
+8. **Closure** — mark Phase 2 complete and stop. No Phase 3 work without explicit authorization.
+
+### Allowed cleanup
+Only dead-reference, dead-export, and comment cleanup if the integrity scan surfaces any. Anything larger is recorded as a finding, not fixed.
 
 ### Stop rule
-Stop after DoD is met and the summary is published. No Gate 5, provisioning, lifecycle automation, or background work.
+Halt immediately once the Definition of Done is satisfied; await authorization for Phase 3 — Provisioning Engine.
