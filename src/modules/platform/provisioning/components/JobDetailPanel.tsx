@@ -139,11 +139,19 @@ export function JobDetailPanel({
           </Button>
           <Button
             variant="outline"
+            disabled={job.state !== "retrying" || retry.isPending}
+            onClick={() => setConfirm("retry")}
+          >
+            Resume
+          </Button>
+          <Button
+            variant="outline"
             disabled={job.terminal || advance.isPending}
             onClick={() => advance.mutateAsync(job.jobId)}
           >
             Run next step
           </Button>
+
           <Button
             variant="outline"
             disabled={job.terminal || cancel.isPending}
