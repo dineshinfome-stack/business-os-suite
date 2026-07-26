@@ -14,13 +14,22 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+export type PlatformNavChild = {
+  id: string;
+  label: string;
+  to: string;
+  exact?: boolean;
+};
+
 export type PlatformNavItem = {
   id: string;
   label: string;
   icon: LucideIcon;
   to: string;
   exact?: boolean;
+  children?: PlatformNavChild[];
 };
+
 
 /**
  * Worksuite-inspired Platform Admin navigation.
