@@ -1,28 +1,34 @@
-## Objective
+# Phase 3 — Gate 3.2.0: Orchestrator Readiness & Repository Discovery
 
-Promote **ADR-019 — Provisioning Orchestrator Architecture** from *Proposed* to *Accepted*. Documentation only — no code, migrations, or runtime changes.
+Documentation-only gate. One new file; no runtime, schema, or route changes.
 
-## Verified current state
+## Deliverable
 
-- `docs/11-adrs/architecture/ADR-019-provisioning-orchestrator-architecture.md` — front-matter `status: "proposed"`, body Status section reads **Proposed**.
-- `docs/11-adrs/ADR_INDEX.md` line 71 — ADR-019 row status `Proposed`.
-- `docs/60-engineering/ADR019_AUTHORING_SUMMARY.md` — lines 34, 38, 82 state *Proposed* and note that promotion follows Architecture Review Board sign-off (the ADR-018 precedent).
+`docs/60-engineering/PHASE3_GATE32_READINESS_REPORT.md`
 
-## Changes
+## Discovery to perform (read-only)
 
-1. **ADR-019 file**
-   - Front matter: `status: "accepted"`, `updated: "2026-07-26"`.
-   - Status section: **Accepted** — ratified by the Architecture Review Board; add the acceptance date and a one-line note that it is now the authoritative governing document for Gate 3.2. No other section touched (no restating of ADR-018 content).
+1. **Architecture** — verify ADR-017, ADR-018, ADR-019 are all `Accepted` in the ADR files and `docs/11-adrs/ADR_INDEX.md`.
+2. **Prior reports** — confirm Gate 3.1 closure via `PHASE3_DISCOVERY_REPORT.md`, `PHASE3_IMPLEMENTATION_PLAN.md`, `PHASE3_GATE31_ENGINEERING_SUMMARY.md`.
+3. **Provisioning module** — read all files in `src/lib/provisioning/` (constants, types, lifecycle, retry, rollback, validators, provider, events, errors, status, index) and confirm purity: no provider SDK, no HTTP, no Supabase/IO imports, no infrastructure.
+   Note: `index.ts` exists; confirm its export surface is complete and leak-free.
+4. **Database** — query the live schema for `provisioning_jobs` / `provisioning_steps`: columns, indexes, partial unique index (one active job per tenant), RLS policies, triggers (derived `tenants.provisioning_status`, step duration), constraints. Record whether any schema change is required for 3.2.1 (expected: none).
+5. **Reuse survey** — read `src/lib/tenants/` (lifecycle, events, audit, registry, slug, tenants.functions), `src/lib/platform/` (config, constants, logger, metadata, types), `src/lib/navigation/`. Note: there is no `src/lib/events/` directory — events live in `src/lib/tenants/events.ts` and `src/lib/provisioning/events.ts`; the report will document this correction.
+6. **Dependency review** — trace import graphs to confirm no cycles, no forbidden imports (provisioning must not import server functions or Supabase clients), and no duplicated lifecycle / retry / rollback / status-mapping / validator logic between `tenants` and `provisioning`.
+7. **Test baseline** — record current Vitest count and pass state as the Gate 3.2 starting line.
 
-2. **`docs/11-adrs/ADR_INDEX.md`**
-   - ADR-019 row status `Proposed` → `Accepted`. All other columns unchanged.
+## Report contents
 
-3. **`docs/60-engineering/ADR019_AUTHORING_SUMMARY.md`**
-   - Update the three status references to *Accepted* and replace the "promotion follows sign-off" sentence with the recorded acceptance.
-
-4. **New: `docs/60-engineering/PHASE3_ADR019_ACCEPTANCE_SUMMARY.md`**
-   - Mirrors the ADR-018 acceptance-summary format: acceptance decision, preconditions verified, files changed, alignment check against ADR-011 / ADR-014 / ADR-017 / ADR-018 / ADR-051 / ADR-053, conflicts (none expected), runtime impact (none), and Gate 3.2 readiness.
+- Repository discovery findings (per section above, with file paths)
+- **Reuse matrix**: asset → reuse directly / adapter required / must not modify, with rationale
+- **Dependency graph** (ASCII): provisioning domain → provider interface → (no implementation)
+- **Orchestrator ownership boundary**: owns job loading, validation, step coordination, state persistence, event emission, retry/rollback coordination, completion; does NOT own provider impl, infrastructure, secrets, dashboard, routes, server functions, workers, queues, cron, realtime
+- **Risk register**: Critical / High / Medium / Low with mitigations (expected themes: derived-status invariant D1, transaction boundary vs. provider calls, idempotency keys, resume-after-crash, correlation ID propagation, concurrency single-active-job enforcement)
+- **Implementation checklist** for Gates 3.2.1–3.2.4
+- **Testing checklist**: happy path, provider failure, retry, rollback, resume, idempotency, correlation IDs, event ordering, concurrency, duplicate-execution prevention
+- **Definition of Done** for Gate 3.2
+- **Authorization recommendation**: GO / GO WITH OBSERVATIONS / STOP
 
 ## Stop rule
 
-After these four files, stop. No orchestrator code, server functions, migrations, or provider implementation — Gate 3.2 still requires explicit authorization.
+Publish the report, then stop. No orchestrator, provider, execution engine, or dashboard work until you authorize Gate 3.2.1.
