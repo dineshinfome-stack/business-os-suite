@@ -29,6 +29,10 @@ import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/
 import { Route as AuthenticatedPlatformProvisioningIndexRouteImport } from './routes/_authenticated/platform/provisioning/index'
 import { Route as AuthenticatedPlatformCompaniesIndexRouteImport } from './routes/_authenticated/platform/companies/index'
 import { Route as AuthenticatedPlatformTenantsTenantIdRouteImport } from './routes/_authenticated/platform/tenants/$tenantId'
+import { Route as AuthenticatedPlatformProvisioningQueueRouteImport } from './routes/_authenticated/platform/provisioning/queue'
+import { Route as AuthenticatedPlatformProvisioningHistoryRouteImport } from './routes/_authenticated/platform/provisioning/history'
+import { Route as AuthenticatedPlatformProvisioningHealthRouteImport } from './routes/_authenticated/platform/provisioning/health'
+import { Route as AuthenticatedPlatformProvisioningFailedRouteImport } from './routes/_authenticated/platform/provisioning/failed'
 import { Route as AuthenticatedPlatformProvisioningJobIdRouteImport } from './routes/_authenticated/platform/provisioning/$jobId'
 import { Route as AuthenticatedPlatformCompaniesCompanyIdRouteImport } from './routes/_authenticated/platform/companies/$companyId'
 
@@ -139,6 +143,30 @@ const AuthenticatedPlatformTenantsTenantIdRoute =
     path: '/platform/tenants/$tenantId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPlatformProvisioningQueueRoute =
+  AuthenticatedPlatformProvisioningQueueRouteImport.update({
+    id: '/queue',
+    path: '/queue',
+    getParentRoute: () => AuthenticatedPlatformProvisioningRouteRoute,
+  } as any)
+const AuthenticatedPlatformProvisioningHistoryRoute =
+  AuthenticatedPlatformProvisioningHistoryRouteImport.update({
+    id: '/history',
+    path: '/history',
+    getParentRoute: () => AuthenticatedPlatformProvisioningRouteRoute,
+  } as any)
+const AuthenticatedPlatformProvisioningHealthRoute =
+  AuthenticatedPlatformProvisioningHealthRouteImport.update({
+    id: '/health',
+    path: '/health',
+    getParentRoute: () => AuthenticatedPlatformProvisioningRouteRoute,
+  } as any)
+const AuthenticatedPlatformProvisioningFailedRoute =
+  AuthenticatedPlatformProvisioningFailedRouteImport.update({
+    id: '/failed',
+    path: '/failed',
+    getParentRoute: () => AuthenticatedPlatformProvisioningRouteRoute,
+  } as any)
 const AuthenticatedPlatformProvisioningJobIdRoute =
   AuthenticatedPlatformProvisioningJobIdRouteImport.update({
     id: '/$jobId',
@@ -170,6 +198,10 @@ export interface FileRoutesByFullPath {
   '/platform/': typeof AuthenticatedPlatformIndexRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
+  '/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
+  '/platform/provisioning/health': typeof AuthenticatedPlatformProvisioningHealthRoute
+  '/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
+  '/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
@@ -191,6 +223,10 @@ export interface FileRoutesByTo {
   '/platform': typeof AuthenticatedPlatformIndexRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
+  '/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
+  '/platform/provisioning/health': typeof AuthenticatedPlatformProvisioningHealthRoute
+  '/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
+  '/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/platform/companies': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning': typeof AuthenticatedPlatformProvisioningIndexRoute
@@ -216,6 +252,10 @@ export interface FileRoutesById {
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
   '/_authenticated/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/_authenticated/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
+  '/_authenticated/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
+  '/_authenticated/platform/provisioning/health': typeof AuthenticatedPlatformProvisioningHealthRoute
+  '/_authenticated/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
+  '/_authenticated/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/_authenticated/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/_authenticated/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/_authenticated/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
@@ -241,6 +281,10 @@ export interface FileRouteTypes {
     | '/platform/'
     | '/platform/companies/$companyId'
     | '/platform/provisioning/$jobId'
+    | '/platform/provisioning/failed'
+    | '/platform/provisioning/health'
+    | '/platform/provisioning/history'
+    | '/platform/provisioning/queue'
     | '/platform/tenants/$tenantId'
     | '/platform/companies/'
     | '/platform/provisioning/'
@@ -262,6 +306,10 @@ export interface FileRouteTypes {
     | '/platform'
     | '/platform/companies/$companyId'
     | '/platform/provisioning/$jobId'
+    | '/platform/provisioning/failed'
+    | '/platform/provisioning/health'
+    | '/platform/provisioning/history'
+    | '/platform/provisioning/queue'
     | '/platform/tenants/$tenantId'
     | '/platform/companies'
     | '/platform/provisioning'
@@ -286,6 +334,10 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/'
     | '/_authenticated/platform/companies/$companyId'
     | '/_authenticated/platform/provisioning/$jobId'
+    | '/_authenticated/platform/provisioning/failed'
+    | '/_authenticated/platform/provisioning/health'
+    | '/_authenticated/platform/provisioning/history'
+    | '/_authenticated/platform/provisioning/queue'
     | '/_authenticated/platform/tenants/$tenantId'
     | '/_authenticated/platform/companies/'
     | '/_authenticated/platform/provisioning/'
@@ -446,6 +498,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformTenantsTenantIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/platform/provisioning/queue': {
+      id: '/_authenticated/platform/provisioning/queue'
+      path: '/queue'
+      fullPath: '/platform/provisioning/queue'
+      preLoaderRoute: typeof AuthenticatedPlatformProvisioningQueueRouteImport
+      parentRoute: typeof AuthenticatedPlatformProvisioningRouteRoute
+    }
+    '/_authenticated/platform/provisioning/history': {
+      id: '/_authenticated/platform/provisioning/history'
+      path: '/history'
+      fullPath: '/platform/provisioning/history'
+      preLoaderRoute: typeof AuthenticatedPlatformProvisioningHistoryRouteImport
+      parentRoute: typeof AuthenticatedPlatformProvisioningRouteRoute
+    }
+    '/_authenticated/platform/provisioning/health': {
+      id: '/_authenticated/platform/provisioning/health'
+      path: '/health'
+      fullPath: '/platform/provisioning/health'
+      preLoaderRoute: typeof AuthenticatedPlatformProvisioningHealthRouteImport
+      parentRoute: typeof AuthenticatedPlatformProvisioningRouteRoute
+    }
+    '/_authenticated/platform/provisioning/failed': {
+      id: '/_authenticated/platform/provisioning/failed'
+      path: '/failed'
+      fullPath: '/platform/provisioning/failed'
+      preLoaderRoute: typeof AuthenticatedPlatformProvisioningFailedRouteImport
+      parentRoute: typeof AuthenticatedPlatformProvisioningRouteRoute
+    }
     '/_authenticated/platform/provisioning/$jobId': {
       id: '/_authenticated/platform/provisioning/$jobId'
       path: '/$jobId'
@@ -465,6 +545,10 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedPlatformProvisioningRouteRouteChildren {
   AuthenticatedPlatformProvisioningJobIdRoute: typeof AuthenticatedPlatformProvisioningJobIdRoute
+  AuthenticatedPlatformProvisioningFailedRoute: typeof AuthenticatedPlatformProvisioningFailedRoute
+  AuthenticatedPlatformProvisioningHealthRoute: typeof AuthenticatedPlatformProvisioningHealthRoute
+  AuthenticatedPlatformProvisioningHistoryRoute: typeof AuthenticatedPlatformProvisioningHistoryRoute
+  AuthenticatedPlatformProvisioningQueueRoute: typeof AuthenticatedPlatformProvisioningQueueRoute
   AuthenticatedPlatformProvisioningIndexRoute: typeof AuthenticatedPlatformProvisioningIndexRoute
 }
 
@@ -472,6 +556,14 @@ const AuthenticatedPlatformProvisioningRouteRouteChildren: AuthenticatedPlatform
   {
     AuthenticatedPlatformProvisioningJobIdRoute:
       AuthenticatedPlatformProvisioningJobIdRoute,
+    AuthenticatedPlatformProvisioningFailedRoute:
+      AuthenticatedPlatformProvisioningFailedRoute,
+    AuthenticatedPlatformProvisioningHealthRoute:
+      AuthenticatedPlatformProvisioningHealthRoute,
+    AuthenticatedPlatformProvisioningHistoryRoute:
+      AuthenticatedPlatformProvisioningHistoryRoute,
+    AuthenticatedPlatformProvisioningQueueRoute:
+      AuthenticatedPlatformProvisioningQueueRoute,
     AuthenticatedPlatformProvisioningIndexRoute:
       AuthenticatedPlatformProvisioningIndexRoute,
   }

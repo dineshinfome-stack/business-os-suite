@@ -1,27 +1,21 @@
 import * as React from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Can } from "@/components/auth/Can";
 import { PERMISSIONS } from "@/lib/generated/permission-keys";
 
 import { SummaryCards } from "@/modules/platform/provisioning/components/SummaryCards";
-import { FilterPanel } from "@/modules/platform/provisioning/components/FilterPanel";
 import { ProvisioningTable } from "@/modules/platform/provisioning/components/ProvisioningTable";
-import { ProviderHealthCard } from "@/modules/platform/provisioning/components/ProviderHealthCard";
 import { ProvisioningWizard } from "@/modules/platform/provisioning/components/ProvisioningWizard";
+import { TenantDrawer } from "@/modules/platform/provisioning/components/TenantDrawer";
 import {
-  EmptyState,
   ErrorState,
   LoadingState,
 } from "@/modules/platform/provisioning/components/States";
 import {
+  DEFAULT_LIST_QUERY,
   useFailedProvisioning,
-  useProviderHealth,
-  useProvisioningExport,
-  useProvisioningFilters,
   useProvisioningJobs,
   useProvisioningQueue,
   useProvisioningSummary,
@@ -49,36 +43,16 @@ export const Route = createFileRoute("/_authenticated/platform/provisioning/")({
   }),
 });
 
-function ProvisioningDashboardPage() {
-  const navigate = useNavigate();
-  const [wizardOpen, setWizardOpen] = React.useState(false);
+const RECENT_QUERY = { ...DEFAULT_LIST_QUERY, pageSize: 10 };
 
-  const { filters, patch, searchInput, setSearchInput } = useProvisioningFilters();
+function ProvisioningDashboardPage() {
+  const [wizardOpen, setWizardOpen] = React.useState(false);
+  const [drawerJobId, setDrawerJobId] = React.useState<string | null>(null);
+
   const summary = useProvisioningSummary();
-  const jobs = useProvisioningJobs(filters);
+  const recent = useProvisioningJobs(RECENT_QUERY);
   const queue = useProvisioningQueue();
   const failed = useFailedProvisioning();
-  const health = useProviderHealth();
-  const exporter = useProvisioningExport();
-
-  const openJob = (jobId: string) =>
-    navigate({ to: "/platform/provisioning/$jobId", params: { jobId } });
-
-  async function handleExport() {
-    const result = await exporter.mutateAsync(filters);
-    if (!result.ok || !result.csv) {
-      toast.error(result.message ?? "Export failed.");
-      return;
-    }
-    const blob = new Blob([result.csv], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = `provisioning-jobs-${new Date().toISOString().slice(0, 10)}.csv`;
-    anchor.click();
-    URL.revokeObjectURL(url);
-    toast.success(`Exported ${result.rowCount} jobs.`);
-  }
 
   return (
     <div className="space-y-6 p-6">
@@ -103,92 +77,64 @@ function ProvisioningDashboardPage() {
         <SummaryCards summary={summary.data} />
       ) : null}
 
-      <Tabs defaultValue="all">
-        <TabsList>
-          <TabsTrigger value="all">All jobs</TabsTrigger>
-          <TabsTrigger value="queue">Live queue</TabsTrigger>
-          <TabsTrigger value="failed">Failures</TabsTrigger>
-          <TabsTrigger value="health">Provider health</TabsTrigger>
-        </TabsList>
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            Running now ({queue.data?.runningCount ?? 0})
+          </h2>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to="/platform/provisioning/queue">View live queue</Link>
+          </Button>
+        </div>
+        <ProvisioningTable
+          rows={(queue.data?.rows ?? []).slice(0, 5)}
+          isLoading={queue.isLoading}
+          error={queue.error}
+          emptyMessage="No provisioning jobs are currently running."
+          onSelect={(row) => setDrawerJobId(row.jobId)}
+        />
+      </section>
 
-        <TabsContent value="all" className="space-y-4">
-          <FilterPanel
-            filters={filters}
-            searchInput={searchInput}
-            onSearchChange={setSearchInput}
-            onChange={patch}
-            onExport={handleExport}
-            exporting={exporter.isPending}
-          />
-          <ProvisioningTable
-            rows={jobs.data?.rows ?? []}
-            isLoading={jobs.isLoading}
-            error={jobs.error}
-            onSelect={(row) => openJob(row.jobId)}
-          />
-          {jobs.data ? (
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span>
-                Page {jobs.data.page} · {jobs.data.total} jobs
-              </span>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={jobs.data.page <= 1}
-                  onClick={() => patch({ page: jobs.data.page - 1 })}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={jobs.data.page >= jobs.data.pageCount}
-                  onClick={() => patch({ page: jobs.data.page + 1 })}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          ) : null}
-        </TabsContent>
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            Needs attention ({failed.data?.length ?? 0})
+          </h2>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to="/platform/provisioning/failed">Open failure triage</Link>
+          </Button>
+        </div>
+        <ProvisioningTable
+          rows={(failed.data ?? []).slice(0, 5)}
+          isLoading={failed.isLoading}
+          error={failed.error}
+          emptyMessage="No failed provisioning jobs."
+          onSelect={(row) => setDrawerJobId(row.jobId)}
+        />
+      </section>
 
-        <TabsContent value="queue">
-          <ProvisioningTable
-            rows={queue.data?.rows ?? []}
-            isLoading={queue.isLoading}
-            error={queue.error}
-            emptyMessage="No provisioning jobs are currently running."
-            onSelect={(row) => openJob(row.jobId)}
-          />
-        </TabsContent>
-
-        <TabsContent value="failed">
-          <ProvisioningTable
-            rows={failed.data ?? []}
-            isLoading={failed.isLoading}
-            error={failed.error}
-            emptyMessage="No failed provisioning jobs. "
-            onSelect={(row) => openJob(row.jobId)}
-          />
-        </TabsContent>
-
-        <TabsContent value="health" className="space-y-4">
-          {health.isLoading ? (
-            <LoadingState label="Loading provider health" />
-          ) : health.error ? (
-            <ErrorState error={health.error} />
-          ) : (health.data?.length ?? 0) === 0 ? (
-            <EmptyState message="No providers are registered." />
-          ) : (
-            health.data?.map((provider) => (
-              <ProviderHealthCard key={provider.providerKey} health={provider} />
-            ))
-          )}
-        </TabsContent>
-      </Tabs>
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            Recent jobs
+          </h2>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to="/platform/provisioning/history">View full history</Link>
+          </Button>
+        </div>
+        <ProvisioningTable
+          rows={recent.data?.rows ?? []}
+          isLoading={recent.isLoading}
+          error={recent.error}
+          onSelect={(row) => setDrawerJobId(row.jobId)}
+        />
+      </section>
 
       <ProvisioningWizard open={wizardOpen} onOpenChange={setWizardOpen} />
+      <TenantDrawer
+        jobId={drawerJobId}
+        onOpenChange={(open) => !open && setDrawerJobId(null)}
+      />
     </div>
   );
 }
