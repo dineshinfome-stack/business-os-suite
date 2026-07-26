@@ -6,6 +6,36 @@
   "repository_status": "Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED",
   "created_utc": "2026-07-26",
   "repository_head_at_investigation": "3fa3657b4945cf8d074ba8142207cccece7e5cdb",
+  "step_0b_prep_baseline": {
+    "repository": "https://git.private.lovable-gcp.code.storage/4a3d10fa-b503-47e6-b169-42e0c586ca99.git",
+    "repository_identity_note": "observed remote URL with credentials removed",
+    "branch": "edit/edt-5541374b-c9ce-4ee6-8dc3-90f88b9b25b3",
+    "preparation_start_commit": "77656a1462918c636c94c6c7389570cccc62693e",
+    "captured_at_utc": "2026-07-26T13:33:45Z",
+    "working_tree_clean": true,
+    "staged_changes": 0,
+    "unstaged_changes": 0,
+    "untracked_files": 0
+  },
+  "forensic_identity_chain": {
+    "executed": true,
+    "strict_shell_handling": "set -euo pipefail with exact-byte extraction to a temporary file",
+    "original_commit": "1907718fa16ecd48f7e3f0b16091d196909a76c3",
+    "migration_path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
+    "commit_object_exists": true,
+    "recovered_blob_sha": "12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2",
+    "expected_blob_sha": "12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2",
+    "recovered_sha256": "584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3",
+    "expected_sha256": "584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3",
+    "recovered_byte_count": 11460,
+    "expected_byte_count": 11460,
+    "recovered_newline_count": 254,
+    "expected_line_count": 254,
+    "path_history_commit_count": 1,
+    "path_history_commits": ["1907718fa16ecd48f7e3f0b16091d196909a76c3"],
+    "path_history_disposition": "ONLY_COMMIT_VERIFIED",
+    "result": "PASS"
+  },
   "preflight": {
     "step_0a_exception_request": "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md",
     "step_0c_checksum_investigation": {
@@ -20,16 +50,89 @@
       "subject_recorded_version": "20260726114243",
       "subject_recorded_name": "20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466",
       "editing_applied_file_detected": false,
-      "history_or_checksum_repair_required": false
+      "history_or_checksum_repair_required": false,
+      "historical_statements_retention_disclosed": true,
+      "historical_statements_disposition": null,
+      "historical_statements_disposition_options": [
+        "ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE",
+        "SEPARATE_SANITIZATION_REQUIRED_BEFORE_TOMBSTONE"
+      ]
+    },
+    "clean_replay_identity_gate": {
+      "history_table": "supabase_migrations.schema_migrations",
+      "identity_column": "name",
+      "expected_name": "20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466",
+      "expected_row_count": 1,
+      "version_semantics": "runtime apply timestamp; not filename prefix",
+      "observed_existing_version": "20260726114243",
+      "expected_clean_replay_version": null,
+      "clean_replay_version_rule": "record observed value; do not pre-assert"
+    },
+    "migration_history_acl_evidence": {
+      "executed": true,
+      "executed_at_utc": "2026-07-26T13:34:13Z",
+      "database_engine": "PostgreSQL 17.6",
+      "history_table": "supabase_migrations.schema_migrations",
+      "database_name": "postgres",
+      "session_user": "supabase_read_only_user",
+      "current_user": "supabase_read_only_user",
+      "transaction_read_only": "on",
+      "query_exit_status": 0,
+      "result_row_count": 1,
+      "project_environment": "connected development project",
+      "sql": "BEGIN TRANSACTION READ ONLY; SELECT current_database() AS database_name, session_user::text AS session_user, current_user::text AS current_user, current_setting('transaction_read_only') AS transaction_read_only, has_schema_privilege('anon','supabase_migrations','USAGE') AS anon_schema_usage, has_schema_privilege('authenticated','supabase_migrations','USAGE') AS authenticated_schema_usage, has_table_privilege('anon','supabase_migrations.schema_migrations','SELECT') AS anon_table_select, has_table_privilege('authenticated','supabase_migrations.schema_migrations','SELECT') AS authenticated_table_select; COMMIT;",
+      "checks": {
+        "anon_schema_usage": false,
+        "authenticated_schema_usage": false,
+        "anon_table_select": false,
+        "authenticated_table_select": false
+      },
+      "effective_privilege_note": "has_*_privilege reports effective privilege including role inheritance and PUBLIC grants; a false result covers direct and inherited paths for the named role",
+      "acl_exposure": false,
+      "evidence_failure": false,
+      "security_blocker": false,
+      "security_blocker_derivation": "acl_exposure = OR(four privilege results); evidence_failure = exit != 0 OR row_count != 1 OR transaction_read_only != 'on' OR any privilege result null/non-boolean; security_blocker = acl_exposure OR evidence_failure"
+    },
+    "obsolete_version_gate_search": {
+      "executed": true,
+      "commands": [
+        "rg -n --fixed-strings -i \"<query>\" --glob '!node_modules' --glob '!.git' ."
+      ],
+      "queries": [
+        "20260726114237 must appear applied",
+        "version 20260726114237",
+        "20260726114237",
+        "20260726114243",
+        "schema_migrations",
+        "filename prefix",
+        "stored version",
+        "migration version"
+      ],
+      "hits": [],
+      "total_hits": 18,
+      "hits_inside_allow_list": 18,
+      "active_governing_surface_hits": 0,
+      "superseded_documentation_hits": 0,
+      "immutable_historical_hits": 0,
+      "false_positive_hits": 0,
+      "unresolved_active_hits": 0,
+      "result": "PASS"
     },
     "step_0b_approval": {
       "state": "pending",
       "approver_identity": null,
       "decision": null,
       "decision_timestamp_utc": null,
+      "approved_tombstone_strategy": null,
+      "historical_statements_decision": null,
       "approval_commit_sha": null
     },
     "step_0d_runtime_immutability_baseline": [
+      {
+        "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
+        "git_blob_sha": "12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2",
+        "sha256": "584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3"
+      },
       {
         "path": "supabase/migrations/20260726113455_f79b36fd-9178-4def-91a8-cbc298d95e21.sql",
         "git_blob_sha": "7c9f31ff73e5ba8acd882d24c3b3e245b31cfd91",
@@ -55,15 +158,54 @@
         "git_blob_sha": "e0587be8539bb6c9176b962812b44f45aad8876f",
         "sha256": "2a5cf853f3c8ae8df21a036809716004b2b705831453c2a29528b69a24bcf064"
       }
-    ]
+    ],
+    "step_0b_prep_immutability_reverification": {
+      "files_checked": 6,
+      "git_blob_comparisons_passed": 6,
+      "sha256_comparisons_passed": 6,
+      "total_comparisons_passed": 12,
+      "total_comparisons": 12,
+      "drift_files": 0
+    }
+  },
+  "step_0b_prep_result": {
+    "status": "COMPLETE",
+    "completed_at_utc": "2026-07-26T13:40:00Z",
+    "preparation_baseline": "CLEAN",
+    "forensic_identity": "PASS",
+    "path_history_disposition": "ONLY_COMMIT_VERIFIED",
+    "obsolete_version_gate_search_result": "PASS",
+    "unresolved_active_hits": 0,
+    "acl_result_rows": 1,
+    "acl_exposure": false,
+    "evidence_failure": false,
+    "security_blocker": false,
+    "document_manifest_parity": "PASS",
+    "manifest_json_validation": "PASS",
+    "duplicate_keys": 0,
+    "hash_comparisons_passed": 12,
+    "hash_comparisons_total": 12,
+    "drift_files": 0,
+    "changed_paths": 2,
+    "changed_path_statuses": ["M", "M"],
+    "unexpected_paths": 0,
+    "renames": 0,
+    "copies": 0,
+    "additions": 0,
+    "deletions": 0,
+    "binary_changes": 0,
+    "step_0b_authority_approval": "PENDING",
+    "commit_a": "NOT STARTED",
+    "pass_3_8_3": "NOT STARTED"
   },
   "subject_migration": {
+
     "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
     "original_git_blob_sha": "12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2",
     "original_sha256": "584269e1bd01e0a85fc4801dfd941459cb08e8b429f71b9835163037069373c3",
     "original_line_count": 254,
     "original_byte_count": 11460,
-    "original_commit": "1907718",
+    "original_commit": "1907718fa16ecd48f7e3f0b16091d196909a76c3",
     "repaired": false,
     "tombstone_git_blob_sha": "TBD",
     "tombstone_sha256": "TBD"
