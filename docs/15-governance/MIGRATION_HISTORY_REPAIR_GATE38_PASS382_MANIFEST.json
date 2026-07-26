@@ -364,7 +364,24 @@
       "authorizes_commit_a": true,
       "authorizes_pass_3_8_3": false,
       "approval_commit_sha": null,
-      "approval_commit_sha_state": "PENDING_POST_COMMIT_PIN"
+      "approval_commit_sha_state": "PENDING_POST_COMMIT_PIN",
+      "authority_decision_origin_commit_sha": "e403d7aec345fc40137cc61288d349d984108c20",
+      "binding_conditions": [
+        "This approval authorizes Commit A only.",
+        "The subject migration is replaced only with the approved comment-only tombstone at the existing path.",
+        "The tombstone contains no executable SQL, transaction block, JWT impersonation, live UUID, REM382 fixture text or database mutation.",
+        "Certification is moved only to the approved deterministic supabase/tests/** harness surfaces.",
+        "Test fixtures are synthetic and the certification transaction rolls back.",
+        "A fresh-session residue postcheck is mandatory even when the harness aborts.",
+        "RBAC prerequisite tables are asserted and never mutated by the harness.",
+        "The remediation migration and five runtime files remain byte-identical.",
+        "Clean replay, exact-name history verification, harness assertions, residue verification, tests, typecheck and production build are binding gates.",
+        "Commit B may begin only after Commit A evidence is pinned.",
+        "Commit C may begin only after Commit B evidence is pinned.",
+        "Pass 3.8.3 remains NOT STARTED until terminal governance formally closes Pass 3.8.2.",
+        "Historical executable SQL retained in supabase_migrations.schema_migrations.statements is accepted as immutable migration evidence for already-applied databases.",
+        "This acceptance does not authorize further exposure, copying or publication of the historical SQL outside controlled evidence surfaces."
+      ]
     },
     "step_0d_runtime_immutability_baseline": [
       {
