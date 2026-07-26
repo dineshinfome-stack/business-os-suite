@@ -1,178 +1,173 @@
+## Pass 3.8.2 — Documentation and Governed Migration-History Repair (v7)
 
-# Pass 3.8.2 — Remediation Closure (v5, approved + 3 execution safeguards)
+Status stays **Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED** until every gate has executed evidence. **Pass 3.8.3 stays NOT STARTED.** The RPC, RLS, grants, DTOs, and read layer do not change — enforced as an executable hash gate.
 
-Status stays `COMPLETE — REMEDIATION REQUIRED` until every completion-gate item verifies. Remediation only: no commands, no routes, no UI, no Pass 3.8.3 work.
+### Verified facts
 
-## Verified current state (pre-plan evidence)
+- `supabase/migrations/20260726114237_3ca5092b-…sql` hard-codes two live user UUIDs, seeds `REM382 Tenant …`, and impersonates via `set_config('request.jwt.claims', …)` + `SET LOCAL ROLE authenticated`.
+- `PHASE3_GATE38_PASS382_COMPLETION_REPORT.md:220` still asserts application-side queue projection.
+- `PHASE3_GATE38_ONBOARDING_MATRIX.md` §3.1/§3.2 still document authenticated DML and `service_role = ALL`.
+- Closure report REM-382-003 wrongly claims the step sequence is persisted; the migration keeps it TypeScript-registry-owned via a non-persisted `canonical_steps` mirror.
+- `MIGRATION_REGISTRY.md` requires additive rows plus document, manifest, and terminal audit per entry.
 
-| Item | Evidence |
-|---|---|
-| Grants | `service_role=arwdDxtm` on both onboarding tables; `authenticated=r`; no `anon` |
-| Onboarding RLS | One SELECT policy per table using `private.fn_has_role(auth.uid(),'admin')` |
-| `public.tenants` RLS | `tenants_select_platform_admin` (legacy enum predicate) + separate tenant-member policy |
-| Queue | `ONBOARDING_QUEUE_SCAN_LIMIT = 1000`; filter/sort/count/page in JS |
-| Date filters | `createdFrom`/`createdTo` currently applied to mapped `updatedAt` |
-| Zod contract | `page >= 1`; `1 <= pageSize <= 100`; enum state/step/sort/direction; offset-aware ISO datetimes; `createdFrom <= createdTo` |
-| Mapper current step | first canonical step whose status is not `completed` or `skipped` |
-| Sequence | Not persisted; TS `ONBOARDING_STEPS` canonical |
-| Auth drift | A `platform_owner` holds `platform.tenant.read` with enum role `NULL` → Resolution B |
+---
 
-## Scope statement
+## Pre-flight (corrected order: 0A → 0C → 0B → 0D)
 
-No protected source-code paths are modified. One approved cross-domain database authorization change is made: an additive SELECT policy on `public.tenants` for the canonical `platform.tenant.read` permission. No tenant schema, lifecycle behavior, INSERT policy, UPDATE policy, member policy, or existing platform-admin policy is removed or weakened. No business table schema outside the two onboarding tables changes.
+### 0A — Pending exception request + provisional manifest
 
-## Phase A — Baseline capture
-Record migrations, `relacl`, `pg_policies`, RLS flags, constraints, indexes, function ACLs, 497 tests, typecheck, production build. Confirm no Pass 3.8.3 artifacts.
+`docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md` (status `Pending Approval`): original path, **Git blob SHA, SHA-256 over exact bytes, line count, byte count, and the commit that introduced the executable form**, plus the retrieval command `git show <original-commit>:supabase/migrations/<filename>`. The original executable SQL is **never** copied into the active tree (it would reintroduce live UUIDs). Also: why fresh replay is environment-dependent, evidence the original run left zero residue, intended tombstone content, replacement harness path, runtime schema impact (none), approval authority, rollback/recovery.
 
-## Phase B — Forward corrective migration (new file; originals untouched)
+Environment reconciliation table (required in the document and echoed in the terminal audit):
 
-1. **Grants** — `REVOKE ALL` on both onboarding tables from `anon`, `authenticated`, `service_role`; `GRANT SELECT` to `authenticated`, `service_role`. No sequences exist (UUID defaults).
-2. **Onboarding RLS (Resolution B)** — drop `*_select_platform_admin`; create `*_select_platform_permission` `FOR SELECT TO authenticated USING (private.fn_user_has_permission(auth.uid(), NULL, 'platform.tenant.read'))` on both tables.
-3. **Additive tenants policy**
-   ```sql
-   CREATE POLICY tenants_select_platform_permission
-     ON public.tenants FOR SELECT TO authenticated
-     USING (private.fn_user_has_permission(auth.uid(), NULL, 'platform.tenant.read'));
-   ```
-   Permissive policies OR together: member access OR legacy platform-admin OR canonical permission. The RPC keeps its own guard, so an ordinary member exposed by the member policy still cannot invoke the global queue.
-4. **`public.fn_tenant_onboarding_queue(...)`** — `LANGUAGE plpgsql`, `STABLE`, `SECURITY INVOKER`, `SET search_path = pg_catalog, public, private`, every object schema-qualified.
-   - Projection: `public.tenants` where `deleted_at IS NULL` and `lifecycle_state NOT IN ('pending_deletion','deleted')`, `LEFT JOIN public.tenant_onboarding`, `LEFT JOIN` step CTE.
-
-### 1. Unauthorized RPC behavior (explicit)
-PL/pgSQL is chosen precisely so denial is procedural and unambiguous:
-```sql
-IF NOT private.fn_user_has_permission(auth.uid(), NULL, 'platform.tenant.read') THEN
-  RAISE EXCEPTION 'Insufficient permission' USING ERRCODE = '42501';
-END IF;
+```text
+Environment                       | Version status                  | Runtime action
+Existing development DB           | Already applied                 | No new SQL executed
+Clean replay DB                   | Recorded applied during replay  | Comment-only, no runtime effect
+DB created from older commit      | Original harness may have run   | Verify historical residue
+DB created from repaired commit   | Tombstone runs                  | No fixtures, no impersonation
 ```
-An unauthorized direct caller never receives an envelope. An authorized caller over an empty population receives exactly one envelope with `total_count = 0`, `rows = []`. Tests assert both outcomes and that they are distinguishable.
+The document explicitly acknowledges that the historical executable content was previously applied to existing databases and that the tombstone does not retroactively undo it.
 
-### 2. Pagination envelope (bound behaviour)
-Single-row envelope `{ total_count, rows, page, page_size }`. `total_count` is the exact filtered count computed independently of `OFFSET/LIMIT`; `rows` is `[]` on an empty or out-of-range page; `page`/`page_size` echo the effective values. The application never infers `total = 0` from `rows = []`. A private internal Zod schema in `mappers.server.ts` parses the envelope before mapping — no direct cast of unvalidated jsonb to a v1 DTO.
+`docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json` — status `Pending Final Hashes`.
 
-**Safeguard 1 — guaranteed empty array.** `jsonb_agg` returns `NULL` over zero rows, so the aggregate is wrapped:
-```sql
-COALESCE(jsonb_agg(to_jsonb(page_rows) ORDER BY page_rows.result_position), '[]'::jsonb)
+### 0C — Migration-runner checksum/history investigation (now BEFORE approval)
+
+Determine and record: migration runner and version, migration history table, stored history columns, whether SQL content/checksum is tracked, what happens when an applied migration's content changes, whether replay or remote/local sync is refused, and whether a history/checksum repair record is required. **If checksum behavior cannot be determined, execution stops before the tombstone** and the status remains unchanged.
+
+### 0B — Explicit authority approval of the *discovered* strategy (binding stop)
+
+The approval record must incorporate the 0C findings verbatim: runner + version, history table, stored columns, checksum/content tracking behavior, effect of changing an applied migration, whether checksum repair is required, the approved checksum-repair action when applicable, and the approved tombstone strategy. Recorded durably: a dedicated approval section (authority, approver identity, UTC timestamp, decision, repair document ID, original path + blob SHA) **plus** the Git commit carrying the approved exception document; that approval commit SHA goes into the terminal audit. Lovable does not self-mark approval; without a recorded decision the migration is untouched.
+
+### 0D — Runtime-immutability baseline
+
+SHA-256 captured now and re-verified byte-identical through Commit C:
+```text
+supabase/migrations/20260726113455_f79b36fd-9178-4def-91a8-cbc298d95e21.sql
+src/lib/tenant-onboarding/server/query-service.server.ts
+src/lib/tenant-onboarding/server/mappers.server.ts
+src/lib/tenant-onboarding/queries.functions.ts
+src/integrations/supabase/types.ts
 ```
-The internal Zod schema **rejects `rows: null`** rather than coercing it — a null array is a contract violation, not a tolerated shape. A test asserts `rows` is `[]` (not null) for both an empty population and an out-of-range page.
 
-**Safeguard 2 — one filtered snapshot.** The exact total and the page rows come from the *same* filtered CTE in a **single** SQL statement:
-```sql
-WITH canonical_steps AS (...),
-     step_projection AS (...),
-     filtered AS MATERIALIZED (...),
-     ranked AS (...),
-     page_rows AS (...)
-SELECT
-  (SELECT count(*) FROM filtered),
-  COALESCE((SELECT jsonb_agg(to_jsonb(page_rows) ORDER BY result_position) FROM page_rows), '[]'::jsonb),
-  effective_page,
-  effective_page_size
-INTO ...;
+---
+
+## Commit A — Technical repair candidate
+
+Contains only: tombstone, deterministic harness, postcheck, `supabase/tests/README.md`, migration safety/discovery checks.
+
+**Tombstone** — same filename/version, comments only: original commit SHA, original blob SHA, repair document ID, replacement harness path, Git recoverability, no runtime change for existing databases, fresh databases execute only comments while remediation `20260726113455_…` remains responsible for schema and policy. No SQL, no `DO`/`BEGIN`, no JWT impersonation, no live UUIDs, no `REM382 Tenant` text.
+
+**Shared fixture constants** — declared identically in harness and postcheck, synthetic and non-live: authorized fixture UUID, denied fixture UUID, authorized email, denied email, tenant slug prefix.
+
+**Harness** `supabase/tests/pass_3_8_2_queue_certification.sql`: `BEGIN` → preconditions → fixtures → 16 assertions → in-transaction residue checks → `ROLLBACK`.
+
+RBAC preconditions (raise, never pick the first row):
+```text
+permissions.key = platform.tenant.read AND deprecated_at IS NULL  → exactly 1
+roles.key = platform_owner AND scope = platform AND system_role   → exactly 1
+role_permissions joining those two rows                           → exactly 1
+fixture UUIDs / emails / slug prefix pre-existing                 → 0 rows
 ```
-No separate count statement followed by an independent page statement — concurrent tenant changes must not produce a total and a row set from different snapshots.
+Only a fixture `user_roles` row is inserted (resolved platform role, `organization_id` NULL, legacy role NULL, `deleted_at`/`expires_at` NULL). `permissions`, `roles`, `role_permissions` are read-asserted, never mutated.
 
-### 3. Deterministic JSON element order
-`result_position` is the row number assigned by the paginating window (static `CASE` sort expressions, `NULLS LAST`, `tenant_id ASC` tie-breaker), and the aggregate orders by it explicitly. No dynamic SQL, no concatenated caller text.
-
-### 4. Database validation mirrors the Zod contract
-| Input | RPC behavior |
-|---|---|
-| Missing page | default `1` |
-| Missing page size | default `25` |
-| Page `< 1` | reject |
-| Page size `< 1` or `> 100` | reject |
-| Invalid sort/direction/state/step | reject |
-| Invalid or inverted datetime range | reject |
-| Blank/whitespace search | normalize to `NULL` |
-| Valid `createdFrom` | `tenants.created_at >= createdFrom` |
-| Valid `createdTo` | `tenants.created_at <= createdTo` |
-
-Offset-aware `timestamptz` comparison throughout — no truncation to calendar dates, no implicit end-of-day. Offset arithmetic overflow-protected. Rejections raise, matching application-level rejection rather than silently clamping.
-
-### 5. Full-signature ACL operations (Safeguard 3)
-Every grant, revoke, catalog check, and effective-privilege assertion names the **complete** signature with the final parameter types and order, so no overload or stale signature retains rights:
-```sql
-REVOKE EXECUTE ON FUNCTION public.fn_tenant_onboarding_queue(
-  text, text, text, boolean, text, text,
-  timestamptz, timestamptz, text, text, integer, integer
-) FROM PUBLIC, anon, service_role;
-
-GRANT EXECUTE ON FUNCTION public.fn_tenant_onboarding_queue(
-  text, text, text, boolean, text, text,
-  timestamptz, timestamptz, text, text, integer, integer
-) TO authenticated;
+Fixture RBAC assertions before any RPC call:
+```text
+authorized fixture: exactly one active platform_owner assignment
+authorized fixture: platform.tenant.read = true
+denied fixture:     zero active platform role assignments
+denied fixture:     platform.tenant.read = false
 ```
-Tests use the same full signature:
-```sql
-has_function_privilege('authenticated',
-  'public.fn_tenant_onboarding_queue(<exact argument types>)', 'EXECUTE')
+After each JWT-claims switch, assert `private.fn_user_has_permission(auth.uid(), NULL, 'platform.tenant.read')` directly **before** invoking the queue, so an RBAC fixture failure is distinguishable from an RPC authorization failure.
+
+**Assertion register** — the harness carries a numbered register (Assertion ID, purpose, inputs, expected result, expected SQLSTATE for rejection cases, observed result, pass/fail) matching the closure report, emitting `PASS382-CERT-001 PASS` … `PASS382-CERT-016 PASS`. The audit must verify all 16 identifiers appear **exactly once** in captured output — a zero exit code alone is not "16/16".
+
+The harness also proves fixture rows **existed** before cleanup, so a trivially empty test cannot pass.
+
+`auth.users` fixture shape is documented in the README before use: the exact columns the replayed Supabase schema requires (`instance_id`, `aud`, `role`, `email`, `encrypted_password`, `email_confirmed_at`, `raw_app_meta_data`, `raw_user_meta_data`, `created_at`, `updated_at` as applicable), deterministic values only, no live values copied. A fixture-insert failure is a failed gate, never grounds to weaken the test.
+
+**Postcheck** `supabase/tests/pass_3_8_2_queue_certification_postcheck.sql` runs in a fresh session keyed on the shared constants; every relevant count must be zero across `auth.users`, `public.profiles` (trigger-created), `public.user_roles`, `public.tenants`, `public.tenant_onboarding`, `public.tenant_onboarding_steps`, plus any tenant-derived rows created by triggers.
+
+**Wrapper** — postcheck runs even when the harness aborts before its explicit `ROLLBACK`:
+```bash
+harness_status=0
+psql "$DATABASE_URL" --set=ON_ERROR_STOP=1 \
+  --file=supabase/tests/pass_3_8_2_queue_certification.sql || harness_status=$?
+psql "$DATABASE_URL" --set=ON_ERROR_STOP=1 \
+  --file=supabase/tests/pass_3_8_2_queue_certification_postcheck.sql
+postcheck_status=$?
+test "$harness_status" -eq 0
+test "$postcheck_status" -eq 0
 ```
-A test also asserts exactly one function with that name exists (no unintended overload).
 
-### 6. Current-step SQL semantics
-`currentStepKey` = first canonical registry step whose status is **not** `completed` and **not** `skipped`; a missing step row projects as `not_started`; when every applicable step is settled, `currentStepKey = NULL`. Computed via a non-persisted, parity-tested inline ordered `VALUES` mirror of `ONBOARDING_STEPS` (`('provisioning_verified',1) … ('activation',10)`), used only to compute/filter the current step — no column, no step-definition table, not a configuration source.
+**Verification against Commit A:** safety scans (harness absent from migration discovery; `supabase/migrations/` free of the two live UUIDs and `REM382 Tenant`, with the tombstone filename asserted as a registered comment-only tombstone); clean replay from a clean clone with pinned repo/branch/commit/migration count, runner and PostgreSQL versions, exit code, stderr, both onboarding tables present, RLS state, queue signature and security mode, final privileges; migration-history comparison showing version `20260726114237` still **applied**; harness 16/16 by identifier; failure-path postcheck; residue = 0 before rollback and after session end.
 
-### 7. Date-filter semantics (binding decision)
-`createdFrom`/`createdTo` filter `public.tenants.created_at`, as their names imply. The current behaviour (filtering mapped `updatedAt`) is recorded in `PHASE3_GATE38_ONBOARDING_MATRIX.md` as a defect corrected here, with before/after semantics stated explicitly — a contract clarification, not new scope.
+---
 
-### 8. Blocker contract preserved
-No blocker aggregation. `blockerCount = 0`, `blockers = []`, `hasBlockers = true` yields no rows, `hasBlockers = false` excludes nothing, `blocked_reason_summary` stays in its existing summary field. `invitationStatus = none` and `readinessStatus = not_evaluated` remain constants. Blocker evaluation stays deferred to Pass 3.8.5.
+## Commit B — Verified closure candidate
 
-## Phase C — Read layer
-`getOnboardingQueue` calls the RPC with validated inputs, parses the envelope (rejecting `rows: null`), maps through `mappers.server.ts`, and fetches step rows only for the returned page's tenant IDs. `ONBOARDING_QUEUE_SCAN_LIMIT` removed from queue correctness (`ONBOARDING_ACTIVITY_LIMIT` retained). Caller-scoped `context.supabase` throughout; synthetic `not_started` identity rules, audit-permission degradation, tenant-member denial, and no-read-side-writes preserved.
+Contains: matrix correction, canonical completion-report amendment (substantive amendment finished here), closure-report correction, repair-document update, provisional manifest, all other non-terminal documentation.
 
-## Phase D — Ratify registry-owned sequence
-Matrix decision record: sequence not persisted; `ONBOARDING_STEPS` canonical; SQL validates the key set and may carry a parity-tested non-persisted ordering mirror; supersedes the earlier `(step_key, sequence)` design.
-
-## Phase E — Tests
-
-### Large-population proof against the actual RPC
+- **Closure report REM-382-003** → sequence remains non-persisted and registry-owned; the queue routine holds a parity-tested non-persisted ordering mirror used only for current-step calculation and filtering.
+- **Onboarding matrix** §3.1/§3.2 corrected in place (`authenticated`: SELECT only; `service_role`: SELECT only; `anon`: none; RLS via `platform.tenant.read`; registry-owned sequence; SQL queue projection; date filters on `tenants.created_at`); Pass 3.8.1 co-location section preserved; dated decision record appended.
+- **Canonical completion report** — body preserved; dated amendment appended noting `public.fn_tenant_onboarding_queue` performs filtering, sorting, exact count, and pagination server-side, with the mapper remaining the DTO boundary.
+- **Closure report inventory** split into Modified / Created / previously generated (`src/integrations/supabase/types.ts`, byte-identical), plus:
+```text
+Protected source-code paths modified: 0
+Approved cross-domain database dependency:
+additive public.tenants SELECT policy for platform.tenant.read.
+No tenant schema, lifecycle rule, member policy, INSERT policy or UPDATE policy
+was removed or weakened.
 ```
-isolated/transactional database
-→ seed 1,205+ real public.tenants rows (owner/test-admin identity; app roles stay read-only)
-→ mix persisted and synthetic workflows
-→ invoke the actual public.fn_tenant_onboarding_queue(...) as an authorized caller
-→ page through everything
-→ assert exact total, full union, no duplicates, no omissions
-→ delete seeded rows / destroy the ephemeral environment
+
+**Verification against Commit B:** full test suite (all 512 baseline tests plus new ones; actual final total reported; nothing deleted, skipped, weakened, or marked todo), typecheck clean, production build green, runtime/protected-path diff review, documentation-link validation, JSON validation, and re-hash of the 0D set:
+```text
+Runtime surface drift: 0 files
+Historical certification migration repaired: 1 approved tombstone
+Test/governance surfaces: approved allow-list only
 ```
-Must exercise the real function through the database — not a copied body, not a mock. A `generate_series` SQL unit test may be retained as an extra check. If the actual-function run cannot be performed, remediation does not close.
 
-### Authorization matrix (drift directions)
-| Legacy enum role | Canonical `platform.tenant.read` | Expected |
-|---|---|---|
-| `admin` | present | allowed |
-| `admin` | absent | denied (`42501`) |
-| null / non-admin | present | allowed |
-| null / non-admin | absent | denied (`42501`) |
+---
 
-Plus: tenant member without the permission cannot invoke the queue; permission holder reads `public.tenants` through RLS; permission holder reads both onboarding tables through RLS; the same caller succeeds through the actual RPC; direct RPC execution cannot bypass the guard and never returns an envelope when denied; no tenant INSERT/UPDATE/member/legacy-admin policy changed; anon denied everywhere.
+## Commit C — Terminal governance evidence
 
-### Ordering / pagination
-Array order equals the requested sort; equal primary-sort values tie-break on `tenant_id ASC`; repeated calls over static data return identical sequences; ascending and descending page unions contain no duplicates or omissions; empty population; final partial page; first and far out-of-range pages; filtered result whose requested page is empty (correct total, `rows: []`, never null); search hitting a tenant beyond the former 1,000 ceiling; null ordering.
+Explicit allow-list; anything outside it blocks closure:
+```text
+docs/15-governance/MIGRATION_REGISTRY.md
+docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_20260726.md
+docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST.json
+docs/50-audit-reports/MIGRATION_HISTORY_REPAIR_GATE38_PASS382_AUDIT_20260726.md
+docs/60-engineering/PHASE3_GATE38_PASS382_REMEDIATION_CLOSURE_REPORT.md
+```
+The canonical completion report appears only if its terminal status also changes here; its substantive amendment lands in Commit B.
 
-### Current-step parity
-All step rows absent; early step completed; skipped conditional step; blocked step; failed step; all steps settled (`NULL`); SQL current step equals mapper current step over the same dataset. Registry parity on key set **and** sequence (unique, contiguous); mapper ignores any externally supplied `sequence`.
+Acyclic hash graph:
+```text
+repair doc → closure report → matrix → completion report → tombstone
+→ harness → postcheck → README → registry row appended
+        ↓
+manifest finalized (registry hash + all surface hashes;
+                    audit path only, never audit content, never its own hash)
+        ↓
+terminal audit finalized (may record final manifest hash + registry hash)
+```
 
-### Privilege verification — ACL text **and** effective privileges
-Catalog: `relacl`, `pg_policies`, `relrowsecurity`; function `prosecdef = false`, `provolatile = 's'`, owner recorded, `proconfig` contains the hardened `search_path`, `proacl` (looked up by full signature) shows PUBLIC/`anon`/`service_role` execute absent and `authenticated` present.
-Effective: `has_table_privilege` / `has_function_privilege` assertions for both tables and all relevant privileges, e.g. `anon`/SELECT false, `authenticated`/INSERT false, `service_role`/UPDATE false, `authenticated`/EXECUTE true, `service_role`/EXECUTE false. Also verify role inheritance does not restore a privilege absent from the direct ACL entry.
+Registry row `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` is additive; historical rows untouched. Every `TBD` hash is replaced with observed Git blob SHA and SHA-256.
 
-| Role | Tables | RPC |
-|---|---|---|
-| anon | none | no execute |
-| authenticated | SELECT only | execute |
-| service_role | SELECT only | no execute |
-| database owner | owner-controlled | owner-controlled |
+Terminal audit records: approval evidence and approval commit SHA, 0C findings, environment reconciliation table, `Technical replay commit SHA = Commit A`, `Final verification commit SHA = Commit B`, replay result, migration-history comparison, 16 assertion identifiers each appearing exactly once, both residue scans and failure-path wrapper evidence, final test count, typecheck and build results, diff/protected-path review, runtime-immutability assertion, original blob SHA + SHA-256 + line/byte counts, final manifest hash, registry-row proof. Attribution is explicit:
 
-### Other
-Direct-RPC input hardening cases per the validation matrix; original migrations byte-unchanged; corrective migration applies on both clean and populated Pass 3.8.2 databases; regression suite (synthetic identity, no read-side writes, readiness pinned to `not_evaluated`, activity degradation without `platform.audit.view`, DTO sanitisation, architecture allow-list of exactly three server files, neutral blockers); date-filter semantics test asserting `created_at` filtering.
+```text
+Runtime and application verification target: Commit B
+Terminal governance-only diff verification target: Commit C
+```
+and it must not contain its own commit SHA, stating instead:
 
-## Phase F — Report and completion gate
-Append `## Amendment — Pass 3.8.2 Remediation Closure` (dated) to `PHASE3_GATE38_PASS382_COMPLETION_REPORT.md`, original body preserved: original defects stated honestly; corrective migration; final database state (grants, effective privileges, policies including the additive tenants policy recorded as an **approved remediation dependency**, full-signature function ACL/config); lifecycle-enum evidence and exclusion rationale; unauthorized-RPC denial contract; date-filter decision; test totals (497 baseline + new).
+> This audit is contained in the terminal governance commit that follows the verified Commit B candidate.
 
-Mark `Pass 3.8.2 — COMPLETE AND CLOSED` only when every item holds: original migrations byte-identical; corrective migration succeeds on clean and populated databases; `anon` has no table or function privileges; `authenticated` has onboarding-table SELECT and RPC EXECUTE only; `service_role` has table SELECT only and no RPC execution; onboarding RLS uses `platform.tenant.read`; the additive tenants policy works for canonical permission holders; legacy admin without the canonical permission is denied; the actual RPC passes the 1,205+ tenant test; empty and out-of-range pages return exact totals and `rows: []`; filters and sorting are exact and deterministic; SQL and TypeScript current-step results match; SQL key/sequence mirror matches the registry; date filtering uses `tenants.created_at`; neutral blocker/invitation/readiness behavior unchanged; no service-role client or read-side write introduced; all 497 existing plus new tests pass; typecheck clean; production build succeeds; generated-file and protected-path reviews pass; the amendment is appended. Then stop — Pass 3.8.3 remains NOT STARTED.
+**Commit C verification (no re-run of runtime gates, and none claimed):** `git diff --name-status <Commit-B>..<Commit-C>` against the allow-list, hash verification, link validation, JSON parsing, registry-reference validation, status consistency, and runtime files still byte-identical. No manifest-tracked file changes after the manifest is finalized; no evidence file changes after the audit is finalized.
 
-## Files
-New: one `supabase/migrations/*.sql`. Modified: `server/query-service.server.ts`, `server/mappers.server.ts`, `queries.functions.ts` (only if filter plumbing requires it), `__tests__/**`, `PHASE3_GATE38_ONBOARDING_MATRIX.md`, `PHASE3_GATE38_PASS382_COMPLETION_REPORT.md`.
+---
+
+### Closure
+
+Only with every gate green does the status become `Pass 3.8.2 — COMPLETE AND CLOSED`. If the replay environment cannot start, checksum behavior cannot be determined, approval is absent, or any binding gate fails, the status stays `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` with the failing gate named. Then stop before Pass 3.8.3.
