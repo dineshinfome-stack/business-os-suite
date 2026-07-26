@@ -466,7 +466,7 @@ Field rules:
 | `.lovable/plan.md` | byte-identical, digest `00b23fcf2725822570305a78889999e0b7942ed2228a14b3e1f77b6d7f8c43b1` |
 | Renames / copies / additions / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Step 0B-prep | COMPLETE |
-| Step 0B authority approval | PENDING |
-| Commit A | NOT STARTED |
+| Step 0B authority approval | `APPROVED_WITH_BINDING_CONDITIONS` |
+| Commit A | AUTHORIZED — NOT STARTED |
 | Repository status | `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` |
 | Pass 3.8.3 | NOT STARTED |
