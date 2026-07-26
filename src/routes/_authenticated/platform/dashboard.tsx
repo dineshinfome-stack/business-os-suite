@@ -62,7 +62,7 @@ function PlatformDashboardPage() {
           },
           recentActivity: true,
           notifications: true,
-          widgets: ["platform.foundation.placeholder"],
+          widgets: ["platform.tenant.registry"],
         }}
       />
     </Can>
