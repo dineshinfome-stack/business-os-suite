@@ -516,7 +516,7 @@
     "original_commit": "1907718fa16ecd48f7e3f0b16091d196909a76c3",
     "repaired": true,
     "tombstone_git_blob_sha": "02f0d1fd6430a6a2419c0e15bfcef986535a2d23",
-    "tombstone_sha256": "TBD"
+    "tombstone_sha256": "fea6643cd6f11b3c0ae2ac1e787db55c77312a3119afc3c91f059849da3edd01"
   },
   "planned_surfaces": {
     "commit_a_technical_repair": [
