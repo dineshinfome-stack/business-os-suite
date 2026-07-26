@@ -427,7 +427,7 @@ terminal audit.
 | Approved tombstone strategy | `true` |
 | Historical `statements[]` decision | `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE` (see §3.1) |
 | Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
-| Scope of authorization | Commit A — AUTHORIZED — NOT STARTED. Pass 3.8.3 — NOT AUTHORIZED. |
+| Scope of authorization | Commit A — AUTHORIZED (state at the time of the decision; Commit A is now COMPLETE and PINNED, see §11). Pass 3.8.3 — NOT AUTHORIZED. |
 | Approval commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` — `PINNED_AND_VERIFIED` (see §9.4). |
 | Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
 | Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
