@@ -14,6 +14,8 @@
  *     `updatedAt` reuses the tenant's own persisted `updated_at`).
  *   Reads never write. There are no lazy-seed side effects in this pass.
  */
+import { z } from "zod";
+
 import {
   ONBOARDING_STEPS,
   TERMINAL_STEP_STATUSES,
