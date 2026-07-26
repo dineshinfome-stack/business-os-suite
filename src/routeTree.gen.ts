@@ -28,6 +28,7 @@ import { Route as AuthenticatedPlatformProvisioningRouteRouteImport } from './ro
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
 import { Route as AuthenticatedPlatformProvisioningIndexRouteImport } from './routes/_authenticated/platform/provisioning/index'
 import { Route as AuthenticatedPlatformCompaniesIndexRouteImport } from './routes/_authenticated/platform/companies/index'
+import { Route as ApiProvisioningEventsJobIdRouteImport } from './routes/api/provisioning/events.$jobId'
 import { Route as AuthenticatedPlatformTenantsTenantIdRouteImport } from './routes/_authenticated/platform/tenants/$tenantId'
 import { Route as AuthenticatedPlatformProvisioningQueueRouteImport } from './routes/_authenticated/platform/provisioning/queue'
 import { Route as AuthenticatedPlatformProvisioningHistoryRouteImport } from './routes/_authenticated/platform/provisioning/history'
@@ -137,6 +138,12 @@ const AuthenticatedPlatformCompaniesIndexRoute =
     path: '/platform/companies/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const ApiProvisioningEventsJobIdRoute =
+  ApiProvisioningEventsJobIdRouteImport.update({
+    id: '/api/provisioning/events/$jobId',
+    path: '/api/provisioning/events/$jobId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedPlatformTenantsTenantIdRoute =
   AuthenticatedPlatformTenantsTenantIdRouteImport.update({
     id: '/platform/tenants/$tenantId',
@@ -203,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
   '/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
   '/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
@@ -228,6 +236,7 @@ export interface FileRoutesByTo {
   '/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
   '/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
   '/platform/companies': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/platform/provisioning': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/platform/tenants': typeof AuthenticatedPlatformTenantsIndexRoute
@@ -257,6 +266,7 @@ export interface FileRoutesById {
   '/_authenticated/platform/provisioning/history': typeof AuthenticatedPlatformProvisioningHistoryRoute
   '/_authenticated/platform/provisioning/queue': typeof AuthenticatedPlatformProvisioningQueueRoute
   '/_authenticated/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
+  '/api/provisioning/events/$jobId': typeof ApiProvisioningEventsJobIdRoute
   '/_authenticated/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
   '/_authenticated/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/_authenticated/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
@@ -286,6 +296,7 @@ export interface FileRouteTypes {
     | '/platform/provisioning/history'
     | '/platform/provisioning/queue'
     | '/platform/tenants/$tenantId'
+    | '/api/provisioning/events/$jobId'
     | '/platform/companies/'
     | '/platform/provisioning/'
     | '/platform/tenants/'
@@ -311,6 +322,7 @@ export interface FileRouteTypes {
     | '/platform/provisioning/history'
     | '/platform/provisioning/queue'
     | '/platform/tenants/$tenantId'
+    | '/api/provisioning/events/$jobId'
     | '/platform/companies'
     | '/platform/provisioning'
     | '/platform/tenants'
@@ -339,6 +351,7 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/provisioning/history'
     | '/_authenticated/platform/provisioning/queue'
     | '/_authenticated/platform/tenants/$tenantId'
+    | '/api/provisioning/events/$jobId'
     | '/_authenticated/platform/companies/'
     | '/_authenticated/platform/provisioning/'
     | '/_authenticated/platform/tenants/'
@@ -354,6 +367,7 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiProvisioningEventsJobIdRoute: typeof ApiProvisioningEventsJobIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -490,6 +504,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/platform/companies/'
       preLoaderRoute: typeof AuthenticatedPlatformCompaniesIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/api/provisioning/events/$jobId': {
+      id: '/api/provisioning/events/$jobId'
+      path: '/api/provisioning/events/$jobId'
+      fullPath: '/api/provisioning/events/$jobId'
+      preLoaderRoute: typeof ApiProvisioningEventsJobIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/platform/tenants/$tenantId': {
       id: '/_authenticated/platform/tenants/$tenantId'
@@ -636,6 +657,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiProvisioningEventsJobIdRoute: ApiProvisioningEventsJobIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
