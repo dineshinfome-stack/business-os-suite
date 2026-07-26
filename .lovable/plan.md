@@ -1,43 +1,56 @@
-## Gate 3.2.1 Pre-Flight Review — Findings
+# Phase 3 — Gate 3.2.2: Provisioning Orchestrator Integration
 
-Every item on the checklist was verified against the code and the live database. Result: **PASS (5/5), one observation.**
+Integration layer only. No provider implementation, no UI, no server functions, no workers, no secrets. Gate 3.1 and 3.2.1 code is reused unmodified.
 
-### 1. Interface-only dependencies — PASS
-`orchestrator/context.ts` accepts `ProvisioningProvider` as a **type-only** import. `JobRepository`, `JobWriter`, `EventSink`, `Clock` and `OrchestratorLogger` are declared as ports in `types.ts` and injected through `createContext`. No concrete implementation is constructed anywhere in the core.
+## What exists (verified)
 
-### 2. No infrastructure imports — PASS
-A full scan of `src/lib/provisioning/orchestrator/` found zero imports of Supabase clients, `@/integrations/*`, `fetch`, HTTP clients, `createServerFn`, or any provider SDK. The only imports are sibling orchestrator modules and the Gate 3.1 domain foundation.
+- `src/lib/provisioning/orchestrator/types.ts` already defines every port needed: `JobRepository`, `JobWriter` (`transitionState`, `claimStep`, `writeStep`), `EventSink`, `Clock`, `OrchestratorLogger`.
+- `context.ts` already performs full dependency injection (`createContext`) with retry/rollback policy defaults, `systemClock`, and correlation/actor validation.
+- `orchestrator.ts` exposes `start / resume / executeNextStep / complete / fail / cancel / rollback`.
+- `logger.ts` wraps `platformLogger`; `boundaries.test.ts` enforces purity.
+- No `src/lib/provisioning/integration/` folder exists yet.
 
-### 3. Optimistic concurrency tested — PASS
-`__tests__/concurrency.test.ts` covers: expected-state mismatch aborting the transition, `expectedState` being sent on every transition, a step already claimed by another worker, a vanished job, and a job belonging to a different tenant.
+Conclusion: no new ports or orchestration logic are required — only concrete implementations plus assembly.
 
-### 4. `tenants.provisioning_status` never written — PASS
-No write path references the column; the only occurrences are invariant comments and the guard test in `idempotency.test.ts`. The database confirms the trigger `trg_provisioning_jobs_sync_tenant_status` (running `private.fn_sync_tenant_provisioning_status`) is live on `provisioning_jobs`, so the column remains derived.
+## New files
 
-### 5. Retry and rollback delegated — PASS
-`executor.ts` calls `shouldRetry` from `../retry`; `orchestrator.ts` calls `evaluateRollbackEligibility` and `buildRollbackPlan` from `../rollback`. No backoff arithmetic, no jitter computation and no plan-ordering logic is duplicated inside the orchestrator.
+```
+src/lib/provisioning/integration/
+  data-client.ts        // narrow row-access interface + Supabase binding
+  repository-adapter.ts // JobRepository over provisioning_jobs / provisioning_steps
+  writer-adapter.ts     // JobWriter with expected-state optimistic concurrency
+  event-sink.ts         // EventSink: ordered dispatch + structured logging
+  factory.ts            // assembles adapters + orchestrator (no globals)
+  service.ts            // ProvisioningService application service
+  index.ts
+  __tests__/
+    harness.ts          // in-memory data client, fake provider, deterministic clock
+    repository-adapter.test.ts
+    writer-adapter.test.ts
+    event-sink.test.ts
+    service.test.ts
+    concurrency.test.ts
+    correlation.test.ts
+```
 
-### Observation (non-blocking)
-`orchestrator/logger.ts` imports the concrete `platformLogger`. This is an adapter, not core — no core module imports it, and the core depends only on the `OrchestratorLogger` port. It is correct as designed, but nothing currently *prevents* a future edit from importing a Supabase client into the core the same way.
+## Design
 
----
+**Data client seam.** Adapters talk to a small `ProvisioningDataClient` interface (select job, select steps, count active jobs, conditional update job, upsert/claim step, insert step outcome). One binding implements it with the existing Supabase client; the integration tests supply an in-memory implementation. This keeps adapters real (not mocks) while satisfying "no real infrastructure" in tests, and keeps Supabase out of the orchestrator's import graph.
 
-## Proposed Work (small, closes the one gap)
+**Repository adapter** — loads job and steps, maps rows to `ProvisioningJob` / `ProvisioningStep`, validates tenant ownership and correlation ID, returns typed objects or `null`. No lifecycle, retry, or rollback decisions.
 
-### A. Automated architecture boundary test
-Add `src/lib/provisioning/orchestrator/__tests__/boundaries.test.ts` that reads every non-test file in the orchestrator directory and asserts:
-- no import matching `supabase`, `@/integrations`, `axios`, `node-fetch`, `createServerFn`, or a provider SDK
-- no bare `fetch(` call
-- no write payload key or string referencing `tenants.provisioning_status`
-- `logger.ts` is the only file permitted to import outside `src/lib/provisioning/`
+**Writer adapter** — conditional updates keyed on `expectedState` (returns `false` when zero rows match → orchestrator raises `concurrency_conflict`); `claimStep` claims only when the step is unclaimed/pending (loser returns `false`, so the provider is never invoked twice); `writeStep` persists terminal status, attempt count, timestamps, duration, error record, and rollback records. Hard invariant (Risk D1): the adapter never touches `tenants.provisioning_status` — enforced by an assertion in the integration boundary test.
 
-This turns four of the five checklist items into a permanent regression guard rather than a one-off manual review.
+**Event sink** — emits envelopes sequentially (ordering preserved), logs each with `correlationId` / `tenantId` / `jobId`, and swallows failures into a returned warning path so a failed event never rolls back committed persistence. Persistence always commits before events (already the orchestrator's ordering; the integration tests assert it).
 
-### B. Certification record
-Add a short "Gate 3.2.1 Pre-Gate-3.2.2 Compliance Review" section to `docs/60-engineering/PHASE3_GATE321_ENGINEERING_SUMMARY.md` recording the five checks, the evidence for each, the observation above, and the boundary test as the standing control.
+**Factory** — `createProvisioningService({ dataClient, provider, request, jobId, tenantId, correlationId, actorId, clock?, logger?, retryPolicy?, rollbackPolicy? })` builds repository → writer → event sink → context → orchestrator. Everything injected; no module-level singletons, no env reads.
 
-### Out of scope
-No changes to orchestrator behaviour, no database changes, no provider or persistence adapters, no UI. Gate 3.2.2 remains unauthorised until you say so.
+**Application service** — thin pass-through owning startup and correlation propagation: `startProvisioning()`, `resumeProvisioning()`, `executeNextStep()`, `cancelProvisioning(reason)`, `rollbackProvisioning()`. Returns the existing `OrchestratorResult` envelope unchanged.
 
-### Technical detail
-The boundary test uses `fs.readdirSync`/`readFileSync` over `__dirname/..` under Vitest's Node environment — no new dependency. Expected result: 173 tests passing, typecheck and build clean.
+## Tests
+
+Integration suite covers: service construction and DI wiring; repository load/ownership/correlation validation; writer transitions, attempt increments, timestamps; optimistic concurrency winner/loser; no duplicate provider invocation under concurrent `executeNextStep`; persistence-before-events ordering; event failure yields a warning with persistence intact; cancellation; rollback coordination; correlation ID present on every log, event, and write; and an integration boundary test asserting no `tenants.provisioning_status` write and no Supabase import from the orchestrator directory.
+
+## Verification
+
+`tsgo` typecheck, production build, full Vitest suite (existing 209 must stay green), boundary guard, new integration tests. Deliverable is a concise completion summary only — no extra engineering reports. Stop at Gate 3.3.
