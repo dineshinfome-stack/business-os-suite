@@ -68,7 +68,7 @@ Adding, superseding, or changing the status of any ADR MUST update this index in
 | ADR-016 | [Data Versioning](./data/ADR-016-data-versioning.md) | Data | Proposed | ENG-025 | — | — |
 | ADR-017 | [Dedicated Database per Tenant Architecture](./architecture/ADR-017-dedicated-database-per-tenant-architecture.md) | Architecture / Data | Accepted | ENG-001, ENG-002, ENG-004, ENG-005, ENG-024 | ADR-009 | — |
 | ADR-018 | [Tenant Provisioning Architecture](./architecture/ADR-018-tenant-provisioning-architecture.md) | Architecture / Data | Accepted | ENG-001, ENG-002, ENG-004, ENG-005 | — | — |
-| ADR-019 | [Provisioning Orchestrator Architecture](./architecture/ADR-019-provisioning-orchestrator-architecture.md) | Architecture / Platform | Proposed | ENG-001, ENG-002, ENG-004, ENG-005 | — | — |
+| ADR-019 | [Provisioning Orchestrator Architecture](./architecture/ADR-019-provisioning-orchestrator-architecture.md) | Architecture / Platform | Accepted | ENG-001, ENG-002, ENG-004, ENG-005 | — | — |
 | ADR-020 | [API Style: REST-First](./platform/ADR-020-api-style-rest-first.md) | Platform | Proposed | ENG-021 | — | — |
 | ADR-021 | [API Versioning](./platform/ADR-021-api-versioning.md) | Platform | Proposed | ENG-021 | — | — |
 | ADR-022 | [Error Envelope](./platform/ADR-022-error-envelope.md) | Platform | Proposed | ENG-021 | — | — |
