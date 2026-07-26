@@ -4,8 +4,8 @@
 **Authority:** `PHASE3_GATE38_DISCOVERY.md` (facts), `PHASE3_GATE38_POLICY_DECISIONS.md` (policy)
 **Code owner:** `src/lib/tenant-onboarding/contracts.ts` (canonical step registry)
 
-There is deliberately **no `primary_company` step** — `organizations` is the
-company entity (G38-POL-001).
+There is deliberately **no separate company step** — `organizations` is the
+
 
 ---
 
