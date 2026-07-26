@@ -1,149 +1,92 @@
-# Gate 3.6 — Multi-Tenant Lifecycle Management
+# Gate 3.7 — Platform Administration & Operations
 
-SPR-MOD-001-003 · Phase 3 · Operational layer for tenants that already reached `completed` provisioning.
+## What I verified in the repository first
 
-No provisioning code is touched. The lifecycle layer never imports the orchestrator, provider, repository, retry/rollback engines, migration runner or seed runner.
+- **Provisioning admin facade already exists**: `src/lib/provisioning-admin/` (`queries.functions.ts`, `commands.functions.ts`, `query-service.server.ts`, `mappers.server.ts`, `events.server.ts`, `provider-resolver.server.ts`) plus the dashboard at `/platform/provisioning/*` and module `src/modules/platform/provisioning/`.
+- **Tenant lifecycle already exists**: `src/lib/tenant-lifecycle/` (state machine, timeline, `lifecycle.functions.ts`) and the console at `/platform/tenants/lifecycle`.
+- **Settings framework exists**: `src/lib/settings.functions.ts` + `settings-validation.ts` over `setting_definitions` / `setting_values`, with `platform` and `organization` scopes, system/sensitive flags and redaction. Reads currently run through `requireOrgContext`.
+- **Feature flags exist**: `src/lib/feature-flags.functions.ts` over `feature_flags` (platform row + org override, `rollout_stage`), also org-context bound.
+- **Audit exists**: `public.audit_logs` written by module-specific writers (`src/lib/tenants/audit.ts`, `organizations/`, `branches/`, `financial-years/`, `auth.functions.ts`). No global platform-wide audit query yet.
+- **Notifications exist**: `src/lib/notifications/` (registry, service, providers) over `notifications` / `notification_preferences`.
+- **Permissions**: a large `platform.*` catalog already exists including `platform.audit.view`, `platform.settings.manage`, `platform.policies.view/manage`, `platform.dashboard.view`, `platform.tenant.*`. No `platform.admin.*` namespace.
+- **Query keys** are centralized in `src/lib/query-keys.ts`; nav in `src/components/platform/nav-items.ts`.
 
-## Phase 1 — Discovery summary (already performed, read-only)
+## Scope classification (drives what gets built)
 
-What exists today:
-
-- **Lifecycle states**: Postgres enum `public.tenant_lifecycle_state` = `created | active | suspended | archived`, enforced by `private.fn_assert_lifecycle_transition` plus RPCs `fn_activate_tenant`, `fn_suspend_tenant`, `fn_archive_tenant`. Mirrored in pure TS at `src/lib/tenants/lifecycle.ts`.
-- **Tenant columns**: `slug, display_name, region, default_locale, timezone, plan_tier, lifecycle_state, created_at, activated_at, suspended_at, archived_at`, plus opaque provisioning handles.
-- **Audit**: `public.audit_logs` written through `logTenantEventFn` with actions `tenant.created/activated/suspended/archived/updated`. Append-only in practice.
-- **Events**: `buildTenantEvent` envelope (ADR-051) in `src/lib/tenants/events.ts`.
-- **Notifications**: `src/lib/notifications/` — type registry plus `service.functions.ts`.
-- **Permissions**: `PLATFORM_TENANT_READ/CREATE/UPDATE/ACTIVATE/SUSPEND/ARCHIVE` exist; maintenance, restore, deletion-scheduling and delete permissions do not.
-- **UI**: `/platform/tenants` (list + create dialog) and `/platform/tenants/$tenantId`. The provisioning module at `src/modules/platform/provisioning/` is the pattern to mirror (subnav layout, DTO `types/v1`, query-keys with documented invalidation sets, boundary tests).
-
-Gaps this gate closes: three new lifecycle states, six new transitions, deletion-scheduling metadata, a lifecycle facade, a lifecycle dashboard with a unified timeline, and the matching permissions.
-
-## Phase 2 — Lifecycle state machine
-
-States: `created → active → suspended → maintenance → archived → pending_deletion → deleted`.
-
-| Transition | Command | Permission | From | Blocked when | Reason required | Reversible |
-|---|---|---|---|---|---|---|
-| Activate | `activateTenant` | `platform.tenant.activate` | created, suspended, maintenance | pending_deletion, deleted | no | — |
-| Suspend | `suspendTenant` | `platform.tenant.suspend` | active, maintenance | pending_deletion, deleted, archived | yes | yes (activate) |
-| Enter maintenance | `enterMaintenance` | `platform.tenant.maintenance` | active | deleted, pending_deletion, archived | yes | yes |
-| Exit maintenance | `exitMaintenance` | `platform.tenant.maintenance` | maintenance | — | no | — |
-| Archive | `archiveTenant` | `platform.tenant.archive` | active, suspended, maintenance | already archived, running provisioning job | yes | yes (restore) |
-| Restore | `restoreTenant` | `platform.tenant.restore` | archived | — | no | — |
-| Schedule deletion | `scheduleDeletion` | `platform.tenant.delete_schedule` | archived | not archived | yes | yes (cancel) |
-| Cancel deletion | `cancelDeletion` | `platform.tenant.delete_schedule` | pending_deletion | — | yes | — |
-| Delete (soft) | `deleteTenant` | `platform.tenant.delete` | pending_deletion | active users, running provisioning job, active subscription | yes | no within this gate |
-
-No implicit transitions. Every transition writes an audit record and emits a lifecycle notification.
-
-### Deleted vs. Purged — explicit distinction
-
-`deleted` is a **lifecycle state**; purge is a **future operational process**, not a state in this gate.
-
-| | `deleted` (Gate 3.6) | Purge (deferred) |
+| Capability | Class | Note |
 |---|---|---|
-| Meaning | Logically deleted; tenant is inaccessible to all users | Physical destruction of tenant data and cloud resources |
-| Tenant row | Retained | Removed or anonymized per retention policy |
-| Audit, timeline, provisioning history | Fully preserved | Handled by the retention policy |
-| Supabase project / tenant database | Untouched | Destroyed under an audited workflow |
-| Recoverable | Yes, at the database level, until purge runs | No |
-| Trigger | Operator command | Separate audited purge workflow in a later gate |
+| Operations overview / summary | Add (composition) | Aggregates existing provisioning + tenant reads |
+| Tenant operations directory | Add (composition) | Server-side search/filter over `tenants` + job status |
+| Attention queue | Add (derivation) | Derived server-side from jobs + tenant lifecycle columns + audit |
+| Provider & region visibility | Extend | Reuses `provider-resolver.server.ts` + historical job stats; config is code/env-based → read-only, mutation deferred |
+| Platform settings | Reuse + extend | Reuse settings service; add platform-scope read/write path that does not require org context. No new table |
+| Feature controls | Reuse + extend | Reuse `feature_flags`; platform-scope only in this gate. No percentage rollout/targeting |
+| Global audit explorer | Extend | New platform-wide query over existing `audit_logs`, paginated + CSV export |
+| Notification operations | Reuse (read-only) | Show persisted rows only; delivery-state and retry deferred unless a persisted delivery column exists |
+| Operational policies | Extend | Rendered from settings registry entries; engine-owned values displayed read-only |
+| Billing / usage / live telemetry / remediation | Defer | No authoritative source |
 
-`deleteTenant` sets `lifecycle_state = 'deleted'` and records `deleted_at`, `deleted_by`, `deletion_reason`, `purge_after` (default +90 days). `purge_after` is a marker only — nothing in this gate acts on it. The lifecycle matrix document will carry this table verbatim so Gate 3.7/3.8 inherits an unambiguous definition.
+## Technical plan
 
-## Phase 3 — Database migration
+**Discovery doc first** — `docs/60-engineering/PHASE3_GATE37_DISCOVERY.md` and `PHASE3_GATE37_OPERATIONS_MATRIX.md`, before production code.
 
-One additive migration:
+**Application layer** `src/lib/platform-admin/`
+- `queries.functions.ts`, `commands.functions.ts` (thin server-fn wrappers only)
+- `query-service.server.ts`, `command-service.server.ts`, `mappers.server.ts`
+- `validation.ts` (allow-listed setting/feature keys; rejects unknown keys)
+- `query-keys.ts` (`['platform-admin', ...]`, documented invalidation sets)
+- `types/v1/index.ts` — the 14 DTOs in the spec, sanitized (no rows, no provider objects, no credentials, no SQL, no stack traces)
 
-- Extend `public.tenant_lifecycle_state` with `maintenance`, `pending_deletion`, `deleted`.
-- Add to `public.tenants` (all nullable): `maintenance_started_at`, `maintenance_reason`, `deletion_scheduled_at`, `deletion_scheduled_by`, `deleted_at`, `deleted_by`, `deletion_reason`, `purge_after`.
-- Rewrite `private.fn_assert_lifecycle_transition` to the matrix above — a superset of today's rules, so existing transitions keep working.
-- New `private.fn_*` RPCs with `public` SECURITY DEFINER wrappers: `fn_enter_maintenance`, `fn_exit_maintenance`, `fn_restore_tenant`, `fn_schedule_tenant_deletion`, `fn_cancel_tenant_deletion`, `fn_delete_tenant` — each idempotent, each raising `insufficient_privilege` for non-platform-admin callers, each returning `{tenant_id, from_state, already_*}` like the existing ones.
-- Seed the four new permission keys into `public.permissions` and grant them to the platform admin role.
+**Permissions** — reuse existing keys rather than adding a `platform.admin.*` namespace: `platform.dashboard.view` (overview), `platform.tenant.read` (directory/attention), `platform.settings.manage`, `platform.audit.view`, `platform.policies.view/manage`. One addition only if discovery proves a gap: `platform.features.manage`. Any addition goes into the manifest, migration seed, role grants, generated keys, guards and tests together.
 
-Server-side validation lives in these RPCs so the UI cannot bypass it.
+**Routes** — `src/routes/_authenticated/platform/admin/route.tsx` guarded layout with sub-nav, plus `index` (Overview), `operations`, `tenants`, `attention`, `providers`, `settings`, `features`, `audit`, `notifications`, `policies`. Nav entry added to `PLATFORM_NAV`. Row actions deep-link to the existing provisioning/lifecycle consoles — no duplicated workflows.
 
-### Permission consistency checklist
+**UI** — `src/modules/platform/administration/` with the components listed in the spec, reusing the existing `States` (Loading/Empty/Error) and badge patterns from the provisioning module. Every card handles loading/empty/error/success; severity and status are server-computed and rendered verbatim.
 
-The four new keys (`platform.tenant.maintenance`, `.restore`, `.delete_schedule`, `.delete`) must land in all five places, verified by test:
+**Commands** — `updatePlatformSetting`, `updateFeatureControl`, `acknowledgeAttentionItem`, `updateOperationalPolicy`; `retryNotificationDelivery` only if delivery state is persisted. Each: authenticate → authorize → allow-list key validation → typed value validation → execute → audit row (previous value, new value, actor, timestamp, correlation id, reason) → typed result → documented invalidation.
 
-1. `public.permissions` seed rows + `role_permissions` grants (migration).
-2. `src/lib/generated/permission-keys.ts` via the existing generator script.
-3. Route guards on the lifecycle subtree and detail panel.
-4. `Can` wrappers on every action control.
-5. RBAC documentation and the Gate 3.6 lifecycle matrix.
+**Migration** — expected to be needed only for: new audit action values for admin actions, an `acknowledged_at`/`acknowledged_by` marker if attention acknowledgement is kept persistent, and any seed rows for new permission/setting definitions. Nothing added purely to fill dashboard cards.
 
-## Phase 4 — Lifecycle facade (`src/lib/tenant-lifecycle/`)
+## Adopted refinements
 
-Independent of provisioning, mirroring the CQRS shape proven in `provisioning-admin`:
+**1. Settings registry ownership contract.** Every platform setting surfaced by this gate is declared in one registry (`src/lib/platform-admin/validation.ts`, mirrored in the operations matrix) with six mandatory attributes: **owner**, **validation rule** (type + bounds/enum, enforced server-side), **default**, **mutability** (`editable` | `read-only-system` | `read-only-environment` | `engine-owned`), **audit requirement** (always `required` for editable entries), and **source of truth**. A setting absent from the registry is rejected by the command layer. Engine-owned values (retry, rollback, concurrency) are registered as display-only.
 
-- `lifecycle.ts` — pure state machine: states, transition table, `canTransition`, `assertTransition`, `requiredPermission`, `requiresReason`, `validate(context)` for the precondition rules. No I/O.
-- `query-service.server.ts` — lifecycle detail, unified timeline, metrics, server-side search and filters (state, region, plan tier, archived, maintenance, pending deletion), pagination.
-- `command-service.server.ts` — the nine commands, each: validate → call RPC → write audit → emit notification → return a DTO result.
-- `queries.functions.ts` / `commands.functions.ts` — thin `createServerFn` wrappers under `requireSupabaseAuth`.
-- `types/v1/index.ts` — pinned DTOs (`TenantLifecycleDetailDTO`, `TenantTimelineEntryDTO`, `TenantLifecycleMetricsDTO`, `TenantLifecycleListRowDTO`), re-exported flat.
+**2. Attention queue priority policy.** Severity and ordering are computed server-side. Deterministic precedence when several conditions apply to one tenant: `provisioning_rollback_failed` > `provisioning_retry_exhausted` > `provisioning_failed` > `deletion_purge_overdue` > `pending_deletion` > `job_exceeds_expected_duration` > `maintenance_beyond_threshold` > `configuration_validation_issue` > `notification_delivery_issue`. Ties break by `severity`, then oldest `created_at`, then tenant id. Deduplicated by `tenant_id + type`, so ordering is stable across refreshes.
 
-## Phase 5 — Dashboard and routes
+**3. Export redaction parity.** CSV export is generated server-side from the **same mapper functions** as the screen DTOs — never from raw rows — so redaction, sensitive-field exclusion and the existing export row limit apply identically. A test asserts field-set equality between the audit DTO and the exported CSV, and that secret-shaped fields (token, password, key, secret, connection string, provider payload, stack trace) appear in neither.
 
-New subtree `/platform/tenants/lifecycle` guarded by `PLATFORM_TENANT_READ`, subnav: Overview · Directory · Maintenance · Deletion queue.
+**4. Operations matrix "Owning Module" column.** `PHASE3_GATE37_OPERATIONS_MATRIX.md` gains an **Owning Module** column identifying the responsible subsystem for each surface (Provisioning, Tenant Lifecycle, Settings, Feature Flags, Audit, Notifications, RBAC, Platform Admin composition). Columns become: Surface | Owning Module | Data source | Authoritative owner | Permission | Query | Command | Audit event | Cache invalidation | Known limitation. Surfaces owned by another module are marked *composed, read-only* so ownership reviews can tell aggregation from authorship at a glance.
 
-- `route.tsx` — permission guard + subnav (mirrors the provisioning layout).
-- `index.tsx` — metrics: total active, suspended, maintenance, archived, pending deletion, deleted, average tenant age, recently archived, deletion queue depth.
-- `directory.tsx` — server-side search and filters with lifecycle badges and row actions.
-- `maintenance.tsx` — tenants in maintenance with elapsed duration and reason.
-- `deletion.tsx` — pending-deletion queue ordered by `purge_after`, with cancel action.
-- Tenant detail gains a Lifecycle panel: state badge, action bar, unified timeline.
+**5. Attention item explainability.** `PlatformAttentionItemDTO` carries an optional server-generated `explanation` string (plus the structured `reasonCode` and `reasonParams` it renders from) — e.g. *"Provisioning retry exhausted after 5 attempts; last failure 2h ago"*, *"In maintenance for 9 days, beyond the 7-day display threshold"*. The string is composed server-side from persisted values only (never fabricated), sanitized like every other DTO field, and shown inline on the queue row so operators understand the item without navigating away. The deep link remains the action; the explanation is context.
 
-**Displayed data — derived only from authoritative existing sources**: tenant name/code/slug, lifecycle state, provisioning status and history, region, plan tier, created/updated, company count, branch count, user count, last activity from audit logs, last lifecycle change, scheduled-deletion details. Storage usage, database size, current version and last login are **not** rendered — no placeholders, no speculative columns; they are listed as deferred items.
+**6. Breadcrumb consistency for composed vs. deep-linked views.** Every `/platform/admin/*` route declares breadcrumb metadata rooted at *Platform › Administration › {Section}*, marking it as a **composed administrative overview**. When a row action deep-links into an owning console (`/platform/provisioning/*`, `/platform/tenants/*`), navigation carries an origin marker so those pages show *Platform › Administration › {Section} › {Workflow}* with a back affordance to the admin surface, while direct visits keep their native breadcrumb trail. This makes the aggregation boundary visible in the UI and is covered by a navigation test.
 
-Components in `src/modules/platform/tenant-lifecycle/components/`: `LifecycleBadge`, `LifecycleActionBar`, `LifecycleDialog` (confirmation + required reason + impact summary + blocked-reason display), `TenantTimeline`, `LifecycleMetricCards`, `TenantLifecycleTable`, `LifecycleFilterPanel`, `States`.
+## Architecture boundary (unchanged, enforced by test)
 
-## Phase 6 — Audit, notifications, timeline
+```text
+Platform Administration UI
+        │
+        ▼
+Platform Admin Facade (queries / commands)
+        │
+        ├── Provisioning Query Facade
+        ├── Tenant Lifecycle Query Facade
+        ├── Settings Framework
+        ├── Feature Flags
+        ├── Audit
+        └── Notifications
+```
 
-- Audit: extend `TENANT_ACTIONS` with `tenant.maintenance_started/ended`, `tenant.restored`, `tenant.deletion_scheduled`, `tenant.deletion_cancelled`, `tenant.deleted`. Each record carries timestamp, actor, reason, old state, new state, correlation id, tenant id. Insert-only — history is never overwritten.
-- Notifications: new lifecycle types in the existing registry, emitted through the existing service. No second event system.
-- Timeline: chronological merge of provisioning history (read through the existing provisioning **query facade**, never its internals) and lifecycle audit events, de-duplicated by `(source, id)`.
+The browser bundle must not reach repositories, providers, orchestrators, retry/rollback engines, migration/seed runners, SQL, or the Supabase SDK — asserted by an executable architecture-integrity test over the client import graph.
 
-## Phase 7 — Tests
+**Testing** — query tests (aggregation, directory search/filter/pagination, attention classification/dedupe/ordering/explanation, provider history, audit filtering, DTO sanitization), command tests (registry allow-list, validation, permission denial, audit creation, invalidation, duplicate submission), UI tests (states, filters, dialogs, keyboard, ARIA, deep links, breadcrumb origin), security tests (unauthorized route/server-fn, unknown keys, secret-shaped field exclusion, export redaction parity), and the architecture-integrity test. All 428 existing tests remain unmodified and green.
 
-New suites, offline against in-memory fakes:
+**Closure** — typecheck, production build, full suite, then `docs/60-engineering/PHASE3_GATE37_COMPLETION_REPORT.md`. Stop; Gate 3.8 not started.
 
-- `lifecycle.test.ts` — full transition matrix, illegal transitions, idempotency, reason requirements, deleted-is-terminal.
-- `validation.test.ts` — delete/archive/suspend/maintenance/restore preconditions.
-- `command-integration.test.tsx` — each action calls the right command with the right payload; cache invalidation sets.
-- `audit.test.ts` / `notifications.test.ts` — exactly one immutable audit record and one notification per transition.
-- `timeline.test.ts` — ordering, no duplicates, provisioning + lifecycle merge.
-- `boundaries.test.ts` — see Phase 8.
-- `permissions.test.tsx`, `dialogs.test.tsx`, `a11y.test.tsx`, `search-filters.test.tsx`, `routes.test.ts` — permission gating and unauthorized access, dialog reason enforcement, keyboard/ARIA, server-side query wiring, route registration.
+## Known limitations that will be reported honestly
 
-Full suite must stay green (currently 412 passing).
+Provider health is historical, not live. No infrastructure usage/uptime metrics. Notification delivery outcomes shown only if persisted. Feature controls are platform-wide only. Environment-managed configuration is read-only. Attention items require manual resolution — no automatic remediation, no purge execution, no billing.
 
-## Phase 8 — Architecture Integrity Validation
+## Delivery
 
-An executable gate check (`architecture-integrity.test.ts`) plus a git-diff review, failing the gate on drift:
-
-- ✓ No modification to provisioning lifecycle states or transitions.
-- ✓ No modification to the orchestrator, executor, or step runner.
-- ✓ No modification to the provider or provider resolver.
-- ✓ No modification to the retry engine, rollback engine, migration runner, or seed runner.
-- ✓ No modification to the provisioning repository, data client, or DTO layer.
-- ✓ `src/lib/tenant-lifecycle/**` imports no provisioning internals — only the provisioning **query facade** for timeline reads.
-- ✓ `src/modules/platform/tenant-lifecycle/**` imports only the lifecycle facade, DTOs and view models — no Supabase SDK, no database client, no server-only modules.
-- ✓ All 412 pre-existing tests still pass, unmodified.
-
-The completion report records the diff scope proving provisioning files were untouched.
-
-## Phase 9 — Documentation
-
-- `docs/60-engineering/PHASE3_GATE36_LIFECYCLE_MATRIX.md` — states, transitions, permissions, validation rules, audit events, notifications, reversibility, and the Deleted-vs-Purged table.
-- `docs/60-engineering/PHASE3_GATE36_COMPLETION_REPORT.md` — files created/modified, commands, routes, components, tests, test count, known limitations, deferred items, architecture integrity result.
-
-## Known limitations / deferred
-
-- Purge execution (destroying Supabase projects and tenant databases after `purge_after`) — marker only here.
-- Storage usage, database size, current version, last login, subscription telemetry — no producer exists; deferred with their collectors.
-- Automatic transition out of `pending_deletion` on schedule — operator-initiated only for now.
-
-## Stop rule
-
-Work stops after documentation and a green suite. Gate 3.7 is not started.
+Final response will be the structured inventory only (files, routes, components, DTOs, queries, commands, permissions, tests, counts, build/integrity status, limitations, deferrals, gate status) — the narrative lives in the completion report.
