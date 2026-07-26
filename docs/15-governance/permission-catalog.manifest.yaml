@@ -144,6 +144,20 @@ permissions:
     name: Archive tenant
     description: Archive a tenant
 
+  # --- Tenant lifecycle operations (Gate 3.6) -------------------------------
+  - key: platform.tenant.maintenance
+    name: Tenant maintenance
+    description: Enter or exit tenant maintenance mode
+  - key: platform.tenant.restore
+    name: Restore tenant
+    description: Restore an archived tenant to active
+  - key: platform.tenant.delete_schedule
+    name: Schedule tenant deletion
+    description: Schedule or cancel tenant deletion
+  - key: platform.tenant.delete
+    name: Delete tenant
+    description: Soft-delete a tenant pending deletion
+
   # --- Organization structure (SPR-MOD-001-002) -----------------------------
   - key: platform.company.read
     name: Read companies
