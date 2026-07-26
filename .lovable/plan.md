@@ -1,59 +1,149 @@
-## Gate 3.5 — End-to-End Provisioning Workflow (integration & operational readiness)
+# Gate 3.6 — Multi-Tenant Lifecycle Management
 
-No new provisioning architecture. Domain, orchestrator, retry/rollback engines, provider, repository, facade and dashboard stay exactly as built in Gates 3.1–3.4. This gate wires the remaining gaps, proves the layers work together, and documents the results.
+SPR-MOD-001-003 · Phase 3 · Operational layer for tenants that already reached `completed` provisioning.
 
-### Step 1 — Discovery findings (already done, read-only)
+No provisioning code is touched. The lifecycle layer never imports the orchestrator, provider, repository, retry/rollback engines, migration runner or seed runner.
 
-Confirmed present and wired:
-- Facade commands: `startTenantProvisioning`, `retryProvisioning`, `advanceProvisioning`, `cancelProvisioning`, `rollbackProvisioning` — each permission-gated (`PLATFORM_TENANT_CREATE/UPDATE/ARCHIVE`) and delegating to `command-service.server.ts` → `ProvisioningService` → orchestrator.
-- Query facade: summary, list, detail, queue, failed, provider health, CSV export.
-- Hooks: `useProvisioningCommands` with per-command invalidation sets, polling on queue/detail, SSE via `useProvisioningEvents` with reconnect + polling fallback.
-- Routes: `index`, `$jobId`, `history`, `queue`, `failed`, `health` under a permission-guarded layout.
+## Phase 1 — Discovery summary (already performed, read-only)
 
-Integration gaps to close in this gate:
-1. **No `resume` command.** The spec's "Resume" maps to `advanceProvisioning` (executeNextStep) after a `retrying`/paused state. I will expose it as an explicit `resume` action in the UI that reuses the existing `advanceProvisioning` server fn — no new server command, no orchestrator change.
-2. **Lifecycle vocabulary mismatch.** The spec names `Draft` and `Waiting`; the implemented state machine uses `pending`, `validating`, `queued`, `provisioning_infrastructure`, `running_migrations`, `seeding`, `creating_admin`, `verifying`, `retrying`, `completed`, `failed`, `cancelled`, `rolled_back`. I will map spec names onto implemented states in the matrix document rather than adding states.
-3. **No end-to-end/integration test layer.** Existing tests are unit (domain/orchestrator) plus component/nav/boundary. Gate 3.5 adds workflow-level tests driving the service against the in-memory harness + mock provider.
-4. **Per-state UI completeness (badge/icon/progress/timeline/actions/error/duration) is unverified** across all 13 states.
+What exists today:
 
-### Step 2 — Workflow matrix (document)
+- **Lifecycle states**: Postgres enum `public.tenant_lifecycle_state` = `created | active | suspended | archived`, enforced by `private.fn_assert_lifecycle_transition` plus RPCs `fn_activate_tenant`, `fn_suspend_tenant`, `fn_archive_tenant`. Mirrored in pure TS at `src/lib/tenants/lifecycle.ts`.
+- **Tenant columns**: `slug, display_name, region, default_locale, timezone, plan_tier, lifecycle_state, created_at, activated_at, suspended_at, archived_at`, plus opaque provisioning handles.
+- **Audit**: `public.audit_logs` written through `logTenantEventFn` with actions `tenant.created/activated/suspended/archived/updated`. Append-only in practice.
+- **Events**: `buildTenantEvent` envelope (ADR-051) in `src/lib/tenants/events.ts`.
+- **Notifications**: `src/lib/notifications/` — type registry plus `service.functions.ts`.
+- **Permissions**: `PLATFORM_TENANT_READ/CREATE/UPDATE/ACTIVATE/SUSPEND/ARCHIVE` exist; maintenance, restore, deletion-scheduling and delete permissions do not.
+- **UI**: `/platform/tenants` (list + create dialog) and `/platform/tenants/$tenantId`. The provisioning module at `src/modules/platform/provisioning/` is the pattern to mirror (subnav layout, DTO `types/v1`, query-keys with documented invalidation sets, boundary tests).
 
-`docs/60-engineering/PHASE3_GATE35_WORKFLOW_MATRIX.md`: one row per state — trigger, next states, allowed dashboard actions, badge/icon/progress/timeline expectation, error surface, and the failure/retry/rollback/cancel/resume branches.
+Gaps this gate closes: three new lifecycle states, six new transitions, deletion-scheduling metadata, a lifecycle facade, a lifecycle dashboard with a unified timeline, and the matching permissions.
 
-### Step 3 — Command integration verification
+## Phase 2 — Lifecycle state machine
 
-Add a verification test asserting each dashboard action calls the correct facade command and invalidates the documented query-key sets (`invalidateAfterCommand`), plus disabled-state rules so an in-flight mutation cannot fire twice (duplicate-action prevention).
+States: `created → active → suspended → maintenance → archived → pending_deletion → deleted`.
 
-### Step 4 — End-to-end scenarios (deterministic, mock provider)
+| Transition | Command | Permission | From | Blocked when | Reason required | Reversible |
+|---|---|---|---|---|---|---|
+| Activate | `activateTenant` | `platform.tenant.activate` | created, suspended, maintenance | pending_deletion, deleted | no | — |
+| Suspend | `suspendTenant` | `platform.tenant.suspend` | active, maintenance | pending_deletion, deleted, archived | yes | yes (activate) |
+| Enter maintenance | `enterMaintenance` | `platform.tenant.maintenance` | active | deleted, pending_deletion, archived | yes | yes |
+| Exit maintenance | `exitMaintenance` | `platform.tenant.maintenance` | maintenance | — | no | — |
+| Archive | `archiveTenant` | `platform.tenant.archive` | active, suspended, maintenance | already archived, running provisioning job | yes | yes (restore) |
+| Restore | `restoreTenant` | `platform.tenant.restore` | archived | — | no | — |
+| Schedule deletion | `scheduleDeletion` | `platform.tenant.delete_schedule` | archived | not archived | yes | yes (cancel) |
+| Cancel deletion | `cancelDeletion` | `platform.tenant.delete_schedule` | pending_deletion | — | yes | — |
+| Delete (soft) | `deleteTenant` | `platform.tenant.delete` | pending_deletion | active users, running provisioning job, active subscription | yes | no within this gate |
 
-New integration suite `src/lib/provisioning/integration/__tests__/workflow.e2e.test.ts` using the existing harness/mock provider — no real Supabase project, no network:
-- Happy path draft→completed, one step per invocation.
-- Provider delay / timeout, migration failure, seed failure, admin-creation failure, health-verification failure.
-- Retry (transient → success), retry-budget exhaustion → failed.
-- Rollback (eligible, ineligible, idempotent, rollback failure).
-- Cancel (idempotent) and resume after retrying.
-- Duplicate start request, correlation-id mismatch, unauthorized command.
+No implicit transitions. Every transition writes an audit record and emits a lifecycle notification.
 
-### Step 5 — Concurrency
+### Deleted vs. Purged — explicit distinction
 
-`concurrency.test.ts`: batches of 10/20/50 jobs through the service with the in-memory repository — verifies queue ordering, single-flight step claiming (no double execution of a step), and terminal-state correctness under interleaved execution. Observations recorded, not enforced as perf thresholds.
+`deleted` is a **lifecycle state**; purge is a **future operational process**, not a state in this gate.
 
-### Step 6 — UI, resilience, security tests
+| | `deleted` (Gate 3.6) | Purge (deferred) |
+|---|---|---|
+| Meaning | Logically deleted; tenant is inaccessible to all users | Physical destruction of tenant data and cloud resources |
+| Tenant row | Retained | Removed or anonymized per retention policy |
+| Audit, timeline, provisioning history | Fully preserved | Handled by the retention policy |
+| Supabase project / tenant database | Untouched | Destroyed under an audited workflow |
+| Recoverable | Yes, at the database level, until purge runs | No |
+| Trigger | Operator command | Separate audited purge workflow in a later gate |
 
-Extend `src/modules/platform/provisioning/__tests__/`:
-- `states.test.tsx` — every state renders badge, icon, progress, timeline, actions, error, duration.
-- `workflow-ui.test.tsx` — loading/empty/error/success states, confirmation dialogs, keyboard + focus, ARIA roles.
-- `resilience.test.tsx` — SSE failure → polling fallback, route reload / remount rehydration from cache, stale-data invalidation after commands.
-- `security.test.tsx` — route guard denial for missing `PLATFORM_TENANT_READ`, command buttons hidden/disabled without update/archive permission, DTO surface carries no provider credentials, SQL text, or stack traces.
-- CSV export test on the existing export mutation.
-- Existing `boundaries.test.ts` extended to assert dashboard files still import no domain/orchestrator/repository/provider modules.
+`deleteTenant` sets `lifecycle_state = 'deleted'` and records `deleted_at`, `deleted_by`, `deletion_reason`, `purge_after` (default +90 days). `purge_after` is a marker only — nothing in this gate acts on it. The lifecycle matrix document will carry this table verbatim so Gate 3.7/3.8 inherits an unambiguous definition.
 
-### Step 7 — Gate closure
+## Phase 3 — Database migration
 
-`docs/60-engineering/PHASE3_GATE35_COMPLETION_REPORT.md` with files created/modified, scenarios executed, test summary and updated repository test count, performance observations, known limitations, deferred items, and explicit confirmation that no provisioning architecture files were modified.
+One additive migration:
 
-### Technical notes
+- Extend `public.tenant_lifecycle_state` with `maintenance`, `pending_deletion`, `deleted`.
+- Add to `public.tenants` (all nullable): `maintenance_started_at`, `maintenance_reason`, `deletion_scheduled_at`, `deletion_scheduled_by`, `deleted_at`, `deleted_by`, `deletion_reason`, `purge_after`.
+- Rewrite `private.fn_assert_lifecycle_transition` to the matrix above — a superset of today's rules, so existing transitions keep working.
+- New `private.fn_*` RPCs with `public` SECURITY DEFINER wrappers: `fn_enter_maintenance`, `fn_exit_maintenance`, `fn_restore_tenant`, `fn_schedule_tenant_deletion`, `fn_cancel_tenant_deletion`, `fn_delete_tenant` — each idempotent, each raising `insufficient_privilege` for non-platform-admin callers, each returning `{tenant_id, from_state, already_*}` like the existing ones.
+- Seed the four new permission keys into `public.permissions` and grant them to the platform admin role.
 
-- Only two production-code touches are anticipated: exposing the **Resume** action in the job detail/dialog layer (reusing `advanceProvisioning`) and filling any missing per-state badge/icon/progress mapping in `StatusBadge`/`ProgressBar`/`ProvisioningTimeline`. Both are presentation-layer only.
-- All scenario validation runs against the in-memory harness and mock provider; **no live Supabase project is provisioned**, so "operational validation" is deterministic simulation, which will be stated as a known limitation.
-- Stop after the completion report. Gate 3.6 is not started.
+Server-side validation lives in these RPCs so the UI cannot bypass it.
+
+### Permission consistency checklist
+
+The four new keys (`platform.tenant.maintenance`, `.restore`, `.delete_schedule`, `.delete`) must land in all five places, verified by test:
+
+1. `public.permissions` seed rows + `role_permissions` grants (migration).
+2. `src/lib/generated/permission-keys.ts` via the existing generator script.
+3. Route guards on the lifecycle subtree and detail panel.
+4. `Can` wrappers on every action control.
+5. RBAC documentation and the Gate 3.6 lifecycle matrix.
+
+## Phase 4 — Lifecycle facade (`src/lib/tenant-lifecycle/`)
+
+Independent of provisioning, mirroring the CQRS shape proven in `provisioning-admin`:
+
+- `lifecycle.ts` — pure state machine: states, transition table, `canTransition`, `assertTransition`, `requiredPermission`, `requiresReason`, `validate(context)` for the precondition rules. No I/O.
+- `query-service.server.ts` — lifecycle detail, unified timeline, metrics, server-side search and filters (state, region, plan tier, archived, maintenance, pending deletion), pagination.
+- `command-service.server.ts` — the nine commands, each: validate → call RPC → write audit → emit notification → return a DTO result.
+- `queries.functions.ts` / `commands.functions.ts` — thin `createServerFn` wrappers under `requireSupabaseAuth`.
+- `types/v1/index.ts` — pinned DTOs (`TenantLifecycleDetailDTO`, `TenantTimelineEntryDTO`, `TenantLifecycleMetricsDTO`, `TenantLifecycleListRowDTO`), re-exported flat.
+
+## Phase 5 — Dashboard and routes
+
+New subtree `/platform/tenants/lifecycle` guarded by `PLATFORM_TENANT_READ`, subnav: Overview · Directory · Maintenance · Deletion queue.
+
+- `route.tsx` — permission guard + subnav (mirrors the provisioning layout).
+- `index.tsx` — metrics: total active, suspended, maintenance, archived, pending deletion, deleted, average tenant age, recently archived, deletion queue depth.
+- `directory.tsx` — server-side search and filters with lifecycle badges and row actions.
+- `maintenance.tsx` — tenants in maintenance with elapsed duration and reason.
+- `deletion.tsx` — pending-deletion queue ordered by `purge_after`, with cancel action.
+- Tenant detail gains a Lifecycle panel: state badge, action bar, unified timeline.
+
+**Displayed data — derived only from authoritative existing sources**: tenant name/code/slug, lifecycle state, provisioning status and history, region, plan tier, created/updated, company count, branch count, user count, last activity from audit logs, last lifecycle change, scheduled-deletion details. Storage usage, database size, current version and last login are **not** rendered — no placeholders, no speculative columns; they are listed as deferred items.
+
+Components in `src/modules/platform/tenant-lifecycle/components/`: `LifecycleBadge`, `LifecycleActionBar`, `LifecycleDialog` (confirmation + required reason + impact summary + blocked-reason display), `TenantTimeline`, `LifecycleMetricCards`, `TenantLifecycleTable`, `LifecycleFilterPanel`, `States`.
+
+## Phase 6 — Audit, notifications, timeline
+
+- Audit: extend `TENANT_ACTIONS` with `tenant.maintenance_started/ended`, `tenant.restored`, `tenant.deletion_scheduled`, `tenant.deletion_cancelled`, `tenant.deleted`. Each record carries timestamp, actor, reason, old state, new state, correlation id, tenant id. Insert-only — history is never overwritten.
+- Notifications: new lifecycle types in the existing registry, emitted through the existing service. No second event system.
+- Timeline: chronological merge of provisioning history (read through the existing provisioning **query facade**, never its internals) and lifecycle audit events, de-duplicated by `(source, id)`.
+
+## Phase 7 — Tests
+
+New suites, offline against in-memory fakes:
+
+- `lifecycle.test.ts` — full transition matrix, illegal transitions, idempotency, reason requirements, deleted-is-terminal.
+- `validation.test.ts` — delete/archive/suspend/maintenance/restore preconditions.
+- `command-integration.test.tsx` — each action calls the right command with the right payload; cache invalidation sets.
+- `audit.test.ts` / `notifications.test.ts` — exactly one immutable audit record and one notification per transition.
+- `timeline.test.ts` — ordering, no duplicates, provisioning + lifecycle merge.
+- `boundaries.test.ts` — see Phase 8.
+- `permissions.test.tsx`, `dialogs.test.tsx`, `a11y.test.tsx`, `search-filters.test.tsx`, `routes.test.ts` — permission gating and unauthorized access, dialog reason enforcement, keyboard/ARIA, server-side query wiring, route registration.
+
+Full suite must stay green (currently 412 passing).
+
+## Phase 8 — Architecture Integrity Validation
+
+An executable gate check (`architecture-integrity.test.ts`) plus a git-diff review, failing the gate on drift:
+
+- ✓ No modification to provisioning lifecycle states or transitions.
+- ✓ No modification to the orchestrator, executor, or step runner.
+- ✓ No modification to the provider or provider resolver.
+- ✓ No modification to the retry engine, rollback engine, migration runner, or seed runner.
+- ✓ No modification to the provisioning repository, data client, or DTO layer.
+- ✓ `src/lib/tenant-lifecycle/**` imports no provisioning internals — only the provisioning **query facade** for timeline reads.
+- ✓ `src/modules/platform/tenant-lifecycle/**` imports only the lifecycle facade, DTOs and view models — no Supabase SDK, no database client, no server-only modules.
+- ✓ All 412 pre-existing tests still pass, unmodified.
+
+The completion report records the diff scope proving provisioning files were untouched.
+
+## Phase 9 — Documentation
+
+- `docs/60-engineering/PHASE3_GATE36_LIFECYCLE_MATRIX.md` — states, transitions, permissions, validation rules, audit events, notifications, reversibility, and the Deleted-vs-Purged table.
+- `docs/60-engineering/PHASE3_GATE36_COMPLETION_REPORT.md` — files created/modified, commands, routes, components, tests, test count, known limitations, deferred items, architecture integrity result.
+
+## Known limitations / deferred
+
+- Purge execution (destroying Supabase projects and tenant databases after `purge_after`) — marker only here.
+- Storage usage, database size, current version, last login, subscription telemetry — no producer exists; deferred with their collectors.
+- Automatic transition out of `pending_deletion` on schedule — operator-initiated only for now.
+
+## Stop rule
+
+Work stops after documentation and a green suite. Gate 3.7 is not started.
