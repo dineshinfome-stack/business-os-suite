@@ -46,7 +46,7 @@ describe("integration · end-to-end orchestration", () => {
     }
 
     expect(h.store.job.provider_resource_reference).toMatchObject({
-      project: "proj_fake_1",
+      project_reference: "proj_fake_1",
     });
     for (const update of h.store.updates) {
       expect(Object.keys(update.patch)).not.toContain("provisioning_status");

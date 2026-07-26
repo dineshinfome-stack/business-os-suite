@@ -48,7 +48,12 @@ describe("integration · optimistic concurrency", () => {
   });
 
   it("keeps step claims idempotent across repeated execution attempts", async () => {
-    const h = createIntegrationHarness({ job: { state: "running_migrations" } });
+    const h = createIntegrationHarness({
+      job: {
+        state: "running_migrations",
+        provider_resource_reference: { project_reference: "proj_fake_1" },
+      },
+    });
 
     await h.service.executeNextStep();
     const stateAfterFirst = h.store.job.state;
