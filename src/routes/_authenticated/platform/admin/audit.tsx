@@ -29,7 +29,7 @@ export const Route = createFileRoute("/_authenticated/platform/admin/audit")({
       },
     ],
   }),
-  component: AuditPage;
+  component: AuditPage,
 });
 
 function AuditPage() {
