@@ -170,7 +170,12 @@ up as completely as the success path.
 | 016 | Row level security lets the permission holder see the fixtures and read the onboarding tables. |
 
 A supplemental ACL check additionally asserts that `anon` and `service_role`
-hold no `EXECUTE` privilege on the queue routine and that `PUBLIC` holds none.
+hold no `EXECUTE` privilege on the queue routine and that `PUBLIC` holds none,
+and then proves it by actually switching transaction-locally to `anon`, calling
+the queue routine and requiring SQLSTATE `42501` with no envelope returned. It
+emits `PASS382-SUPPLEMENTAL-ACL PASS` — deliberately outside the numbered
+`PASS382-CERT-NNN PASS` marker space, so it is never counted as a seventeenth
+assertion.
 
 ## Preconditions the harness enforces before doing anything
 
