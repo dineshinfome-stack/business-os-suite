@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Pending Approval
+status: Approved With Binding Conditions
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
@@ -11,12 +11,13 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Pending Approval`:**
+**Repository status while this document is `Approved With Binding Conditions`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
-No migration file has been modified. Execution is halted at Step 0B pending
-explicit authority approval of the strategy discovered in Step 0C.
+No migration file has been modified. Step 0B authority approval is recorded in
+§9: Commit A is AUTHORIZED but NOT STARTED, subject to every binding condition
+recorded in this document and the manifest. Pass 3.8.3 is not authorized.
 
 ---
 
@@ -397,24 +398,27 @@ required or implied.
 
 ## 9. Approval
 
-Lovable MUST NOT complete this section. It is filled in only by the designated
-authority, and the commit carrying the completed section is the durable
-approval record whose SHA is cited in the terminal audit.
+This section is completed only by the designated authority. The values below
+were supplied as explicit Architecture Office input; the commit carrying this
+completed section is the durable approval record whose SHA is cited in the
+terminal audit.
 
 | Field | Value |
 | --- | --- |
-| Approval authority | Architecture Office (migration authority) |
-| Approver identity | _pending_ |
-| Decision | _pending_ |
-| Decision timestamp (UTC) | _pending_ |
+| Approval authority | Architecture Office — Migration Authority |
+| Approver identity | Dino Loy (GitHub: dineshinfome-stack) |
+| Decision | `APPROVED_WITH_BINDING_CONDITIONS` |
+| Decision timestamp (UTC) | `2026-07-26T16:03:51Z` |
 | Repair document ID | `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` |
 | Original path | `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` |
 | Original blob SHA | `12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2` |
 | Step 0C findings incorporated | Yes — §3 above |
 | Approved checksum-repair action | Not applicable (no checksum tracking; see §3) |
-| Approved tombstone strategy | _pending_ |
-| Historical `statements[]` decision | _pending_ (see §3.1) |
-| Approval commit SHA | Captured after commit and recorded in the provisional manifest and terminal audit. |
+| Approved tombstone strategy | `true` |
+| Historical `statements[]` decision | `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE` (see §3.1) |
+| Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
+| Scope of authorization | Commit A — AUTHORIZED. Pass 3.8.3 — NOT AUTHORIZED. |
+| Approval commit SHA | `PENDING_POST_COMMIT_PIN` — captured after this commit and recorded in the manifest and terminal audit. |
 
 ### 9.1 Approval template
 
@@ -462,7 +466,7 @@ Field rules:
 | `.lovable/plan.md` | byte-identical, digest `00b23fcf2725822570305a78889999e0b7942ed2228a14b3e1f77b6d7f8c43b1` |
 | Renames / copies / additions / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Step 0B-prep | COMPLETE |
-| Step 0B authority approval | PENDING |
-| Commit A | NOT STARTED |
+| Step 0B authority approval | `APPROVED_WITH_BINDING_CONDITIONS` |
+| Commit A | AUTHORIZED — NOT STARTED |
 | Repository status | `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` |
 | Pass 3.8.3 | NOT STARTED |

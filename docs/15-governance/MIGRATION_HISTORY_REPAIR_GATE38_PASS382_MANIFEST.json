@@ -353,13 +353,18 @@
       "result": "PASS"
     },
     "step_0b_approval": {
-      "state": "pending",
-      "approver_identity": null,
-      "decision": null,
-      "decision_timestamp_utc": null,
-      "approved_tombstone_strategy": null,
-      "historical_statements_decision": null,
-      "approval_commit_sha": null
+      "state": "approved",
+      "approval_authority": "Architecture Office — Migration Authority",
+      "approver_identity": "Dino Loy (GitHub: dineshinfome-stack)",
+      "decision": "APPROVED_WITH_BINDING_CONDITIONS",
+      "decision_timestamp_utc": "2026-07-26T16:03:51Z",
+      "approved_tombstone_strategy": true,
+      "historical_statements_decision": "ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE",
+      "authority_decision_note": "Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3.",
+      "authorizes_commit_a": true,
+      "authorizes_pass_3_8_3": false,
+      "approval_commit_sha": null,
+      "approval_commit_sha_state": "PENDING_POST_COMMIT_PIN"
     },
     "step_0d_runtime_immutability_baseline": [
       {
@@ -431,8 +436,8 @@
     "additions": 0,
     "deletions": 0,
     "binary_changes": 0,
-    "step_0b_authority_approval": "PENDING",
-    "commit_a": "NOT STARTED",
+    "step_0b_authority_approval": "APPROVED_WITH_BINDING_CONDITIONS",
+    "commit_a": "AUTHORIZED — NOT STARTED",
     "pass_3_8_3": "NOT STARTED",
     "measurement_mode": "HISTORICAL_RECONSTRUCTION",
     "historical_search_baseline_commit": "77656a1462918c636c94c6c7389570cccc62693e",
