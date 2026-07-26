@@ -361,3 +361,30 @@ machine-enforced, and every required inventory supplied above.
 
 **Pass 3.8.2 has not been started.** No persistence, RLS, grant or read-model
 work was performed in this pass.
+
+---
+
+## 14. Amendment — contract co-location closure
+
+**Date:** 2026-07-26 · **Reason:** closure of the spec-mandated DTO inventory
+(the one remaining verification item raised at Pass 3.8.1 validation).
+
+Both spec-named contracts are reachable from the public module barrel:
+
+| Spec name | Repository declaration | File |
+|---|---|---|
+| `TenantOnboardingBlockerDTO` | declared under that exact name | `types/v1/onboarding-progress.dto.ts` (co-located with the progress contract) |
+| `TenantOnboardingFilterDTO` | **type-only alias** of the canonical `OnboardingListFilterDTO` | `types/v1/onboarding-page.dto.ts` (co-located with the pagination contract) |
+
+Actions taken:
+
+1. `PHASE3_GATE38_ONBOARDING_MATRIX.md` records the co-location decision.
+2. A **type-only** `export type TenantOnboardingFilterDTO = OnboardingListFilterDTO;`
+   alias was added — no duplicate interface, no runtime artifact.
+3. `__tests__/contract-colocation.test.ts` adds 4 tests: mutual type-identity
+   of alias and canonical declaration, barrel reachability of both spec-named
+   contracts, absence of any runtime export for the alias, and single-sourcing
+   of `onboardingListFilterSchema`.
+4. Test count: 481 → 485; typecheck clean.
+
+**`Pass 3.8.1 — COMPLETE AND CLOSED`**
