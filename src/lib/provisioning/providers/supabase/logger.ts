@@ -10,13 +10,14 @@ import type { ProviderLogFields, ProviderLogger } from "./types";
 const format = (message: string, fields: ProviderLogFields) => [
   `provisioning:provider:supabase ${message}`,
   {
+    ...fields,
     correlation_id: fields.correlationId,
     tenant_id: fields.tenantId ?? null,
     project_id: fields.projectId ?? null,
     operation: fields.operation,
-    ...fields,
   },
 ];
+
 
 export const supabaseProviderLogger: ProviderLogger = {
   debug: (m, f) => platformLogger.debug(...format(m, f)),
