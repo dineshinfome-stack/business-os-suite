@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Pending Approval
+status: Approved With Binding Conditions
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
@@ -11,12 +11,13 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Pending Approval`:**
+**Repository status while this document is `Approved With Binding Conditions`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
-No migration file has been modified. Execution is halted at Step 0B pending
-explicit authority approval of the strategy discovered in Step 0C.
+No migration file has been modified. Step 0B authority approval is recorded in
+§9: Commit A is AUTHORIZED but NOT STARTED, subject to every binding condition
+recorded in this document and the manifest. Pass 3.8.3 is not authorized.
 
 ---
 
