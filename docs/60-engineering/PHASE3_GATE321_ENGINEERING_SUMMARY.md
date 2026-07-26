@@ -68,12 +68,36 @@ concurrency conflicts, idempotency and resume, provider failure classification,
 retry-budget exhaustion, rollback ordering and eligibility, event ordering and
 sink degradation, and step-map round-tripping.
 
-## 5. Out of Scope (deferred)
+## 5. Pre-Gate-3.2.2 Compliance Review
+
+Executed 2026-07-26 against the code and the live database. **Result: PASS (5/5).**
+
+| # | Check | Result | Evidence |
+| --- | --- | --- | --- |
+| 1 | Orchestrator depends on interfaces only | PASS | `ProvisioningProvider` is a type-only import in `context.ts`; `JobRepository`, `JobWriter`, `EventSink`, `Clock`, `OrchestratorLogger` are ports in `types.ts`, injected via `createContext`. No concrete implementation is constructed in the core. |
+| 2 | No Supabase / HTTP / SDK imports | PASS | Directory-wide scan returned zero matches for Supabase clients, `@/integrations/*`, HTTP clients, `createServerFn` or provider SDKs. |
+| 3 | Optimistic concurrency covered by tests | PASS | `__tests__/concurrency.test.ts`: expected-state mismatch, `expectedState` on every transition, step already claimed, job not found, job/tenant mismatch. |
+| 4 | `tenants.provisioning_status` never written | PASS | No write path references the column. Trigger `trg_provisioning_jobs_sync_tenant_status` (`private.fn_sync_tenant_provisioning_status`) confirmed live on `provisioning_jobs`; the column remains derived. |
+| 5 | Retry and rollback delegated, not duplicated | PASS | `executor.ts` → `shouldRetry` from `../retry`; `orchestrator.ts` → `evaluateRollbackEligibility` / `buildRollbackPlan` from `../rollback`. No backoff arithmetic or plan reordering inside the orchestrator. |
+
+**Observation (non-blocking).** `orchestrator/logger.ts` imports the concrete
+`platformLogger`. This is an adapter, not core — the core depends only on the
+`OrchestratorLogger` port — but nothing structurally prevented a future edit
+from reaching outside the domain the same way.
+
+**Standing control.** `__tests__/boundaries.test.ts` now enforces checks 1, 2, 4
+and 5 automatically on every run: forbidden import patterns, no direct network
+I/O, no reference to `provisioning_status` or the `tenants` table, delegation of
+retry/rollback, type-only provider imports, and a domain-containment rule where
+`logger.ts` is the sole allow-listed external importer.
+
+## 6. Out of Scope (deferred)
 
 Provider implementations, persistence adapters, server functions, workers,
 scheduling, and any operator UI. These belong to Gate 3.2.2 and beyond.
 
-## 6. Status
+## 7. Status
 
-**Gate 3.2.1 complete.** The orchestrator core is frozen pending authorisation
-of the next gate.
+**Gate 3.2.1 complete and compliance-reviewed.** The orchestrator core is frozen
+pending authorisation of Gate 3.2.2.
+
