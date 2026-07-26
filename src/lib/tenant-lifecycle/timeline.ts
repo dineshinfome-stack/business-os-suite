@@ -15,7 +15,7 @@ export interface TimelineEntry {
   readonly fromState: string | null;
   readonly toState: string | null;
   readonly actorId: string | null;
-  readonly detail: Record<string, unknown>;
+  readonly detail: Record<string, string | number | boolean | null>;
 }
 
 export interface AuditRow {
@@ -35,10 +35,23 @@ export interface ProvisioningJobRow {
   error_message?: string | null;
 }
 
-function asRecord(value: unknown): Record<string, unknown> {
-  return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : {};
+type Scalar = string | number | boolean | null;
+
+/** Flattens an unknown JSON blob into serializable scalars. */
+function asRecord(value: unknown): Record<string, Scalar> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  const out: Record<string, Scalar> = {};
+  for (const [key, raw] of Object.entries(value as Record<string, unknown>)) {
+    if (raw === null) out[key] = null;
+    else if (
+      typeof raw === "string" ||
+      typeof raw === "number" ||
+      typeof raw === "boolean"
+    )
+      out[key] = raw;
+    else out[key] = JSON.stringify(raw);
+  }
+  return out;
 }
 
 function str(value: unknown): string | null {

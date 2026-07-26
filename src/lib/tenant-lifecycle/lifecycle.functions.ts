@@ -12,7 +12,7 @@ import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { logTenantEventFn } from "@/lib/tenants/audit";
-import { buildTimeline, type TimelineEntry } from "./timeline";
+import { buildTimeline } from "./timeline";
 import {
   DEFAULT_RETENTION_DAYS,
   TENANT_LIFECYCLE_STATES,
@@ -87,7 +87,7 @@ export const listLifecycleTenants = createServerFn({ method: "GET" })
 export const getTenantTimeline = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ tenantId: TenantId }).parse(d))
-  .handler(async ({ data, context }): Promise<TimelineEntry[]> => {
+  .handler(async ({ data, context }) => {
     const [audit, jobs] = await Promise.all([
       context.supabase
         .from("audit_logs")
