@@ -397,24 +397,27 @@ required or implied.
 
 ## 9. Approval
 
-Lovable MUST NOT complete this section. It is filled in only by the designated
-authority, and the commit carrying the completed section is the durable
-approval record whose SHA is cited in the terminal audit.
+This section is completed only by the designated authority. The values below
+were supplied as explicit Architecture Office input; the commit carrying this
+completed section is the durable approval record whose SHA is cited in the
+terminal audit.
 
 | Field | Value |
 | --- | --- |
-| Approval authority | Architecture Office (migration authority) |
-| Approver identity | _pending_ |
-| Decision | _pending_ |
-| Decision timestamp (UTC) | _pending_ |
+| Approval authority | Architecture Office — Migration Authority |
+| Approver identity | Dino Loy (GitHub: dineshinfome-stack) |
+| Decision | `APPROVED_WITH_BINDING_CONDITIONS` |
+| Decision timestamp (UTC) | `2026-07-26T16:03:51Z` |
 | Repair document ID | `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` |
 | Original path | `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` |
 | Original blob SHA | `12ce3d2bea99733a79f4ddd7d1ca64a5dd62bae2` |
 | Step 0C findings incorporated | Yes — §3 above |
 | Approved checksum-repair action | Not applicable (no checksum tracking; see §3) |
-| Approved tombstone strategy | _pending_ |
-| Historical `statements[]` decision | _pending_ (see §3.1) |
-| Approval commit SHA | Captured after commit and recorded in the provisional manifest and terminal audit. |
+| Approved tombstone strategy | `true` |
+| Historical `statements[]` decision | `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE` (see §3.1) |
+| Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
+| Scope of authorization | Commit A — AUTHORIZED. Pass 3.8.3 — NOT AUTHORIZED. |
+| Approval commit SHA | `PENDING_POST_COMMIT_PIN` — captured after this commit and recorded in the manifest and terminal audit. |
 
 ### 9.1 Approval template
 
