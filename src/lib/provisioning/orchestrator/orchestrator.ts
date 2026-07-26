@@ -179,8 +179,8 @@ export function createOrchestrator(ctx: OrchestrationContext): Orchestrator {
             ),
           );
         }
-        const { stateForStep } = await import("./step-map");
         const target = stateForStep(stepKey);
+
         const moved = await persistTransition(ctx, { from, to: target, stepKey });
         if (!moved.ok) return moved as OrchestratorResult<OrchestrationSnapshot>;
         return okResult(snapshot(from, target, "continue", "Resumed from retry."));
