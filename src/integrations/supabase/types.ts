@@ -911,6 +911,133 @@ export type Database = {
         }
         Relationships: []
       }
+      provisioning_jobs: {
+        Row: {
+          attempt_count: number
+          completed_at: string | null
+          correlation_id: string
+          created_at: string
+          created_by: string | null
+          current_step_key: string | null
+          id: string
+          last_error: Json | null
+          last_transition_at: string
+          provider_key: string
+          provider_resource_reference: Json
+          started_at: string | null
+          state: Database["public"]["Enums"]["provisioning_job_state"]
+          tenant_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          attempt_count?: number
+          completed_at?: string | null
+          correlation_id: string
+          created_at?: string
+          created_by?: string | null
+          current_step_key?: string | null
+          id?: string
+          last_error?: Json | null
+          last_transition_at?: string
+          provider_key?: string
+          provider_resource_reference?: Json
+          started_at?: string | null
+          state?: Database["public"]["Enums"]["provisioning_job_state"]
+          tenant_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          attempt_count?: number
+          completed_at?: string | null
+          correlation_id?: string
+          created_at?: string
+          created_by?: string | null
+          current_step_key?: string | null
+          id?: string
+          last_error?: Json | null
+          last_transition_at?: string
+          provider_key?: string
+          provider_resource_reference?: Json
+          started_at?: string | null
+          state?: Database["public"]["Enums"]["provisioning_job_state"]
+          tenant_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provisioning_jobs_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provisioning_steps: {
+        Row: {
+          attempt_count: number
+          completed_at: string | null
+          correlation_id: string
+          created_at: string
+          created_by: string | null
+          duration_ms: number | null
+          error: Json | null
+          id: string
+          job_id: string
+          sequence: number
+          started_at: string | null
+          status: Database["public"]["Enums"]["provisioning_step_status"]
+          step_key: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          attempt_count?: number
+          completed_at?: string | null
+          correlation_id: string
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error?: Json | null
+          id?: string
+          job_id: string
+          sequence: number
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["provisioning_step_status"]
+          step_key: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          attempt_count?: number
+          completed_at?: string | null
+          correlation_id?: string
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error?: Json | null
+          id?: string
+          job_id?: string
+          sequence?: number
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["provisioning_step_status"]
+          step_key?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provisioning_steps_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "provisioning_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role_permissions: {
         Row: {
           created_at: string
@@ -1367,6 +1494,27 @@ export type Database = {
       financial_year_lifecycle_state: "created" | "open" | "closed" | "archived"
       org_member_status: "active" | "invited" | "suspended"
       org_role: "owner" | "admin" | "member"
+      provisioning_job_state:
+        | "pending"
+        | "validating"
+        | "queued"
+        | "provisioning_infrastructure"
+        | "running_migrations"
+        | "seeding"
+        | "creating_admin"
+        | "verifying"
+        | "completed"
+        | "failed"
+        | "retrying"
+        | "rolled_back"
+        | "cancelled"
+      provisioning_step_status:
+        | "pending"
+        | "running"
+        | "succeeded"
+        | "failed"
+        | "skipped"
+        | "rolled_back"
       role_scope: "platform" | "organization"
       setting_data_type:
         | "string"
@@ -1516,6 +1664,29 @@ export const Constants = {
       financial_year_lifecycle_state: ["created", "open", "closed", "archived"],
       org_member_status: ["active", "invited", "suspended"],
       org_role: ["owner", "admin", "member"],
+      provisioning_job_state: [
+        "pending",
+        "validating",
+        "queued",
+        "provisioning_infrastructure",
+        "running_migrations",
+        "seeding",
+        "creating_admin",
+        "verifying",
+        "completed",
+        "failed",
+        "retrying",
+        "rolled_back",
+        "cancelled",
+      ],
+      provisioning_step_status: [
+        "pending",
+        "running",
+        "succeeded",
+        "failed",
+        "skipped",
+        "rolled_back",
+      ],
       role_scope: ["platform", "organization"],
       setting_data_type: [
         "string",
