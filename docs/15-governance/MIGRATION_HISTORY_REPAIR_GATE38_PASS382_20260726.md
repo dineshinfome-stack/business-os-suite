@@ -486,7 +486,7 @@ pass against final bytes.
 | Corrected canonical digest reviewed | `dfc2f8f20e9cc53ecaa75f42ac551e23556f4d4459b79297e8e88502000276e4` |
 | Binding conditions reaffirmed | 14/14 |
 | Effective approval | Yes — reaffirmation commit SHA pinned and verified |
-| Commit A | AUTHORIZED — NOT STARTED |
+| Commit A | COMPLETE — `98019c2cad8ae8467d123a46a5714dcced929a50` — PINNED AND VERIFIED |
 | Pass 3.8.3 | NOT STARTED |
 | Reaffirmation commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` |
 | Approval commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` |
@@ -556,6 +556,68 @@ Field rules:
 | Approval commit SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` — `PINNED_AND_VERIFIED` |
 | Prerequisite-recovery commit reviewed | `8afac0732ead75e3ec735d59f6588c881eeccbae` |
 | Reaffirmation timestamp (UTC) | `2026-07-26T16:23:26Z` |
-| Commit A | AUTHORIZED — NOT STARTED |
+| Commit A | COMPLETE — `98019c2cad8ae8467d123a46a5714dcced929a50` — PINNED AND VERIFIED |
 | Repository status | `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` |
 | Pass 3.8.3 | NOT STARTED |
+## 11. Commit A execution evidence (verified and pinned)
+
+Commit A was executed under the reaffirmed, SHA-pinned Step 0B authority
+(`303d2f7bc2158b04e88811ad5a3fcda39262b92d`).
+
+| Item | Value |
+| --- | --- |
+| Commit A SHA | `98019c2cad8ae8467d123a46a5714dcced929a50` |
+| State | `COMPLETE_PINNED_AND_VERIFIED` |
+| Baseline | `b88afb9e` |
+| Cumulative changed paths | 4 (1 `M`, 3 `A`) |
+| Renames / copies / deletions / binary changes | 0 / 0 / 0 / 0 |
+| Protected-file drift | 0 — 10 / 10 comparisons PASS |
+
+### 11.1 Changed paths
+
+| Path | Status | Git blob SHA | Role |
+| --- | --- | --- | --- |
+| `supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql` | `M` | `02f0d1fd6430a6a2419c0e15bfcef986535a2d23` | Comment-only tombstone (SHA-256 `fea6643cd6f11b3c0ae2ac1e787db55c77312a3119afc3c91f059849da3edd01`) |
+| `supabase/tests/pass_3_8_2_queue_certification.sql` | `A` | `b90c3f96b787f64a63fdd35a822788185df73a1d` | Deterministic certification harness |
+| `supabase/tests/pass_3_8_2_queue_certification_postcheck.sql` | `A` | `570119cfe3135f1ec6812962f2a7d737f76f32eb` | Mandatory fresh-session residue postcheck |
+| `supabase/tests/README.md` | `A` | `6294481acaa5755b9940020a760a6f5428ab16c4` | Certification runbook |
+
+### 11.2 Verification results
+
+| Gate | Result |
+| --- | --- |
+| Clean replay (disposable PostgreSQL 17 cluster, destroyed afterwards) | `PASS` — 31 / 31 migrations applied |
+| Migration-history comparison | `PASS` — exactly one row named `20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466`, version `20260726114237`, 31 rows total |
+| Sensitive-token scan of recorded statements | `PASS` — 0 live UUIDs, 0 `REM382`, 0 `request.jwt.claims`, 0 `set_config` |
+| Certification fixtures created by the migration chain | 0 |
+| Certification harness | `PASS` — 16 / 16 unique `PASS382-CERT-NNN PASS` markers, explicit `ROLLBACK` |
+| Supplemental ACL invocation proof | `PASS` — `anon` invocation denied with SQLSTATE `42501`, `PASS382-SUPPLEMENTAL-ACL PASS` |
+| Success-path residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS` exactly once, residue 0 |
+| Forced-failure drill | `PASS` — harness exit 3, 0 unique numbered markers |
+| Forced-failure residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS`, residue 0 |
+| Test suite | `PASS` — 49 files, 512 / 512 tests |
+| Typecheck | `PASS` — `tsc --noEmit` clean |
+| Production build | Not executed — Commit A changed SQL and documentation only |
+
+## 12. Separate finding registration
+
+**`FND-20260726-AUTH-SIGNUP-TENANTID` — High — REGISTERED, OUT OF SCOPE FOR COMMIT A**
+
+`private.fn_handle_new_auth_user()` inserts into `public.organizations`
+(`name`, `slug`, `created_by`, `updated_by`) only. A later migration made
+`public.organizations.tenant_id` `NOT NULL`, so every trigger-enabled
+`auth.users` insert aborts with SQLSTATE `23502`
+(`null value in column "tenant_id" of relation "organizations" violates
+not-null constraint`) at line 38 of the trigger function.
+
+- **Reproduced** during clean replay of the 31-migration chain with a single
+  trigger-enabled synthetic `auth.users` insert inside a transaction.
+- **Impact:** end-user sign-up provisioning is expected to fail on any
+  environment replayed from the current migration chain.
+- **Harness containment:** the certification harness sets
+  `session_replication_role = replica` (`SET LOCAL`) for its single synthetic
+  `auth.users` insert and restores `origin` immediately; the residue postcheck
+  asserts no leakage.
+- **Disposition:** referred to the Architecture Office as a separate
+  remediation item. It is not repaired under
+  `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` and does not block Commit A.
