@@ -1,77 +1,35 @@
-## Gate 3.4 — Platform Provisioning Dashboard (v3)
+## Gate 3.4 — Completion to Report
 
-Presentation layer only. No orchestration, provider, retry, rollback, migration, seed, or database changes.
+Finish the remaining Gate 3.4 work, then deliver a **Gate 3.4 Completion Report** in exactly the requested format (Files created / Files modified / New routes / New components / New hooks / Facade files / DTOs / Tests added / Boundary tests / Accessibility tests / Responsive tests / Current repository test count / Known limitations / Deferred items).
 
-### Repository facts this plan is built on (verified)
+Already present and reused as-is: `types/v1` DTOs, `src/lib/provisioning-admin/*` facade (7 queries, 5 commands), query keys + invalidation, hooks, and the base components/routes for `/platform/provisioning` and `/platform/provisioning/$jobId`. No domain, orchestrator, provider, repository, schema, or permission changes.
 
-- `src/lib/provisioning/integration/service.ts` exposes only `startProvisioning`, `resumeProvisioning`, `executeNextStep`, `cancelProvisioning`, `rollbackProvisioning`. There is **no** `createProvisioning()` and **no** read/query API.
-- The service is constructed per-job by `createProvisioningService(...)` with an injected `dataClient` — it cannot run in the browser.
-- No provisioning server-function boundary exists (only `src/lib/tenants/tenants.functions.ts`).
-- No provisioning permission keys exist; `src/lib/generated/permission-keys.ts` has `PLATFORM_TENANT_*` only.
-- `integration/event-sink.ts` emits through an **optional** transport and defaults to structured logging — **orchestration events are not persisted**. The only durable history is `provisioning_jobs` + `provisioning_steps`.
+### Work to complete
 
-### Architecture introduced by this gate
+**1. Sub-routes** under `src/routes/_authenticated/platform/provisioning/`
+- `history.tsx` — full list: server-side search, filters, sort, pagination, CSV export
+- `queue.tsx` — active/queued jobs
+- `failed.tsx` — failures with retry/rollback entry points
+- `health.tsx` — provider health cards
 
-```text
-Browser (dashboard)
-  ↓  DTOs only
-provisioning-admin facade  (queries.functions.ts / commands.functions.ts)
-  ↓
-ProvisioningService → Orchestrator → Repository → Provider → Supabase
-```
+Each with its own `head()` (unique title, description, og/twitter tags). Index page becomes the overview: summary cards, queue preview, recent jobs, provider health, wizard trigger.
 
-The facade is a coordinator: it composes service calls and read queries and maps rows to DTOs. No state derivation, no retry/rollback decisions, no step ordering, no provider access from the browser side.
+**2. Navigation** — extend `src/components/platform/nav-items.ts` with Provisioning children: Tenant Provisioning, Provisioning History, Provider Health, Failed Provisioning, Provisioning Queue; render children in the platform sidebar (adds an optional `children` field if the type lacks one).
 
-### Decisions locked
+**3. Route guards** — shared client gate on the provisioning subtree using `PERMISSIONS.PLATFORM_TENANT_READ`; wizard and mutating actions gated on `PLATFORM_TENANT_CREATE`. No new permission keys; the facade already enforces server-side.
 
-1. **Explicit, versioned read DTOs.** `ProvisioningSummaryDTO`, `ProvisioningJobListItemDTO` (+ page envelope), `ProvisioningJobDetailDTO`, `ProvisioningTimelineEntryDTO`, `ProviderHealthDTO`, `ProvisioningQueueDTO`, `ProvisioningFailureDTO` live under `src/modules/platform/provisioning/types/v1/` and are re-exported from a `v1` namespace, so a future mobile/external consumer can pin a version. Internal row shapes (`ProvisioningJobRow`, `ProvisioningStepRow`) never cross the boundary.
-2. **Timeline source.** Events are not persisted, so the timeline is derived **server-side** from `provisioning_steps` (claim/outcome timestamps, durations, attempts) plus job transition timestamps, returned as `ProvisioningTimelineEntryDTO[]`. The UI renders the array verbatim. A persisted event log is deferred (DB change → out of scope).
-3. **Provider health is indirect.** The facade calls a server-side `ProvisioningQueryService` that reads capabilities through the application layer and combines them with stored job statistics. No live probing; no provider import in the facade or dashboard.
-4. **Export: CSV only, synchronous, capped at 5,000 rows** for the current filtered result set, generated server-side. Over the cap the response returns a typed "refine filters" result; background/async export and PDF/Excel are deferred.
-5. **CQRS split.** `src/lib/provisioning-admin/queries.functions.ts` and `commands.functions.ts`, with server-only helpers in `*.server.ts`.
-6. **SSE lifecycle.** One stream per open job detail view; heartbeat comment every 20s; client reconnect with exponential backoff (1s → max 30s) and a cap of 5 consecutive failures before falling back to polling for the rest of the session; the stream is closed and the transport unwired on unmount/navigation. Terminal job states close the stream server-side.
-7. **Cache invalidation.** Every successful command invalidates a documented key set: `start` → summary + list + queue; `retry`/`cancel` → detail(jobId) + list + summary + queue; `rollback` → detail(jobId) + failed + summary. SSE messages patch the detail query directly; polling fallback uses the backend-declared interval.
+**4. Drawer + dialogs** — `TenantDrawer` (existing `JobDetailPanel` in a sheet, opened from table rows), plus lazily-loaded `RetryDialog`, `RollbackDialog`, `CancelDialog` (reason required), `FailureDialog`. Typed domain errors only.
 
-### Phase 1 — Routes, navigation, shell
+**5. Live updates** — server route `src/routes/api/provisioning/events/$jobId.ts`: one stream per job, 20s heartbeat, closes on terminal state, caller verified inside the handler. The client hook already implements 1→30s backoff, 5-attempt cap, and polling fallback; it gets enabled against this endpoint. If the bearer token cannot ride on `EventSource` in this auth model, polling remains the path and it is recorded under Known limitations.
 
-- Five Platform nav entries in `src/components/platform/nav-items.ts`: Tenant Provisioning, Provisioning History, Provider Health, Failed Provisioning, Provisioning Queue.
-- Routes under `src/routes/_authenticated/platform/provisioning/` (`index`, `history`, `health`, `failed`, `queue`, `$jobId`), guarded on existing `PERMISSIONS.PLATFORM_TENANT_READ` / `PLATFORM_TENANT_CREATE`; unauthorized users redirect. Dedicated `platform.provisioning.*` keys would need a permission migration — deferred, so future RBAC is a route-level change only.
-- Shell: header → summary cards → queue → recent provisioning → provider status → activity timeline → drawer → dialogs. Desktop-first; tables collapse to cards, no horizontal scroll.
+**6. Polish** — debounced search, memoized rows, virtualized history table, lazy dialogs, table→card collapse below `md`, ARIA labels and focus trapping on drawer/dialogs.
 
-### Phase 2 — Read-only dashboard
+**7. Tests** in `src/modules/platform/provisioning/__tests__/` — component states, wizard single-submit + navigate, hooks and cache invalidation, dialogs, typed-error rendering, SSE reconnect + polling fallback, CSV 5,000-row limit message, route guards, accessibility (labels/focus), responsive rendering, and a boundary test asserting no dashboard file imports `@supabase/supabase-js`, provider, repository, data client, retry, rollback, migration, or seed modules.
 
-`queries.functions.ts`: `getProvisioningSummary`, `listProvisioningJobs` (server-side search/filter/sort/pagination), `getProvisioningJob` (detail + steps + timeline), `listFailedProvisioning`, `getProvisioningQueue`, `getProviderHealth`, `exportProvisioningJobsCsv`.
+### Verification
+`npx tsgo --noEmit`, production build, full Vitest run; the existing 308 tests must remain green. Final response is the completion report only — no engineering narrative — and work stops before Gate 3.5.
 
-Hooks (`useProvisioningDashboard`, `useProvisioningStatus`, `useProviderHealth`, `useProvisioningEvents`, `useProvisioningFilters`) wrap these with TanStack Query; routes prime the cache via `ensureQueryData`, components read with `useSuspenseQuery`.
-
-Components: `SummaryCards`, `ProvisioningTable`, `ProviderHealthCard`, `ProvisioningTimeline`, `StatusBadge`, `ProgressBar`, `SearchBar`, `FilterPanel`, `EmptyState`, `LoadingState`, `ErrorState`. Every surface ships loading / empty / error / success.
-
-### Phase 3 — Wizard
-
-Five steps (Tenant → Organization → Provider → Review → Submit). Provider select disabled while Supabase is the only provider. Submit calls `startTenantProvisioning` once, which delegates to `ProvisioningService.startProvisioning()`, then navigates to `/platform/provisioning/$jobId`.
-
-### Phase 4 — Details drawer & live updates
-
-- `TenantDrawer`: tenant info, state, current/completed/pending steps, correlation ID, provider, region, created/updated, retry count, typed error, rollback status, timeline. Read-only apart from actions.
-- SSE route `src/routes/api/provisioning/events/$jobId.ts` wires an `EventTransport` into the sink for the active job, following the lifecycle rules above; polling is the fallback.
-- Errors render from the existing typed error model only — no stack traces, HTTP bodies, SQL, or provider exceptions.
-
-### Phase 5 — Actions
-
-`commands.functions.ts`: `startTenantProvisioning`, `retryProvisioning` (resume / executeNextStep), `rollbackProvisioning`, `cancelProvisioning`. Plus Refresh and the CSV export query. Each destructive action sits behind a confirmation dialog (`RetryDialog`, `RollbackDialog`, cancel and create confirmations, `FailureDialog` for detail). No Delete.
-
-### Phase 6 — Search, filters, performance
-
-Debounced server-side search (tenant, company, provisioning ID, correlation ID, provider, status); server-side filters (status, provider, region, created date, requested by, retryable, rollback state); virtualized rows, lazily imported dialogs, memoized cells, code-split routes.
-
-### Phase 7 — Tests
-
-Component, hook, wizard-flow, route-guard/permission, accessibility (keyboard, ARIA, focus trap, contrast), responsive rendering, event-update (including SSE reconnect → polling fallback), cache-invalidation, dialog, and error-display tests — plus a boundary test extending the existing `boundaries.test.ts` pattern asserting `src/modules/platform/provisioning/**` imports only the facade, DTOs, and view models: never `@supabase/supabase-js`, provider, repository, data-client, retry, rollback, migration, or seed modules. Close with typecheck, production build, and the full suite (existing 308 green plus new UI tests).
-
-### Files touched outside the new module
-
-`src/components/platform/nav-items.ts`, the platform route tree, and the new `src/lib/provisioning-admin/` facade. Orchestrator, provider, repository, domain, retry, rollback, migration and seed files remain untouched.
-
-### Known limitations to report at gate close
-
-No persisted event log (timeline is step-derived); provider health statistics are historical, not probed; CSV export only, capped at 5,000 rows; provisioning permissions ride on `PLATFORM_TENANT_*` until an RBAC migration lands.
+### Technical notes
+- Dashboard consumes only facade server functions and `types/v1` DTOs.
+- CSV stays server-generated with the typed over-limit validation response.
+- Status, progress, and timeline remain backend-derived; UI renders only.
