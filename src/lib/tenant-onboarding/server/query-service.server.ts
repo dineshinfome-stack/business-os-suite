@@ -12,8 +12,11 @@
  *     side effects, no audit emission.
  */
 import {
+  envelopeOnboardingRow,
+  envelopeTenantRow,
   mergeActivity,
   notEvaluatedReadiness,
+  parseQueueEnvelope,
   toAuditActivity,
   toDetailDTO,
   toProgressDTO,
@@ -37,23 +40,21 @@ import type {
   TenantOnboardingSummaryDTO,
 } from "../types/v1";
 
-export type AnyClient = { from: (table: string) => any };
+export type AnyClient = {
+  from: (table: string) => any;
+  rpc?: (fn: string, args?: Record<string, unknown>) => any;
+};
 
-/** Hard safety ceiling for the combined projection (platform-scale reads). */
-export const ONBOARDING_QUEUE_SCAN_LIMIT = 1000;
 export const ONBOARDING_ACTIVITY_LIMIT = 100;
+
+/** Canonical name of the exact-pagination queue routine (Pass 3.8.2R). */
+export const ONBOARDING_QUEUE_RPC = "fn_tenant_onboarding_queue";
 
 const TENANT_COLUMNS = "id, display_name, slug, code, created_at, updated_at";
 const ONBOARDING_COLUMNS =
   "id, tenant_id, state, version, started_at, ready_at, activated_at, cancelled_at, blocked_at, blocked_reason_code, blocked_reason_summary, last_readiness_checked_at, last_correlation_id, created_at, updated_at";
 const STEP_COLUMNS =
   "tenant_id, step_key, status, attempt_count, started_at, completed_at, blocked_at, failure_code, failure_summary, correlation_id, updated_at";
-
-function unwrapEmbedded(value: unknown): OnboardingRowLike | null {
-  if (!value) return null;
-  if (Array.isArray(value)) return (value[0] as OnboardingRowLike) ?? null;
-  return value as OnboardingRowLike;
-}
 
 function groupSteps(
   rows: readonly OnboardingStepRowLike[],
@@ -70,108 +71,70 @@ function groupSteps(
 /* -------------------------------------------------------------- queue read */
 
 /**
- * The operator queue is a LEFT JOIN of tenants → onboarding: every tenant is
- * a queue row, whether or not a workflow row exists. The combined projection
- * is filtered, sorted and paginated as a whole, so synthetic `not_started`
- * rows page identically to persisted ones.
+ * Pass 3.8.2 remediation (REM-382-002).
+ *
+ * Filtering, sorting, counting and paging all happen inside
+ * `public.fn_tenant_onboarding_queue`, a SECURITY INVOKER routine. There is no
+ * scan ceiling and no in-memory paging: the envelope always carries the EXACT
+ * filtered total, computed from the SAME filtered snapshot as the page rows.
+ *
+ * Authorization is enforced twice and independently: the permission
+ * middleware in `queries.functions.ts`, and the routine itself, which raises
+ * SQLSTATE 42501 for a caller without `platform.tenant.read`. A denial is
+ * therefore never confusable with an empty result.
+ *
+ * Step rows are loaded ONLY for the tenants on the returned page.
  */
 export async function getOnboardingQueue(
   client: AnyClient,
   filters: OnboardingListFilterDTO,
 ): Promise<OnboardingPageDTO<TenantOnboardingSummaryDTO>> {
-  const page = filters.page ?? 1;
-  const pageSize = filters.pageSize ?? 25;
-
-  const { data: tenantRows, error: tenantError } = await client
-    .from("tenants")
-    .select(`${TENANT_COLUMNS}, tenant_onboarding ( ${ONBOARDING_COLUMNS} )`)
-    .is("deleted_at", null)
-    .order("updated_at", { ascending: false })
-    .limit(ONBOARDING_QUEUE_SCAN_LIMIT);
-  if (tenantError) throw tenantError;
-
-  const { data: stepRows, error: stepError } = await client
-    .from("tenant_onboarding_steps")
-    .select(STEP_COLUMNS);
-  if (stepError) throw stepError;
-
-  const stepsByTenant = groupSteps((stepRows ?? []) as OnboardingStepRowLike[]);
-
-  let rows: TenantOnboardingSummaryDTO[] = ((tenantRows ?? []) as any[]).map(
-    (raw) => {
-      const tenant = raw as TenantRowLike;
-      const onboarding = unwrapEmbedded(raw.tenant_onboarding);
-      const steps = toStepDTOs(stepsByTenant.get(tenant.id) ?? []);
-      return toSummaryDTO(tenant, onboarding, toProgressDTO(steps));
-    },
-  );
-
-  /* ------------------------------------------- filters over the projection */
-
-  const search = filters.search?.trim().toLowerCase();
-  if (search) {
-    rows = rows.filter(
-      (r) =>
-        r.tenantName.toLowerCase().includes(search) ||
-        r.tenantSlug.toLowerCase().includes(search) ||
-        (r.tenantCode ?? "").toLowerCase().includes(search),
-    );
-  }
-  if (filters.state && filters.state !== "all") {
-    rows = rows.filter((r) => r.state === filters.state);
-  }
-  if (filters.currentStep && filters.currentStep !== "all") {
-    rows = rows.filter((r) => r.currentStepKey === filters.currentStep);
-  }
-  if (filters.hasBlockers !== undefined) {
-    rows = rows.filter((r) => (r.blockerCount > 0) === filters.hasBlockers);
-  }
-  if (filters.invitationStatus && filters.invitationStatus !== "all") {
-    rows = rows.filter((r) => r.invitationStatus === filters.invitationStatus);
-  }
-  if (filters.readinessStatus && filters.readinessStatus !== "all") {
-    rows = rows.filter((r) =>
-      filters.readinessStatus === "not_evaluated"
-        ? r.readinessEvaluationStatus === "not_evaluated"
-        : r.readinessOverallStatus === filters.readinessStatus,
-    );
-  }
-  if (filters.createdFrom) {
-    const from = Date.parse(filters.createdFrom);
-    rows = rows.filter((r) => Date.parse(r.updatedAt) >= from);
-  }
-  if (filters.createdTo) {
-    const to = Date.parse(filters.createdTo);
-    rows = rows.filter((r) => Date.parse(r.updatedAt) <= to);
+  if (typeof client.rpc !== "function") {
+    throw new Error("Supabase client does not expose rpc()");
   }
 
-  /* ---------------------------------------------------------------- sorting */
+  const { data, error } = await client.rpc(ONBOARDING_QUEUE_RPC, {
+    _search: filters.search ?? null,
+    _state: filters.state ?? null,
+    _current_step: filters.currentStep ?? null,
+    _has_blockers: filters.hasBlockers ?? null,
+    _invitation_status: filters.invitationStatus ?? null,
+    _readiness_status: filters.readinessStatus ?? null,
+    _created_from: filters.createdFrom ?? null,
+    _created_to: filters.createdTo ?? null,
+    _sort_by: filters.sortBy ?? null,
+    _sort_dir: filters.sortDir ?? null,
+    _page: filters.page ?? null,
+    _page_size: filters.pageSize ?? null,
+  });
+  if (error) throw error;
 
-  const dir = filters.sortDir === "asc" ? 1 : -1;
-  const sortBy = filters.sortBy ?? "updatedAt";
-  rows.sort((a, b) => {
-    switch (sortBy) {
-      case "tenantName":
-        return a.tenantName.localeCompare(b.tenantName) * dir;
-      case "state":
-        return a.state.localeCompare(b.state) * dir;
-      case "startedAt":
-        return (
-          ((a.startedAt ? Date.parse(a.startedAt) : 0) -
-            (b.startedAt ? Date.parse(b.startedAt) : 0)) *
-          dir
-        );
-      default:
-        return (Date.parse(a.updatedAt) - Date.parse(b.updatedAt)) * dir;
-    }
+  const envelope = parseQueueEnvelope(data);
+
+  const tenantIds = envelope.rows.map((r) => r.tenant_id);
+  let stepsByTenant = new Map<string, OnboardingStepRowLike[]>();
+  if (tenantIds.length > 0) {
+    const { data: stepRows, error: stepError } = await client
+      .from("tenant_onboarding_steps")
+      .select(STEP_COLUMNS)
+      .in("tenant_id", tenantIds);
+    if (stepError) throw stepError;
+    stepsByTenant = groupSteps((stepRows ?? []) as OnboardingStepRowLike[]);
+  }
+
+  const rows = envelope.rows.map((row) => {
+    const tenant = envelopeTenantRow(row);
+    const onboarding = envelopeOnboardingRow(row);
+    const steps = toStepDTOs(stepsByTenant.get(tenant.id) ?? []);
+    return toSummaryDTO(tenant, onboarding, toProgressDTO(steps));
   });
 
-  const total = rows.length;
-  const start = (page - 1) * pageSize;
+  const total = envelope.total_count;
+  const pageSize = envelope.page_size;
   return {
-    rows: rows.slice(start, start + pageSize),
+    rows,
     total,
-    page,
+    page: envelope.page,
     pageSize,
     pageCount: pageSize === 0 ? 0 : Math.ceil(total / pageSize),
   };
