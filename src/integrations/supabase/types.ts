@@ -1681,6 +1681,23 @@ export type Database = {
         Returns: Json
       }
       fn_set_default_company: { Args: { _id: string }; Returns: Json }
+      fn_tenant_onboarding_queue: {
+        Args: {
+          _created_from?: string
+          _created_to?: string
+          _current_step?: string
+          _has_blockers?: boolean
+          _invitation_status?: string
+          _page?: number
+          _page_size?: number
+          _readiness_status?: string
+          _search?: string
+          _sort_by?: string
+          _sort_dir?: string
+          _state?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "member"
