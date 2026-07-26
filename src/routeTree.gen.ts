@@ -39,6 +39,9 @@ import { Route as AuthenticatedPlatformProvisioningHealthRouteImport } from './r
 import { Route as AuthenticatedPlatformProvisioningFailedRouteImport } from './routes/_authenticated/platform/provisioning/failed'
 import { Route as AuthenticatedPlatformProvisioningJobIdRouteImport } from './routes/_authenticated/platform/provisioning/$jobId'
 import { Route as AuthenticatedPlatformCompaniesCompanyIdRouteImport } from './routes/_authenticated/platform/companies/$companyId'
+import { Route as AuthenticatedPlatformAdminTenantsRouteImport } from './routes/_authenticated/platform/admin/tenants'
+import { Route as AuthenticatedPlatformAdminSettingsRouteImport } from './routes/_authenticated/platform/admin/settings'
+import { Route as AuthenticatedPlatformAdminProvidersRouteImport } from './routes/_authenticated/platform/admin/providers'
 import { Route as AuthenticatedPlatformAdminAttentionRouteImport } from './routes/_authenticated/platform/admin/attention'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -208,6 +211,24 @@ const AuthenticatedPlatformCompaniesCompanyIdRoute =
     path: '/platform/companies/$companyId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPlatformAdminTenantsRoute =
+  AuthenticatedPlatformAdminTenantsRouteImport.update({
+    id: '/tenants',
+    path: '/tenants',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminSettingsRoute =
+  AuthenticatedPlatformAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
+const AuthenticatedPlatformAdminProvidersRoute =
+  AuthenticatedPlatformAdminProvidersRouteImport.update({
+    id: '/providers',
+    path: '/providers',
+    getParentRoute: () => AuthenticatedPlatformAdminRouteRoute,
+  } as any)
 const AuthenticatedPlatformAdminAttentionRoute =
   AuthenticatedPlatformAdminAttentionRouteImport.update({
     id: '/attention',
@@ -233,6 +254,9 @@ export interface FileRoutesByFullPath {
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/platform/': typeof AuthenticatedPlatformIndexRoute
   '/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
+  '/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
+  '/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
   '/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
@@ -262,6 +286,9 @@ export interface FileRoutesByTo {
   '/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/platform': typeof AuthenticatedPlatformIndexRoute
   '/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
+  '/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
+  '/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
   '/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
@@ -296,6 +323,9 @@ export interface FileRoutesById {
   '/_authenticated/platform/dashboard': typeof AuthenticatedPlatformDashboardRoute
   '/_authenticated/platform/': typeof AuthenticatedPlatformIndexRoute
   '/_authenticated/platform/admin/attention': typeof AuthenticatedPlatformAdminAttentionRoute
+  '/_authenticated/platform/admin/providers': typeof AuthenticatedPlatformAdminProvidersRoute
+  '/_authenticated/platform/admin/settings': typeof AuthenticatedPlatformAdminSettingsRoute
+  '/_authenticated/platform/admin/tenants': typeof AuthenticatedPlatformAdminTenantsRoute
   '/_authenticated/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/_authenticated/platform/provisioning/$jobId': typeof AuthenticatedPlatformProvisioningJobIdRoute
   '/_authenticated/platform/provisioning/failed': typeof AuthenticatedPlatformProvisioningFailedRoute
@@ -330,6 +360,9 @@ export interface FileRouteTypes {
     | '/platform/dashboard'
     | '/platform/'
     | '/platform/admin/attention'
+    | '/platform/admin/providers'
+    | '/platform/admin/settings'
+    | '/platform/admin/tenants'
     | '/platform/companies/$companyId'
     | '/platform/provisioning/$jobId'
     | '/platform/provisioning/failed'
@@ -359,6 +392,9 @@ export interface FileRouteTypes {
     | '/platform/dashboard'
     | '/platform'
     | '/platform/admin/attention'
+    | '/platform/admin/providers'
+    | '/platform/admin/settings'
+    | '/platform/admin/tenants'
     | '/platform/companies/$companyId'
     | '/platform/provisioning/$jobId'
     | '/platform/provisioning/failed'
@@ -392,6 +428,9 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/dashboard'
     | '/_authenticated/platform/'
     | '/_authenticated/platform/admin/attention'
+    | '/_authenticated/platform/admin/providers'
+    | '/_authenticated/platform/admin/settings'
+    | '/_authenticated/platform/admin/tenants'
     | '/_authenticated/platform/companies/$companyId'
     | '/_authenticated/platform/provisioning/$jobId'
     | '/_authenticated/platform/provisioning/failed'
@@ -632,6 +671,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/platform/admin/tenants': {
+      id: '/_authenticated/platform/admin/tenants'
+      path: '/tenants'
+      fullPath: '/platform/admin/tenants'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminTenantsRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/settings': {
+      id: '/_authenticated/platform/admin/settings'
+      path: '/settings'
+      fullPath: '/platform/admin/settings'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
+    '/_authenticated/platform/admin/providers': {
+      id: '/_authenticated/platform/admin/providers'
+      path: '/providers'
+      fullPath: '/platform/admin/providers'
+      preLoaderRoute: typeof AuthenticatedPlatformAdminProvidersRouteImport
+      parentRoute: typeof AuthenticatedPlatformAdminRouteRoute
+    }
     '/_authenticated/platform/admin/attention': {
       id: '/_authenticated/platform/admin/attention'
       path: '/attention'
@@ -644,6 +704,9 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedPlatformAdminRouteRouteChildren {
   AuthenticatedPlatformAdminAttentionRoute: typeof AuthenticatedPlatformAdminAttentionRoute
+  AuthenticatedPlatformAdminProvidersRoute: typeof AuthenticatedPlatformAdminProvidersRoute
+  AuthenticatedPlatformAdminSettingsRoute: typeof AuthenticatedPlatformAdminSettingsRoute
+  AuthenticatedPlatformAdminTenantsRoute: typeof AuthenticatedPlatformAdminTenantsRoute
   AuthenticatedPlatformAdminIndexRoute: typeof AuthenticatedPlatformAdminIndexRoute
 }
 
@@ -651,6 +714,12 @@ const AuthenticatedPlatformAdminRouteRouteChildren: AuthenticatedPlatformAdminRo
   {
     AuthenticatedPlatformAdminAttentionRoute:
       AuthenticatedPlatformAdminAttentionRoute,
+    AuthenticatedPlatformAdminProvidersRoute:
+      AuthenticatedPlatformAdminProvidersRoute,
+    AuthenticatedPlatformAdminSettingsRoute:
+      AuthenticatedPlatformAdminSettingsRoute,
+    AuthenticatedPlatformAdminTenantsRoute:
+      AuthenticatedPlatformAdminTenantsRoute,
     AuthenticatedPlatformAdminIndexRoute: AuthenticatedPlatformAdminIndexRoute,
   }
 
