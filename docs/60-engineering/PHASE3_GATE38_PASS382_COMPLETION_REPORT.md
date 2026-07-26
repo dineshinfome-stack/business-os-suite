@@ -191,18 +191,20 @@ sanitized `disabledReason`, because no command exists in this pass.
 
 | Check | Result |
 |---|---|
-| Full test suite | **497 passed / 497** (481 baseline + 16 added), 48 files |
+| Full test suite | **497 passed / 497** (481 baseline + 4 Pass 3.8.1 closure + 12 Pass 3.8.2), 48 files |
 | Typecheck (`tsgo --noEmit`) | clean, no output |
 | Production build (`npm run build`) | exit 0, Nitro output generated |
 | Test integrity | no `skip` / `only` / `todo`; no pre-existing test deleted or weakened |
 | Generated files | `src/routeTree.gen.ts` transiently touched by the build; no net change retained |
 | Security linter | 12 WARNs, all pre-existing; 0 new |
 
-New tests (16): 12 in `__tests__/read-models.test.ts` (registry projection,
-progress, synthetic identity, persisted identity, readiness pinning, disabled
-actions, summary neutrality, audit allow-listing, merge ordering, step-only
-timeline) and 4 evolved/added assertions in `architecture.test.ts`
-(server allow-list, read-layer purity).
+New tests for this pass (12): 10 in `__tests__/read-models.test.ts` (registry
+projection, progress computation, synthetic identity, persisted identity,
+readiness pinning, disabled actions, summary neutrality, audit allow-listing,
+merge ordering, step-only timeline) and 2 added cases in
+`architecture.test.ts` (server allow-list exactness, read-layer purity /
+no-write assertions). A further 4 tests landed with the Pass 3.8.1 closure
+amendment (`contract-colocation.test.ts`).
 
 ---
 
