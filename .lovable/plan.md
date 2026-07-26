@@ -1,103 +1,99 @@
-## Gate 3.8 — Tenant Onboarding, Organization Activation & Workspace Bootstrap
-### Staged execution plan v2 (master spec = uploaded prompt; execution = 9 controlled passes)
+## Pass 3.8.1 — Architecture and Contracts
 
-All four corrections and the recommended improvements are incorporated below.
+Contracts-only pass. Nothing executable touches the database, routes, or UI. Confirmed prerequisites: `docs/60-engineering/PHASE3_GATE38_DISCOVERY.md` exists (312 lines), `src/lib/tenant-onboarding/` does not yet exist, and there is no separate company module under `src/lib` (only `organizations`, `branches`, `financial-years`).
 
----
+### 1. Baseline capture
+Record test count (expected 444), typecheck status, build status, and changed-file list before any edit. Re-read the discovery report and confirm no conflicting company entity; stop and report if one appears.
 
-### Verified repository facts (checked this turn)
+### 2. Documentation deliverables (authored first)
+- `docs/60-engineering/PHASE3_GATE38_POLICY_DECISIONS.md` — decisions G38-POL-001…010 in the required 12-field format (ID, title, status, context, decision, repository evidence, alternatives, consequences, owning module, implementation impact, test impact, deferred implications). Includes the permission reuse plan section.
+- `docs/60-engineering/PHASE3_GATE38_ONBOARDING_MATRIX.md` — one row per approved step with all 22 required columns, plus the migration design section for `tenant_onboarding` and `tenant_onboarding_steps` (fields, types, nullability, constraints, indexes, optimistic-concurrency `version`, RLS intent, grants, retention, pre-seed vs lazy step rows). Documented only — no SQL file.
+- `docs/60-engineering/PHASE3_GATE38_READINESS_MATRIX.md` — all 18 candidate checks classified as mandatory / conditional / warning / merged / deferred / N/A, with all 17 required columns (Check Key, Description, Classification, Owning Module, Source of Truth, Evaluation Input, Pass Condition, Warning Condition, Block Condition, Operator Explanation, Reason Code, Reason Parameters, Deep Link, Re-evaluation Trigger, Test Requirement, Implementation Pass, Decision Reference) and explicit justification for every merge or omission.
+- `PHASE3_GATE38_DISCOVERY.md` updated only to cross-reference ratified decision IDs.
 
-- Tables: `tenants`, `organizations` (has `is_default`, `company_lifecycle_state`, `legal_name`, `slug`, `region`, `timezone`, `default_locale`), `organization_profiles`, `organization_branding`, `branches` (`is_default`, `code`, `branch_lifecycle_state`), `organization_invitations` (`token_hash`, `status`, `expires_at`, `revoked_at`, `accepted_at`, `role`), `organization_members`, `roles` / `permissions` / `role_permissions` / `user_roles`, `setting_definitions` / `setting_values`, `feature_flags`, `financial_years`, `notifications`, `audit_logs`, `provisioning_jobs` / `provisioning_steps`.
-- Public RPCs: `fn_create_company`, `fn_activate_company`, `fn_deactivate_company`, `fn_archive_company`, `fn_set_default_company`, plus tenant lifecycle RPCs.
-- Services: `src/lib/organizations`, `src/lib/branches`, `src/lib/financial-years`, `src/lib/tenants`, `src/lib/tenant-lifecycle`, `src/lib/notifications`, `src/lib/settings.functions.ts`, `src/lib/settings-validation.ts`, generated `src/lib/generated/permission-keys.ts` (from `docs/15-governance/permission-catalog.manifest.yaml` via `scripts/generate-permissions.ts`).
-- Console pattern to mirror: `src/lib/platform-admin/*` + `src/modules/platform/administration/*`.
-- No onboarding table, no onboarding permissions, no tenant-facing route tree — all routes live under `/platform/*`.
+Policy outcomes carried forward: organizations = company (no separate company step), operator-run surface under `/platform/admin/onboarding/:tenantId`, valid invitation mandatory / acceptance warning-only, financial year conditional (authoritative trigger named or marked an unresolved prerequisite for Pass 3.8.5), roles assigned never created, permission reuse by default, DTOs owned at `src/lib/tenant-onboarding/types/v1/`, timeline composed over `audit_logs` + `tenant_onboarding_steps`, readiness evaluation deferred to 3.8.5.
 
-Strong signal (to be confirmed, not assumed): `organizations` **is** this repository's company entity — `fn_create_company` writes it and `company_lifecycle_state` types it. Hierarchy is therefore **tenant → organization/company → branch**.
+#### Invitation-dependent step policy (binding)
+When a valid first-administrator invitation exists but has not yet been accepted:
+- `tenant_admin_invitation` may be completed.
+- Pending invitation acceptance produces a readiness warning only.
+- `tenant_admin_membership` must not block activation; it is classified as conditional or warning until acceptance occurs.
+- `roles_assigned` must not require a persisted membership/user-role record before acceptance.
+- The role selected on the valid invitation may satisfy the pre-acceptance onboarding requirement when supported by the authoritative invitation model.
+- After acceptance, membership existence and effective RBAC assignment may be evaluated as mandatory post-acceptance integrity checks.
+- The readiness matrix and onboarding matrix must use the same classification and source-of-truth rules, and must explicitly distinguish "role selected on invitation" from "role granted to an accepted organization member".
 
-**Binding rule:** No separate company abstraction, persistence, service, route, DTO or onboarding step may be introduced unless Pass 3.8.0 proves the repository has a distinct company domain separate from `organizations`.
+### 3. Executable contracts (all pure — no Supabase, no server, no I/O)
+```text
+src/lib/tenant-onboarding/
+  contracts.ts                     step keys, step statuses, metadata contract
+  state-machine.ts                 states, intents, rejection codes, transition fn
+  schemas.ts                       Zod query + command-input + registry schemas
+  query-keys.ts                    tenantOnboardingKeys factory
+  required-settings.registry.ts    allow-listed registry (definitions only)
+  types/v1/*.dto.ts + index.ts     versioned DTO family
+  index.ts                         barrel exports
+```
 
----
+**State machine** — states `not_started | in_progress | blocked | ready_for_activation | activated | cancelled`; intents `start | block | resume | mark_ready | invalidate_readiness | activate | cancel | restart`; discriminated-union result, no throwing on expected invalid transitions. Complete allowed-transition table:
 
-### Governance rules applying to every pass
+```text
+not_started
+  → in_progress                  via start
 
-- **Baselines.** Record at pass start and end: test count, typecheck result, files changed, migrations added, protected files touched, known failures, deferred work.
-- **Test integrity.** The Gate 3.7 baseline is 444 passing tests. Existing tests must not be deleted, skipped, weakened or rewritten merely to make Gate 3.8 pass. Legitimate shared-contract updates are allowed only with written justification in the pass inventory.
-- **Scope.** Execute only the named pass; repository-first; preserve prior architecture; run pass-specific tests; return a concise inventory; stop for approval.
+in_progress
+  → blocked                      via block
+  → ready_for_activation         via mark_ready
+  → cancelled                    via cancel
 
----
+blocked
+  → in_progress                  via resume
+  → ready_for_activation         via mark_ready
+  → cancelled                    via cancel
 
-### Pass 3.8.0 — Repository discovery only
+ready_for_activation
+  → in_progress                  via invalidate_readiness
+  → blocked                      via block
+  → activated                    via activate
+  → cancelled                    via cancel
 
-Deliverable: `docs/60-engineering/PHASE3_GATE38_DISCOVERY.md`. Documentation-only: no production code, no migrations, no routes, DTOs, permissions or tests. Records the current typecheck, build and test baseline without modifying tests, and cites the exact authoritative file/service behind every conclusion.
+cancelled
+  → in_progress                  via restart
 
-Must resolve or explicitly escalate:
+activated
+  → no transitions
+```
+Any state-and-intent combination not explicitly listed above must return a typed rejection result. `mark_ready` is the only intent that can produce `ready_for_activation`; `activate` is the only intent that can produce `activated`.
 
-1. Is `organizations` the company entity, or does a distinct company domain exist?
-2. Must the first-admin invitation be **accepted** before activation, or is pending acceptance a warning?
-3. Financial year: mandatory, conditional on an enabled module, or optional?
-4. Tenant lifecycle `active` vs onboarding `activated` — does activation delegate to the existing lifecycle RPC?
-5. Canonical platform route: `/platform/onboarding` vs `/platform/admin/onboarding`.
-6. Is there an approved tenant-authenticated route context and shell? If not, the tenant wizard is delivered by the approved alternative or formally deferred.
-7. Which existing permissions cover onboarding; which (if any) genuinely need adding.
-8. Repository-standard location for versioned application-layer DTOs.
-9. Authoritative source for the activity timeline: `audit_logs`, onboarding step history, notifications, or a composed view.
+**Step keys** — `provisioning_verified, organization_profile, primary_branch, tenant_admin_invitation, tenant_admin_membership, roles_assigned, required_settings, financial_year, readiness_validation, activation`. A single canonical production registry owns all step keys; type unions, schemas, metadata and other production contracts derive from that registry rather than maintaining duplicate lists. Documentation and tests may reference literal keys where needed for explicit assertions. No company step.
 
-Also classifies every Gate 3.8 capability as reuse / extend / add / defer. Stops; does not begin 3.8.1.
+**Step statuses** — `not_started | in_progress | completed | blocked | failed | skipped`, with these rules: `failed` and `blocked` are distinct; `skipped` is valid only for a documented conditional or optional step; completion is later verified from authoritative server data; local form completion must never independently mark a server-owned step complete.
 
-### Pass 3.8.1 — Architecture and contracts (no UI, no applied migration)
+**DTOs** — summary, detail, step, progress, blocker, readiness, readiness-check, organization, branch, invitation, membership, activity (source-discriminated), action-result, activation-result, page, filter. Readiness DTO supports `evaluationStatus: not_evaluated | evaluating | evaluated`. Invitation DTO excludes token/token hash/URL.
 
-- `PHASE3_GATE38_ONBOARDING_MATRIX.md` and `PHASE3_GATE38_READINESS_MATRIX.md` (the matrix decides which readiness checks are mandatory, warning, conditional or deferred — with justification for anything omitted or merged).
-- Pure state machine: `not_started → in_progress → blocked → ready_for_activation → activated | cancelled`, full transition table, invalid transitions rejected, `activated` terminal.
-- Step model and step statuses; versioned application DTOs under the repository-standard application-layer contract location, **preferably `src/lib/tenant-onboarding/types/v1/`** — never owned by the Platform UI module unless discovery confirms that convention. Presentation-only types may live in the UI module.
-- Zod schemas, canonical query keys, permission plan.
-- Migration **design** written into documentation only. No executable SQL is placed in the active migrations directory during this pass.
-- Tests: state machine + contract validation.
+**Required-settings registry** — only keys proven to exist in the current settings framework become executable entries; unproven candidates are listed as proposed/deferred in documentation.
 
-### Pass 3.8.2 — Persistence, RLS and read models (no readiness business rules)
+### 4. Tests (new files under repository-standard test locations)
+State-machine transitions (every allowed edge, every rejected combination, intent exclusivity, determinism, input immutability); step-contract tests (uniqueness, status union, no company step, matrix coverage, single owner, pass assignment, invitation-dependent classification); DTO security tests (forbidden property fragments with a narrow allow-list, serializability, v1 namespace); schema tests (strict-mode unknown keys, invalid states/step keys/pagination/date ranges/setting keys); query-key tests (determinism, normalization, namespace collision, serializability); architecture-boundary tests — no Supabase/db-row/UI imports, no `*.server.ts` file under `src/lib/tenant-onboarding/`, no server-function framework import, no environment-variable access.
 
-- Migration: `tenant_onboarding` (unique `tenant_id`, state check, `version` optimistic guard) and `tenant_onboarding_steps` (unique `(tenant_id, step_key)`, status and step-key checks), indexes, GRANTs, RLS with tenant isolation.
-- Permission rows added **only** if 3.8.0/3.8.1 concluded existing semantics are insufficient — and then synchronized in one change across the permission manifest, generated constants, role grants, route guards, server guards and tests.
-- Read layer: `query-service.server.ts`, `mappers.server.ts` (sanitized DTOs — no tokens, no raw errors), `queries.functions.ts` facade — platform queue with server-side search/filter/pagination, detail, steps, progress, persisted blockers, activity timeline (sourced from the authority named in 3.8.0; no duplicate event-history table).
-- Readiness: DTO and query contract only, returning `evaluationStatus: not_evaluated`. Authoritative readiness evaluation belongs exclusively to Pass 3.8.5.
-- Tests: RLS, sanitization, query mapping, regression, typecheck.
+### 5. Validation and stop
+Run pass-specific suites, typecheck, the production build, and the full regression suite. Confirm every test from the original 444-test baseline remains passing and report the new total, which must include the newly added Pass 3.8.1 tests. Existing tests must not be deleted, skipped, weakened, or rewritten merely to make this pass succeed; any legitimate shared-contract test update requires written justification in the completion inventory.
 
-### Pass 3.8.3 — Bootstrap commands
-
-- Organization/company bootstrap according to the hierarchy confirmed in Pass 3.8.0 (one concept unless discovery proved otherwise).
-- Primary branch bootstrap.
-- Role initialization.
-- Settings initialization.
-- Financial-year initialization according to the approved readiness policy.
-
-Every command delegates to the existing application service or RPC; onboarding never writes domain tables directly. Proves idempotency (retry returns the existing record) and concurrency safety (version-conflict rejection) before continuing. Start and resume commands land here too.
-
-### Pass 3.8.4 — First administrator invitation
-
-Reuses `organization_invitations` and `organization_members`: create, reuse an outstanding valid invitation, resend, revoke, expiry handling, acceptance and membership detection, initial role assignment through RBAC, audit and notification wiring. Tests assert no token in any DTO or log, no platform-role leakage into tenant scope, and no cross-tenant invitation.
-
-### Pass 3.8.5 — Readiness and activation
-
-- `readiness-service.server.ts` — pure and deterministic. Implements every mandatory check approved in `PHASE3_GATE38_READINESS_MATRIX.md`; the master spec's 17 checks are candidates, not automatically mandatory.
-- Result: overall status (`not_ready | ready_with_warnings | ready`), timestamp, tenant, workflow version, per-check results with sanitized explanations and deep links, blocking/warning counts, correlation ID.
-- Activation: recomputes readiness first, is idempotent (repeat returns the existing result), rejects cancelled workflows, delegates to tenant lifecycle where 3.8.0 says it should, audits and de-duplicates notifications. Cancellation with reason, and explicit restart.
-
-### Pass 3.8.6 — Platform console
-
-Queue with filters and server-side pagination, detail header, step list, blockers panel, readiness panel, activity timeline, start/resume/cancel/activate dialogs, deep links to provisioning and lifecycle, navigation entry — reusing existing shell, table, badge and dialog primitives. No duplicated provisioning or lifecycle actions.
-
-### Pass 3.8.7 — Tenant wizard (conditional)
-
-Executes only if Pass 3.8.0 confirms an approved tenant-authenticated route context and shell. If no safe tenant application shell exists, this pass implements only the approved alternative (e.g. an operator-run wizard inside `/platform`) or formally defers the tenant-facing wizard. Creating a new tenant shell is out of scope for Gate 3.8.
-
-Content when it runs: resumable steps, server-owned progress, per-step validation and retry, review and readiness, completion summary, accessibility (keyboard, focus trap, ARIA live regions, no colour-only status) and responsive layout.
-
-### Pass 3.8.8 — Verification and certification
-
-Typecheck, production build, migration validation, RLS tests, full suite (no weakened or removed existing tests), architecture-integrity test (onboarding UI must not import the Supabase SDK, repositories or `*.server.ts`; provisioning, lifecycle, retry and rollback engines untouched), accessibility tests, protected-file diff review, then `PHASE3_GATE38_COMPLETION_REPORT.md`. Stops before Gate 3.9.
-
----
-
-## Next action — Execute Pass 3.8.0 only
-
-Produce `docs/60-engineering/PHASE3_GATE38_DISCOVERY.md`. Documentation-only: no production code, no migrations, no routes, DTOs, permissions or tests. Confirm whether `organizations` is the repository's company entity, resolve or escalate all nine blockers, classify every capability as reuse/extend/add/defer, record the typecheck/build/test baseline without modifying tests, cite authoritative files for each conclusion, return a concise inventory, and stop. Do not begin Pass 3.8.1.
+Diff-review that these remain untouched:
+```text
+supabase/migrations/**
+src/routes/**
+src/modules/platform/**
+src/lib/platform-admin/**
+src/lib/provisioning/**
+src/lib/tenant-lifecycle/**
+src/lib/organizations/**
+src/lib/branches/**
+src/lib/financial-years/**
+src/lib/notifications/**
+src/lib/settings.functions.ts
+src/lib/settings-validation.ts
+docs/15-governance/permission-catalog.manifest.yaml
+src/lib/generated/permission-keys.ts
+```
+Any generated-file change caused by validation (e.g. `src/routeTree.gen.ts`) must be inspected; when no route or source contract requires it, revert before completion, and any retained generated change requires explicit justification in the inventory. Return the concise completion inventory, then stop and await approval for Pass 3.8.2.
