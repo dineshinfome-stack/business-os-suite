@@ -1484,7 +1484,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      fn_activate_company: { Args: { _id: string }; Returns: Json }
+      fn_archive_company: { Args: { _id: string }; Returns: Json }
+      fn_create_company: {
+        Args: {
+          _default_locale: string
+          _display_name: string
+          _legal_name?: string
+          _region: string
+          _slug: string
+          _tenant_id: string
+          _timezone: string
+        }
+        Returns: string
+      }
+      fn_deactivate_company: { Args: { _id: string }; Returns: Json }
+      fn_set_default_company: { Args: { _id: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "member"
