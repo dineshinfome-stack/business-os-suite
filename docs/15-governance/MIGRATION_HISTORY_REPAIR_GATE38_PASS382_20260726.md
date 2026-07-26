@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Approval Recorded — Effectiveness Suspended Pending Prerequisite Remediation
+status: Approved With Binding Conditions — Reaffirmed After Prerequisite Recovery
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
@@ -11,13 +11,15 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Approval Recorded — Effectiveness Suspended Pending Prerequisite Remediation`:**
+**Repository status while this document is `Approved With Binding Conditions — Reaffirmed After Prerequisite Recovery`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
 No migration file has been modified. The Step 0B authority decision is recorded
-in §9 and preserved verbatim, but its effectiveness is SUSPENDED under §9.3.
-Commit A is NOT AUTHORIZED FOR EXECUTION and Pass 3.8.3 is NOT STARTED.
+in §9, was suspended under §9.3, and has been reaffirmed under §9.4 after the
+prerequisite recovery. Commit A is AUTHORIZED but its execution remains blocked
+until the reaffirmation commit SHA is pinned and verified. Pass 3.8.3 is
+NOT STARTED.
 
 ---
 
@@ -420,11 +422,11 @@ terminal audit.
 | Approved tombstone strategy | `true` |
 | Historical `statements[]` decision | `ACCEPTED_AS_IMMUTABLE_MIGRATION_EVIDENCE` (see §3.1) |
 | Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
-| Scope of authorization | Commit A — NOT AUTHORIZED FOR EXECUTION while §9.3 suspension is in force. Pass 3.8.3 — NOT AUTHORIZED. |
-| Approval commit SHA | `null` — `NOT_ELIGIBLE_FOR_PINNING` (see §9.3). |
+| Scope of authorization | Commit A — AUTHORIZED; execution blocked until the reaffirmation commit SHA is pinned. Pass 3.8.3 — NOT AUTHORIZED. |
+| Approval commit SHA | `PENDING_POST_COMMIT_PIN` — pinned in a separate controlled turn (see §9.4). |
 | Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
 | Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
-| Effective approval state | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` (see §9.3) |
+| Effective approval state | `REAFFIRMED_APPROVED_WITH_BINDING_CONDITIONS` — suspension lifted (see §9.4) |
 
 ### 9.1 Binding conditions
 
@@ -456,17 +458,42 @@ terminal audit.
 | Authority decision recorded | YES |
 | Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
 | Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
-| Effective approval state | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` (see §9.3) |
+| Effective approval state | `REAFFIRMED_APPROVED_WITH_BINDING_CONDITIONS` — suspension lifted (see §9.4) |
 | Binding-condition completion commit | `98f70721145faeb7bfc08d01fc9e937e224d77ab` |
-| Effective approval state | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` |
+| Effective approval state | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` — **LIFTED** by §9.4 |
 | Reason | The approval prerequisite gate was later found to retain the withdrawn trimming canonicalization, authorship-based path exclusion and obsolete correction baseline. |
-| Approval commit SHA | `null` — `NOT_ELIGIBLE_FOR_PINNING` |
-| Commit A | NOT AUTHORIZED FOR EXECUTION |
+| Approval commit SHA | `PENDING_POST_COMMIT_PIN` (suspension lifted by §9.4) |
+| Commit A | NOT AUTHORIZED FOR EXECUTION (superseded by §9.4) |
 | Pass 3.8.3 | NOT STARTED |
 
 The suspension is lifted only by an explicit Architecture Office reaffirmation
 recorded after the Step 0B-prep path gate and strict matched-text corrections
 pass against final bytes.
+
+### 9.4 Authority reaffirmation after prerequisite recovery
+
+> **SUSPENSION LIFTED — APPROVAL REAFFIRMED.**
+> The Architecture Office has reviewed the corrected Step 0B-prep evidence and
+> reaffirmed the original decision recorded in §9 and §9.1. The original
+> decision and its timestamp are unchanged.
+
+| Field | Value |
+| --- | --- |
+| Reaffirming authority | Dino Loy (GitHub: dineshinfome-stack) |
+| Authority role | Architecture Office — Migration Authority |
+| Reaffirmation decision | `REAFFIRMED_APPROVED_WITH_BINDING_CONDITIONS` |
+| Reaffirmation timestamp (UTC) | `2026-07-26T16:23:26Z` |
+| Prerequisite-recovery commit reviewed | `8afac0732ead75e3ec735d59f6588c881eeccbae` |
+| Corrected canonical digest reviewed | `dfc2f8f20e9cc53ecaa75f42ac551e23556f4d4459b79297e8e88502000276e4` |
+| Binding conditions reaffirmed | 14/14 |
+| Effective approval | Yes — pending durable pinning of the reaffirmation commit SHA |
+| Commit A | Authorized by authority decision, but execution remains blocked until the reaffirmation commit SHA is pinned and verified |
+| Pass 3.8.3 | NOT STARTED |
+| Reaffirmation commit SHA | `PENDING_POST_COMMIT_PIN` |
+
+Reaffirmation statement (verbatim):
+
+> I have reviewed the corrected Step 0B-prep evidence, including the strict verbatim historical ledger, corrected canonical digest, dual-baseline path model, removal of authorship-based exclusions, exact two-path gate and 12/12 immutability verification. I reaffirm the original APPROVED_WITH_BINDING_CONDITIONS decision and its fourteen binding conditions. This reaffirmation authorizes Commit A only and does not authorize Pass 3.8.3.
 
 ### 9.2 Approval template — SUPERSEDED BY THE BINDING APPROVAL RECORD ABOVE
 
@@ -522,8 +549,10 @@ Field rules:
 | `.lovable/plan.md` | byte-identical, digest `968cc11d8f149e7584ccdc90be0361812b2410c93b181c0eace94ee02ec7dcde` |
 | Renames / copies / additions / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Step 0B-prep | COMPLETE |
-| Step 0B authority approval | `RECORDED — EFFECTIVENESS SUSPENDED` |
-| Authority effectiveness | `SUSPENDED_PENDING_STEP_0B_PREP_REMEDIATION` |
-| Commit A | NOT AUTHORIZED FOR EXECUTION |
+| Step 0B authority approval | `REAFFIRMED_APPROVED_WITH_BINDING_CONDITIONS — COMMIT SHA PENDING` |
+| Authority effectiveness | `EFFECTIVE_PENDING_APPROVAL_SHA_PIN` |
+| Prerequisite-recovery commit reviewed | `8afac0732ead75e3ec735d59f6588c881eeccbae` |
+| Reaffirmation timestamp (UTC) | `2026-07-26T16:23:26Z` |
+| Commit A | AUTHORIZED — EXECUTION BLOCKED UNTIL APPROVAL SHA PIN |
 | Repository status | `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED` |
 | Pass 3.8.3 | NOT STARTED |
