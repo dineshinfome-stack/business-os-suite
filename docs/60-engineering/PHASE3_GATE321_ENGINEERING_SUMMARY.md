@@ -56,8 +56,8 @@ Supabase access, no server functions, no workers, no UI.
 
 | Check | Result |
 | --- | --- |
-| Vitest (repository) | 172 tests / 23 files passing |
-| Vitest (provisioning) | 83 tests / 12 files passing (56 new in Gate 3.2.1) |
+| Vitest (repository) | 209 tests / 24 files passing |
+| Vitest (provisioning) | 120 tests / 13 files passing (93 new in Gate 3.2.1) |
 | Typecheck | Clean |
 | Build | Clean |
 | Database changes | None |
