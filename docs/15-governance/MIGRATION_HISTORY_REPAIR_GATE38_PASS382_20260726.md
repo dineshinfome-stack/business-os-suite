@@ -419,8 +419,28 @@ terminal audit.
 | Authority decision note | Approval authorizes Commit A only, subject to all binding conditions recorded in the exception document and manifest. It does not authorize Pass 3.8.3. |
 | Scope of authorization | Commit A — AUTHORIZED. Pass 3.8.3 — NOT AUTHORIZED. |
 | Approval commit SHA | `PENDING_POST_COMMIT_PIN` — captured after this commit and recorded in the manifest and terminal audit. |
+| Authority decision origin commit | `e403d7aec345fc40137cc61288d349d984108c20` |
 
-### 9.1 Approval template
+### 9.1 Binding conditions
+
+1. This approval authorizes Commit A only.
+2. The subject migration is replaced only with the approved comment-only tombstone at the existing path.
+3. The tombstone contains no executable SQL, transaction block, JWT impersonation, live UUID, REM382 fixture text or database mutation.
+4. Certification is moved only to the approved deterministic `supabase/tests/**` harness surfaces.
+5. Test fixtures are synthetic and the certification transaction rolls back.
+6. A fresh-session residue postcheck is mandatory even when the harness aborts.
+7. RBAC prerequisite tables are asserted and never mutated by the harness.
+8. The remediation migration and five runtime files remain byte-identical.
+9. Clean replay, exact-name history verification, harness assertions, residue verification, tests, typecheck and production build are binding gates.
+10. Commit B may begin only after Commit A evidence is pinned.
+11. Commit C may begin only after Commit B evidence is pinned.
+12. Pass 3.8.3 remains NOT STARTED until terminal governance formally closes Pass 3.8.2.
+13. Historical executable SQL retained in `supabase_migrations.schema_migrations.statements` is accepted as immutable migration evidence for already-applied databases.
+14. This acceptance does not authorize further exposure, copying or publication of the historical SQL outside controlled evidence surfaces.
+
+### 9.2 Approval template — SUPERSEDED BY THE BINDING APPROVAL RECORD ABOVE
+
+
 
 ```text
 NON-AUTHORITATIVE APPROVAL TEMPLATE — NOT AN APPROVAL RECORD
