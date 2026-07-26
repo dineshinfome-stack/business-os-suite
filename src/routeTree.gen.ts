@@ -25,6 +25,7 @@ import { Route as AuthenticatedPlatformIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedPlatformDashboardRouteImport } from './routes/_authenticated/platform/dashboard'
 import { Route as AuthenticatedPlatformSplatRouteImport } from './routes/_authenticated/platform/$'
 import { Route as AuthenticatedPlatformTenantsIndexRouteImport } from './routes/_authenticated/platform/tenants/index'
+import { Route as AuthenticatedPlatformProvisioningIndexRouteImport } from './routes/_authenticated/platform/provisioning/index'
 import { Route as AuthenticatedPlatformCompaniesIndexRouteImport } from './routes/_authenticated/platform/companies/index'
 import { Route as AuthenticatedPlatformTenantsTenantIdRouteImport } from './routes/_authenticated/platform/tenants/$tenantId'
 import { Route as AuthenticatedPlatformCompaniesCompanyIdRouteImport } from './routes/_authenticated/platform/companies/$companyId'
@@ -112,6 +113,12 @@ const AuthenticatedPlatformTenantsIndexRoute =
     path: '/platform/tenants/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPlatformProvisioningIndexRoute =
+  AuthenticatedPlatformProvisioningIndexRouteImport.update({
+    id: '/platform/provisioning/',
+    path: '/platform/provisioning/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedPlatformCompaniesIndexRoute =
   AuthenticatedPlatformCompaniesIndexRouteImport.update({
     id: '/platform/companies/',
@@ -149,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
+  '/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -168,6 +176,7 @@ export interface FileRoutesByTo {
   '/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/platform/companies': typeof AuthenticatedPlatformCompaniesIndexRoute
+  '/platform/provisioning': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/platform/tenants': typeof AuthenticatedPlatformTenantsIndexRoute
 }
 export interface FileRoutesById {
@@ -190,6 +199,7 @@ export interface FileRoutesById {
   '/_authenticated/platform/companies/$companyId': typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   '/_authenticated/platform/tenants/$tenantId': typeof AuthenticatedPlatformTenantsTenantIdRoute
   '/_authenticated/platform/companies/': typeof AuthenticatedPlatformCompaniesIndexRoute
+  '/_authenticated/platform/provisioning/': typeof AuthenticatedPlatformProvisioningIndexRoute
   '/_authenticated/platform/tenants/': typeof AuthenticatedPlatformTenantsIndexRoute
 }
 export interface FileRouteTypes {
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/platform/companies/$companyId'
     | '/platform/tenants/$tenantId'
     | '/platform/companies/'
+    | '/platform/provisioning/'
     | '/platform/tenants/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/platform/companies/$companyId'
     | '/platform/tenants/$tenantId'
     | '/platform/companies'
+    | '/platform/provisioning'
     | '/platform/tenants'
   id:
     | '__root__'
@@ -252,6 +264,7 @@ export interface FileRouteTypes {
     | '/_authenticated/platform/companies/$companyId'
     | '/_authenticated/platform/tenants/$tenantId'
     | '/_authenticated/platform/companies/'
+    | '/_authenticated/platform/provisioning/'
     | '/_authenticated/platform/tenants/'
   fileRoutesById: FileRoutesById
 }
@@ -381,6 +394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlatformTenantsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/platform/provisioning/': {
+      id: '/_authenticated/platform/provisioning/'
+      path: '/platform/provisioning'
+      fullPath: '/platform/provisioning/'
+      preLoaderRoute: typeof AuthenticatedPlatformProvisioningIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/platform/companies/': {
       id: '/_authenticated/platform/companies/'
       path: '/platform/companies'
@@ -412,6 +432,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedPlatformCompaniesCompanyIdRoute: typeof AuthenticatedPlatformCompaniesCompanyIdRoute
   AuthenticatedPlatformTenantsTenantIdRoute: typeof AuthenticatedPlatformTenantsTenantIdRoute
   AuthenticatedPlatformCompaniesIndexRoute: typeof AuthenticatedPlatformCompaniesIndexRoute
+  AuthenticatedPlatformProvisioningIndexRoute: typeof AuthenticatedPlatformProvisioningIndexRoute
   AuthenticatedPlatformTenantsIndexRoute: typeof AuthenticatedPlatformTenantsIndexRoute
 }
 
@@ -425,6 +446,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedPlatformTenantsTenantIdRoute,
   AuthenticatedPlatformCompaniesIndexRoute:
     AuthenticatedPlatformCompaniesIndexRoute,
+  AuthenticatedPlatformProvisioningIndexRoute:
+    AuthenticatedPlatformProvisioningIndexRoute,
   AuthenticatedPlatformTenantsIndexRoute:
     AuthenticatedPlatformTenantsIndexRoute,
 }
