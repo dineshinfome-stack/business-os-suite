@@ -26,6 +26,13 @@ export type PlatformNavItem = {
  * the rest resolve to a shared "Coming soon" placeholder.
  */
 export const PLATFORM_NAV: PlatformNavItem[] = [
+  {
+    id: "platform-dashboard",
+    label: "Platform Dashboard",
+    icon: Gauge,
+    to: "/platform/dashboard",
+    exact: true,
+  },
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, to: "/platform", exact: true },
   { id: "packages", label: "Packages", icon: Package, to: "/platform/packages" },
   { id: "companies", label: "Companies", icon: Building2, to: "/platform/tenants" },
