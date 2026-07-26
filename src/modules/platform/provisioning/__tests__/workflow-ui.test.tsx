@@ -150,10 +150,9 @@ describe("state matrix · every provisioning state renders a complete surface", 
     expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Resume" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Rollback" })).toBeInTheDocument();
-    // terminal jobs cannot advance or be cancelled
-    expect(screen.getByRole("button", { name: /run next step/i })).toBeDisabled = expect(
-      screen.getByRole("button", { name: /run next step/i }),
-    ).toBeInTheDocument();
+    // advance/cancel exist for every state; terminal disabling is asserted below
+    expect(screen.getByRole("button", { name: /run next step/i })).toBeInTheDocument();
+
   });
 
   it("disables advance and cancel on a terminal job", () => {
