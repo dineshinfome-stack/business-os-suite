@@ -1,7 +1,7 @@
 {
   "manifest_id": "MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST",
   "migration_id": "MIG-20260726-GATE38-PASS382-HISTORY-REPAIR",
-  "status": "Pending Final Hashes",
+  "status": "Commit A Complete and Pinned — Commit B Pending",
   "gate": "Phase 3 · Gate 3.8 · Pass 3.8.2",
   "repository_status": "Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED",
   "created_utc": "2026-07-26",
@@ -477,6 +477,8 @@
     "binding_conditions_recorded": 14,
     "binding_conditions_parity": "PASS",
     "commit_a": "COMPLETE — 98019c2cad8ae8467d123a46a5714dcced929a50 — PINNED AND VERIFIED",
+    "commit_b": "ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED",
+    "commit_c": "NOT STARTED",
     "pass_3_8_3": "NOT STARTED",
     "measurement_mode": "HISTORICAL_RECONSTRUCTION",
     "historical_search_baseline_commit": "77656a1462918c636c94c6c7389570cccc62693e",
@@ -516,7 +518,12 @@
     "original_commit": "1907718fa16ecd48f7e3f0b16091d196909a76c3",
     "repaired": true,
     "tombstone_git_blob_sha": "02f0d1fd6430a6a2419c0e15bfcef986535a2d23",
-    "tombstone_sha256": "fea6643cd6f11b3c0ae2ac1e787db55c77312a3119afc3c91f059849da3edd01"
+    "tombstone_sha256": "fea6643cd6f11b3c0ae2ac1e787db55c77312a3119afc3c91f059849da3edd01",
+    "tombstone_line_count": 61,
+    "tombstone_byte_count": 3056,
+    "tombstone_newline_count": 61,
+    "tombstone_final_newline": true,
+    "tombstone_runtime_effect": "none"
   },
   "planned_surfaces": {
     "commit_a_technical_repair": [
@@ -547,9 +554,15 @@
     "harness_assertions": "PASS — 16/16 unique PASS382-CERT-NNN PASS markers plus 1 PASS382-SUPPLEMENTAL-ACL PASS (anon invocation denied with 42501); explicit ROLLBACK",
     "success_path_postcheck": "PASS — fresh session, exit 0, PASS382-POSTCHECK PASS emitted exactly once, residue 0",
     "failure_path_postcheck": "PASS — forced-failure run exited 3 with 0 unique numbered markers; mandatory fresh-session postcheck still exited 0 with PASS382-POSTCHECK PASS, residue 0",
-    "tests": "PASS — 49 files, 512/512 tests passed",
-    "typecheck": "PASS — tsc --noEmit clean",
-    "production_build": "not executed — Commit A changes are SQL and documentation only; no application source was modified"
+    "tests": "PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TEST RUN",
+    "typecheck": "PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TYPECHECK RUN",
+    "production_build": "PENDING — COMMIT B MUST EXECUTE AND PIN THE PRODUCTION BUILD",
+    "supplemental_pre_commit_b_observations": {
+      "tests": "49 files, 512/512 PASS during Commit A evidence verification",
+      "typecheck": "tsc --noEmit clean during Commit A evidence verification",
+      "authoritative_for_commit_b": false,
+      "commit_b_rerun_required": true
+    }
   },
   "historical_residue_check_utc_2026_07_26": {
     "public.tenants": 0,
@@ -560,50 +573,108 @@
     "state": "COMPLETE_PINNED_AND_VERIFIED",
     "commit_a_sha": "98019c2cad8ae8467d123a46a5714dcced929a50",
     "authorized_by_approval_commit": "303d2f7bc2158b04e88811ad5a3fcda39262b92d",
-    "baseline_commit": "b88afb9e",
+    "approval_sha": "303d2f7bc2158b04e88811ad5a3fcda39262b92d",
+    "step_0b_pin_record": "b88afb9e4b0941c64344c435fdaa0718eb46cf35",
+    "baseline_commit": "b88afb9e4b0941c64344c435fdaa0718eb46cf35",
+    "governance_pin_commit": "465667fa36719916aa46ab4dbf357549682c631f",
+    "evidence_normalization_commit": "PENDING PLATFORM COMMIT",
+    "verified_at_utc": "2026-07-26T17:35:08Z",
+    "timestamp_reconstructed_during_normalization": true,
     "cumulative_changed_paths": 4,
-    "changed_paths": [
+    "path_statuses": [
+      "M",
+      "A",
+      "A",
+      "A"
+    ],
+    "unexpected_paths": 0,
+    "renames": 0,
+    "copies": 0,
+    "deletions": 0,
+    "binary_changes": 0,
+    "files": [
       {
         "path": "supabase/migrations/20260726114237_3ca5092b-b2b6-41c3-a54e-2490f4093466.sql",
         "status": "M",
         "git_blob_sha": "02f0d1fd6430a6a2419c0e15bfcef986535a2d23",
+        "sha256": "fea6643cd6f11b3c0ae2ac1e787db55c77312a3119afc3c91f059849da3edd01",
+        "byte_count": 3056,
+        "line_count": 61,
+        "newline_count": 61,
+        "final_newline": true,
         "role": "comment-only tombstone"
       },
       {
         "path": "supabase/tests/pass_3_8_2_queue_certification.sql",
         "status": "A",
         "git_blob_sha": "b90c3f96b787f64a63fdd35a822788185df73a1d",
+        "sha256": "4b7e0cee2bf78f8bdfbd726b1e4f6f1bbbf22590268504f34c95687143a0057d",
+        "byte_count": 22242,
+        "line_count": 464,
+        "newline_count": 464,
+        "final_newline": true,
         "role": "deterministic certification harness"
       },
       {
         "path": "supabase/tests/pass_3_8_2_queue_certification_postcheck.sql",
         "status": "A",
         "git_blob_sha": "570119cfe3135f1ec6812962f2a7d737f76f32eb",
+        "sha256": "926bba585896885bad82d5b9b83d81cc50c41435b7cdcac6b27079991968e770",
+        "byte_count": 4407,
+        "line_count": 105,
+        "newline_count": 105,
+        "final_newline": true,
         "role": "mandatory fresh-session residue postcheck"
       },
       {
         "path": "supabase/tests/README.md",
         "status": "A",
         "git_blob_sha": "6294481acaa5755b9940020a760a6f5428ab16c4",
+        "sha256": "a6ac76e59881a02795f73fe1d29315f0e72ff64c69adfd5af47f41a20d065483",
+        "byte_count": 7974,
+        "line_count": 200,
+        "newline_count": 200,
+        "final_newline": true,
         "role": "certification runbook"
       }
     ],
+    "execution_evidence": {
+      "static_validation": "PASS",
+      "clean_replay": "PASS",
+      "migration_chain_discovered": 31,
+      "migration_chain_applied": 31,
+      "exact_name_history_row_count": 1,
+      "observed_history_version": "20260726114237",
+      "successful_harness_exit": 0,
+      "numbered_assertion_occurrences": 16,
+      "numbered_assertions_unique": 16,
+      "supplemental_acl_invocation": "42501 PASS",
+      "success_postcheck": "PASS — RESIDUE 0",
+      "forced_failure_harness_exit": 3,
+      "forced_failure_numbered_markers": 0,
+      "forced_failure_postcheck": "PASS — RESIDUE 0",
+      "remaining_protected_files": "10/10 PASS",
+      "drift_files": 0
+    },
     "protected_file_drift": "0 — 10/10 drift comparisons PASS",
     "renames_copies_deletions_binary": "0 / 0 / 0 / 0",
     "migration_file_inventory": "39 files present; 31 executable migrations replayed; the remainder are comment-only or superseded foundation files"
   },
   "separate_findings": [
     {
-      "finding_id": "FND-20260726-AUTH-SIGNUP-TENANTID",
+      "finding_id": "FINDING-AUTH-SIGNUP-TENANT-FK-20260726",
+      "legacy_or_reported_alias": "FND-20260726-AUTH-SIGNUP-TENANTID",
       "title": "private.fn_handle_new_auth_user inserts into public.organizations without tenant_id",
-      "severity": "High",
-      "status": "REGISTERED — OUT OF SCOPE FOR COMMIT A",
+      "severity": "UNASSESSED — PENDING ARCHITECTURE OFFICE TRIAGE",
+      "status": "SEPARATE_TRIAGE_REQUIRED",
+      "scope_relationship": "DISCOVERED_DURING_COMMIT_A_CERTIFICATION — OUTSIDE_COMMIT_A",
+      "commit_a_pin_blocker": false,
+      "release_or_signup_impact": "TRIAGE_REQUIRED",
       "surface": "private.fn_handle_new_auth_user() trigger on auth.users",
       "description": "The new-user trigger inserts into public.organizations (name, slug, created_by, updated_by) only. A later migration made public.organizations.tenant_id NOT NULL, so any trigger-enabled auth.users insert aborts with 23502: null value in column \"tenant_id\" of relation \"organizations\" violates not-null constraint.",
-      "reproduction": "Clean replay of the 31-migration chain, then a single trigger-enabled auth.users insert inside a transaction; the insert fails at private.fn_handle_new_auth_user() line 38 and the transaction rolls back.",
-      "impact": "End-user sign-up provisioning is expected to fail on any environment replayed from the current migration chain.",
+      "reproduction": "Clean replay of the 31-migration chain, then a single trigger-enabled auth.users insert inside a transaction; the insert fails at private.fn_handle_new_auth_user() line 38 with SQLSTATE 23502 and the transaction rolls back.",
       "workaround_in_harness": "The certification harness sets session_replication_role = replica (SET LOCAL) for its single synthetic auth.users insert and restores origin immediately; the residue postcheck asserts no leakage.",
-      "disposition": "Referred to the Architecture Office as a separate remediation item. It is not repaired under MIG-20260726-GATE38-PASS382-HISTORY-REPAIR and does not block Commit A."
+      "disposition": "Referred to the Architecture Office as a separate remediation item requiring triage. It is not repaired under MIG-20260726-GATE38-PASS382-HISTORY-REPAIR and does not block the Commit A pin."
     }
   ]
 }
