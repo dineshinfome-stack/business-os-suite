@@ -8,7 +8,10 @@
  * seed runner or the admin (service-role) client.
  */
 import { TENANT_LIFECYCLE_STATES } from "@/lib/tenant-lifecycle/lifecycle";
-import { NOTIFICATION_TYPES } from "@/lib/notifications/registry";
+import {
+  notificationRegistry,
+  type NotificationTypeDef,
+} from "@/lib/notifications/registry";
 import {
   PLATFORM_FEATURE_REGISTRY,
   PLATFORM_SETTING_REGISTRY,
@@ -851,7 +854,7 @@ export async function getNotificationOperations(
   if (error) throw error;
 
   return {
-    types: NOTIFICATION_TYPES.map((t) => ({
+    types: notificationRegistry.map((t: NotificationTypeDef) => ({
       type: t.type,
       category: t.category,
       label: t.label,
