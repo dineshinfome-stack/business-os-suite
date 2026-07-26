@@ -39,14 +39,15 @@ function AuditPage() {
 
   function downloadCsv() {
     exportCsv.mutate(query, {
-      onSuccess: (csv) => {
-        const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      onSuccess: (result) => {
+        const blob = new Blob([result.csv], { type: "text/csv;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const anchor = document.createElement("a");
         anchor.href = url;
         anchor.download = `platform-audit-${new Date().toISOString().slice(0, 10)}.csv`;
         anchor.click();
         URL.revokeObjectURL(url);
+        if (result.message) toast.warning(result.message);
       },
       onError: (error) =>
         toast.error(error instanceof Error ? error.message : "Export failed"),
