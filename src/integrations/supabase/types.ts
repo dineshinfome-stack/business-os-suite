@@ -1286,9 +1286,16 @@ export type Database = {
           created_by: string | null
           dedicated_database_ref: string | null
           default_locale: string
+          deleted_at: string | null
+          deleted_by: string | null
+          deletion_reason: string | null
+          deletion_scheduled_at: string | null
+          deletion_scheduled_by: string | null
           display_name: string
           id: string
           lifecycle_state: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          maintenance_reason: string | null
+          maintenance_started_at: string | null
           notes: string | null
           plan_tier: string
           primary_contact_email: string | null
@@ -1296,6 +1303,7 @@ export type Database = {
           primary_contact_phone: string | null
           primary_domain: string | null
           provisioning_status: Database["public"]["Enums"]["tenant_provisioning_status"]
+          purge_after: string | null
           region: string
           slug: string
           subscription_ref: string | null
@@ -1312,9 +1320,16 @@ export type Database = {
           created_by?: string | null
           dedicated_database_ref?: string | null
           default_locale?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
+          deletion_reason?: string | null
+          deletion_scheduled_at?: string | null
+          deletion_scheduled_by?: string | null
           display_name: string
           id?: string
           lifecycle_state?: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          maintenance_reason?: string | null
+          maintenance_started_at?: string | null
           notes?: string | null
           plan_tier?: string
           primary_contact_email?: string | null
@@ -1322,6 +1337,7 @@ export type Database = {
           primary_contact_phone?: string | null
           primary_domain?: string | null
           provisioning_status?: Database["public"]["Enums"]["tenant_provisioning_status"]
+          purge_after?: string | null
           region?: string
           slug: string
           subscription_ref?: string | null
@@ -1338,9 +1354,16 @@ export type Database = {
           created_by?: string | null
           dedicated_database_ref?: string | null
           default_locale?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
+          deletion_reason?: string | null
+          deletion_scheduled_at?: string | null
+          deletion_scheduled_by?: string | null
           display_name?: string
           id?: string
           lifecycle_state?: Database["public"]["Enums"]["tenant_lifecycle_state"]
+          maintenance_reason?: string | null
+          maintenance_started_at?: string | null
           notes?: string | null
           plan_tier?: string
           primary_contact_email?: string | null
@@ -1348,6 +1371,7 @@ export type Database = {
           primary_contact_phone?: string | null
           primary_domain?: string | null
           provisioning_status?: Database["public"]["Enums"]["tenant_provisioning_status"]
+          purge_after?: string | null
           region?: string
           slug?: string
           subscription_ref?: string | null
@@ -1539,7 +1563,14 @@ export type Database = {
         | "enum"
         | "json"
       setting_scope: "platform" | "organization"
-      tenant_lifecycle_state: "created" | "active" | "suspended" | "archived"
+      tenant_lifecycle_state:
+        | "created"
+        | "active"
+        | "suspended"
+        | "archived"
+        | "maintenance"
+        | "pending_deletion"
+        | "deleted"
       tenant_provisioning_status:
         | "not_started"
         | "in_progress"
@@ -1712,7 +1743,15 @@ export const Constants = {
         "json",
       ],
       setting_scope: ["platform", "organization"],
-      tenant_lifecycle_state: ["created", "active", "suspended", "archived"],
+      tenant_lifecycle_state: [
+        "created",
+        "active",
+        "suspended",
+        "archived",
+        "maintenance",
+        "pending_deletion",
+        "deleted",
+      ],
       tenant_provisioning_status: [
         "not_started",
         "in_progress",
