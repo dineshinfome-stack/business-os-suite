@@ -155,15 +155,24 @@ DO $cert$
 DECLARE
   v_uid     uuid;
   v_uid2    uuid;
+  v_uid3    uuid;
+  v_phone   text;
   v_count   int;
   v_display text;
 BEGIN
-  SELECT fixture_user_id, fixture_user_id_nometa INTO v_uid, v_uid2 FROM _p385a_ctx;
+  SELECT fixture_user_id, fixture_user_id_nometa, fixture_user_id_nullemail,
+         fixture_phone_nullemail
+    INTO v_uid, v_uid2, v_uid3, v_phone
+    FROM _p385a_ctx;
 
-  -- B1 hostile metadata must be ignored entirely
+  -- B1 hostile metadata must be ignored entirely.
+  -- Column shape mirrors the repository-proven auth.users fixture shape
+  -- (empty-string token columns) for Supabase Auth schema compatibility.
   INSERT INTO auth.users (id, instance_id, aud, role, email, encrypted_password,
                           email_confirmed_at, created_at, updated_at,
-                          raw_app_meta_data, raw_user_meta_data)
+                          raw_app_meta_data, raw_user_meta_data,
+                          confirmation_token, email_change,
+                          email_change_token_new, recovery_token)
   VALUES (v_uid, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
           'p385a+' || replace(v_uid::text, '-', '') || '@certification.invalid',
           crypt('p385a-disposable', gen_salt('bf')), now(), now(), now(),
@@ -175,7 +184,8 @@ BEGIN
             'organization_id', gen_random_uuid()::text,
             'role',           'owner',
             'platform_role',  'platform_owner',
-            'is_admin',       true));
+            'is_admin',       true),
+          '', '', '', '');
 
   SELECT count(*) INTO v_count FROM public.profiles WHERE id = v_uid;
   PERFORM pg_temp.assert('B1 signup creates exactly one profile for the fixture user',
@@ -188,16 +198,60 @@ BEGIN
   -- B3 optional metadata absent (no full_name / name / avatar_url) must not fail
   INSERT INTO auth.users (id, instance_id, aud, role, email, encrypted_password,
                           email_confirmed_at, created_at, updated_at,
-                          raw_app_meta_data, raw_user_meta_data)
+                          raw_app_meta_data, raw_user_meta_data,
+                          confirmation_token, email_change,
+                          email_change_token_new, recovery_token)
   VALUES (v_uid2, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
           'p385b+' || replace(v_uid2::text, '-', '') || '@certification.invalid',
           crypt('p385a-disposable', gen_salt('bf')), now(), now(), now(),
           '{"provider":"email","providers":["email"]}'::jsonb,
-          '{}'::jsonb);
+          '{}'::jsonb,
+          '', '', '', '');
 
   SELECT count(*) INTO v_count FROM public.profiles WHERE id = v_uid2;
   PERFORM pg_temp.assert('B3 signup with no optional metadata still creates one profile',
                          v_count = 1, format('%s profile row(s)', v_count));
+
+  -- B4 null-email (phone) signup must be tolerated: the trigger never reads
+  -- NEW.email as a required value.
+  INSERT INTO auth.users (id, instance_id, aud, role, email, phone,
+                          phone_confirmed_at, encrypted_password,
+                          created_at, updated_at,
+                          raw_app_meta_data, raw_user_meta_data,
+                          confirmation_token, email_change,
+                          email_change_token_new, recovery_token)
+  VALUES (v_uid3, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+          NULL, v_phone, now(),
+          crypt('p385a-disposable', gen_salt('bf')), now(), now(),
+          '{"provider":"phone","providers":["phone"]}'::jsonb,
+          '{}'::jsonb,
+          '', '', '', '');
+
+  PERFORM pg_temp.assert('B4 null-email (phone) auth insert completed', true, v_phone);
+
+  SELECT count(*) INTO v_count FROM public.profiles WHERE id = v_uid3;
+  PERFORM pg_temp.assert('B5 null-email signup creates exactly one profile',
+                         v_count = 1, format('%s profile row(s)', v_count));
+
+  SELECT display_name INTO v_display FROM public.profiles WHERE id = v_uid3;
+  PERFORM pg_temp.assert('B6 null-email profile display_name IS NULL',
+                         v_display IS NULL, COALESCE(v_display, '<null>'));
+
+  SELECT count(*) INTO v_count FROM public.tenants WHERE created_by = v_uid3;
+  PERFORM pg_temp.assert('B7 no tenant created by the null-email fixture user',
+                         v_count = 0, v_count::text);
+
+  SELECT count(*) INTO v_count FROM public.organizations WHERE created_by = v_uid3;
+  PERFORM pg_temp.assert('B8 no organization created by the null-email fixture user',
+                         v_count = 0, v_count::text);
+
+  SELECT count(*) INTO v_count FROM public.organization_members WHERE user_id = v_uid3;
+  PERFORM pg_temp.assert('B9 no organization membership for the null-email fixture user',
+                         v_count = 0, v_count::text);
+
+  SELECT count(*) INTO v_count FROM public.user_roles WHERE user_id = v_uid3;
+  PERFORM pg_temp.assert('B10 no user role for the null-email fixture user',
+                         v_count = 0, v_count::text);
 END
 $cert$;
 
@@ -208,20 +262,22 @@ $cert$;
 CREATE OR REPLACE FUNCTION pg_temp.assert_no_side_effects(_label text)
 RETURNS void LANGUAGE plpgsql AS $$
 DECLARE
-  v_uid uuid; v_uid2 uuid; v_n int;
+  v_uid uuid; v_uid2 uuid; v_uid3 uuid; v_n int;
 BEGIN
-  SELECT fixture_user_id, fixture_user_id_nometa INTO v_uid, v_uid2 FROM _p385a_ctx;
+  SELECT fixture_user_id, fixture_user_id_nometa, fixture_user_id_nullemail
+    INTO v_uid, v_uid2, v_uid3
+    FROM _p385a_ctx;
 
-  SELECT count(*) INTO v_n FROM public.tenants WHERE created_by IN (v_uid, v_uid2);
+  SELECT count(*) INTO v_n FROM public.tenants WHERE created_by IN (v_uid, v_uid2, v_uid3);
   PERFORM pg_temp.assert(_label || ' no tenant created by the fixture user', v_n = 0, v_n::text);
 
-  SELECT count(*) INTO v_n FROM public.organizations WHERE created_by IN (v_uid, v_uid2);
+  SELECT count(*) INTO v_n FROM public.organizations WHERE created_by IN (v_uid, v_uid2, v_uid3);
   PERFORM pg_temp.assert(_label || ' no organization created by the fixture user', v_n = 0, v_n::text);
 
-  SELECT count(*) INTO v_n FROM public.organization_members WHERE user_id IN (v_uid, v_uid2);
+  SELECT count(*) INTO v_n FROM public.organization_members WHERE user_id IN (v_uid, v_uid2, v_uid3);
   PERFORM pg_temp.assert(_label || ' no organization membership for the fixture user', v_n = 0, v_n::text);
 
-  SELECT count(*) INTO v_n FROM public.user_roles WHERE user_id IN (v_uid, v_uid2);
+  SELECT count(*) INTO v_n FROM public.user_roles WHERE user_id IN (v_uid, v_uid2, v_uid3);
   PERFORM pg_temp.assert(_label || ' no user role for the fixture user', v_n = 0, v_n::text);
 END
 $$;
