@@ -532,3 +532,167 @@ describe("Pass 3.8.4 — role assignment", () => {
     expect(call(rpcCalls, ASSIGN_ADMIN_ROLE_RPC)).toHaveLength(0);
   });
 });
+
+/* ------------------------------------------------------------------------ */
+/* Pass 3.8.4 final correction — accepted-replay integrity & version conflict */
+/* ------------------------------------------------------------------------ */
+
+function acceptedClient(atomic: Record<string, unknown>) {
+  const rpcCalls: RpcCall[] = [];
+  const client = {
+    rpc: async (name: string, args: Record<string, unknown>) => {
+      rpcCalls.push({ name, args });
+      if (name === INVITE_ADMIN_ATOMIC_RPC) {
+        return {
+          data: {
+            organization_id: ORG,
+            invitation_id: INVITATION,
+            invitation_status: "accepted",
+            created: false,
+            replayed: true,
+            state: "in_progress",
+            step_status: "completed",
+            step_version: 4,
+            ...atomic,
+          },
+          error: null,
+        };
+      }
+      if (name === ONBOARDING_RECORD_STEP_RPC) {
+        return {
+          data: { state: "in_progress", status: args._status, version: 2 },
+          error: null,
+        };
+      }
+      return { data: null, error: null };
+    },
+    from: () => {
+      const builder: any = {
+        insert: async () => ({ data: null, error: null }),
+        select: () => builder,
+        eq: () => builder,
+        maybeSingle: async () => ({ data: null, error: null }),
+      };
+      return builder;
+    },
+  } as unknown as AnyClient;
+  return { client, rpcCalls };
+}
+
+const inviteInput = {
+  tenantId: TENANT,
+  email: "admin@example.com",
+  invitedRole: "admin" as const,
+};
+
+describe("Pass 3.8.4 — accepted invitation integrity recording", () => {
+  it("records membership completed and role completed when both are satisfied", async () => {
+    const { client, rpcCalls } = acceptedClient({
+      membership_status: "active",
+      role_granted: true,
+    });
+    const res = await inviteFirstTenantAdministratorCommand(client, ACTOR, inviteInput);
+
+    expect(res.ok).toBe(true);
+    expect(res.membershipStatus).toBe("active");
+    expect(res.roleGrantStatus).toBe("granted");
+
+    const [mem] = step(rpcCalls, "tenant_admin_membership");
+    expect(mem.args._status).toBe("completed");
+    expect(mem.args._failure_code).toBeNull();
+
+    const [role] = step(rpcCalls, "roles_assigned");
+    expect(role.args._status).toBe("completed");
+    expect(role.args._failure_code).toBeNull();
+  });
+
+  it("blocks the membership step when membership is missing after acceptance", async () => {
+    const { client, rpcCalls } = acceptedClient({
+      membership_status: "missing_after_acceptance",
+      role_granted: true,
+    });
+    await inviteFirstTenantAdministratorCommand(client, ACTOR, inviteInput);
+
+    const [mem] = step(rpcCalls, "tenant_admin_membership");
+    expect(mem.args._status).toBe("blocked");
+    expect(mem.args._failure_code).toBe("membership_missing_after_acceptance");
+  });
+
+  it("blocks the membership step when membership is inactive after acceptance", async () => {
+    const { client, rpcCalls } = acceptedClient({
+      membership_status: "inactive",
+      role_granted: true,
+    });
+    await inviteFirstTenantAdministratorCommand(client, ACTOR, inviteInput);
+
+    const [mem] = step(rpcCalls, "tenant_admin_membership");
+    expect(mem.args._status).toBe("blocked");
+    expect(mem.args._failure_code).toBe("membership_inactive_after_acceptance");
+  });
+
+  it("blocks the role step when the administrative grant is missing", async () => {
+    const { client, rpcCalls } = acceptedClient({
+      membership_status: "active",
+      role_granted: false,
+    });
+    const res = await inviteFirstTenantAdministratorCommand(client, ACTOR, inviteInput);
+
+    expect(res.roleGrantStatus).toBe("missing");
+    const [role] = step(rpcCalls, "roles_assigned");
+    expect(role.args._status).toBe("blocked");
+    expect(role.args._failure_code).toBe("role_grant_missing");
+  });
+
+  it("keeps pre-acceptance pending invitations as skipped warnings", async () => {
+    const { client, rpcCalls } = makeClient({
+      organization_id: ORG,
+      invitation: null,
+      membership: null,
+      role_granted: false,
+    });
+    await inviteFirstTenantAdministratorCommand(client, ACTOR, inviteInput);
+
+    const [mem] = step(rpcCalls, "tenant_admin_membership");
+    expect(mem.args._status).toBe("skipped");
+    expect(mem.args._failure_code).toBe("acceptance_pending");
+
+    const [role] = step(rpcCalls, "roles_assigned");
+    expect(role.args._status).toBe("skipped");
+    expect(role.args._failure_code).toBe("role_grant_pending_acceptance");
+  });
+});
+
+describe("Pass 3.8.4 — optimistic concurrency preservation", () => {
+  it("reports version_conflict without writing any invitation step (invite)", async () => {
+    const { client, rpcCalls } = makeClient(
+      { organization_id: ORG, invitation: null, membership: null, role_granted: false },
+      { [INVITE_ADMIN_ATOMIC_RPC]: () => ({ code: "40001" }) },
+    );
+    const res = await inviteFirstTenantAdministratorCommand(client, ACTOR, {
+      ...inviteInput,
+      expectedVersion: 3,
+    });
+
+    expect(res.ok).toBe(false);
+    expect(res.reasonCode).toBe("version_conflict");
+    expect(res.stepStatus).toBeNull();
+    expect(step(rpcCalls, "tenant_admin_invitation")).toHaveLength(0);
+  });
+
+  it("reports version_conflict without writing any invitation step (resend)", async () => {
+    const { client, rpcCalls } = makeClient(
+      { organization_id: ORG, invitation: invitation(), membership: null, role_granted: false },
+      { [RESEND_ADMIN_ATOMIC_RPC]: () => ({ code: "40001" }) },
+    );
+    const res = await resendFirstTenantAdministratorInvitationCommand(client, ACTOR, {
+      tenantId: TENANT,
+      invitationId: INVITATION,
+      expectedVersion: 3,
+    });
+
+    expect(res.ok).toBe(false);
+    expect(res.reasonCode).toBe("version_conflict");
+    expect(res.stepStatus).toBeNull();
+    expect(step(rpcCalls, "tenant_admin_invitation")).toHaveLength(0);
+  });
+});
