@@ -171,7 +171,26 @@ and the `rpc()` capability precondition.
 
 ---
 
-## 9. Closure
+## 9. Closure state
 
-All four findings are resolved with executed evidence rather than asserted
-intent. **Pass 3.8.2 is CLOSED.** Pass 3.8.3 may begin.
+All four findings (REM-382-001 … REM-382-004) are resolved with executed
+evidence rather than asserted intent, and the separate migration-history defect
+was repaired under the approved Commit A tombstone transition
+(`98019c2cad8ae8467d123a46a5714dcced929a50`).
+
+**Pass 3.8.2 is NOT formally closed.** Its state is
+`VERIFIED_CLOSURE_CANDIDATE`: every technical and quality gate has passed and
+been evidenced, but terminal governance has not been executed.
+
+Outstanding before formal closure (Commit C, mandatory, not started):
+
+1. Pin the Commit B SHA in the governance manifest and document.
+2. Update the migration registry.
+3. Author the terminal audit report.
+4. Record formal Pass 3.8.2 closure.
+
+Separate open item, not part of this remediation:
+`FND-20260726-AUTH-SIGNUP-TENANTID` — `OPEN — SEPARATE_TRIAGE_REQUIRED`.
+
+**Pass 3.8.3 must NOT begin** until Commit C is complete and Pass 3.8.2 is
+formally closed by the Architecture Office.
