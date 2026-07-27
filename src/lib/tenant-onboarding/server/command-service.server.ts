@@ -23,7 +23,16 @@ import {
 } from "../required-settings.registry";
 import type { OnboardingStepKey, OnboardingStepStatus } from "../contracts";
 import type { TenantOnboardingState } from "../state-machine";
-import type { OnboardingBootstrapResultDTO } from "../types/v1";
+import {
+  ONBOARDING_ACTIVATE_TENANT_RPC,
+  ONBOARDING_PERSIST_READINESS_RPC,
+  toReadinessDTO,
+} from "../readiness";
+import type {
+  OnboardingActivationResultDTO,
+  OnboardingBootstrapResultDTO,
+  TenantOnboardingReadinessDTO,
+} from "../types/v1";
 
 export type AnyClient = {
   from: (table: string) => any;
@@ -61,6 +70,14 @@ const SAFE_MESSAGES: Record<string, string> = {
   invitation_accepted: "That administrator invitation has already been accepted.",
   invitation_email_conflict:
     "A pending administrator invitation already exists for a different email address.",
+  /* Pass 3.8.5 — readiness and guarded activation. */
+  readiness_blocked:
+    "The tenant is not ready for activation. Resolve the blocking checks and try again.",
+  warning_acknowledgement_required:
+    "Activation requires explicit acknowledgement of the outstanding warnings.",
+  lifecycle_state_blocks:
+    "The tenant lifecycle state does not allow activation.",
+  workflow_not_started: "The onboarding workflow has not been started for this tenant.",
 };
 
 /**
@@ -82,6 +99,9 @@ const SQLSTATE_REASONS: Record<string, keyof typeof SAFE_MESSAGES> = {
   P3845: "invitation_expired",
   P3846: "invitation_accepted",
   P3847: "invitation_email_conflict",
+  P3848: "readiness_blocked",
+  P3849: "warning_acknowledgement_required",
+  P384B: "lifecycle_state_blocks",
 };
 
 export function classifyError(error: unknown): {
@@ -621,4 +641,128 @@ export async function initializeFinancialYearCommand(
       };
     },
   });
+}
+
+/* ------------------------------- Pass 3.8.5 readiness & guarded activation */
+
+/**
+ * EXPLICIT readiness persistence. Separate from the read path by design:
+ * reading readiness never writes, and persisting a snapshot always requires
+ * `platform.tenant.update` (enforced inside the RPC, not only in middleware).
+ *
+ * The snapshot, its counts, its overall status and its warning fingerprint
+ * are all produced by the database. Nothing is recomputed here.
+ */
+export async function refreshOnboardingReadinessCommand(
+  client: AnyClient,
+  actor: OnboardingActor,
+  input: { tenantId: string; correlationId?: string },
+): Promise<TenantOnboardingReadinessDTO> {
+  const correlationId = input.correlationId ?? newCorrelationId();
+  const data = await callRpc<unknown>(client, ONBOARDING_PERSIST_READINESS_RPC, {
+    _tenant_id: input.tenantId,
+    _correlation_id: correlationId,
+  });
+  const readiness = toReadinessDTO(data);
+  await audit(client, actor, "tenant_onboarding.readiness_refreshed", input.tenantId, {
+    overall_status: readiness.overallStatus,
+    blocking_count: readiness.blockingCount,
+    warning_count: readiness.warningCount,
+    correlation_id: correlationId,
+  });
+  return readiness;
+}
+
+function activationFailure(
+  tenantId: string,
+  correlationId: string,
+  reasonCode: string,
+  message: string,
+): OnboardingActivationResultDTO {
+  return {
+    ok: false,
+    tenantId,
+    state: null,
+    activatedAt: null,
+    lifecycleTransitionApplied: false,
+    idempotentReplay: false,
+    blockingCount: 0,
+    warningCount: 0,
+    reasonCode,
+    message,
+    correlationId,
+    version: null,
+    warningsAcknowledged: false,
+    warningFingerprint: null,
+  };
+}
+
+/**
+ * Guarded tenant activation.
+ *
+ * The database routine is the CANONICAL activation writer: within one locked
+ * transaction it re-evaluates readiness, refuses on any blocking check,
+ * demands explicit warning acknowledgement, records the acknowledgement,
+ * applies the `created → active` lifecycle transition through the shared
+ * transition validator, marks the workflow activated and stores the snapshot.
+ * Nothing about that decision is taken from the client.
+ */
+export async function activateTenantCommand(
+  client: AnyClient,
+  actor: OnboardingActor,
+  input: {
+    tenantId: string;
+    acknowledgeWarnings?: boolean;
+    expectedVersion?: number;
+    correlationId?: string;
+  },
+): Promise<OnboardingActivationResultDTO> {
+  const correlationId = input.correlationId ?? newCorrelationId();
+  try {
+    const data = await callRpc<Record<string, unknown>>(
+      client,
+      ONBOARDING_ACTIVATE_TENANT_RPC,
+      {
+        _tenant_id: input.tenantId,
+        _expected_version: input.expectedVersion ?? null,
+        _acknowledge_warnings: input.acknowledgeWarnings ?? false,
+        _correlation_id: correlationId,
+      },
+    );
+
+    const idempotentReplay = data.idempotent_replay === true;
+    const result: OnboardingActivationResultDTO = {
+      ok: true,
+      tenantId: input.tenantId,
+      state: (data.state as TenantOnboardingState) ?? "activated",
+      activatedAt: (data.activated_at as string | null) ?? null,
+      lifecycleTransitionApplied: data.lifecycle_transition_applied === true,
+      idempotentReplay,
+      blockingCount: Number(data.blocking_count ?? 0),
+      warningCount: Number(data.warning_count ?? 0),
+      reasonCode: null,
+      message: idempotentReplay
+        ? "This tenant was already activated."
+        : "The tenant was activated.",
+      correlationId,
+      version: data.version === null || data.version === undefined
+        ? null
+        : Number(data.version),
+      warningsAcknowledged: data.warnings_acknowledged === true,
+      warningFingerprint: (data.warning_fingerprint as string | null) ?? null,
+    };
+
+    if (!idempotentReplay) {
+      await audit(client, actor, "tenant_onboarding.activation_requested", input.tenantId, {
+        warning_count: result.warningCount,
+        warnings_acknowledged: result.warningsAcknowledged,
+        lifecycle_transition_applied: result.lifecycleTransitionApplied,
+        correlation_id: correlationId,
+      });
+    }
+    return result;
+  } catch (error) {
+    const { reasonCode, message } = classifyError(error);
+    return activationFailure(input.tenantId, correlationId, reasonCode, message);
+  }
 }
