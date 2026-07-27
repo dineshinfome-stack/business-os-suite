@@ -25,8 +25,19 @@ BEGIN;
 
 -- Fixture identity, unique per run.
 CREATE TEMP TABLE _p385a_ctx ON COMMIT DROP AS
-SELECT gen_random_uuid() AS fixture_user_id,
-       gen_random_uuid() AS fixture_user_id_nometa;
+SELECT fixture_user_id,
+       fixture_user_id_nometa,
+       fixture_user_id_nullemail,
+       -- E.164-safe synthetic phone derived from the fixture uuid so parallel
+       -- runs cannot collide on auth.users.phone uniqueness.
+       '+1999' || substr(
+         translate(replace(fixture_user_id_nullemail::text, '-', ''), 'abcdef', '012345'),
+         1, 10) AS fixture_phone_nullemail
+  FROM (
+    SELECT gen_random_uuid() AS fixture_user_id,
+           gen_random_uuid() AS fixture_user_id_nometa,
+           gen_random_uuid() AS fixture_user_id_nullemail
+  ) s;
 
 CREATE TEMP TABLE _p385a_results (
   seq        int  GENERATED ALWAYS AS IDENTITY,
