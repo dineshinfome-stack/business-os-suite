@@ -923,6 +923,123 @@ END
 $cert$;
 
 
+-- =====================================================================
+-- I. Pass 3.8.5E — evaluator volatility, strict metadata typing and the
+--    PUBLIC missing-tenant readiness contract.
+-- =====================================================================
+DO $cert$
+DECLARE
+  v_vol "char";
+BEGIN
+  SELECT p.provolatile INTO v_vol
+    FROM pg_catalog.pg_proc p
+    JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+   WHERE n.nspname = 'private'
+     AND p.proname = 'fn_onboarding_evaluate_readiness_json'
+     AND pg_catalog.pg_get_function_identity_arguments(p.oid) = 'uuid, text';
+  PERFORM pg_temp.assert('I1 fn_onboarding_evaluate_readiness_json is VOLATILE',
+                         v_vol = 'v', COALESCE(v_vol::text, 'NOT FOUND'));
+
+  SELECT p.provolatile INTO v_vol
+    FROM pg_catalog.pg_proc p
+    JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+   WHERE n.nspname = 'private'
+     AND p.proname = 'fn_onboarding_evaluate_readiness_present_json'
+     AND pg_catalog.pg_get_function_identity_arguments(p.oid) = 'uuid, text';
+  PERFORM pg_temp.assert('I2 fn_onboarding_evaluate_readiness_present_json is VOLATILE',
+                         v_vol = 'v', COALESCE(v_vol::text, 'NOT FOUND'));
+END
+$cert$;
+
+-- I3-I9: strict JSON typing of validation metadata. No coercions are accepted.
+DO $cert$
+DECLARE
+  v_reason text;
+BEGIN
+  v_reason := private.fn_setting_value_invalid_reason(
+                'string', '{"required": "true"}'::jsonb, '"x"'::jsonb);
+  PERFORM pg_temp.assert('I3 required as JSON string yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'string', '{"required": 1}'::jsonb, '"x"'::jsonb);
+  PERFORM pg_temp.assert('I4 required as JSON number yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'integer', '{"min": "5"}'::jsonb, '7'::jsonb);
+  PERFORM pg_temp.assert('I5 min as JSON string yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'integer', '{"max": "100"}'::jsonb, '7'::jsonb);
+  PERFORM pg_temp.assert('I6 max as JSON string yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'string', '{"regex": "([unclosed"}'::jsonb, '"x"'::jsonb);
+  PERFORM pg_temp.assert('I7 malformed regex yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'enum', '{"enum": []}'::jsonb, '"a"'::jsonb);
+  PERFORM pg_temp.assert('I8 malformed enum yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'uuid', '{}'::jsonb, '"x"'::jsonb);
+  PERFORM pg_temp.assert('I9 unknown data type yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+END
+$cert$;
+
+-- I10-I15: the PUBLIC RPC honours the missing-tenant contract for an
+-- authorized caller.
+SET LOCAL role = authenticated;
+SELECT set_config('request.jwt.claims',
+                  json_build_object('sub', (SELECT caller_id FROM _p385_ctx),
+                                    'role', 'authenticated')::text,
+                  true);
+
+DO $cert$
+DECLARE
+  v_absent uuid := gen_random_uuid();
+  v_res    jsonb;
+  v_n      int;
+BEGIN
+  v_res := public.fn_onboarding_evaluate_readiness(v_absent, 'p385e-cert');
+
+  SELECT jsonb_array_length(v_res->'checks') INTO v_n;
+  PERFORM pg_temp.assert('I10 public RPC returns exactly 14 checks',
+                         v_n = 14, format('%s check(s)', v_n));
+
+  PERFORM pg_temp.assert('I11 public RPC reports tenant_exists as blocked',
+    (SELECT c->>'status' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists') = 'blocked',
+    (SELECT c->>'status' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists'));
+
+  PERFORM pg_temp.assert('I12 public RPC reason code is tenant_missing',
+    (SELECT c->>'reasonCode' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists') = 'tenant_missing',
+    (SELECT c->>'reasonCode' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists'));
+
+  PERFORM pg_temp.assert('I13 public RPC overall status is not_ready',
+                         v_res->>'overall_status' = 'not_ready',
+                         v_res->>'overall_status');
+
+  PERFORM pg_temp.assert('I14 public RPC blocking_count is 1',
+                         (v_res->>'blocking_count')::int = 1,
+                         v_res->>'blocking_count');
+
+  PERFORM pg_temp.assert('I15 public RPC applicable_count is 1',
+                         (v_res->>'applicable_count')::int = 1,
+                         v_res->>'applicable_count');
+END
+$cert$;
+
+RESET role;
 
 -- ---------------------------------------------------------------------
 -- Report and verdict
