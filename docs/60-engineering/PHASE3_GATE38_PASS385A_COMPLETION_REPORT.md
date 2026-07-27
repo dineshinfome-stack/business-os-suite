@@ -11,12 +11,20 @@
 
 ```text
 Signup blocker repair development ........ COMPLETE
-Signup blocker live certification ......... PENDING
-Finding ................................... REPAIRED IN CODE —
-                                             LIVE VERIFICATION PENDING
-Pass 3.8.5 readiness implementation ....... NOT STARTED
+Signup blocker live certification ......... NOT CERTIFIED —
+                                             BLOCKED BY MIGRATION REPLAY (42P07)
+Finding ................................... OPEN (REPAIRED IN CODE —
+                                             LIVE VERIFICATION PENDING)
+Pass 3.8.5 readiness implementation ....... COMPLETE
 Tenant activation readiness ............... BLOCKED
 ```
+
+A disposable-target live certification run was executed (see
+`PHASE3_GATE38_LIVE_DATABASE_CERTIFICATION_REPORT.md`). Phase 0 preflight passed
+10/10 against a genuinely empty throwaway database; Phase 1 clean migration
+replay then failed at `20260722030037` with SQLSTATE `42P07`
+(`relation "profiles" already exists`, duplicated against `20260721163958`), so
+the Pass 3.8.5A signup-trigger harness was **NOT RUN**.
 
 ---
 
