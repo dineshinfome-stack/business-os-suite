@@ -92,8 +92,9 @@ New application tests this pass:
 
 | Item | Status |
 | --- | --- |
-| `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` | **REPAIRED IN CODE — LIVE VERIFICATION PENDING** (Pass 3.8.5A). Remains a release blocker until certified against the live database. |
-| Live database certification (3.8.4, 3.8.5A, 3.8.5B, 3.8.5C, 3.8.5D, 3.8.5E) | **PENDING** — all harnesses authored; execution requires a reachable Postgres connection string. |
+| `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` | **OPEN — REPAIRED IN CODE, LIVE VERIFICATION PENDING** (Pass 3.8.5A). Remains a release blocker; the live harness could not run. |
+| Live database certification (3.8.4, 3.8.5A, 3.8.5B, 3.8.5C, 3.8.5D, 3.8.5E) | **EXECUTED AND FAILED IN PHASE 1** — see `PHASE3_GATE38_LIVE_DATABASE_CERTIFICATION_REPORT.md`. Preflight passed 10/10 on a disposable target; clean migration replay then failed at `20260722030037` with SQLSTATE `42P07` (`relation "profiles" already exists`, duplicated against `20260721163958`). No SQL harness or concurrency runner was invoked. |
+| Blocking defect for the next repair unit | Duplicate unconditional `CREATE TABLE public.profiles` in `20260721163958` and `20260722030037` breaks clean chronological replay. |
 
 ---
 
@@ -101,11 +102,11 @@ New application tests this pass:
 
 ```
 Pass 3.8.5 development ................. COMPLETE
-Live database certification ............ PENDING
-FINDING-AUTH-SIGNUP-TENANT-FK-20260726 . LIVE VERIFICATION PENDING
+Live database certification ............ EXECUTED — FAILED AT PHASE 1
+Clean migration replay ................. FAILED (42P07)
+FINDING-AUTH-SIGNUP-TENANT-FK-20260726 . OPEN — LIVE VERIFICATION PENDING
 Tenant activation ...................... BLOCKED
-Gate 3.8 ............................... DEVELOPMENT COMPLETE —
-                                         CERTIFICATION PENDING
+Gate 3.8 ............................... CERTIFICATION FAILED
 ```
 
 Gate 3.8 is **not** closed. Closure requires executing every certification
