@@ -17,4 +17,12 @@ export interface OnboardingActivationResultDTO {
   reasonCode: string | null;
   message: string;
   correlationId: string;
+
+  /* ------------------------------------- Pass 3.8.5 additive v1 fields --- */
+  /** `tenant_onboarding.version` after activation; null on failure. */
+  version: number | null;
+  /** True when warnings existed and were explicitly acknowledged. */
+  warningsAcknowledged: boolean;
+  /** Fingerprint of the acknowledged warning set, when any. */
+  warningFingerprint: string | null;
 }
