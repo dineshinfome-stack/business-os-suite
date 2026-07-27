@@ -639,6 +639,40 @@ BEGIN
 END
 $cert$;
 
+-- E7 an unacknowledged warning refuses activation (P3849).
+UPDATE public.organization_invitations
+   SET status = 'pending', accepted_at = NULL
+ WHERE id = (SELECT inv_id FROM _p385_fx);
+
+SET LOCAL role = authenticated;
+SELECT set_config('request.jwt.claims',
+                  json_build_object('sub', (SELECT caller_id FROM _p385_ctx),
+                                    'role', 'authenticated')::text,
+                  true);
+
+DO $cert$
+DECLARE
+  v_t uuid; v_version int; v_sqlstate text;
+BEGIN
+  SELECT tenant_id INTO v_t FROM _p385_ctx;
+  SELECT version INTO v_version FROM public.tenant_onboarding WHERE tenant_id = v_t;
+  BEGIN
+    PERFORM public.fn_onboarding_activate_tenant(v_t, v_version, false, 'p385-cert');
+    v_sqlstate := 'NO ERROR';
+  EXCEPTION WHEN OTHERS THEN
+    v_sqlstate := SQLSTATE;
+  END;
+  PERFORM pg_temp.assert('E7 unacknowledged warning raises P3849',
+                         v_sqlstate = 'P3849', v_sqlstate);
+END
+$cert$;
+
+RESET role;
+UPDATE public.organization_invitations
+   SET status = 'accepted', accepted_at = now(),
+       accepted_by = (SELECT admin_id FROM _p385_fx)
+ WHERE id = (SELECT inv_id FROM _p385_fx);
+
 -- Back to the permission-gated caller for the activation assertions.
 SET LOCAL role = authenticated;
 SELECT set_config('request.jwt.claims',
