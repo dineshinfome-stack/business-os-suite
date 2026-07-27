@@ -200,3 +200,53 @@ export const onboardingSettingSpecSchema = z
     message: "conditional entries must document conditionNote",
     path: ["conditionNote"],
   });
+
+/* --------------------------------- Pass 3.8.4 administrator command input */
+
+/**
+ * Only administrative invitation roles are accepted for the FIRST tenant
+ * administrator. `member` is rejected by construction — onboarding must never
+ * promote a member invitation into an administrator grant.
+ */
+export const administrativeInvitationRoleSchema = z.enum(["owner", "admin"]);
+
+const emailSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .email()
+  .max(320);
+
+export const inviteFirstTenantAdministratorSchema = z
+  .object({
+    ...tenantScoped,
+    organizationId: organizationIdSchema.optional(),
+    email: emailSchema,
+    invitedRole: administrativeInvitationRoleSchema.default("admin"),
+    correlationId: correlationIdSchema.optional(),
+  })
+  .strict();
+
+export const resendFirstTenantAdministratorInvitationSchema = z
+  .object({
+    ...tenantScoped,
+    invitationId: z.string().uuid(),
+    correlationId: correlationIdSchema.optional(),
+  })
+  .strict();
+
+export const observeTenantAdministratorMembershipSchema = z
+  .object({
+    ...tenantScoped,
+    invitationId: z.string().uuid().optional(),
+    correlationId: correlationIdSchema.optional(),
+  })
+  .strict();
+
+export const assignTenantAdministratorRoleSchema = z
+  .object({
+    ...tenantScoped,
+    invitationId: z.string().uuid().optional(),
+    correlationId: correlationIdSchema.optional(),
+  })
+  .strict();
