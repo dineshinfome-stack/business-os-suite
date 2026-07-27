@@ -10,7 +10,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   ASSIGN_ADMIN_ROLE_RPC,
-  INVITE_ADMIN_RPC,
+  INVITE_ADMIN_ATOMIC_RPC,
+  RESEND_ADMIN_ATOMIC_RPC,
   RESOLVE_ADMIN_RPC,
   REVOKE_INVITATION_RPC,
   assignTenantAdministratorRoleCommand,
