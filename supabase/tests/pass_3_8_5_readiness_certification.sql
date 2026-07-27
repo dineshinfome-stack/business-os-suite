@@ -704,12 +704,17 @@ SELECT set_config('request.jwt.claims',
 -- E6 activation is the canonical lifecycle writer, idempotent on replay.
 DO $cert$
 DECLARE
-  v_tenant  uuid;
-  v_version int;
-  v_first   jsonb;
-  v_replay  jsonb;
-  v_state   text;
-  v_n       int;
+  v_tenant   uuid;
+  v_version  int;
+  v_first    jsonb;
+  v_replay   jsonb;
+  v_state    text;
+  v_state2   text;
+  v_n        int;
+  v_audit    int;
+  v_audit2   int;
+  v_steps2   int;
+  v_dbver    int;
 BEGIN
   SELECT tenant_id INTO v_tenant FROM _p385_ctx;
 
@@ -727,6 +732,22 @@ BEGIN
   PERFORM pg_temp.assert('E6c activation step recorded exactly once',
                          v_n = 1, format('%s row(s)', v_n));
 
+  -- E6g (3.8.5D) the workflow version advances by exactly one.
+  SELECT version INTO v_dbver FROM public.tenant_onboarding WHERE tenant_id = v_tenant;
+  PERFORM pg_temp.assert('E6g activation advances the workflow version N -> N+1',
+                         v_dbver = v_version + 1
+                         AND (v_first->>'version')::int = v_version + 1,
+                         format('%s -> %s (reported %s)',
+                                v_version, v_dbver, v_first->>'version'));
+
+  -- E6h (3.8.5D) exactly one activation audit record is written.
+  SELECT count(*) INTO v_audit FROM public.audit_logs
+   WHERE entity_type = 'tenant_onboarding'
+     AND entity_id   = v_tenant
+     AND action      = 'tenant_onboarding.activated';
+  PERFORM pg_temp.assert('E6h activation writes exactly one audit record',
+                         v_audit = 1, format('%s row(s)', v_audit));
+
   v_replay := public.fn_onboarding_activate_tenant(
                 v_tenant, (v_first->>'version')::int, true, 'p385-cert');
   PERFORM pg_temp.assert('E6d replay is idempotent',
@@ -736,10 +757,172 @@ BEGIN
   PERFORM pg_temp.assert('E6f replay does not bump the workflow version',
                          (v_replay->>'version')::int = (v_first->>'version')::int,
                          format('%s vs %s', v_replay->>'version', v_first->>'version'));
+
+  -- E6i (3.8.5D) replay changes NO persisted state at all.
+  SELECT version INTO v_dbver FROM public.tenant_onboarding WHERE tenant_id = v_tenant;
+  SELECT lifecycle_state::text INTO v_state2 FROM public.tenants WHERE id = v_tenant;
+  SELECT count(*) INTO v_steps2 FROM public.tenant_onboarding_steps
+   WHERE tenant_id = v_tenant AND step_key = 'activation' AND status = 'completed';
+  SELECT count(*) INTO v_audit2 FROM public.audit_logs
+   WHERE entity_type = 'tenant_onboarding'
+     AND entity_id   = v_tenant
+     AND action      = 'tenant_onboarding.activated';
+  PERFORM pg_temp.assert(
+    'E6i replay changes no version, step count, audit count or lifecycle state',
+    v_dbver = v_version + 1 AND v_state2 = 'active'
+    AND v_steps2 = v_n AND v_audit2 = v_audit,
+    format('version=%s lifecycle=%s steps=%s audits=%s',
+           v_dbver, v_state2, v_steps2, v_audit2));
 END
 $cert$;
 
 RESET role;
+
+-- =====================================================================
+-- G. Pass 3.8.5D — missing-tenant readiness contract
+--    A tenant that does not exist (or is soft-deleted) must still yield the
+--    canonical envelope. No raise, no writes, no sensitive detail.
+-- =====================================================================
+DO $cert$
+DECLARE
+  v_absent uuid := gen_random_uuid();
+  v_res    jsonb;
+  v_n      int;
+  v_before int;
+  v_after  int;
+BEGIN
+  SELECT count(*) INTO v_before FROM public.tenant_onboarding;
+
+  BEGIN
+    v_res := private.fn_onboarding_evaluate_readiness_json(v_absent, 'p385d-cert');
+  EXCEPTION WHEN OTHERS THEN
+    v_res := NULL;
+  END;
+
+  PERFORM pg_temp.assert('G1 missing tenant returns an envelope instead of raising',
+                         v_res IS NOT NULL, NULL);
+
+  SELECT jsonb_array_length(v_res->'checks') INTO v_n;
+  PERFORM pg_temp.assert('G2 missing tenant returns the 14-check envelope',
+                         v_n = 14, format('%s check(s)', v_n));
+
+  PERFORM pg_temp.assert('G3 tenant_exists is blocked',
+    (SELECT c->>'status' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists') = 'blocked',
+    (SELECT c->>'status' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists'));
+
+  PERFORM pg_temp.assert('G4 tenant_exists reason code is tenant_missing',
+    (SELECT c->>'reasonCode' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists') = 'tenant_missing',
+    (SELECT c->>'reasonCode' FROM jsonb_array_elements(v_res->'checks') c
+      WHERE c->>'checkKey' = 'tenant_exists'));
+
+  PERFORM pg_temp.assert('G5 overall status is not_ready',
+                         v_res->>'overall_status' = 'not_ready',
+                         v_res->>'overall_status');
+
+  SELECT count(*) INTO v_n
+    FROM jsonb_array_elements(v_res->'checks') c
+   WHERE c->>'checkKey' <> 'tenant_exists'
+     AND c->>'status' NOT IN ('blocked', 'not_applicable');
+  PERFORM pg_temp.assert('G6 dependent checks are deterministically blocked/not_applicable',
+                         v_n = 0, format('%s deviant check(s)', v_n));
+
+  SELECT count(*) INTO v_after FROM public.tenant_onboarding;
+  PERFORM pg_temp.assert('G7 missing-tenant evaluation performs no writes',
+                         v_after = v_before, format('%s vs %s', v_before, v_after));
+END
+$cert$;
+
+-- =====================================================================
+-- H. Pass 3.8.5D — fail-closed setting metadata validation
+--    Malformed database-owned validation metadata must never be treated as
+--    valid; it yields the bounded reason 'invalid_schema' and blocks.
+-- =====================================================================
+DO $cert$
+DECLARE
+  v_reason text;
+BEGIN
+  v_reason := private.fn_setting_value_invalid_reason(
+                'string', '{"regex": "([unclosed"}'::jsonb, '"anything"'::jsonb);
+  PERFORM pg_temp.assert('H1 malformed regex metadata yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'integer', '{"min": "abc", "max": 10}'::jsonb, '5'::jsonb);
+  PERFORM pg_temp.assert('H2 nonnumeric min metadata yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'integer', '{"min": 1, "max": "ten"}'::jsonb, '5'::jsonb);
+  PERFORM pg_temp.assert('H3 nonnumeric max metadata yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'string', '{"required": "yes-please"}'::jsonb, '"x"'::jsonb);
+  PERFORM pg_temp.assert('H4 invalid required boolean yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'enum', '{"enum": {"a": 1}}'::jsonb, '"a"'::jsonb);
+  PERFORM pg_temp.assert('H5 malformed enum metadata yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  v_reason := private.fn_setting_value_invalid_reason(
+                'timestamp', '{}'::jsonb, '"2026-01-01"'::jsonb);
+  PERFORM pg_temp.assert('H6 unknown data type yields invalid_schema',
+                         v_reason = 'invalid_schema', COALESCE(v_reason, 'NULL'));
+
+  -- Well-formed metadata is still evaluated normally.
+  v_reason := private.fn_setting_value_invalid_reason(
+                'string', '{"required": true, "max": 64}'::jsonb, '"UTC"'::jsonb);
+  PERFORM pg_temp.assert('H7 well-formed metadata still validates the value',
+                         v_reason IS NULL, COALESCE(v_reason, 'NULL'));
+END
+$cert$;
+
+-- H8/H9: a blocking definition whose metadata is malformed BLOCKS readiness.
+DO $cert$
+DECLARE
+  v_tenant uuid;
+  v_res    jsonb;
+  v_check  jsonb;
+  v_def    uuid;
+  v_saved  jsonb;
+BEGIN
+  SELECT tenant_id INTO v_tenant FROM _p385_ctx;
+
+  SELECT id, validation_schema INTO v_def, v_saved
+    FROM public.setting_definitions
+   WHERE key = 'platform.branding.product_name' AND readiness_impact = 'block'
+   LIMIT 1;
+
+  IF v_def IS NULL THEN
+    PERFORM pg_temp.assert('H8 blocking definition available for metadata test',
+                           false, 'definition not found');
+    RETURN;
+  END IF;
+
+  UPDATE public.setting_definitions
+     SET validation_schema = '{"regex": "([unclosed"}'::jsonb
+   WHERE id = v_def;
+
+  v_res := private.fn_onboarding_evaluate_readiness_json(v_tenant, 'p385d-cert');
+  SELECT c INTO v_check FROM jsonb_array_elements(v_res->'checks') c
+   WHERE c->>'checkKey' = 'required_settings_valid';
+
+  PERFORM pg_temp.assert('H8 malformed blocking metadata blocks required_settings_valid',
+                         v_check->>'status' = 'blocked', v_check->>'status');
+  PERFORM pg_temp.assert('H9 the invalid reason is the bounded invalid_schema token',
+                         v_check->'reasonParams'->>'invalidReason' = 'invalid_schema',
+                         v_check->'reasonParams'->>'invalidReason');
+
+  UPDATE public.setting_definitions SET validation_schema = v_saved WHERE id = v_def;
+END
+$cert$;
+
+
 
 -- ---------------------------------------------------------------------
 -- Report and verdict
