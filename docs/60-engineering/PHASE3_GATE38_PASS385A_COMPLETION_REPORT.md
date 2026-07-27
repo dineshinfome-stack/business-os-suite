@@ -28,10 +28,11 @@ The effective body of `private.fn_handle_new_auth_user()` — set by migration
 
 Subsequent migrations made `public.organizations.tenant_id` `NOT NULL` with a
 foreign key to `public.tenants(id)`, and replaced global slug uniqueness with
-`(tenant_id, slug)`. Every `auth.users` INSERT therefore aborted
-(`23502` not-null first, foreign key secondary), blocking all signup. The
-function's `WHERE slug = v_slug` collision loop was additionally stale under the
-composite uniqueness rule.
+`(tenant_id, slug)`. Every `auth.users` INSERT therefore aborted, blocking all
+signup: the insert fails with SQLSTATE `23502` because `tenant_id` is omitted.
+The foreign key additionally guarantees that every non-null `tenant_id`
+references an existing tenant. The function's `WHERE slug = v_slug` collision
+loop was additionally stale under the composite uniqueness rule.
 
 **Ownership decision.** Per ADR-017, the operator-run Gate 3.8 model and the
 deferred tenant self-service policy, the auth trigger creates the application
