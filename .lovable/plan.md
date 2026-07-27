@@ -1,47 +1,80 @@
-# Gate 3.8 — Live Database Certification Execution
+# Gate 3.8 — Live Database Certification (Execution-Only)
 
-Execution-only. No new functionality, no migrations, no harness edits, no UI, no `.lovable/plan.md` changes.
+## Verified this turn (read-only)
 
-## Verified current state
+A single read-only probe against `CERT_DB_URL` returned: `auth.users` = **2**, `public.tenants` **present**, `supabase_migrations.schema_migrations` = **42 rows**. The secret still resolves to a non-disposable, already-migrated database. Nothing was written; the URL was not printed or persisted.
 
-- `psql` and `bash` are available in the execution environment; the Supabase CLI is **not** installed (`which supabase` empty) — it will be run transiently via `bunx supabase`, with no change to `package.json`.
-- No `DB`, `DATABASE_URL` or `PGHOST` is set; the only configured secret is `LOVABLE_API_KEY`. `CERT_DB_URL` does **not** exist yet.
-- All five certification artifacts exist under `supabase/tests/`: `pass_3_8_4_admin_rpc_certification.sql`, `pass_3_8_4_admin_rpc_concurrency.sh`, `pass_3_8_5a_signup_trigger_certification.sql`, `pass_3_8_5_readiness_certification.sql`, `pass_3_8_5_activation_concurrency.sh`.
+If that is still true at execution time, Phase 0 fails and the run stops with `CERTIFICATION NOT EXECUTED — UNSAFE TARGET`, with zero repository changes.
 
-## Step 0 — Secret intake
+## Baseline handling
 
-Request `CERT_DB_URL` (direct connection or session-mode pooler for a brand-new throwaway Supabase/Postgres project, no customer data). It is used only for Gate 3.8 certification and is never printed, logged, committed, or written to any report. If the secret is not reachable from the execution environment, stop with `LIVE DATABASE CERTIFICATION BLOCKED — CONNECTION UNAVAILABLE` and change nothing.
+- Certify from a clean temporary checkout/worktree at `e1cdb8f55b47d9c8c47e1000de5b36fd970e636f`.
+- `b2df7269…` is plan-only and is not the runtime baseline.
+- Never certify from the dirty working tree; `.lovable/plan.md` and `src/routeTree.gen.ts` are excluded from the evidence change set.
 
-## Step 1 — Preflight (Phase 0)
+## Strict boundaries
 
-Confirm HEAD `e1cdb8f55b47d9c8c47e1000de5b36fd970e636f`, clean tree, presence of the five artifacts and the six listed migrations, tool versions (`psql`, `bunx supabase`, `bash`), and `bash -n` on both runners. Connect and capture `current_database()`, `current_user`, `server_version`, `now()`; confirm the target is empty and is not the connected production project. Record only a safe alias.
+No functionality, migrations, SQL assertion, runner-logic, or UI changes. No writes or queries against the connected live project. No real tenant activated. Stop on the first migration / functional / permission / security / isolation / concurrency / cleanup failure, preserving the exact assertion text, SQLSTATE and command result, and do not repair it this turn.
 
-If `bunx supabase` (or any repository-supported replay command) is unavailable, stop with `LIVE DATABASE CERTIFICATION BLOCKED — REQUIRED CLI UNAVAILABLE`.
+## Phase 0 — Disposable-target preflight (hard gate)
 
-## Step 2 — Certification sequence
+Read-only, against `CERT_DB_URL` only:
 
-Executed in order, halting on the first failure and preserving exact SQLSTATE/assertion/command output:
+1. Connection succeeds; capture `current_database`, `current_user`, `server_version`.
+2. Project/host reference differs from the known live reference (compared against a recorded constant — the live project is never queried).
+3. `auth.users` exists and has **0** rows.
+4. `public.tenants` and `public.organizations` are **absent**.
+5. No Business OS migration versions recorded.
+6. No customer/tenant/organization data.
+7. Target explicitly disposable.
+8. `psql` and `bash` present, versions captured.
+9. `bunx supabase --version` resolves without touching `package.json` or lockfile.
+10. `bash -n` clean on both concurrency runners.
 
-1. Phase 1 — clean migration replay of the full chain onto the empty database; record count, first/last identifiers, timestamps, exit status, notices.
-2. Phase 2 — `pass_3_8_5a_signup_trigger_certification.sql` plus the live disposable `auth.users` insert checks (profile-only, no tenant/org/membership/role, hostile metadata ignored, definer/owner/search-path/grants).
-3. Phase 3 — `pass_3_8_4_admin_rpc_certification.sql`, unchanged.
-4. Phase 4 — `pass_3_8_4_admin_rpc_concurrency.sh`, unchanged, two live sessions.
-5. Phase 5 — `pass_3_8_5_readiness_certification.sql`, unchanged except a cosmetic console heading label if and only if no assertion or runtime logic is touched.
-6. Phase 6 — `pass_3_8_5_activation_concurrency.sh`, live two-session activation race.
-7. Phase 7 — end-to-end disposable onboarding run through the existing RPCs: signup → tenant → default organization/branch → pending admin invitation → readiness → `P3849` without acknowledgement → acceptance → membership/role → activation at exact version → lifecycle `active`, state `activated`, single version increment, no-op replay, no cross-tenant reference, no secret material in snapshots/audit; then full fixture removal.
-8. Phase 8 — local regression gates: `bun run test`, `tsc --noEmit`, `bun run build`, labelled local (not CI) evidence.
+Any failure → stop before fixtures or migrations.
 
-## Step 3 — Evidence publication
+## Phase 1 — Clean migration replay
 
-Create `docs/60-engineering/PHASE3_GATE38_LIVE_DATABASE_CERTIFICATION_REPORT.md` with the required fields (commit, environment alias, timestamps, versions, every gate result, cleanup, finding status, activation and Gate 3.8 decisions, exact failures/SQLSTATEs). No connection strings, keys, tokens, hashes or customer data.
+Apply the full chain chronologically to the empty target via the repository-supported `bunx supabase` command. Record: migration count, first and last version, start/finish timestamps, exit status, and all notices/warnings/errors. Every migration must apply exactly once with no manual repair.
 
-Update **status sections only** of:
-- `docs/60-engineering/PHASE3_GATE38_PASS384_COMPLETION_REPORT.md`
-- `docs/60-engineering/PHASE3_GATE38_PASS385A_COMPLETION_REPORT.md`
-- `docs/60-engineering/PHASE3_GATE38_PASS385_COMPLETION_REPORT.md`
+## Phase 2 — Pass 3.8.5A signup trigger
 
-`FINDING-AUTH-SIGNUP-TENANT-FK-20260726` is closed only if Phase 2 passes live in full.
+Run `pass_3_8_5a_signup_trigger_certification.sql` unchanged with `ON_ERROR_STOP=1`. Requires profile-only signup, null email/phone handling, hostile metadata ignored, no tenant/org/membership/role side effects, definer/owner/search-path/privilege controls, transactional cleanup. `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` closes only on a full live pass.
 
-## Verdict
+## Phase 3 — Pass 3.8.4 admin RPC SQL
 
-`GATE 3.8 CERTIFIED — TENANT ACTIVATION ELIGIBLE` only when every gate passes; otherwise `CERTIFICATION FAILED — ACTIVATION BLOCKED` (evidence preserved, no repair this turn) or `CERTIFICATION NOT EXECUTED — CONNECTION UNAVAILABLE`. Final response is the gate table, assertion totals, concurrency results, end-to-end result, finding status, cleanup confirmation, changed doc paths, verdict, next authorized activity. Platform Hierarchy UI is not started.
+Run `pass_3_8_4_admin_rpc_certification.sql` unchanged; all assertions and expected SQLSTATEs must pass.
+
+## Phase 4 — Pass 3.8.4 concurrency
+
+Run `pass_3_8_4_admin_rpc_concurrency.sh` unchanged with `DB="$CERT_DB_URL"`. Each two-session scenario: one authoritative winner, deterministic replay/conflict, no duplicate invitation/membership/role, no partial commits, full cleanup.
+
+## Phase 5 — Pass 3.8.5 readiness SQL
+
+Run `pass_3_8_5_readiness_certification.sql` unchanged (only a cosmetic console heading label may be corrected, touching no SQL or runtime logic). Must certify: exact blocking-setting authority, all 14 canonical checks, frozen status vocabulary, read-only evaluation, snapshot persistence, provisioning matrix, active default organization, required-setting validation, invitation/membership/role authority, `not_applicable` exclusion from counts, warning acknowledgement, `P3848` / `P3849` / `P384B` / `40001`, version N→N+1, exactly one activation step and one audit record, no-op replay, missing-tenant public RPC contract, evaluator volatility (`provolatile = 'v'`), strict metadata typing, final `ROLLBACK`.
+
+## Phase 6 — Activation concurrency
+
+Run `pass_3_8_5_activation_concurrency.sh` unchanged. Preflight must show `blocking_count = 0` and overall status `ready` or `ready_with_warnings`. Require two genuinely simultaneous sessions, one lifecycle transition, one version increment, one activation step, one audit record, deterministic loser, no partial commit, deterministic replay, complete cleanup.
+
+## Phase 7 — End-to-end disposable onboarding
+
+Through existing routines only: signup → tenant provisioning → active default organization → default branch → pending owner/admin invitation → readiness with zero blockers → `P3849` without acknowledgement → acceptance → active membership → active role grant → required settings valid → `financial_year_present` stays `not_applicable` unless an authoritative repository source requires it → activation at the exact current version → lifecycle `active`, state `activated`, single version increment, replay writes nothing, cross-tenant references rejected, no token/hash/password/connection-string/sensitive setting in snapshots or audits, all fixtures removed.
+
+## Phase 8 — Local regression gates
+
+`bun run test`, `./node_modules/.bin/tsc --noEmit`, `bun run build`, `bash -n` on both runners — labelled local execution evidence, not independent CI evidence.
+
+## Evidence publication
+
+Create `docs/60-engineering/PHASE3_GATE38_LIVE_DATABASE_CERTIFICATION_REPORT.md` containing: certified commit, safe environment alias, PostgreSQL/CLI versions, replay result, each harness result with assertion totals, each concurrency scenario, end-to-end result, regression gates, cleanup confirmation, finding disposition, activation decision, Gate 3.8 verdict, and exact failures/SQLSTATEs when applicable. No credentials, tokens, hashes, customer data or database URL.
+
+Update **status sections only** in the Pass 3.8.4, 3.8.5A and 3.8.5 completion reports; historical implementation evidence is not rewritten. The evidence change set contains only those four documentation paths.
+
+## Verdict forms
+
+- All phases pass → finding `CLOSED`; 3.8.4 / 3.8.5A / 3.8.5 `PASS`; activation `ELIGIBLE`; Gate 3.8 `CERTIFIED`.
+- Any gate fails → activation `BLOCKED`; Gate 3.8 `CERTIFICATION FAILED` (evidence preserved, no repair).
+- Target or tooling unavailable → `NOT EXECUTED — UNAVAILABLE`; activation `BLOCKED`; Gate 3.8 `DEVELOPMENT COMPLETE — CERTIFICATION PENDING`.
+
+Stop after certification and evidence publication. Platform Hierarchy UI is not started.
