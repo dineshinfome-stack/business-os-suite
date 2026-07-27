@@ -1195,6 +1195,7 @@ export type Database = {
           is_sensitive: boolean
           is_system: boolean
           key: string
+          readiness_impact: string
           scope: Database["public"]["Enums"]["setting_scope"]
           updated_at: string
           validation_schema: Json
@@ -1210,6 +1211,7 @@ export type Database = {
           is_sensitive?: boolean
           is_system?: boolean
           key: string
+          readiness_impact?: string
           scope: Database["public"]["Enums"]["setting_scope"]
           updated_at?: string
           validation_schema?: Json
@@ -1225,6 +1227,7 @@ export type Database = {
           is_sensitive?: boolean
           is_system?: boolean
           key?: string
+          readiness_impact?: string
           scope?: Database["public"]["Enums"]["setting_scope"]
           updated_at?: string
           validation_schema?: Json
@@ -1290,6 +1293,15 @@ export type Database = {
           id: string
           last_correlation_id: string | null
           last_readiness_checked_at: string | null
+          readiness_applicable_count: number
+          readiness_blocking_count: number
+          readiness_contract_version: string | null
+          readiness_evaluated_by: string | null
+          readiness_fingerprint: string | null
+          readiness_snapshot: Json | null
+          readiness_status: string | null
+          readiness_warning_count: number
+          readiness_workflow_version: number | null
           ready_at: string | null
           started_at: string | null
           started_by: string | null
@@ -1297,6 +1309,8 @@ export type Database = {
           tenant_id: string
           updated_at: string
           version: number
+          warnings_acknowledged_at: string | null
+          warnings_acknowledged_by: string | null
         }
         Insert: {
           activated_at?: string | null
@@ -1311,6 +1325,15 @@ export type Database = {
           id?: string
           last_correlation_id?: string | null
           last_readiness_checked_at?: string | null
+          readiness_applicable_count?: number
+          readiness_blocking_count?: number
+          readiness_contract_version?: string | null
+          readiness_evaluated_by?: string | null
+          readiness_fingerprint?: string | null
+          readiness_snapshot?: Json | null
+          readiness_status?: string | null
+          readiness_warning_count?: number
+          readiness_workflow_version?: number | null
           ready_at?: string | null
           started_at?: string | null
           started_by?: string | null
@@ -1318,6 +1341,8 @@ export type Database = {
           tenant_id: string
           updated_at?: string
           version?: number
+          warnings_acknowledged_at?: string | null
+          warnings_acknowledged_by?: string | null
         }
         Update: {
           activated_at?: string | null
@@ -1332,6 +1357,15 @@ export type Database = {
           id?: string
           last_correlation_id?: string | null
           last_readiness_checked_at?: string | null
+          readiness_applicable_count?: number
+          readiness_blocking_count?: number
+          readiness_contract_version?: string | null
+          readiness_evaluated_by?: string | null
+          readiness_fingerprint?: string | null
+          readiness_snapshot?: Json | null
+          readiness_status?: string | null
+          readiness_warning_count?: number
+          readiness_workflow_version?: number | null
           ready_at?: string | null
           started_at?: string | null
           started_by?: string | null
@@ -1339,6 +1373,8 @@ export type Database = {
           tenant_id?: string
           updated_at?: string
           version?: number
+          warnings_acknowledged_at?: string | null
+          warnings_acknowledged_by?: string | null
         }
         Relationships: [
           {
@@ -1675,12 +1711,25 @@ export type Database = {
         Returns: Json
       }
       fn_exit_maintenance: { Args: { _tenant: string }; Returns: Json }
+      fn_onboarding_activate_tenant: {
+        Args: {
+          _acknowledge_warnings?: boolean
+          _correlation_id?: string
+          _expected_version?: number
+          _tenant_id: string
+        }
+        Returns: Json
+      }
       fn_onboarding_admin_role_key: {
         Args: { _invited_role: string }
         Returns: string
       }
       fn_onboarding_assign_admin_role: {
         Args: { _invitation_id: string; _tenant_id: string }
+        Returns: Json
+      }
+      fn_onboarding_evaluate_readiness: {
+        Args: { _correlation_id?: string; _tenant_id: string }
         Returns: Json
       }
       fn_onboarding_invite_first_admin: {
@@ -1704,6 +1753,10 @@ export type Database = {
           _tenant_id: string
           _token_hash: string
         }
+        Returns: Json
+      }
+      fn_onboarding_persist_readiness: {
+        Args: { _correlation_id?: string; _tenant_id: string }
         Returns: Json
       }
       fn_onboarding_record_step: {

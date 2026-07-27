@@ -30,6 +30,8 @@ import {
   resendFirstTenantAdministratorInvitationSchema,
   saveOrganizationProfileSchema,
   startOnboardingSchema,
+  activateTenantSchema,
+  refreshOnboardingReadinessSchema,
 } from "./schemas";
 import {
   initializeFinancialYearCommand,
@@ -38,6 +40,8 @@ import {
   saveOrganizationProfileCommand,
   startOnboardingCommand,
   verifyProvisioningCommand,
+  activateTenantCommand,
+  refreshOnboardingReadinessCommand,
 } from "./server/command-service.server";
 import {
   assignTenantAdministratorRoleCommand,
@@ -175,4 +179,33 @@ export const assignTenantAdministratorRole = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => assignTenantAdministratorRoleSchema.parse(input))
   .handler(async ({ context, data }) =>
     assignTenantAdministratorRoleCommand(context.supabase, { userId: context.userId }, data),
+  );
+
+/* --------------------------- Pass 3.8.5 readiness & guarded activation */
+
+/**
+ * Explicit snapshot persistence. The read-only readiness query lives in
+ * `queries.functions.ts` and requires only `platform.tenant.read`.
+ */
+export const refreshTenantOnboardingReadiness = createServerFn({ method: "POST" })
+  .middleware([requireAllPermissions([PERMISSIONS.PLATFORM_TENANT_UPDATE])])
+  .inputValidator((input: unknown) => refreshOnboardingReadinessSchema.parse(input))
+  .handler(async ({ context, data }) =>
+    refreshOnboardingReadinessCommand(context.supabase, { userId: context.userId }, data),
+  );
+
+/**
+ * Guarded activation. Warning acknowledgement travels WITH the request and is
+ * committed atomically with the activation by the database routine.
+ */
+export const activateTenant = createServerFn({ method: "POST" })
+  .middleware([
+    requireAllPermissions([
+      PERMISSIONS.PLATFORM_TENANT_UPDATE,
+      PERMISSIONS.PLATFORM_TENANT_ACTIVATE,
+    ]),
+  ])
+  .inputValidator((input: unknown) => activateTenantSchema.parse(input))
+  .handler(async ({ context, data }) =>
+    activateTenantCommand(context.supabase, { userId: context.userId }, data),
   );

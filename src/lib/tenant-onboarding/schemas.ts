@@ -254,3 +254,33 @@ export const assignTenantAdministratorRoleSchema = z
     correlationId: correlationIdSchema.optional(),
   })
   .strict();
+
+/* ------------------------------- Pass 3.8.5 readiness & activation input */
+
+/**
+ * Explicit snapshot persistence. Distinct from the read-only readiness query:
+ * this one writes and therefore carries `platform.tenant.update`.
+ */
+export const refreshOnboardingReadinessSchema = z
+  .object({
+    tenantId: tenantIdSchema,
+    correlationId: correlationIdSchema.optional(),
+  })
+  .strict();
+
+/**
+ * Guarded activation. Warning acknowledgement is submitted WITH the
+ * activation request so that acknowledgement and activation are one
+ * atomic database transaction — never a separate pre-write.
+ *
+ * `acknowledgedFingerprint` is advisory only: the database re-evaluates and
+ * owns the authoritative fingerprint.
+ */
+export const activateTenantSchema = z
+  .object({
+    ...tenantScoped,
+    acknowledgeWarnings: z.boolean().default(false),
+    acknowledgedFingerprint: z.string().min(16).max(128).optional(),
+    correlationId: correlationIdSchema.optional(),
+  })
+  .strict();

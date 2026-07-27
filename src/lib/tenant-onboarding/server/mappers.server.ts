@@ -228,8 +228,14 @@ export function notEvaluatedReadiness(
     blockingCount: 0,
     warningCount: 0,
     correlationId: null,
+    tenantId: null,
+    applicableCount: 0,
+    warningFingerprint: null,
+    observedWorkflowVersion: null,
+    contractVersion: "3.8.5",
   };
 }
+
 
 /* ---------------------------------------------------------------- summary */
 
