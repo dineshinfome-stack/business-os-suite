@@ -222,7 +222,70 @@ amendment (`contract-colocation.test.ts`).
 
 ---
 
-## 7. Status
+## 7. Original functional completion
 
-**Pass 3.8.2 complete.** Repository state: `GATE38_PASS382_READ_MODELS_READY`.
+**Pass 3.8.2 functional scope is complete** (persistence, RLS, read models);
+that completion was recorded as repository state
+`GATE38_PASS382_READ_MODELS_READY`. Sections 1–6 above describe that original
+functional delivery and are unchanged.
+
 Pass 3.8.3 (bootstrap commands) not started.
+
+---
+
+## 8. Migration-history remediation closure (separate from §7)
+
+Functional completion did **not** close Pass 3.8.2. A separate defect —
+the certification harness had been stored as a **production migration with
+hard-coded live UUIDs and JWT-claim manipulation** — mutated real migration
+history and made the repository's migration chain environment-dependent. That
+defect required the Architecture Office-approved Commit A repair: the harness
+migration was replaced with a comment-only tombstone and the certification
+logic was re-authored as a deterministic, self-cleaning script under
+`supabase/tests/`.
+
+| Item | Value |
+|---|---|
+| Technical Commit A SHA | `98019c2cad8ae8467d123a46a5714dcced929a50` |
+| Governed reconciliation SHA | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
+| Commit B stable baseline | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
+
+### 8.1 Authoritative Commit B quality results
+
+All commands were executed in a disposable worktree created directly from the
+stable governed baseline, with `bun install --frozen-lockfile` (exit 0, no
+lockfile mutation), on Node `v22.22.0` / bun `1.3.3` / `Linux 4.4.0 x86_64`.
+
+| Gate | Command | Result |
+|---|---|---|
+| Test suite | `bun run test` (`vitest run`) | **PASS** — exit 0, 49 files, **512 passed, 0 failed, 0 skipped**, 8.78s |
+| Typecheck | `bunx tsgo --noEmit` | **PASS** — exit 0, **0 diagnostics** |
+| Production build | `bun run build` | **PASS** — exit 0, 14s, `dist/client`, `dist/server`, `dist/nitro.json` |
+| Commit A technical files | Git blob comparison | **4/4 unchanged** |
+| Protected files | blob + SHA-256 comparison | **10/10 PASS**, drift 0 |
+
+The earlier 497/497 and 512/512 observations are historical; the table above is
+the authoritative Commit B evidence.
+
+### 8.2 Remaining Commit C requirements
+
+Commit C (terminal governance) remains **mandatory and not started**. It must
+pin the Commit B SHA, update the migration registry, create the terminal audit
+report, and record formal closure. None of these is performed here.
+
+### 8.3 Separate signup finding
+
+`FND-20260726-AUTH-SIGNUP-TENANTID` — `private.fn_handle_new_auth_user()`
+inserts into `public.organizations` without `tenant_id`, aborting
+trigger-enabled `auth.users` inserts with SQLSTATE `23502`. Disposition:
+**OPEN — SEPARATE_TRIAGE_REQUIRED**. It is not repaired under this remediation
+and does not block the closure candidate.
+
+---
+
+## 9. Status
+
+**Pass 3.8.2: COMPLETE — VERIFIED CLOSURE CANDIDATE — TERMINAL GOVERNANCE
+PENDING.** Pass 3.8.2 is *not* formally closed.
+
+**Pass 3.8.3: NOT STARTED.**
