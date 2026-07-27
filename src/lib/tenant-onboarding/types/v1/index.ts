@@ -22,5 +22,7 @@ export type * from "./onboarding-summary.dto";
 export type * from "./onboarding-detail.dto";
 export type * from "./onboarding-action-result.dto";
 export type * from "./onboarding-bootstrap-result.dto";
+export type * from "./onboarding-admin-result.dto";
 export type * from "./onboarding-activation-result.dto";
 export type * from "./onboarding-page.dto";
+
