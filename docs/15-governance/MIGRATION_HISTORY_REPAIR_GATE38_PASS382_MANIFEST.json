@@ -1,7 +1,7 @@
 {
   "manifest_id": "MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST",
   "migration_id": "MIG-20260726-GATE38-PASS382-HISTORY-REPAIR",
-  "status": "Commit A Complete and Pinned — Commit B Pending",
+  "status": "Commit B Verified Closure Candidate — SHA Pin Pending",
   "gate": "Phase 3 · Gate 3.8 · Pass 3.8.2",
   "repository_status": "Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED",
   "created_utc": "2026-07-26",
