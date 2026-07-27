@@ -4,8 +4,9 @@
 **Gate:** Phase 3 — Gate 3.8 (Tenant Onboarding, Organization Activation & Workspace Bootstrap)
 **Pass:** 3.8.2 — Read-only Persistence & Models
 **Report:** Remediation Closure (v5 plan)
-**Status:** ⚠️ **VERIFIED CLOSURE CANDIDATE — TERMINAL GOVERNANCE PENDING**
+**Status:** ⚠️ **VERIFIED CLOSURE CANDIDATE — COMMIT B SHA PINNED AND VERIFIED — TERMINAL GOVERNANCE PENDING**
 **Closure state:** `VERIFIED_CLOSURE_CANDIDATE` (not `CLOSED`)
+**Commit B SHA:** `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` — `PINNED_AND_VERIFIED`
 **Scope guard:** Pass 3.8.2 only. No write paths, no command surfaces, no UI.
 
 ---
@@ -134,10 +135,23 @@ bun `1.3.3`):
 | Gate | Command | Result |
 |------|---------|--------|
 | Test suite | `bun run test` | ✅ exit 0 — 49 files, **512 passed, 0 failed, 0 skipped**, 8.78s |
-| Typecheck | `bunx tsgo --noEmit` | ✅ exit 0 — 0 diagnostics |
+| Typecheck (superseded observation) | `bunx tsgo --noEmit` | `INITIAL_COMMIT_B_OBSERVATION` — exit 0, 0 diagnostics; not authoritative for the SHA pin |
 | Production build | `bun run build` | ✅ exit 0 — `dist/client`, `dist/server`, `dist/nitro.json` |
 | Commit A technical files | blob comparison | ✅ 4/4 unchanged |
 | Protected files | blob + SHA-256 | ✅ 10/10 PASS, drift 0 |
+
+Authoritative SHA-pin re-execution, run in a disposable worktree created
+**directly from Commit B candidate `a7bffe9557af14f73b6831ab5fc7638c5f0b703b`**
+(`bun install --frozen-lockfile`, exit 0, 893 packages, lockfile unmodified):
+
+| Gate | Command | Result |
+|------|---------|--------|
+| Test suite | `bun run test` | ✅ exit 0 — 49 files, **512 passed, 0 failed, 0 skipped**, 13.92s |
+| Authoritative typecheck | `./node_modules/.bin/tsc --noEmit` | ✅ repository-local TypeScript `5.9.3` — exit 0, 0 diagnostics |
+| Production build | `bun run build` | ✅ exit 0 |
+| Commit A technical files | blob + SHA-256 | ✅ 4/4 PASS |
+| Protected files | blob + SHA-256 | ✅ 10/10 PASS, drift 0 |
+| Route-tree final blob | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` | ✅ net drift 0 |
 
 New coverage added this pass (15 tests,
 `src/lib/tenant-onboarding/__tests__/queue-rpc.test.ts`): envelope schema
@@ -184,7 +198,8 @@ been evidenced, but terminal governance has not been executed.
 
 Outstanding before formal closure (Commit C, mandatory, not started):
 
-1. Pin the Commit B SHA in the governance manifest and document.
+1. ~~Pin the Commit B SHA in the governance manifest and document.~~ **DONE —
+   `a7bffe9557af14f73b6831ab5fc7638c5f0b703b`, `PINNED_AND_VERIFIED`.**
 2. Update the migration registry.
 3. Author the terminal audit report.
 4. Record formal Pass 3.8.2 closure.
