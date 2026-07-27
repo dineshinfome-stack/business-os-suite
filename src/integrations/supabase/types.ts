@@ -1675,6 +1675,25 @@ export type Database = {
         Returns: Json
       }
       fn_exit_maintenance: { Args: { _tenant: string }; Returns: Json }
+      fn_onboarding_admin_role_key: {
+        Args: { _invited_role: string }
+        Returns: string
+      }
+      fn_onboarding_assign_admin_role: {
+        Args: { _invitation_id: string; _tenant_id: string }
+        Returns: Json
+      }
+      fn_onboarding_invite_first_admin: {
+        Args: {
+          _email: string
+          _expires_at: string
+          _invited_role: string
+          _organization_id: string
+          _tenant_id: string
+          _token_hash: string
+        }
+        Returns: Json
+      }
       fn_onboarding_record_step: {
         Args: {
           _correlation_id?: string
@@ -1685,6 +1704,14 @@ export type Database = {
           _step_key: string
           _tenant_id: string
         }
+        Returns: Json
+      }
+      fn_onboarding_resolve_first_admin: {
+        Args: { _email?: string; _tenant_id: string }
+        Returns: Json
+      }
+      fn_onboarding_revoke_invitation: {
+        Args: { _invitation_id: string; _tenant_id: string }
         Returns: Json
       }
       fn_onboarding_start: {
