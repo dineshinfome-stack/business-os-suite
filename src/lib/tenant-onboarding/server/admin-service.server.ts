@@ -358,27 +358,64 @@ export async function inviteFirstTenantAdministratorCommand(
 
     // Sibling steps only. `tenant_admin_invitation` is already recorded, once,
     // inside the atomic routine — never re-record it here.
+    //
+    // Integrity rule: only a PRE-acceptance pending invitation may leave these
+    // steps `skipped`. Once the invitation is accepted, a missing or inactive
+    // membership, or an absent role grant, is a real integrity defect and is
+    // recorded as `blocked` with a specific failure code.
+    const membershipStep = !accepted
+      ? {
+          status: "skipped" as const,
+          failureCode: "acceptance_pending",
+          failureSummary:
+            "Membership materializes when the administrator accepts the invitation.",
+        }
+      : membershipStatus === "active"
+        ? { status: "completed" as const, failureCode: null, failureSummary: null }
+        : membershipStatus === "missing_after_acceptance"
+          ? {
+              status: "blocked" as const,
+              failureCode: "membership_missing_after_acceptance",
+              failureSummary:
+                "The invitation is accepted but no organization membership exists.",
+            }
+          : {
+              status: "blocked" as const,
+              failureCode: "membership_inactive_after_acceptance",
+              failureSummary:
+                "The invitation is accepted but the organization membership is not active.",
+            };
+
     await recordSafely(client, {
       tenantId: input.tenantId,
       stepKey: "tenant_admin_membership",
-      status: accepted && membershipStatus === "active" ? "completed" : "skipped",
-      failureCode: accepted ? null : "acceptance_pending",
-      failureSummary: accepted
-        ? null
-        : "Membership materializes when the administrator accepts the invitation.",
+      ...membershipStep,
       correlationId,
     });
+
+    const roleStep = !accepted
+      ? {
+          status: "skipped" as const,
+          failureCode: "role_grant_pending_acceptance",
+          failureSummary:
+            "The invited administrative role is recorded as intent until acceptance.",
+        }
+      : raw.role_granted === true
+        ? { status: "completed" as const, failureCode: null, failureSummary: null }
+        : {
+            status: "blocked" as const,
+            failureCode: "role_grant_missing",
+            failureSummary:
+              "The invitation is accepted but the administrative role grant is missing.",
+          };
 
     await recordSafely(client, {
       tenantId: input.tenantId,
       stepKey: "roles_assigned",
-      status: accepted && raw.role_granted === true ? "completed" : "skipped",
-      failureCode: accepted ? null : "role_grant_pending_acceptance",
-      failureSummary: accepted
-        ? null
-        : "The invited administrative role is recorded as intent until acceptance.",
+      ...roleStep,
       correlationId,
     });
+
 
     await audit(
       client,
