@@ -1715,7 +1715,7 @@ export type Database = {
         Args: {
           _acknowledge_warnings?: boolean
           _correlation_id?: string
-          _expected_version?: number
+          _expected_version: number
           _tenant_id: string
         }
         Returns: Json
