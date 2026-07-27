@@ -164,7 +164,7 @@ describe("Pass 3.8.4 — administrator invitation", () => {
     expect(isAdministrativeInvitationRole("member")).toBe(false);
   });
 
-  it("creates an invitation and never returns or logs the secret", async () => {
+  it("creates an invitation, hands the secret back once, and never logs it", async () => {
     const { client, rpcCalls, inserts } = makeClient({
       organization_id: ORG,
       invitation: null,
@@ -180,20 +180,27 @@ describe("Pass 3.8.4 — administrator invitation", () => {
 
     expect(res.ok).toBe(true);
     expect(res.invitationId).toBe(INVITATION);
+    expect(res.organizationId).toBe(ORG);
     expect(res.invitationStatus).toBe("pending");
     expect(res.membershipStatus).toBe("pending_acceptance");
     expect(res.roleGrantStatus).toBe("pending_acceptance");
     expect(res.notificationQueued).toBe(false);
 
-    // No plaintext secret anywhere on the DTO or in the audit payload.
-    const serialized = JSON.stringify({ res, inserts });
-    expect(serialized).not.toMatch(/token(?!_hash)/i);
-    expect(serialized).not.toMatch(/secret/i);
+    // The one-time handoff is present exactly once, on creation only.
+    expect(res.oneTimeInvitationToken).toMatch(/^[A-Za-z0-9_-]{16,}$/);
 
-    // Only the hash reaches the database, and it is a sha256 hex digest.
-    const [invite] = call(rpcCalls, INVITE_ADMIN_RPC);
+    // The plaintext never reaches the audit trail or any database statement.
+    const audited = JSON.stringify(inserts);
+    expect(audited).not.toContain(res.oneTimeInvitationToken as string);
+    expect(audited).not.toMatch(/secret/i);
+    expect(JSON.stringify(rpcCalls)).not.toContain(res.oneTimeInvitationToken as string);
+
+    // Only the sha256 hash reaches the database, and the caller cannot steer
+    // the organization: no `_organization_id` argument exists.
+    const [invite] = call(rpcCalls, INVITE_ADMIN_ATOMIC_RPC);
     expect(String(invite.args._token_hash)).toMatch(/^[0-9a-f]{64}$/);
     expect(invite.args._invited_role).toBe("admin");
+    expect(invite.args).not.toHaveProperty("_organization_id");
   });
 
   it("issues a distinct secret on every creation", async () => {
@@ -206,14 +213,15 @@ describe("Pass 3.8.4 — administrator invitation", () => {
     const a = makeClient(base);
     const b = makeClient(base);
     const input = { tenantId: TENANT, email: "a@b.com", invitedRole: "admin" as const };
-    await inviteFirstTenantAdministratorCommand(a.client, ACTOR, input);
-    await inviteFirstTenantAdministratorCommand(b.client, ACTOR, input);
-    expect(call(a.rpcCalls, INVITE_ADMIN_RPC)[0].args._token_hash).not.toBe(
-      call(b.rpcCalls, INVITE_ADMIN_RPC)[0].args._token_hash,
+    const ra = await inviteFirstTenantAdministratorCommand(a.client, ACTOR, input);
+    const rb = await inviteFirstTenantAdministratorCommand(b.client, ACTOR, input);
+    expect(ra.oneTimeInvitationToken).not.toBe(rb.oneTimeInvitationToken);
+    expect(call(a.rpcCalls, INVITE_ADMIN_ATOMIC_RPC)[0].args._token_hash).not.toBe(
+      call(b.rpcCalls, INVITE_ADMIN_ATOMIC_RPC)[0].args._token_hash,
     );
   });
 
-  it("replays idempotently when an equivalent pending invitation exists", async () => {
+  it("replays idempotently and withholds the secret on replay", async () => {
     const { client, rpcCalls } = makeClient({
       organization_id: ORG,
       invitation: invitation(),
@@ -229,12 +237,30 @@ describe("Pass 3.8.4 — administrator invitation", () => {
 
     expect(res.ok).toBe(true);
     expect(res.idempotentReplay).toBe(true);
-    expect(call(rpcCalls, INVITE_ADMIN_RPC)).toHaveLength(0);
+    expect(res.oneTimeInvitationToken).toBeNull();
+    // Replay still goes through the single atomic routine.
+    expect(call(rpcCalls, INVITE_ADMIN_ATOMIC_RPC)).toHaveLength(1);
   });
 
-  it("blocks when the tenant has no organization yet", async () => {
-    const { client } = makeClient({
-      organization_id: null,
+  it("records the invitation step exactly once, inside the database routine", async () => {
+    const { client, rpcCalls } = makeClient({
+      organization_id: ORG,
+      invitation: null,
+      membership: null,
+      role_granted: false,
+    });
+    await inviteFirstTenantAdministratorCommand(client, ACTOR, {
+      tenantId: TENANT,
+      email: "admin@example.com",
+      invitedRole: "admin",
+    });
+    // No application-side follow-up write for the invitation step on any path.
+    expect(step(rpcCalls, "tenant_admin_invitation")).toHaveLength(0);
+  });
+
+  it("blocks a non-administrative invited role before touching the database", async () => {
+    const { client, rpcCalls } = makeClient({
+      organization_id: ORG,
       invitation: null,
       membership: null,
       role_granted: false,
@@ -242,16 +268,45 @@ describe("Pass 3.8.4 — administrator invitation", () => {
     const res = await inviteFirstTenantAdministratorCommand(client, ACTOR, {
       tenantId: TENANT,
       email: "admin@example.com",
+      invitedRole: "member" as never,
+    });
+    expect(res.ok).toBe(false);
+    expect(res.reasonCode).toBe("invitation_role_not_administrative");
+    expect(call(rpcCalls, INVITE_ADMIN_ATOMIC_RPC)).toHaveLength(0);
+  });
+
+  it("maps the missing-default-organization SQLSTATE to a stable reason code", async () => {
+    const { client } = makeClient(
+      { organization_id: null, invitation: null, membership: null, role_granted: false },
+      { [INVITE_ADMIN_ATOMIC_RPC]: () => ({ code: "P3841" }) },
+    );
+    const res = await inviteFirstTenantAdministratorCommand(client, ACTOR, {
+      tenantId: TENANT,
+      email: "admin@example.com",
       invitedRole: "admin",
     });
     expect(res.ok).toBe(false);
-    expect(res.reasonCode).toBe("not_found");
+    expect(res.reasonCode).toBe("default_organization_missing");
+  });
+
+  it("maps a concurrent conflicting email to the serialization reason code", async () => {
+    const { client } = makeClient(
+      { organization_id: ORG, invitation: null, membership: null, role_granted: false },
+      { [INVITE_ADMIN_ATOMIC_RPC]: () => ({ code: "P3847" }) },
+    );
+    const res = await inviteFirstTenantAdministratorCommand(client, ACTOR, {
+      tenantId: TENANT,
+      email: "other@example.com",
+      invitedRole: "admin",
+    });
+    expect(res.ok).toBe(false);
+    expect(res.reasonCode).toBe("invitation_email_conflict");
   });
 
   it("maps a permission denial to a sanitized reason code", async () => {
     const { client } = makeClient(
       { organization_id: ORG, invitation: null, membership: null, role_granted: false },
-      { [ONBOARDING_START_RPC]: () => ({ code: "42501" }) },
+      { [INVITE_ADMIN_ATOMIC_RPC]: () => ({ code: "42501" }) },
     );
     const res = await inviteFirstTenantAdministratorCommand(client, ACTOR, {
       tenantId: TENANT,
@@ -261,11 +316,12 @@ describe("Pass 3.8.4 — administrator invitation", () => {
     expect(res.ok).toBe(false);
     expect(res.reasonCode).toBe("permission_denied");
     expect(res.message).not.toMatch(/42501/);
+    expect(res.oneTimeInvitationToken).toBeNull();
   });
 });
 
 describe("Pass 3.8.4 — resend", () => {
-  it("revokes the previous invitation before issuing a fresh secret", async () => {
+  it("revokes and reissues in a single atomic call and returns a fresh secret", async () => {
     const { client, rpcCalls } = makeClient({
       organization_id: ORG,
       invitation: invitation(),
@@ -280,41 +336,50 @@ describe("Pass 3.8.4 — resend", () => {
 
     expect(res.ok).toBe(true);
     expect(res.invitationStatus).toBe("pending");
-    const order = rpcCalls.map((c) => c.name);
-    expect(order.indexOf(REVOKE_INVITATION_RPC)).toBeLessThan(
-      order.indexOf(INVITE_ADMIN_RPC),
-    );
+    expect(res.invitationId).toBe("99999999-9999-4999-8999-999999999999");
+    expect(res.oneTimeInvitationToken).toMatch(/^[A-Za-z0-9_-]{16,}$/);
+    // Revocation happens inside the transaction — never as a separate call
+    // that could leave the tenant with no valid invitation.
+    expect(call(rpcCalls, REVOKE_INVITATION_RPC)).toHaveLength(0);
+    expect(call(rpcCalls, RESEND_ADMIN_ATOMIC_RPC)).toHaveLength(1);
+    expect(step(rpcCalls, "tenant_admin_invitation")).toHaveLength(0);
   });
 
-  it("refuses to resend an accepted invitation", async () => {
-    const { client, rpcCalls } = makeClient({
-      organization_id: ORG,
-      invitation: invitation({ status: "accepted", accepted_at: new Date().toISOString() }),
-      membership: membership(),
-      role_granted: true,
-    });
+  it("refuses to resend an accepted invitation and withholds any secret", async () => {
+    const { client } = makeClient(
+      {
+        organization_id: ORG,
+        invitation: invitation({ status: "accepted" }),
+        membership: membership(),
+        role_granted: true,
+      },
+      { [RESEND_ADMIN_ATOMIC_RPC]: () => ({ code: "P3846" }) },
+    );
     const res = await resendFirstTenantAdministratorInvitationCommand(client, ACTOR, {
       tenantId: TENANT,
       invitationId: INVITATION,
     });
     expect(res.ok).toBe(false);
-    expect(res.reasonCode).toBe("invitation_conflict");
-    expect(call(rpcCalls, REVOKE_INVITATION_RPC)).toHaveLength(0);
+    expect(res.reasonCode).toBe("invitation_accepted");
+    expect(res.oneTimeInvitationToken).toBeNull();
   });
 
-  it("rejects an invitation id that is not the tenant's authoritative one", async () => {
-    const { client } = makeClient({
-      organization_id: ORG,
-      invitation: invitation(),
-      membership: null,
-      role_granted: false,
-    });
+  it("rejects an invitation outside the tenant's default organization", async () => {
+    const { client } = makeClient(
+      {
+        organization_id: ORG,
+        invitation: invitation(),
+        membership: null,
+        role_granted: false,
+      },
+      { [RESEND_ADMIN_ATOMIC_RPC]: () => ({ code: "P3842" }) },
+    );
     const res = await resendFirstTenantAdministratorInvitationCommand(client, ACTOR, {
       tenantId: TENANT,
       invitationId: "77777777-7777-4777-8777-777777777777",
     });
     expect(res.ok).toBe(false);
-    expect(res.reasonCode).toBe("invitation_missing");
+    expect(res.reasonCode).toBe("organization_not_default");
   });
 });
 
