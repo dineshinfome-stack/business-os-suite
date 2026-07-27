@@ -249,6 +249,7 @@ logic was re-authored as a deterministic, self-cleaning script under
 | Technical Commit A SHA | `98019c2cad8ae8467d123a46a5714dcced929a50` |
 | Governed reconciliation SHA | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
 | Commit B stable baseline | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
+| Commit B SHA | `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` — `PINNED_AND_VERIFIED` |
 
 ### 8.1 Authoritative Commit B quality results
 
@@ -259,19 +260,36 @@ lockfile mutation), on Node `v22.22.0` / bun `1.3.3` / `Linux 4.4.0 x86_64`.
 | Gate | Command | Result |
 |---|---|---|
 | Test suite | `bun run test` (`vitest run`) | **PASS** — exit 0, 49 files, **512 passed, 0 failed, 0 skipped**, 8.78s |
-| Typecheck | `bunx tsgo --noEmit` | **PASS** — exit 0, **0 diagnostics** |
+| Typecheck (superseded observation) | `bunx tsgo --noEmit` | `INITIAL_COMMIT_B_OBSERVATION` — exit 0, 0 diagnostics; not authoritative for the SHA pin |
 | Production build | `bun run build` | **PASS** — exit 0, 14s, `dist/client`, `dist/server`, `dist/nitro.json` |
 | Commit A technical files | Git blob comparison | **4/4 unchanged** |
 | Protected files | blob + SHA-256 comparison | **10/10 PASS**, drift 0 |
 
-The earlier 497/497 and 512/512 observations are historical; the table above is
-the authoritative Commit B evidence.
+The earlier 497/497 observations are historical.
+
+### 8.1.1 Authoritative SHA-pin re-execution (from the candidate commit)
+
+All commands below were re-executed in a disposable worktree created **directly
+from Commit B candidate `a7bffe9557af14f73b6831ab5fc7638c5f0b703b`**, after
+`bun install --frozen-lockfile` (exit 0, 893 packages, no lockfile mutation).
+
+| Gate | Command | Result |
+|---|---|---|
+| Test suite | `bun run test` (`vitest run`) | **PASS** — exit 0, 49 files, **512 passed, 0 failed, 0 skipped**, 13.92s, log SHA-256 `3d14911473613d0fd8e358538547e8812cb3cab09a794060bbacdc1e79bea019` |
+| Authoritative typecheck | `./node_modules/.bin/tsc --noEmit` | **PASS** — repository-local TypeScript **5.9.3**, exit 0, **0 diagnostics** |
+| Production build | `bun run build` | **PASS** — exit 0, log SHA-256 `9826a7a9ab5f69c939c121f1071da84b6cd82b985f3d38dc9d7460a74823b1e2` |
+| Commit A technical files | blob + SHA-256 | **4/4 PASS** |
+| Protected files | blob + SHA-256 | **10/10 PASS**, drift 0 |
+| Route-tree final blob | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` | net drift 0 |
+
+Commit B SHA state: `PINNED_AND_VERIFIED` at `2026-07-27T01:46:37Z`.
 
 ### 8.2 Remaining Commit C requirements
 
-Commit C (terminal governance) remains **mandatory and not started**. It must
-pin the Commit B SHA, update the migration registry, create the terminal audit
-report, and record formal closure. None of these is performed here.
+Commit C (terminal governance) is **eligible for a separate controlled plan and
+not started**. The Commit B SHA is now pinned and verified; Commit C must still
+update the migration registry, create the terminal audit report, and record
+formal closure. None of those is performed here.
 
 ### 8.3 Separate signup finding
 
@@ -285,7 +303,7 @@ and does not block the closure candidate.
 
 ## 9. Status
 
-**Pass 3.8.2: COMPLETE — VERIFIED CLOSURE CANDIDATE — TERMINAL GOVERNANCE
-PENDING.** Pass 3.8.2 is *not* formally closed.
+**Pass 3.8.2: COMPLETE — VERIFIED CLOSURE CANDIDATE — COMMIT B SHA PINNED AND
+VERIFIED — TERMINAL GOVERNANCE PENDING.** Pass 3.8.2 is *not* formally closed.
 
 **Pass 3.8.3: NOT STARTED.**

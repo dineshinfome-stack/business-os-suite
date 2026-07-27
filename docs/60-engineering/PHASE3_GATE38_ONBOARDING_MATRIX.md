@@ -252,13 +252,15 @@ This section records only the Pass 3.8.2-related remediation state under
 | Commit A evidence normalization | `7dd948960259175e3d36892b27b2a1371a129ef8` |
 | Commit A normalization reconciliation | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
 | Commit B stable governed baseline | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
-| Test result (authoritative Commit B) | `PASS` — `bun run test`, exit 0, 49 files, 512 passed, 0 failed, 0 skipped |
-| Typecheck result (authoritative Commit B) | `PASS` — `bunx tsgo --noEmit`, exit 0, 0 diagnostics |
-| Production build (authoritative Commit B) | `PASS` — `bun run build`, exit 0, `dist/` generated in an isolated worktree |
+| Commit B SHA | `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` — `PINNED_AND_VERIFIED` |
+| Test result (SHA-pin re-execution from the candidate commit) | `PASS` — `bun run test`, exit 0, 49 files, 512 passed, 0 failed, 0 skipped, 13.92s |
+| Authoritative typecheck (SHA pin) | `PASS` — `./node_modules/.bin/tsc --noEmit`, repository-local TypeScript `5.9.3`, exit 0, 0 diagnostics |
+| Superseded typecheck observation | `bunx tsgo --noEmit` — `INITIAL_COMMIT_B_OBSERVATION`, not authoritative for the SHA pin |
+| Production build (SHA pin) | `PASS` — `bun run build`, exit 0, `dist/` generated in an isolated worktree created from `a7bffe955…` |
 | Protected-file result | `10/10 PASS`, drift 0; Commit A technical files `4/4 unchanged` |
 | Clean-replay evidence (inherited, pinned Commit A) | `PASS` — 31 / 31 migrations on a disposable PostgreSQL 17 cluster; 1 exact history row |
 | Certification-harness result (inherited, pinned Commit A) | `PASS` — 16 / 16 unique markers + supplemental ACL `42501`; success and forced-failure residue postchecks both `PASS`, residue 0 |
-| Remediation status | `VERIFIED CLOSURE CANDIDATE` |
-| Commit C | `REQUIRED — NOT STARTED` |
+| Remediation status | `VERIFIED CLOSURE CANDIDATE — COMMIT B SHA PINNED AND VERIFIED` |
+| Commit C | `ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED` |
 | Pass 3.8.3 | `NOT STARTED` |
 | Separate signup-trigger finding | `OPEN — SEPARATE_TRIAGE_REQUIRED` |
