@@ -4,7 +4,8 @@
 **Gate:** Phase 3 — Gate 3.8 (Tenant Onboarding, Organization Activation & Workspace Bootstrap)
 **Pass:** 3.8.2 — Read-only Persistence & Models
 **Report:** Remediation Closure (v5 plan)
-**Status:** ✅ **COMPLETE — REMEDIATION CLOSED**
+**Status:** ⚠️ **VERIFIED CLOSURE CANDIDATE — TERMINAL GOVERNANCE PENDING**
+**Closure state:** `VERIFIED_CLOSURE_CANDIDATE` (not `CLOSED`)
 **Scope guard:** Pass 3.8.2 only. No write paths, no command surfaces, no UI.
 
 ---
