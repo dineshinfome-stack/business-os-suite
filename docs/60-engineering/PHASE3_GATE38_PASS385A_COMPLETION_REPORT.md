@@ -45,7 +45,7 @@ membership and administrative roles are owned by invitation acceptance and
 
 ```text
 docs/60-engineering/PHASE3_GATE38_PASS385A_COMPLETION_REPORT.md
-supabase/migrations/20260727111510_pass_3_8_5a_signup_trigger_repair.sql
+supabase/migrations/20260727111452_9c537736-192c-4684-bcee-2568049b8265.sql
 supabase/tests/pass_3_8_5a_signup_trigger_certification.sql
 ```
 
