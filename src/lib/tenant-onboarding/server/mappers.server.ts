@@ -233,8 +233,9 @@ export function notEvaluatedReadiness(
     warningFingerprint: null,
     observedWorkflowVersion: null,
     contractVersion: "3.8.5",
-
+  };
 }
+
 
 /* ---------------------------------------------------------------- summary */
 
