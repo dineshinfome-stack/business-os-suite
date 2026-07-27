@@ -116,6 +116,8 @@ agree; the database is not trusting the caller to have validated first.
 
 ## 6. Verification gates
 
+Historical results from the remediation pass itself:
+
 | Gate | Result |
 |------|--------|
 | `tsc --noEmit` (tsgo) | ✅ clean, 0 errors |
@@ -123,6 +125,19 @@ agree; the database is not trusting the caller to have validated first.
 | Production build | ✅ succeeded |
 | Database harness | ✅ passed, 0 rows of residue |
 | Protected-path changes | 0 |
+
+Authoritative Commit B re-execution, run in a disposable worktree created from
+the stable governed baseline `77a95a15e59d0a4c48d7b9746e525adf1c4e7934`
+(`bun install --frozen-lockfile`, exit 0, lockfile unmodified; Node `v22.22.0`,
+bun `1.3.3`):
+
+| Gate | Command | Result |
+|------|---------|--------|
+| Test suite | `bun run test` | ✅ exit 0 — 49 files, **512 passed, 0 failed, 0 skipped**, 8.78s |
+| Typecheck | `bunx tsgo --noEmit` | ✅ exit 0 — 0 diagnostics |
+| Production build | `bun run build` | ✅ exit 0 — `dist/client`, `dist/server`, `dist/nitro.json` |
+| Commit A technical files | blob comparison | ✅ 4/4 unchanged |
+| Protected files | blob + SHA-256 | ✅ 10/10 PASS, drift 0 |
 
 New coverage added this pass (15 tests,
 `src/lib/tenant-onboarding/__tests__/queue-rpc.test.ts`): envelope schema
