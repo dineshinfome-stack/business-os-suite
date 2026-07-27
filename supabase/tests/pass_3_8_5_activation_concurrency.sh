@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =====================================================================
-# SPR-MOD-001-003 · Gate 3.8 · Pass 3.8.5B
+# SPR-MOD-001-003 · Gate 3.8 · Pass 3.8.5B / 3.8.5C
 # Two-session ACTIVATION RACE certification (OUT OF THE MIGRATION CHAIN).
 #
 # A transaction-wrapped SQL file cannot prove serialization: everything it
@@ -51,6 +51,9 @@ DELETE FROM public.tenant_onboarding        WHERE tenant_id = '$local_tenant';
 DELETE FROM public.financial_years          WHERE tenant_id = '$local_tenant';
 DELETE FROM public.branches                 WHERE tenant_id = '$local_tenant';
 DELETE FROM public.organization_invitations WHERE organization_id = '$local_org';
+DELETE FROM public.setting_values           WHERE organization_id = '$local_org';
+DELETE FROM public.provisioning_steps       WHERE job_id IN (SELECT id FROM public.provisioning_jobs WHERE tenant_id = '$local_tenant');
+DELETE FROM public.provisioning_jobs        WHERE tenant_id = '$local_tenant';
 DELETE FROM public.organizations            WHERE tenant_id = '$local_tenant';
 DELETE FROM public.tenants                  WHERE id = '$local_tenant';
 SQL
@@ -214,6 +217,7 @@ tenant="${pair%%:*}"
 
 version="$(current_version "$tenant")"
 [[ -n "$version" ]] || fail "scenario A: onboarding workflow was not seeded"
+assert_activation_eligible "$tenant"
 
 f1="$(mktemp)"; f2="$(mktemp)"
 TMPFILES+=("$f1" "$f2")
@@ -279,4 +283,4 @@ after="$(current_version "$tenant")"
 echo "  PASS: replay applied no transition, no step, no audit, no version bump"
 
 echo
-echo "Pass 3.8.5B activation concurrency certification: ALL SCENARIOS PASSED"
+echo "Pass 3.8.5C activation concurrency certification: ALL SCENARIOS PASSED"
