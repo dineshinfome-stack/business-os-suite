@@ -1,195 +1,117 @@
 
-# Pass 3.8.4 — Focused Functional and Security Repair (v4, final + execution clarifications)
+# Pass 3.8.5 — Tenant Readiness Evaluator & Guarded Activation (Revised)
 
-Baseline `598647dadd482acec8a13917e9772e990c1f689b`. Lean, in-place repair. One corrective migration, one completion report, no Pass 3.8.5, no further planning revision.
+Baseline `19a4c82b`. Backend only. **Final recommendation: ARCHITECTURAL DECISION REQUIRED** — one blocker (D1) must be decided before implementation; everything else below is corrected and implementation-ready.
 
-Verified: no invitee delivery channel exists, so the one-time token handoff applies and `notificationQueued` stays `false`.
+## 1. Blocker D1 — required-settings database authority (UNRESOLVED)
+Discovery result (verified this turn):
+- `src/lib/tenant-onboarding/required-settings.registry.ts` holds `readinessImpact: block|warning|none` for 5 keys — 3 `block` (`platform.locale.default_timezone`, `platform.locale.default_language`, `platform.branding.product_name`), 2 `none`.
+- `public.setting_definitions` (mig `20260723020152`, cols confirmed: `key, category, scope, data_type, default_value, validation_schema, description, is_system, is_sensitive, deprecated_at`) has **no** `readiness_impact` column and **no** generic metadata jsonb. `rg readiness_impact` over the repo returns nothing.
+- No database table, view or routine exposes onboarding readiness impact. `private.fn_setting_is_configurable` is the only settings helper.
 
-## 1. One-time invitation handoff
+⇒ A PostgreSQL evaluator cannot authoritatively evaluate `required_settings_valid` today, and duplicating the key list in SQL would create two drifting authorities.
 
-- Ephemeral `oneTimeInvitationToken: string | null` on `OnboardingAdminActionResultDTO` **only**.
-- Returned only for a newly created or resent invitation via an authorized POST mutation; `null` on replay and on every failure; fresh per resend.
-- Never persisted, audited, logged, or placed in query cache/keys, read DTOs, error text or telemetry.
-- Architecture test forbids token-like fields in `TenantAdminInvitationDTO`, query/activity DTOs, audit metadata and read mappers; explicitly allows the approved write-result field.
+**Decision required — choose one:**
+- **D1-A (recommended).** Add `readiness_impact text NOT NULL DEFAULT 'none' CHECK (readiness_impact IN ('block','warning','none'))` to `public.setting_definitions`, backfill the 3 blocking keys in the same migration, and make the DB the single authority. `required-settings.registry.ts` keeps only non-readiness authoring metadata (owner, editability, audit) and a parity test asserts the TS `readinessImpact` values equal the seeded DB rows — or the field is deleted from TS entirely.
+- **D1-B.** Add a dedicated `public.onboarding_required_settings` registry table keyed by `setting_definitions.key`, seeded in-migration; TS generated from it.
+- **D1-C.** Defer: evaluate `required_settings_valid` as `not_applicable` in Pass 3.8.5 (same treatment as `financial_year_present`) and resolve the authority in a follow-on pass. This preserves atomicity but weakens the matrix's blocking check.
 
-## 2. In-RPC permission enforcement
+All other sections below assume D1-A. Nothing is implemented until this is approved.
 
-Corrective migration enforces permissions inside every SECURITY DEFINER routine via `private.fn_user_has_permission`, raising `42501`:
+## 2. Approved & unchanged
+Backend-only scope; all 14 checks; `financial_year_present = not_applicable`; three-way aggregation; fresh in-transaction evaluation at activation; expected-version concurrency; no org/branch/FY fabrication; production activation stays BLOCKED while live DB gates are unavailable.
 
-| Routine | Permissions |
-|---|---|
-| `fn_onboarding_resolve_first_admin` | `platform.tenant.update`, `platform.invitations.view` |
-| `fn_onboarding_invite_first_admin_atomic` (new) | `platform.tenant.update`, `platform.invitations.manage` |
-| `fn_onboarding_resend_first_admin_atomic` (new) | same |
-| `fn_onboarding_revoke_invitation` | same |
-| `fn_onboarding_assign_admin_role` | `platform.tenant.update`, `platform.invitations.view`, `platform.memberships.manage`, `platform.roles.assign` |
+## 3. Correction 1 — frozen v1 status vocabulary
+`TenantOnboardingReadinessCheckDTO` keeps its existing v1 literals exactly (`pass | warning | blocked | not_applicable`). No `passed` alias, no v2 DTO. The SQL evaluator emits the v1 literals directly; `mappers.server.ts` validates and passes through.
 
-`commands.functions.ts` middleware is aligned to exactly these sets. No new permission keys.
+## 4. Correction 2 — read/write separation
+| Operation | Entry point | Permission | Writes |
+|---|---|---|---|
+| Read readiness | `getOnboardingReadiness` (existing query) → `public.fn_onboarding_evaluate_readiness` (`STABLE`, read-only) | `platform.tenant.read` | none — no snapshot, no audit |
+| Explicit refresh/persist | new command `refreshOnboardingReadinessCommand` → `public.fn_onboarding_persist_readiness` | `platform.tenant.update` | snapshot + `audit_logs` |
+| Activation | `activateTenantCommand` → `public.fn_onboarding_activate_tenant` | `platform.tenant.activate` (exists) | snapshot + audit + lifecycle |
+Page loads, retries and background refetches therefore never write.
 
-## 3. Atomic RPC signatures — organization resolved internally
+## 5. Correction 3 — atomic acknowledgement (no separate RPC)
+`fn_onboarding_acknowledge_warnings` is **removed** from this pass. The single guarded RPC signature:
+`public.fn_onboarding_activate_tenant(_tenant_id uuid, _expected_version integer, _acknowledge_warnings boolean, _correlation_id text DEFAULT NULL) RETURNS jsonb`
+Inside one locked transaction: lock → re-evaluate → compute fingerprint → reject warnings when `_acknowledge_warnings = false` → record acknowledgement (`warnings_acknowledged_at/by`, fingerprint) → transition lifecycle → persist snapshot → bump version → audit. All committed together.
 
+## 6. Correction 4 — fingerprint is database-owned
+The fingerprint is computed only by the SQL evaluator: `encode(sha256(convert_to(string_agg(key||':'||status||':'||reason_code, '|' ORDER BY key), 'UTF8')), 'hex')` over warning checks. Returned as an opaque string; TypeScript transports/displays it and never recomputes or submits it. `readiness.ts` keeps only presentation registry + aggregation *mirroring* for unit tests — no activation authority.
+
+## 7. Correction 5 — precise concurrency mechanism
+- Read-only evaluation: `pg_try_advisory_xact_lock(hashtextextended(tenant_id::text, 0))`. `false` ⇒ `no_concurrent_activation` = `blocked` / reason `activation_in_flight`. Never waits.
+- Activation: `pg_advisory_xact_lock(...)` (blocking) → `SELECT ... FROM tenant_onboarding WHERE tenant_id = ... FOR UPDATE` → compare `_expected_version` → `40001` on mismatch.
+No persisted `activating` state is introduced (the state machine has no such state).
+
+## 8. Correction 6 — version type alignment
+`public.tenant_onboarding.version` is `integer`. Therefore `_expected_version integer`, `readiness_observed_workflow_version integer`, and the activation result `version` are all `integer`. The contract version is a separate, explicitly named `readiness_contract_version text` (rule-set identity, e.g. `"3.8.5"`); the ambiguous `readiness_snapshot_version` is dropped.
+
+## 9. Correction 7 — canonical lifecycle writer
+`private.fn_assert_lifecycle_transition` is a **validator**, not a writer. No canonical tenant-activation writer usable by Gate 3.8 exists: `private.fn_activate_tenant` (mig `20260723172710`) also fabricates organization, default branch and a placeholder financial year — which Gate 3.8 assigns to Pass 3.8.3 — and its `public` wrapper is missing (`src/lib/tenants/tenants.functions.ts:125` calls a non-existent RPC).
+⇒ `public.fn_onboarding_activate_tenant` is **explicitly designated the canonical activation writer** for onboarding-driven activation. It calls the existing transition validator, then writes `tenants.lifecycle_state = 'active'` and `activated_at`, sets `tenant_onboarding.state = 'activated'`, `activated_at`, `activated_by`, records the `activation` step via `public.fn_onboarding_record_step`, and writes the audit row via the existing audit helper — all in the one guarded routine. Follow-on: deprecate `private.fn_activate_tenant` seeding and repair the dead call site.
+
+## 10. Correction 8 — lean persistence
+Reuse `ready_at`, `activated_at`, `last_readiness_checked_at`, `last_correlation_id`, `version`. Add to `public.tenant_onboarding` only:
+`readiness_snapshot jsonb`, `readiness_status text CHECK (readiness_status IN ('not_ready','ready_with_warnings','ready'))`, `readiness_blocking_count integer NOT NULL DEFAULT 0 CHECK (>= 0)`, `readiness_warning_count integer …`, `readiness_applicable_count integer …`, `readiness_workflow_version integer`, `readiness_contract_version text`, `readiness_evaluated_by uuid`, `readiness_fingerprint text`, `warnings_acknowledged_at timestamptz`, `warnings_acknowledged_by uuid`. Replace-in-place; no history table.
+
+## 11. Readiness-check source map (unchanged from prior plan)
+tenants · provisioning_jobs (latest, incl. `rolled_back`) · tenants.lifecycle_state/deletion_scheduled_at · organizations (default, active) · branches (default, active) · organization_invitations (status/expiry/role) · accepted_at (warning) · organization_members (blocking post-acceptance) · user_roles vs invitation role (blocking post-acceptance) · setting_definitions.readiness_impact ∩ setting_values (D1-A) · financial_years → `not_applicable` · tenant_onboarding_steps.status · advisory try-lock · cross-table `tenant_id` equality.
+
+## 12. Aggregation
+Any `blocked` → `not_ready`; else any `warning` → `ready_with_warnings`; else `ready`. `not_applicable` excluded from all three counts. Emitted by SQL; mirrored by `readiness.ts` for unit tests only.
+
+## 13. Activation outcomes
+`activated`, `already_active` (idempotent replay, no writes, no version bump), `not_ready`, `warning_acknowledgement_required`, `version_conflict`, `activation_in_flight`, `lifecycle_state_blocks`, `permission_denied`, `tenant_missing`, `tenant_reference_mismatch`.
+
+## 14. SQLSTATE / typed-error mapping
+Reuse `42501 → permission_denied`, `P0002 → tenant_missing`, `40001 → version_conflict`. New, non-overlapping with 3.8.4 invitation codes: `P3848 → not_ready`, `P3849 → warning_acknowledgement_required`, `P384A → activation_in_flight`, `P384B → lifecycle_state_blocks`, `P384C → tenant_reference_mismatch`. Added to `SQLSTATE_REASONS` + `SAFE_MESSAGES`; classification is SQLSTATE-only, never message text.
+
+## 15. Security model
+All three RPCs `SECURITY DEFINER`, `SET search_path = pg_catalog, public, private`, `REVOKE ALL FROM PUBLIC, anon`, `GRANT EXECUTE TO authenticated`, permission asserted in-routine via `private.fn_user_has_permission` **and** in `requirePermission` middleware. Tenant ID is the only client-supplied reference; org/branch/invitation/membership ids are resolved server-side. Snapshots and audit rows carry keys, statuses, reason codes and bounded scalar params only — no tokens, hashes, emails or setting values.
+
+## 16. Exact changed paths
+Extend: `types/v1/onboarding-readiness.dto.ts`, `onboarding-readiness-check.dto.ts`, `onboarding-activation-result.dto.ts`, `types/v1/index.ts`, `schemas.ts`, `query-keys.ts`, `queries.functions.ts`, `commands.functions.ts`, `server/query-service.server.ts`, `server/command-service.server.ts`, `server/mappers.server.ts`, `index.ts`, `required-settings.registry.ts` (D1-A trim), and tests `commands.test.ts` / `read-models.test.ts` / `schemas.test.ts` / `architecture.test.ts`.
+New (justified): `src/lib/tenant-onboarding/readiness.ts` + `__tests__/readiness.test.ts`; one migration `<ts>_pass_3_8_5_readiness_activation.sql`; `supabase/tests/pass_3_8_5_readiness_certification.sql`; `supabase/tests/pass_3_8_5_activation_concurrency.sh` (clone of the 3.8.4 runner); `docs/60-engineering/PHASE3_GATE38_PASS385_COMPLETION_REPORT.md`.
+Conditional: **`src/integrations/supabase/types.ts`** — regenerated after migration approval, since new columns and three new public RPCs change the generated contract.
+
+## 17. Migration strategy
+Single additive migration: `setting_definitions.readiness_impact` + backfill (D1-A) → `tenant_onboarding` readiness columns with CHECK constraints → `private.fn_onboarding_evaluate_readiness_json(_tenant_id, _correlation_id)` (one CTE statement, one snapshot, no writes) → the three public RPCs + grants/revokes. Replay-safe: all columns nullable or defaulted, all functions `CREATE OR REPLACE`.
+
+## 18. Database certification matrix
+`pass_3_8_5_readiness_certification.sql` (transactional, fixture-scoped) covers the full brief: provisioning/lifecycle/org/branch/invitation/membership/role/settings/step/mismatch matrices, `financial_year_present = not_applicable`, all three aggregation outcomes, `not_applicable` count exclusion, and activation cases — ready activates, warnings require acknowledgement, acknowledged warnings activate, not-ready rejected, stale version rejected, no version bump on rejection, exactly-once bump on success, idempotent replay, unauthorized caller rejected, foreign-tenant references rejected, lifecycle validator invoked, snapshot/audit secret hygiene, read-only RPC performs zero writes.
+`pass_3_8_5_activation_concurrency.sh` (two sessions): only one transition, loser gets deterministic `40001`/`P384A`, version increments once, no partial state, retry after re-read succeeds.
+
+## 19. Application test matrix
+DTO/check mapping to v1 literals; aggregation and exclusions; fingerprint treated as opaque (never recomputed); SQLSTATE classification for all new codes; acknowledgement forwarding; activation request shape; expected-version forwarding; rejection of any client-supplied readiness field; single lifecycle write; no post-RPC follow-up write; query invalidation after refresh/activate; permission middleware per operation; bounded reason params; purity/architecture tests. ~+40 over 553.
+
+## 20. Quality gates
+Local: `bun run test`, `./node_modules/.bin/tsc --noEmit`, `bun run build`, `bash -n supabase/tests/pass_3_8_5_activation_concurrency.sh`. Database: clean replay, 3.8.5 readiness SQL, live activation concurrency, 3.8.5A signup, 3.8.4 SQL + concurrency, end-to-end onboarding→activation. Without a Postgres connection each is reported **NOT EXECUTED — UNAVAILABLE**; no PASS inferred from authored SQL.
+
+## 21. Rollback & failure safety
+Each command is one transaction; any `RAISE` rolls back snapshot, version, acknowledgement and lifecycle together. Columns are additive; down path is `DROP FUNCTION` + optional `DROP COLUMN`. No write occurs before readiness passes.
+
+## 22. Decision matrix
 ```text
-public.fn_onboarding_invite_first_admin_atomic(
-  _tenant_id uuid, _email text, _invited_role text,
-  _token_hash text, _expires_at timestamptz,
-  _correlation_id text, _expected_version integer)
-
-public.fn_onboarding_resend_first_admin_atomic(
-  _tenant_id uuid, _invitation_id uuid, _token_hash text, _expires_at timestamptz,
-  _correlation_id text, _expected_version integer)
+Readiness matrix coverage ............... PASS
+Backend-only scope ...................... PASS
+Financial-year handling ................. PASS
+Activation gating concept ............... PASS
+Required-settings DB authority .......... UNRESOLVED — BLOCKER (D1)
+Read-query/write separation ............. CORRECTED (§4)
+Warning acknowledgement atomicity ....... CORRECTED (§5)
+Fingerprint authority ................... CORRECTED (§6)
+Concurrency mechanism ................... CLARIFIED (§7)
+Version type alignment .................. CORRECTED (§8)
+Lifecycle writer designation ............ CORRECTED (§9)
+Snapshot column minimisation ............ CORRECTED (§10)
+Generated types path .................... INCLUDED (§16)
+Pinned gates ............................ CORRECTED (§20)
+Final recommendation .................... ARCHITECTURAL DECISION REQUIRED
 ```
 
-No `_organization_id`, no defaults, distinct names (no ambiguous overload). The invite function resolves the non-deleted `is_default IS TRUE` organization itself (`P3841` when absent). The application calls the atomic RPC directly and never pre-calls the resolver, avoiding the `invitations.view` / `invitations.manage` mismatch.
+## 23. Execution order (after D1 approval)
+1 migration (incl. D1 authority) → 2 regenerate Supabase types → 3 `readiness.ts` + tests → 4 read-only query path → 5 refresh + activation commands and error map → 6 schemas/DTOs/query keys → 7 app tests → 8 SQL harness → 9 concurrency runner → 10 local gates → 11 completion report (expected: DEVELOPMENT COMPLETE — CERTIFICATION PENDING).
 
-Both atomic RPCs return authoritative state sufficient to build the result without a second read:
-
-```text
-organization_id, invitation_id, invitation_status, created, replayed,
-membership_status, role_granted, step_status, step_version
-```
-
-## 4. Authoritative default organization across all five RPCs (Clarification 2)
-
-Every relevant routine — `fn_onboarding_resolve_first_admin`, both atomic functions, `fn_onboarding_revoke_invitation`, `fn_onboarding_assign_admin_role` — resolves and enforces the single non-deleted `is_default IS TRUE` organization.
-
-- The resolver **removes the oldest-organization fallback** entirely and raises `P3841` when no default exists.
-- The resolver locates accepted administrative invitations **independently of the submitted email**.
-- Revoke and role assignment reject an invitation belonging to a non-default organization of the same tenant with `P3842`.
-
-## 5. Retire the legacy six-argument surface
-
-No null-`expectedVersion` delegation. The migration issues:
-
-```sql
-REVOKE ALL ON FUNCTION
-  public.fn_onboarding_invite_first_admin(uuid, uuid, text, text, text, timestamptz)
-FROM PUBLIC, anon, authenticated;
-```
-
-and retains it only as a non-executable compatibility stub (or drops it). Its only references are its migration, generated types, and the Pass 3.8.4 service — all migrated. Certification asserts `authenticated` cannot execute it and that exactly one `fn_onboarding_invite_first_admin` signature remains.
-
-## 6. Organization-scoped serialization and replay equivalence
-
-Inside `fn_onboarding_invite_first_admin_atomic`, one transaction:
-
-1. resolve the unique default organization (`P3841` if none);
-2. take a **transaction-level advisory lock derived from the default organization ID alone**, with `unique_violation` catch + authoritative re-read as backstop;
-3. inspect **all** valid administrative invitations for that organization, not just the submitted email;
-4. apply outcomes:
-
-| Existing state | Result |
-|---|---|
-| Accepted administrator invitation | authoritative replay (earliest by `accepted_at ASC NULLS LAST, created_at ASC`) |
-| Pending, same email + same role | idempotent replay |
-| Pending, same email, different role | `P3843 invitation_role_conflict` |
-| Pending, different email | `P3847 invitation_email_conflict` |
-| Only revoked/expired history | create allowed |
-| No administrative invitation | create allowed |
-
-5. insert only when allowed; record the step in the same transaction.
-
-A different first-admin email must go through the explicit resend/change flow.
-
-## 7. Exactly-once step recording (Clarification 1)
-
-- The atomic invite RPC records `tenant_admin_invitation` **exactly once in both the create and the replay path**.
-- The application **never** calls `recordOnboardingStep` for `tenant_admin_invitation` after a successful atomic invite or resend result — no follow-up write on any path.
-- Atomic resend: revoke old + insert replacement (preserving email and administrative role) + step recording in one transaction; failure rolls back both.
-- `tenant_admin_membership` and `roles_assigned` are recorded independently.
-- Both atomic RPCs honour `_expected_version` and `_correlation_id`. Audit writes stay best-effort after commit.
-- The prohibited state — invitation created + token unavailable + command reported failure — is structurally impossible.
-
-## 8. Database-side input validation on direct RPC calls (Clarification 4)
-
-Both atomic RPCs validate before any mutation, raising the mapped SQLSTATEs (`22023` for generic contract violations):
-
-- email: trimmed/lower-cased, non-empty, ≤ 320 characters;
-- invited role: `owner` or `admin` only;
-- token hash: exactly 64 lowercase hexadecimal characters;
-- `expires_at`: strictly in the future and ≤ 7 days ahead;
-- correlation ID: bounded length;
-- `expected_version`: null or non-negative.
-
-## 9. Canonical deterministic error mapping (Clarification 3)
-
-`classifyError` in `command-service.server.ts` maps SQLSTATE only; no message parsing.
-
-```text
-42501 permission_denied
-40001 version_conflict
-P3841 default_organization_missing
-P3842 organization_not_default
-P3843 invitation_role_conflict
-P3844 invitation_missing
-P3845 invitation_expired
-P3846 invitation_accepted
-P3847 invitation_email_conflict
-```
-
-## 10. Accepted-invitation integrity recording
-
-- active membership → `tenant_admin_membership` **completed**
-- missing membership → **blocked**, `membership_missing_after_acceptance`
-- inactive membership → **blocked**, `membership_inactive_after_acceptance`
-- matching `user_roles` grant → `roles_assigned` **completed**
-- missing grant → **blocked**, `role_grant_missing`
-- pre-acceptance → `skipped` with `acceptance_pending` / `role_grant_pending_acceptance`
-
-## 11. Tests
-
-**Unit (fake client).** Extend the existing 18 cases with: token presence/absence, typed SQLSTATE mapping incl. `P3847`, atomic call shape without `organizationId`, no pre-resolver call, **atomic replay records the invitation step once**, **no application follow-up invitation-step write**, integrity recording, and exactly-once version/`attempt_count` increment per create and per resend.
-
-**`supabase/tests/pass_3_8_4_admin_rpc_certification.sql`** (Pass 3.8.2 harness pattern: transaction-wrapped fixtures, rollback, PASS/FAIL). Asserts:
-
-1. exactly one `fn_onboarding_invite_first_admin` signature; `authenticated` cannot execute it;
-2. `42501` denials on each routine for an unprivileged caller;
-3. no default organization → `P3841`; **resolver has no oldest-organization fallback**;
-4. accepted-invitation resolution independent of submitted email, earliest-accepted ordering;
-5. pending same-role → replay; different-role → `P3843`; different-email → `P3847`;
-6. **revoke rejects a non-default same-tenant organization (`P3842`)**;
-7. **role assignment rejects a non-default same-tenant organization (`P3842`)**;
-8. **direct RPC rejects malformed token hash, invalid/over-long expiry, and non-administrative role**;
-9. create and resend each record the invitation step exactly once, no double increment;
-10. failed step write rolls back invitation creation; failed resend replacement rolls back the revocation;
-11. plaintext token absent from all database and audit surfaces.
-
-**`supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh`** — two independent `psql` sessions on disposable fixtures verifying:
-
-1. same email + same role → one creation, one replay;
-2. same email + different role → one creation, one `P3843`;
-3. different email → one creation, one `P3847`;
-4. exactly one valid pending first-admin invitation remains;
-5. `trap`-based cleanup on success or failure.
-
-If two sessions cannot be established, the runner reports concurrency **UNAVAILABLE** — never PASS. Concurrency PASS is never claimed from the single-session SQL file.
-
-## 12. Quality gates
-
-Same turn: `bun run test`, repository-local `tsc --noEmit`, `bun run build`, migration validation/replay, SQL certification harness, two-session concurrency runner, and a changed-path review with zero unrelated changes.
-
-## 13. Completion report
-
-Single file `docs/60-engineering/PHASE3_GATE38_PASS384_COMPLETION_REPORT.md`. No other documentation changes.
-
-## Expected changed paths (~12)
-
-```text
-src/integrations/supabase/types.ts
-src/lib/tenant-onboarding/server/admin-service.server.ts
-src/lib/tenant-onboarding/server/command-service.server.ts
-src/lib/tenant-onboarding/commands.functions.ts
-src/lib/tenant-onboarding/schemas.ts
-src/lib/tenant-onboarding/types/v1/onboarding-admin-result.dto.ts
-src/lib/tenant-onboarding/__tests__/admin-commands.test.ts
-src/lib/tenant-onboarding/__tests__/architecture.test.ts
-supabase/migrations/<new_corrective_migration>.sql
-supabase/tests/pass_3_8_4_admin_rpc_certification.sql
-supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh
-docs/60-engineering/PHASE3_GATE38_PASS384_COMPLETION_REPORT.md
-```
-
-`types/v1/index.ts` changes only if an additional exported type is required. `src/integrations/supabase/types.ts` is regenerated after the migration so both atomic RPCs are typed.
-
-## Out of scope
-
-`FINDING-AUTH-SIGNUP-TENANT-FK-20260726` stays OPEN as a release blocker. Pass 3.8.5 is not started.
+**Approve D1-A, D1-B or D1-C and I will implement.**
