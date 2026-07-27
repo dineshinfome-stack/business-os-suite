@@ -28,10 +28,11 @@ The effective body of `private.fn_handle_new_auth_user()` — set by migration
 
 Subsequent migrations made `public.organizations.tenant_id` `NOT NULL` with a
 foreign key to `public.tenants(id)`, and replaced global slug uniqueness with
-`(tenant_id, slug)`. Every `auth.users` INSERT therefore aborted
-(`23502` not-null first, foreign key secondary), blocking all signup. The
-function's `WHERE slug = v_slug` collision loop was additionally stale under the
-composite uniqueness rule.
+`(tenant_id, slug)`. Every `auth.users` INSERT therefore aborted, blocking all
+signup: the insert fails with SQLSTATE `23502` because `tenant_id` is omitted.
+The foreign key additionally guarantees that every non-null `tenant_id`
+references an existing tenant. The function's `WHERE slug = v_slug` collision
+loop was additionally stale under the composite uniqueness rule.
 
 **Ownership decision.** Per ADR-017, the operator-run Gate 3.8 model and the
 deferred tenant self-service policy, the auth trigger creates the application
@@ -89,9 +90,14 @@ non-zero exit on any failure.
 | Section | Assertions |
 | --- | --- |
 | A — definition & privileges | exactly one zero-argument `private.fn_handle_new_auth_user`; exactly one enabled `AFTER INSERT … FOR EACH ROW` trigger on `auth.users` bound to it; owner `postgres`; `prosecdef`; normalized `proconfig` equals `pg_catalog,public`; `anon` and `authenticated` hold no `EXECUTE`; **PUBLIC** checked via `pg_proc.proacl` + `aclexplode` (`grantee = 0`), never `has_function_privilege('public', …)`; body carries the approved conflict policy and no tenant/organization/membership/role write |
-| B — real signup | disposable `auth.users` insert creates exactly one profile; hostile `tenant_id` / `organization_id` / `role` / `platform_role` metadata ignored; signup with empty metadata succeeds |
-| C — absence | fixture-scoped only: `tenants.created_by`, `organizations.created_by`, `organization_members.user_id`, `user_roles.user_id` all yield zero rows for the fixture user. A global `organizations.tenant_id IS NULL` check is included strictly as a supplementary integrity preflight, never as a substitute |
+| B — real signup | disposable `auth.users` insert creates exactly one profile; hostile `tenant_id` / `organization_id` / `role` / `platform_role` metadata ignored; signup with empty metadata succeeds; **null-email (phone) signup** — a third fixture with `email = NULL` and an E.164-safe synthetic phone derived from its uuid asserts the auth insert completes, exactly one profile exists, `display_name IS NULL`, and no tenant, organization, membership or role is created |
+| C — absence | fixture-scoped only: `tenants.created_by`, `organizations.created_by`, `organization_members.user_id`, `user_roles.user_id` all yield zero rows for **all three** fixture user ids. A global `organizations.tenant_id IS NULL` check is included strictly as a supplementary integrity preflight, never as a substitute |
 | D — idempotency | corrected fixture sequence: insert the real `auth.users` row → let the real trigger create the profile → update it to sentinel user-edited values → attach the function to a disposable table `(id uuid, email text, raw_user_meta_data jsonb)` **with no primary key** → fire twice with the same auth-user id → assert exactly one profile, sentinel `display_name` and `avatar_url` unchanged, and section-C absence assertions still hold |
+
+All three `auth.users` fixtures use the repository-proven column shape,
+including `confirmation_token`, `email_change`, `email_change_token_new` and
+`recovery_token` set to empty strings, so live execution is not exposed to
+Supabase Auth schema-version compatibility failures.
 
 A second `INSERT … ON CONFLICT DO NOTHING` against `auth.users` is explicitly
 **not** used as idempotency evidence: the conflicting insert does not re-fire
@@ -109,6 +115,11 @@ the trigger.
 | `./node_modules/.bin/tsc --noEmit` | PASS — no diagnostics |
 | `bun run build` | PASS |
 | `bash -n supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh` | PASS — syntax only |
+
+All four results above are **local Lovable executions**, not independent CI
+evidence. There is no GitHub workflow run associated with this work, so
+independent CI verification is recorded as **NOT AVAILABLE**.
+
 
 ### Database gates
 
