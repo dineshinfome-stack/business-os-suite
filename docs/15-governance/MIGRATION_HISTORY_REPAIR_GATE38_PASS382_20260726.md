@@ -577,7 +577,7 @@ Commit A was executed under the reaffirmed, SHA-pinned Step 0B authority
 | Step 0B pin record (baseline) | `b88afb9e4b0941c64344c435fdaa0718eb46cf35` |
 | Approval SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` |
 | Governance pin commit | `465667fa36719916aa46ab4dbf357549682c631f` |
-| Commit A evidence normalization commit | `PENDING PLATFORM COMMIT` (describes this governance correction only; it does not replace the technical Commit A SHA) |
+| Commit A evidence normalization commit | `7dd948960259175e3d36892b27b2a1371a129ef8` — `PINNED_AND_VERIFIED_BY_RECONCILIATION` (describes this governance correction only; it does not replace the technical Commit A SHA) |
 | Cumulative changed paths | 4 (1 `M`, 3 `A`) |
 | Unexpected paths / renames / copies / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Protected-file drift | 0 — 10 / 10 comparisons PASS |
