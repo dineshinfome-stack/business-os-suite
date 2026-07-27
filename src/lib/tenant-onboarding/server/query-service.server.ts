@@ -29,6 +29,10 @@ import {
   type OnboardingStepRowLike,
   type TenantRowLike,
 } from "./mappers.server";
+import {
+  ONBOARDING_EVALUATE_READINESS_RPC,
+  toReadinessDTO,
+} from "../readiness";
 import type { OnboardingListFilterDTO } from "../types/v1";
 import type {
   OnboardingPageDTO,
@@ -212,12 +216,30 @@ export async function getOnboardingProgress(
   return toProgressDTO(await getOnboardingSteps(client, tenantId));
 }
 
+/**
+ * READ-ONLY readiness evaluation (Pass 3.8.5).
+ *
+ * Calls the permission-gated database evaluator, which performs NO writes:
+ * no snapshot persistence, no audit entry, no version bump. Persisting a
+ * snapshot is an explicit, separately-permissioned command.
+ *
+ * A failure never breaks the detail read: the caller receives the frozen
+ * `not_evaluated` envelope instead of an exception.
+ */
 export async function getOnboardingReadiness(
   client: AnyClient,
   tenantId: string,
+  correlationId: string | null = null,
 ): Promise<TenantOnboardingReadinessDTO> {
   const onboarding = await loadOnboarding(client, tenantId);
-  return notEvaluatedReadiness(onboarding?.last_readiness_checked_at ?? null);
+  const { data, error } = await client.rpc(ONBOARDING_EVALUATE_READINESS_RPC, {
+    _tenant_id: tenantId,
+    _correlation_id: correlationId,
+  });
+  if (error || !data) {
+    return notEvaluatedReadiness(onboarding?.last_readiness_checked_at ?? null);
+  }
+  return toReadinessDTO(data);
 }
 
 /* ----------------------------------------------------------- activity read */
