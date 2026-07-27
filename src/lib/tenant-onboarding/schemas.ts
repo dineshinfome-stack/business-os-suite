@@ -190,7 +190,8 @@ export const onboardingSettingSpecSchema = z
     requirement: z.enum(["required", "conditional", "optional"]),
     editableDuringOnboarding: z.boolean(),
     sensitivity: z.enum(["sensitive", "non-sensitive"]),
-    readinessImpact: z.enum(["block", "warning", "none"]),
+    /* Readiness impact is DATABASE-owned (setting_definitions.readiness_impact);
+       the repository registry never classifies activation readiness. */
     auditRequired: z.boolean(),
     sourceOfTruth: z.string().min(2),
     conditionNote: z.string().min(2).optional(),
