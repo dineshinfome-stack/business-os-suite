@@ -189,6 +189,8 @@ interface ResultInit {
   roleGrantStatus?: OnboardingRoleGrantState;
   idempotentReplay?: boolean;
   notificationQueued?: boolean;
+  /** Ephemeral handoff; defaults to null so every failure path omits it. */
+  oneTimeInvitationToken?: string | null;
 }
 
 function result(init: ResultInit): OnboardingAdminActionResultDTO {
@@ -210,6 +212,7 @@ function result(init: ResultInit): OnboardingAdminActionResultDTO {
     roleGrantStatus: init.roleGrantStatus ?? "unknown",
     idempotentReplay: init.idempotentReplay ?? false,
     notificationQueued: init.notificationQueued ?? false,
+    oneTimeInvitationToken: init.oneTimeInvitationToken ?? null,
   };
 }
 
