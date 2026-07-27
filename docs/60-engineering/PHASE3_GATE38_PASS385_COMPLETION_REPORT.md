@@ -1,7 +1,7 @@
-# Phase 3 · Gate 3.8 — Pass 3.8.5B Completion Report
+# Phase 3 · Gate 3.8 — Pass 3.8.5 Completion Report
 
 **Sprint:** SPR-MOD-001-003
-**Pass:** 3.8.5 / 3.8.5B / 3.8.5C — Tenant readiness evaluator, snapshot persistence and guarded activation
+**Pass:** 3.8.5 / 3.8.5B / 3.8.5C / 3.8.5D — Tenant readiness evaluator, snapshot persistence and guarded activation
 **Mode:** Lean corrective execution
 **Date:** 2026-07-27
 
@@ -28,8 +28,10 @@
 | `20260727144439_0f0fff3a-a80d-4823-9ad4-3ef989303b9e.sql` | Pass 3.8.5: `readiness_impact` column and backfill, readiness snapshot columns on `tenant_onboarding`, `private.fn_onboarding_evaluate_readiness_json`, the read-only and persisting evaluators, and the guarded activation routine. |
 | `20260727150928_dceb11bb-c3fc-42a7-abac-f62b44e795e2.sql` | Pass 3.8.5B (append-only): superseded the check builder to carry deep links, replaced the evaluator with the 14 canonical matrix keys and reason codes, and made `_expected_version` mandatory on activation (SQLSTATE `40001` when stale or absent). |
 | `20260727153815_e557fa92-99d8-4ceb-83ce-e44789e7de2e.sql` | Pass 3.8.5C (append-only): added `private.fn_setting_value_invalid_reason` and superseded the evaluator — provisioning verdict now follows the latest job (never the tenant flag), only an active default organization passes, required settings are validated (not merely present), and the administrator role is satisfied by a valid pending invitation before acceptance and by an active grant afterwards. |
+| `20260727160657_7da56bb7-3d6d-4f1e-ae99-20b7663b6231.sql` | Pass 3.8.5D (append-only): missing-tenant readiness contract — the 3.8.5C body is retained verbatim as `private.fn_onboarding_evaluate_readiness_present_json` and the contract entry point now owns tenant existence, returning the canonical 14-check envelope with `tenant_exists = blocked` / `tenant_missing`, `not_ready` overall, deterministic dependent states, no writes and no sensitive detail. Also replaced `private.fn_setting_value_invalid_reason` with a fail-closed implementation that returns the bounded `invalid_schema` reason for malformed `required`, `min`/`max`, enum, regex or unknown data-type metadata, never raw exception text. |
 
-No migration file was rewritten; both remain in chronological order.
+No migration file was rewritten; all four remain in chronological order.
+
 
 ---
 
@@ -58,7 +60,7 @@ No migration file was rewritten; both remain in chronological order.
 
 | Artifact | Purpose | Status |
 | --- | --- | --- |
-| `supabase/tests/pass_3_8_5_readiness_certification.sql` | Fixture-scoped, fully rolled back. Certifies the readiness-impact authority, the 14-key canonical set, frozen literals, read-path write-freedom, snapshot persistence and every activation guard (`P3848`, `P3849`, `P384B`, `40001`) plus idempotent replay. Pass 3.8.5C added section F: provisioning-state matrix, active-default-organization requirement, setting-value validation (missing, type mismatch, out of range, enum violation) and pre/post-acceptance administrator-role authority — then builds a fully bootstrapped tenant, asserts an unambiguous `ready` verdict and activates it for real instead of escaping through `P3848`. | **NOT EXECUTED — DATABASE UNAVAILABLE FROM THIS ENVIRONMENT** |
+| `supabase/tests/pass_3_8_5_readiness_certification.sql` | Fixture-scoped, fully rolled back. Certifies the readiness-impact authority, the 14-key canonical set, frozen literals, read-path write-freedom, snapshot persistence and every activation guard (`P3848`, `P3849`, `P384B`, `40001`) plus idempotent replay. Pass 3.8.5C added section F: provisioning-state matrix, active-default-organization requirement, setting-value validation (missing, type mismatch, out of range, enum violation) and pre/post-acceptance administrator-role authority — then builds a fully bootstrapped tenant, asserts an unambiguous `ready` verdict and activates it for real instead of escaping through `P3848`. Pass 3.8.5D added: A4 (the blocking readiness-impact set is exactly `platform.locale.default_timezone`, `platform.locale.default_language`, `platform.branding.product_name`), E6g–E6i (workflow version `N → N+1`, exactly one activation step, exactly one activation audit record, and a replay that changes no version, step count, audit count or lifecycle state), section G (missing tenant returns the 14-check envelope with `tenant_exists = blocked` / `tenant_missing`, `not_ready`, deterministic dependents and no writes) and section H (malformed regex, min/max, `required`, enum and unknown-type metadata each yield `invalid_schema`, and a malformed blocking definition blocks `required_settings_valid`). | **NOT EXECUTED — DATABASE UNAVAILABLE FROM THIS ENVIRONMENT** |
 | `supabase/tests/pass_3_8_5_activation_concurrency.sh` | Fixture repaired for the 3.8.5C evaluator (completed provisioning job with a succeeded step, active default organization, valid pending administrator invitation) and a preflight assertion refuses to race a tenant that is not activation-eligible. Two real sessions race `fn_onboarding_activate_tenant` with the same expected version; asserts exactly one transition, one activation step row, one audit entry and a deterministic loser. Fixtures are trap-cleaned; the shared caller is removed only when this run created it. | **NOT EXECUTED — DATABASE UNAVAILABLE FROM THIS ENVIRONMENT** |
 
 Both files are outside the migration chain and are never applied by deployment.
@@ -72,8 +74,10 @@ Both files are outside the migration chain and are never applied by deployment.
 | `bun run test` | **585 / 585 passed (53 files)** — local Lovable execution |
 | `./node_modules/.bin/tsc --noEmit` | **PASS** — local Lovable execution |
 | `bun run build` | **PASS** — local Lovable execution |
-| SQL readiness certification | NOT EXECUTED — database unavailable |
-| Activation concurrency certification | NOT EXECUTED — database unavailable |
+
+| `bash -n supabase/tests/pass_3_8_5_activation_concurrency.sh` | **PASS** — syntax check, local Lovable execution |
+| SQL readiness certification (execution) | **NOT EXECUTED — UNAVAILABLE** |
+| Activation concurrency certification (execution) | **NOT EXECUTED — UNAVAILABLE** |
 
 New application tests this pass:
 
@@ -88,10 +92,21 @@ New application tests this pass:
 | Item | Status |
 | --- | --- |
 | `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` | **REPAIRED IN CODE — LIVE VERIFICATION PENDING** (Pass 3.8.5A). Remains a release blocker until certified against the live database. |
-| Live database certification (3.8.4, 3.8.5A, 3.8.5B, 3.8.5C) | **PENDING** — all harnesses authored; execution requires a reachable Postgres connection string. |
+| Live database certification (3.8.4, 3.8.5A, 3.8.5B, 3.8.5C, 3.8.5D) | **PENDING** — all harnesses authored; execution requires a reachable Postgres connection string. |
 
 ---
 
 ## 7. Verdict
 
-Pass 3.8.5B and the Pass 3.8.5C evaluator corrections are **complete in code**. Gate 3.8 cannot be closed until the three certification harnesses are executed against the live database and the signup finding is verified there.
+```
+Pass 3.8.5 development ................. COMPLETE
+Live database certification ............ PENDING
+FINDING-AUTH-SIGNUP-TENANT-FK-20260726 . LIVE VERIFICATION PENDING
+Tenant activation ...................... BLOCKED
+Gate 3.8 ............................... DEVELOPMENT COMPLETE —
+                                         CERTIFICATION PENDING
+```
+
+Gate 3.8 is **not** closed. Closure requires executing every certification
+harness against the live database and verifying the signup finding there.
+
