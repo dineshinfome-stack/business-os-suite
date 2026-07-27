@@ -116,6 +116,11 @@ the trigger.
 | `bun run build` | PASS |
 | `bash -n supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh` | PASS — syntax only |
 
+All four results above are **local Lovable executions**, not independent CI
+evidence. There is no GitHub workflow run associated with this work, so
+independent CI verification is recorded as **NOT AVAILABLE**.
+
+
 ### Database gates
 
 | Gate | Result |
