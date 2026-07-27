@@ -107,7 +107,6 @@ VALUES ('$tenant', 'cert3841-t$suffix', 'CERT3841 Tenant $suffix', 'C384${suffix
 INSERT INTO public.organizations (id, tenant_id, name, slug, is_default)
 VALUES ('$org', '$tenant', 'CERT3841 Default $suffix', 'cert3841-def-$suffix', true);
 SQL
-  FIXTURES+=("$tenant:$org")
   echo "$tenant:$org"
 }
 
@@ -115,6 +114,7 @@ SQL
 race_session() {
   local tenant="$1" email="$2" role="$3" hash="$4" out="$5"
   "${PSQL[@]}" -o "$out" <<SQL 2>"${out}.err" || true
+\set VERBOSITY verbose
 BEGIN;
 SELECT set_config('request.jwt.claims',
   json_build_object('sub','$USER_OK','role','authenticated')::text, true);
