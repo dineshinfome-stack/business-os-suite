@@ -23,9 +23,9 @@ const DTO_FILES = walk(DTO_DIR);
 const ALL_FILES = walk(ROOT);
 
 /**
- * Pass 3.8.3 boundary evolution: the module gains a WRITE layer on top of the
- * Pass 3.8.2 read layer. Exactly five files may reach the server; every other
- * file in the module stays pure.
+ * Pass 3.8.4 boundary evolution: the write layer gains the administrator
+ * service. Exactly six files may reach the server; every other file in the
+ * module stays pure.
  */
 const SERVER_ALLOW_LIST = [
   "queries.functions.ts",
@@ -33,7 +33,9 @@ const SERVER_ALLOW_LIST = [
   path.join("server", "query-service.server.ts"),
   path.join("server", "mappers.server.ts"),
   path.join("server", "command-service.server.ts"),
+  path.join("server", "admin-service.server.ts"),
 ].map((rel) => path.join(ROOT, rel));
+
 
 /** The read layer must stay write-free; the write layer must not. */
 const READ_ONLY_FILES = [

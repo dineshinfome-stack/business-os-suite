@@ -21,9 +21,13 @@ import { requireAllPermissions } from "@/lib/authorization.server";
 import { PERMISSIONS } from "@/lib/generated/permission-keys";
 
 import {
+  assignTenantAdministratorRoleSchema,
   createOrSelectBranchSchema,
   initializeFinancialYearSchema,
   initializeSettingsSchema,
+  inviteFirstTenantAdministratorSchema,
+  observeTenantAdministratorMembershipSchema,
+  resendFirstTenantAdministratorInvitationSchema,
   saveOrganizationProfileSchema,
   startOnboardingSchema,
 } from "./schemas";
@@ -35,6 +39,13 @@ import {
   startOnboardingCommand,
   verifyProvisioningCommand,
 } from "./server/command-service.server";
+import {
+  assignTenantAdministratorRoleCommand,
+  inviteFirstTenantAdministratorCommand,
+  observeTenantAdministratorMembershipCommand,
+  resendFirstTenantAdministratorInvitationCommand,
+} from "./server/admin-service.server";
+
 
 export const startTenantOnboarding = createServerFn({ method: "POST" })
   .middleware([requireAllPermissions([PERMISSIONS.PLATFORM_TENANT_UPDATE])])
@@ -100,4 +111,61 @@ export const initializeOnboardingFinancialYear = createServerFn({ method: "POST"
   .inputValidator((input: unknown) => initializeFinancialYearSchema.parse(input))
   .handler(async ({ context, data }) =>
     initializeFinancialYearCommand(context.supabase, { userId: context.userId }, data),
+  );
+
+/* ------------------------------------------------- Pass 3.8.4 administrator */
+
+export const inviteFirstTenantAdministrator = createServerFn({ method: "POST" })
+  .middleware([
+    requireAllPermissions([
+      PERMISSIONS.PLATFORM_TENANT_UPDATE,
+      PERMISSIONS.PLATFORM_INVITATIONS_MANAGE,
+    ]),
+  ])
+  .inputValidator((input: unknown) => inviteFirstTenantAdministratorSchema.parse(input))
+  .handler(async ({ context, data }) =>
+    inviteFirstTenantAdministratorCommand(context.supabase, { userId: context.userId }, data),
+  );
+
+export const resendFirstTenantAdministratorInvitation = createServerFn({ method: "POST" })
+  .middleware([
+    requireAllPermissions([
+      PERMISSIONS.PLATFORM_TENANT_UPDATE,
+      PERMISSIONS.PLATFORM_INVITATIONS_MANAGE,
+    ]),
+  ])
+  .inputValidator((input: unknown) =>
+    resendFirstTenantAdministratorInvitationSchema.parse(input),
+  )
+  .handler(async ({ context, data }) =>
+    resendFirstTenantAdministratorInvitationCommand(
+      context.supabase,
+      { userId: context.userId },
+      data,
+    ),
+  );
+
+export const observeTenantAdministratorMembership = createServerFn({ method: "POST" })
+  .middleware([requireAllPermissions([PERMISSIONS.PLATFORM_TENANT_UPDATE])])
+  .inputValidator((input: unknown) =>
+    observeTenantAdministratorMembershipSchema.parse(input),
+  )
+  .handler(async ({ context, data }) =>
+    observeTenantAdministratorMembershipCommand(
+      context.supabase,
+      { userId: context.userId },
+      data,
+    ),
+  );
+
+export const assignTenantAdministratorRole = createServerFn({ method: "POST" })
+  .middleware([
+    requireAllPermissions([
+      PERMISSIONS.PLATFORM_TENANT_UPDATE,
+      PERMISSIONS.PLATFORM_ROLES_ASSIGN,
+    ]),
+  ])
+  .inputValidator((input: unknown) => assignTenantAdministratorRoleSchema.parse(input))
+  .handler(async ({ context, data }) =>
+    assignTenantAdministratorRoleCommand(context.supabase, { userId: context.userId }, data),
   );
