@@ -458,17 +458,29 @@ export async function inviteFirstTenantAdministratorCommand(
     });
   } catch (error) {
     const { reasonCode, message } = classifyError(error);
-    await recordSafely(client, {
-      tenantId: input.tenantId,
-      stepKey,
-      status: "failed",
-      failureCode: reasonCode,
-      failureSummary: message,
-      correlationId,
+    // Optimistic concurrency: a serialization conflict means the workflow moved
+    // on. Writing a `failed` step here would clobber a newer version with a
+    // stale expectation, so the conflict is reported without any step write.
+    if (reasonCode !== "version_conflict") {
+      await recordSafely(client, {
+        tenantId: input.tenantId,
+        stepKey,
+        status: "failed",
+        failureCode: reasonCode,
+        failureSummary: message,
+        correlationId,
+      });
+    }
+    return result({
+      ...base,
+      ok: false,
+      reasonCode,
+      message,
+      stepStatus: reasonCode === "version_conflict" ? null : "failed",
     });
-    return result({ ...base, ok: false, reasonCode, message, stepStatus: "failed" });
   }
 }
+
 
 /* ---------------------------------------------------------- resend command */
 
@@ -537,17 +549,27 @@ export async function resendFirstTenantAdministratorInvitationCommand(
     });
   } catch (error) {
     const { reasonCode, message } = classifyError(error);
-    await recordSafely(client, {
-      tenantId: input.tenantId,
-      stepKey,
-      status: "failed",
-      failureCode: reasonCode,
-      failureSummary: message,
-      correlationId,
+    // Same optimistic-concurrency rule as the atomic invite.
+    if (reasonCode !== "version_conflict") {
+      await recordSafely(client, {
+        tenantId: input.tenantId,
+        stepKey,
+        status: "failed",
+        failureCode: reasonCode,
+        failureSummary: message,
+        correlationId,
+      });
+    }
+    return result({
+      ...base,
+      ok: false,
+      reasonCode,
+      message,
+      stepStatus: reasonCode === "version_conflict" ? null : "failed",
     });
-    return result({ ...base, ok: false, reasonCode, message, stepStatus: "failed" });
   }
 }
+
 
 /* ----------------------------------------------------- membership observer */
 
