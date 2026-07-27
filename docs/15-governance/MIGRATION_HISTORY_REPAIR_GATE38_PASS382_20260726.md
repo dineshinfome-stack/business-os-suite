@@ -577,7 +577,7 @@ Commit A was executed under the reaffirmed, SHA-pinned Step 0B authority
 | Step 0B pin record (baseline) | `b88afb9e4b0941c64344c435fdaa0718eb46cf35` |
 | Approval SHA | `303d2f7bc2158b04e88811ad5a3fcda39262b92d` |
 | Governance pin commit | `465667fa36719916aa46ab4dbf357549682c631f` |
-| Commit A evidence normalization commit | `PENDING PLATFORM COMMIT` (describes this governance correction only; it does not replace the technical Commit A SHA) |
+| Commit A evidence normalization commit | `7dd948960259175e3d36892b27b2a1371a129ef8` — `PINNED_AND_VERIFIED_BY_RECONCILIATION` (describes this governance correction only; it does not replace the technical Commit A SHA) |
 | Cumulative changed paths | 4 (1 `M`, 3 `A`) |
 | Unexpected paths / renames / copies / deletions / binary changes | 0 / 0 / 0 / 0 / 0 |
 | Protected-file drift | 0 — 10 / 10 comparisons PASS |
@@ -616,6 +616,36 @@ Commit B): tests 49 files, 512 / 512 PASS; `tsc --noEmit` clean.
 
 Commit B: `ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED`.
 Commit C: `NOT STARTED`. Pass 3.8.3: `NOT STARTED`.
+
+### 11.3 Commit A normalization path-gate reconciliation
+
+| Item | Value |
+| --- | --- |
+| Original normalization baseline | `de303d77cc6047666ce68309efd77194c7a441c1` |
+| Transient route-tree reversal commit | `1c2b084a813d9bc60eef79e84be4e9d70e7d382d` |
+| Intermediate normalization commit | `f78c086c9f8bf32a27e5bbd8e5eb15c7d08cab8c` (intermediate only) |
+| Final normalization commit | `7dd948960259175e3d36892b27b2a1371a129ef8` |
+| Original turn-local path gate | `FAIL — three paths` |
+| Unexpected path | `src/routeTree.gen.ts` |
+| Route-tree prior blob (at `465667fa…`) | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` |
+| Route-tree baseline blob (at `de303d77…`) | `1b1a72ea930e21a37b33f6ae7d1cedebdc6cb9a2` |
+| Route-tree final blob (at `7dd9489…`) | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` |
+| Path excluded | No |
+| Route-tree net drift | zero |
+| Recovery net-state comparison | prior governance pin `465667fa36719916aa46ab4dbf357549682c631f` → final normalization `7dd948960259175e3d36892b27b2a1371a129ef8` |
+| Recovery net-state gate | `PASS — exactly two governance files` |
+
+Failure reason recorded for the original gate: transient platform-generated
+route-tree content was present in the captured normalization baseline and was
+removed during the normalization sequence. The sole route-tree difference is
+the ten-line TanStack `declare module '@tanstack/react-start'` registration
+block; no route, import, path or generated route entry otherwise differs, and
+the final generated state is byte-identical to the prior settled governance-pin
+state.
+
+The failed original turn-local path gate is not converted into a pass. The
+reconciliation establishes that the unexpected generated-file transition was
+transient, fully reversed and produced no final runtime drift.
 
 ## 12. Separate finding registration
 
