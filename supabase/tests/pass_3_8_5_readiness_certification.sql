@@ -90,8 +90,29 @@ BEGIN
    WHERE readiness_impact = 'block';
   PERFORM pg_temp.assert('A3 at least one blocking required setting is registered',
                          v_n > 0, format('%s blocking key(s)', v_n));
+
+  -- A4 (3.8.5D) the blocking set is EXACTLY the three registered keys.
+  SELECT count(*) INTO v_n
+    FROM public.setting_definitions
+   WHERE readiness_impact = 'block'
+     AND key NOT IN ('platform.locale.default_timezone',
+                     'platform.locale.default_language',
+                     'platform.branding.product_name');
+  PERFORM pg_temp.assert('A4a no unexpected blocking setting definition',
+                         v_n = 0, format('%s unexpected key(s)', v_n));
+
+  SELECT count(*) INTO v_n
+    FROM (VALUES ('platform.locale.default_timezone'),
+                 ('platform.locale.default_language'),
+                 ('platform.branding.product_name')) AS x(key)
+   WHERE NOT EXISTS (
+     SELECT 1 FROM public.setting_definitions d
+      WHERE d.key = x.key AND d.readiness_impact = 'block');
+  PERFORM pg_temp.assert('A4b every expected blocking setting is registered',
+                         v_n = 0, format('%s missing key(s)', v_n));
 END
 $cert$;
+
 
 -- ---------------------------------------------------------------------
 -- Fixture: caller with platform permissions + a tenant mid-onboarding
