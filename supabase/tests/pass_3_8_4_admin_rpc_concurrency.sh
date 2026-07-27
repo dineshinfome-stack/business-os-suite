@@ -34,8 +34,12 @@ PSQL=(psql "$DB" -v ON_ERROR_STOP=1 -At)
 
 USER_OK='a5384100-0000-4000-8000-000000000001'
 EMAIL_OK='pass384.conc.authorized@certification.invalid'
-HASH_A="$(printf 'a%.0s' {1..64})"
-HASH_B="$(printf 'b%.0s' {1..64})"
+
+# token_hash is globally unique, so every racing call needs its own hash.
+# Deterministic 64-char lowercase hex derived from "<scenario>:<session>".
+make_hash() {
+  printf 'pass384-conc:%s' "$1" | sha256sum | cut -c1-64
+}
 
 # Tenants/organizations created by this run, cleaned up unconditionally.
 FIXTURES=()
