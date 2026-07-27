@@ -701,12 +701,46 @@ historical failed path-gate evidence in §11.3; that record stands unchanged.
 | Protected files | `10/10 PASS` |
 | Technical Commit A files | `4/4 unchanged` |
 | Final route-tree requirement | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` |
-| Commit B state | `COMPLETE — EVIDENCE VERIFIED — SHA PENDING POST-COMMIT PIN` |
-| Commit B SHA | `PENDING_POST_COMMIT_PIN` |
-| Commit C | `BLOCKED UNTIL COMMIT B SHA PIN` |
+| Commit B state | `COMPLETE — SHA PINNED AND VERIFIED` |
+| Commit B SHA | `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` |
+| Commit C | `ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED` |
 | Pass 3.8.2 | `COMPLETE, REMEDIATION REQUIRED` |
 | Pass 3.8.3 | `NOT STARTED` |
 | Separate signup finding | `OPEN — SEPARATE_TRIAGE_REQUIRED` (not repaired under this exception) |
 
 Commit B establishes a **verified closure candidate** only. It does not
 establish terminal governance closure; Commit C remains mandatory.
+
+### 11.5 Commit B SHA pin verification (post-commit, authoritative)
+
+The Commit B candidate commit `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` was
+verified post-commit and pinned. All quality commands in this section were
+re-executed in a disposable worktree created **directly from the candidate
+commit**, not from the stable governed baseline.
+
+| Item | Value |
+| --- | --- |
+| Candidate SHA | `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` |
+| Commit object | exists, type `commit` |
+| Ancestry | `77a95a15…` is an ancestor of the candidate; candidate is an ancestor of the pinning HEAD |
+| Cumulative diff `77a95a15…` → candidate | exactly the five approved documentation files, all `M` |
+| Isolated worktree source | `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` |
+| Dependency install | `bun install --frozen-lockfile`, exit 0, 893 packages, lockfile unmodified |
+| Test result | `PASS` — `bun run test` (`vitest run`), exit 0, 49 files, **512 passed / 0 failed / 0 skipped**, 13.92s, log SHA-256 `3d14911473613d0fd8e358538547e8812cb3cab09a794060bbacdc1e79bea019` |
+| Authoritative typecheck | `PASS` — `./node_modules/.bin/tsc --noEmit`, repository-local TypeScript **5.9.3**, exit 0, **0 diagnostics**, empty log (SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`) |
+| Production build | `PASS` — `bun run build`, exit 0, log SHA-256 `9826a7a9ab5f69c939c121f1071da84b6cd82b985f3d38dc9d7460a74823b1e2` |
+| Technical Commit A files | `4/4 PASS` (Git blob + SHA-256) |
+| Protected files | `10/10 PASS` (5 files × Git blob + SHA-256), drift 0 |
+| Route-tree final blob | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06`, net drift 0 |
+| Verified at (UTC) | `2026-07-27T01:46:37Z` |
+| Commit B SHA state | `PINNED_AND_VERIFIED` |
+
+The earlier `bunx tsgo --noEmit` observation is retained solely as
+`INITIAL_COMMIT_B_OBSERVATION` with
+`tool_source_repository_pinned = false` and
+`authoritative_for_sha_pin = false`. It is **not** the authoritative typecheck
+for this pin.
+
+Pass 3.8.3 remains unauthorized and not started. Commit C is eligible for a
+separate controlled plan and is not started.
+
