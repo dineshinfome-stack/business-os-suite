@@ -1675,6 +1675,22 @@ export type Database = {
         Returns: Json
       }
       fn_exit_maintenance: { Args: { _tenant: string }; Returns: Json }
+      fn_onboarding_record_step: {
+        Args: {
+          _correlation_id?: string
+          _expected_version?: number
+          _failure_code?: string
+          _failure_summary?: string
+          _status: string
+          _step_key: string
+          _tenant_id: string
+        }
+        Returns: Json
+      }
+      fn_onboarding_start: {
+        Args: { _correlation_id?: string; _tenant_id: string }
+        Returns: Json
+      }
       fn_restore_tenant: { Args: { _tenant: string }; Returns: Json }
       fn_schedule_tenant_deletion: {
         Args: { _reason: string; _retention_days?: number; _tenant: string }
