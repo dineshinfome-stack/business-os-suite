@@ -126,7 +126,7 @@ Each scenario also asserts the invitation step row count and version.
 | Gate | Result |
 |---|---|
 | `bash -n` on the concurrency runner | clean |
-| `bun run test` | see run output below |
+| `bun run test` | 553 / 553 passed (51 files) — local Lovable execution |
 | `./node_modules/.bin/tsc --noEmit` | clean |
 | `bun run build` | success |
 | SQL certification (`pass_3_8_4_admin_rpc_certification.sql`) | **NOT EXECUTED — UNAVAILABLE** (no Postgres connection string in this environment) |
