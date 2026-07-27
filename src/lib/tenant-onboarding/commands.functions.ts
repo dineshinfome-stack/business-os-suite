@@ -38,6 +38,8 @@ import {
   saveOrganizationProfileCommand,
   startOnboardingCommand,
   verifyProvisioningCommand,
+  activateTenantCommand,
+  refreshOnboardingReadinessCommand,
 } from "./server/command-service.server";
 import {
   assignTenantAdministratorRoleCommand,
