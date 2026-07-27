@@ -74,7 +74,7 @@ Both files are outside the migration chain and are never applied by deployment.
 | `bun run test` | **585 / 585 passed (53 files)** — local Lovable execution |
 | `./node_modules/.bin/tsc --noEmit` | **PASS** — local Lovable execution |
 | `bun run build` | **PASS** — local Lovable execution |
-| SQL readiness certification | NOT EXECUTED — database unavailable |
+
 | `bash -n supabase/tests/pass_3_8_5_activation_concurrency.sh` | **PASS** — syntax check, local Lovable execution |
 | SQL readiness certification (execution) | **NOT EXECUTED — UNAVAILABLE** |
 | Activation concurrency certification (execution) | **NOT EXECUTED — UNAVAILABLE** |
