@@ -232,6 +232,9 @@ export async function getOnboardingReadiness(
   correlationId: string | null = null,
 ): Promise<TenantOnboardingReadinessDTO> {
   const onboarding = await loadOnboarding(client, tenantId);
+  if (!client.rpc) {
+    return notEvaluatedReadiness(onboarding?.last_readiness_checked_at ?? null);
+  }
   const { data, error } = await client.rpc(ONBOARDING_EVALUATE_READINESS_RPC, {
     _tenant_id: tenantId,
     _correlation_id: correlationId,
