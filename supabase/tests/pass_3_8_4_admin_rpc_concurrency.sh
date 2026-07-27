@@ -143,21 +143,27 @@ run_scenario() {
   echo "== scenario $label =="
   local pair tenant org
   pair="$(new_fixture "$suffix")"
+  # Command substitution runs new_fixture in a SUBSHELL, so the cleanup list
+  # must be appended here, in the parent shell, or the trap sees nothing.
+  FIXTURES+=("$pair")
   tenant="${pair%%:*}"; org="${pair##*:}"
 
-  local f1 f2
+  local f1 f2 hash_a hash_b
   f1="$(mktemp)"; f2="$(mktemp)"
   TMPFILES+=("$f1" "$f2")
+  hash_a="$(make_hash "${suffix}:A")"
+  hash_b="$(make_hash "${suffix}:B")"
 
-  race_session "$tenant" "$email_a" "$role_a" "$HASH_A" "$f1" &
-  race_session "$tenant" "$email_b" "$role_b" "$HASH_B" "$f2" &
+  race_session "$tenant" "$email_a" "$role_a" "$hash_a" "$f1" &
+  race_session "$tenant" "$email_b" "$role_b" "$hash_b" "$f2" &
   wait
 
   local created=0 replayed=0 conflicts=0
   for f in "$f1" "$f2"; do
-    grep -qx 'true'  "$f" && created=$((created + 1))
-    grep -qx 'false' "$f" && replayed=$((replayed + 1))
-    grep -q "$expect_state" "${f}.err" && conflicts=$((conflicts + 1))
+    if grep -qx 'true'  "$f"; then created=$((created + 1)); fi
+    if grep -qx 'false' "$f"; then replayed=$((replayed + 1)); fi
+    # SQLSTATE only — never the English message (psql VERBOSITY verbose).
+    if grep -q "SQLSTATE: $expect_state" "${f}.err"; then conflicts=$((conflicts + 1)); fi
   done
 
   [[ "$created" -eq 1 ]] || fail "$label: expected exactly 1 creation, got $created"
