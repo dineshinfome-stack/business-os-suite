@@ -97,6 +97,13 @@ volatility must not be `IMMUTABLE`).
 `supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh` — two independent `psql`
 sessions per scenario, each on its own disposable tenant + default organization
 starting from empty state, fixtures removed by `trap` on success or failure.
+Each of the six racing calls uses its own deterministic 64-character token hash
+(`token_hash` is globally unique), and every session runs with
+`\set VERBOSITY verbose` so conflicts are matched on the SQLSTATE, never on the
+English message. Fixtures are appended to the cleanup list in the parent shell,
+so the `EXIT` trap removes every scenario's onboarding steps, onboarding row,
+invitations, organization and tenant plus the shared synthetic role/auth user
+and temporary files.
 
 | Scenario | Race | Expected |
 |---|---|---|
@@ -110,11 +117,14 @@ Each scenario also asserts the invitation step row count and version.
 
 | Gate | Result |
 |---|---|
-| `bun run test` | 553 / 553 passed (51 files) |
+| `bash -n` on the concurrency runner | clean |
+| `bun run test` | see run output below |
 | `./node_modules/.bin/tsc --noEmit` | clean |
 | `bun run build` | success |
-| Migration application | corrective migration applied successfully to the connected project |
-| Certification / concurrency scripts | authored and syntax-verified; execution requires a direct Postgres connection string (`DB=…`), which the build sandbox does not expose |
+| SQL certification (`pass_3_8_4_admin_rpc_certification.sql`) | **NOT EXECUTED — UNAVAILABLE** (no Postgres connection string in this environment) |
+| Concurrency certification (`pass_3_8_4_admin_rpc_concurrency.sh`) | **NOT EXECUTED — UNAVAILABLE** (requires `DB=…`) |
+| Pass 3.8.4 development | **COMPLETE** |
+| Production database certification | **PENDING** |
 
 ## 10. Changed paths
 
@@ -123,9 +133,11 @@ src/lib/tenant-onboarding/server/admin-service.server.ts
 src/lib/tenant-onboarding/__tests__/admin-commands.test.ts
 supabase/tests/pass_3_8_4_admin_rpc_certification.sql
 supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh
+supabase/migrations/20260727091304_3d294b46-f703-4918-9bba-763810c4bf72.sql
 supabase/migrations/20260727091655_28fe2103-15ea-42ac-a55b-4ba146858538.sql
 docs/60-engineering/PHASE3_GATE38_PASS384_COMPLETION_REPORT.md
 ```
+
 
 ## 11. Limitations and open items
 
