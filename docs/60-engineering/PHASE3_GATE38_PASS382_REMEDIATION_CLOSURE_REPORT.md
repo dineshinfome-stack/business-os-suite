@@ -4,7 +4,8 @@
 **Gate:** Phase 3 — Gate 3.8 (Tenant Onboarding, Organization Activation & Workspace Bootstrap)
 **Pass:** 3.8.2 — Read-only Persistence & Models
 **Report:** Remediation Closure (v5 plan)
-**Status:** ✅ **COMPLETE — REMEDIATION CLOSED**
+**Status:** ⚠️ **VERIFIED CLOSURE CANDIDATE — TERMINAL GOVERNANCE PENDING**
+**Closure state:** `VERIFIED_CLOSURE_CANDIDATE` (not `CLOSED`)
 **Scope guard:** Pass 3.8.2 only. No write paths, no command surfaces, no UI.
 
 ---
@@ -115,6 +116,8 @@ agree; the database is not trusting the caller to have validated first.
 
 ## 6. Verification gates
 
+Historical results from the remediation pass itself:
+
 | Gate | Result |
 |------|--------|
 | `tsc --noEmit` (tsgo) | ✅ clean, 0 errors |
@@ -122,6 +125,19 @@ agree; the database is not trusting the caller to have validated first.
 | Production build | ✅ succeeded |
 | Database harness | ✅ passed, 0 rows of residue |
 | Protected-path changes | 0 |
+
+Authoritative Commit B re-execution, run in a disposable worktree created from
+the stable governed baseline `77a95a15e59d0a4c48d7b9746e525adf1c4e7934`
+(`bun install --frozen-lockfile`, exit 0, lockfile unmodified; Node `v22.22.0`,
+bun `1.3.3`):
+
+| Gate | Command | Result |
+|------|---------|--------|
+| Test suite | `bun run test` | ✅ exit 0 — 49 files, **512 passed, 0 failed, 0 skipped**, 8.78s |
+| Typecheck | `bunx tsgo --noEmit` | ✅ exit 0 — 0 diagnostics |
+| Production build | `bun run build` | ✅ exit 0 — `dist/client`, `dist/server`, `dist/nitro.json` |
+| Commit A technical files | blob comparison | ✅ 4/4 unchanged |
+| Protected files | blob + SHA-256 | ✅ 10/10 PASS, drift 0 |
 
 New coverage added this pass (15 tests,
 `src/lib/tenant-onboarding/__tests__/queue-rpc.test.ts`): envelope schema
@@ -155,7 +171,26 @@ and the `rpc()` capability precondition.
 
 ---
 
-## 9. Closure
+## 9. Closure state
 
-All four findings are resolved with executed evidence rather than asserted
-intent. **Pass 3.8.2 is CLOSED.** Pass 3.8.3 may begin.
+All four findings (REM-382-001 … REM-382-004) are resolved with executed
+evidence rather than asserted intent, and the separate migration-history defect
+was repaired under the approved Commit A tombstone transition
+(`98019c2cad8ae8467d123a46a5714dcced929a50`).
+
+**Pass 3.8.2 is NOT formally closed.** Its state is
+`VERIFIED_CLOSURE_CANDIDATE`: every technical and quality gate has passed and
+been evidenced, but terminal governance has not been executed.
+
+Outstanding before formal closure (Commit C, mandatory, not started):
+
+1. Pin the Commit B SHA in the governance manifest and document.
+2. Update the migration registry.
+3. Author the terminal audit report.
+4. Record formal Pass 3.8.2 closure.
+
+Separate open item, not part of this remediation:
+`FND-20260726-AUTH-SIGNUP-TENANTID` — `OPEN — SEPARATE_TRIAGE_REQUIRED`.
+
+**Pass 3.8.3 must NOT begin** until Commit C is complete and Pass 3.8.2 is
+formally closed by the Architecture Office.

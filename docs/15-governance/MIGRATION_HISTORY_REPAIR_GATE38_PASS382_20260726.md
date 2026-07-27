@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Commit A Complete and Pinned — Commit B Pending
+status: Commit B Verified Closure Candidate — SHA Pin Pending
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
@@ -11,7 +11,7 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Commit A Complete and Pinned — Commit B Pending`:**
+**Repository status while this document is `Commit B Verified Closure Candidate — SHA Pin Pending`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
@@ -606,16 +606,17 @@ Newline counts equal the line counts above; every file ends with a final newline
 | Success-path residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS` exactly once, residue 0 |
 | Forced-failure drill | `PASS` — harness exit 3, 0 unique numbered markers |
 | Forced-failure residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS`, residue 0 |
-| Test suite (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TEST RUN` |
-| Typecheck (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TYPECHECK RUN` |
-| Production build (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN THE PRODUCTION BUILD` |
+| Test suite (Commit B gate) | `PASS` — authoritative Commit B run, `bun run test`, exit 0, 49 files, 512 / 512 passed, 0 failed, 0 skipped |
+| Typecheck (Commit B gate) | `PASS` — authoritative Commit B run, `bunx tsgo --noEmit`, exit 0, 0 diagnostics |
+| Production build (Commit B gate) | `PASS` — authoritative Commit B run, `bun run build`, exit 0, `dist/` generated in an isolated worktree |
 
-Supplemental, non-authoritative observations recorded during Commit A evidence
-verification (they do not satisfy any Commit B gate and must be rerun under
-Commit B): tests 49 files, 512 / 512 PASS; `tsc --noEmit` clean.
+The supplemental, non-authoritative observations recorded during Commit A
+evidence verification (tests 49 files, 512 / 512 PASS; `tsc --noEmit` clean)
+are retained as history and are **superseded** by the authoritative Commit B
+run recorded in §11.4.
 
-Commit B: `ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED`.
-Commit C: `NOT STARTED`. Pass 3.8.3: `NOT STARTED`.
+Commit B: `COMPLETE — EVIDENCE VERIFIED — SHA PENDING POST-COMMIT PIN`.
+Commit C: `BLOCKED UNTIL COMMIT B SHA PIN`. Pass 3.8.3: `NOT STARTED`.
 
 ### 11.3 Commit A normalization path-gate reconciliation
 
@@ -677,3 +678,35 @@ not-null constraint`) at line 38 of the trigger function.
   remediation item requiring triage. It is not repaired under
   `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` and does not block the Commit A
   pin.
+
+---
+
+## Commit B verified-closure candidate
+
+Recorded under §11.4. This section does **not** overwrite or amend the
+historical failed path-gate evidence in §11.3; that record stands unchanged.
+
+| Item | Value |
+| --- | --- |
+| Stable governed baseline | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
+| Commit B execution start head | `b25d6d88af451d4d8d7e415d6928ff736c4bb18c` |
+| Commit B started (UTC) | `2026-07-27T01:20:41Z` |
+| Isolation | all quality commands executed in a disposable worktree created directly from `77a95a15…` |
+| Environment | Node `v22.22.0`, bun `1.3.3`, `Linux 4.4.0 x86_64` |
+| Dependency install | `bun install --frozen-lockfile`, exit 0, lockfile unmodified (`bun.lock` SHA-256 `d6d9861dbd0935209c59e494ad34024c2e991e3fb5a77779b2d6af27c449e7e9`) |
+| Test result | `PASS` — `bun run test` (`vitest run`), exit 0, 49 files, **512 passed / 0 failed / 0 skipped**, 8.78s, log SHA-256 `dab19902f8d4d1bda568dbc788b0da56ba248bf8dfcee10bfe44452d3ba7144c` |
+| Typecheck result | `PASS` — `bunx tsgo --noEmit`, exit 0, **0 diagnostics**, empty log (SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`) |
+| Production build | `PASS` — `bun run build`, exit 0, 14s, outputs `dist/client`, `dist/server`, `dist/nitro.json`, 1 chunk-size advisory, log SHA-256 `f4291074c5c2774bd9a1840be674168221ae86d57945c6170e126b3c8526f2c8` |
+| Build-generated churn | `src/routeTree.gen.ts` regenerated **inside the disposable worktree only** (`1b1a72ea930e21a37b33f6ae7d1cedebdc6cb9a2`); not copied into the active repository |
+| Protected files | `10/10 PASS` |
+| Technical Commit A files | `4/4 unchanged` |
+| Final route-tree requirement | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` |
+| Commit B state | `COMPLETE — EVIDENCE VERIFIED — SHA PENDING POST-COMMIT PIN` |
+| Commit B SHA | `PENDING_POST_COMMIT_PIN` |
+| Commit C | `BLOCKED UNTIL COMMIT B SHA PIN` |
+| Pass 3.8.2 | `COMPLETE, REMEDIATION REQUIRED` |
+| Pass 3.8.3 | `NOT STARTED` |
+| Separate signup finding | `OPEN — SEPARATE_TRIAGE_REQUIRED` (not repaired under this exception) |
+
+Commit B establishes a **verified closure candidate** only. It does not
+establish terminal governance closure; Commit C remains mandatory.

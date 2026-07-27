@@ -237,3 +237,28 @@ Both identifiers propagate through
 and are asserted at type level in
 `__tests__/contract-colocation.test-d`-style assertions inside
 `__tests__/contracts.test.ts`.
+
+---
+
+## 6. Pass 3.8.2 migration-history remediation status
+
+This section records only the Pass 3.8.2-related remediation state under
+`MIG-20260726-GATE38-PASS382-HISTORY-REPAIR`. No other matrix entry changes.
+
+| Item | Value |
+|---|---|
+| Technical Commit A SHA | `98019c2cad8ae8467d123a46a5714dcced929a50` |
+| Commit A governance pin | `465667fa36719916aa46ab4dbf357549682c631f` |
+| Commit A evidence normalization | `7dd948960259175e3d36892b27b2a1371a129ef8` |
+| Commit A normalization reconciliation | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
+| Commit B stable governed baseline | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
+| Test result (authoritative Commit B) | `PASS` — `bun run test`, exit 0, 49 files, 512 passed, 0 failed, 0 skipped |
+| Typecheck result (authoritative Commit B) | `PASS` — `bunx tsgo --noEmit`, exit 0, 0 diagnostics |
+| Production build (authoritative Commit B) | `PASS` — `bun run build`, exit 0, `dist/` generated in an isolated worktree |
+| Protected-file result | `10/10 PASS`, drift 0; Commit A technical files `4/4 unchanged` |
+| Clean-replay evidence (inherited, pinned Commit A) | `PASS` — 31 / 31 migrations on a disposable PostgreSQL 17 cluster; 1 exact history row |
+| Certification-harness result (inherited, pinned Commit A) | `PASS` — 16 / 16 unique markers + supplemental ACL `42501`; success and forced-failure residue postchecks both `PASS`, residue 0 |
+| Remediation status | `VERIFIED CLOSURE CANDIDATE` |
+| Commit C | `REQUIRED — NOT STARTED` |
+| Pass 3.8.3 | `NOT STARTED` |
+| Separate signup-trigger finding | `OPEN — SEPARATE_TRIAGE_REQUIRED` |
