@@ -1,195 +1,121 @@
+# Pass 3.8.5A — Signup Trigger Release-Blocker Repair (prerequisite to Pass 3.8.5)
 
-# Pass 3.8.4 — Focused Functional and Security Repair (v4, final + execution clarifications)
+Baseline `59562bcdf1dece3e0e63059f07295b9ce669896a`. Strict lean execution. No readiness evaluator, no activation, no `PHASE3_GATE38_PASS385_COMPLETION_REPORT.md`, no historical migration edits.
 
-Baseline `598647dadd482acec8a13917e9772e990c1f689b`. Lean, in-place repair. One corrective migration, one completion report, no Pass 3.8.5, no further planning revision.
+## 1. Confirmed defect
 
-Verified: no invitee delivery channel exists, so the one-time token handoff applies and `notificationQueued` stays `false`.
+Effective `private.fn_handle_new_auth_user()` (body set by `20260722154850`) inserts a profile, then an organization **without `tenant_id`**, then an owner membership. Later migrations made `organizations.tenant_id` NOT NULL with FK to `tenants(id)` and replaced global slug uniqueness with `(tenant_id, slug)`. Every `auth.users` insert therefore aborts (`23502` first, FK secondary). The function's `WHERE slug = v_slug` uniqueness loop is likewise stale.
 
-## 1. One-time invitation handoff
+Canonical ownership (ADR-017, operator-run Gate 3.8, tenant self-service deferred): the auth trigger creates the application **profile only**. Tenant + default organization are platform-provisioned; membership and admin roles belong to invitation acceptance and `fn_onboarding_assign_admin_role`.
 
-- Ephemeral `oneTimeInvitationToken: string | null` on `OnboardingAdminActionResultDTO` **only**.
-- Returned only for a newly created or resent invitation via an authorized POST mutation; `null` on replay and on every failure; fresh per resend.
-- Never persisted, audited, logged, or placed in query cache/keys, read DTOs, error text or telemetry.
-- Architecture test forbids token-like fields in `TenantAdminInvitationDTO`, query/activity DTOs, audit metadata and read mappers; explicitly allows the approved write-result field.
-
-## 2. In-RPC permission enforcement
-
-Corrective migration enforces permissions inside every SECURITY DEFINER routine via `private.fn_user_has_permission`, raising `42501`:
-
-| Routine | Permissions |
-|---|---|
-| `fn_onboarding_resolve_first_admin` | `platform.tenant.update`, `platform.invitations.view` |
-| `fn_onboarding_invite_first_admin_atomic` (new) | `platform.tenant.update`, `platform.invitations.manage` |
-| `fn_onboarding_resend_first_admin_atomic` (new) | same |
-| `fn_onboarding_revoke_invitation` | same |
-| `fn_onboarding_assign_admin_role` | `platform.tenant.update`, `platform.invitations.view`, `platform.memberships.manage`, `platform.roles.assign` |
-
-`commands.functions.ts` middleware is aligned to exactly these sets. No new permission keys.
-
-## 3. Atomic RPC signatures — organization resolved internally
+## 2. Changed paths — exactly three
 
 ```text
-public.fn_onboarding_invite_first_admin_atomic(
-  _tenant_id uuid, _email text, _invited_role text,
-  _token_hash text, _expires_at timestamptz,
-  _correlation_id text, _expected_version integer)
-
-public.fn_onboarding_resend_first_admin_atomic(
-  _tenant_id uuid, _invitation_id uuid, _token_hash text, _expires_at timestamptz,
-  _correlation_id text, _expected_version integer)
+supabase/migrations/<new>_pass_3_8_5a_signup_trigger_repair.sql
+supabase/tests/pass_3_8_5a_signup_trigger_certification.sql
+docs/60-engineering/PHASE3_GATE38_PASS385A_COMPLETION_REPORT.md
 ```
 
-No `_organization_id`, no defaults, distinct names (no ambiguous overload). The invite function resolves the non-deleted `is_default IS TRUE` organization itself (`P3841` when absent). The application calls the atomic RPC directly and never pre-calls the resolver, avoiding the `invitations.view` / `invitations.manage` mismatch.
+After implementation, `git diff --name-only 59562bcdf1dece3e0e63059f07295b9ce669896a` must list exactly these three. If Lovable auto-modifies `.lovable/plan.md`, restore it to baseline content before completion. Any other path is a scope failure and a stop condition. No generated Supabase types update — the trigger signature is unchanged.
 
-Both atomic RPCs return authoritative state sufficient to build the result without a second read:
+## 3. Append-only repair migration
+
+Single `CREATE OR REPLACE FUNCTION private.fn_handle_new_auth_user()`:
+
+- `SECURITY DEFINER`, owner `postgres`, `SET search_path = pg_catalog, public`
+- `REVOKE ALL … FROM PUBLIC, anon, authenticated`
+- existing `trg_auth_users_new_user` binding untouched
+- body: one `INSERT INTO public.profiles (id, display_name, avatar_url, created_by, updated_by) … ON CONFLICT (id) DO NOTHING; RETURN NEW;`
+- **idempotent create, never overwrite** — a replay must not clobber a user-edited display name or avatar
+- display-name fallback `full_name → name → split_part(email,'@',1)`, allowed to resolve to NULL (`profiles.display_name` is nullable); tolerates missing `email`/`avatar_url`
+- reads no tenant/organization/membership/role authority from `raw_user_meta_data`
+- writes no `tenants`, `organizations`, `organization_members`, `user_roles`
+
+**Header recovery note (roll-forward only):**
 
 ```text
-organization_id, invitation_id, invitation_status, created, replayed,
-membership_status, role_granted, step_status, step_version
+Recovery requires a new append-only migration restoring a known-safe,
+profile-only trigger implementation. Never restore the tenant-less
+organization auto-provisioning body from migration 20260722154850.
 ```
 
-## 4. Authoritative default organization across all five RPCs (Clarification 2)
+No self-service tenant provisioning is introduced. Historical migrations stay immutable.
 
-Every relevant routine — `fn_onboarding_resolve_first_admin`, both atomic functions, `fn_onboarding_revoke_invitation`, `fn_onboarding_assign_admin_role` — resolves and enforces the single non-deleted `is_default IS TRUE` organization.
+## 4. Certification — `supabase/tests/pass_3_8_5a_signup_trigger_certification.sql`
 
-- The resolver **removes the oldest-organization fallback** entirely and raises `P3841` when no default exists.
-- The resolver locates accepted administrative invitations **independently of the submitted email**.
-- Revoke and role assignment reject an invitation belonging to a non-default organization of the same tenant with `P3842`.
+Definition and privilege assertions (function resolved by namespace `private`, name, zero-argument identity):
 
-## 5. Retire the legacy six-argument surface
+1. exactly one enabled `AFTER INSERT` trigger on `auth.users` invokes `private.fn_handle_new_auth_user`
+2. owner is `postgres`
+3. `prosecdef` is true
+4. normalized `proconfig` entry equals `search_path=pg_catalog, public` (normalize whitespace/quoting before comparing; do not assume one raw array rendering)
+5. `has_function_privilege('anon', …, 'EXECUTE')` is false and same for `authenticated`; **PUBLIC** is checked by inspecting `pg_proc.proacl` via `aclexplode` for a grant with `grantee = 0` — never `has_function_privilege('public', …)`
+6. the function definition carries the approved `ON CONFLICT (id) DO NOTHING` profile policy and no tenant/organization/membership/role write
 
-No null-`expectedVersion` delegation. The migration issues:
+Behavioural assertions, all **fixture-scoped** (no unrestricted global before/after counts):
 
-```sql
-REVOKE ALL ON FUNCTION
-  public.fn_onboarding_invite_first_admin(uuid, uuid, text, text, text, timestamptz)
-FROM PUBLIC, anon, authenticated;
-```
+7. inserting a disposable `auth.users` row creates exactly one `profiles` row with `id = fixture_user_id`
+8. missing optional metadata (`full_name`, `name`, `avatar_url`, `email`) does not fail signup
+9. hostile `tenant_id` / `organization_id` / `role` / platform-role metadata is ignored
+10. `SELECT count(*) FROM tenants WHERE created_by = fixture_user_id` = 0
+11. `organizations WHERE created_by = fixture_user_id` = 0
+12. `organization_members WHERE user_id = fixture_user_id` = 0
+13. `user_roles WHERE user_id = fixture_user_id` = 0
+14. optional integrity preflight only: no `organizations` row with `tenant_id IS NULL` (supplementary, never a substitute for the fixture predicates)
 
-and retains it only as a non-executable compatibility stub (or drops it). Its only references are its migration, generated types, and the Pass 3.8.4 service — all migrated. Certification asserts `authenticated` cannot execute it and that exactly one `fn_onboarding_invite_first_admin` signature remains.
+Conflict / idempotency fixture sequence (corrected — a profile cannot pre-exist without its `auth.users` row):
 
-## 6. Organization-scoped serialization and replay equivalence
+1. insert the disposable `auth.users` fixture row
+2. let the real trigger create the profile
+3. `UPDATE public.profiles SET display_name = '<sentinel>', avatar_url = '<sentinel>' WHERE id = fixture_user_id`
+4. create a disposable table `(id uuid, email text, raw_user_meta_data jsonb)` — **no primary key**, duplicate ids must be allowed
+5. attach `private.fn_handle_new_auth_user()` as an `AFTER INSERT … FOR EACH ROW` trigger on it
+6. insert two rows carrying the same `fixture_user_id`
+7. assert exactly one profile row for that id, sentinel `display_name` and `avatar_url` unchanged, and assertions 10–13 still hold
+8. drop the disposable trigger and table
 
-Inside `fn_onboarding_invite_first_admin_atomic`, one transaction:
+Fixtures are cleaned or transactionally rolled back; deterministic PASS/FAIL output lines.
 
-1. resolve the unique default organization (`P3841` if none);
-2. take a **transaction-level advisory lock derived from the default organization ID alone**, with `unique_violation` catch + authoritative re-read as backstop;
-3. inspect **all** valid administrative invitations for that organization, not just the submitted email;
-4. apply outcomes:
+## 5. Gates
 
-| Existing state | Result |
-|---|---|
-| Accepted administrator invitation | authoritative replay (earliest by `accepted_at ASC NULLS LAST, created_at ASC`) |
-| Pending, same email + same role | idempotent replay |
-| Pending, same email, different role | `P3843 invitation_role_conflict` |
-| Pending, different email | `P3847 invitation_email_conflict` |
-| Only revoked/expired history | create allowed |
-| No administrative invitation | create allowed |
+Local: `bun run test`; `./node_modules/.bin/tsc --noEmit`; `bun run build`; `bash -n supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh`.
 
-5. insert only when allowed; record the step in the same transaction.
+Live (only if a PostgreSQL connection exists): clean migration replay; Pass 3.8.5A certification; `pass_3_8_4_admin_rpc_certification.sql`; the three-scenario `pass_3_8_4_admin_rpc_concurrency.sh` unmodified. Otherwise each database gate is reported `NOT EXECUTED — UNAVAILABLE`. No PASS inferred from authored SQL, from GitHub contents, or from prior discovery reads.
 
-A different first-admin email must go through the explicit resend/change flow.
+## 6. Finding status rule
 
-## 7. Exactly-once step recording (Clarification 1)
-
-- The atomic invite RPC records `tenant_admin_invitation` **exactly once in both the create and the replay path**.
-- The application **never** calls `recordOnboardingStep` for `tenant_admin_invitation` after a successful atomic invite or resend result — no follow-up write on any path.
-- Atomic resend: revoke old + insert replacement (preserving email and administrative role) + step recording in one transaction; failure rolls back both.
-- `tenant_admin_membership` and `roles_assigned` are recorded independently.
-- Both atomic RPCs honour `_expected_version` and `_correlation_id`. Audit writes stay best-effort after commit.
-- The prohibited state — invitation created + token unavailable + command reported failure — is structurally impossible.
-
-## 8. Database-side input validation on direct RPC calls (Clarification 4)
-
-Both atomic RPCs validate before any mutation, raising the mapped SQLSTATEs (`22023` for generic contract violations):
-
-- email: trimmed/lower-cased, non-empty, ≤ 320 characters;
-- invited role: `owner` or `admin` only;
-- token hash: exactly 64 lowercase hexadecimal characters;
-- `expires_at`: strictly in the future and ≤ 7 days ahead;
-- correlation ID: bounded length;
-- `expected_version`: null or non-negative.
-
-## 9. Canonical deterministic error mapping (Clarification 3)
-
-`classifyError` in `command-service.server.ts` maps SQLSTATE only; no message parsing.
+`FINDING-AUTH-SIGNUP-TENANT-FK-20260726` closes only after the repair is applied to a live disposable/staging database, a real `auth.users` insert succeeds, the profile exists, no tenant/organization/membership/role row is created for the fixture user, and the harness passes. Otherwise:
 
 ```text
-42501 permission_denied
-40001 version_conflict
-P3841 default_organization_missing
-P3842 organization_not_default
-P3843 invitation_role_conflict
-P3844 invitation_missing
-P3845 invitation_expired
-P3846 invitation_accepted
-P3847 invitation_email_conflict
+Signup blocker repair development ........ COMPLETE
+Signup blocker live certification ......... PENDING
+Finding ................................... REPAIRED IN CODE — LIVE VERIFICATION PENDING
+Pass 3.8.5 readiness implementation ....... NOT STARTED
+Tenant activation readiness ............... BLOCKED
 ```
 
-## 10. Accepted-invitation integrity recording
+## 7. Completion report
 
-- active membership → `tenant_admin_membership` **completed**
-- missing membership → **blocked**, `membership_missing_after_acceptance`
-- inactive membership → **blocked**, `membership_inactive_after_acceptance`
-- matching `user_roles` grant → `roles_assigned` **completed**
-- missing grant → **blocked**, `role_grant_missing`
-- pre-acceptance → `skipped` with `acceptance_pending` / `role_grant_pending_acceptance`
+Only `docs/60-engineering/PHASE3_GATE38_PASS385A_COMPLETION_REPORT.md`: Pass 3.8.5A status block above; exact changed paths; local gate results; each database gate reported separately; finding status; explicit note that Pass 3.8.5 readiness evaluation and activation remain NOT STARTED; explicit note that the financial-year requirement source remains unresolved and must evaluate `not_applicable` in the later readiness implementation. Pass 3.8.4 report and scripts are not touched.
 
-## 11. Tests
+## 8. Rollback and failure safety
 
-**Unit (fake client).** Extend the existing 18 cases with: token presence/absence, typed SQLSTATE mapping incl. `P3847`, atomic call shape without `organizationId`, no pre-resolver call, **atomic replay records the invitation step once**, **no application follow-up invitation-step write**, integrity recording, and exactly-once version/`attempt_count` increment per create and per resend.
+Single `CREATE OR REPLACE`, revertible only by a further append-only migration (roll-forward). Trigger binding, ownership and grants preserved, so no auth-path outage window. Narrowing removes writes only; no backfill possible or needed (tenant-less organizations cannot exist under NOT NULL). Harness touches disposable fixtures exclusively.
 
-**`supabase/tests/pass_3_8_4_admin_rpc_certification.sql`** (Pass 3.8.2 harness pattern: transaction-wrapped fixtures, rollback, PASS/FAIL). Asserts:
+## 9. Stop conditions
 
-1. exactly one `fn_onboarding_invite_first_admin` signature; `authenticated` cannot execute it;
-2. `42501` denials on each routine for an unprivileged caller;
-3. no default organization → `P3841`; **resolver has no oldest-organization fallback**;
-4. accepted-invitation resolution independent of submitted email, earliest-accepted ordering;
-5. pending same-role → replay; different-role → `P3843`; different-email → `P3847`;
-6. **revoke rejects a non-default same-tenant organization (`P3842`)**;
-7. **role assignment rejects a non-default same-tenant organization (`P3842`)**;
-8. **direct RPC rejects malformed token hash, invalid/over-long expiry, and non-administrative role**;
-9. create and resend each record the invitation step exactly once, no double increment;
-10. failed step write rolls back invitation creation; failed resend replacement rolls back the revocation;
-11. plaintext token absent from all database and audit surfaces.
+Halt and report instead of improvising if: migration replay fails; the function cannot be replaced without dropping dependents; any Pass 3.8.4 concurrency scenario regresses; the semantic diff would include a fourth path; or evidence emerges that self-service tenant signup is a hard requirement (architectural decision, not a repair).
 
-**`supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh`** — two independent `psql` sessions on disposable fixtures verifying:
+## 10. Execution order
 
-1. same email + same role → one creation, one replay;
-2. same email + different role → one creation, one `P3843`;
-3. different email → one creation, one `P3847`;
-4. exactly one valid pending first-admin invitation remains;
-5. `trap`-based cleanup on success or failure.
+1. Author the append-only repair migration (with roll-forward header note).
+2. Author the certification harness.
+3. Run local gates.
+4. Attempt live gates; record honest per-gate status.
+5. Author the Pass 3.8.5A completion report, verify the three-path diff, and stop.
 
-If two sessions cannot be established, the runner reports concurrency **UNAVAILABLE** — never PASS. Concurrency PASS is never claimed from the single-session SQL file.
+## 11. Deferred to the real Pass 3.8.5
 
-## 12. Quality gates
+Readiness evaluator (tenant/provisioning state, lifecycle eligibility, default organization and branch, invitation/membership/role, required settings, financial year `not_applicable`, failed/blocked steps, cross-table tenant integrity), readiness snapshot persistence, readiness command/server facade, activation restricted to `ready` / `ready_with_warnings` with explicit warning acknowledgement, optimistic activation concurrency, lifecycle delegation.
 
-Same turn: `bun run test`, repository-local `tsc --noEmit`, `bun run build`, migration validation/replay, SQL certification harness, two-session concurrency runner, and a changed-path review with zero unrelated changes.
-
-## 13. Completion report
-
-Single file `docs/60-engineering/PHASE3_GATE38_PASS384_COMPLETION_REPORT.md`. No other documentation changes.
-
-## Expected changed paths (~12)
-
-```text
-src/integrations/supabase/types.ts
-src/lib/tenant-onboarding/server/admin-service.server.ts
-src/lib/tenant-onboarding/server/command-service.server.ts
-src/lib/tenant-onboarding/commands.functions.ts
-src/lib/tenant-onboarding/schemas.ts
-src/lib/tenant-onboarding/types/v1/onboarding-admin-result.dto.ts
-src/lib/tenant-onboarding/__tests__/admin-commands.test.ts
-src/lib/tenant-onboarding/__tests__/architecture.test.ts
-supabase/migrations/<new_corrective_migration>.sql
-supabase/tests/pass_3_8_4_admin_rpc_certification.sql
-supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh
-docs/60-engineering/PHASE3_GATE38_PASS384_COMPLETION_REPORT.md
-```
-
-`types/v1/index.ts` changes only if an additional exported type is required. `src/integrations/supabase/types.ts` is regenerated after the migration so both atomic RPCs are typed.
-
-## Out of scope
-
-`FINDING-AUTH-SIGNUP-TENANT-FK-20260726` stays OPEN as a release blocker. Pass 3.8.5 is not started.
+**READY TO EXECUTE as Pass 3.8.5A.**
