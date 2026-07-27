@@ -93,8 +93,43 @@ function makeClient(
           error: null,
         };
       }
-      if (name === INVITE_ADMIN_RPC) {
-        return { data: { invitation_id: INVITATION }, error: null };
+      if (name === INVITE_ADMIN_ATOMIC_RPC) {
+        // Mirrors the transactional routine: it resolves the default
+        // organization itself, decides create vs replay, and records the
+        // `tenant_admin_invitation` step inside the same transaction.
+        const existing = resolve.invitation as Record<string, unknown> | null;
+        const replay = existing !== null && existing.status === "pending";
+        return {
+          data: {
+            organization_id: ORG,
+            invitation_id: INVITATION,
+            invitation_status: replay ? existing!.status : "pending",
+            created: !replay,
+            replayed: replay,
+            membership_status: "pending_acceptance",
+            role_granted: false,
+            state: "in_progress",
+            step_status: "completed",
+            step_version: 2,
+          },
+          error: null,
+        };
+      }
+      if (name === RESEND_ADMIN_ATOMIC_RPC) {
+        return {
+          data: {
+            organization_id: ORG,
+            invitation_id: "99999999-9999-4999-8999-999999999999",
+            previous_invitation_id: INVITATION,
+            invitation_status: "pending",
+            created: true,
+            replayed: false,
+            state: "in_progress",
+            step_status: "completed",
+            step_version: 3,
+          },
+          error: null,
+        };
       }
       if (name === ASSIGN_ADMIN_ROLE_RPC) {
         return { data: { created: true, role_key: "administrator" }, error: null };
