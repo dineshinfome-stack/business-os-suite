@@ -63,7 +63,7 @@ Optimistic concurrency: a SQLSTATE `40001` from either atomic routine returns
 `version_conflict` and performs NO step write, so a stale expectation can never
 overwrite a newer workflow version.
 
-## 6. Direct-RPC validation (corrective migration)
+## 6. Direct-RPC validation (corrective migrations)
 
 Append-only migration `20260727091655_28fe2103-15ea-42ac-a55b-4ba146858538.sql`:
 
@@ -76,6 +76,13 @@ Append-only migration `20260727091655_28fe2103-15ea-42ac-a55b-4ba146858538.sql`:
 - Retained: 64-character lowercase hex token hash, future expiry ≤ 7 days,
   correlation id ≤ 128 chars, non-negative expected version.
 - The committed migration `20260727055004_…` was not modified.
+
+Supporting migration `20260727091304_3d294b46-f703-4918-9bba-763810c4bf72.sql`
+is a migration-replay compatibility / `search_path` correction: it adds the
+`extensions` schema to the search path of the company-creation routines so the
+`citext` type resolves during a clean replay of the migration chain. It changes
+no onboarding behaviour.
+
 
 ## 7. SQL certification
 
