@@ -11,7 +11,7 @@ tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Commit A Complete and Pinned — Commit B Pending`:**
+**Repository status while this document is `Commit B Verified Closure Candidate — SHA Pin Pending`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
