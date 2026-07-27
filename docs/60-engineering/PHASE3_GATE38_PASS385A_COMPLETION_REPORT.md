@@ -133,10 +133,10 @@ independent CI verification is recorded as **NOT AVAILABLE**.
 
 | Gate | Result |
 | --- | --- |
-| Clean migration replay from empty database | NOT EXECUTED — UNAVAILABLE |
-| Pass 3.8.5A signup-trigger certification harness | NOT EXECUTED — UNAVAILABLE |
-| Pass 3.8.4 admin RPC SQL certification | NOT EXECUTED — UNAVAILABLE |
-| Pass 3.8.4 three-scenario concurrency runner | NOT EXECUTED — UNAVAILABLE |
+| Clean migration replay from empty database | **FAILED** — `42P07` at `20260722030037` (disposable target, 2026-07-27) |
+| Pass 3.8.5A signup-trigger certification harness | NOT RUN — blocked by migration replay |
+| Pass 3.8.4 admin RPC SQL certification | NOT RUN — blocked by migration replay |
+| Pass 3.8.4 three-scenario concurrency runner | NOT RUN — blocked by migration replay |
 
 No direct PostgreSQL session (`psql`) is available in this environment; the
 harness requires `auth.users` INSERT privileges, which the read-only query
