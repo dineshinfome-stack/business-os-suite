@@ -2,16 +2,16 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Commit B Verified Closure Candidate — SHA Pin Pending
+status: Commit B Complete and Pinned — Commit C Pending
 owner: "Architecture Office"
 created: "2026-07-26"
-last_updated: "2026-07-26"
+last_updated: "2026-07-27"
 tags: ["governance", "migration", "exception", "gate-3.8", "pass-3.8.2"]
 ---
 
 # Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2
 
-**Repository status while this document is `Commit B Verified Closure Candidate — SHA Pin Pending`:**
+**Repository status while this document is `Commit B Complete and Pinned — Commit C Pending`:**
 `Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED`.
 **Pass 3.8.3 — NOT STARTED.**
 
@@ -19,8 +19,10 @@ The subject migration was modified only by the Architecture Office-approved
 Commit A transition to a comment-only tombstone. Commit A
 `98019c2cad8ae8467d123a46a5714dcced929a50` is complete, evidence-verified and
 pinned. The authoritative remediation migration and five protected runtime
-files remain unchanged. Commit B and Commit C are not started. Pass 3.8.3 is
-not started.
+files remain unchanged. Commit B is complete and its SHA
+`a7bffe9557af14f73b6831ab5fc7638c5f0b703b` is PINNED_AND_VERIFIED (§11.5).
+Commit C is eligible for a separate controlled plan and is not started.
+Pass 3.8.3 is not started.
 
 The Step 0B authority decision is recorded in §9, was suspended under §9.3, was
 reaffirmed under §9.4, and the reaffirmation commit SHA
