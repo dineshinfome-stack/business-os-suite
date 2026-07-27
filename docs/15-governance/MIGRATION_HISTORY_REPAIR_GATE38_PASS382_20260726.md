@@ -606,16 +606,17 @@ Newline counts equal the line counts above; every file ends with a final newline
 | Success-path residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS` exactly once, residue 0 |
 | Forced-failure drill | `PASS` — harness exit 3, 0 unique numbered markers |
 | Forced-failure residue postcheck | `PASS` — exit 0, `PASS382-POSTCHECK PASS`, residue 0 |
-| Test suite (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TEST RUN` |
-| Typecheck (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN ITS OWN TYPECHECK RUN` |
-| Production build (Commit B gate) | `PENDING — COMMIT B MUST EXECUTE AND PIN THE PRODUCTION BUILD` |
+| Test suite (Commit B gate) | `PASS` — authoritative Commit B run, `bun run test`, exit 0, 49 files, 512 / 512 passed, 0 failed, 0 skipped |
+| Typecheck (Commit B gate) | `PASS` — authoritative Commit B run, `bunx tsgo --noEmit`, exit 0, 0 diagnostics |
+| Production build (Commit B gate) | `PASS` — authoritative Commit B run, `bun run build`, exit 0, `dist/` generated in an isolated worktree |
 
-Supplemental, non-authoritative observations recorded during Commit A evidence
-verification (they do not satisfy any Commit B gate and must be rerun under
-Commit B): tests 49 files, 512 / 512 PASS; `tsc --noEmit` clean.
+The supplemental, non-authoritative observations recorded during Commit A
+evidence verification (tests 49 files, 512 / 512 PASS; `tsc --noEmit` clean)
+are retained as history and are **superseded** by the authoritative Commit B
+run recorded in §11.4.
 
-Commit B: `ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED`.
-Commit C: `NOT STARTED`. Pass 3.8.3: `NOT STARTED`.
+Commit B: `COMPLETE — EVIDENCE VERIFIED — SHA PENDING POST-COMMIT PIN`.
+Commit C: `BLOCKED UNTIL COMMIT B SHA PIN`. Pass 3.8.3: `NOT STARTED`.
 
 ### 11.3 Commit A normalization path-gate reconciliation
 
