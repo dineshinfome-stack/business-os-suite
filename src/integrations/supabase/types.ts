@@ -1694,6 +1694,18 @@ export type Database = {
         }
         Returns: Json
       }
+      fn_onboarding_invite_first_admin_atomic: {
+        Args: {
+          _correlation_id: string
+          _email: string
+          _expected_version: number
+          _expires_at: string
+          _invited_role: string
+          _tenant_id: string
+          _token_hash: string
+        }
+        Returns: Json
+      }
       fn_onboarding_record_step: {
         Args: {
           _correlation_id?: string
@@ -1703,6 +1715,17 @@ export type Database = {
           _status: string
           _step_key: string
           _tenant_id: string
+        }
+        Returns: Json
+      }
+      fn_onboarding_resend_first_admin_atomic: {
+        Args: {
+          _correlation_id: string
+          _expected_version: number
+          _expires_at: string
+          _invitation_id: string
+          _tenant_id: string
+          _token_hash: string
         }
         Returns: Json
       }
