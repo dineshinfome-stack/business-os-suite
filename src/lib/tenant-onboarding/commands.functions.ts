@@ -146,7 +146,12 @@ export const resendFirstTenantAdministratorInvitation = createServerFn({ method:
   );
 
 export const observeTenantAdministratorMembership = createServerFn({ method: "POST" })
-  .middleware([requireAllPermissions([PERMISSIONS.PLATFORM_TENANT_UPDATE])])
+  .middleware([
+    requireAllPermissions([
+      PERMISSIONS.PLATFORM_TENANT_UPDATE,
+      PERMISSIONS.PLATFORM_INVITATIONS_VIEW,
+    ]),
+  ])
   .inputValidator((input: unknown) =>
     observeTenantAdministratorMembershipSchema.parse(input),
   )
@@ -162,6 +167,8 @@ export const assignTenantAdministratorRole = createServerFn({ method: "POST" })
   .middleware([
     requireAllPermissions([
       PERMISSIONS.PLATFORM_TENANT_UPDATE,
+      PERMISSIONS.PLATFORM_INVITATIONS_VIEW,
+      PERMISSIONS.PLATFORM_MEMBERSHIPS_MANAGE,
       PERMISSIONS.PLATFORM_ROLES_ASSIGN,
     ]),
   ])

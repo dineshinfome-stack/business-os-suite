@@ -34,6 +34,13 @@ export type OnboardingRoleGrantState =
 export interface OnboardingAdminActionResultDTO extends OnboardingActionResultDTO {
   invitationId: string | null;
   organizationId: string | null;
+  /**
+   * EPHEMERAL one-time invitation handoff. Present ONLY on the authorized POST
+   * response that created or resent an invitation; `null` on replay and on
+   * every failure. It is never persisted, audited, logged, cached or exposed
+   * through any read DTO. This is the single approved carrier of the secret.
+   */
+  oneTimeInvitationToken: string | null;
   invitationStatus: OnboardingInvitationState;
   membershipStatus: OnboardingMembershipState;
   roleIntentStatus: OnboardingRoleIntentState;

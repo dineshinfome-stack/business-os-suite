@@ -217,10 +217,14 @@ const emailSchema = z
   .email()
   .max(320);
 
+/**
+ * `organizationId` is deliberately ABSENT: the default organization is
+ * resolved authoritatively inside the database routine, so a caller can never
+ * steer the first-administrator invitation at another organization.
+ */
 export const inviteFirstTenantAdministratorSchema = z
   .object({
     ...tenantScoped,
-    organizationId: organizationIdSchema.optional(),
     email: emailSchema,
     invitedRole: administrativeInvitationRoleSchema.default("admin"),
     correlationId: correlationIdSchema.optional(),

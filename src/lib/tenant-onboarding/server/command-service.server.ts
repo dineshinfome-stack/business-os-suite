@@ -50,6 +50,38 @@ const SAFE_MESSAGES: Record<string, string> = {
   already_activated: "This onboarding workflow is already activated.",
   conflict: "That value conflicts with an existing record.",
   command_failed: "The operation could not be completed.",
+  /* Pass 3.8.4 — deterministic onboarding administrator conditions. */
+  default_organization_missing: "The tenant has no default organization yet.",
+  organization_not_default:
+    "That record belongs to an organization that is not the tenant's default organization.",
+  invitation_role_conflict:
+    "A pending administrator invitation carries a different administrative role.",
+  invitation_missing: "No matching administrator invitation exists for this tenant.",
+  invitation_expired: "That administrator invitation has expired.",
+  invitation_accepted: "That administrator invitation has already been accepted.",
+  invitation_email_conflict:
+    "A pending administrator invitation already exists for a different email address.",
+};
+
+/**
+ * SQLSTATE-only classification. Driver messages, SQL fragments and stack
+ * traces never influence the outcome and never reach the transport layer.
+ */
+const SQLSTATE_REASONS: Record<string, keyof typeof SAFE_MESSAGES> = {
+  "42501": "permission_denied",
+  "40001": "version_conflict",
+  "22023": "invalid_input",
+  "23514": "invalid_input",
+  P0002: "not_found",
+  PGRST116: "not_found",
+  "23505": "conflict",
+  P3841: "default_organization_missing",
+  P3842: "organization_not_default",
+  P3843: "invitation_role_conflict",
+  P3844: "invitation_missing",
+  P3845: "invitation_expired",
+  P3846: "invitation_accepted",
+  P3847: "invitation_email_conflict",
 };
 
 export function classifyError(error: unknown): {
@@ -57,12 +89,7 @@ export function classifyError(error: unknown): {
   message: string;
 } {
   const code = (error as { code?: string } | null)?.code ?? "";
-  let reasonCode: keyof typeof SAFE_MESSAGES = "command_failed";
-  if (code === "42501") reasonCode = "permission_denied";
-  else if (code === "40001") reasonCode = "version_conflict";
-  else if (code === "22023" || code === "23514") reasonCode = "invalid_input";
-  else if (code === "P0002" || code === "PGRST116") reasonCode = "not_found";
-  else if (code === "23505") reasonCode = "conflict";
+  const reasonCode = SQLSTATE_REASONS[code] ?? "command_failed";
   return { reasonCode, message: SAFE_MESSAGES[reasonCode] };
 }
 

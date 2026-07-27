@@ -100,6 +100,14 @@ describe("DTO security + architecture boundaries", () => {
       );
       for (const prop of props) {
         if (ALLOWED_IDENTIFIERS.has(prop)) continue;
+        // The single approved secret carrier: an ephemeral, write-path-only
+        // handoff on the admin action result. It is permitted nowhere else.
+        if (
+          prop === "oneTimeInvitationToken" &&
+          path.basename(file) === "onboarding-admin-result.dto.ts"
+        ) {
+          continue;
+        }
         const lower = prop.toLowerCase();
         for (const fragment of FORBIDDEN) {
           expect(
