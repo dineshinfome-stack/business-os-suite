@@ -4,8 +4,8 @@
 **Gate:** Phase 3 — Gate 3.8 (Tenant Onboarding, Organization Activation & Workspace Bootstrap)
 **Pass:** 3.8.2 — Read-only Persistence & Models
 **Report:** Remediation Closure (v5 plan)
-**Status:** ⚠️ **VERIFIED CLOSURE CANDIDATE — COMMIT B SHA PINNED AND VERIFIED — TERMINAL GOVERNANCE PENDING**
-**Closure state:** `VERIFIED_CLOSURE_CANDIDATE` (not `CLOSED`)
+**Status:** ✅ **CLOSED — TERMINAL GOVERNANCE EXECUTED (COMMIT C)**
+**Closure state:** `CLOSED`
 **Commit B SHA:** `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` — `PINNED_AND_VERIFIED`
 **Scope guard:** Pass 3.8.2 only. No write paths, no command surfaces, no UI.
 
@@ -209,3 +209,26 @@ Separate open item, not part of this remediation:
 
 **Pass 3.8.3 must NOT begin** until Commit C is complete and Pass 3.8.2 is
 formally closed by the Architecture Office.
+
+---
+
+## 10. Formal closure (Commit C)
+
+Terminal governance was executed under Commit C from the stable governed
+baseline `d494a62701831315bd6dc400dafb3a473351159e`.
+
+| Closure requirement | State |
+|---|---|
+| 1. Commit B SHA pinned | ✅ `a7bffe9557af14f73b6831ab5fc7638c5f0b703b` — `PINNED_AND_VERIFIED` |
+| 2. Migration registry updated | ✅ `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` registered |
+| 3. Terminal audit report authored | ✅ `MIGRATION_HISTORY_REPAIR_GATE38_PASS382_AUDIT_20260726` — verdict **PASS** |
+| 4. Formal Pass 3.8.2 closure recorded | ✅ Pass 3.8.2 — **CLOSED** |
+| Migration-history exception | ✅ **CLOSED** |
+| Commit C path gate | ✅ exactly 5 documentation paths, no source/migration/test/generated/package/lockfile/plan drift |
+
+Separate open item, unchanged and not part of this closure:
+`FINDING-AUTH-SIGNUP-TENANT-FK-20260726` (alias
+`FND-20260726-AUTH-SIGNUP-TENANTID`) — **OPEN — SEPARATE_TRIAGE_REQUIRED**.
+
+**Pass 3.8.3:** `ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED`. It was
+not executed in the Commit C turn.
