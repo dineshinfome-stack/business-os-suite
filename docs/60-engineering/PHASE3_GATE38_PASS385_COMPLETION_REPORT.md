@@ -1,7 +1,7 @@
-# Phase 3 · Gate 3.8 — Pass 3.8.5B Completion Report
+# Phase 3 · Gate 3.8 — Pass 3.8.5 Completion Report
 
 **Sprint:** SPR-MOD-001-003
-**Pass:** 3.8.5 / 3.8.5B / 3.8.5C — Tenant readiness evaluator, snapshot persistence and guarded activation
+**Pass:** 3.8.5 / 3.8.5B / 3.8.5C / 3.8.5D — Tenant readiness evaluator, snapshot persistence and guarded activation
 **Mode:** Lean corrective execution
 **Date:** 2026-07-27
 
