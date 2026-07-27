@@ -1,7 +1,7 @@
 # Phase 3 · Gate 3.8 — Pass 3.8.5B Completion Report
 
 **Sprint:** SPR-MOD-001-003
-**Pass:** 3.8.5 / 3.8.5B — Tenant readiness evaluator, snapshot persistence and guarded activation
+**Pass:** 3.8.5 / 3.8.5B / 3.8.5C — Tenant readiness evaluator, snapshot persistence and guarded activation
 **Mode:** Lean corrective execution
 **Date:** 2026-07-27
 
@@ -27,10 +27,21 @@
 | --- | --- |
 | `20260727144439_0f0fff3a-a80d-4823-9ad4-3ef989303b9e.sql` | Pass 3.8.5: `readiness_impact` column and backfill, readiness snapshot columns on `tenant_onboarding`, `private.fn_onboarding_evaluate_readiness_json`, the read-only and persisting evaluators, and the guarded activation routine. |
 | `20260727150928_dceb11bb-c3fc-42a7-abac-f62b44e795e2.sql` | Pass 3.8.5B (append-only): superseded the check builder to carry deep links, replaced the evaluator with the 14 canonical matrix keys and reason codes, and made `_expected_version` mandatory on activation (SQLSTATE `40001` when stale or absent). |
+| `20260727153815_e557fa92-99d8-4ceb-83ce-e44789e7de2e.sql` | Pass 3.8.5C (append-only): added `private.fn_setting_value_invalid_reason` and superseded the evaluator — provisioning verdict now follows the latest job (never the tenant flag), only an active default organization passes, required settings are validated (not merely present), and the administrator role is satisfied by a valid pending invitation before acceptance and by an active grant afterwards. |
 
 No migration file was rewritten; both remain in chronological order.
 
 ---
+
+### Pass 3.8.5C evaluator semantics
+
+| Check | Corrected behaviour |
+| --- | --- |
+| `provisioning_completed` | Authority is the latest `provisioning_jobs` row. No job, `failed`, `cancelled`, `rolled_back`, or a completed job with a rolled-back step ⇒ blocked. In-flight states ⇒ warning. Only a clean `completed` job passes; `tenants.provisioning_status` can never mask a failure. |
+| `organization_exists` | Passes only for an active, non-deleted default organization. An active non-default organization ⇒ warning; otherwise blocked. Every downstream organization-scoped check is evaluated against that same organization. |
+| `required_settings_valid` | `private.fn_setting_value_invalid_reason` validates the effective value (organization value → platform value → default) against `validation_schema`: required/empty, JSON type, min/max, enum and regex. Blocking definitions block (`required_setting_missing` / `required_setting_invalid`); warning-impact definitions aggregate into the same check as a warning. |
+| `admin_role_assigned` | Before acceptance, a valid pending `owner`/`admin` invitation is authoritative (`authority: invitation`). After acceptance, only an active, non-expired `user_roles` grant satisfies the check (`authority: grant`). |
+| Counts | `not_applicable` is excluded from every arithmetic aggregate. |
 
 ## 3. Application changes
 
@@ -47,8 +58,8 @@ No migration file was rewritten; both remain in chronological order.
 
 | Artifact | Purpose | Status |
 | --- | --- | --- |
-| `supabase/tests/pass_3_8_5_readiness_certification.sql` | Fixture-scoped, fully rolled back. Certifies the readiness-impact authority, the 14-key canonical set, frozen literals, read-path write-freedom, snapshot persistence and every activation guard (`P3848`, `P3849`, `P384B`, `40001`) plus idempotent replay. | **NOT EXECUTED — DATABASE UNAVAILABLE FROM THIS ENVIRONMENT** |
-| `supabase/tests/pass_3_8_5_activation_concurrency.sh` | Two real sessions race `fn_onboarding_activate_tenant` with the same expected version; asserts exactly one transition, one activation step row, one audit entry and a deterministic loser. Fixtures are trap-cleaned; the shared caller is removed only when this run created it. | **NOT EXECUTED — DATABASE UNAVAILABLE FROM THIS ENVIRONMENT** |
+| `supabase/tests/pass_3_8_5_readiness_certification.sql` | Fixture-scoped, fully rolled back. Certifies the readiness-impact authority, the 14-key canonical set, frozen literals, read-path write-freedom, snapshot persistence and every activation guard (`P3848`, `P3849`, `P384B`, `40001`) plus idempotent replay. Pass 3.8.5C added section F: provisioning-state matrix, active-default-organization requirement, setting-value validation (missing, type mismatch, out of range, enum violation) and pre/post-acceptance administrator-role authority — then builds a fully bootstrapped tenant, asserts an unambiguous `ready` verdict and activates it for real instead of escaping through `P3848`. | **NOT EXECUTED — DATABASE UNAVAILABLE FROM THIS ENVIRONMENT** |
+| `supabase/tests/pass_3_8_5_activation_concurrency.sh` | Fixture repaired for the 3.8.5C evaluator (completed provisioning job with a succeeded step, active default organization, valid pending administrator invitation) and a preflight assertion refuses to race a tenant that is not activation-eligible. Two real sessions race `fn_onboarding_activate_tenant` with the same expected version; asserts exactly one transition, one activation step row, one audit entry and a deterministic loser. Fixtures are trap-cleaned; the shared caller is removed only when this run created it. | **NOT EXECUTED — DATABASE UNAVAILABLE FROM THIS ENVIRONMENT** |
 
 Both files are outside the migration chain and are never applied by deployment.
 
@@ -77,10 +88,10 @@ New application tests this pass:
 | Item | Status |
 | --- | --- |
 | `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` | **REPAIRED IN CODE — LIVE VERIFICATION PENDING** (Pass 3.8.5A). Remains a release blocker until certified against the live database. |
-| Live database certification (3.8.4, 3.8.5A, 3.8.5B) | **PENDING** — all harnesses authored; execution requires a reachable Postgres connection string. |
+| Live database certification (3.8.4, 3.8.5A, 3.8.5B, 3.8.5C) | **PENDING** — all harnesses authored; execution requires a reachable Postgres connection string. |
 
 ---
 
 ## 7. Verdict
 
-Pass 3.8.5B application and database layers are **complete in code**. Gate 3.8 cannot be closed until the three certification harnesses are executed against the live database and the signup finding is verified there.
+Pass 3.8.5B and the Pass 3.8.5C evaluator corrections are **complete in code**. Gate 3.8 cannot be closed until the three certification harnesses are executed against the live database and the signup finding is verified there.

@@ -330,6 +330,356 @@ BEGIN
 END
 $cert$;
 
+-- =====================================================================
+-- F. Pass 3.8.5C corrected evaluator semantics
+--    Fixture construction needs owner rights; the permission-gated public
+--    wrappers were already certified in sections B–E. Section F drives the
+--    evaluator itself so each scenario is asserted in isolation.
+-- =====================================================================
+RESET role;
+
+CREATE OR REPLACE FUNCTION pg_temp.ev() RETURNS jsonb LANGUAGE sql AS $$
+  SELECT private.fn_onboarding_evaluate_readiness_json(
+           (SELECT tenant_id FROM _p385_ctx), 'p385c-cert');
+$$;
+
+CREATE OR REPLACE FUNCTION pg_temp.st(_json jsonb, _key text)
+RETURNS text LANGUAGE sql AS $$
+  SELECT c->>'status' FROM jsonb_array_elements(_json->'checks') c
+   WHERE c->>'checkKey' = _key;
+$$;
+
+CREATE OR REPLACE FUNCTION pg_temp.rc(_json jsonb, _key text)
+RETURNS text LANGUAGE sql AS $$
+  SELECT c->>'reasonCode' FROM jsonb_array_elements(_json->'checks') c
+   WHERE c->>'checkKey' = _key;
+$$;
+
+CREATE OR REPLACE FUNCTION pg_temp.rp(_json jsonb, _key text, _param text)
+RETURNS text LANGUAGE sql AS $$
+  SELECT c->'reasonParams'->>_param FROM jsonb_array_elements(_json->'checks') c
+   WHERE c->>'checkKey' = _key;
+$$;
+
+CREATE TEMP TABLE _p385_fx ON COMMIT DROP AS
+SELECT gen_random_uuid() AS admin_id,
+       gen_random_uuid() AS org_id,
+       gen_random_uuid() AS branch_id,
+       gen_random_uuid() AS job_id,
+       gen_random_uuid() AS inv_id;
+
+-- F.1 provisioning authority ------------------------------------------
+DO $cert$
+DECLARE
+  v_t uuid; v_job uuid; v_j jsonb;
+BEGIN
+  SELECT tenant_id INTO v_t FROM _p385_ctx;
+  SELECT job_id INTO v_job FROM _p385_fx;
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F1a no provisioning job blocks',
+                         pg_temp.st(v_j, 'provisioning_completed') = 'blocked',
+                         pg_temp.st(v_j, 'provisioning_completed'));
+
+  INSERT INTO public.provisioning_jobs
+    (id, tenant_id, state, correlation_id, provider_key)
+  VALUES (v_job, v_t, 'running_migrations', 'p385c', 'supabase');
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F1b an in-flight job warns, never passes',
+                         pg_temp.st(v_j, 'provisioning_completed') = 'warning',
+                         pg_temp.st(v_j, 'provisioning_completed'));
+
+  UPDATE public.provisioning_jobs SET state = 'failed' WHERE id = v_job;
+  UPDATE public.tenants SET provisioning_status = 'provisioned' WHERE id = v_t;
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F1c a provisioned tenant flag cannot mask a failed job',
+                         pg_temp.st(v_j, 'provisioning_completed') = 'blocked',
+                         pg_temp.st(v_j, 'provisioning_completed'));
+
+  UPDATE public.provisioning_jobs SET state = 'completed' WHERE id = v_job;
+  INSERT INTO public.provisioning_steps
+    (job_id, step_key, sequence, status, correlation_id)
+  VALUES (v_job, 'create_project', 1, 'rolled_back', 'p385c');
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F1d an unresolved rollback blocks a completed job',
+                         pg_temp.st(v_j, 'provisioning_completed') = 'blocked',
+                         pg_temp.st(v_j, 'provisioning_completed'));
+
+  UPDATE public.provisioning_steps SET status = 'succeeded'
+   WHERE job_id = v_job;
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F1e a clean completed job passes',
+                         pg_temp.st(v_j, 'provisioning_completed') = 'pass',
+                         pg_temp.st(v_j, 'provisioning_completed'));
+END
+$cert$;
+
+-- F.2 an ACTIVE default organization is required ------------------------
+DO $cert$
+DECLARE
+  v_t uuid; v_org uuid; v_br uuid; v_slug text; v_j jsonb;
+BEGIN
+  SELECT tenant_id, slug INTO v_t, v_slug FROM _p385_ctx;
+  SELECT org_id, branch_id INTO v_org, v_br FROM _p385_fx;
+
+  INSERT INTO public.organizations
+    (id, tenant_id, name, slug, is_default, lifecycle_state,
+     region, default_locale, timezone)
+  VALUES (v_org, v_t, 'Cert Co', v_slug || '-co', true, 'created',
+          'IN', 'en', 'UTC');
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F2a a non-active default organization blocks',
+                         pg_temp.st(v_j, 'organization_exists') = 'blocked',
+                         pg_temp.st(v_j, 'organization_exists'));
+  PERFORM pg_temp.assert('F2b settings cannot be evaluated without an organization',
+                         pg_temp.st(v_j, 'required_settings_valid') = 'blocked',
+                         pg_temp.rc(v_j, 'required_settings_valid'));
+
+  UPDATE public.organizations SET lifecycle_state = 'active' WHERE id = v_org;
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F2c an active default organization passes',
+                         pg_temp.st(v_j, 'organization_exists') = 'pass',
+                         pg_temp.st(v_j, 'organization_exists'));
+  PERFORM pg_temp.assert('F2d no default branch blocks',
+                         pg_temp.st(v_j, 'primary_branch_exists') = 'blocked',
+                         pg_temp.st(v_j, 'primary_branch_exists'));
+
+  INSERT INTO public.branches
+    (id, tenant_id, organization_id, code, name, is_default,
+     lifecycle_state, address, timezone)
+  VALUES (v_br, v_t, v_org, 'HQ', 'Head office', true, 'active', '{}'::jsonb, 'UTC');
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F2e a default branch passes',
+                         pg_temp.st(v_j, 'primary_branch_exists') = 'pass',
+                         pg_temp.st(v_j, 'primary_branch_exists'));
+END
+$cert$;
+
+-- F.3 required settings are VALIDATED, not merely present ---------------
+DO $cert$
+DECLARE
+  v_org uuid; v_def uuid; v_j jsonb;
+BEGIN
+  SELECT org_id INTO v_org FROM _p385_fx;
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F3a valid defaults satisfy the blocking settings',
+                         pg_temp.st(v_j, 'required_settings_valid') = 'pass',
+                         pg_temp.rc(v_j, 'required_settings_valid'));
+
+  SELECT id INTO v_def FROM public.setting_definitions
+   WHERE key = 'platform.branding.product_name';
+
+  -- empty string for a required string: rejected as missing.
+  INSERT INTO public.setting_values (definition_id, organization_id, value)
+  VALUES (v_def, v_org, '""'::jsonb);
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F3b an empty required string blocks as missing',
+                         pg_temp.st(v_j, 'required_settings_valid') = 'blocked'
+                     AND pg_temp.rc(v_j, 'required_settings_valid') = 'required_setting_missing',
+                         pg_temp.rc(v_j, 'required_settings_valid'));
+
+  -- wrong JSON type for a string setting.
+  UPDATE public.setting_values SET value = '42'::jsonb
+   WHERE definition_id = v_def AND organization_id = v_org;
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F3c a type mismatch blocks as invalid',
+                         pg_temp.st(v_j, 'required_settings_valid') = 'blocked'
+                     AND pg_temp.rp(v_j, 'required_settings_valid', 'invalidReason')
+                         = 'type_mismatch',
+                         pg_temp.rp(v_j, 'required_settings_valid', 'invalidReason'));
+
+  -- string longer than the declared maximum.
+  UPDATE public.setting_values SET value = to_jsonb(repeat('x', 400))
+   WHERE definition_id = v_def AND organization_id = v_org;
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F3d an out-of-range value blocks',
+                         pg_temp.st(v_j, 'required_settings_valid') = 'blocked'
+                     AND pg_temp.rp(v_j, 'required_settings_valid', 'invalidReason')
+                         = 'out_of_range',
+                         pg_temp.rp(v_j, 'required_settings_valid', 'invalidReason'));
+
+  -- an enum setting outside its allowed values.
+  UPDATE public.setting_values SET value = '"Cert Co"'::jsonb
+   WHERE definition_id = v_def AND organization_id = v_org;
+  SELECT id INTO v_def FROM public.setting_definitions
+   WHERE key = 'platform.locale.default_language';
+  INSERT INTO public.setting_values (definition_id, organization_id, value)
+  VALUES (v_def, v_org, '"zz"'::jsonb);
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F3e an enum violation blocks',
+                         pg_temp.st(v_j, 'required_settings_valid') = 'blocked'
+                     AND pg_temp.rp(v_j, 'required_settings_valid', 'invalidReason')
+                         = 'enum_violation',
+                         pg_temp.rp(v_j, 'required_settings_valid', 'invalidReason'));
+
+  UPDATE public.setting_values SET value = '"en"'::jsonb
+   WHERE definition_id = v_def AND organization_id = v_org;
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F3f valid organization values pass',
+                         pg_temp.st(v_j, 'required_settings_valid') = 'pass',
+                         pg_temp.rc(v_j, 'required_settings_valid'));
+END
+$cert$;
+
+-- F.4 administrator role authority before and after acceptance ----------
+DO $cert$
+DECLARE
+  v_t uuid; v_org uuid; v_inv uuid; v_admin uuid; v_slug text;
+  v_role uuid; v_j jsonb;
+BEGIN
+  SELECT tenant_id, slug INTO v_t, v_slug FROM _p385_ctx;
+  SELECT org_id, inv_id, admin_id INTO v_org, v_inv, v_admin FROM _p385_fx;
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F4a no invitation blocks the role check',
+                         pg_temp.st(v_j, 'admin_role_assigned') = 'blocked',
+                         pg_temp.rc(v_j, 'admin_role_assigned'));
+
+  INSERT INTO auth.users (
+    instance_id, id, aud, role, email, encrypted_password,
+    email_confirmed_at, created_at, updated_at,
+    confirmation_token, recovery_token, email_change_token_new, email_change
+  ) VALUES (
+    '00000000-0000-0000-0000-000000000000', v_admin, 'authenticated', 'authenticated',
+    v_slug || '-admin@certification.invalid', crypt('x', gen_salt('bf')),
+    now(), now(), now(), '', '', '', ''
+  );
+
+  INSERT INTO public.organization_invitations
+    (id, organization_id, email, role, invited_by, token_hash, expires_at, status)
+  VALUES (v_inv, v_org, v_slug || '-admin@certification.invalid', 'admin',
+          (SELECT caller_id FROM _p385_ctx),
+          encode(sha256(convert_to(v_slug || '-t1', 'UTF8')), 'hex'),
+          now() + interval '7 days', 'pending');
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F4b a valid pending admin invitation satisfies the role check',
+                         pg_temp.st(v_j, 'admin_role_assigned') = 'pass'
+                     AND pg_temp.rp(v_j, 'admin_role_assigned', 'authority') = 'invitation',
+                         pg_temp.rp(v_j, 'admin_role_assigned', 'authority'));
+  PERFORM pg_temp.assert('F4c membership is not applicable before acceptance',
+                         pg_temp.st(v_j, 'admin_membership_exists') = 'not_applicable',
+                         pg_temp.st(v_j, 'admin_membership_exists'));
+  PERFORM pg_temp.assert('F4d acceptance is a warning, never a blocker',
+                         pg_temp.st(v_j, 'admin_invitation_accepted') = 'warning',
+                         pg_temp.st(v_j, 'admin_invitation_accepted'));
+
+  UPDATE public.organization_invitations
+     SET status = 'accepted', accepted_at = now(), accepted_by = v_admin
+   WHERE id = v_inv;
+  INSERT INTO public.organization_members
+    (organization_id, user_id, role, status, joined_at)
+  VALUES (v_org, v_admin, 'admin', 'active', now());
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F4e after acceptance the invitation no longer confers the role',
+                         pg_temp.st(v_j, 'admin_role_assigned') = 'blocked'
+                     AND pg_temp.rp(v_j, 'admin_role_assigned', 'authority') = 'grant',
+                         pg_temp.rc(v_j, 'admin_role_assigned'));
+  PERFORM pg_temp.assert('F4f an active membership passes after acceptance',
+                         pg_temp.st(v_j, 'admin_membership_exists') = 'pass',
+                         pg_temp.st(v_j, 'admin_membership_exists'));
+
+  SELECT id INTO v_role FROM public.roles WHERE key = 'administrator';
+  INSERT INTO public.user_roles
+    (user_id, role_id, organization_id, granted_by, granted_at)
+  VALUES (v_admin, v_role, v_org, (SELECT caller_id FROM _p385_ctx), now());
+
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F4g an active grant satisfies the role check after acceptance',
+                         pg_temp.st(v_j, 'admin_role_assigned') = 'pass',
+                         pg_temp.st(v_j, 'admin_role_assigned'));
+
+  UPDATE public.user_roles SET expires_at = now() - interval '1 day'
+   WHERE user_id = v_admin AND organization_id = v_org;
+  v_j := pg_temp.ev();
+  PERFORM pg_temp.assert('F4h an expired grant does not satisfy the role check',
+                         pg_temp.st(v_j, 'admin_role_assigned') = 'blocked',
+                         pg_temp.st(v_j, 'admin_role_assigned'));
+  UPDATE public.user_roles SET expires_at = NULL
+   WHERE user_id = v_admin AND organization_id = v_org;
+END
+$cert$;
+
+-- F.5 the completed fixture reaches an unambiguous ready verdict --------
+DO $cert$
+DECLARE
+  v_t uuid; v_j jsonb; v_bad text;
+BEGIN
+  SELECT tenant_id INTO v_t FROM _p385_ctx;
+  UPDATE public.tenant_onboarding_steps
+     SET status = 'completed', completed_at = now()
+   WHERE tenant_id = v_t AND step_key <> 'activation';
+
+  v_j := pg_temp.ev();
+  SELECT string_agg(c->>'checkKey' || '=' || (c->>'status'), ', ')
+    INTO v_bad
+    FROM jsonb_array_elements(v_j->'checks') c
+   WHERE c->>'status' NOT IN ('pass', 'not_applicable');
+
+  PERFORM pg_temp.assert('F5a a fully bootstrapped tenant evaluates as ready',
+                         v_j->>'overall_status' = 'ready',
+                         COALESCE(v_bad, 'all checks pass'));
+  PERFORM pg_temp.assert('F5b a ready verdict carries no blockers and no warnings',
+                         (v_j->>'blocking_count')::int = 0
+                     AND (v_j->>'warning_count')::int = 0,
+                         format('%s/%s', v_j->>'blocking_count', v_j->>'warning_count'));
+  PERFORM pg_temp.assert('F5c not_applicable checks are excluded from applicable_count',
+                         (v_j->>'applicable_count')::int
+                         = 14 - (SELECT count(*) FROM jsonb_array_elements(v_j->'checks') c
+                                  WHERE c->>'status' = 'not_applicable'),
+                         v_j->>'applicable_count');
+  PERFORM pg_temp.assert('F5d a warning-free verdict has no fingerprint',
+                         v_j->>'warning_fingerprint' IS NULL,
+                         COALESCE(v_j->>'warning_fingerprint', '<null>'));
+END
+$cert$;
+
+-- E7 an unacknowledged warning refuses activation (P3849).
+UPDATE public.organization_invitations
+   SET status = 'pending', accepted_at = NULL
+ WHERE id = (SELECT inv_id FROM _p385_fx);
+
+SET LOCAL role = authenticated;
+SELECT set_config('request.jwt.claims',
+                  json_build_object('sub', (SELECT caller_id FROM _p385_ctx),
+                                    'role', 'authenticated')::text,
+                  true);
+
+DO $cert$
+DECLARE
+  v_t uuid; v_version int; v_sqlstate text;
+BEGIN
+  SELECT tenant_id INTO v_t FROM _p385_ctx;
+  SELECT version INTO v_version FROM public.tenant_onboarding WHERE tenant_id = v_t;
+  BEGIN
+    PERFORM public.fn_onboarding_activate_tenant(v_t, v_version, false, 'p385-cert');
+    v_sqlstate := 'NO ERROR';
+  EXCEPTION WHEN OTHERS THEN
+    v_sqlstate := SQLSTATE;
+  END;
+  PERFORM pg_temp.assert('E7 unacknowledged warning raises P3849',
+                         v_sqlstate = 'P3849', v_sqlstate);
+END
+$cert$;
+
+RESET role;
+UPDATE public.organization_invitations
+   SET status = 'accepted', accepted_at = now(),
+       accepted_by = (SELECT admin_id FROM _p385_fx)
+ WHERE id = (SELECT inv_id FROM _p385_fx);
+
+-- Back to the permission-gated caller for the activation assertions.
+SET LOCAL role = authenticated;
+SELECT set_config('request.jwt.claims',
+                  json_build_object('sub', (SELECT caller_id FROM _p385_ctx),
+                                    'role', 'authenticated')::text,
+                  true);
+
 -- E6 activation is the canonical lifecycle writer, idempotent on replay.
 DO $cert$
 DECLARE
@@ -342,21 +692,8 @@ DECLARE
 BEGIN
   SELECT tenant_id INTO v_tenant FROM _p385_ctx;
 
-  -- Force a clean readiness verdict for the activation path only. This is a
-  -- fixture shortcut inside a rolled-back transaction; it never runs in prod.
-  UPDATE public.tenant_onboarding_steps SET status = 'completed', completed_at = now()
-   WHERE tenant_id = v_tenant;
-
   SELECT version INTO v_version FROM public.tenant_onboarding WHERE tenant_id = v_tenant;
-  BEGIN
-    v_first := public.fn_onboarding_activate_tenant(v_tenant, v_version, true, 'p385-cert');
-  EXCEPTION WHEN SQLSTATE 'P3848' THEN
-    -- Bootstrap fixtures are intentionally incomplete: the evaluator still
-    -- blocks. That is itself the guard being certified; record and skip.
-    PERFORM pg_temp.assert('E6 activation remains guarded on an incomplete fixture',
-                           true, 'P3848 (expected for a partial fixture)');
-    RETURN;
-  END;
+  v_first := public.fn_onboarding_activate_tenant(v_tenant, v_version, false, 'p385-cert');
 
   SELECT lifecycle_state::text INTO v_state FROM public.tenants WHERE id = v_tenant;
   PERFORM pg_temp.assert('E6a lifecycle transitioned to active by the RPC',
