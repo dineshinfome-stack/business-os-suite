@@ -17,7 +17,8 @@
 #   Scenario C — different emails            → 1 created, 1 P3847,   1 pending
 #
 # Fixtures are committed (concurrency requires it) and removed by the trap
-# on every exit path, success or failure.
+# on every exit path, success or failure. The shared synthetic caller is
+# deleted ONLY when this execution created it.
 #
 # Usage:
 #   DB="postgresql://..." bash supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh
@@ -44,6 +45,9 @@ make_hash() {
 # Tenants/organizations created by this run, cleaned up unconditionally.
 FIXTURES=()
 TMPFILES=()
+# Ownership of the SHARED synthetic caller fixture (auth user + role grant).
+# Only set to 1 after the complete seed transaction succeeds.
+OWN_CALLER=0
 
 cleanup() {
   for pair in "${FIXTURES[@]:-}"; do
@@ -59,19 +63,31 @@ DELETE FROM public.organizations            WHERE tenant_id = '$local_tenant';
 DELETE FROM public.tenants                  WHERE id = '$local_tenant';
 SQL
   done
-  "${PSQL[@]}" >/dev/null <<SQL || true
+
+  # Never delete a caller fixture this execution did not create.
+  if [[ "$OWN_CALLER" -eq 1 ]]; then
+    "${PSQL[@]}" >/dev/null <<SQL || true
 SET session_replication_role = replica;
 DELETE FROM public.user_roles WHERE user_id = '$USER_OK';
 DELETE FROM auth.users        WHERE id = '$USER_OK';
 SQL
+  fi
+
   for f in "${TMPFILES[@]:-}"; do rm -f "$f" "${f}.err"; done
 }
 trap cleanup EXIT
 
 fail() { echo "FAIL: $*" >&2; exit 1; }
 
+echo "== prechecking the shared synthetic caller fixture =="
+COLLISION="$("${PSQL[@]}" -c "SELECT (EXISTS (SELECT 1 FROM auth.users WHERE id = '$USER_OK'))::int + (EXISTS (SELECT 1 FROM public.user_roles WHERE user_id = '$USER_OK'))::int")"
+if [[ "$COLLISION" != "0" ]]; then
+  fail "synthetic caller fixture $USER_OK (auth user and/or platform role grant) already exists. A previous run left fixtures behind; remove them manually. This runner never adopts or deletes fixtures it did not create."
+fi
+
 echo "== seeding the authorized platform caller =="
 "${PSQL[@]}" >/dev/null <<SQL
+BEGIN;
 DO \$seed\$
 DECLARE v_role uuid;
 BEGIN
@@ -85,27 +101,31 @@ BEGIN
   VALUES ('00000000-0000-0000-0000-000000000000', '$USER_OK', 'authenticated',
     'authenticated', '$EMAIL_OK', now(),
     '{"provider":"synthetic","providers":["synthetic"]}'::jsonb,
-    '{"full_name":"PASS384 Concurrency"}'::jsonb, now(), now(), '', '', '', '')
-  ON CONFLICT (id) DO NOTHING;
+    '{"full_name":"PASS384 Concurrency"}'::jsonb, now(), now(), '', '', '', '');
   SET LOCAL session_replication_role = origin;
 
   INSERT INTO public.user_roles (user_id, role, role_id, organization_id)
-  VALUES ('$USER_OK', NULL, v_role, NULL)
-  ON CONFLICT DO NOTHING;
+  VALUES ('$USER_OK', NULL, v_role, NULL);
 END
 \$seed\$;
+COMMIT;
 SQL
+OWN_CALLER=1
 
 # new_fixture <suffix> -> echoes "<tenant_uuid>:<org_uuid>"
+# Both rows are created in ONE transaction: either both exist or neither does,
+# so a partial failure can never leave an orphan tenant the trap cannot see.
 new_fixture() {
   local suffix="$1"
   local tenant="ce773841-0000-4000-8000-0000000000${suffix}"
   local org="ce773841-0000-4000-8000-0000000001${suffix}"
   "${PSQL[@]}" >/dev/null <<SQL
+BEGIN;
 INSERT INTO public.tenants (id, slug, display_name, code)
 VALUES ('$tenant', 'cert3841-t$suffix', 'CERT3841 Tenant $suffix', 'C384${suffix}001');
 INSERT INTO public.organizations (id, tenant_id, name, slug, is_default)
 VALUES ('$org', '$tenant', 'CERT3841 Default $suffix', 'cert3841-def-$suffix', true);
+COMMIT;
 SQL
   echo "$tenant:$org"
 }
@@ -114,7 +134,7 @@ SQL
 race_session() {
   local tenant="$1" email="$2" role="$3" hash="$4" out="$5"
   "${PSQL[@]}" -o "$out" <<SQL 2>"${out}.err" || true
-\set VERBOSITY verbose
+\set VERBOSITY sqlstate
 BEGIN;
 SELECT set_config('request.jwt.claims',
   json_build_object('sub','$USER_OK','role','authenticated')::text, true);
@@ -162,8 +182,13 @@ run_scenario() {
   for f in "$f1" "$f2"; do
     if grep -qx 'true'  "$f"; then created=$((created + 1)); fi
     if grep -qx 'false' "$f"; then replayed=$((replayed + 1)); fi
-    # SQLSTATE only — never the English message (psql VERBOSITY verbose).
-    if grep -q "SQLSTATE: $expect_state" "${f}.err"; then conflicts=$((conflicts + 1)); fi
+    # psql runs with VERBOSITY sqlstate, so stderr carries the bare
+    # five-character code. Match it as a bounded token — never the English
+    # message, and never as a substring of a longer token.
+    if [[ "$expect_state" != "REPLAY" ]] &&
+       grep -Eq "(^|[^0-9A-Za-z])${expect_state}([^0-9A-Za-z]|\$)" "${f}.err"; then
+      conflicts=$((conflicts + 1))
+    fi
   done
 
   [[ "$created" -eq 1 ]] || fail "$label: expected exactly 1 creation, got $created"

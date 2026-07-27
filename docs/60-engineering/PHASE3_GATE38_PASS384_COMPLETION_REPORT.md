@@ -97,13 +97,21 @@ volatility must not be `IMMUTABLE`).
 `supabase/tests/pass_3_8_4_admin_rpc_concurrency.sh` — two independent `psql`
 sessions per scenario, each on its own disposable tenant + default organization
 starting from empty state, fixtures removed by `trap` on success or failure.
-Each of the six racing calls uses its own deterministic 64-character token hash
-(`token_hash` is globally unique), and every session runs with
-`\set VERBOSITY verbose` so conflicts are matched on the SQLSTATE, never on the
-English message. Fixtures are appended to the cleanup list in the parent shell,
-so the `EXIT` trap removes every scenario's onboarding steps, onboarding row,
-invitations, organization and tenant plus the shared synthetic role/auth user
-and temporary files.
+Each scenario's tenant and default organization are created inside ONE
+`BEGIN … COMMIT` transaction, so a partial failure can never leave an orphan
+tenant outside the cleanup list. Each of the six racing calls uses its own
+deterministic 64-character token hash (`token_hash` is globally unique), and
+every session runs with `\set VERBOSITY sqlstate`, so stderr carries the bare
+five-character code; conflicts are matched as bounded SQLSTATE tokens, never on
+the English message and never as a substring of a longer token. Fixtures are
+appended to the cleanup list in the parent shell, so the `EXIT` trap removes
+every scenario's onboarding steps, onboarding row, invitations, organization
+and tenant plus the temporary files. The shared synthetic caller (auth user +
+`platform_owner` grant) is guarded by a collision precheck that aborts the run
+before ownership is claimed if either row already exists; both inserts run in
+one atomic seed transaction with no `ON CONFLICT DO NOTHING`, and the trap
+deletes that caller only when the current execution created it.
+
 
 | Scenario | Race | Expected |
 |---|---|---|
