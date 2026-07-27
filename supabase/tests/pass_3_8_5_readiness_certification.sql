@@ -323,8 +323,8 @@ BEGIN
   EXCEPTION WHEN OTHERS THEN
     v_sqlstate := SQLSTATE;
   END;
-  PERFORM pg_temp.assert('E3 null expected version is rejected',
-                         v_sqlstate <> 'NO ERROR', v_sqlstate);
+  PERFORM pg_temp.assert('E3 null expected version raises exactly 40001',
+                         v_sqlstate = '40001', v_sqlstate);
 
   -- E4 a failed activation leaves lifecycle and workflow untouched.
   SELECT lifecycle_state::text INTO v_state FROM public.tenants WHERE id = v_tenant;
