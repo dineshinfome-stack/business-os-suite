@@ -21,9 +21,13 @@ import { requireAllPermissions } from "@/lib/authorization.server";
 import { PERMISSIONS } from "@/lib/generated/permission-keys";
 
 import {
+  assignTenantAdministratorRoleSchema,
   createOrSelectBranchSchema,
   initializeFinancialYearSchema,
   initializeSettingsSchema,
+  inviteFirstTenantAdministratorSchema,
+  observeTenantAdministratorMembershipSchema,
+  resendFirstTenantAdministratorInvitationSchema,
   saveOrganizationProfileSchema,
   startOnboardingSchema,
 } from "./schemas";
@@ -35,6 +39,13 @@ import {
   startOnboardingCommand,
   verifyProvisioningCommand,
 } from "./server/command-service.server";
+import {
+  assignTenantAdministratorRoleCommand,
+  inviteFirstTenantAdministratorCommand,
+  observeTenantAdministratorMembershipCommand,
+  resendFirstTenantAdministratorInvitationCommand,
+} from "./server/admin-service.server";
+
 
 export const startTenantOnboarding = createServerFn({ method: "POST" })
   .middleware([requireAllPermissions([PERMISSIONS.PLATFORM_TENANT_UPDATE])])
