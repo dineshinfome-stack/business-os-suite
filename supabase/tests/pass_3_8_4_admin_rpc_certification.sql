@@ -371,7 +371,93 @@ BEGIN
   EXCEPTION WHEN SQLSTATE '42501' THEN NULL;
   END;
 
+  -- ==================================================================
+  -- CERT-012 · direct-RPC input validation (authorized caller)
+  -- Every rejection is raised BEFORE any row is written.
+  -- ==================================================================
+  PERFORM set_config('request.jwt.claims',
+    json_build_object('sub', c_user_ok, 'role', 'authenticated')::text, true);
+
+  -- NULL email
+  BEGIN
+    PERFORM public.fn_onboarding_invite_first_admin_atomic(
+      c_tenant, NULL, 'admin', c_hash_a, c_exp, 'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: NULL email accepted';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+
+  -- Blank / whitespace-only email
+  BEGIN
+    PERFORM public.fn_onboarding_invite_first_admin_atomic(
+      c_tenant, '   ', 'admin', c_hash_a, c_exp, 'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: blank email accepted';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+
+  -- NULL invited role
+  BEGIN
+    PERFORM public.fn_onboarding_invite_first_admin_atomic(
+      c_tenant, c_admin_mail, NULL, c_hash_a, c_exp, 'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: NULL invited role accepted';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+
+  -- Non-administrative invited role
+  BEGIN
+    PERFORM public.fn_onboarding_invite_first_admin_atomic(
+      c_tenant, c_admin_mail, 'member', c_hash_a, c_exp, 'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: non-administrative role accepted';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+
+  -- Malformed token hash
+  BEGIN
+    PERFORM public.fn_onboarding_invite_first_admin_atomic(
+      c_tenant, c_admin_mail, 'admin', 'NOT-A-HASH', c_exp, 'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: malformed token hash accepted';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+
+  -- Invalid expiry (past, and beyond the seven-day ceiling)
+  BEGIN
+    PERFORM public.fn_onboarding_invite_first_admin_atomic(
+      c_tenant, c_admin_mail, 'admin', c_hash_a, now() - interval '1 minute',
+      'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: past expiry accepted';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+  BEGIN
+    PERFORM public.fn_onboarding_invite_first_admin_atomic(
+      c_tenant, c_admin_mail, 'admin', c_hash_a, now() + interval '30 days',
+      'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: expiry beyond seven days accepted';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+
+  -- Resend must still validate token/expiry WITHOUT email or role.
+  BEGIN
+    PERFORM public.fn_onboarding_resend_first_admin_atomic(
+      c_tenant, v_inv2, 'NOT-A-HASH', c_exp, 'cert-384-012', NULL);
+    RAISE EXCEPTION 'PASS384-CERT-012: resend accepted a malformed token hash';
+  EXCEPTION WHEN SQLSTATE '22023' THEN NULL;
+  END;
+
+  -- ==================================================================
+  -- CERT-013 · the validator must never be IMMUTABLE (it reads now())
+  -- ==================================================================
+  IF EXISTS (
+    SELECT 1 FROM pg_proc p
+      JOIN pg_namespace n ON n.oid = p.pronamespace
+     WHERE n.nspname = 'private'
+       AND p.proname IN ('fn_onboarding_validate_invite_inputs',
+                         'fn_onboarding_validate_invite_identity')
+       AND p.provolatile = 'i'
+  ) THEN
+    RAISE EXCEPTION 'PASS384-CERT-013: a now()-dependent validator is IMMUTABLE';
+  END IF;
+
   RAISE NOTICE 'PASS384-CERT: all assertions passed (single-session scope).';
+
 END
 $cert$;
 
