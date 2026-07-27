@@ -92,10 +92,21 @@ New application tests this pass:
 | Item | Status |
 | --- | --- |
 | `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` | **REPAIRED IN CODE — LIVE VERIFICATION PENDING** (Pass 3.8.5A). Remains a release blocker until certified against the live database. |
-| Live database certification (3.8.4, 3.8.5A, 3.8.5B, 3.8.5C) | **PENDING** — all harnesses authored; execution requires a reachable Postgres connection string. |
+| Live database certification (3.8.4, 3.8.5A, 3.8.5B, 3.8.5C, 3.8.5D) | **PENDING** — all harnesses authored; execution requires a reachable Postgres connection string. |
 
 ---
 
 ## 7. Verdict
 
-Pass 3.8.5B and the Pass 3.8.5C evaluator corrections are **complete in code**. Gate 3.8 cannot be closed until the three certification harnesses are executed against the live database and the signup finding is verified there.
+```
+Pass 3.8.5 development ................. COMPLETE
+Live database certification ............ PENDING
+FINDING-AUTH-SIGNUP-TENANT-FK-20260726 . LIVE VERIFICATION PENDING
+Tenant activation ...................... BLOCKED
+Gate 3.8 ............................... DEVELOPMENT COMPLETE —
+                                         CERTIFICATION PENDING
+```
+
+Gate 3.8 is **not** closed. Closure requires executing every certification
+harness against the live database and verifying the signup finding there.
+
