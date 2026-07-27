@@ -678,3 +678,35 @@ not-null constraint`) at line 38 of the trigger function.
   remediation item requiring triage. It is not repaired under
   `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` and does not block the Commit A
   pin.
+
+---
+
+## Commit B verified-closure candidate
+
+Recorded under §11.4. This section does **not** overwrite or amend the
+historical failed path-gate evidence in §11.3; that record stands unchanged.
+
+| Item | Value |
+| --- | --- |
+| Stable governed baseline | `77a95a15e59d0a4c48d7b9746e525adf1c4e7934` |
+| Commit B execution start head | `b25d6d88af451d4d8d7e415d6928ff736c4bb18c` |
+| Commit B started (UTC) | `2026-07-27T01:20:41Z` |
+| Isolation | all quality commands executed in a disposable worktree created directly from `77a95a15…` |
+| Environment | Node `v22.22.0`, bun `1.3.3`, `Linux 4.4.0 x86_64` |
+| Dependency install | `bun install --frozen-lockfile`, exit 0, lockfile unmodified (`bun.lock` SHA-256 `d6d9861dbd0935209c59e494ad34024c2e991e3fb5a77779b2d6af27c449e7e9`) |
+| Test result | `PASS` — `bun run test` (`vitest run`), exit 0, 49 files, **512 passed / 0 failed / 0 skipped**, 8.78s, log SHA-256 `dab19902f8d4d1bda568dbc788b0da56ba248bf8dfcee10bfe44452d3ba7144c` |
+| Typecheck result | `PASS` — `bunx tsgo --noEmit`, exit 0, **0 diagnostics**, empty log (SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`) |
+| Production build | `PASS` — `bun run build`, exit 0, 14s, outputs `dist/client`, `dist/server`, `dist/nitro.json`, 1 chunk-size advisory, log SHA-256 `f4291074c5c2774bd9a1840be674168221ae86d57945c6170e126b3c8526f2c8` |
+| Build-generated churn | `src/routeTree.gen.ts` regenerated **inside the disposable worktree only** (`1b1a72ea930e21a37b33f6ae7d1cedebdc6cb9a2`); not copied into the active repository |
+| Protected files | `10/10 PASS` |
+| Technical Commit A files | `4/4 unchanged` |
+| Final route-tree requirement | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` |
+| Commit B state | `COMPLETE — EVIDENCE VERIFIED — SHA PENDING POST-COMMIT PIN` |
+| Commit B SHA | `PENDING_POST_COMMIT_PIN` |
+| Commit C | `BLOCKED UNTIL COMMIT B SHA PIN` |
+| Pass 3.8.2 | `COMPLETE, REMEDIATION REQUIRED` |
+| Pass 3.8.3 | `NOT STARTED` |
+| Separate signup finding | `OPEN — SEPARATE_TRIAGE_REQUIRED` (not repaired under this exception) |
+
+Commit B establishes a **verified closure candidate** only. It does not
+establish terminal governance closure; Commit C remains mandatory.
