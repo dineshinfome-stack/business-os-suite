@@ -16,7 +16,7 @@ import {
 } from "../readiness";
 
 const checkOf = (over: Record<string, unknown> = {}) => ({
-  checkKey: "primary_branch_present",
+  checkKey: "primary_branch_exists",
   label: "Primary branch exists",
   classification: "mandatory",
   status: "pass",
@@ -46,9 +46,26 @@ const envelope = (over: Record<string, unknown> = {}) => ({
 });
 
 describe("readiness contract", () => {
-  it("defines exactly the 14 canonical checks", () => {
+  it("defines exactly the 14 canonical readiness-matrix checks", () => {
     expect(READINESS_CHECK_KEYS).toHaveLength(14);
     expect(new Set(READINESS_CHECK_KEYS).size).toBe(14);
+    /* Exact identifiers from PHASE3_GATE38_READINESS_MATRIX.md, in order. */
+    expect([...READINESS_CHECK_KEYS]).toEqual([
+      "tenant_exists",
+      "provisioning_completed",
+      "lifecycle_permits_onboarding",
+      "organization_exists",
+      "primary_branch_exists",
+      "admin_invitation_valid",
+      "admin_invitation_accepted",
+      "admin_membership_exists",
+      "admin_role_assigned",
+      "required_settings_valid",
+      "financial_year_present",
+      "no_failed_or_blocked_step",
+      "no_concurrent_activation",
+      "no_data_integrity_conflict",
+    ]);
   });
 
   it("maps the database envelope without recomputing counts", () => {
@@ -97,16 +114,16 @@ describe("readiness contract", () => {
     const dto = toReadinessDTO(
       envelope({
         checks: [
-          checkOf({ checkKey: "no_concurrent_activation" }),
-          checkOf({ checkKey: "provisioning_completed" }),
-          checkOf({ checkKey: "primary_branch_present" }),
+          checkOf({ checkKey: "no_data_integrity_conflict" }),
+          checkOf({ checkKey: "primary_branch_exists" }),
+          checkOf({ checkKey: "tenant_exists" }),
         ],
       }),
     );
     expect(dto.checks.map((c) => c.checkKey)).toEqual([
-      "provisioning_completed",
-      "primary_branch_present",
-      "no_concurrent_activation",
+      "tenant_exists",
+      "primary_branch_exists",
+      "no_data_integrity_conflict",
     ]);
   });
 

@@ -197,3 +197,58 @@ describe("DTO security + architecture boundaries", () => {
     }
   });
 });
+
+/* ------------------------------- Pass 3.8.5B: readiness authority boundary */
+
+const SRC_ROOT = path.resolve(process.cwd(), "src");
+
+function walkSrc(dir: string): string[] {
+  return readdirSync(dir).flatMap((entry) => {
+    const full = path.join(dir, entry);
+    if (statSync(full).isDirectory()) {
+      return entry === "__tests__" || entry === "generated" ? [] : walkSrc(full);
+    }
+    return full.endsWith(".ts") || full.endsWith(".tsx") ? [full] : [];
+  });
+}
+
+const SRC_FILES = walkSrc(SRC_ROOT);
+
+describe("required-settings readiness authority (D1-A)", () => {
+  it("the registry does not classify activation readiness", () => {
+    const source = readFileSync(
+      path.join(ROOT, "required-settings.registry.ts"),
+      "utf8",
+    );
+    expect(source).not.toMatch(/readinessImpact/);
+    expect(source).not.toMatch(/OnboardingSettingReadinessImpact/);
+    expect(source).not.toMatch(/blockingSettingKeys/);
+    /* the canonical authority is named explicitly */
+    expect(source).toContain("setting_definitions.readiness_impact");
+  });
+
+  it("exports no blocking-settings helper", () => {
+    expect((onboarding as Record<string, unknown>).blockingSettingKeys).toBeUndefined();
+  });
+
+  it("no application source keeps a hardcoded blocking-settings list", () => {
+    const offenders = SRC_FILES.filter((file) =>
+      /blockingSettingKeys|BLOCKING_SETTING_KEYS|BLOCKING_SETTINGS/.test(
+        readFileSync(file, "utf8"),
+      ),
+    );
+    expect(offenders).toEqual([]);
+  });
+
+  it("no application source derives the required_settings_valid verdict", () => {
+    const offenders = SRC_FILES.filter((file) => {
+      const source = readFileSync(file, "utf8");
+      if (!source.includes("required_settings_valid")) return false;
+      /* Referencing the key is fine; assigning it a status is not. */
+      return /required_settings_valid["']?\s*[:=]\s*["'](pass|blocked|warning)/.test(
+        source,
+      );
+    });
+    expect(offenders).toEqual([]);
+  });
+});
