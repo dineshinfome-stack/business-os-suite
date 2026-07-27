@@ -243,9 +243,37 @@ async function recordSafely(
 
 /* ---------------------------------------------------------- invite command */
 
+/** Authoritative shape returned by both atomic routines. */
+interface RawAtomicResult {
+  organization_id: string;
+  invitation_id: string;
+  invitation_status: string;
+  created?: boolean;
+  replayed?: boolean;
+  membership_status?: string;
+  role_granted?: boolean;
+  state?: string | null;
+  step_status?: string | null;
+  step_version?: number | null;
+}
+
+function membershipStateOf(raw: string | undefined): OnboardingMembershipState {
+  switch (raw) {
+    case "active":
+      return "active";
+    case "inactive":
+      return "inactive";
+    case "missing_after_acceptance":
+      return "missing_after_acceptance";
+    case "pending_acceptance":
+      return "pending_acceptance";
+    default:
+      return "unknown";
+  }
+}
+
 export interface InviteFirstAdministratorInput {
   tenantId: string;
-  organizationId?: string;
   email: string;
   invitedRole: AdministrativeInvitationRole;
   expectedVersion?: number;
@@ -253,12 +281,17 @@ export interface InviteFirstAdministratorInput {
 }
 
 /**
- * Creates — or idempotently reuses — the first administrator invitation.
+ * Creates — or idempotently replays — the first administrator invitation.
  *
- * The one-time secret is generated here, hashed, and only the hash is sent to
- * the database. No delivery channel for invitee email exists yet, so the
- * secret is discarded and `notificationQueued` is reported as `false`; a
- * resend issues a fresh secret.
+ * The whole operation is ONE database transaction: default-organization
+ * resolution, organization-scoped serialization, replay-equivalence and the
+ * `tenant_admin_invitation` step write all happen inside
+ * `fn_onboarding_invite_first_admin_atomic`. The application therefore never
+ * issues a follow-up invitation-step write on any path.
+ *
+ * The one-time secret is generated here and only its sha256 hash reaches the
+ * database. The plaintext is handed back exactly once, on creation, and is
+ * never persisted, audited or logged.
  */
 export async function inviteFirstTenantAdministratorCommand(
   client: AnyClient,
@@ -291,79 +324,31 @@ export async function inviteFirstTenantAdministratorCommand(
       });
     }
 
-    await startOnboardingWorkflow(client, input.tenantId, correlationId);
+    const secret = generateInvitationSecret();
+    const expiresAt = new Date(
+      Date.now() + INVITE_TTL_HOURS * 3600 * 1000,
+    ).toISOString();
 
-    const existing = await resolveFirstAdministrator(client, input.tenantId, input.email);
-    const organizationId = input.organizationId ?? existing.organizationId;
-    if (!organizationId) {
-      const step = await recordSafely(client, {
-        tenantId: input.tenantId,
-        stepKey,
-        status: "blocked",
-        failureCode: "not_found",
-        failureSummary: "The tenant has no default organization yet.",
-        correlationId,
-      });
-      return result({
-        ...base,
-        ok: false,
-        reasonCode: "not_found",
-        message: "The tenant has no default organization yet.",
-        state: step?.state ?? null,
-        stepStatus: step?.status ?? "blocked",
-        version: step?.version ?? null,
-      });
-    }
+    const { data, error } = await client.rpc(INVITE_ADMIN_ATOMIC_RPC, {
+      _tenant_id: input.tenantId,
+      _email: input.email,
+      _invited_role: input.invitedRole,
+      _token_hash: hashInvitationSecret(secret),
+      _expires_at: expiresAt,
+      _correlation_id: correlationId,
+      _expected_version: input.expectedVersion ?? null,
+    } as never);
+    if (error) throw error;
 
-    const existingState = invitationState(existing.invitation);
-    const reusable =
-      existing.invitation &&
-      isAdministrativeInvitationRole(existing.invitation.role) &&
-      (existingState === "accepted" || existingState === "pending");
-
-    let invitationId: string;
-    let replay = false;
-    let status: OnboardingInvitationState;
-
-    if (reusable && existing.invitation) {
-      invitationId = existing.invitation.id;
-      status = existingState;
-      replay = true;
-    } else {
-      const secret = generateInvitationSecret();
-      const expiresAt = new Date(
-        Date.now() + INVITE_TTL_HOURS * 3600 * 1000,
-      ).toISOString();
-      const { data, error } = await client.rpc(INVITE_ADMIN_RPC, {
-        _tenant_id: input.tenantId,
-        _organization_id: organizationId,
-        _email: input.email,
-        _invited_role: input.invitedRole,
-        _token_hash: hashInvitationSecret(secret),
-        _expires_at: expiresAt,
-      } as never);
-      if (error) throw error;
-      invitationId = String((data as { invitation_id: string }).invitation_id);
-      status = "pending";
-    }
-
-    const step = await recordOnboardingStep(client, {
-      tenantId: input.tenantId,
-      stepKey,
-      status: "completed",
-      correlationId,
-      expectedVersion: input.expectedVersion ?? null,
-    });
-
+    const raw = (data ?? {}) as RawAtomicResult;
+    const created = raw.created === true;
+    const replay = raw.replayed === true;
+    const status = (raw.invitation_status as OnboardingInvitationState) ?? "pending";
     const accepted = status === "accepted";
-    const membershipStatus: OnboardingMembershipState = accepted
-      ? existing.membership?.status === "active"
-        ? "active"
-        : existing.membership
-          ? "inactive"
-          : "missing_after_acceptance"
-      : "pending_acceptance";
+    const membershipStatus = membershipStateOf(raw.membership_status);
 
+    // Sibling steps only. `tenant_admin_invitation` is already recorded, once,
+    // inside the atomic routine — never re-record it here.
     await recordSafely(client, {
       tenantId: input.tenantId,
       stepKey: "tenant_admin_membership",
@@ -378,7 +363,7 @@ export async function inviteFirstTenantAdministratorCommand(
     await recordSafely(client, {
       tenantId: input.tenantId,
       stepKey: "roles_assigned",
-      status: accepted && existing.roleGranted ? "completed" : "skipped",
+      status: accepted && raw.role_granted === true ? "completed" : "skipped",
       failureCode: accepted ? null : "role_grant_pending_acceptance",
       failureSummary: accepted
         ? null
@@ -389,11 +374,11 @@ export async function inviteFirstTenantAdministratorCommand(
     await audit(
       client,
       actor,
-      replay ? "onboarding.invitation.reused" : "onboarding.invitation.created",
+      created ? "onboarding.invitation.created" : "onboarding.invitation.reused",
       input.tenantId,
       {
-        organization_id: organizationId,
-        invitation_id: invitationId,
+        organization_id: raw.organization_id,
+        invitation_id: raw.invitation_id,
         role: input.invitedRole,
         invitation_status: status,
         correlation_id: correlationId,
@@ -404,24 +389,26 @@ export async function inviteFirstTenantAdministratorCommand(
     return result({
       ...base,
       ok: true,
-      message: replay
-        ? "An equivalent administrator invitation already exists."
-        : "Administrator invitation created.",
-      state: step.state,
-      version: step.version,
-      stepStatus: step.status,
-      invitationId,
-      organizationId,
+      message: created
+        ? "Administrator invitation created."
+        : "An equivalent administrator invitation already exists.",
+      state: (raw.state as OnboardingAdminActionResultDTO["state"]) ?? null,
+      version: raw.step_version ?? null,
+      stepStatus:
+        (raw.step_status as OnboardingAdminActionResultDTO["stepStatus"]) ?? "completed",
+      invitationId: raw.invitation_id,
+      organizationId: raw.organization_id,
       invitationStatus: status,
       membershipStatus,
       roleIntentStatus: "satisfied",
       roleGrantStatus: accepted
-        ? existing.roleGranted
+        ? raw.role_granted === true
           ? "granted"
           : "missing"
         : "pending_acceptance",
       idempotentReplay: replay,
       notificationQueued: false,
+      oneTimeInvitationToken: created ? secret : null,
     });
   } catch (error) {
     const { reasonCode, message } = classifyError(error);
@@ -447,9 +434,10 @@ export interface ResendFirstAdministratorInvitationInput {
 }
 
 /**
- * No dedicated resend primitive exists: resend is revoke + create, so the old
- * secret is invalidated and a fresh one is issued. The unique pending-per
- * (organization, email) index keeps exactly one authoritative invitation.
+ * Resend is atomic: revoking the superseded invitation, issuing the
+ * replacement with a fresh secret and recording the invitation step all happen
+ * in one transaction. A failure rolls back the revocation, so the tenant can
+ * never be left with no valid administrator invitation.
  */
 export async function resendFirstTenantAdministratorInvitationCommand(
   client: AnyClient,
@@ -461,68 +449,25 @@ export async function resendFirstTenantAdministratorInvitationCommand(
   const base = { tenantId: input.tenantId, stepKey, correlationId };
 
   try {
-    const existing = await resolveFirstAdministrator(client, input.tenantId);
-    const invitation = existing.invitation;
-    if (!invitation || invitation.id !== input.invitationId) {
-      return result({
-        ...base,
-        ok: false,
-        reasonCode: "invitation_missing",
-        message: "That invitation is not the tenant's authoritative administrator invitation.",
-        organizationId: existing.organizationId,
-        invitationStatus: invitationState(invitation),
-      });
-    }
-    if (invitationState(invitation) === "accepted") {
-      return result({
-        ...base,
-        ok: false,
-        reasonCode: "invitation_conflict",
-        message: "An accepted invitation cannot be resent.",
-        organizationId: existing.organizationId,
-        invitationId: invitation.id,
-        invitationStatus: "accepted",
-      });
-    }
-
-    const { error: revokeError } = await client.rpc(REVOKE_INVITATION_RPC, {
-      _tenant_id: input.tenantId,
-      _invitation_id: invitation.id,
-    } as never);
-    if (revokeError) throw revokeError;
-
-    await audit(client, actor, "invitation_revoked", input.tenantId, {
-      organization_id: invitation.organizationId,
-      invitation_id: invitation.id,
-      correlation_id: correlationId,
-    });
-
     const secret = generateInvitationSecret();
     const expiresAt = new Date(Date.now() + INVITE_TTL_HOURS * 3600 * 1000).toISOString();
-    const { data, error } = await client.rpc(INVITE_ADMIN_RPC, {
+
+    const { data, error } = await client.rpc(RESEND_ADMIN_ATOMIC_RPC, {
       _tenant_id: input.tenantId,
-      _organization_id: invitation.organizationId,
-      _email: invitation.email,
-      _invited_role: invitation.role,
+      _invitation_id: input.invitationId,
       _token_hash: hashInvitationSecret(secret),
       _expires_at: expiresAt,
+      _correlation_id: correlationId,
+      _expected_version: input.expectedVersion ?? null,
     } as never);
     if (error) throw error;
-    const invitationId = String((data as { invitation_id: string }).invitation_id);
 
-    const step = await recordOnboardingStep(client, {
-      tenantId: input.tenantId,
-      stepKey,
-      status: "completed",
-      correlationId,
-      expectedVersion: input.expectedVersion ?? null,
-    });
+    const raw = (data ?? {}) as RawAtomicResult & { previous_invitation_id?: string };
 
     await audit(client, actor, "onboarding.invitation.resent", input.tenantId, {
-      organization_id: invitation.organizationId,
-      invitation_id: invitationId,
-      previous_invitation_id: invitation.id,
-      role: invitation.role,
+      organization_id: raw.organization_id,
+      invitation_id: raw.invitation_id,
+      previous_invitation_id: raw.previous_invitation_id ?? input.invitationId,
       invitation_status: "pending",
       correlation_id: correlationId,
     });
@@ -531,16 +476,18 @@ export async function resendFirstTenantAdministratorInvitationCommand(
       ...base,
       ok: true,
       message: "Administrator invitation resent.",
-      state: step.state,
-      version: step.version,
-      stepStatus: step.status,
-      invitationId,
-      organizationId: invitation.organizationId,
+      state: (raw.state as OnboardingAdminActionResultDTO["state"]) ?? null,
+      version: raw.step_version ?? null,
+      stepStatus:
+        (raw.step_status as OnboardingAdminActionResultDTO["stepStatus"]) ?? "completed",
+      invitationId: raw.invitation_id,
+      organizationId: raw.organization_id,
       invitationStatus: "pending",
       membershipStatus: "pending_acceptance",
       roleIntentStatus: "satisfied",
       roleGrantStatus: "pending_acceptance",
       notificationQueued: false,
+      oneTimeInvitationToken: secret,
     });
   } catch (error) {
     const { reasonCode, message } = classifyError(error);
