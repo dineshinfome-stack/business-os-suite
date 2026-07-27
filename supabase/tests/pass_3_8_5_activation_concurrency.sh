@@ -104,20 +104,40 @@ SQL
 OWN_CALLER=1
 
 # new_fixture <suffix> -> echoes "<tenant_uuid>:<org_uuid>"
-# Tenant + default organization + primary branch + onboarding workflow are
-# created in ONE transaction: either all exist or none do.
+# Tenant + completed provisioning job + ACTIVE default organization + primary
+# branch + a valid pending administrator invitation are created in ONE
+# transaction: either all exist or none do. Pass 3.8.5C made the evaluator
+# strict, so a partial fixture would simply be blocked and prove nothing.
 new_fixture() {
   local suffix="$1"
   local tenant="ce773851-0000-4000-8000-0000000000${suffix}"
   local org="ce773851-0000-4000-8000-0000000001${suffix}"
+  local job="ce773851-0000-4000-8000-0000000002${suffix}"
   "${PSQL[@]}" >/dev/null <<SQL
 BEGIN;
 INSERT INTO public.tenants (id, slug, display_name, code, provisioning_status)
 VALUES ('$tenant', 'cert3851-t$suffix', 'CERT3851 Tenant $suffix', 'C385${suffix}001', 'provisioned');
-INSERT INTO public.organizations (id, tenant_id, name, slug, is_default)
-VALUES ('$org', '$tenant', 'CERT3851 Default $suffix', 'cert3851-def-$suffix', true);
+
+-- provisioning_completed is evaluated from the latest job, not the flag.
+INSERT INTO public.provisioning_jobs (id, tenant_id, state, correlation_id, provider_key)
+VALUES ('$job', '$tenant', 'completed', 'cert-3851-seed', 'supabase');
+INSERT INTO public.provisioning_steps (job_id, step_key, sequence, status, correlation_id)
+VALUES ('$job', 'create_project', 1, 'succeeded', 'cert-3851-seed');
+
+-- organization_exists requires an ACTIVE default organization.
+INSERT INTO public.organizations (id, tenant_id, name, slug, is_default, lifecycle_state)
+VALUES ('$org', '$tenant', 'CERT3851 Default $suffix', 'cert3851-def-$suffix', true, 'active');
 INSERT INTO public.branches (tenant_id, organization_id, code, name, is_default)
 VALUES ('$tenant', '$org', 'MAIN', 'CERT3851 Primary $suffix', true);
+
+-- A valid pending administrative invitation satisfies admin_invitation_valid
+-- and admin_role_assigned before acceptance; acceptance stays a warning, which
+-- the racing sessions acknowledge explicitly.
+INSERT INTO public.organization_invitations
+  (organization_id, email, role, invited_by, token_hash, expires_at, status)
+VALUES ('$org', 'pass385.conc.admin.$suffix@certification.invalid', 'admin', '$USER_OK',
+        encode(sha256(convert_to('cert-3851-$suffix', 'UTF8')), 'hex'),
+        now() + interval '14 days', 'pending');
 COMMIT;
 SQL
   # Start the workflow and complete every step as the authorized caller, so
@@ -134,7 +154,8 @@ SQL
   "${PSQL[@]}" >/dev/null <<SQL
 UPDATE public.tenant_onboarding_steps
    SET status = 'completed', completed_at = now()
- WHERE tenant_id = '$tenant';
+ WHERE tenant_id = '$tenant'
+   AND step_key <> 'activation';
 SQL
   echo "$tenant:$org"
 }
@@ -142,6 +163,18 @@ SQL
 current_version() {
   "${PSQL[@]}" -c "SELECT version FROM public.tenant_onboarding WHERE tenant_id='$1'"
 }
+
+# Preflight: the race only proves serialization if the fixture is actually
+# activation-eligible. Assert the verdict BEFORE racing.
+assert_activation_eligible() {
+  local tenant="$1" verdict
+  verdict="$("${PSQL[@]}" -c "SELECT (j->>'overall_status') || '/' || (j->>'blocking_count') FROM (SELECT private.fn_onboarding_evaluate_readiness_json('$tenant','cert-3851-preflight') AS j) s")"
+  case "$verdict" in
+    ready/0|ready_with_warnings/0) echo "  preflight: readiness = $verdict" ;;
+    *) fail "fixture $tenant is not activation-eligible (readiness = $verdict)" ;;
+  esac
+}
+
 
 # race_session <tenant> <expected_version> <outfile>
 race_session() {
