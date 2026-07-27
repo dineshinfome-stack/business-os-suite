@@ -34,8 +34,12 @@ PSQL=(psql "$DB" -v ON_ERROR_STOP=1 -At)
 
 USER_OK='a5384100-0000-4000-8000-000000000001'
 EMAIL_OK='pass384.conc.authorized@certification.invalid'
-HASH_A="$(printf 'a%.0s' {1..64})"
-HASH_B="$(printf 'b%.0s' {1..64})"
+
+# token_hash is globally unique, so every racing call needs its own hash.
+# Deterministic 64-char lowercase hex derived from "<scenario>:<session>".
+make_hash() {
+  printf 'pass384-conc:%s' "$1" | sha256sum | cut -c1-64
+}
 
 # Tenants/organizations created by this run, cleaned up unconditionally.
 FIXTURES=()
@@ -103,7 +107,6 @@ VALUES ('$tenant', 'cert3841-t$suffix', 'CERT3841 Tenant $suffix', 'C384${suffix
 INSERT INTO public.organizations (id, tenant_id, name, slug, is_default)
 VALUES ('$org', '$tenant', 'CERT3841 Default $suffix', 'cert3841-def-$suffix', true);
 SQL
-  FIXTURES+=("$tenant:$org")
   echo "$tenant:$org"
 }
 
@@ -111,6 +114,7 @@ SQL
 race_session() {
   local tenant="$1" email="$2" role="$3" hash="$4" out="$5"
   "${PSQL[@]}" -o "$out" <<SQL 2>"${out}.err" || true
+\set VERBOSITY verbose
 BEGIN;
 SELECT set_config('request.jwt.claims',
   json_build_object('sub','$USER_OK','role','authenticated')::text, true);
@@ -139,21 +143,27 @@ run_scenario() {
   echo "== scenario $label =="
   local pair tenant org
   pair="$(new_fixture "$suffix")"
+  # Command substitution runs new_fixture in a SUBSHELL, so the cleanup list
+  # must be appended here, in the parent shell, or the trap sees nothing.
+  FIXTURES+=("$pair")
   tenant="${pair%%:*}"; org="${pair##*:}"
 
-  local f1 f2
+  local f1 f2 hash_a hash_b
   f1="$(mktemp)"; f2="$(mktemp)"
   TMPFILES+=("$f1" "$f2")
+  hash_a="$(make_hash "${suffix}:A")"
+  hash_b="$(make_hash "${suffix}:B")"
 
-  race_session "$tenant" "$email_a" "$role_a" "$HASH_A" "$f1" &
-  race_session "$tenant" "$email_b" "$role_b" "$HASH_B" "$f2" &
+  race_session "$tenant" "$email_a" "$role_a" "$hash_a" "$f1" &
+  race_session "$tenant" "$email_b" "$role_b" "$hash_b" "$f2" &
   wait
 
   local created=0 replayed=0 conflicts=0
   for f in "$f1" "$f2"; do
-    grep -qx 'true'  "$f" && created=$((created + 1))
-    grep -qx 'false' "$f" && replayed=$((replayed + 1))
-    grep -q "$expect_state" "${f}.err" && conflicts=$((conflicts + 1))
+    if grep -qx 'true'  "$f"; then created=$((created + 1)); fi
+    if grep -qx 'false' "$f"; then replayed=$((replayed + 1)); fi
+    # SQLSTATE only — never the English message (psql VERBOSITY verbose).
+    if grep -q "SQLSTATE: $expect_state" "${f}.err"; then conflicts=$((conflicts + 1)); fi
   done
 
   [[ "$created" -eq 1 ]] || fail "$label: expected exactly 1 creation, got $created"
