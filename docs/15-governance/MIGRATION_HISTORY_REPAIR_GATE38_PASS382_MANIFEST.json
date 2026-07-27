@@ -1,7 +1,7 @@
 {
   "manifest_id": "MIGRATION_HISTORY_REPAIR_GATE38_PASS382_MANIFEST",
   "migration_id": "MIG-20260726-GATE38-PASS382-HISTORY-REPAIR",
-  "status": "Commit B Verified Closure Candidate — SHA Pin Pending",
+  "status": "Commit B Complete and Pinned — Commit C Pending",
   "gate": "Phase 3 · Gate 3.8 · Pass 3.8.2",
   "repository_status": "Pass 3.8.2 — COMPLETE, REMEDIATION REQUIRED",
   "created_utc": "2026-07-26",
@@ -477,8 +477,8 @@
     "binding_conditions_recorded": 14,
     "binding_conditions_parity": "PASS",
     "commit_a": "COMPLETE — 98019c2cad8ae8467d123a46a5714dcced929a50 — PINNED AND VERIFIED",
-    "commit_b": "COMPLETE — EVIDENCE VERIFIED — SHA PENDING POST-COMMIT PIN",
-    "commit_c": "BLOCKED UNTIL COMMIT B SHA PIN",
+    "commit_b": "COMPLETE — SHA PINNED AND VERIFIED — a7bffe9557af14f73b6831ab5fc7638c5f0b703b",
+    "commit_c": "ELIGIBLE FOR SEPARATE CONTROLLED PLAN — NOT STARTED",
     "pass_3_8_3": "NOT STARTED",
     "measurement_mode": "HISTORICAL_RECONSTRUCTION",
     "historical_search_baseline_commit": "77656a1462918c636c94c6c7389570cccc62693e",
@@ -690,9 +690,9 @@
     "migration_file_inventory": "39 files present; 31 executable migrations replayed; the remainder are comment-only or superseded foundation files"
   },
   "commit_b_execution": {
-    "state": "COMPLETE_PENDING_SHA_PIN",
-    "commit_b_sha": null,
-    "commit_b_sha_state": "PENDING_POST_COMMIT_PIN",
+    "state": "COMPLETE_PINNED_AND_VERIFIED",
+    "commit_b_sha": "a7bffe9557af14f73b6831ab5fc7638c5f0b703b",
+    "commit_b_sha_state": "PINNED_AND_VERIFIED",
     "stable_governed_baseline": "77a95a15e59d0a4c48d7b9746e525adf1c4e7934",
     "active_execution_start_head": "b25d6d88af451d4d8d7e415d6928ff736c4bb18c",
     "started_at_utc": "2026-07-27T01:20:41Z",
@@ -701,7 +701,13 @@
     "commit_a_normalization_sha": "7dd948960259175e3d36892b27b2a1371a129ef8",
     "commit_a_reconciliation_sha": "77a95a15e59d0a4c48d7b9746e525adf1c4e7934",
     "planned_changed_paths": 5,
-    "path_statuses": ["M", "M", "M", "M", "M"],
+    "path_statuses": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
     "quality_environment": {
       "node_version": "v22.22.0",
       "package_manager": "bun",
@@ -735,7 +741,10 @@
       "exit_status": 0,
       "diagnostics": 0,
       "duration": "3s",
-      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "record_class": "INITIAL_COMMIT_B_OBSERVATION",
+      "tool_source_repository_pinned": false,
+      "authoritative_for_sha_pin": false
     },
     "production_build": {
       "command": "bun run build",
@@ -744,7 +753,11 @@
       "completed_at_utc": "2026-07-27T01:22:24Z",
       "exit_status": 0,
       "duration": "14s",
-      "output_paths": ["dist/client", "dist/server", "dist/nitro.json"],
+      "output_paths": [
+        "dist/client",
+        "dist/server",
+        "dist/nitro.json"
+      ],
       "warnings": 1,
       "warning_detail": "single chunk-size advisory emitted by vite build",
       "log_sha256": "f4291074c5c2774bd9a1840be674168221ae86d57945c6170e126b3c8526f2c8",
@@ -756,9 +769,74 @@
     "protected_file_drift": 0,
     "route_tree_required_final_blob": "4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06",
     "separate_signup_finding": "OPEN — SEPARATE_TRIAGE_REQUIRED",
-    "closure_state": "VERIFIED_CLOSURE_CANDIDATE",
+    "closure_state": "COMPLETE_PINNED_AND_VERIFIED",
     "commit_c_required": true,
-    "pass_3_8_3_authorized": false
+    "pass_3_8_3_authorized": false,
+    "commit_b_sha_verified": true,
+    "commit_b_sha_verified_at_utc": "2026-07-27T01:46:37Z",
+    "sha_pin_verification": {
+      "candidate_sha": "a7bffe9557af14f73b6831ab5fc7638c5f0b703b",
+      "commit_object_verified": true,
+      "stable_governed_baseline": "77a95a15e59d0a4c48d7b9746e525adf1c4e7934",
+      "baseline_is_ancestor_of_candidate": true,
+      "candidate_is_ancestor_of_pinning_head": true,
+      "cumulative_diff_from_baseline_paths": 5,
+      "cumulative_diff_unexpected_paths": 0,
+      "isolated_worktree_source_sha": "a7bffe9557af14f73b6831ab5fc7638c5f0b703b",
+      "verified_at_utc": "2026-07-27T01:46:37Z",
+      "install": {
+        "command": "bun install --frozen-lockfile",
+        "exit_status": 0,
+        "packages_installed": 893,
+        "lockfile_mutated": false
+      },
+      "tests": {
+        "command": "bun run test",
+        "resolved_command": "vitest run",
+        "exit_status": 0,
+        "test_files": 49,
+        "passed": 512,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "13.92s",
+        "log_sha256": "3d14911473613d0fd8e358538547e8812cb3cab09a794060bbacdc1e79bea019"
+      },
+      "authoritative_typecheck": {
+        "command": "./node_modules/.bin/tsc --noEmit",
+        "tool": "repository-local TypeScript compiler",
+        "compiler_version": "5.9.3",
+        "exit_status": 0,
+        "diagnostics": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "authoritative_for_sha_pin": true
+      },
+      "superseded_typecheck_observation": {
+        "command": "bunx tsgo --noEmit",
+        "record_class": "INITIAL_COMMIT_B_OBSERVATION",
+        "tool_source_repository_pinned": false,
+        "authoritative_for_sha_pin": false
+      },
+      "production_build": {
+        "command": "bun run build",
+        "resolved_command": "vite build",
+        "exit_status": 0,
+        "log_sha256": "9826a7a9ab5f69c939c121f1071da84b6cd82b985f3d38dc9d7460a74823b1e2"
+      },
+      "commit_a_files_unchanged": "4/4 PASS",
+      "protected_files_unchanged": "10/10 PASS",
+      "protected_file_drift": 0,
+      "route_tree_final_blob": "4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06",
+      "route_tree_net_drift": 0,
+      "final_path_gate": {
+        "changed_paths": 5,
+        "unexpected_paths": 0,
+        "renames": 0,
+        "copies": 0,
+        "additions": 0,
+        "deletions": 0,
+        "binary_changes": 0
+      }
+    }
   },
   "separate_findings": [
     {
