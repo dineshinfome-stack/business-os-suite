@@ -712,19 +712,22 @@ export async function activateTenantCommand(
   actor: OnboardingActor,
   input: {
     tenantId: string;
+    /** MANDATORY (Pass 3.8.5B). Never defaulted, never coerced to null. */
+    expectedVersion: number;
     acknowledgeWarnings?: boolean;
-    expectedVersion?: number;
     correlationId?: string;
   },
 ): Promise<OnboardingActivationResultDTO> {
   const correlationId = input.correlationId ?? newCorrelationId();
   try {
+    /* Exactly four arguments cross this boundary. No fingerprint, no
+       readiness verdict and no lifecycle instruction is ever sent. */
     const data = await callRpc<Record<string, unknown>>(
       client,
       ONBOARDING_ACTIVATE_TENANT_RPC,
       {
         _tenant_id: input.tenantId,
-        _expected_version: input.expectedVersion ?? null,
+        _expected_version: input.expectedVersion,
         _acknowledge_warnings: input.acknowledgeWarnings ?? false,
         _correlation_id: correlationId,
       },

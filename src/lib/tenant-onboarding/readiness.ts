@@ -52,23 +52,29 @@ const OVERALL_STATUSES: readonly ReadinessOverallStatus[] = [
   "ready",
 ];
 
-/** The 14 canonical Pass 3.8.5 checks, in deterministic presentation order. */
+/**
+ * The 14 canonical readiness checks, in the exact order and with the exact
+ * identifiers defined by `docs/60-engineering/PHASE3_GATE38_READINESS_MATRIX.md`.
+ * This list is a PRESENTATION ORDER only — the statuses, classifications,
+ * counts and overall verdict are produced by the database evaluator.
+ */
 export const READINESS_CHECK_KEYS = [
+  "tenant_exists",
   "provisioning_completed",
-  "tenant_lifecycle_eligible",
-  "no_pending_deletion",
-  "default_organization_present",
-  "organization_profile_complete",
-  "primary_branch_present",
-  "admin_invitation_present",
+  "lifecycle_permits_onboarding",
+  "organization_exists",
+  "primary_branch_exists",
+  "admin_invitation_valid",
   "admin_invitation_accepted",
-  "admin_membership_active",
+  "admin_membership_exists",
   "admin_role_assigned",
   "required_settings_valid",
   "financial_year_present",
-  "onboarding_steps_complete",
+  "no_failed_or_blocked_step",
   "no_concurrent_activation",
+  "no_data_integrity_conflict",
 ] as const;
+
 
 export type ReadinessCheckKey = (typeof READINESS_CHECK_KEYS)[number];
 

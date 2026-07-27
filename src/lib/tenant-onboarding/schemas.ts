@@ -190,7 +190,8 @@ export const onboardingSettingSpecSchema = z
     requirement: z.enum(["required", "conditional", "optional"]),
     editableDuringOnboarding: z.boolean(),
     sensitivity: z.enum(["sensitive", "non-sensitive"]),
-    readinessImpact: z.enum(["block", "warning", "none"]),
+    /* Readiness impact is DATABASE-owned (setting_definitions.readiness_impact);
+       the repository registry never classifies activation readiness. */
     auditRequired: z.boolean(),
     sourceOfTruth: z.string().min(2),
     conditionNote: z.string().min(2).optional(),
@@ -273,14 +274,18 @@ export const refreshOnboardingReadinessSchema = z
  * activation request so that acknowledgement and activation are one
  * atomic database transaction — never a separate pre-write.
  *
- * `acknowledgedFingerprint` is advisory only: the database re-evaluates and
- * owns the authoritative fingerprint.
+ * Pass 3.8.5B:
+ *   - `expectedVersion` is MANDATORY. The database refuses activation when it
+ *     is missing or NULL (SQLSTATE 40001), and this schema refuses earlier.
+ *   - NO fingerprint is accepted from the client. The database re-evaluates
+ *     readiness in-transaction and owns the authoritative fingerprint.
  */
 export const activateTenantSchema = z
   .object({
-    ...tenantScoped,
+    tenantId: tenantIdSchema,
+    expectedVersion: z.number().int().nonnegative(),
     acknowledgeWarnings: z.boolean().default(false),
-    acknowledgedFingerprint: z.string().min(16).max(128).optional(),
     correlationId: correlationIdSchema.optional(),
   })
   .strict();
+

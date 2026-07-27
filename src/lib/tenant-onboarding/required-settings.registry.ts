@@ -1,13 +1,19 @@
 /**
- * SPR-MOD-001-003 · Gate 3.8 — Pass 3.8.1 (Architecture & Contracts)
+ * SPR-MOD-001-003 · Gate 3.8 — Pass 3.8.1 (registry) · Pass 3.8.5B (authority)
  *
  * Onboarding REQUIRED-SETTINGS REGISTRY (G38-POL-010).
  *
+ * AUTHORITY BOUNDARY (Pass 3.8.5B, decision D1-A):
+ *   `public.setting_definitions.readiness_impact` is the SINGLE canonical
+ *   authority for whether a setting blocks activation. This TypeScript
+ *   registry describes ownership, scope, validation source, editability and
+ *   sensitivity ONLY. It MUST NOT classify activation readiness, and no
+ *   application code may derive `required_settings_valid`: that verdict is
+ *   produced exclusively by the database readiness evaluator and mapped
+ *   verbatim by `readiness.ts`.
+ *
  * Allow-listed and repository-owned: a key absent from this registry MUST be
- * rejected by the Pass 3.8.3 command layer. Every entry below was verified
- * against `public.setting_definitions` during Pass 3.8.1; speculative keys are
- * documented as *proposed* in `PHASE3_GATE38_ONBOARDING_MATRIX.md` instead of
- * being added here.
+ * rejected by the Pass 3.8.3 command layer.
  *
  * Purity contract: definitions only. No settings service calls, no database
  * imports, no environment reads, no value resolution.
@@ -18,8 +24,6 @@ export type OnboardingSettingRequirement = "required" | "conditional" | "optiona
 export type OnboardingSettingScope = "platform" | "organization";
 
 export type OnboardingSettingType = "string" | "integer" | "boolean" | "enum";
-
-export type OnboardingSettingReadinessImpact = "block" | "warning" | "none";
 
 export interface OnboardingSettingSpec {
   key: string;
@@ -34,7 +38,6 @@ export interface OnboardingSettingSpec {
   requirement: OnboardingSettingRequirement;
   editableDuringOnboarding: boolean;
   sensitivity: "sensitive" | "non-sensitive";
-  readinessImpact: OnboardingSettingReadinessImpact;
   auditRequired: boolean;
   sourceOfTruth: string;
   /** Present when `requirement === "conditional"`. */
@@ -52,7 +55,6 @@ export const ONBOARDING_REQUIRED_SETTINGS: readonly OnboardingSettingSpec[] = [
     requirement: "required",
     editableDuringOnboarding: true,
     sensitivity: "non-sensitive",
-    readinessImpact: "block",
     auditRequired: true,
     sourceOfTruth: "setting_values (organization scope)",
   },
@@ -66,7 +68,6 @@ export const ONBOARDING_REQUIRED_SETTINGS: readonly OnboardingSettingSpec[] = [
     requirement: "required",
     editableDuringOnboarding: true,
     sensitivity: "non-sensitive",
-    readinessImpact: "block",
     auditRequired: true,
     sourceOfTruth: "setting_values (organization scope)",
   },
@@ -80,7 +81,6 @@ export const ONBOARDING_REQUIRED_SETTINGS: readonly OnboardingSettingSpec[] = [
     requirement: "required",
     editableDuringOnboarding: true,
     sensitivity: "non-sensitive",
-    readinessImpact: "block",
     auditRequired: true,
     sourceOfTruth: "setting_values (organization scope)",
   },
@@ -94,7 +94,6 @@ export const ONBOARDING_REQUIRED_SETTINGS: readonly OnboardingSettingSpec[] = [
     requirement: "optional",
     editableDuringOnboarding: true,
     sensitivity: "non-sensitive",
-    readinessImpact: "none",
     auditRequired: true,
     sourceOfTruth: "setting_values (organization scope)",
   },
@@ -108,7 +107,6 @@ export const ONBOARDING_REQUIRED_SETTINGS: readonly OnboardingSettingSpec[] = [
     requirement: "optional",
     editableDuringOnboarding: true,
     sensitivity: "non-sensitive",
-    readinessImpact: "none",
     auditRequired: true,
     sourceOfTruth: "setting_values (organization scope)",
   },
@@ -126,11 +124,4 @@ export function getOnboardingSetting(
   key: string,
 ): OnboardingSettingSpec | undefined {
   return INDEX.get(key);
-}
-
-/** Keys whose absence blocks activation (see readiness matrix). */
-export function blockingSettingKeys(): readonly string[] {
-  return ONBOARDING_REQUIRED_SETTINGS.filter(
-    (s) => s.readinessImpact === "block",
-  ).map((s) => s.key);
 }

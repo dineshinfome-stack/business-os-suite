@@ -197,15 +197,16 @@ export const refreshTenantOnboardingReadiness = createServerFn({ method: "POST" 
 /**
  * Guarded activation. Warning acknowledgement travels WITH the request and is
  * committed atomically with the activation by the database routine.
+ *
+ * Pass 3.8.5B permission separation: activation requires
+ * `platform.tenant.activate` ONLY. `platform.tenant.update` governs explicit
+ * readiness persistence and is deliberately NOT demanded here — the RPC-side
+ * check enforces exactly the same single permission.
  */
 export const activateTenant = createServerFn({ method: "POST" })
-  .middleware([
-    requireAllPermissions([
-      PERMISSIONS.PLATFORM_TENANT_UPDATE,
-      PERMISSIONS.PLATFORM_TENANT_ACTIVATE,
-    ]),
-  ])
+  .middleware([requireAllPermissions([PERMISSIONS.PLATFORM_TENANT_ACTIVATE])])
   .inputValidator((input: unknown) => activateTenantSchema.parse(input))
+
   .handler(async ({ context, data }) =>
     activateTenantCommand(context.supabase, { userId: context.userId }, data),
   );
