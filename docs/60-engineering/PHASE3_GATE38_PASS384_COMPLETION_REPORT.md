@@ -8,7 +8,8 @@ Tenant administrator invitation, membership observation and role assignment.
 | Gate | Phase 3 · Gate 3.8 |
 | Pass | 3.8.4 (final correction) |
 | Baseline commit | `5315408e7bd7f3873bb39107c4ec4673176e622e` |
-| Status | COMPLETE |
+| Status | DEVELOPMENT COMPLETE — CERTIFICATION FAILED AT MIGRATION REPLAY |
+| Live certification | **NOT CERTIFIED.** The Gate 3.8 live run (see `PHASE3_GATE38_LIVE_DATABASE_CERTIFICATION_REPORT.md`) passed disposable-target preflight 10/10 but stopped in Phase 1: clean migration replay failed at `20260722030037` with SQLSTATE `42P07` (`relation "profiles" already exists`). The Pass 3.8.4 SQL and concurrency harnesses were therefore NOT RUN. |
 
 ## 1. One-time token behaviour
 
