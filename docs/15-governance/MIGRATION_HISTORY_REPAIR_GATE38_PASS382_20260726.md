@@ -2,7 +2,7 @@
 id: MIG-20260726-GATE38-PASS382-HISTORY-REPAIR
 title: "Migration-History Repair Exception — Gate 3.8 / Pass 3.8.2 Certification Harness"
 type: governance-exception
-status: Commit A Complete and Pinned — Commit B Pending
+status: Commit B Verified Closure Candidate — SHA Pin Pending
 owner: "Architecture Office"
 created: "2026-07-26"
 last_updated: "2026-07-26"
