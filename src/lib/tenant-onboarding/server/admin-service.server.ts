@@ -37,7 +37,13 @@ import {
 } from "./command-service.server";
 
 export const RESOLVE_ADMIN_RPC = "fn_onboarding_resolve_first_admin";
-export const INVITE_ADMIN_RPC = "fn_onboarding_invite_first_admin";
+/**
+ * Atomic create/replay and resend. The legacy six-argument
+ * `fn_onboarding_invite_first_admin` is retired and no longer executable by
+ * `authenticated`; it must never be called from application code.
+ */
+export const INVITE_ADMIN_ATOMIC_RPC = "fn_onboarding_invite_first_admin_atomic";
+export const RESEND_ADMIN_ATOMIC_RPC = "fn_onboarding_resend_first_admin_atomic";
 export const REVOKE_INVITATION_RPC = "fn_onboarding_revoke_invitation";
 export const ASSIGN_ADMIN_ROLE_RPC = "fn_onboarding_assign_admin_role";
 
