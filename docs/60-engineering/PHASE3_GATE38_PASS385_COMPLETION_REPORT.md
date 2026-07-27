@@ -28,8 +28,10 @@
 | `20260727144439_0f0fff3a-a80d-4823-9ad4-3ef989303b9e.sql` | Pass 3.8.5: `readiness_impact` column and backfill, readiness snapshot columns on `tenant_onboarding`, `private.fn_onboarding_evaluate_readiness_json`, the read-only and persisting evaluators, and the guarded activation routine. |
 | `20260727150928_dceb11bb-c3fc-42a7-abac-f62b44e795e2.sql` | Pass 3.8.5B (append-only): superseded the check builder to carry deep links, replaced the evaluator with the 14 canonical matrix keys and reason codes, and made `_expected_version` mandatory on activation (SQLSTATE `40001` when stale or absent). |
 | `20260727153815_e557fa92-99d8-4ceb-83ce-e44789e7de2e.sql` | Pass 3.8.5C (append-only): added `private.fn_setting_value_invalid_reason` and superseded the evaluator — provisioning verdict now follows the latest job (never the tenant flag), only an active default organization passes, required settings are validated (not merely present), and the administrator role is satisfied by a valid pending invitation before acceptance and by an active grant afterwards. |
+| `20260727160657_7da56bb7-3d6d-4f1e-ae99-20b7663b6231.sql` | Pass 3.8.5D (append-only): missing-tenant readiness contract — the 3.8.5C body is retained verbatim as `private.fn_onboarding_evaluate_readiness_present_json` and the contract entry point now owns tenant existence, returning the canonical 14-check envelope with `tenant_exists = blocked` / `tenant_missing`, `not_ready` overall, deterministic dependent states, no writes and no sensitive detail. Also replaced `private.fn_setting_value_invalid_reason` with a fail-closed implementation that returns the bounded `invalid_schema` reason for malformed `required`, `min`/`max`, enum, regex or unknown data-type metadata, never raw exception text. |
 
-No migration file was rewritten; both remain in chronological order.
+No migration file was rewritten; all four remain in chronological order.
+
 
 ---
 
