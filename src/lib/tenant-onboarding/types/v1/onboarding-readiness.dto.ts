@@ -27,4 +27,20 @@ export interface TenantOnboardingReadinessDTO {
   blockingCount: number;
   warningCount: number;
   correlationId: string | null;
+
+  /* ------------------------------------- Pass 3.8.5 additive v1 fields --- */
+  /** Tenant the evaluation belongs to; null when never evaluated. */
+  tenantId: string | null;
+  /** Checks whose status is not `not_applicable`. */
+  applicableCount: number;
+  /**
+   * Database-computed fingerprint of the CURRENT warning set. Acknowledging
+   * warnings is only valid against the fingerprint that produced them.
+   */
+  warningFingerprint: string | null;
+  /** `tenant_onboarding.version` observed at evaluation time. */
+  observedWorkflowVersion: number | null;
+  /** Readiness rule-set contract version emitted by the evaluator. */
+  contractVersion: string;
 }
+
