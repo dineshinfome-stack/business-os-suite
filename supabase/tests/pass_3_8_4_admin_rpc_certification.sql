@@ -175,6 +175,8 @@ BEGIN
   v_ver := (v_r ->> 'step_version')::int;
 
   -- The invitation step is recorded by the routine itself, exactly once.
+  -- Direct reads of RLS-protected tables run as the privileged executor.
+  EXECUTE 'RESET ROLE';
   SELECT count(*) INTO v_n FROM public.tenant_onboarding_steps
    WHERE tenant_id = c_tenant AND step_key = 'tenant_admin_invitation';
   IF v_n <> 1 THEN
@@ -183,7 +185,29 @@ BEGIN
 
   -- ==================================================================
   -- CERT-002 · replay equivalence: same email + same role
+  --
+  -- Role-transition design: production RPCs execute as the synthetic
+  -- `authenticated` caller; direct fixture DML and internal state
+  -- assertions execute as the privileged certification executor,
+  -- because the platform operator is neither an organization member
+  -- nor the invitation recipient and is therefore RLS-blind to the row.
   -- ==================================================================
+  SELECT count(*) INTO v_n FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+  IF v_n <> 1 THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: invitation missing after creation';
+  END IF;
+
+  SELECT oi.token_hash, oi.email, oi.role, oi.status, oi.expires_at
+    INTO v_hash_before, v_email_before, v_role_before, v_status_before, v_exp_before
+    FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+
+  IF v_hash_before IS DISTINCT FROM c_hash_a THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: unexpected initial token hash';
+  END IF;
+
+  EXECUTE 'SET LOCAL ROLE authenticated';
   v_r2 := public.fn_onboarding_invite_first_admin_atomic(
     c_tenant, upper(c_admin_mail), 'admin', c_hash_b, c_exp, 'cert-384-002', NULL);
 
@@ -193,17 +217,40 @@ BEGIN
   IF (v_r2 ->> 'created')::boolean IS NOT FALSE OR (v_r2 ->> 'replayed')::boolean IS NOT TRUE THEN
     RAISE EXCEPTION 'PASS384-CERT-002: equivalent call was not reported as a replay';
   END IF;
-  -- Replay must not mint a new secret: the stored hash is untouched.
-  SELECT count(*) INTO v_n FROM public.organization_invitations
-   WHERE id = v_inv AND token_hash = c_hash_a;
-  IF v_n <> 1 THEN
-    RAISE EXCEPTION 'PASS384-CERT-002: replay rotated the stored invitation hash';
+
+  -- Positive RLS assertion: the operator must see zero invitation rows.
+  SELECT count(*) INTO v_n FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+  IF v_n <> 0 THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: platform operator unexpectedly saw the invitation row through RLS';
   END IF;
+
+  EXECUTE 'RESET ROLE';
+  SELECT oi.token_hash, oi.email, oi.role, oi.status, oi.expires_at
+    INTO v_hash_after, v_email_after, v_role_after, v_status_after, v_exp_after
+    FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+
+  IF v_hash_after IS NULL THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: invitation missing after replay';
+  END IF;
+  IF v_hash_after IS DISTINCT FROM v_hash_before THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: replay changed the stored token hash';
+  END IF;
+  IF v_email_after  IS DISTINCT FROM v_email_before
+     OR v_role_after   IS DISTINCT FROM v_role_before
+     OR v_status_after IS DISTINCT FROM v_status_before
+     OR v_exp_after    IS DISTINCT FROM v_exp_before THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: replay changed invitation metadata';
+  END IF;
+
   SELECT count(*) INTO v_n FROM public.tenant_onboarding_steps
    WHERE tenant_id = c_tenant AND step_key = 'tenant_admin_invitation';
   IF v_n <> 1 THEN
     RAISE EXCEPTION 'PASS384-CERT-002: replay created a second invitation step row';
   END IF;
+
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   -- ==================================================================
   -- CERT-003 · a different email is a conflict, not a second invitation
