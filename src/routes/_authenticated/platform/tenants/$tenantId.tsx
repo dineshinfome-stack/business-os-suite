@@ -35,6 +35,7 @@ import { DataGrid } from "@/components/tables/DataGrid";
 import { Can } from "@/components/auth/Can";
 import { useAuth } from "@/contexts/auth-context";
 import { PERMISSIONS } from "@/lib/generated/permission-keys";
+import { TenantActivationView } from "@/modules/platform/tenant-activation/components/TenantActivationView";
 
 import {
   getTenant,
