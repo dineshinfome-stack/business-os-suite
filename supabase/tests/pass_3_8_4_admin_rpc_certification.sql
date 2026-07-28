@@ -60,6 +60,18 @@ DECLARE
   v_ver      int;
   v_state    text;
   v_code     text;
+
+  -- CERT-002 before/after invitation state (privileged reads only)
+  v_hash_before   text;
+  v_hash_after    text;
+  v_email_before  text;
+  v_email_after   text;
+  v_role_before   text;
+  v_role_after    text;
+  v_status_before text;
+  v_status_after  text;
+  v_exp_before    timestamptz;
+  v_exp_after     timestamptz;
 BEGIN
   -- ==================================================================
   -- Preconditions — catalog reads only
