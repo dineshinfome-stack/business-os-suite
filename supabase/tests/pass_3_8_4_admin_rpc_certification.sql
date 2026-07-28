@@ -313,11 +313,12 @@ BEGIN
   IF v_inv2 = v_inv THEN
     RAISE EXCEPTION 'PASS384-CERT-006: resend did not issue a replacement invitation';
   END IF;
-  SELECT status INTO v_state FROM public.organization_invitations WHERE id = v_inv;
+  EXECUTE 'RESET ROLE';
+  SELECT oi.status INTO v_state FROM public.organization_invitations oi WHERE oi.id = v_inv;
   IF v_state <> 'revoked' THEN
     RAISE EXCEPTION 'PASS384-CERT-006: superseded invitation is % rather than revoked', v_state;
   END IF;
-  SELECT status INTO v_state FROM public.organization_invitations WHERE id = v_inv2;
+  SELECT oi.status INTO v_state FROM public.organization_invitations oi WHERE oi.id = v_inv2;
   IF v_state <> 'pending' THEN
     RAISE EXCEPTION 'PASS384-CERT-006: replacement invitation is % rather than pending', v_state;
   END IF;
@@ -327,11 +328,12 @@ BEGIN
     RAISE EXCEPTION 'PASS384-CERT-006: resend created a duplicate invitation step row';
   END IF;
   -- Exactly one pending administrator invitation survives a resend.
-  SELECT count(*) INTO v_n FROM public.organization_invitations
-   WHERE organization_id = c_org_def AND status = 'pending';
+  SELECT count(*) INTO v_n FROM public.organization_invitations oi
+   WHERE oi.organization_id = c_org_def AND oi.status = 'pending';
   IF v_n <> 1 THEN
     RAISE EXCEPTION 'PASS384-CERT-006: % pending invitations after resend', v_n;
   END IF;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   -- ==================================================================
   -- CERT-007 · non-default organization is rejected (P3842)
