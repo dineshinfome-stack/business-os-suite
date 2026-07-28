@@ -44,4 +44,4 @@ Provide a single point of discovery for every migration executed against the rep
 - `MIG-20260718-SD-IDENTIFIER-ALIGNMENT` — closed under its terminal audit.
 - `008_rbac_foundation` — closed under `SPRINT_0_5_RBAC_FOUNDATION_REPORT`.
 - `MIG-20260726-GATE38-PASS382-HISTORY-REPAIR` — **CLOSED**. Commit A (technical repair), Commit B (verified closure candidate, SHA pinned) and Commit C (terminal governance) are complete. Pass 3.8.2 is CLOSED. The separate signup-trigger finding `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` remains **OPEN — SEPARATE_TRIAGE_REQUIRED** and is tracked outside this migration.
-- `MIG-20260728-GATE38-DEMO-CREDENTIAL-HISTORY-REPAIR` — **OPEN**. Static repair complete; the `auth.users` 0-row residue contract must be re-proven by a fresh clean replay.
+- `MIG-20260728-GATE38-DEMO-CREDENTIAL-SEED-HISTORY-REPAIR` — **OPEN**. Static repair complete; the `auth.users` 0-row residue contract must be re-proven by a fresh clean replay.
