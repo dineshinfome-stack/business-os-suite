@@ -336,11 +336,13 @@ BEGIN
   -- ==================================================================
   -- CERT-007 · non-default organization is rejected (P3842)
   -- ==================================================================
+  EXECUTE 'RESET ROLE';
   INSERT INTO public.organization_invitations
     (id, organization_id, email, role, invited_by, token_hash, expires_at, status)
   VALUES (gen_random_uuid(), c_org_other, c_other_mail, 'admin', c_user_ok,
           c_hash_b, c_exp, 'pending')
   RETURNING id INTO v_other;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   BEGIN
     PERFORM public.fn_onboarding_resend_first_admin_atomic(
