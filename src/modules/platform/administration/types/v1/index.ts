@@ -140,6 +140,27 @@ export interface PlatformTenantOperationsRowDTO {
   updatedAt: string;
   attentionCount: number;
   highestSeverity: PlatformSeverity | null;
+  /** Gate 3.8 · unified administration dashboard composition. */
+  organizationCount: number;
+  branchCount: number;
+  onboardingState: string;
+  onboardingProgressPercent: number;
+  readinessStatus: string;
+  readinessBlockingCount: number;
+  readinessWarningCount: number;
+  lastReadinessCheckedAt: string | null;
+  invitationStatus: string;
+  activatedAt: string | null;
+}
+
+export interface PlatformTenantDirectorySummaryDTO {
+  total: number;
+  active: number;
+  onboarding: number;
+  activationReady: number;
+  blocked: number;
+  suspended: number;
+  provisioningFailures: number;
 }
 
 export interface PlatformTenantOperationsPageDTO {
@@ -147,7 +168,9 @@ export interface PlatformTenantOperationsPageDTO {
   total: number;
   page: number;
   pageSize: number;
+  summary: PlatformTenantDirectorySummaryDTO;
 }
+
 
 /* --------------------------------------------------- providers & regions */
 
