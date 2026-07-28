@@ -225,5 +225,8 @@ No credential, token value or connection string is recorded in this report.
 | Gate 3.8 | NOT CERTIFIED |
 | Tenant activation | BLOCKED |
 
-**Verdict:** PASS 3.8.4 RECONSTRUCTED, RECERTIFIED AND PUBLISHED — READY FOR
-FRESH 51-MIGRATION REPLAY
+No certification was rerun in this amendment; all SQL and concurrency evidence
+above is preserved from the recertification pass.
+
+**Verdict:** PASS 3.8.4 EVIDENCE CORRECTED — READY FOR FRESH 51-MIGRATION
+REPLAY
