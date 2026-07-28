@@ -60,6 +60,18 @@ DECLARE
   v_ver      int;
   v_state    text;
   v_code     text;
+
+  -- CERT-002 before/after invitation state (privileged reads only)
+  v_hash_before   text;
+  v_hash_after    text;
+  v_email_before  text;
+  v_email_after   text;
+  v_role_before   text;
+  v_role_after    text;
+  v_status_before text;
+  v_status_after  text;
+  v_exp_before    timestamptz;
+  v_exp_after     timestamptz;
 BEGIN
   -- ==================================================================
   -- Preconditions — catalog reads only
@@ -163,6 +175,8 @@ BEGIN
   v_ver := (v_r ->> 'step_version')::int;
 
   -- The invitation step is recorded by the routine itself, exactly once.
+  -- Direct reads of RLS-protected tables run as the privileged executor.
+  EXECUTE 'RESET ROLE';
   SELECT count(*) INTO v_n FROM public.tenant_onboarding_steps
    WHERE tenant_id = c_tenant AND step_key = 'tenant_admin_invitation';
   IF v_n <> 1 THEN
@@ -171,7 +185,29 @@ BEGIN
 
   -- ==================================================================
   -- CERT-002 · replay equivalence: same email + same role
+  --
+  -- Role-transition design: production RPCs execute as the synthetic
+  -- `authenticated` caller; direct fixture DML and internal state
+  -- assertions execute as the privileged certification executor,
+  -- because the platform operator is neither an organization member
+  -- nor the invitation recipient and is therefore RLS-blind to the row.
   -- ==================================================================
+  SELECT count(*) INTO v_n FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+  IF v_n <> 1 THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: invitation missing after creation';
+  END IF;
+
+  SELECT oi.token_hash, oi.email, oi.role, oi.status, oi.expires_at
+    INTO v_hash_before, v_email_before, v_role_before, v_status_before, v_exp_before
+    FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+
+  IF v_hash_before IS DISTINCT FROM c_hash_a THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: unexpected initial token hash';
+  END IF;
+
+  EXECUTE 'SET LOCAL ROLE authenticated';
   v_r2 := public.fn_onboarding_invite_first_admin_atomic(
     c_tenant, upper(c_admin_mail), 'admin', c_hash_b, c_exp, 'cert-384-002', NULL);
 
@@ -181,17 +217,40 @@ BEGIN
   IF (v_r2 ->> 'created')::boolean IS NOT FALSE OR (v_r2 ->> 'replayed')::boolean IS NOT TRUE THEN
     RAISE EXCEPTION 'PASS384-CERT-002: equivalent call was not reported as a replay';
   END IF;
-  -- Replay must not mint a new secret: the stored hash is untouched.
-  SELECT count(*) INTO v_n FROM public.organization_invitations
-   WHERE id = v_inv AND token_hash = c_hash_a;
-  IF v_n <> 1 THEN
-    RAISE EXCEPTION 'PASS384-CERT-002: replay rotated the stored invitation hash';
+
+  -- Positive RLS assertion: the operator must see zero invitation rows.
+  SELECT count(*) INTO v_n FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+  IF v_n <> 0 THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: platform operator unexpectedly saw the invitation row through RLS';
   END IF;
+
+  EXECUTE 'RESET ROLE';
+  SELECT oi.token_hash, oi.email, oi.role, oi.status, oi.expires_at
+    INTO v_hash_after, v_email_after, v_role_after, v_status_after, v_exp_after
+    FROM public.organization_invitations oi
+   WHERE oi.id = v_inv;
+
+  IF v_hash_after IS NULL THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: invitation missing after replay';
+  END IF;
+  IF v_hash_after IS DISTINCT FROM v_hash_before THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: replay changed the stored token hash';
+  END IF;
+  IF v_email_after  IS DISTINCT FROM v_email_before
+     OR v_role_after   IS DISTINCT FROM v_role_before
+     OR v_status_after IS DISTINCT FROM v_status_before
+     OR v_exp_after    IS DISTINCT FROM v_exp_before THEN
+    RAISE EXCEPTION 'PASS384-CERT-002: replay changed invitation metadata';
+  END IF;
+
   SELECT count(*) INTO v_n FROM public.tenant_onboarding_steps
    WHERE tenant_id = c_tenant AND step_key = 'tenant_admin_invitation';
   IF v_n <> 1 THEN
     RAISE EXCEPTION 'PASS384-CERT-002: replay created a second invitation step row';
   END IF;
+
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   -- ==================================================================
   -- CERT-003 · a different email is a conflict, not a second invitation
@@ -254,11 +313,12 @@ BEGIN
   IF v_inv2 = v_inv THEN
     RAISE EXCEPTION 'PASS384-CERT-006: resend did not issue a replacement invitation';
   END IF;
-  SELECT status INTO v_state FROM public.organization_invitations WHERE id = v_inv;
+  EXECUTE 'RESET ROLE';
+  SELECT oi.status INTO v_state FROM public.organization_invitations oi WHERE oi.id = v_inv;
   IF v_state <> 'revoked' THEN
     RAISE EXCEPTION 'PASS384-CERT-006: superseded invitation is % rather than revoked', v_state;
   END IF;
-  SELECT status INTO v_state FROM public.organization_invitations WHERE id = v_inv2;
+  SELECT oi.status INTO v_state FROM public.organization_invitations oi WHERE oi.id = v_inv2;
   IF v_state <> 'pending' THEN
     RAISE EXCEPTION 'PASS384-CERT-006: replacement invitation is % rather than pending', v_state;
   END IF;
@@ -268,20 +328,23 @@ BEGIN
     RAISE EXCEPTION 'PASS384-CERT-006: resend created a duplicate invitation step row';
   END IF;
   -- Exactly one pending administrator invitation survives a resend.
-  SELECT count(*) INTO v_n FROM public.organization_invitations
-   WHERE organization_id = c_org_def AND status = 'pending';
+  SELECT count(*) INTO v_n FROM public.organization_invitations oi
+   WHERE oi.organization_id = c_org_def AND oi.status = 'pending';
   IF v_n <> 1 THEN
     RAISE EXCEPTION 'PASS384-CERT-006: % pending invitations after resend', v_n;
   END IF;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   -- ==================================================================
   -- CERT-007 · non-default organization is rejected (P3842)
   -- ==================================================================
+  EXECUTE 'RESET ROLE';
   INSERT INTO public.organization_invitations
     (id, organization_id, email, role, invited_by, token_hash, expires_at, status)
   VALUES (gen_random_uuid(), c_org_other, c_other_mail, 'admin', c_user_ok,
           c_hash_b, c_exp, 'pending')
   RETURNING id INTO v_other;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   BEGIN
     PERFORM public.fn_onboarding_resend_first_admin_atomic(
@@ -305,9 +368,11 @@ BEGIN
   -- ==================================================================
   -- CERT-008 · accepted invitations cannot be resent or revoked (P3846)
   -- ==================================================================
+  EXECUTE 'RESET ROLE';
   UPDATE public.organization_invitations
      SET status = 'accepted', accepted_at = now(), accepted_by = c_user_deny
    WHERE id = v_inv2;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   BEGIN
     PERFORM public.fn_onboarding_resend_first_admin_atomic(
@@ -328,14 +393,18 @@ BEGIN
   -- ==================================================================
   -- CERT-010 · a tenant with no default organization raises P3841
   -- ==================================================================
+  EXECUTE 'RESET ROLE';
   UPDATE public.organizations SET is_default = false WHERE id = c_org_def;
+  EXECUTE 'SET LOCAL ROLE authenticated';
   BEGIN
     PERFORM public.fn_onboarding_invite_first_admin_atomic(
       c_tenant, c_admin_mail, 'admin', c_hash_a, c_exp, 'cert-384-010', NULL);
     RAISE EXCEPTION 'PASS384-CERT-010: invite succeeded without a default organization';
   EXCEPTION WHEN SQLSTATE 'P3841' THEN NULL;
   END;
+  EXECUTE 'RESET ROLE';
   UPDATE public.organizations SET is_default = true WHERE id = c_org_def;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   -- ==================================================================
   -- CERT-011 · an unauthorized caller is denied by every routine
