@@ -149,6 +149,21 @@ BEGIN
 END
 $cert$;
 
+-- Harness-local temp objects are owned by the privileged executor; the
+-- synthetic caller runs as `authenticated` and needs explicit access to them.
+-- This grants nothing on application schemas — it only opens this session's
+-- private pg_temp schema so bookkeeping tables remain writable after the role
+-- transition. Production privileges are unaffected.
+DO $grants$
+DECLARE v_ns text := (SELECT nspname FROM pg_namespace WHERE oid = pg_my_temp_schema());
+BEGIN
+  EXECUTE format('GRANT USAGE ON SCHEMA %I TO authenticated', v_ns);
+  EXECUTE format('GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA %I TO authenticated', v_ns);
+  EXECUTE format('GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA %I TO authenticated', v_ns);
+  EXECUTE format('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA %I TO authenticated', v_ns);
+END
+$grants$;
+
 -- Act as the synthetic caller for every permission-gated call below.
 SET LOCAL role = authenticated;
 SELECT set_config('request.jwt.claims',
@@ -335,9 +350,18 @@ BEGIN
                          v_state <> 'activated', v_state);
 
   -- E5 an ineligible tenant lifecycle is refused with P384B.
+  -- Fixture mutation runs as the privileged executor: RLS on public.tenants
+  -- silently filters an `authenticated` UPDATE to zero rows, which would leave
+  -- the tenant eligible and produce a false negative. The RPC itself is still
+  -- invoked as `authenticated`.
+  EXECUTE 'RESET ROLE';
   UPDATE public.tenants SET lifecycle_state = 'suspended', suspended_at = now()
    WHERE id = v_tenant;
+  SELECT lifecycle_state::text INTO v_state FROM public.tenants WHERE id = v_tenant;
+  PERFORM pg_temp.assert('E5a fixture is suspended before the ineligibility probe',
+                         v_state = 'suspended', v_state);
   SELECT version INTO v_version FROM public.tenant_onboarding WHERE tenant_id = v_tenant;
+  EXECUTE 'SET LOCAL ROLE authenticated';
   BEGIN
     PERFORM public.fn_onboarding_activate_tenant(v_tenant, v_version, true, 'p385-cert');
     v_sqlstate := 'NO ERROR';
@@ -346,8 +370,10 @@ BEGIN
   END;
   PERFORM pg_temp.assert('E5 ineligible lifecycle raises P384B',
                          v_sqlstate = 'P384B', v_sqlstate);
+  EXECUTE 'RESET ROLE';
   UPDATE public.tenants SET lifecycle_state = 'created', suspended_at = NULL
    WHERE id = v_tenant;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 END
 $cert$;
 
@@ -936,7 +962,7 @@ BEGIN
     JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
    WHERE n.nspname = 'private'
      AND p.proname = 'fn_onboarding_evaluate_readiness_json'
-     AND pg_catalog.pg_get_function_identity_arguments(p.oid) = 'uuid, text';
+     AND p.proargtypes::oidvector::text = (SELECT 'uuid'::regtype::oid::text || ' ' || 'text'::regtype::oid::text);
   PERFORM pg_temp.assert('I1 fn_onboarding_evaluate_readiness_json is VOLATILE',
                          v_vol = 'v', COALESCE(v_vol::text, 'NOT FOUND'));
 
@@ -945,7 +971,7 @@ BEGIN
     JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
    WHERE n.nspname = 'private'
      AND p.proname = 'fn_onboarding_evaluate_readiness_present_json'
-     AND pg_catalog.pg_get_function_identity_arguments(p.oid) = 'uuid, text';
+     AND p.proargtypes::oidvector::text = (SELECT 'uuid'::regtype::oid::text || ' ' || 'text'::regtype::oid::text);
   PERFORM pg_temp.assert('I2 fn_onboarding_evaluate_readiness_present_json is VOLATILE',
                          v_vol = 'v', COALESCE(v_vol::text, 'NOT FOUND'));
 END
