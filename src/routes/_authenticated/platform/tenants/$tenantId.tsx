@@ -143,6 +143,7 @@ function TenantDetailPage() {
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="companies">Companies</TabsTrigger>
+          <TabsTrigger value="activation">Activation</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
