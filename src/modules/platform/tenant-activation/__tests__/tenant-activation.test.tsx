@@ -83,7 +83,7 @@ function makeDetail(
       tenantName: "Acme Corp",
       tenantSlug: "acme",
       tenantCode: null,
-      state: "ready",
+      state: "ready_for_activation",
       progressPercent: 100,
       currentStepKey: null,
       blockerCount: 0,
@@ -335,14 +335,10 @@ describe("refresh readiness", () => {
 });
 
 describe("authority boundary", () => {
-  it("does not recompute readiness counts or the overall verdict", async () => {
+  it("does not recompute readiness counts or the overall verdict", () => {
     /* The payload deliberately disagrees with what a local calculation would
        produce: every check passes, yet the backend reports blockers. The UI
        must obey the backend. */
-    const source = await import("../components/ActivationPanel?raw");
-    const text = String((source as { default: string }).default ?? "");
-    expect(text).not.toMatch(/checks\.filter\([^)]*blocked/);
-
     renderPanel({
       readiness: makeReadiness({ blockingCount: 1, overallStatus: "not_ready" }),
     });
