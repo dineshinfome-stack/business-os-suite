@@ -1,10 +1,19 @@
 -- Harden SECURITY DEFINER functions: revoke unnecessary EXECUTE grants and normalize search_path.
 
--- 1. public.rls_auto_enable is an event trigger; no client should call it.
-REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM PUBLIC;
-REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM authenticated;
-REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM service_role;
+-- 1. public.rls_auto_enable is an environment-provided DDL event-trigger
+--    function. It is not created by this migration chain and may be absent on a
+--    fresh Supabase project. When present, revoke all client-facing EXECUTE
+--    grants; when absent, perform no action and create no object.
+DO $rls_auto_enable_hardening$
+BEGIN
+  IF to_regprocedure('public.rls_auto_enable()') IS NOT NULL THEN
+    EXECUTE 'REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM PUBLIC';
+    EXECUTE 'REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM anon';
+    EXECUTE 'REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM authenticated';
+    EXECUTE 'REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM service_role';
+  END IF;
+END;
+$rls_auto_enable_hardening$;
 
 -- 2. private.fn_* — revoke PUBLIC grants (least privilege). authenticated + service_role retained where applicable.
 REVOKE EXECUTE ON FUNCTION private.fn_user_has_permission(uuid, uuid, text) FROM PUBLIC;
