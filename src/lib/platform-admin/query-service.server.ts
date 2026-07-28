@@ -7,7 +7,9 @@
  * imports the orchestrator, retry engine, rollback engine, migration runner,
  * seed runner or the admin (service-role) client.
  */
+import { ONBOARDING_STEPS } from "@/lib/tenant-onboarding/contracts";
 import { TENANT_LIFECYCLE_STATES } from "@/lib/tenant-lifecycle/lifecycle";
+
 import {
   notificationRegistry,
   type NotificationTypeDef,
@@ -465,11 +467,21 @@ export interface TenantDirectoryQuery {
   provisioningStatus?: string;
   region?: string;
   planTier?: string;
+  onboardingState?: string;
+  readinessStatus?: string;
+  invitationStatus?: string;
+  blockedOnly?: boolean;
   requiresAttention?: boolean;
   hasFailedProvisioning?: boolean;
   createdFrom?: string;
   createdTo?: string;
-  sortBy?: "displayName" | "createdAt" | "updatedAt" | "lifecycleState";
+  sortBy?:
+    | "displayName"
+    | "createdAt"
+    | "updatedAt"
+    | "lifecycleState"
+    | "onboardingProgress"
+    | "readinessBlockers";
   sortDir?: "asc" | "desc";
   page?: number;
   pageSize?: number;
@@ -477,16 +489,138 @@ export interface TenantDirectoryQuery {
 
 const SEVERITY_ORDER: PlatformSeverity[] = ["critical", "high", "medium", "low", "info"];
 
+interface OnboardingDirectoryRow {
+  tenant_id: string;
+  state: string | null;
+  readiness_status: string | null;
+  readiness_blocking_count: number | null;
+  readiness_warning_count: number | null;
+  last_readiness_checked_at: string | null;
+  activated_at: string | null;
+}
+
+/** Per-tenant composition facts, all loaded with set-based queries (no N+1). */
+interface TenantFacts {
+  organizationCount: number;
+  branchCount: number;
+  onboardingState: string;
+  onboardingProgressPercent: number;
+  readinessStatus: string;
+  readinessBlockingCount: number;
+  readinessWarningCount: number;
+  lastReadinessCheckedAt: string | null;
+  invitationStatus: string;
+  activatedAt: string | null;
+}
+
+const EMPTY_FACTS: TenantFacts = {
+  organizationCount: 0,
+  branchCount: 0,
+  onboardingState: "not_started",
+  onboardingProgressPercent: 0,
+  readinessStatus: "not_evaluated",
+  readinessBlockingCount: 0,
+  readinessWarningCount: 0,
+  lastReadinessCheckedAt: null,
+  invitationStatus: "none",
+  activatedAt: null,
+};
+
+async function loadTenantFacts(client: AnyClient): Promise<Map<string, TenantFacts>> {
+  const [onboarding, steps, orgs, branches, invitations] = await Promise.all([
+    client
+      .from("tenant_onboarding")
+      .select(
+        "tenant_id, state, readiness_status, readiness_blocking_count, readiness_warning_count, last_readiness_checked_at, activated_at",
+      )
+      .limit(2000),
+    client
+      .from("tenant_onboarding_steps")
+      .select("tenant_id, status")
+      .limit(20000),
+    client.from("organizations").select("id, tenant_id").limit(5000),
+    client.from("branches").select("id, tenant_id").limit(20000),
+    client
+      .from("organization_invitations")
+      .select("organization_id, status")
+      .limit(20000),
+  ]);
+
+  const facts = new Map<string, TenantFacts>();
+  const ensure = (tenantId: string): TenantFacts => {
+    let entry = facts.get(tenantId);
+    if (!entry) {
+      entry = { ...EMPTY_FACTS };
+      facts.set(tenantId, entry);
+    }
+    return entry;
+  };
+
+  for (const row of (onboarding.data ?? []) as OnboardingDirectoryRow[]) {
+    const entry = ensure(row.tenant_id);
+    entry.onboardingState = row.state ?? "not_started";
+    entry.readinessStatus = row.readiness_status ?? "not_evaluated";
+    entry.readinessBlockingCount = row.readiness_blocking_count ?? 0;
+    entry.readinessWarningCount = row.readiness_warning_count ?? 0;
+    entry.lastReadinessCheckedAt = row.last_readiness_checked_at ?? null;
+    entry.activatedAt = row.activated_at ?? null;
+  }
+
+  const settledByTenant = new Map<string, number>();
+  for (const row of (steps.data ?? []) as { tenant_id: string; status: string }[]) {
+    ensure(row.tenant_id);
+    if (row.status === "completed" || row.status === "skipped") {
+      settledByTenant.set(row.tenant_id, (settledByTenant.get(row.tenant_id) ?? 0) + 1);
+    }
+  }
+  const totalSteps = ONBOARDING_STEPS.length;
+  for (const [tenantId, settled] of settledByTenant) {
+    ensure(tenantId).onboardingProgressPercent =
+      totalSteps === 0 ? 0 : Math.round((settled / totalSteps) * 100);
+  }
+
+  const tenantByOrg = new Map<string, string>();
+  for (const row of (orgs.data ?? []) as { id: string; tenant_id: string }[]) {
+    tenantByOrg.set(row.id, row.tenant_id);
+    ensure(row.tenant_id).organizationCount += 1;
+  }
+  for (const row of (branches.data ?? []) as { tenant_id: string }[]) {
+    ensure(row.tenant_id).branchCount += 1;
+  }
+
+  const INVITATION_RANK = ["accepted", "pending", "expired", "revoked"];
+  const invitationByTenant = new Map<string, string>();
+  for (const row of (invitations.data ?? []) as {
+    organization_id: string;
+    status: string;
+  }[]) {
+    const tenantId = tenantByOrg.get(row.organization_id);
+    if (!tenantId) continue;
+    const current = invitationByTenant.get(tenantId);
+    const nextRank = INVITATION_RANK.indexOf(row.status);
+    const currentRank = current ? INVITATION_RANK.indexOf(current) : Number.MAX_SAFE_INTEGER;
+    if (nextRank >= 0 && nextRank < currentRank) invitationByTenant.set(tenantId, row.status);
+  }
+  for (const [tenantId, status] of invitationByTenant) {
+    ensure(tenantId).invitationStatus = status;
+  }
+
+  return facts;
+}
+
 export async function getTenantDirectory(
   client: AnyClient,
   query: TenantDirectoryQuery,
   now = new Date(),
 ): Promise<PlatformTenantOperationsPageDTO> {
-  const [tenants, jobs, attention] = await Promise.all([
+  const [tenants, jobs, attention, facts] = await Promise.all([
     loadTenants(client),
     loadJobs(client),
     deriveAttention(client, now),
+    loadTenantFacts(client),
   ]);
+
+  const factsFor = (tenantId: string): TenantFacts => facts.get(tenantId) ?? EMPTY_FACTS;
 
   const attentionByTenant = new Map<string, PlatformAttentionItemDTO[]>();
   for (const item of attention) {
@@ -507,8 +641,28 @@ export async function getTenantDirectory(
     }
   }
 
+  const summary = {
+    total: tenants.length,
+    active: tenants.filter((t) => t.lifecycle_state === "active").length,
+    onboarding: tenants.filter((t) => {
+      const f = factsFor(t.id);
+      return f.onboardingState === "in_progress" || f.onboardingState === "ready";
+    }).length,
+    activationReady: tenants.filter(
+      (t) => factsFor(t.id).readinessStatus === "ready" && t.lifecycle_state !== "active",
+    ).length,
+    blocked: tenants.filter(
+      (t) =>
+        factsFor(t.id).onboardingState === "blocked" ||
+        factsFor(t.id).readinessBlockingCount > 0,
+    ).length,
+    suspended: tenants.filter((t) => t.lifecycle_state === "suspended").length,
+    provisioningFailures: tenants.filter((t) => failedTenants.has(t.id)).length,
+  };
+
   const term = query.search?.trim().toLowerCase() ?? "";
   let rows = tenants.filter((t) => {
+    const f = factsFor(t.id);
     if (term) {
       const haystack = [
         t.display_name,
@@ -531,6 +685,14 @@ export async function getTenantDirectory(
     if (query.region && query.region !== "all" && t.region !== query.region) return false;
     if (query.planTier && query.planTier !== "all" && t.plan_tier !== query.planTier)
       return false;
+    if (query.onboardingState && query.onboardingState !== "all" &&
+      f.onboardingState !== query.onboardingState) return false;
+    if (query.readinessStatus && query.readinessStatus !== "all" &&
+      f.readinessStatus !== query.readinessStatus) return false;
+    if (query.invitationStatus && query.invitationStatus !== "all" &&
+      f.invitationStatus !== query.invitationStatus) return false;
+    if (query.blockedOnly && f.readinessBlockingCount === 0 &&
+      f.onboardingState !== "blocked") return false;
     if (query.hasFailedProvisioning && !failedTenants.has(t.id)) return false;
     if (query.requiresAttention && !(attentionByTenant.get(t.id)?.length)) return false;
     if (query.createdFrom && t.created_at < query.createdFrom) return false;
@@ -541,14 +703,18 @@ export async function getTenantDirectory(
   const dir = query.sortDir === "asc" ? 1 : -1;
   const sortBy = query.sortBy ?? "createdAt";
   rows = [...rows].sort((a, b) => {
-    const pick = (r: TenantRowLike) =>
+    const pick = (r: TenantRowLike): string | number =>
       sortBy === "displayName"
         ? r.display_name
         : sortBy === "updatedAt"
           ? r.updated_at
           : sortBy === "lifecycleState"
             ? r.lifecycle_state
-            : r.created_at;
+            : sortBy === "onboardingProgress"
+              ? factsFor(r.id).onboardingProgressPercent
+              : sortBy === "readinessBlockers"
+                ? factsFor(r.id).readinessBlockingCount
+                : r.created_at;
     const av = pick(a);
     const bv = pick(b);
     return av === bv ? 0 : av < bv ? -dir : dir;
@@ -564,18 +730,22 @@ export async function getTenantDirectory(
       const items = attentionByTenant.get(row.id) ?? [];
       const highest =
         SEVERITY_ORDER.find((s) => items.some((i) => i.severity === s)) ?? null;
+      const f = factsFor(row.id);
       return toTenantOperationsRow(row, {
-        companyCount: null,
+        companyCount: f.organizationCount,
         lastActivityAt: lastJobByTenant.get(row.id) ?? row.updated_at,
         attentionCount: items.length,
         highestSeverity: highest,
+        ...f,
       });
     }),
     total: rows.length,
     page,
     pageSize,
+    summary,
   };
 }
+
 
 /* ------------------------------------------------------ providers & regions */
 

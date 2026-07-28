@@ -133,6 +133,16 @@ export function toTenantOperationsRow(
     lastActivityAt: string | null;
     attentionCount: number;
     highestSeverity: PlatformSeverity | null;
+    organizationCount?: number;
+    branchCount?: number;
+    onboardingState?: string;
+    onboardingProgressPercent?: number;
+    readinessStatus?: string;
+    readinessBlockingCount?: number;
+    readinessWarningCount?: number;
+    lastReadinessCheckedAt?: string | null;
+    invitationStatus?: string;
+    activatedAt?: string | null;
   },
 ): PlatformTenantOperationsRowDTO {
   return {
@@ -150,5 +160,16 @@ export function toTenantOperationsRow(
     updatedAt: row.updated_at,
     attentionCount: extras.attentionCount,
     highestSeverity: extras.highestSeverity,
+    organizationCount: extras.organizationCount ?? 0,
+    branchCount: extras.branchCount ?? 0,
+    onboardingState: extras.onboardingState ?? "not_started",
+    onboardingProgressPercent: extras.onboardingProgressPercent ?? 0,
+    readinessStatus: extras.readinessStatus ?? "not_evaluated",
+    readinessBlockingCount: extras.readinessBlockingCount ?? 0,
+    readinessWarningCount: extras.readinessWarningCount ?? 0,
+    lastReadinessCheckedAt: extras.lastReadinessCheckedAt ?? null,
+    invitationStatus: extras.invitationStatus ?? "none",
+    activatedAt: extras.activatedAt ?? null,
   };
 }
+

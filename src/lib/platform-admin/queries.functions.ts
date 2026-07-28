@@ -44,15 +44,29 @@ const TenantQuery = z.object({
   provisioningStatus: z.string().max(64).optional(),
   region: z.string().max(64).optional(),
   planTier: z.string().max(64).optional(),
+  onboardingState: z.string().max(64).optional(),
+  readinessStatus: z.string().max(64).optional(),
+  invitationStatus: z.string().max(64).optional(),
+  blockedOnly: z.boolean().optional(),
   requiresAttention: z.boolean().optional(),
   hasFailedProvisioning: z.boolean().optional(),
   createdFrom: z.string().optional(),
   createdTo: z.string().optional(),
-  sortBy: z.enum(["displayName", "createdAt", "updatedAt", "lifecycleState"]).optional(),
+  sortBy: z
+    .enum([
+      "displayName",
+      "createdAt",
+      "updatedAt",
+      "lifecycleState",
+      "onboardingProgress",
+      "readinessBlockers",
+    ])
+    .optional(),
   sortDir: z.enum(["asc", "desc"]).optional(),
   page: z.number().int().min(1).optional(),
   pageSize: z.number().int().min(5).max(100).optional(),
 });
+
 
 const AuditQueryInput = z.object({
   search: z.string().max(200).optional(),
