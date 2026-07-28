@@ -50,7 +50,7 @@ Insertion order is not authoritative. The initial `platform_owner` is granted de
 
 1. Deployment sets `PLATFORM_OWNER_EMAIL` (or an equivalent bootstrap setting) before running migration `008`.
 2. `private.fn_bootstrap_platform_owner(email)` grants `platform_owner` to the matching `auth.users.email`. It is a no-op if the email is absent or unset.
-3. Development convenience: the migration invokes the bootstrap function for `admin@demo.test`, so the seeded demo account is a platform owner in dev environments. This dev call is clearly marked in the migration and must not be relied on in production.
+3. Removed (Gate 3.8, 2026-07-28): migration `008` no longer invokes the bootstrap function for any hard-coded address. Every environment, including development, grants the initial platform owner explicitly.
 
 Production deployments call the bootstrap function themselves after seeding the intended owner account.
 
