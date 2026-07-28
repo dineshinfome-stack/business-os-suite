@@ -7,7 +7,9 @@
  * imports the orchestrator, retry engine, rollback engine, migration runner,
  * seed runner or the admin (service-role) client.
  */
+import { ONBOARDING_STEPS } from "@/lib/tenant-onboarding/contracts";
 import { TENANT_LIFECYCLE_STATES } from "@/lib/tenant-lifecycle/lifecycle";
+
 import {
   notificationRegistry,
   type NotificationTypeDef,
