@@ -350,9 +350,18 @@ BEGIN
                          v_state <> 'activated', v_state);
 
   -- E5 an ineligible tenant lifecycle is refused with P384B.
+  -- Fixture mutation runs as the privileged executor: RLS on public.tenants
+  -- silently filters an `authenticated` UPDATE to zero rows, which would leave
+  -- the tenant eligible and produce a false negative. The RPC itself is still
+  -- invoked as `authenticated`.
+  EXECUTE 'RESET ROLE';
   UPDATE public.tenants SET lifecycle_state = 'suspended', suspended_at = now()
    WHERE id = v_tenant;
+  SELECT lifecycle_state::text INTO v_state FROM public.tenants WHERE id = v_tenant;
+  PERFORM pg_temp.assert('E5a fixture is suspended before the ineligibility probe',
+                         v_state = 'suspended', v_state);
   SELECT version INTO v_version FROM public.tenant_onboarding WHERE tenant_id = v_tenant;
+  EXECUTE 'SET LOCAL ROLE authenticated';
   BEGIN
     PERFORM public.fn_onboarding_activate_tenant(v_tenant, v_version, true, 'p385-cert');
     v_sqlstate := 'NO ERROR';
@@ -361,8 +370,10 @@ BEGIN
   END;
   PERFORM pg_temp.assert('E5 ineligible lifecycle raises P384B',
                          v_sqlstate = 'P384B', v_sqlstate);
+  EXECUTE 'RESET ROLE';
   UPDATE public.tenants SET lifecycle_state = 'created', suspended_at = NULL
    WHERE id = v_tenant;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 END
 $cert$;
 
