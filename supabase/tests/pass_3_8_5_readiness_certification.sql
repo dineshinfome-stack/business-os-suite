@@ -149,6 +149,21 @@ BEGIN
 END
 $cert$;
 
+-- Harness-local temp objects are owned by the privileged executor; the
+-- synthetic caller runs as `authenticated` and needs explicit access to them.
+-- This grants nothing on application schemas — it only opens this session's
+-- private pg_temp schema so bookkeeping tables remain writable after the role
+-- transition. Production privileges are unaffected.
+DO $grants$
+DECLARE v_ns text := (SELECT nspname FROM pg_namespace WHERE oid = pg_my_temp_schema());
+BEGIN
+  EXECUTE format('GRANT USAGE ON SCHEMA %I TO authenticated', v_ns);
+  EXECUTE format('GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA %I TO authenticated', v_ns);
+  EXECUTE format('GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA %I TO authenticated', v_ns);
+  EXECUTE format('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA %I TO authenticated', v_ns);
+END
+$grants$;
+
 -- Act as the synthetic caller for every permission-gated call below.
 SET LOCAL role = authenticated;
 SELECT set_config('request.jwt.claims',
