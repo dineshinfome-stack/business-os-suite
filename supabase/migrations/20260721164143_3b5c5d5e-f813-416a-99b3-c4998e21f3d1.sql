@@ -1,11 +1,13 @@
--- =============================================================================
--- Migration:     004a_revoke_fn_has_role_from_anon
--- Sprint:        0.2
--- Purpose:       Remove anon EXECUTE on fn_has_role (Supabase default grant).
--- Dependencies:  004_roles
--- Rollback:      GRANT EXECUTE ON FUNCTION public.fn_has_role(uuid, public.app_role) TO anon;
--- Author:        platform
--- Date:          2026-07-21
--- =============================================================================
-
-REVOKE EXECUTE ON FUNCTION public.fn_has_role(uuid, public.app_role) FROM anon;
+-- CONTROLLED HISTORICAL TOMBSTONE
+-- Exception: MIG-20260728-GATE38-DUPLICATE-BASELINE-HISTORY-REPAIR
+-- Original migration: 20260721164143_3b5c5d5e-f813-416a-99b3-c4998e21f3d1.sql
+-- Original purpose: 004a_revoke_fn_has_role_from_anon - REVOKE on the function created by 004_roles
+-- Reason for neutralization: this file belongs to the dependency-coupled
+-- pre-consolidation 20260721 block, whose object creation is duplicated
+-- unconditionally by the consolidated baseline, causing SQLSTATE 42P07 on a
+-- clean replay from an empty database.
+-- Canonical object creation begins in:
+-- 20260722030037_9db62b70-9aaa-437e-b861-e28fb6f08319.sql
+-- Original executable content is preserved in Git at:
+-- d44c836e266e10406d2edfe2f313ccdbcfeeb99a
+-- This tombstone intentionally contains no executable SQL.
