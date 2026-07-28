@@ -5,7 +5,7 @@ version: 1.0.0
 date: 2026-07-28
 owner: Platform Architecture
 approval_status: Approved (explicit repository-owner approval, recorded below)
-status: BLOCKED — TOMBSTONE WRITE REFUSED BY MIGRATION-FILE GUARD
+status: IMPLEMENTED — CLEAN REPLAY CERTIFICATION PENDING
 ---
 
 # MIG-20260728-GATE38-DUPLICATE-BASELINE-HISTORY-REPAIR
@@ -171,6 +171,19 @@ comparison.
 | Gate 3.8 certification | **CERTIFICATION FAILED** |
 | Tenant activation | **BLOCKED** |
 | `FINDING-AUTH-SIGNUP-TENANT-FK-20260726` | **OPEN** |
+
+## 13a. Implementation record (2026-07-28)
+
+- Shell-based, DB-free repository writes were **explicitly authorized** by the
+  repository owner for this repair only.
+- **No Supabase project was accessed. No SQL was executed.** The Supabase
+  migration execution tool was not used; `CERT_DB_URL` was not used or recreated.
+- The normal migration editor **refused** writes under `supabase/migrations/`,
+  which is why the controlled shell exception was applied.
+- Six atomic comment-only tombstones were prepared outside the repository,
+  validated to zero executable lines, then copied in and re-validated: 6/6 pass.
+- Clean replay and database-catalog schema equivalence remain **PENDING**.
+
 
 ## 14. Revision history
 

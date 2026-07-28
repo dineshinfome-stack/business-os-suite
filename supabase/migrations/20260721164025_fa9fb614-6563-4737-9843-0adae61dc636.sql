@@ -1,14 +1,13 @@
--- =============================================================================
--- Migration:     003a_lock_fn_handle_new_auth_user
--- Sprint:        0.2
--- Purpose:       Restrict EXECUTE on internal trigger function to the trigger only.
--- Dependencies:  003_profiles
--- Rollback:      GRANT EXECUTE ON FUNCTION public.fn_handle_new_auth_user() TO PUBLIC;
--- Author:        platform
--- Date:          2026-07-21
--- =============================================================================
-
-REVOKE ALL ON FUNCTION public.fn_handle_new_auth_user() FROM PUBLIC;
-REVOKE ALL ON FUNCTION public.fn_handle_new_auth_user() FROM anon, authenticated;
-GRANT  EXECUTE ON FUNCTION public.fn_handle_new_auth_user() TO service_role;
--- The trigger on auth.users runs with the definer's rights; no EXECUTE grant needed for it.
+-- CONTROLLED HISTORICAL TOMBSTONE
+-- Exception: MIG-20260728-GATE38-DUPLICATE-BASELINE-HISTORY-REPAIR
+-- Original migration: 20260721164025_fa9fb614-6563-4737-9843-0adae61dc636.sql
+-- Original purpose: 003a_lock_fn_handle_new_auth_user - REVOKEs on the function created by 003_profiles
+-- Reason for neutralization: this file belongs to the dependency-coupled
+-- pre-consolidation 20260721 block, whose object creation is duplicated
+-- unconditionally by the consolidated baseline, causing SQLSTATE 42P07 on a
+-- clean replay from an empty database.
+-- Canonical object creation begins in:
+-- 20260722030037_9db62b70-9aaa-437e-b861-e28fb6f08319.sql
+-- Original executable content is preserved in Git at:
+-- d44c836e266e10406d2edfe2f313ccdbcfeeb99a
+-- This tombstone intentionally contains no executable SQL.

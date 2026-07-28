@@ -1,14 +1,13 @@
--- =============================================================================
--- Migration:     006_revoke_anon_platform_grants
--- Sprint:        0.2
--- Purpose:       Enforce Repository Table Standard: no anon grants on tables
---                without an anon-scoped policy. RLS already blocks these paths.
--- Dependencies:  003, 004, 005
--- Rollback:      GRANT SELECT,INSERT,UPDATE,DELETE ON <table> TO anon;
--- Author:        platform
--- Date:          2026-07-21
--- =============================================================================
-
-REVOKE ALL ON public.profiles    FROM anon;
-REVOKE ALL ON public.user_roles  FROM anon;
-REVOKE ALL ON public.audit_logs  FROM anon;
+-- CONTROLLED HISTORICAL TOMBSTONE
+-- Exception: MIG-20260728-GATE38-DUPLICATE-BASELINE-HISTORY-REPAIR
+-- Original migration: 20260721164347_105ef743-9451-4870-b0c7-fd2d9863d9d9.sql
+-- Original purpose: 006_revoke_anon_platform_grants - REVOKEs across profiles, user_roles and audit_logs
+-- Reason for neutralization: this file belongs to the dependency-coupled
+-- pre-consolidation 20260721 block, whose object creation is duplicated
+-- unconditionally by the consolidated baseline, causing SQLSTATE 42P07 on a
+-- clean replay from an empty database.
+-- Canonical object creation begins in:
+-- 20260722030037_9db62b70-9aaa-437e-b861-e28fb6f08319.sql
+-- Original executable content is preserved in Git at:
+-- d44c836e266e10406d2edfe2f313ccdbcfeeb99a
+-- This tombstone intentionally contains no executable SQL.
