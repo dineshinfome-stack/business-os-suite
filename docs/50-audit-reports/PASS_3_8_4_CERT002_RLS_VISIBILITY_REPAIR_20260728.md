@@ -18,18 +18,32 @@
 | Executed harness SHA-256 | `34239d1b697a5415c0085d757b472724a3589f499cb3098e3413f09e4f9d4954` |
 | Migration 51 blob (protected) | `05756f180ba3902403994b29932efe7a8fd597c3` — unchanged |
 | Concurrency-harness blob (protected) | `d5e5cff401194d848acb0fa46b7210c601d5585a` — unchanged |
-| `src/routeTree.gen.ts` blob (protected) | `1b1a72ea930e21a37b33f6ae7d1cedebdc6cb9a2` — unchanged |
+| `src/routeTree.gen.ts` blob at baseline | `1b1a72ea930e21a37b33f6ae7d1cedebdc6cb9a2` |
+| `src/routeTree.gen.ts` blob published | `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06` — generator-produced |
 | Certification target | disposable project `eztufmpddagshnhjcrcf` |
 | Migration ledger at preflight | 51 |
 | Fixture residue at preflight | zero |
 
-### Write allowlist (exactly two paths)
+### Published change scope
+
+Certification repair scope: two intentional certification artifacts plus one
+generator-produced routeTree change. The final published change contains three
+paths:
 
 1. `supabase/tests/pass_3_8_4_admin_rpc_certification.sql`
 2. `docs/50-audit-reports/PASS_3_8_4_CERT002_RLS_VISIBILITY_REPAIR_20260728.md`
+3. `src/routeTree.gen.ts`
 
-No migration, production RPC, RLS policy, `src/**`, package or lock file was
-modified.
+The final routeTree blob is `4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06`. That
+change was produced automatically by the platform route generator, which removed
+the TanStack Start registration block present in baseline blob
+`1b1a72ea930e21a37b33f6ae7d1cedebdc6cb9a2`.
+
+No hand-authored route, application source, migration, RPC or RLS policy
+changed. No package or lock file was modified. The routeTree deviation does not
+alter the SQL or concurrency certification result.
+
+**EXCEPTION-G38-P384-ROUTETREE-GENERATOR-DRIFT — ACCEPTED**
 
 ---
 
@@ -211,5 +225,8 @@ No credential, token value or connection string is recorded in this report.
 | Gate 3.8 | NOT CERTIFIED |
 | Tenant activation | BLOCKED |
 
-**Verdict:** PASS 3.8.4 RECONSTRUCTED, RECERTIFIED AND PUBLISHED — READY FOR
-FRESH 51-MIGRATION REPLAY
+No certification was rerun in this amendment; all SQL and concurrency evidence
+above is preserved from the recertification pass.
+
+**Verdict:** PASS 3.8.4 EVIDENCE CORRECTED — READY FOR FRESH 51-MIGRATION
+REPLAY
