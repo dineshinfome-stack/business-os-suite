@@ -1,0 +1,68 @@
+{
+  "exception_id": "MIG-20260728-GATE38-RLS-AUTO-ENABLE-PORTABILITY-HISTORY-REPAIR",
+  "starting_head": "cdd1ad2bfe0de6511edefb74a287e90ac758fa93",
+  "subject_migration_path": "supabase/migrations/20260723072217_7c5f965e-66e6-42e0-9245-a3b40f732eaf.sql",
+  "original_subject_git_blob": "d40f8cd24610cb1693c2b492b3b2c3c17a5795d6",
+  "before": {
+    "sha256": "ba196ea778ee9a4b20a93e1fe11cb3bd95b05fdd6929682b2fa2e3940c6c9f9d",
+    "bytes": 1330,
+    "newlines": 18,
+    "logical_lines": 19,
+    "executable_inventory": {
+      "unconditional_rls_auto_enable_revokes": 4,
+      "guarded_rls_auto_enable_revokes": 0,
+      "private_helper_revokes": 4,
+      "private_helper_alter_function": 4,
+      "do_blocks": 0,
+      "create_function_statements": 0,
+      "create_event_trigger_statements": 0,
+      "exception_handlers": 0
+    }
+  },
+  "after": {
+    "git_blob": "6beb4285005aa0aab64c056691d91ff65996591a",
+    "sha256": "9114911341a4c91c14171df9ccefa2b39a78d72b1f17a921012c54ef7f9f46b0",
+    "bytes": 1756,
+    "newlines": 27,
+    "logical_lines": 28,
+    "executable_inventory": {
+      "unconditional_rls_auto_enable_revokes": 0,
+      "guarded_rls_auto_enable_revokes": 4,
+      "private_helper_revokes": 4,
+      "private_helper_alter_function": 4,
+      "do_blocks": 1,
+      "create_function_statements": 0,
+      "create_event_trigger_statements": 0,
+      "exception_handlers": 0
+    }
+  },
+  "guarded_rls_auto_enable_revoke_targets": ["PUBLIC", "anon", "authenticated", "service_role"],
+  "private_helper_revokes_retained": 4,
+  "private_helper_alter_function_retained": 4,
+  "function_creation_count": 0,
+  "exception_handler_count": 0,
+  "section_2_and_3_tail_byte_identical": true,
+  "section_2_and_3_tail_bytes": 882,
+  "migration_file_count": 50,
+  "write_method": "DB-FREE CONTROLLED SHELL EXCEPTION",
+  "original_failure": "SQLSTATE 42883",
+  "previous_42P07_disposition": "RESOLVED",
+  "authorized_paths": [
+    "supabase/migrations/20260723072217_7c5f965e-66e6-42e0-9245-a3b40f732eaf.sql",
+    "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_RLS_AUTO_ENABLE_20260728.md",
+    "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_RLS_AUTO_ENABLE_MANIFEST.json",
+    "docs/15-governance/MIGRATION_REGISTRY.md",
+    "docs/50-audit-reports/MIGRATION_HISTORY_REPAIR_GATE38_RLS_AUTO_ENABLE_AUDIT_20260728.md"
+  ],
+  "protected_files": {
+    "src/routeTree.gen.ts": "4a8c46ea9743dcafd6af1cc7c18c7c7f15924d06"
+  },
+  "database_accessed": false,
+  "sql_executed": false,
+  "clean_replay": "PENDING — NEW DISPOSABLE TARGET REQUIRED",
+  "schema_equivalence": "PENDING",
+  "gate_3_8": "CERTIFICATION FAILED",
+  "tenant_activation": "BLOCKED",
+  "signup_finding": "OPEN",
+  "status": "IMPLEMENTED — FRESH REPLAY CERTIFICATION PENDING"
+}
