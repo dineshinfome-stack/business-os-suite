@@ -96,12 +96,6 @@ function LoginPage() {
     }
   }
 
-  function fillDevCredentials(email: string) {
-    form.setValue("email", email);
-    form.setValue("password", DEMO_PASSWORD);
-    void form.handleSubmit(onSubmit)();
-  }
-
 
   const isSubmitting = form.formState.isSubmitting;
   const emailError = form.formState.errors.email?.message;
@@ -235,29 +229,6 @@ function LoginPage() {
             </SubmitButton>
           </Form>
 
-          <div className="space-y-3 pt-2">
-            <div className="text-brand-text-muted flex items-center gap-3 text-xs">
-              <div className="bg-brand-border h-px flex-1" />
-              Development Login
-              <div className="bg-brand-border h-px flex-1" />
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {DEV_ROLES.map((role) => (
-                <Button
-                  key={role.label}
-                  type="button"
-                  variant="outline"
-                  disabled={isSubmitting}
-                  onClick={() => fillDevCredentials(role.email)}
-                  className="border-brand-red text-brand-red hover:bg-brand-red hover:border-brand-red h-10 text-xs font-medium hover:text-white"
-                >
-                  {role.label}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-
           <div className="border-brand-border space-y-2 border-t pt-4 text-center text-sm">
             <div>
               <Link
@@ -299,14 +270,6 @@ function LoginPage() {
     </AuthShell>
   );
 }
-
-const DEMO_PASSWORD = "DemoPass123!";
-const DEV_ROLES = [
-  { label: "Platform Admin", email: "admin@demo.test" },
-  { label: "Tenant Admin", email: "admin@demo.test" },
-  { label: "Company Admin", email: "member@demo.test" },
-  { label: "Employee", email: "member@demo.test" },
-] as const;
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
