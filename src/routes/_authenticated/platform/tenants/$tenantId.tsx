@@ -238,6 +238,10 @@ function TenantDetailPage() {
         <TabsContent value="companies" className="space-y-4">
           <CompaniesPanel tenantId={tenantId} />
         </TabsContent>
+
+        <TabsContent value="activation" className="space-y-4">
+          <TenantActivationView tenantId={tenantId} />
+        </TabsContent>
       </Tabs>
     </div>
   );
