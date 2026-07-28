@@ -5,7 +5,7 @@ version: 1.0.0
 date: 2026-07-28
 owner: Platform Architecture
 approval_status: Approved (explicit repository-owner approval, recorded below)
-status: BLOCKED — TOMBSTONE WRITE REFUSED BY MIGRATION-FILE GUARD
+status: IMPLEMENTED — CLEAN REPLAY CERTIFICATION PENDING
 ---
 
 # MIG-20260728-GATE38-DUPLICATE-BASELINE-HISTORY-REPAIR
