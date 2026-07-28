@@ -237,4 +237,9 @@ BEGIN
   ON CONFLICT DO NOTHING;
 END $$;
 
-SELECT private.fn_bootstrap_platform_owner('admin@demo.test');
+-- Gate 3.8 demo-credential repair (2026-07-28): the hard-coded
+-- bootstrap call for 'admin@demo.test' was removed. Deployments grant the
+-- initial platform owner explicitly by invoking
+-- private.fn_bootstrap_platform_owner(<owner email>) after the intended
+-- account exists. The function itself is retained and is a no-op when the
+-- email is null, blank, or absent from auth.users.
