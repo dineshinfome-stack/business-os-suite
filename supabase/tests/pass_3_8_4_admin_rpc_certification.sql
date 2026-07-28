@@ -364,9 +364,11 @@ BEGIN
   -- ==================================================================
   -- CERT-008 · accepted invitations cannot be resent or revoked (P3846)
   -- ==================================================================
+  EXECUTE 'RESET ROLE';
   UPDATE public.organization_invitations
      SET status = 'accepted', accepted_at = now(), accepted_by = c_user_deny
    WHERE id = v_inv2;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   BEGIN
     PERFORM public.fn_onboarding_resend_first_admin_atomic(
