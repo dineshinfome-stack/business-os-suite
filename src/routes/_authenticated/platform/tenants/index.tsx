@@ -155,7 +155,7 @@ function PlatformTenantsPage() {
   const setSearch = React.useCallback(
     (patch: Partial<TenantAdminSearch>) => {
       navigate({
-        search: (prev) => ({ ...prev, page: 1, ...patch }),
+        search: (prev: TenantAdminSearch) => ({ ...prev, page: 1, ...patch }),
         replace: true,
       });
     },
@@ -393,7 +393,7 @@ function PlatformTenantsPage() {
                 disabled={search.page <= 1}
                 onClick={() =>
                   navigate({
-                    search: (prev) => ({ ...prev, page: prev.page - 1 }),
+                    search: (prev: TenantAdminSearch) => ({ ...prev, page: prev.page - 1 }),
                     replace: true,
                   })
                 }
@@ -406,7 +406,7 @@ function PlatformTenantsPage() {
                 disabled={search.page >= pageCount}
                 onClick={() =>
                   navigate({
-                    search: (prev) => ({ ...prev, page: prev.page + 1 }),
+                    search: (prev: TenantAdminSearch) => ({ ...prev, page: prev.page + 1 }),
                     replace: true,
                   })
                 }
