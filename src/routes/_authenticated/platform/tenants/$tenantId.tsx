@@ -35,6 +35,7 @@ import { DataGrid } from "@/components/tables/DataGrid";
 import { Can } from "@/components/auth/Can";
 import { useAuth } from "@/contexts/auth-context";
 import { PERMISSIONS } from "@/lib/generated/permission-keys";
+import { TenantActivationView } from "@/modules/platform/tenant-activation/components/TenantActivationView";
 
 import {
   getTenant,
@@ -143,6 +144,7 @@ function TenantDetailPage() {
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="companies">Companies</TabsTrigger>
+          <TabsTrigger value="activation">Activation</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -236,6 +238,10 @@ function TenantDetailPage() {
 
         <TabsContent value="companies" className="space-y-4">
           <CompaniesPanel tenantId={tenantId} />
+        </TabsContent>
+
+        <TabsContent value="activation" className="space-y-4">
+          <TenantActivationView tenantId={tenantId} />
         </TabsContent>
       </Tabs>
     </div>
