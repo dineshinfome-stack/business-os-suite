@@ -387,14 +387,18 @@ BEGIN
   -- ==================================================================
   -- CERT-010 · a tenant with no default organization raises P3841
   -- ==================================================================
+  EXECUTE 'RESET ROLE';
   UPDATE public.organizations SET is_default = false WHERE id = c_org_def;
+  EXECUTE 'SET LOCAL ROLE authenticated';
   BEGIN
     PERFORM public.fn_onboarding_invite_first_admin_atomic(
       c_tenant, c_admin_mail, 'admin', c_hash_a, c_exp, 'cert-384-010', NULL);
     RAISE EXCEPTION 'PASS384-CERT-010: invite succeeded without a default organization';
   EXCEPTION WHEN SQLSTATE 'P3841' THEN NULL;
   END;
+  EXECUTE 'RESET ROLE';
   UPDATE public.organizations SET is_default = true WHERE id = c_org_def;
+  EXECUTE 'SET LOCAL ROLE authenticated';
 
   -- ==================================================================
   -- CERT-011 · an unauthorized caller is denied by every routine
