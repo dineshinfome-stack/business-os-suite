@@ -1,0 +1,137 @@
+{
+  "exception_id": "MIG-20260728-GATE38-DUPLICATE-BASELINE-HISTORY-REPAIR",
+  "starting_head": "45125372558d0ebf9183f7d25e5f2bf250b77e90",
+  "original_recovery_commit": "d44c836e266e10406d2edfe2f313ccdbcfeeb99a",
+  "canonical_consolidated_migration": "supabase/migrations/20260722030037_9db62b70-9aaa-437e-b861-e28fb6f08319.sql",
+  "write_method": "DB-FREE CONTROLLED EXCEPTION (shell copy; migration editor guard refused normal writes)",
+  "database_accessed": false,
+  "sql_executed": false,
+  "supabase_migration_tool_used": false,
+  "authorized_paths": [
+    "supabase/migrations/20260721163958_0dcf4abf-e6db-4b96-a6d8-df7d27f95a1b.sql",
+    "supabase/migrations/20260721164025_fa9fb614-6563-4737-9843-0adae61dc636.sql",
+    "supabase/migrations/20260721164105_a2d6fca5-cda1-4964-b383-2a95fb666339.sql",
+    "supabase/migrations/20260721164143_3b5c5d5e-f813-416a-99b3-c4998e21f3d1.sql",
+    "supabase/migrations/20260721164222_8c4c1388-e4c4-4d28-afbc-31b3cc3ecc58.sql",
+    "supabase/migrations/20260721164347_105ef743-9451-4870-b0c7-fd2d9863d9d9.sql",
+    "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_DUPLICATE_BASELINE_20260728.md",
+    "docs/15-governance/MIGRATION_HISTORY_REPAIR_GATE38_DUPLICATE_BASELINE_MANIFEST.json",
+    "docs/15-governance/MIGRATION_REGISTRY.md",
+    "docs/50-audit-reports/MIGRATION_HISTORY_REPAIR_GATE38_DUPLICATE_BASELINE_AUDIT_20260728.md"
+  ],
+  "evidence_scope": {
+    "connected_development": "Read-only migration-ledger name query (prior turn): the six 20260721 names are absent; 20260722030037 present exactly once",
+    "staging": "NOT INSPECTED — STATUS UNKNOWN",
+    "production": "NOT INSPECTED — STATUS UNKNOWN"
+  },
+  "subject_files": [
+    {
+      "path": "supabase/migrations/20260721163958_0dcf4abf-e6db-4b96-a6d8-df7d27f95a1b.sql",
+      "original_purpose": "003_profiles",
+      "before": {
+        "git_blob_sha": "c9b3adf86e58ed1caaca655c363970f6b473ded0",
+        "sha256": "98698cde2dc10929708561ad9ad8f03e96735a1643960098a736e4304266b0ab",
+        "bytes": 3811,
+        "newlines": 84,
+        "executable_lines": 49
+      },
+      "after": {
+        "sha256": "53e28bc0ddd08f21b47b10f18c1036f7ba6336ca9aa7a532a42d261ce402012d",
+        "bytes": 803,
+        "newlines": 13,
+        "executable_lines": 0
+      }
+    },
+    {
+      "path": "supabase/migrations/20260721164025_fa9fb614-6563-4737-9843-0adae61dc636.sql",
+      "original_purpose": "003a_lock_fn_handle_new_auth_user",
+      "before": {
+        "git_blob_sha": "3721561b826da235b4b18eda36b8caf9faba688a",
+        "sha256": "d44e314f5c8d8886390baac9aed11963c298ae0ce8cb195ea9a4f6cc2034df97",
+        "bytes": 817,
+        "newlines": 13,
+        "executable_lines": 3
+      },
+      "after": {
+        "sha256": "64dbd588f1f79f3ce0ffa9b8afc370d58f3f118c2e51b482f429678bfd68803b",
+        "bytes": 809,
+        "newlines": 13,
+        "executable_lines": 0
+      }
+    },
+    {
+      "path": "supabase/migrations/20260721164105_a2d6fca5-cda1-4964-b383-2a95fb666339.sql",
+      "original_purpose": "004_roles",
+      "before": {
+        "git_blob_sha": "f48195e9cb60707308468963792187814017abe9",
+        "sha256": "5fe5ec86717533166e128b5877b083784c7144c5a5f77c3444fe1d4a05bad27a",
+        "bytes": 5308,
+        "newlines": 113,
+        "executable_lines": 66
+      },
+      "after": {
+        "sha256": "eff936525e71979471ab2de94957754e00e2bc3a484a9ab313502751ee439fcb",
+        "bytes": 796,
+        "newlines": 13,
+        "executable_lines": 0
+      }
+    },
+    {
+      "path": "supabase/migrations/20260721164143_3b5c5d5e-f813-416a-99b3-c4998e21f3d1.sql",
+      "original_purpose": "004a_revoke_fn_has_role_from_anon",
+      "before": {
+        "git_blob_sha": "391db720a3cccc9b1e774d79e2b3dc00fb0cc18a",
+        "sha256": "c249d2c1b062b3f27eefe7ba0603faa9479487c93ec2b0db7c259a8ac7ee080d",
+        "bytes": 574,
+        "newlines": 10,
+        "executable_lines": 1
+      },
+      "after": {
+        "sha256": "6825e6198ee7d2e89398bcc075ddc615d8370eb9b0b32f4d8154656963ab57df",
+        "bytes": 805,
+        "newlines": 13,
+        "executable_lines": 0
+      }
+    },
+    {
+      "path": "supabase/migrations/20260721164222_8c4c1388-e4c4-4d28-afbc-31b3cc3ecc58.sql",
+      "original_purpose": "005_audit_logs",
+      "before": {
+        "git_blob_sha": "75da2889c27014efda211ba782a305f6edd93545",
+        "sha256": "77dcfd1d9d961d7cd6bc3e3353c19ce14e01ecac189242e441c5537edae67ad9",
+        "bytes": 4449,
+        "newlines": 71,
+        "executable_lines": 38
+      },
+      "after": {
+        "sha256": "673b8684d1241db5f0d548f3a18b0fbf6ffaf2179df9ebf5de49732f8e69c635",
+        "bytes": 768,
+        "newlines": 13,
+        "executable_lines": 0
+      }
+    },
+    {
+      "path": "supabase/migrations/20260721164347_105ef743-9451-4870-b0c7-fd2d9863d9d9.sql",
+      "original_purpose": "006_revoke_anon_platform_grants",
+      "before": {
+        "git_blob_sha": "eca59383925ef2bfe44eddd4855cdc1c7d2b4a41",
+        "sha256": "b809ffa0d7773e127e8d107792ec5b660839f4c6529ab97057fc5959fec0204d",
+        "bytes": 685,
+        "newlines": 13,
+        "executable_lines": 3
+      },
+      "after": {
+        "sha256": "7759eab2b3c5fe6fd85c060917a405f65b02254af1f3e3d75b9cde8bc7a44bd7",
+        "bytes": 810,
+        "newlines": 13,
+        "executable_lines": 0
+      }
+    }
+  ],
+  "clean_replay": "NOT RUN — CERT_DB_URL INTENTIONALLY ABSENT",
+  "schema_equivalence": "PENDING",
+  "gate_3_8": "CERTIFICATION FAILED",
+  "tenant_activation": "BLOCKED",
+  "signup_finding": "FINDING-AUTH-SIGNUP-TENANT-FK-20260726: OPEN",
+  "status": "IMPLEMENTED — CLEAN REPLAY CERTIFICATION PENDING"
+}
