@@ -951,7 +951,7 @@ BEGIN
     JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
    WHERE n.nspname = 'private'
      AND p.proname = 'fn_onboarding_evaluate_readiness_json'
-     AND pg_catalog.p.proargtypes::oidvector::text = (SELECT 'uuid'::regtype::oid::text || ' ' || 'text'::regtype::oid::text);
+     AND p.proargtypes::oidvector::text = (SELECT 'uuid'::regtype::oid::text || ' ' || 'text'::regtype::oid::text);
   PERFORM pg_temp.assert('I1 fn_onboarding_evaluate_readiness_json is VOLATILE',
                          v_vol = 'v', COALESCE(v_vol::text, 'NOT FOUND'));
 
@@ -960,7 +960,7 @@ BEGIN
     JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
    WHERE n.nspname = 'private'
      AND p.proname = 'fn_onboarding_evaluate_readiness_present_json'
-     AND pg_catalog.p.proargtypes::oidvector::text = (SELECT 'uuid'::regtype::oid::text || ' ' || 'text'::regtype::oid::text);
+     AND p.proargtypes::oidvector::text = (SELECT 'uuid'::regtype::oid::text || ' ' || 'text'::regtype::oid::text);
   PERFORM pg_temp.assert('I2 fn_onboarding_evaluate_readiness_present_json is VOLATILE',
                          v_vol = 'v', COALESCE(v_vol::text, 'NOT FOUND'));
 END
